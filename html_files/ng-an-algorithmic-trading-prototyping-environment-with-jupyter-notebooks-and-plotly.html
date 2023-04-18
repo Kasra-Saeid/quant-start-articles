@@ -1,0 +1,620 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-site-verification" content="wl3-8ed1QZjI0iYZMv10zoZWYElkMObTfwLlWIj9cpA" />
+    <meta name="description" content="In this tutorial we will be setting up a prototyping environment using jupyter notebook to analyse our data in a reproducible manner">
+
+    <link rel="icon" href="/static/images/favicon.png">
+
+    <title>Creating an Algorithmic Trading Prototyping Environment with Jupyter Notebooks and Plotly | QuantStart</title>
+    
+    
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet"> 
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/prism.css" rel="stylesheet">
+<link href="/static/css/qs.css?v=10" rel="stylesheet">
+    
+  </head>
+
+  <body>
+    <header class="header covered-header" style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://quantstartmedia.s3.amazonaws.com/images/article-images/article-backgrounds/backtesting-systematic-trading-strategies-in-python-considerations-and-open-source-frameworks.jpg);">
+  
+<nav class="nav">
+  <div class="container nav-container">
+    <div class="nav-row row d-flex justify-content-between align-items-center">
+      <div class="col-2">
+        <ul class="nav-items justify-content-end small-capitals align-items-center">
+          <li class="nav-item">
+            <a class="link-fade" href="/">QuantStart</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-auto col-logo">
+        <ul id="top-nav-menu" class="nav-items justify-content-end align-items-center">
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/qsalpha/">QSAlpha</a>
+          </li>
+          
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/quantcademy/">Quantcademy</a>
+          </li>
+          
+          <li id="menu-link-ebooks" class="nav-item">
+            <a class="link-fade" href="#">Books</a>
+            <div id="menu-pane-ebooks" class="nav-items menu-dropdown-pane">
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/qstrader/">QSTrader</a>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/articles/">Articles</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/members/login/">Login</a>
+          </li>
+          
+        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<nav id="mobile-nav" class="mobile-nav text-left">
+  <div class="container">
+    <ul class="mt-4 ml-3 mobile-nav-menu">
+      <li class="nav-item">
+        <a class="link-fade d-block" href="/">QuantStart</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qsalpha/">QSAlpha</a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/quantcademy/">Quantcademy</a>
+      </li>
+      
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="#">Books</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qstrader/">QSTrader</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/articles/">Articles</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/members/login/">Login</a>
+      </li>
+      
+    </ul>
+    <button class="nav-toggle mobile-nav-close">
+      <svg id="mobile-nav-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M19.77,5.63,13.41,12l6.36,6.37a1,1,0,0,1-1.41,1.41L12,13.41,5.63,19.77a1,1,0,0,1-1.44-1.39l0,0L10.58,12,4.21,5.63a1,1,0,0,1,0-1.42,1,1,0,0,1,1.41,0l0,0L12,10.58l6.37-6.37a1,1,0,0,1,1.41,0A1,1,0,0,1,19.77,5.63Z"></path>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+  <div class="container hero-container">
+    <section class="mt-5 mb-4">
+      <div class="row justify-content-center">
+        <div class="col-12 text-center">
+          <p class="hero">Creating an Algorithmic Trading Prototyping Environment with Jupyter Notebooks and Plotly</p>
+          <p class="hero subhero">In this tutorial we will be setting up a prototyping environment using jupyter notebook to analyse our data in a reproducible manner</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</header>
+    
+<section class="container content-container">
+  <div class="row">
+    <div class="col-md-8 order-md-2">
+      <section class="content article-content">
+        
+        
+        <p><em>Updated January 2023. Due to a Yahoo Finance API update at time of writing Pandas DataReader is unable to access data from Yahoo Finance. The content has been updated to reflect this.</em></p>
+
+<p>In the <a href="https://www.quantstart.com/articles/installing-an-algorithmic-trading-research-environment-with-python-on-mac/" target="blank" rel="noopener noreferrer">previous article</a> we installed Python and set up our virtual environment. We then used pandas-datareader directly in the python terminal in order to import some equities OHLC data and plot five years of the adjusted close price. This was accomplished in a few lines of code. However, once we closed the terminal we lost all the data. In this tutorial we will be setting up a prototyping environment using Jupyter notebook to analyse our data in a reproducible manner. The libraries we are using for this tutorial are:</p>
+<ul>
+  <li>Matplotlib v3.5</li>
+  <li>Pandas v1.4</li>
+  <li>pandas-datareader v0.10</li>
+  <li>jupyter v1.0</li>
+  <li>plotly v5.6</li>
+  <li>ipykernel v6.4</li>
+</ul>
+<p>For the purpose of this tutorial we created a Python environment using Python v3.8</p>
+
+<p>Anaconda comes with Jupyter notebook installed and ready to go. Please see previous tutorial if you do not have Anaconda installed. Once you are inside the base environment you can simply type <code>jupyter notebook</code> from within any directory and a window will open in your browser showing you all the files and folders located in that directory. From this page you can create a notebook by clicking "new".</p>
+
+<figure>
+  <img src="https://quantstartmedia.s3.amazonaws.com/images/article-images/articles/jupyter-tutorial/jupyter-home.png" alt="Jupyter notebook starting page" style="padding-bottom:20px;">
+  <figcaption>Jupyter notebook home page</figcaption>
+</figure>
+
+<p>This will run from your base anaconda environment and therefore have access to all the python packages installed in that environment. However, you will recall in the previous article that we created a virtual environment into which we installed Matplotlib, Pandas and pandas-datareader. If you were to try and import pandas-datareader into a notebook from the base anaconda environment you would get the following error <code>ModuleNotFoundError</code>. This is because, by design, the base anaconda environment doesn't have access to the libraries installed in the virtual environment.</p>
+
+<figure>
+  <img src="https://quantstartmedia.s3.amazonaws.com/images/article-images/articles/jupyter-tutorial/jupyter-error.png" alt="Traceback ModuleNotFoundError in Jupyter Notebook" style="padding-bottom:20px;">
+  <figcaption>Module Not Found Error in Jupyter notebook</figcaption>
+</figure>
+
+<h2>Setting up Jupyter Notebook with ipykernel</h2>
+
+<p>One of the simplest ways to access the libraries in your virtual environment through Jupyter notebook is to use <a href="https://github.com/ipython/ipykernel" target="blank" rel="noopener noreferrer">ipykernel</a>. This package is installed directly into your virtual environment and will enable you to choose the kernel approriate to your virtual environment from within the Jupyter notebook interface. Let's have a look at one of the easiest ways to accomplish this.</p>
+
+<p>We start by creating a virtual environment, activating it and installing our required libraries. If you have been following along with this article series you could simply activate the py3.8 environment we created last time. If not you will need to create a virtual environment an install Matplotlib, Pandas and pandas-datareader.</p>
+
+<pre>
+<code class="language-bash">(base)$ conda activate py3.8</code>
+</pre>
+
+<p>Once inside the virtual environment you need to install ipykernel</p>
+
+<pre>
+<code class="language-bash">(py3.8)$ conda install ipykernel</code>
+</pre>
+
+<p>Now all you need to do is register the kernel specification with Jupyter. You can name your kernel anything you like after the --name= parameter.</p>
+
+<pre>
+<code class="language-bash">(py3.8)$ ipython kernel install --user --name=py3.8</code>
+</pre>
+
+<p>Now that we have a working kernel for our virtual environment all we need to do is open Jupyter notebook from our anaconda base environment. Then we can create a new notebook specifying the kernel you have just created. Now when you call <code>import pandas_datareader.data as web</code> you won't get an error. Open a new terminal window in the base anaconda environment <em>(Hint: Check that <code>(base)</code> is displayed in the terminal window before the user information.)</em> Now type <code>jupyter notebook</code> to open jupyter in your browser. Once open click new and select your new kernel from the dropdown.</p>
+
+<figure>
+  <img src="https://quantstartmedia.s3.amazonaws.com/images/article-images/articles/jupyter-tutorial/jupyter-kernel-new.png" alt="New kernel in Jupyter Notebook">
+  <figcaption>Accessing the new kernel in Jupyter Notebook</figcaption>
+</figure>
+
+<h2>Importing and plotting data</h2>
+
+<p>We will begin by recreating our quick analysis from the previously article, except this time all our work will be incorported into a Jupyter notebook which we can access repeatedly and build upon over time. A full overview of the Jupyter commands is outside the scope of this article as we will mainly be focusing on creating financial visualizations. There are some great tutorials available to discover the full potential of the software <a href = "https://www.dataquest.io/blog/jupyter-notebook-tutorial/" target = "blank" rel="noopener noreferrer">dataquest</a> and <a href = "https://www.datacamp.com/community/tutorials/tutorial-jupyter-notebook" target="blank" rel="noopener noreferrer">datacamp</a> are among them. Briefly, the most frequently used commands are:</p>
+  <ul>
+    <li>Enter edit mode with <code>enter</code></li>
+    <li>Enter command mode with <code>esc</code></li>
+    <li>Once in command mode (after pressing esc)</li>
+    <ul>
+      <li><code>M</code> will transform a cell to Markdown so you can add text</li>
+      <li><code>Y</code> will transform a cell to code</li>
+      <li><code>A</code> and <code>B</code> will add a new cell above or below</li>
+      <li>Move up and down cells with <cdoe>Up</cdoe> and <code>Down</code> arrow keys</li>
+      <li><code>DD</code> will delete the cell</li>
+      <li><code>H</code> will open the keyboard shortcuts menu</li>
+    </ul>
+  </ul>
+<p>We start by importing our libraries: type the following into the first cell and press shift+enter to run the cell and create a new one underneath</p>
+
+<pre>
+<code class="language-python">import matplotlib.pyplot as plt
+import pandas as pd
+import pandas_datareader.data as web
+from datetime import datetime as dt</code>
+</pre>
+
+<p>We now define our date range and import our data:</p>
+
+<pre>
+<code class="language-python">aapl = web.DataReader("AAPl", "stooq")</code>
+</pre>
+
+<p>To view the first few rows of our DataFrame type <code>aapl.head()</code>.</p>
+
+<figure>
+  <img src="https://quantstartmedia.s3.amazonaws.com/images/article-images/articles/jupyter-tutorial/aapl_head.png" alt="Jupyter Notebook displaying first few rows of newly created DataFrame" style="padding-bottom:20px;">
+  <figcaption>First rows of aapl DataFrame</figcaption>
+</figure>
+
+<p>Now we simply plot as before by typing <code>aapl.plot(y="Adj Close")</code> into a new cell and pressing shift+enter.</p>
+
+<figure>
+  <img src="https://quantstartmedia.s3.amazonaws.com/images/article-images/articles/jupyter-tutorial/aapl_plot.png" alt="Apple Adjusted Close price plot in Jupyter Notebook">
+  <figcaption>5 Years of apple adjusted close price in Jupyter notebook</figcaption>
+</figure>
+
+<h2>Plotting Candlesticks in Jupyter</h2>
+
+<p>Candlestick charts are thought to date back to Japan in the late 1800s. They are composed of the <em>real body</em>, the area between the open and close price and the <em>wicks</em> or <em>shadows</em>, the excursions above and below the real body that illustrate the highest and lowest prices of an asset in the time period represented. If the asset closes at a price higher than the opening price the body is usually unfilled or hollow. If the asset closes lower than it opened the body of the candlestick may be filled or solid. The colour of the candlestick is representaive of the price movement for the period of time represented. Black or red candlesticks indicate that the closing price is lower than the previous time point and a green or white candle means that the closing price is higher than the previous time point. In practice the color and fill of the candlestick can be designated by the user.</p>
+
+<figure>
+  <img src="https://quantstartmedia.s3.amazonaws.com/images/article-images/articles/jupyter-tutorial/wiki_candlestick_scheme.png" alt="Candlestick Chart courtesy of Wikipedia" style="padding-bottom:20px;">
+  <figcaption>Candlestick chart scheme courtesy of Wikipedia</figcaption>
+</figure>
+
+<p>There are several different ways to create candlestick plots in Python. You can create your own script in Matplotlib using boxplots but there are also a number of different open source libraries such as mplfinance, bqplot, Bokeh and Plotly. There is an excellent article offering an overview of each <a href="https://coderzcolumn.com/tutorials/data-science/candlestick-chart-in-python-mplfinance-plotly-bokeh" target="blank" rel="noopener noreferrer">here</a>. In this article we will be using <a href="https://plotly.com/python/getting-started/" target="blank" rel="noopener noreferrer">Plotly</a> to create our candlestick plots.</p>
+
+<p>The Plotly Python graphing library offers over 40 different chart types for statistical, financial, scientific and 3-dimensional uses. Early versions of this charting library required users to sign up for access with an API key each time they created a plot. There was also the option to publish the images to an online repository of charts by choosing between online and offline modes of operation. Since version four of the software it is no longer necessary to have an account or internet connection and no payment is required to use Plotly.py.</p>
+
+<p>The latest version of the software at time of writing is version 5.6.0. In order to use Plotly we will need to install it into our virtual environment. In the terminal inside the same virtual environment that you used to create your kernel install Plotly through conda.</p>
+
+<pre>
+<code class="language-bash">(py3.8)$ conda install -c plotly plotly</code>
+</pre>
+
+<p>Once the install is complete you need to restart the kernel in your Jupyter notebook. In the menu select Kernel then Restart and Run all from the dropdown. This will re run all the cells in your notebook and refresh the Kernel to include access to Plotly.</p>
+
+<figure>
+  <img src="https://quantstartmedia.s3.amazonaws.com/images/article-images/articles/jupyter-tutorial/jupyter_kernel_restart.png" alt="Jupyter restart kernel image" style="padding-bottom:20px;">
+  <figcaption>Restarting the Kernel in Jupyter notebook</figcaption>
+</figure>
+
+<p>To simplify the images we will begin by looking at a month of OHLC data. In a new cell in your notebook enter the following code to create a new DataFrame "goog" with a month of OHLC Google data from Stooq.</p>
+
+<pre>
+<code class="language-python">goog = web.DataReader("GOOG", "stooq")</code>
+</pre>
+
+<p>We will now create a date mask for the month of October 2021. This mask can then be used with <code>df.loc</code> to filter the DataFrame for those dates.</p>
+
+<pre>
+<code class="language-python">start = dt(2021, 10, 01)
+end = dt(2021, 11, 01)
+mask = (goog.index >= start) & (goog.index <= end)
+goog = goog.loc[mask]</code>
+</pre>
+
+<p>You can check your DataFrame by typing <code>goog.head()</code>. We now need to import Plotly into our notebook. Best practice is to place all imports at the top of your code, in alphabetical order. This ensures that when anyone is reviewing your code they can see what libraries have been added and when a method is called from any of the libraries it is easy to determine where that method originated. You can also alias your imports as we have here. This means that whenever you want to use a method from the libraries you don't need to type plotly.graph_objects you can simply type the alias, in this case, "go". Add <code>import plotly.graph_objects as go</code> to the first cell in your notebook underneath the pandas_datareader import.</p>
+
+<p>Plotly comes with an interactive <a href="https://plotly.com/python/candlestick-charts/" target="blank" rel="noopener noreferrer">candlestick</a> figure prebuilt. All you need to do is define your data and call the figure. The Candlestick method requires you to specify your x axis data, the open, high, low and close price in order to generate the figure. We will also add a name to our plot so that if we choose to add additional trendlines to our figure this name will appear in the legend.</p>
+
+<pre>
+<code class="language-python"># define the data
+candlestick = go.Candlestick(
+    x=goog.index,
+    open=goog['Open'],
+    high=goog['High'],
+    low=goog['Low'],
+    close=goog['Close'],
+    name="OHLC"
+)
+
+# create the figure
+fig = go.Figure(data=[candlestick])
+  
+# plot the figure
+fig.show()</code>
+</pre> 
+
+<p>The figure generated is interactive. You can hover over any of the candlesticks and see the data that created it. There is also a range slider at the bottom of the figure allowing you to zoom into a specific data range. This can be disabled by adding the following line above fig.show(): <code>fig.update_layout(xaxis_rangeslider_visible=False)</code></p>
+
+<figure>
+  <img src="https://quantstartmedia.s3.amazonaws.com/images/article-images/articles/jupyter-tutorial/plotly_cs1.png" alt="Candlestick plot using Plotly.py" style="padding-bottom:20px;">
+  <figcaption>Plotly candlestick chart</figcaption>
+</figure>
+
+<h2>Adding Trendlines to Plotly Candlestick Charts</h2>
+<p>The <code>Figure()</code> method takes a keyword <code>data</code> which accepts a list. This allows us to add trendlines to our graph by defining additional variables containing the <code>Scatter</code> method. Let's see this in action by overlaying a five day moving average to our candlestick plot. To begin we first need to calculate the moving average, this can be done by chaining the Pandas <code>rolling()</code> and <code>mean()</code> methods. In a new cell we will add a Series to our "goog" DataFrame containing the value of the five day moving average at each time point.</p>
+
+<pre>
+  <code class="language-python">goog['MA5'] = goog.Close.rolling(5).mean()</code>
+</pre>
+
+<p>The commmand <code>goog.head()</code> shows the new column with the value appearing in the fifth row as expected.</p>
+
+<figure>
+  <img src="https://quantstartmedia.s3.amazonaws.com/images/article-images/articles/jupyter-tutorial/goog_ma5.png"  alt="DataFrame containing five day moving average" style="padding-bottom:20px;">
+  <figcaption>Five day moving average in DataFrame</figcaption>
+</figure>
+
+<p>Now we can create our scatter object by defining our x and y data points. We can create a trendline rather than markers by using the keyword<code>line</code> and control the color and width of the line.</p> 
+
+<pre>
+  <code class="language-python">scatter = go.Scatter(
+      x=goog.index,
+      y=goog.MA5,
+      line=dict(color='black', width=1),
+      name="5 day MA"
+)</code>
+</pre>
+
+<p>Once we have defined our data we can add it to our plot by adding the <code>scatter</code> variable to the list in the data keyword.</p>
+
+<pre>
+  <code class="language-python">fig = go.Figure(data=[candlestick, scatter])
+  fig.show()</code>
+</pre>
+
+<figure>
+  <img src="https://quantstartmedia.s3.amazonaws.com/images/article-images/articles/jupyter-tutorial/plotly_cs2.png" alt="Candlestick plot with the addition of a five day moving average.">
+  <figcaption>Candlestick chart with five day moving average trendline</figcaption>
+</figure>
+
+<h2>Adding Volume to Plotly Candlestick Charts</h2>
+<p>A common modification to a candlestick chart is the addition of volume. This can be accomplished in two ways; as an overlay on the existing chart with a secondary axis or underneath the original candlestick chart. Both options require us to make use of the Plotly <code>make_subpplots</code> class. The first thing we need to do is to import the class at the top of our notebook. To keep with best practice, underneath the plotly.graph_objects import add the following line: <code>from plotly.subplots import make_subplots</code>. Now we can create a figure with secondary axis for the volume. First we create the secondary axis then we add a trace for the candlestick OHLC data and a  scatter for the five day moving average. This can be done by invoking the candlestick and scatter variables we created earlier. Then we add a trace for a bar chart containing the volume data. We can control the transparency of the bar chart with the <code>opacity</code> keyword and the colour using the <code>marker_colour</code> keyword. Finally we turn off the gridlines for the secondary axis to avoid confusion in the final chart and display the figure.</p>
+
+<pre>
+  <code class="language-python"># create a figure with a secondary axis
+  fig = make_subplots(specs=[[{"secondary_y": True}]])
+
+  fig.add_trace(
+      candlestick,
+      secondary_y=False
+  )
+
+  fig.add_trace(
+      scatter,
+      secondary_y=False
+  )
+
+  fig.add_trace(
+      go.Bar(x=goog.index, y=goog['Volume'], opacity=0.1, marker_color='blue', name="volume"),
+      secondary_y=True
+  )
+  fig.layout.yaxis2.showgrid=False
+  fig.show()</code>
+</pre>
+
+<figure>
+  <img src="https://quantstartmedia.s3.amazonaws.com/images/article-images/articles/jupyter-tutorial/plotly_cs3.png" alt="Candlestick plot with 5 day moving average and volume">
+  <figcaption>Adding a volume modification to a candlestick chart</figcaption>
+</figure>  
+
+<p>If you would prefer to keep the volume as a seperate chart this can also be very easily created using Plotly. All we need to do is add an additional plot in the call to make_subplots and define the position of each trace within the subplots. We will begin by defining our subplot using rows and columns, in this case we want two figures on top of each other so we have one column and two rows. We share the x axis as the time series dates are the common factor between the two plots. We give an additional vertical space of 0.1 to accommodate our subplot titles, which we then define. Finally we specify how high we would like our rows to be in relation to each other. The total value of the row heights will be normalised so that they sum to 1. After defining our subplots we simply add each trace as we did previously specifying the position of each trace within the subplots. We then disable the range slider to avoid confusion and display the final figure.</p>
+
+<pre>
+  <code class="language-python"># Create subplots
+  fig = make_subplots(
+      rows=2, cols=1,
+      shared_xaxes=True,
+      vertical_spacing=0.1,
+      subplot_titles=('OHLC', 'Volume'), 
+      row_heights=[0.7, 0.3]
+  )
+
+  # Plot candlestick on 1st row
+  fig.add_trace(
+      candlestick, 
+      row=1, col=1
+  )
+  # Plot scatter on 1st row
+  fig.add_trace(
+      scatter,
+      row=1, col=1
+  )
+
+  # Plot Bar trace for volumes on 2nd row without legend
+  fig.add_trace(
+      go.Bar(
+          x=goog.index,
+          y=goog['Volume'],
+          opacity=0.1, 
+          marker_color='blue', 
+          showlegend=False
+      ),
+      row=2, col=1
+  )
+
+  # Do not show OHLC's rangeslider plot 
+  fig.update(layout_xaxis_rangeslider_visible=False)
+  fig.show()</code>
+</pre>
+
+<figure>
+  <img src="https://quantstartmedia.s3.amazonaws.com/images/article-images/articles/jupyter-tutorial/plotly_cs4.png" alt="Cadnlestick chart with seperate volume plot">
+  <figcaption>Adding volume as a seperate subplot</figcaption>
+</figure>
+
+<h2>Next steps</h2>
+<p>Following on from our article series on setting up a trading environment with Python, this quick tutorial has provided a example of working with Jupyter notebooks and producing candlesticks charts. In later articles we will continue looking at data providers and how to access their data through Jupyter notebooks to create a research prototyping environment.</p>
+        
+        
+        <h2>Related Articles</h2>
+        <ul>
+        
+        <li><a href="/articles/installing-an-algorithmic-trading-research-environment-with-python-on-windows/">Installing an Algorithmic Trading Research Environment with Python on Windows</a></li>
+        
+        <li><a href="/articles/installing-an-algorithmic-trading-research-environment-with-python-on-mac/">Installing an Algorithmic Trading Research Environment with Python on Mac</a></li>
+        
+        <li><a href="/articles/installing-an-algorithmic-trading-research-environment-with-python-on-linux/">Installing an Algorithmic Trading Research Environment with Python on Linux</a></li>
+        
+        <li><a href="/articles/an-introduction-to-stooq-pricing-data/">An Introduction to Stooq Pricing Data</a></li>
+        
+        </ul>
+        
+        <script async data-uid="6296c27f4b" src="https://weathered-brook-5281.ck.page/6296c27f4b/index.js"></script>
+      </section>
+    </div>
+    <div class="col-md-4 book-card order-md-1">
+      
+<div class="sidebar-advert-container">
+  <a href="/qsalpha/?ref=art">
+    <img class="card-img-top" src="/static/images/qsalpha-sidebar-advert-small.png" alt="QSAlpha">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/qsalpha/?ref=art">QSAlpha</a></h3>
+      <p class="card-text medium-text mb-3">Join the QSAlpha research platform that helps fill your strategy research pipeline, diversifies your portfolio and improves your risk-adjusted returns for increased profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/qsalpha/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/quantcademy/?ref=art">
+    <img class="card-img-top" src="/static/images/quantcademy-sidebar-advert-small.png" alt="Quantcademy">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/quantcademy/?ref=art">The Quantcademy</a></h3>
+      <p class="card-text medium-text mb-3">Join the Quantcademy membership portal that caters to the rapidly-growing retail quant trader community and learn how to increase your strategy profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/quantcademy/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/successful-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/sat-sidebar-advert-small.png" alt="Successful Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to find new trading strategy ideas and objectively assess them for your portfolio using a Python-based backtesting engine.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/successful-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/advanced-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/aat-sidebar-advert-small.png" alt="Advanced Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to implement advanced trading strategies using time series analysis, machine learning and Bayesian statistics with R and Python.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/advanced-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+    
+
+<footer>
+  <div class="container container-full">
+    <section class="mt-1.5 mb-1">
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">QuantStart</li>
+            <li class="footer-list-link"><a class="link-fade" href="/about/">About</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/articles/">Articles</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/sitemap/">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Products</li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qsalpha/">QSAlpha</a></li>
+            
+            
+            <li class="footer-list-link"><a class="link-fade" href="/quantcademy/">Quantcademy</a></li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qstrader/">QSTrader</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Legal</li>
+            <li class="footer-list-link"><a class="link-fade" href="/privacy-policy/">Privacy Policy</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/terms-and-conditions/">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Social</li>
+            <li class="footer-list-link"><a class="link-fade" href="https://twitter.com/quantstart">Twitter</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="https://www.youtube.com/channel/UCmVnnZ6Y2TrJtY1eQJN6kWA">YouTube</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="row mb-1.5 mt-5">
+      <div class="col-12 col-md-9 col-lg-8 col-xl-6">
+        <div class="footer-copyright">
+          <p>©2012-2023 QuarkGluon Ltd. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+<script src="/static/js/jquery-3.2.1.min.js"></script>
+<script src="/static/js/prism.js.min"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/nav.js"></script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5383959-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+    
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="/static/js/highcharts/highcharts.js"></script>
+<script type="text/javascript">
+  num_colours = 10;
+</script>
+<script src="/static/js/statistics.js"></script>
+
+
+  </body>
+</html>

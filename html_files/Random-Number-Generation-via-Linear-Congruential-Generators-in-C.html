@@ -1,0 +1,636 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-site-verification" content="wl3-8ed1QZjI0iYZMv10zoZWYElkMObTfwLlWIj9cpA" />
+    <meta name="description" content="Random Number Generation via Linear Congruential Generators in C++">
+
+    <link rel="icon" href="/static/images/favicon.png">
+
+    <title>Random Number Generation via Linear Congruential Generators in C++ | QuantStart</title>
+    
+    
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet"> 
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/prism.css" rel="stylesheet">
+<link href="/static/css/qs.css?v=10" rel="stylesheet">
+    
+  </head>
+
+  <body>
+    <header class="header covered-header" style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://quantstartmedia.s3.amazonaws.com/images/article-images/article-backgrounds/cpp.jpg);">
+  
+<nav class="nav">
+  <div class="container nav-container">
+    <div class="nav-row row d-flex justify-content-between align-items-center">
+      <div class="col-2">
+        <ul class="nav-items justify-content-end small-capitals align-items-center">
+          <li class="nav-item">
+            <a class="link-fade" href="/">QuantStart</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-auto col-logo">
+        <ul id="top-nav-menu" class="nav-items justify-content-end align-items-center">
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/qsalpha/">QSAlpha</a>
+          </li>
+          
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/quantcademy/">Quantcademy</a>
+          </li>
+          
+          <li id="menu-link-ebooks" class="nav-item">
+            <a class="link-fade" href="#">Books</a>
+            <div id="menu-pane-ebooks" class="nav-items menu-dropdown-pane">
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/qstrader/">QSTrader</a>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/articles/">Articles</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/members/login/">Login</a>
+          </li>
+          
+        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<nav id="mobile-nav" class="mobile-nav text-left">
+  <div class="container">
+    <ul class="mt-4 ml-3 mobile-nav-menu">
+      <li class="nav-item">
+        <a class="link-fade d-block" href="/">QuantStart</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qsalpha/">QSAlpha</a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/quantcademy/">Quantcademy</a>
+      </li>
+      
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="#">Books</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qstrader/">QSTrader</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/articles/">Articles</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/members/login/">Login</a>
+      </li>
+      
+    </ul>
+    <button class="nav-toggle mobile-nav-close">
+      <svg id="mobile-nav-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M19.77,5.63,13.41,12l6.36,6.37a1,1,0,0,1-1.41,1.41L12,13.41,5.63,19.77a1,1,0,0,1-1.44-1.39l0,0L10.58,12,4.21,5.63a1,1,0,0,1,0-1.42,1,1,0,0,1,1.41,0l0,0L12,10.58l6.37-6.37a1,1,0,0,1,1.41,0A1,1,0,0,1,19.77,5.63Z"></path>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+  <div class="container hero-container">
+    <section class="mt-5 mb-4">
+      <div class="row justify-content-center">
+        <div class="col-12 text-center">
+          <p class="hero">Random Number Generation via Linear Congruential Generators in C++</p>
+          <p class="hero subhero">Random Number Generation via Linear Congruential Generators in C++</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</header>
+    
+<section class="container content-container">
+  <div class="row">
+    <div class="col-md-8 order-md-2">
+      <section class="content article-content">
+        
+        
+        <p>In this article we are going to construct classes to help us encapsulate the generation of random numbers. Random number generators (RNG) are an essential tool in quantitative finance as they are necessary for Monte Carlo simulations that power numerical option pricing techniques. Other articles on QuantStart have so far used RNGs in a procedural manner. In particular, we have utilised the Box-Muller technique to generate one or more random variables distributed as a standard Gaussian.</p>
+
+<p>We will now show how to construct a random number generator class hierarchy. This allows us to separate the generation of random numbers from the Monte Carlo solvers that make use of them. It helps us reduce the amount of code we will need to write in the future, increases extensibility by allowing easy creation of additional random number generators and makes the code more maintainable.</p>
+
+<p>There are further reasons to write our own random number generators:</p>
+
+<ul>
+  <li>It allows us to make use of <strong>pseudo-random numbers</strong>. These are sequences of numbers that possess the correct statistical properties to "emulate" random numbers in order to improve the convergence rates of Monte Carlo simulations. The interface for random numbers and pseudo-random numbers is identical and we can hide away the details in the specific classes. In particular we can implement <em>low-discrepancy numbers</em> and <em>anti-thetic sampling</em> in this manner.</li>
+  <li>Relying on the <code>rand</code> function provided with the C++ standard is <strong>unreliable</strong>. Not only is <code>rand</code> implementation specific, because it varies across multiple vendor compilers, but we are unaware of the efficiency of each implementation. This leads to difficulties in cross-platform testing as we cannot guarantee reproducibility.</li>
+  <li>We are able to provide <strong>multiple separate streams of random numbers</strong> for different parts of our running program. The seed for the <code>rand</code> function, <code>srand</code>, is a global variable and hence will affect all components of our program, which is usually unwanted behaviour. By implementing our own RNG we avoid this issue.</li>
+</ul>
+
+<h2>Random Number Generator Abstract Base Class</h2>
+
+<p>Our random number generators will be formed from an <em>inheritance hierarchy</em>. To form the hierarchy we will create an <em>abstract base class</em> that specifies the interface to the random number generator. All subsequent generators will inherit the interface from this class.</p>
+
+<p>The primary considerations of this interface are as follows:</p>
+
+<ul>
+  <li>Quantity or <strong>dimension</strong> of the generator: Many of the options pricers we have already created require more than a single random number in order to be accurately priced. This is the case for <em>path-dependent</em> options such as <a href="http://quantstart.com/articles/Asian-option-pricing-with-C-via-Monte-Carlo-Methods"><em>Asians</em></a>, <em>Barriers</em> and <em>Lookbacks</em>. Thus our first consideration is to make sure that the generator provides a <code>vector</code> of random numbers, with the dimension specified at the creation of the instance.</li>
+  <li>The supported <strong>statistical distributions</strong> from which to draw random variables: For options pricing, the two main statistical distributions of interest will be the <em>uniform distribution</em> and the <em>standard normal distribution</em> (i.e. the "Gaussian" distribution). Gaussian random draws are calculated from uniform random draws. We can use the <a href="http://www.quantstart.com/articles/Statistical-Distributions-in-C">statistical classes we created in the previous article</a> in order to obtain random draws from any particular distribution we wish, without modifying the RNG.</li>
+  <li>We will need methods to support obtaining and setting the <em>random seed</em>, so that we can control which random numbers are generated and to ensure reproducibility across separate runs and platforms.</li>
+</ul>
+
+<p>With those considerations in mind, let's create a simple abstract base class for our random number generator, in the file <code>random.h</code>:</p>
+
+<pre>
+<code class="language-cpp">#ifndef __RANDOM_H
+#define __RANDOM_H
+
+#include &lt;vector&gt;
+
+class RandomNumberGenerator {
+ protected:
+  unsigned long init_seed;  // Initial random seed value
+  unsigned long cur_seed;   // Current random seed value
+  unsigned long num_draws;  // Dimensionality of the RNG
+  
+ public:
+  RandomNumberGenerator(unsigned long _num_draws, unsigned long _init_seed) 
+    : num_draws(_num_draws), init_seed(_init_seed), cur_seed(_init_seed) {};
+  virtual ~RandomNumberGenerator() {};
+
+  virtual unsigned long get_random_seed() const { return cur_seed; }
+  virtual void set_random_seed(unsigned long _seed) { cur_seed = _seed; }
+  virtual void reset_random_seed() { cur_seed = init_seed; }
+  virtual void set_num_draws(unsigned long _num_draws) { num_draws = _num_draws; }
+
+  // Obtain a random integer (needed for creating random uniforms)
+  virtual unsigned long get_random_integer() = 0;
+  
+  // Fills a vector with uniform random variables on the open interval (0,1)
+  virtual void get_uniform_draws(std::vector&lt;double&gt;& draws) = 0; 
+};
+
+#endif</code>
+</pre>
+
+<p>Let's run through the code. Firstly, note that we have three <code>protected</code> member variables (which are all large <code>unsigned long</code> integers). <code>cur_seed</code> is the RNG current seed value. <code>init_seed</code> is the initial seed value, which does not change once the RNG has been instantiated. The current seed can only be reset to the initial seed. <code>num_draws</code> represents the <em>dimensionality</em> of the random number generator (i.e. how many random draws to create):</p>
+
+<pre>
+<code class="language-cpp">protected:
+ unsigned long init_seed;  // Initial random seed value
+ unsigned long cur_seed;   // Current random seed value
+ unsigned long num_draws;  // Dimensionality of the RNG</code>
+</pre>
+
+<p>Since we're creating an <em>abstract</em> base class is it a good idea to use <code>protected</code> data?</p>
+
+<p>This is actually a contentious issue. Sometimes protected variables are frowned upon. Instead, it is argued that all data should be private and that accessor methods should be used. However, inherited classes -are- clients of the base class, just as "public" clients of the classes are. The alternative argument is that it is extremely convenient to use protected member data because it reduces the amount of cluttered accessor and modifier methods. For brevity I have used protected member data here.</p>
+
+<p>Although the class will never be instantiated directly, it still has a constructor which must be called to populate the protected members. We use a member initialisation list to carry this out. We also create an empty method implementation for the constructor (<code>{}</code>), avoiding the need to create a <code>random.cpp</code> source file. Notice that we're setting the current seed to the initial seed as well.</p>
+
+<pre>
+<code class="language-cpp">RandomNumberGenerator(unsigned long _num_draws, unsigned long _init_seed) 
+    : num_draws(_num_draws), init_seed(_init_seed), cur_seed(_init_seed) {};</code>
+</pre> 
+
+<p>We then have four separate access and reset methods (all virtual), which get, set and reset the <em>random seed</em> and another which resets the number of random draws. They are all directly implemented in the header file, once again stopping us from needing to create a <code>random.cpp</code> source file:</p>
+
+<pre>
+<code class="language-cpp">virtual unsigned long get_random_seed() const { return cur_seed; }
+virtual void set_random_seed(unsigned long _seed) { cur_seed = _seed; }
+virtual void reset_random_seed() { cur_seed = init_seed; }
+virtual void set_num_draws(unsigned long _num_draws) { num_draws = _num_draws; }</code>
+</pre>
+
+<p>We now need a method to create a random integer. This is because subsequent random number generators will rely on transforming random <code>unsigned long</code>s into uniform variables on the open interval $(0,1)$. The method is declared pure virtual as different RNGs will implement this differently. We don't want to "force" an approach on future clients of our code:</p>
+
+<pre>
+<code class="language-cpp">// Obtain a random integer (needed for creating random uniforms)
+virtual unsigned long get_random_integer() = 0;</code>
+</pre>
+
+<p>Finally we fill a supplied vector with uniform random draws. This vector will then be passed to a <a href="http://www.quantstart.com/articles/Statistical-Distributions-in-C">statistical distribution class</a> in order to generate random draws from any chosen distribution that we implement. In this way we are completely separating the generation of the uniform random variables (on the open interval $(0,1)$) and the draws from various statistical distributions. This maximises code re-use and aids testing:</p>
+
+<pre>
+<code class="language-cpp">// Fills a vector with uniform random variables on the open interval (0,1)
+virtual void get_uniform_draws(std::vector&lt;double&gt;& draws) = 0;</code>
+</pre>
+
+<p>Our next task is to implement a <strong>linear congruential generator</strong> algorithm as a means for creating our uniform random draws.</p>
+
+<h2>Linear Congruential Generator Implementation</h2>
+
+<p>Linear congruential generators (LCG) are a form of random number generator based on the following general recurrence relation:</p>
+
+\begin{eqnarray*}
+x_{k+1} = g \cdot x_k \mod n
+\end{eqnarray*}
+
+<p>Where $n$ is a prime number (or power of a prime number), $g$ has <em>high multiplicative order modulo $n$</em> and $x_0$ (the initial seed) is co-prime to $n$. Essentially, if $g$ is chosen correctly, all integers from 1 to $n-1$ will eventually appear in a periodic fashion. This is why LCGs are termed <em>pseudo-random</em>. Although they possess "enough" randomness for our needs (as $n$ can be large), they are far from truly random. We won't dwell on the details of the mathematics behind LCGs, as we will not be making strong use of them going forward in our studies. However, most system-supplied RNGs make use of LCGs, so it is worth being aware of the algorithm. The listing below (<code>lin_con_gen.cpp</code>) contains the implementation of the algorithm. If you want to learn more about how LCGs work, take a look at Numerical Recipes<sup><a href="#numericalrecipes">[1]</a></sup>.</p>
+
+<p>With the mathematical algorithm described, it is straightforward to create the header file listing (<code>lin_con_gen.h</code>) for the Linear Congruential Generator. The LCG simply inherits from the RNG abstract base class, adds a <code>private</code> member variable called <code>max_multiplier</code> (used for pre-computing a specific ratio required in the uniform draw implementation) and implements the two pure virtual methods that were part of the RNG abstract base class:</p>
+
+<pre>
+<code class="language-cpp">#ifndef __LINEAR_CONGRUENTIAL_GENERATOR_H
+#define __LINEAR_CONGRUENTIAL_GENERATOR_H
+
+#include "random.h"
+
+class LinearCongruentialGenerator : public RandomNumberGenerator {
+ private:
+  double max_multiplier;
+  
+ public:
+  LinearCongruentialGenerator(unsigned long _num_draws, unsigned long _init_seed = 1);
+  virtual ~LinearCongruentialGenerator() {};
+  
+  virtual unsigned long get_random_integer();
+  virtual void get_uniform_draws(std::vector&lt;double&gt; draws); 
+};
+
+#endif</code>
+</pre>
+
+<p>The source file (<code>lin_con_gen.cpp</code>) contains the implementation of the linear congruential generator algorithm. We make heavy use of <em>Numerical Recipes in C</em><sup><a href="#numericalrecipes">[1]</a></sup>, the famed numerical algorithms cookbook. The book itself is freely available online. I would strongly suggest reading the chapter on random number generator (Chapter 7) as it describes many of the pitfalls with using a basic linear congruential generator, which I do not have time to elucidate on in this article. Here is the listing in full:</p>
+
+<pre>
+<code class="language-cpp">#ifndef __LINEAR_CONGRUENTIAL_GENERATOR_CPP
+#define __LINEAR_CONGRUENTIAL_GENERATOR_CPP
+
+#include "lin_con_gen.h"
+
+// This uses the Park & Miller algorithm found in "Numerical Recipes"
+// See reference [1] for more details
+
+// Define the constants for the Park & Miller algorithm
+
+const unsigned long a = 16807;       // 7^5
+const unsigned long m = 2147483647;  // 2^32 - 1 (and thus prime)
+
+// Schrage's algorithm constants
+
+const unsigned long q = 127773;
+const unsigned long r = 2836;
+
+// Parameter constructor
+LinearCongruentialGenerator::LinearCongruentialGenerator(unsigned long _num_draws, 
+                                                         unsigned long _init_seed) :
+  RandomNumberGenerator(_num_draws, _init_seed) {
+
+  if (_init_seed == 0) {
+    init_seed = 1;
+    cur_seed = 1;
+  }
+
+  max_multiplier = 1.0 / (1.0 + (m-1));
+}
+
+// Obtains a random unsigned long integer
+unsigned long LinearCongruentialGenerator::get_random_integer() {
+  unsigned long k = 0;
+  k = cur_seed / q;
+  cur_seed = a * (cur_seed - k * q) - r * k;
+  
+  if (cur_seed &lt; 0) {
+    cur_seed += m;
+  }
+
+  return cur_seed;
+}
+
+// Create a vector of uniform draws between (0,1)
+void LinearCongruentialGenerator::get_uniform_draws(std::vector&lt;double&gt;& draws) {
+  for (unsigned long i=0; i&lt;num_draws; i++) {
+    draws[i] = get_random_integer() * max_multiplier;
+  }
+}
+
+#endif</code>
+</pre>
+
+<p>Firstly, we set all of the necessary constants (see <sup><a href="#numericalrecipes">[1]</a></sup> for the explanation of the chosen values). <em>Note that if we created another LCG we could inherit from the RNG base class and use different constants</em>:</p>
+
+<pre>
+<code class="language-cpp">// Define the constants for the Park & Miller algorithm
+
+const unsigned long a = 16807;       // 7^5
+const unsigned long m = 2147483647;  // 2^32 - 1
+
+// Schrage's algorithm constants
+
+const unsigned long q = 127773;
+const unsigned long r = 2836;</code>
+</pre>
+
+<p>Secondly we implement the constructor for the LCG. If the seed is set to zero by the client, we set it to unity, as the LCG algorithm does not work with a seed of zero. The <code>max_mutliplier</code> is a pre-computed scaling factor necessary for converting a random <code>unsigned long</code> into a uniform value on on the open interval $(0,1) \subset \mathbb{R}$:</p>
+
+<pre>
+<code class="language-cpp">// Parameter constructor
+LinearCongruentialGenerator::LinearCongruentialGenerator(unsigned long _num_draws, 
+                                                         unsigned long _init_seed) :
+  RandomNumberGenerator(_num_draws, _init_seed) {
+
+  if (_init_seed == 0) {
+    init_seed = 1;
+    cur_seed = 1;
+  }
+
+  max_multiplier = 1.0 / (1.0 + (m-1));
+}</code>
+</pre>
+
+<p>We now concretely implement the two pure virtual functions of the RNG base class, namely <code>get_random_integer</code> and <code>get_uniform_draws</code>. <code>get_random_integer</code> applies the LCG modulus algorithm and modifies the current seed (as described in the algorithm above):</p>
+
+<pre>
+<code class="language-cpp">// Obtains a random unsigned long integer
+unsigned long LinearCongruentialGenerator::get_random_integer() {
+  unsigned long k = 0;
+  k = cur_seed / q;
+  cur_seed = a * (cur_seed - k * q) - r * k;
+  
+  if (cur_seed &lt; 0) {
+    cur_seed += m;
+  }
+
+  return cur_seed;
+}</code>
+</pre>
+
+<p><code>get_uniform_draws</code> takes in a vector of the correct length (<code>num_draws</code>) and loops over it converting random integers generated by the LCG into uniform random variables on the interval $(0,1)$:</p>
+
+<pre>
+<code class="language-cpp">// Create a vector of uniform draws between (0,1)
+void LinearCongruentialGenerator::get_uniform_draws(std::vector&lt;double&gt;& draws) {
+  for (unsigned long i=0; i&lt;num_draws; i++) {
+    draws[i] = get_random_integer() * max_multiplier;
+  }
+}</code>
+</pre>
+
+<p>The concludes the implementation of the linear congruential generator. The final component is to tie it all together with a <code>main.cpp</code> program.</p>
+
+<h2>Implementation of the Main Program</h2>
+
+<p>Because we have already carried out most of the handwork in <code>random.h</code>, <code>lin_con_gen.h</code>, <code>lin_con_gen.cpp</code>, the main implementation  (<code>main.cpp</code>) is straightforward:</p>
+
+<pre>
+<code class="language-cpp">#include &lt;iostream&gt;
+#include "lin_con_gen.h"
+
+int main(int argc, char **argv) {
+  // Set the initial seed and the dimensionality of the RNG
+  unsigned long init_seed = 1;
+  unsigned long num_draws = 20;
+  std::vector&lt;double&gt; random_draws(num_draws, 0.0);
+
+  // Create the LCG object and create the random uniform draws
+  // on the open interval (0,1) 
+  LinearCongruentialGenerator lcg(num_draws, init_seed);
+  lcg.get_uniform_draws(random_draws);
+
+  // Output the random draws to the console/stdout
+  for (unsigned long i=0; i&lt;num_draws; i++) {
+    std::cout &lt;&lt; random_draws[i] &lt;&lt; std::endl;
+  }
+
+  return 0;
+}</code>
+</pre>
+
+<p>Firstly, we set up the initial seed and the dimensionality of the random number generator. Then we pre-initialise the vector, which will ultimately contain the uniform draws. Then we instantiate the linear congruential generator and pass the <code>random_draws</code> vector into the <code>get_uniform_draws</code> method. Finally we output the uniform variables. The output of the code is as follows:</p>
+
+<pre>
+<code class="language-none">7.82637e-06
+0.131538
+0.755605
+0.45865
+0.532767
+0.218959
+0.0470446
+0.678865
+0.679296
+0.934693
+0.383502
+0.519416
+0.830965
+0.0345721
+0.0534616
+0.5297
+0.671149
+0.00769819
+0.383416
+0.0668422</code>
+</pre>
+
+<p>As can be seen, all of the values lie between $(0,1)$. We are now in a position to combine our <a href="http://www.quantstart.com/articles/Statistical-Distributions-in-C">statistical classes</a> with the uniform random number generator. We can extend both of these class hierarchies to include random draws from other distributions, as well as create more efficient generators, such as a <a href="http://en.wikipedia.org/wiki/Mersenne_twister">Mersenne Twister random number generator</a>. Those tasks will be the subject of later articles.</p>
+
+<h2>References</h2>
+
+<ul>
+  <li>[1] - Press, W. H., et al. <a name="numericalrecipes" href="http://numerical.recipes/"><em>Numerical Recipes in C, 2nd Ed</em></a> Cambridge University Press, 1992</li>
+</ul>
+        
+        
+        <script async data-uid="6296c27f4b" src="https://weathered-brook-5281.ck.page/6296c27f4b/index.js"></script>
+      </section>
+    </div>
+    <div class="col-md-4 book-card order-md-1">
+      
+<div class="sidebar-advert-container">
+  <a href="/qsalpha/?ref=art">
+    <img class="card-img-top" src="/static/images/qsalpha-sidebar-advert-small.png" alt="QSAlpha">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/qsalpha/?ref=art">QSAlpha</a></h3>
+      <p class="card-text medium-text mb-3">Join the QSAlpha research platform that helps fill your strategy research pipeline, diversifies your portfolio and improves your risk-adjusted returns for increased profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/qsalpha/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/quantcademy/?ref=art">
+    <img class="card-img-top" src="/static/images/quantcademy-sidebar-advert-small.png" alt="Quantcademy">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/quantcademy/?ref=art">The Quantcademy</a></h3>
+      <p class="card-text medium-text mb-3">Join the Quantcademy membership portal that caters to the rapidly-growing retail quant trader community and learn how to increase your strategy profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/quantcademy/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/successful-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/sat-sidebar-advert-small.png" alt="Successful Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to find new trading strategy ideas and objectively assess them for your portfolio using a Python-based backtesting engine.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/successful-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/advanced-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/aat-sidebar-advert-small.png" alt="Advanced Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to implement advanced trading strategies using time series analysis, machine learning and Bayesian statistics with R and Python.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/advanced-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+    
+
+<footer>
+  <div class="container container-full">
+    <section class="mt-1.5 mb-1">
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">QuantStart</li>
+            <li class="footer-list-link"><a class="link-fade" href="/about/">About</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/articles/">Articles</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/sitemap/">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Products</li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qsalpha/">QSAlpha</a></li>
+            
+            
+            <li class="footer-list-link"><a class="link-fade" href="/quantcademy/">Quantcademy</a></li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qstrader/">QSTrader</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Legal</li>
+            <li class="footer-list-link"><a class="link-fade" href="/privacy-policy/">Privacy Policy</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/terms-and-conditions/">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Social</li>
+            <li class="footer-list-link"><a class="link-fade" href="https://twitter.com/quantstart">Twitter</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="https://www.youtube.com/channel/UCmVnnZ6Y2TrJtY1eQJN6kWA">YouTube</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="row mb-1.5 mt-5">
+      <div class="col-12 col-md-9 col-lg-8 col-xl-6">
+        <div class="footer-copyright">
+          <p>©2012-2023 QuarkGluon Ltd. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+<script src="/static/js/jquery-3.2.1.min.js"></script>
+<script src="/static/js/prism.js.min"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/nav.js"></script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5383959-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+    
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="/static/js/highcharts/highcharts.js"></script>
+<script type="text/javascript">
+  num_colours = 10;
+</script>
+<script src="/static/js/statistics.js"></script>
+
+
+  </body>
+</html>

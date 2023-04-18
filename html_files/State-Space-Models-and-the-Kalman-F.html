@@ -1,0 +1,538 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-site-verification" content="wl3-8ed1QZjI0iYZMv10zoZWYElkMObTfwLlWIj9cpA" />
+    <meta name="description" content="State Space Models and the Kalman Filter">
+
+    <link rel="icon" href="/static/images/favicon.png">
+
+    <title>State Space Models and the Kalman Filter | QuantStart</title>
+    
+    
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet"> 
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/prism.css" rel="stylesheet">
+<link href="/static/css/qs.css?v=10" rel="stylesheet">
+    
+  </head>
+
+  <body>
+    <header class="header covered-header" style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://quantstartmedia.s3.amazonaws.com/images/article-images/article-backgrounds/default-bg.jpg);">
+  
+<nav class="nav">
+  <div class="container nav-container">
+    <div class="nav-row row d-flex justify-content-between align-items-center">
+      <div class="col-2">
+        <ul class="nav-items justify-content-end small-capitals align-items-center">
+          <li class="nav-item">
+            <a class="link-fade" href="/">QuantStart</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-auto col-logo">
+        <ul id="top-nav-menu" class="nav-items justify-content-end align-items-center">
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/qsalpha/">QSAlpha</a>
+          </li>
+          
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/quantcademy/">Quantcademy</a>
+          </li>
+          
+          <li id="menu-link-ebooks" class="nav-item">
+            <a class="link-fade" href="#">Books</a>
+            <div id="menu-pane-ebooks" class="nav-items menu-dropdown-pane">
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/qstrader/">QSTrader</a>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/articles/">Articles</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/members/login/">Login</a>
+          </li>
+          
+        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<nav id="mobile-nav" class="mobile-nav text-left">
+  <div class="container">
+    <ul class="mt-4 ml-3 mobile-nav-menu">
+      <li class="nav-item">
+        <a class="link-fade d-block" href="/">QuantStart</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qsalpha/">QSAlpha</a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/quantcademy/">Quantcademy</a>
+      </li>
+      
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="#">Books</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qstrader/">QSTrader</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/articles/">Articles</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/members/login/">Login</a>
+      </li>
+      
+    </ul>
+    <button class="nav-toggle mobile-nav-close">
+      <svg id="mobile-nav-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M19.77,5.63,13.41,12l6.36,6.37a1,1,0,0,1-1.41,1.41L12,13.41,5.63,19.77a1,1,0,0,1-1.44-1.39l0,0L10.58,12,4.21,5.63a1,1,0,0,1,0-1.42,1,1,0,0,1,1.41,0l0,0L12,10.58l6.37-6.37a1,1,0,0,1,1.41,0A1,1,0,0,1,19.77,5.63Z"></path>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+  <div class="container hero-container">
+    <section class="mt-5 mb-4">
+      <div class="row justify-content-center">
+        <div class="col-12 text-center">
+          <p class="hero">State Space Models and the Kalman Filter</p>
+          <p class="hero subhero">State Space Models and the Kalman Filter</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</header>
+    
+<section class="container content-container">
+  <div class="row">
+    <div class="col-md-8 order-md-2">
+      <section class="content article-content">
+        
+        
+        <p>To date in our time series analysis posts we have considered linear time series models including <a href="https://www.quantstart.com/articles/Autoregressive-Moving-Average-ARMA-p-q-Models-for-Time-Series-Analysis-Part-3">ARMA</a>, <a href="https://www.quantstart.com/articles/Autoregressive-Integrated-Moving-Average-ARIMA-p-d-q-Models-for-Time-Series-Analysis">ARIMA</a> as well as the <a href="https://www.quantstart.com/articles/Generalised-Autoregressive-Conditional-Heteroskedasticity-GARCH-p-q-Models-for-Time-Series-Analysis">GARCH model</a> for conditional heteroskedasticity. In this article we are going to consider the theoretical basis of <strong>state space models</strong>, the primary benefit of which is that their <em>parameters can adapt over time</em>.</p>
+
+<p>State space models are very general and it is possible to put the models we have considered to date into a state space formulation. However, in order to keep the analysis straightforward, it is often better to use the simpler representation.</p>
+
+<p>The general premise of a state space model is that we have a set of <em>states</em> that evolve in time (such as the hedge ratio between two cointegrated pairs of equities), but our <em>observations</em> of these states contain statistical noise (such as market microstructure noise), and hence we are unable to ever <em>directly</em> observe the "true" states.</p>
+
+<p>The goal of the state space model is to infer information about the states, given the observations, as new information arrives. A famous algorithm for carrying out this procedure is the <a href="https://en.wikipedia.org/wiki/Kalman_filter">Kalman Filter</a>, which we will also discuss in this article.</p>
+
+<p>The Kalman Filter is ubiquitous in <a href="https://en.wikipedia.org/wiki/Control_engineering">engineering control</a> problems, including guidance &amp; navigation, spacecraft trajectory analysis and manufacturing, but it is also widely used in quantitative finance.</p>
+
+<p>In engineering, for instance, a Kalman Filter will be used to estimate values of the state, which are then used to control the system under study. This introduces a feedback loop, often in real-time.</p>
+
+<p>For an extremely interesting application of Kalman Filtering, one can consider the recent successful attempt of the private space firm, <a href="http://www.spacex.com/">Space Exploration Technologies</a>, to return and land the first-stage of their Falcon 9 rocket back at its original launch site. The first stage booster was subject to an extremely precise dynamic control problem, involving asymmetric time-varying mass (fuel sloshing) at hypersonic through to subsonic velocities:</p>
+
+<iframe width="620px" height="350px" src="https://www.youtube.com/embed/ZCBE8ocOkAQ" frameborder="0" allowfullscreen style="margin-bottom:20px;"></iframe>
+
+<p>Perhaps the most common usage of a Kalman Filter in quantitative trading is to update hedging ratios between assets in a <a href="https://www.quantstart.com/articles/Backtesting-An-Intraday-Mean-Reversion-Pairs-Strategy-Between-SPY-And-IWM">statistical arbitrage pairs trade</a>, but the algorithm is much more general than this and we will look at other use cases.</p>
+
+<p>Generally, there are three types of inference that we are interested in when considering state space models:</p>
+
+<ul>
+  <li><strong>Prediction</strong> - Forecasting subsequent values of the state</li>
+  <li><strong>Filtering</strong> - Estimating the <em>current</em> values of the state from past and current observations</li>
+  <li><strong>Smoothing</strong> - Estimating the <em>past</em> values of the state given the observations</li>
+</ul>
+
+<p>Filtering and smoothing are similar, but not the same. Perhaps the best way to think of the difference is that with smoothing we are really wanting to understand what has happened to states in the <em>past</em> given our current knowledge, whereas with filtering we really want to know what is happening with the state <em>right now</em>.</p>
+
+<p>In this article we are going to discuss the theory of the state space model and how we can use the Kalman Filter to carry out the various types of inference described above. In subsequent articles we will apply the Kalman Filter to trading situations, such as cointegrated pairs, as well as asset price prediction.</p>
+
+<p>We will be making use of a Bayesian approach to the problem, as this is a natural statistical framework for allowing us to readily update our beliefs in light of new information, which is precisely the desired behaviour of the Kalman Filter.</p>
+
+<p><em>I want to warn you that state-space models and Kalman Filters suffer from an abundance of mathematical notation, even if the conceptual ideas behind them are relatively straightforward. I will try and explain all of this notation in depth, as it can be confusing for those new to engineering control problems or state-space models in general.</em></p>
+
+<h2>Linear State-Space Model</h2>
+
+<p><em>This section follows closely the notation utilised in both Cowpertwait et al<sup><a href="#references1">[1]</a></sup> and Pole et al<sup><a href="#references2">[2]</a></sup>. I decided it wasn't particularly helpful to invent my own notation for the Kalman Filter, as I want you to be able to relate it to other research papers or texts.</em></p>
+
+<p>Let's begin by discussing all of the elements of the linear state-space model.</p>
+
+<p>Since the <strong>states</strong> of the system are time-dependent, we need to subscript them with $t$. We will use $\theta_t$ to represent a column vector of the states.</p>
+
+<p>In a linear state-space model we say that these states are a <em>linear</em> combination of the prior state at time $t-1$ as well as <em>system noise</em> (random variation). In order to simplify the analysis we are going to suggest that this noise is drawn from a multivariate normal distribution, but of course, other distributions can be used.</p>
+
+<p>The linear dependence of $\theta_t$ on the previous state $\theta_{t-1}$ is given by the matrix $G_t$, which can also be time-varying (hence the subscript $t$). The multivariate time-dependent noise is given by $w_t$. The relationship is summarised below in what is often called the <strong>state equation</strong>:</p>
+
+\begin{eqnarray}
+\theta_t = G_t \theta_{t-1} + w_t
+\end{eqnarray}
+
+<p>However, this is only half of the story. We also need to discuss the <em>observations</em>, that is, what we actually <em>see</em>, since the states are hidden to us by system noise.</p>
+
+<p>We can denote the (time-dependent) observations by $y_t$. The observations are a linear combination of the current <em>state</em> and some additional random variation known as <em>measurement noise</em>, also drawn from a multivariate normal distribution.</p>
+
+<p>If we denote the linear dependence matrix of $\theta_t$ on $y_t$ by $F_t$ (also time-dependent), and the measurement noise by $v_t$ we have the <strong>observation equation</strong>:</p>
+
+\begin{eqnarray}
+y_t = F^{T}_t \theta_t + v_t
+\end{eqnarray}
+
+<p>Where $F^{T}$ is the <em>transpose</em> of $F$.</p>
+
+<p>In order to fully specify the model we need to provide the first state $\theta_0$, as well as the variance-covariance matrices for the system noise and measurement noise. These terms are distributed as:</p>
+
+\begin{eqnarray}
+\theta_0 &\sim& \mathcal{N} (m_0, C_0) \\
+v_t &\sim& \mathcal{N} (0, V_t) \\
+w_t &\sim& \mathcal{N} (0, W_t)
+\end{eqnarray}
+
+<p>Clearly that is a lot of notation to specify the model. For completeness, I'll summarise all of the terms here to help you get to grips with the model:</p>
+
+<ul>
+  <li>$\theta_t$ - The <strong>state</strong> of the model at time $t$</li>
+  <li>$y_t$ - The <strong>observation</strong> of the model at time $t$</li>
+  <li>$G_t$ - The <strong>state-transition matrix</strong> between current and prior states at time $t$ and $t-1$ respectively</li>
+  <li>$F_t$ - The <strong>observation matrix</strong> between the current observation and current state at time $t$</li>
+  <li>$w_t$ - The <strong>system noise</strong> drawn from a multivariate normal distribution</li>
+  <li>$v_t$ - The <strong>measurement noise</strong> drawn from a multivariate normal distribution</li>
+  <li>$m_0$ - The <em>mean value</em> of the multivariate normal distribution of the initial state, $\theta_0$</li>
+  <li>$C_0$ - The <em>variance-covariance matrix</em> of the multivariate normal distribution of the initial state, $\theta_0$</li>
+  <li>$W_t$ - The <em>variance-covariance matrix</em> for the multivariate normal distribution from which the system noise is drawn</li>
+  <li>$V_t$ - The <em>variance-covariance matrix</em> for the multivariate normal distribution from from which the measurement noise is drawn</li>
+</ul>
+
+<p>Now that we've specified the linear state-space model, we need an algorithm to actually solve it. This is where the Kalman Filter comes in. We can use <a href="https://en.wikipedia.org/wiki/Bayes'_theorem">Bayes' Rule</a> and <a href="https://en.wikipedia.org/wiki/Conjugate_prior">conjugate priors</a> to help us derive the algorithm.</p>
+
+<h2>The Kalman Filter</h2>
+
+<h3>A Bayesian Approach</h3>
+
+<p>If we recall from the <a href="https://www.quantstart.com/articles/Bayesian-Statistics-A-Beginners-Guide">article on Bayesian statistics</a>, Bayes' Rule is given by:</p>
+
+\begin{eqnarray}
+P(H | D) = P(D | H) P(H) / P(D)
+\end{eqnarray}
+
+<p>Where $H$ refers to our <em>hypothesis</em> or <em>parameters</em> and $D$ refers to our <em>data</em>, <em>evidence</em> or <em>observations</em>.</p>
+
+<p>We want to apply the rule to the idea of updating the probability of seeing a state given all of the previous data we have and our current observation. Once again, we need to introduce more notation!</p>
+
+<p>If we are at time $t$, then we can represent all of the data known about the system by the quantity $D_t$. However, our current observations are given by $y_t$. Thus we can say that $D_t = (D_{t-1}, y_t)$. That is, our current knowledge is a mixture of our previous knowledge plus our most recent observation.</p>
+
+<p>Applying Bayes' Rule to this situation gives the following:</p>
+
+\begin{eqnarray}
+P(\theta_t | D_{t-1}, y_t) = \frac{P(y_t | \theta_t) P(\theta_t | D_{t-1})}{P(y_t)}
+\end{eqnarray}
+
+<p>What does this mean? It says that the <em>posterior</em> or <em>updated</em> probability of obtaining a state $\theta_t$, given our current observation $y_t$ and previous data $D_{t-t}$, is equal to the <em>likelihood</em> of seeing an observation $y_t$, given the current state $\theta_t$ multiplied by the <em>prior</em> or <em>previous</em> belief of the current state, given <em>only</em> the previous data $D_{t-1}$, normalised by the probability of seeing the observation $y_t$ regardless.</p>
+
+<p>While the notation may be somewhat verbose, it is a very natural statement. It says that we can update our view on the state, $\theta_t$ in a rational manner given the fact that we have new information in the form of the current observation, $y_t$.</p>
+
+<p>One of the extremely useful aspects of Bayesian inference is that if our prior and likelihood are both normally distributed, we can use the concept of <a href="https://en.wikipedia.org/wiki/Conjugate_prior">conjugate priors</a> to state that our posterior (i.e. updated view of $\theta_t$) will also be normally distributed.</p>
+
+<p>We utilised the same concept, albeit with different distributional forms, in the <a href="https://www.quantstart.com/articles/Bayesian-Inference-of-a-Binomial-Proportion-The-Analytical-Approach">discussion on the inference of binomial proprotions</a>.</p>
+
+<p>So how does this help us produce a Kalman Filter?</p>
+
+<p>Well, let's specify the terms that we'll be using, from Bayes' Rule above. Firstly, we specify the distributional form of the prior:</p>
+
+\begin{eqnarray}
+\theta_t | D_{t-1} \sim \mathcal{N}(a_t, R_t)
+\end{eqnarray}
+
+<p>That is, the prior view of $\theta$ at time $t$, given our knowledge at time $t-1$ is distributed as a multivariate normal distribution, with mean $a_t$ and variance-covariance $R_t$. The latter two parameters will be defined below.</p>
+
+<p>Now let's consider the likelihood:</p>
+
+\begin{eqnarray}
+y_t | \theta_t \sim \mathcal{N}(F^{T}_t \theta_t, V_t)
+\end{eqnarray}
+
+<p>That is, the likelihood function of the current observation $y$ at time $t$ is distributed as a multivariate normal distribution, with mean $F^{T}_t \theta_t$ and variance-covariance $V_t$. We've already outlined these terms in our list above.</p>
+
+<p>Finally we have the posterior of $\theta_t$:</p>
+
+\begin{eqnarray}
+\theta_t | D_t \sim \mathcal{N}(m_t, C_t)
+\end{eqnarray}
+
+<p>That is, our posterior view of the current state $\theta$ at time $t$, given our <em>current</em> knowledge at time $t$ is distributed as a multivariate normal distribution with mean $m_t$ and variance-covariance $C_t$.</p>
+
+<p>The Kalman Filter is what links all of these terms together for $t=1,\ldots$. We won't derive where these values actually come from, but we will simply state them. Thankfully we can use library implementations in R to carry out the "heavy lifting" for us:</p>
+
+\begin{eqnarray}
+a_t &=& G_t m_{t-1} \\
+R_t &=& G_t C_{t-1} G^{T}_t + W_t \\
+e_t &=& y_t - f_t \\
+m_t &=& a_t + A_t e_t \\
+f_t &=& F^{T}_t a_t \\
+Q_t &=& F^{T}_t R_t F_t + V_t \\
+A_t &=& R_t F_t Q^{-1}_t \\
+C_t &=& R_t - A_t Q_t A^{T}_t
+\end{eqnarray}
+
+<p>Clearly that is a lot of notation! As I said above, we need not worry about the excessive verboseness of the Kalman Filter, as we can simply use libraries in R to calculate the algorithm for us.</p>
+
+<p>So how does it all fit together? Well, $f_t$ is the predicated value of the observation at time $t$, where we make this prediction at time $t-1$. Since $e_t = y_t - f_t$, we can see easily that $e_t$ is the error associated with the forecast (the difference between $f$ and $y$).</p>
+
+<p>Importantly, the posterior mean is a <em>weighting of the prior mean and the forecast error</em>, since $m_t = a_t + A_t e_t = G_t m_{t-1} + A_t e_t$, where $G_t$ and $A_t$ are our weighting matrices.</p>
+
+<p>Now that we have an algorithmic procedure for updating our views on the observations and states, we can use it to make predictions, as well as smooth the data.</p>
+
+<h3>Prediction</h3>
+
+<p>The Bayesian approach to the Kalman Filter leads naturally to a mechanism for prediction. Since we have our posterior estimate for the <em>state</em> $\theta_t$, we can predict the next day's values by considering the mean value of the <em>observation</em>.</p>
+
+<p>Let's take the expected value of the observation <em>tomorrow</em>, given our knowledge of the data <em>today</em>:</p>
+
+\begin{eqnarray}
+E[y_{t+1} | D_t] &=& E[F^{T}_{t+1} \theta_t + v_{t+1} | D_t] \\
+&=& F^{T}_{t+1} E[\theta_{t+1} | D_t] \\
+&=& F^{T}_{t+1} a_{t+1} \\
+&=& f_{t+1}
+\end{eqnarray}
+
+<p>Where does this come from? Let's try and follow through the analysis:</p>
+
+<p>Since the likelihood function for today's observation $y_t$, given today's state $\theta_t$, is normally distributed with mean $F^{T}_t \theta_t$ and variance-covariance $V_t$ (see above), we have that the expectation of tomorrow's observation $y_{t+1}$, given our data today, $D_t$, is precisely the expectation of the multivariate normal for the likelihood, namely $E[F^{T}_{t+1} \theta_t + v_{t+1} | D_t]$. Once we make this connection it simply reduces to applying rules about the expectation operator to the remaining matrices and vectors, ultimately leading us to $f_{t+1}$.</p>
+
+<p>However it is not sufficient to simply calculate the <em>mean</em>, we must also know the <em>variance</em> of tomorrow's observation given today's data, otherwise we cannot truly characterise the distribution on which to draw tomorrow's prediction.</p>
+
+\begin{eqnarray}
+\operatorname{Var}[y_{t+1}| D_t] &=& \operatorname{Var} [F^{T}_{t+1} \theta_t + v_{t+1} | D_t] \\
+&=& F^{T}_{t+1} \operatorname{Var}[\theta_{t+1} | D_t] F_{t+1} + V_{t+1} \\
+&=& F^{T}_{t+1} R_{t+1} F_{t+1} + V_{t+1} \\
+&=& Q_{t+1}
+\end{eqnarray}
+
+<p>Now that we have the expectation and variance of tomorrow's observation, given today's data, we are able to provide the general forecast for $k$ steps ahead, by fully characterising the distribution on which these predictions are drawn:</p>
+
+\begin{eqnarray}
+y_{t+k} | D_t \sim \mathcal{N}(f_{t+k | t}, Q_{t+k | t})
+\end{eqnarray}
+
+<p>Note that I have used some odd notation here - what does it mean to have a subscript of ${t+k | t}$? Actually, it allows us to write a convenient shorthand for the following:</p>
+
+\begin{eqnarray}
+f_{t+k | t} &=& F^{T}_{t+k} G^{k-1} a_{t+1} \\
+Q_{t+k | t} &=& F^{T}_{t+k} R_{t+k} F_{t+k} + V_{t+k} \\
+R_{t+k | t} &=& G^{k-1} R_{t+1} (G^{k-1})^{T} + \sum^{k}_{j=2} G^{k-j} W_{t+j} (G^{k-j})^{T}
+\end{eqnarray}
+
+<p>As I've mentioned repeatedly in this article, we should not concern ourselves too much with the verboseness of the Kalman Filter and its notation, rather we should think about the overall procedure and its Bayesian underpinnings.</p>
+
+<p>Thus we now have the means of predicting new values of the series. This is an alternative to the predictions produced by <a href="https://www.quantstart.com/articles/ARIMA-GARCH-Trading-Strategy-on-the-SP500-Stock-Market-Index-Using-R">combining ARIMA and GARCH</a>. In subsequent articles we will actually carry this out for some real financial data and apply it to a predictive trading model.</p>
+
+<p>We will also be able to use the "filter" aspect to provide us with continually updated views on a linear hedge ratio between two cointegrated pairs of assets, such as might be found in a stastical arbitrage strategy.</p>
+
+<h2>References</h2>
+
+<ul>
+  <li><a name="references1">Cowpertwait, P.S.P. and Metcalfe, A.V. (2009). <em>Introductory Time Series with R.</em></a></li>
+  <li><a name="references2">Pole, A., West, M., and Harrison, J. (1994). <em>Applied Bayesian Forecasting.</em></a></li>
+</ul>
+        
+        
+        <script async data-uid="6296c27f4b" src="https://weathered-brook-5281.ck.page/6296c27f4b/index.js"></script>
+      </section>
+    </div>
+    <div class="col-md-4 book-card order-md-1">
+      
+<div class="sidebar-advert-container">
+  <a href="/qsalpha/?ref=art">
+    <img class="card-img-top" src="/static/images/qsalpha-sidebar-advert-small.png" alt="QSAlpha">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/qsalpha/?ref=art">QSAlpha</a></h3>
+      <p class="card-text medium-text mb-3">Join the QSAlpha research platform that helps fill your strategy research pipeline, diversifies your portfolio and improves your risk-adjusted returns for increased profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/qsalpha/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/quantcademy/?ref=art">
+    <img class="card-img-top" src="/static/images/quantcademy-sidebar-advert-small.png" alt="Quantcademy">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/quantcademy/?ref=art">The Quantcademy</a></h3>
+      <p class="card-text medium-text mb-3">Join the Quantcademy membership portal that caters to the rapidly-growing retail quant trader community and learn how to increase your strategy profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/quantcademy/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/successful-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/sat-sidebar-advert-small.png" alt="Successful Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to find new trading strategy ideas and objectively assess them for your portfolio using a Python-based backtesting engine.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/successful-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/advanced-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/aat-sidebar-advert-small.png" alt="Advanced Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to implement advanced trading strategies using time series analysis, machine learning and Bayesian statistics with R and Python.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/advanced-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+    
+
+<footer>
+  <div class="container container-full">
+    <section class="mt-1.5 mb-1">
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">QuantStart</li>
+            <li class="footer-list-link"><a class="link-fade" href="/about/">About</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/articles/">Articles</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/sitemap/">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Products</li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qsalpha/">QSAlpha</a></li>
+            
+            
+            <li class="footer-list-link"><a class="link-fade" href="/quantcademy/">Quantcademy</a></li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qstrader/">QSTrader</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Legal</li>
+            <li class="footer-list-link"><a class="link-fade" href="/privacy-policy/">Privacy Policy</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/terms-and-conditions/">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Social</li>
+            <li class="footer-list-link"><a class="link-fade" href="https://twitter.com/quantstart">Twitter</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="https://www.youtube.com/channel/UCmVnnZ6Y2TrJtY1eQJN6kWA">YouTube</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="row mb-1.5 mt-5">
+      <div class="col-12 col-md-9 col-lg-8 col-xl-6">
+        <div class="footer-copyright">
+          <p>©2012-2023 QuarkGluon Ltd. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+<script src="/static/js/jquery-3.2.1.min.js"></script>
+<script src="/static/js/prism.js.min"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/nav.js"></script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5383959-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+    
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="/static/js/highcharts/highcharts.js"></script>
+<script type="text/javascript">
+  num_colours = 10;
+</script>
+<script src="/static/js/statistics.js"></script>
+
+
+  </body>
+</html>

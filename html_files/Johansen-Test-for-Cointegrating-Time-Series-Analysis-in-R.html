@@ -1,0 +1,723 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-site-verification" content="wl3-8ed1QZjI0iYZMv10zoZWYElkMObTfwLlWIj9cpA" />
+    <meta name="description" content="Johansen Test for Cointegrating Time Series Analysis in R">
+
+    <link rel="icon" href="/static/images/favicon.png">
+
+    <title>Johansen Test for Cointegrating Time Series Analysis in R | QuantStart</title>
+    
+    
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet"> 
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/prism.css" rel="stylesheet">
+<link href="/static/css/qs.css?v=10" rel="stylesheet">
+    
+  </head>
+
+  <body>
+    <header class="header covered-header" style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://quantstartmedia.s3.amazonaws.com/images/article-images/article-backgrounds/default-bg.jpg);">
+  
+<nav class="nav">
+  <div class="container nav-container">
+    <div class="nav-row row d-flex justify-content-between align-items-center">
+      <div class="col-2">
+        <ul class="nav-items justify-content-end small-capitals align-items-center">
+          <li class="nav-item">
+            <a class="link-fade" href="/">QuantStart</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-auto col-logo">
+        <ul id="top-nav-menu" class="nav-items justify-content-end align-items-center">
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/qsalpha/">QSAlpha</a>
+          </li>
+          
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/quantcademy/">Quantcademy</a>
+          </li>
+          
+          <li id="menu-link-ebooks" class="nav-item">
+            <a class="link-fade" href="#">Books</a>
+            <div id="menu-pane-ebooks" class="nav-items menu-dropdown-pane">
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/qstrader/">QSTrader</a>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/articles/">Articles</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/members/login/">Login</a>
+          </li>
+          
+        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<nav id="mobile-nav" class="mobile-nav text-left">
+  <div class="container">
+    <ul class="mt-4 ml-3 mobile-nav-menu">
+      <li class="nav-item">
+        <a class="link-fade d-block" href="/">QuantStart</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qsalpha/">QSAlpha</a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/quantcademy/">Quantcademy</a>
+      </li>
+      
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="#">Books</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qstrader/">QSTrader</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/articles/">Articles</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/members/login/">Login</a>
+      </li>
+      
+    </ul>
+    <button class="nav-toggle mobile-nav-close">
+      <svg id="mobile-nav-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M19.77,5.63,13.41,12l6.36,6.37a1,1,0,0,1-1.41,1.41L12,13.41,5.63,19.77a1,1,0,0,1-1.44-1.39l0,0L10.58,12,4.21,5.63a1,1,0,0,1,0-1.42,1,1,0,0,1,1.41,0l0,0L12,10.58l6.37-6.37a1,1,0,0,1,1.41,0A1,1,0,0,1,19.77,5.63Z"></path>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+  <div class="container hero-container">
+    <section class="mt-5 mb-4">
+      <div class="row justify-content-center">
+        <div class="col-12 text-center">
+          <p class="hero">Johansen Test for Cointegrating Time Series Analysis in R</p>
+          <p class="hero subhero">Johansen Test for Cointegrating Time Series Analysis in R</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</header>
+    
+<section class="container content-container">
+  <div class="row">
+    <div class="col-md-8 order-md-2">
+      <section class="content article-content">
+        
+        
+        <p>In the <a href="https://www.quantstart.com/articles/Cointegrated-Augmented-Dickey-Fuller-Test-for-Pairs-Trading-Evaluation-in-R">previous article on the Cointegrated Augmented Dickey Fuller (CADF) test</a> we noted that one of the biggest drawbacks of the test was that it was only capable of being applied to two separate time series. However, we can clearly imagine a set of three or more financial assets that might share an underlying cointegrated relationship.</p>
+
+<p>A trivial example would be three separate share classes on the same asset, while a more interesting example would be three separate ETFs that all track certain areas of commodity equities and the underlying commodity spot prices.</p>
+
+<p>In this article we are going to discuss a test due to Johansen<sup><a href="#ref-johansen">[3]</a></sup> that allows us to determine if three or more time series are cointegrated. We will then form a stationary series by taking a linear combination of the underlying series. Such a procedure will be utilised in subsequent articles to form a mean reverting portfolio of assets for trading purposes.</p>
+
+<p>We will begin by describing the theory underlying the Johansen test and then perform our usual procedure of carrying out the test on simulated data with known cointegrating properties. Subsequently we will apply the test to historical financial data and see if we can find a portfolio of cointegrated assets.</p>
+
+<h2>Johansen Test</h2>
+
+<p>In this section we will outline the mathematical underpinnings of the Johansen procedure, which allows us to analyse whether two or more time series can form a cointegrating relationship. In quantitative trading this would allow us to form a portfolio of two or more securities in a mean reversion trading strategy.</p>
+
+<p>The theoretical details of the Johansen test require a bit of experience with multivariate time series, which we have not considered to date on QuantStart. In particular we need to consider <a href="https://en.wikipedia.org/wiki/Vector_autoregression">Vector Autoregressive Models</a> (VAR) - not to be confused with Value at Risk (VaR) - which are a multidimensional extension of the <a href="https://www.quantstart.com/articles/Autoregressive-Moving-Average-ARMA-p-q-Models-for-Time-Series-Analysis-Part-1">Autoregressive Models</a> studied previously.</p>
+
+<p>A general vector autoregressive model is similar to the AR(p) model except that each quantity is vector valued and matrices are used as the coefficients. The general form of the VAR(p) model, without drift, is given by:</p>
+
+<p>
+\begin{eqnarray}
+{\bf x_t} = {\bf \mu} + A_1 {\bf x_{t-1}} + \ldots + A_p {\bf x_{t-p}} + {\bf w_t}
+\end{eqnarray}
+</p>
+
+<p>Where ${\bf \mu}$ is the vector-valued mean of the series, $A_i$ are the coefficient matrices for each lag and ${\bf w_t}$ is a multivariate Gaussian noise term with mean zero.</p>
+
+<p>At this stage we can form a Vector <a href="https://en.wikipedia.org/wiki/Error_correction_model">Error Correction Model</a> (VECM) by differencing the series:</p>
+
+<p>
+\begin{eqnarray}
+\Delta {\bf x_t} = {\bf \mu} + A {\bf x_{t-1}} + \Gamma_1 \Delta {\bf x_{t-1}} +  \ldots + \Gamma_p \Delta {\bf x_{t-p}} + {\bf w_t}
+\end{eqnarray}
+</p>
+
+<p>Where $\Delta {\bf x_t} := {\bf x_t} - {\bf x_{t-1}}$ is the differencing operator, $A$ is the coefficient matrix for the first lag and $\Gamma_i$ are the matrices for each differenced lag.</p>
+
+<p>The test checks for the situation of no cointegration, which occurs when the matrix $A=0$.</p>
+
+<p>The Johansen test is more flexible than the CADF procedure outlined in the <a href="https://www.quantstart.com/articles/Cointegrated-Augmented-Dickey-Fuller-Test-for-Pairs-Trading-Evaluation-in-R">previous article</a> and can check for multiple linear combinations of time series for forming stationary portfolios.</p>
+
+<p>To achieve this an <a href="https://en.wikipedia.org/wiki/Eigendecomposition_of_a_matrix">eigenvalue decomposition</a> of $A$ is carried out. The rank of the matrix $A$ is given by $r$ and the Johansen test <em>sequentially</em> tests whether this rank $r$ is equal to zero, equal to one, through to $r=n-1$, where $n$ is the number of time series under test.</p>
+
+<p>The null hypothesis of $r=0$ means that there is no cointegration at all. A rank $r \gt 0$ implies a cointegrating relationship between two or possibly more time series.</p>
+
+<p>The eigenvalue decomposition results in a set of eigenvectors. The components of the largest eigenvector admits the important property of forming the coefficients of a linear combination of time series to produce a stationary portfolio. Notice how this differs from the CADF test (often known as the Engle-Granger procedure) where it is necessary to ascertain the linear combination a priori via linear regression and ordinary least squares (OLS).</p>
+
+<p>In the Johansen test the linear combination values are estimated <em>as part of the test</em>, which implies that there is less statistical power associated with the test when compared to CADF. It is possible to run into situations where there is insufficient evidence to reject the null hypothesis of no cointegration despite the CADF suggesting otherwise. This will be discussed further below.</p>
+
+<p>Perhaps the best way to understand the Johansen test is to see it applied to both simulated, and historical, financial data.</p>
+
+<h2>Johansen Test on Simulated Data</h2>
+
+<p>Now that we've outlined the theory of the test we are going to apply it using the R statistical environment. We will make use of the <a href="http://www.inside-r.org/packages/cran/urca">urca</a> library, written by Bernhard Pfaff and Matthieu Stigler, which wraps up the Johansen test in an easy to call function - <code>ca.jo</code>.</p>
+
+<p>The first task is to import the <code>urca</code> library itself:</p>
+
+<pre>
+<code class="language-r">library("urca")</code>
+</pre>
+
+<p>As in the previous cointegration articles we set the seed so that the results of the random number generator can be replicated in other R environments:</p>
+
+<pre>
+<code class="language-r">set.seed(123)</code>
+</pre>
+
+<p>We then create the underlying random walk $z_t$ as in previous articles:</p>
+
+<pre>
+<code class="language-r">z <- rep(0, 10000)
+for (i in 2:10000) z[i] <- z[i-1] + rnorm(1)</code>
+</pre>
+
+<p>We create three time series that share the underlying random walk structure from $z_t$. They are denoted by $p_t$, $q_t$ and $r_t$, respectively:
+
+<pre>
+<code class="language-r">p <- q <- r <- rep(0, 10000)
+p <- 0.3*z + rnorm(10000)
+q <- 0.6*z + rnorm(10000)
+r <- 0.2*z + rnorm(10000)</code>
+</pre>
+
+<p>We then call the <code>ca.jo</code> function applied to a data frame of all three time series.</p>
+
+<p>The <code>type</code> parameter tells the function whether to use the trace test statistic or the maximum eigenvalue test statistic, which are the two separate forms of the Johansen test. In this instance we're using <code>trace</code>.</p>
+
+<p><code>K</code> is the number of lags to use in the vector autoregressive model and is set this to the minimum, <code>K=2</code>.</p>
+
+<p><code>ecdet</code> refers to whether to use a constant or drift term in the model, while <code>spec="longrun"</code> refers to the specification of the VECM discussed above. This parameter can be <code>spec="longrun"</code> or <code>spec="transitory"</code>.</p>
+
+<p>Finally, we print the summary of the output:</p>
+
+<pre>
+<code class="language-r">jotest=ca.jo(data.frame(p,q,r), type="trace", K=2, ecdet="none", spec="longrun")
+summary(jotest)</code>
+</pre>
+
+<p>The output is as follows:</p>
+
+<pre>
+<code class="language-none">######################
+# Johansen-Procedure #
+######################
+
+Test type: trace statistic , with linear trend
+
+Eigenvalues (lambda):
+[1] 0.338903321 0.330365610 0.001431603
+
+Values of teststatistic and critical values of test:
+
+            test 10pct  5pct  1pct
+r <= 2 |   14.32  6.50  8.18 11.65
+r <= 1 | 4023.76 15.66 17.95 23.52
+r = 0  | 8161.48 28.71 31.52 37.22
+
+Eigenvectors, normalised to first column:
+(These are the cointegration relations)
+
+          p.l2        q.l2     r.l2
+p.l2  1.000000  1.00000000 1.000000
+q.l2  1.791324 -0.52269002 1.941449
+r.l2 -1.717271  0.01589134 2.750312
+
+Weights W:
+(This is the loading matrix)
+
+          p.l2         q.l2          r.l2
+p.d -0.1381095 -0.771055116 -0.0003442470
+q.d -0.2615348  0.404161806 -0.0006863351
+r.d  0.2439540 -0.006556227 -0.0009068179</code>
+</pre>
+
+<p>Let's try and interpret all of this information! The first section shows the eigenvalues generated by the test. In this instance we have three with the largest approximately equal to 0.3389.</p>
+
+<p>The next section shows the trace test statistic for the three hypotheses of $r \leq 2$, $r \leq 1$ and $r = 0$. For each of these three tests we have not only the statistic itself (given under the <code>test</code> column) but also the critical values at certain levels of confidence: 10%, 5% and 1% respectively.</p>
+
+<p>The first hypothesis, $r = 0$, tests for the presence of cointegration. It is clear that since the test statistic exceeds the 1% level significantly ($8161.48 \gt 37.22$) that we have strong evidence to reject the null hypothesis of no cointegration. The second test for $r \leq 1$ against the alternative hypothesis of $r \gt 1$ also provides clear evidence to reject $r \leq 1$ since the test statistic exceeds the 1% level significantly. The final test for $r \leq 2$ against $r \gt 2$ also provides sufficient evidence for rejecting the null hypothesis that $r \leq 2$ and so can conclude that the rank of the matrix $r$ is greater than 2.</p>
+
+<p>Thus the best estimate of the rank of the matrix is $r=3$, which tells us that we need a linear combination of three time series to form a stationary series. This is to be expected, by definition of the series, as the underlying random walk utilised for all three series is non-stationary.</p>
+
+<p>How do we go about forming such a linear combination? The answer is to make use of the eigenvector components of the eigenvector associated with the largest eigenvalue. We previously mentioned that the largest eigenvalue is approximately 0.3389. It corresponds to the vector given under the column <code>p.l2</code>, and is approximately equal to $(1.000000, 1.791324, -1.717271)$. If we form a linear combination of series using these components, we will receive a stationary series:</p>
+
+<pre>
+<code class="language-r">s = 1.000*p + 1.791324*q - 1.717271*r
+plot(s, type="l")</code>
+</pre>
+
+<p style="text-align:center">
+  <img src="https://s3.amazonaws.com/quantstartmedia/images/qs-johansen-plots.png" width="100%" />
+  <strong>Plot of $s_t$, the stationary series formed via a linear combination of $p_t$, $q_t$ and $r_t$</strong>
+</p>
+
+<p>Visually this looks very much like a stationary series. We can import the Augmented Dickey-Fuller (ADF) test as an additional check:</p>
+
+<pre>
+<code class="language-r">library("tseries")
+adf.test(s)</code>
+</pre>
+
+<p>The output is as follows:</p>
+
+<pre>
+<code class="language-none">    Augmented Dickey-Fuller Test
+
+data:  s
+Dickey-Fuller = -22.0445, Lag order = 21, p-value = 0.01
+alternative hypothesis: stationary
+
+Warning message:
+In adf.test(s) : p-value smaller than printed p-value</code>
+</pre>
+
+<p>The Dickey-Fuller test statistic is very low, providing a low p-value and hence evidence to reject the null hypothesis of a unit root and thus evidence we have a stationary series formed from a linear combination.</p>
+
+<p>This should not surprise us at all as, by construction, the set of series was designed to form such a linear stationary combination. However, it is instructive to follow the tests through on simulated data as it helps us when analysing real financial data, as we will be doing so in the next section.</p>
+
+<h2>Johansen Test on Financial Data</h2>
+
+<p>In this section we will look at two separate sets of ETF baskets: EWA, EWC and IGE as well as SPY, IVV and VOO.</p>
+
+<h3>EWA, EWC and IGE</h3>
+
+<p>In the <a href="https://www.quantstart.com/articles/Cointegrated-Augmented-Dickey-Fuller-Test-for-Pairs-Trading-Evaluation-in-R">previous article</a> we looked at Ernest Chan's<sup><a href="#ref-chan">[1]</a></sup> work on the cointegration between the two ETFS of EWA and EWC, representing baskets of equities for the Australian and Canadian economies, respectively.</p>
+
+<p>He also discusses the Johansen test as a means of adding a third ETF into the mix, namely IGE, which contains a basket of natural resource stocks. The logic is that all three should in some part be affected by stochastic trends in commodities and thus may form a cointegrating relationship.</p>
+
+<p>In Ernie's work he carried out the Johansen procedure using MatLab and was able to reject the hypothesis of $r \leq 2$ at the 5% level. Recall that this implies that he found evidence to support the existence of a stationary linear combination of EWA, EWC and IGE.</p>
+
+<p>It would be useful to see if we can replicate the results using <code>ca.jo</code> in R. In order to do so we need to use the <a href="http://www.quantmod.com/">quantmod</a> library:</p>
+
+<pre>
+<code class="language-r">library("quantmod")</code>
+</pre>
+
+<p>We now need to obtain backward-adjusted daily closing prices for EWA, EWC and IGE for the same time period that Ernie used:</p>
+
+<pre>
+<code class="language-r">getSymbols("EWA", from="2006-04-26", to="2012-04-09")
+getSymbols("EWC", from="2006-04-26", to="2012-04-09")
+getSymbols("IGE", from="2006-04-26", to="2012-04-09")</code>
+</pre>
+
+<p>We also need to create new variables to hold the backward-adjusted prices:</p>
+
+<pre>
+<code class="language-r">ewaAdj = unclass(EWA$EWA.Adjusted)
+ewcAdj = unclass(EWC$EWC.Adjusted)
+igeAdj = unclass(IGE$IGE.Adjusted)</code>
+</pre>
+
+<p>We can now perform the Johansen test on the three ETF daily price series and output the summary of the test:</p>
+
+<pre>
+<code class="language-r">jotest=ca.jo(data.frame(ewaAdj,ewcAdj,igeAdj), type="trace", K=2, ecdet="none", spec="longrun")
+summary(jotest)</code>
+</pre>
+
+<p>The output is as follows:</p>
+
+<pre>
+<code class="language-none">######################
+# Johansen-Procedure #
+######################
+
+Test type: trace statistic , with linear trend
+
+Eigenvalues (lambda):
+[1] 0.011751436 0.008291262 0.002929484
+
+Values of teststatistic and critical values of test:
+
+          test 10pct  5pct  1pct
+r <= 2 |  4.39  6.50  8.18 11.65
+r <= 1 | 16.87 15.66 17.95 23.52
+r = 0  | 34.57 28.71 31.52 37.22
+
+Eigenvectors, normalised to first column:
+(These are the cointegration relations)
+
+                EWA.Adjusted.l2 EWC.Adjusted.l2 IGE.Adjusted.l2
+EWA.Adjusted.l2       1.0000000        1.000000        1.000000
+EWC.Adjusted.l2      -1.1245355        3.062052        3.925659
+IGE.Adjusted.l2       0.2472966       -2.958254       -1.408897
+
+Weights W:
+(This is the loading matrix)
+
+               EWA.Adjusted.l2 EWC.Adjusted.l2 IGE.Adjusted.l2
+EWA.Adjusted.d    -0.007134366     0.004087072   -0.0011290139
+EWC.Adjusted.d     0.020630544     0.004262285   -0.0011907498
+IGE.Adjusted.d     0.026326231     0.010189541   -0.0009097034</code>
+</pre>
+
+<p>Perhaps the first thing to notice is that the values of the trace test statistic differ from those given in the MatLab <code>jplv7</code> package used by Ernie. This is most likely because the <code>ca.jo</code> R function in the <code>urca</code> package requires our lag order to be two or greater (<code>K=2</code>), whereas in the MatLab equivalent it is possible to use a lag of unity (<code>K=1</code>).</p>
+
+<p>Our trace test statistic is broadly similar for $r \leq 2$ at 4.39 versus 4.471 for Ernie's results. However the critical values are quite different, with <code>ca.jo</code> having a value of 8.18 at the 95% level for the $r \leq 2$ hypothesis, while the <code>jplv7</code> package gives 3.841. Crucially Ernie's test statistic is greater than at the 5% level, while ours is lower. Hence we do not have sufficient evidence to reject the null hypothesis of $r \leq 2$ for $K=2$ lags.</p>
+
+<p>The key issue here is that there is no difference between the two sets of time series used for each analysis! The only difference is that the implementations of the Johansen test are different between R's <code>urca</code> and MatLab's <code>jplv7</code>. This means we need to be extremely careful when evaluating the results of statistical tests, especially between differing implementations and programming languages.</p>
+
+<p><em>If you want to read more about some of the issues when using the Johansen test as compared to the Cointegrated Augmented Dickey-Fuller test, it is worth reading <a href="http://r.789695.n4.nabble.com/Testing-for-cointegration-Johansen-vs-Dickey-Fuller-td926500.html">this thread</a>, which has Bernhard Pfaff (co-author of <code>urca</code>) and Eric Zivot (Professor of Economics at University of Washington) weigh in on the test.</em></p>
+
+<h3>SPY, IVV and VOO</h3>
+
+<p>Another approach is to consider a basket of ETFs that track an equity index. For instance, there are a multitude of ETFs that track the US S&amp;P500 stock market index such as Standard &amp; Poor's Depository Receipts SPY, the iShares IVV and Vanguard's VOO. Given that they all track the same underlying asset it is likely that these three ETFs will have a strong cointegrating relationship.</p>
+
+<p>Let's obtain the daily adjusted closing prices for each of these ETFs over the last year:</p>
+
+<pre>
+<code class="language-r">getSymbols("SPY", from="2015-01-01", to="2015-12-31")
+getSymbols("IVV", from="2015-01-01", to="2015-12-31")
+getSymbols("VOO", from="2015-01-01", to="2015-12-31")</code>
+</pre>
+
+<p>As with EWC, EWA and IGE, we need to utilise the backward adjusted prices:</p>
+
+<pre>
+<code class="language-r">spyAdj = unclass(SPY$SPY.Adjusted)
+ivvAdj = unclass(IVV$IVV.Adjusted)
+vooAdj = unclass(VOO$VOO.Adjusted)</code>
+</pre>
+
+<p>Finally, let's run the Johansen test with the three ETFs and output the results:</p>
+
+<pre>
+<code class="language-r">jotest=ca.jo(data.frame(spyAdj,ivvAdj,vooAdj), type="trace", K=2, ecdet="none", spec="longrun")
+summary(jotest)</code>
+</pre>
+
+<p>The output is as follows:</p>
+
+<pre>
+<code class="language-none">######################
+# Johansen-Procedure #
+######################
+
+Test type: trace statistic , with linear trend
+
+Eigenvalues (lambda):
+[1] 0.29311420 0.24149750 0.04308716
+
+Values of teststatistic and critical values of test:
+
+           test 10pct  5pct  1pct
+r <= 2 |  11.01  6.50  8.18 11.65
+r <= 1 |  80.11 15.66 17.95 23.52
+r = 0  | 166.83 28.71 31.52 37.22
+
+Eigenvectors, normalised to first column:
+(These are the cointegration relations)
+
+                SPY.Adjusted.l2 IVV.Adjusted.l2 VOO.Adjusted.l2
+SPY.Adjusted.l2       1.0000000        1.000000       1.0000000
+IVV.Adjusted.l2      -0.3669563       -4.649203      -0.5170538
+VOO.Adjusted.l2      -0.6783666        4.042139      -0.2426406
+
+Weights W:
+(This is the loading matrix)
+
+               SPY.Adjusted.l2 IVV.Adjusted.l2 VOO.Adjusted.l2
+SPY.Adjusted.d      -1.8692017       0.2875776      -0.3086708
+IVV.Adjusted.d      -1.2062706       0.3965064      -0.3160481
+VOO.Adjusted.d      -0.9414142       0.2182340      -0.2871731</code>
+</pre>
+
+<p>As before we sequentially carry out the hypothesis tests beginning with the null hypoothesis of $r = 0$ versus the alternative hypothesis of $r \gt 0$. There is clear evidence to reject the null hypothesis at the 1% level and we can likely conclude that $r \gt 0$.</p>
+
+<p>Similarly when we carry out the $r \leq 1$ null hypothesis versus the $r \gt 1$ alternative hypothesis we have sufficient evidence to reject the null hypothesis at the 1% level and can conclude $r \gt 1$.</p>
+
+<p>However, for the $r \leq 2$ hypothesis we can only reject the null hypothesis at the 5% level. This is weaker evidence than the previous hypotheses and, although it suggests we can reject the null at this level, we should be careful that $r$ might equal two, rather than exceed two. What this means is that it may be possible to form a linear combination with only two assets rather than requiring all three to form a cointegrating portfolio.</p>
+
+<p>In addition we should be extremely cautious of interpreting these results as I have only used one years worth of data, which is approximately 250 trading days. Such a small sample is unlikely to provide a true representation of the underlying relationships. Hence, we must always be careful in interpreting statistical tests!</p>
+
+<h2>Next Steps</h2>
+
+<p>Over the last few articles we've covered a multitude of statistical tests for detecting stationarity among combinations of time series as a precursor to forming mean reversion trading strategies.</p>
+
+<p>In particular we've looked at the Augmented Dickey-Fuller, Phillips-Perron, Phillips-Ouliaris, Cointegrated Augmented Dickey-Fuller and the Johansen test.</p>
+
+<p>We are now in a position to apply these tests to mean reverting strategies. To do so we will form both a for-loop backtest using R and a realistic backtest using <a href="https://github.com/mhallsmoore/qstrader">QSTrader</a> in Python for these strategies. We will carry out these backtests in subsequent articles.</p>
+
+<h2>References</h2>
+
+<ul>
+  <li><a name="ref-chan" href="http://amzn.to/1Olr09O">[1] Chan, E. P. (2013) <em>Algorithmic Trading: Winning Strategies and their Rationale</em>, Wiley</a></li>
+  <li><a name="ref-deniz" href="http://denizstij.blogspot.co.uk/2013/11/cointegration-tests-adf-and-johansen.html">[2] Turan, D. (2013) <em>Cointegration Tests (ADF and Johansen) within R</em></a></li>
+  <li><a name="ref-johansen" href="https://www.jstor.org/stable/2938278">[3] Johansen, S. (1991) <em>Estimation and Hypothesis Testing of Cointegration Vectors in Gaussian Vector Autoregressive Models</em>, Econometrica <strong>59</strong> (6): 1551-1580</a></li>
+</ul>
+
+<h2>Full Code</h2>
+
+<pre>
+<code class="language-r">library("quantmod")
+library("tseries")
+library("urca")
+
+set.seed(123)
+
+## Simulated cointegrated series
+
+z <- rep(0, 10000)
+for (i in 2:10000) z[i] <- z[i-1] + rnorm(1)
+
+p <- q <- r <- rep(0, 10000)
+
+p <- 0.3*z + rnorm(10000)
+q <- 0.6*z + rnorm(10000)
+r <- 0.8*z + rnorm(10000)
+
+jotest=ca.jo(data.frame(p,q,r), type="trace", K=2, ecdet="none", spec="longrun")
+summary(jotest)
+
+s = 1.000*p + 1.791324*q - 1.717271*r
+plot(s, type="l")
+
+adf.test(s)
+
+## EWA, EWC and IGE
+
+getSymbols("EWA", from="2006-04-26", to="2012-04-09")
+getSymbols("EWC", from="2006-04-26", to="2012-04-09")
+getSymbols("IGE", from="2006-04-26", to="2012-04-09")
+
+ewaAdj = unclass(EWA$EWA.Adjusted)
+ewcAdj = unclass(EWC$EWC.Adjusted)
+igeAdj = unclass(IGE$IGE.Adjusted)
+
+jotest=ca.jo(data.frame(ewaAdj,ewcAdj,igeAdj), type="trace", K=2, ecdet="none", spec="longrun")
+summary(jotest)
+
+## SPY, IVV and VOO
+
+getSymbols("SPY", from="2015-01-01", to="2015-12-31")
+getSymbols("IVV", from="2015-01-01", to="2015-12-31")
+getSymbols("VOO", from="2015-01-01", to="2015-12-31")
+
+spyAdj = unclass(SPY$SPY.Adjusted)
+ivvAdj = unclass(IVV$IVV.Adjusted)
+vooAdj = unclass(VOO$VOO.Adjusted)
+
+jotest=ca.jo(data.frame(spyAdj,ivvAdj,vooAdj), type="trace", K=2, ecdet="none", spec="longrun")
+summary(jotest)</code>
+</pre>
+        
+        
+        <script async data-uid="6296c27f4b" src="https://weathered-brook-5281.ck.page/6296c27f4b/index.js"></script>
+      </section>
+    </div>
+    <div class="col-md-4 book-card order-md-1">
+      
+<div class="sidebar-advert-container">
+  <a href="/qsalpha/?ref=art">
+    <img class="card-img-top" src="/static/images/qsalpha-sidebar-advert-small.png" alt="QSAlpha">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/qsalpha/?ref=art">QSAlpha</a></h3>
+      <p class="card-text medium-text mb-3">Join the QSAlpha research platform that helps fill your strategy research pipeline, diversifies your portfolio and improves your risk-adjusted returns for increased profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/qsalpha/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/quantcademy/?ref=art">
+    <img class="card-img-top" src="/static/images/quantcademy-sidebar-advert-small.png" alt="Quantcademy">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/quantcademy/?ref=art">The Quantcademy</a></h3>
+      <p class="card-text medium-text mb-3">Join the Quantcademy membership portal that caters to the rapidly-growing retail quant trader community and learn how to increase your strategy profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/quantcademy/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/successful-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/sat-sidebar-advert-small.png" alt="Successful Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to find new trading strategy ideas and objectively assess them for your portfolio using a Python-based backtesting engine.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/successful-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/advanced-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/aat-sidebar-advert-small.png" alt="Advanced Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to implement advanced trading strategies using time series analysis, machine learning and Bayesian statistics with R and Python.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/advanced-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+    
+
+<footer>
+  <div class="container container-full">
+    <section class="mt-1.5 mb-1">
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">QuantStart</li>
+            <li class="footer-list-link"><a class="link-fade" href="/about/">About</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/articles/">Articles</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/sitemap/">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Products</li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qsalpha/">QSAlpha</a></li>
+            
+            
+            <li class="footer-list-link"><a class="link-fade" href="/quantcademy/">Quantcademy</a></li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qstrader/">QSTrader</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Legal</li>
+            <li class="footer-list-link"><a class="link-fade" href="/privacy-policy/">Privacy Policy</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/terms-and-conditions/">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Social</li>
+            <li class="footer-list-link"><a class="link-fade" href="https://twitter.com/quantstart">Twitter</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="https://www.youtube.com/channel/UCmVnnZ6Y2TrJtY1eQJN6kWA">YouTube</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="row mb-1.5 mt-5">
+      <div class="col-12 col-md-9 col-lg-8 col-xl-6">
+        <div class="footer-copyright">
+          <p>©2012-2023 QuarkGluon Ltd. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+<script src="/static/js/jquery-3.2.1.min.js"></script>
+<script src="/static/js/prism.js.min"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/nav.js"></script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5383959-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+    
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="/static/js/highcharts/highcharts.js"></script>
+<script type="text/javascript">
+  num_colours = 10;
+</script>
+<script src="/static/js/statistics.js"></script>
+
+
+  </body>
+</html>

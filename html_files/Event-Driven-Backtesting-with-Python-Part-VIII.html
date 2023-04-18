@@ -1,0 +1,624 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-site-verification" content="wl3-8ed1QZjI0iYZMv10zoZWYElkMObTfwLlWIj9cpA" />
+    <meta name="description" content="Event-Driven Backtesting with Python - Part VIII">
+
+    <link rel="icon" href="/static/images/favicon.png">
+
+    <title>Event-Driven Backtesting with Python - Part VIII | QuantStart</title>
+    
+    
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet"> 
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/prism.css" rel="stylesheet">
+<link href="/static/css/qs.css?v=10" rel="stylesheet">
+    
+  </head>
+
+  <body>
+    <header class="header covered-header" style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://quantstartmedia.s3.amazonaws.com/images/article-images/article-backgrounds/default-bg.jpg);">
+  
+<nav class="nav">
+  <div class="container nav-container">
+    <div class="nav-row row d-flex justify-content-between align-items-center">
+      <div class="col-2">
+        <ul class="nav-items justify-content-end small-capitals align-items-center">
+          <li class="nav-item">
+            <a class="link-fade" href="/">QuantStart</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-auto col-logo">
+        <ul id="top-nav-menu" class="nav-items justify-content-end align-items-center">
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/qsalpha/">QSAlpha</a>
+          </li>
+          
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/quantcademy/">Quantcademy</a>
+          </li>
+          
+          <li id="menu-link-ebooks" class="nav-item">
+            <a class="link-fade" href="#">Books</a>
+            <div id="menu-pane-ebooks" class="nav-items menu-dropdown-pane">
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/qstrader/">QSTrader</a>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/articles/">Articles</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/members/login/">Login</a>
+          </li>
+          
+        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<nav id="mobile-nav" class="mobile-nav text-left">
+  <div class="container">
+    <ul class="mt-4 ml-3 mobile-nav-menu">
+      <li class="nav-item">
+        <a class="link-fade d-block" href="/">QuantStart</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qsalpha/">QSAlpha</a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/quantcademy/">Quantcademy</a>
+      </li>
+      
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="#">Books</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qstrader/">QSTrader</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/articles/">Articles</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/members/login/">Login</a>
+      </li>
+      
+    </ul>
+    <button class="nav-toggle mobile-nav-close">
+      <svg id="mobile-nav-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M19.77,5.63,13.41,12l6.36,6.37a1,1,0,0,1-1.41,1.41L12,13.41,5.63,19.77a1,1,0,0,1-1.44-1.39l0,0L10.58,12,4.21,5.63a1,1,0,0,1,0-1.42,1,1,0,0,1,1.41,0l0,0L12,10.58l6.37-6.37a1,1,0,0,1,1.41,0A1,1,0,0,1,19.77,5.63Z"></path>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+  <div class="container hero-container">
+    <section class="mt-5 mb-4">
+      <div class="row justify-content-center">
+        <div class="col-12 text-center">
+          <p class="hero">Event-Driven Backtesting with Python - Part VIII</p>
+          <p class="hero subhero">Event-Driven Backtesting with Python - Part VIII</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</header>
+    
+<section class="container content-container">
+  <div class="row">
+    <div class="col-md-8 order-md-2">
+      <section class="content article-content">
+        
+        
+        <p>It's been a while since we've considered the event-driven backtester, which we began discussing in <a href="https://www.quantstart.com/articles/Event-Driven-Backtesting-with-Python-Part-I">this article</a>. In <a href="https://www.quantstart.com/articles/Event-Driven-Backtesting-with-Python-Part-VI">Part VI</a> I described how to code a stand-in <code>ExecutionHandler</code> model that worked for a historical backtesting situation. In this article we are going to code the corresponding Interactive Brokers API handler in order to move towards a live trading system.</p>
+
+<p>I've previously discussed how to <a href="https://www.quantstart.com/articles/Interactive-Brokers-Demo-Account-Signup-Tutorial">download Trader Workstation and create an Interactive Brokers demo account</a> as well as how to <a href="https://www.quantstart.com/articles/Using-Python-IBPy-and-the-Interactive-Brokers-API-to-Automate-Trades">create a basic interface to the IB API using IbPy</a>. This article will wrap up the basic IbPy interface into the event-driven system, so that when it is paired with a live market feed, it will form the basis for an automated execution system.</p>
+
+<p>The essential idea of the <code>IBExecutionHandler</code> class (see below) is to receive <code>OrderEvent</code> instances from the events queue and then to execute them directly against the Interactive Brokers order API using the IbPy library. The class will also handle the "Server Response" messages sent back via the API. At this stage, the only action taken will be to create corresponding <code>FillEvent</code> instances that will then be sent back to the events queue.</p>
+
+<p>The class itself could feasibly become rather complex, with execution optimisation logic as well as sophisticated error handling. However, I have opted to keep it relatively simple so that you can see the main ideas and extend it in the direction that suits your particular trading style.</p>
+
+<h2>Python Implementation</h2>
+
+<p>As always, the first task is to create the Python file and import the necessary libraries. The file is called <code>ib_execution.py</code> and lives in the same directory as the other event-driven files.</p>
+
+<p>We import the necessary date/time handling libraries, the IbPy objects and the specific Event objects that are handled by <code>IBExecutionHandler</code>:</p>
+
+<pre>
+<code class="language-python"># ib_execution.py
+
+import datetime
+import time
+
+from ib.ext.Contract import Contract
+from ib.ext.Order import Order
+from ib.opt import ibConnection, message
+
+from event import FillEvent, OrderEvent
+from execution import ExecutionHandler</code>
+</pre>
+
+<p>We now define the <code>IBExecutionHandler</code> class. The <code>__init__</code> constructor firstly requires knowledge of the <code>events</code> queue. It also requires specification of <code>order_routing</code>, which I've defaulted to "SMART". If you have specific exchange requirements, you can specify them here. The default <code>currency</code> has also been set to US Dollars.</p>
+
+<p>Within the method we create a <code>fill_dict</code> dictionary, needed later for usage in generating <code>FillEvent</code> instances. We also create a <code>tws_conn</code> connection object to store our connection information to the Interactive Brokers API. We also have to create an initial default <code>order_id</code>, which keeps track of all subsequent orders to avoid duplicates. Finally we register the message handlers (which we'll define in more detail below):</p>
+
+<pre>
+<code class="language-python"># ib_execution.py
+
+class IBExecutionHandler(ExecutionHandler):
+    """
+    Handles order execution via the Interactive Brokers
+    API, for use against accounts when trading live
+    directly.
+    """
+
+    def __init__(self, events, 
+                 order_routing="SMART", 
+                 currency="USD"):
+        """
+        Initialises the IBExecutionHandler instance.
+        """
+        self.events = events
+        self.order_routing = order_routing
+        self.currency = currency
+        self.fill_dict = {}
+
+        self.tws_conn = self.create_tws_connection()
+        self.order_id = self.create_initial_order_id()
+        self.register_handlers()</code>
+</pre>
+
+<p>The IB API utilises a message-based event system that allows our class to respond in particular ways to certain messages, in a similar manner to the event-driven backtester itself. I've not included any real error handling (for the purposes of brevity), beyond output to the terminal, via the <code>_error_handler</code> method.</p>
+
+<p>The <code>_reply_handler</code> method, on the other hand, is used to determine if a <code>FillEvent</code> instance needs to be created. The method asks if an "openOrder" message has been received and checks whether an entry in our <code>fill_dict</code> for this particular orderId has already been set. If not then one is created.</p>
+
+<p>If it sees an "orderStatus" message and that particular message states than an order has been filled, then it calls <code>create_fill</code> to create a <code>FillEvent</code>. It also outputs the message to the terminal for logging/debug purposes:</p>
+
+<pre>
+<code class="language-python"># ib_execution.py
+    
+    def _error_handler(self, msg):
+        """
+        Handles the capturing of error messages
+        """
+        # Currently no error handling.
+        print "Server Error: %s" % msg
+
+    def _reply_handler(self, msg):
+        """
+        Handles of server replies
+        """
+        # Handle open order orderId processing
+        if msg.typeName == "openOrder" and \
+            msg.orderId == self.order_id and \
+            not self.fill_dict.has_key(msg.orderId):
+            self.create_fill_dict_entry(msg)
+        # Handle Fills
+        if msg.typeName == "orderStatus" and \
+            msg.status == "Filled" and \
+            self.fill_dict[msg.orderId]["filled"] == False:
+            self.create_fill(msg)      
+        print "Server Response: %s, %s\n" % (msg.typeName, msg)</code>
+</pre>
+
+<p>The following method, <code>create_tws_connection</code>, creates a connection to the IB API using the IbPy <code>ibConnection</code> object. It uses a default port of 7496 and a default clientId of 10. Once the object is created, the <code>connect</code> method is called to perform the connection:</p>
+
+<pre>
+<code class="language-python"># ib_execution.py
+    
+    def create_tws_connection(self):
+        """
+        Connect to the Trader Workstation (TWS) running on the
+        usual port of 7496, with a clientId of 10.
+        The clientId is chosen by us and we will need 
+        separate IDs for both the execution connection and
+        market data connection, if the latter is used elsewhere.
+        """
+        tws_conn = ibConnection()
+        tws_conn.connect()
+        return tws_conn</code>
+</pre>
+
+<p>To keep track of separate orders (for the purposes of tracking fills) the following method <code>create_initial_order_id</code> is used. I've defaulted it to "1", but a more sophisticated approach would be th query IB for the latest available ID and use that. You can always reset the current API order ID via the Trader Workstation &gt; Global Configuration &gt; API Settings panel:</p>
+
+<pre>
+<code class="language-python"># ib_execution.py
+    
+    def create_initial_order_id(self):
+        """
+        Creates the initial order ID used for Interactive
+        Brokers to keep track of submitted orders.
+        """
+        # There is scope for more logic here, but we
+        # will use "1" as the default for now.
+        return 1</code>
+</pre>
+
+<p>The following method, <code>register_handlers</code>, simply registers the error and reply handler methods defined above with the TWS connection:</p>
+
+<pre>
+<code class="language-python"># ib_execution.py
+    
+    def register_handlers(self):
+        """
+        Register the error and server reply 
+        message handling functions.
+        """
+        # Assign the error handling function defined above
+        # to the TWS connection
+        self.tws_conn.register(self._error_handler, 'Error')
+
+        # Assign all of the server reply messages to the
+        # reply_handler function defined above
+        self.tws_conn.registerAll(self._reply_handler)</code>
+</pre>
+
+<p>As with the <a href="https://www.quantstart.com/articles/Using-Python-IBPy-and-the-Interactive-Brokers-API-to-Automate-Trades">previous tutorial on using IbPy</a> we need to create a <code>Contract</code> instance and then pair it with an <code>Order</code> instance, which will be sent to the IB API. The following method, <code>create_contract</code>, generates the first component of this pair. It expects a ticker symbol, a security type (e.g. stock or future), an exchange/primary exchange and a currency. It returns the <code>Contract</code> instance:</p>
+
+<pre>
+<code class="language-python"># ib_execution.py
+    
+    def create_contract(self, symbol, sec_type, exch, prim_exch, curr):
+        """
+        Create a Contract object defining what will
+        be purchased, at which exchange and in which currency.
+
+        symbol - The ticker symbol for the contract
+        sec_type - The security type for the contract ('STK' is 'stock')
+        exch - The exchange to carry out the contract on
+        prim_exch - The primary exchange to carry out the contract on
+        curr - The currency in which to purchase the contract
+        """
+        contract = Contract()
+        contract.m_symbol = symbol
+        contract.m_secType = sec_type
+        contract.m_exchange = exch
+        contract.m_primaryExch = prim_exch
+        contract.m_currency = curr
+        return contract</code>
+</pre>
+
+<p>The following method, <code>create_order</code>, generates the second component of the pair, namely the <code>Order</code> instance. It expects an order type (e.g. market or limit), a quantity of the asset to trade and an "action" (buy or sell). It returns the <code>Order</code> instance:</p>
+
+<pre>
+<code class="language-python"># ib_execution.py
+    
+    def create_order(self, order_type, quantity, action):
+        """
+        Create an Order object (Market/Limit) to go long/short.
+
+        order_type - 'MKT', 'LMT' for Market or Limit orders
+        quantity - Integral number of assets to order
+        action - 'BUY' or 'SELL'
+        """
+        order = Order()
+        order.m_orderType = order_type
+        order.m_totalQuantity = quantity
+        order.m_action = action
+        return order</code>
+</pre>
+
+<p>In order to avoid duplicating <code>FillEvent</code> instances for a particular order ID, we utilise a dictionary called the <code>fill_dict</code> to store keys that match particular order IDs. When a fill has been generated the "filled" key of an entry for a particular order ID is set to <code>True</code>. If a subsequent "Server Response" message is received from IB stating that an order has been filled (and is a duplicate message) it will not lead to a new fill. The following method <code>create_fill_dict_entry</code> carries this out:</p>
+
+<pre>
+<code class="language-python"># ib_execution.py
+    
+    def create_fill_dict_entry(self, msg):
+        """
+        Creates an entry in the Fill Dictionary that lists 
+        orderIds and provides security information. This is
+        needed for the event-driven behaviour of the IB
+        server message behaviour.
+        """
+        self.fill_dict[msg.orderId] = {
+            "symbol": msg.contract.m_symbol,
+            "exchange": msg.contract.m_exchange,
+            "direction": msg.order.m_action,
+            "filled": False
+        }</code>
+</pre>
+
+<p>The following method, <code>create_fill</code>, actually creates the <code>FillEvent</code> instance and places it onto the events queue:</p>
+
+<pre>
+<code class="language-python"># ib_execution.py
+    
+    def create_fill(self, msg):
+        """
+        Handles the creation of the FillEvent that will be
+        placed onto the events queue subsequent to an order
+        being filled.
+        """
+        fd = self.fill_dict[msg.orderId]
+
+        # Prepare the fill data
+        symbol = fd["symbol"]
+        exchange = fd["exchange"]
+        filled = msg.filled
+        direction = fd["direction"]
+        fill_cost = msg.avgFillPrice
+
+        # Create a fill event object
+        fill = FillEvent(
+            datetime.datetime.utcnow(), symbol, 
+            exchange, filled, direction, fill_cost
+        )
+
+        # Make sure that multiple messages don't create
+        # additional fills.
+        self.fill_dict[msg.orderId]["filled"] = True
+
+        # Place the fill event onto the event queue
+        self.events.put(fill_event)</code>
+</pre>
+
+<p>Now that all of the preceeding methods having been implemented it remains to override the <code>execute_order</code> method from the <code>ExecutionHandler</code> abstract base class. This method actually carries out the order placement with the IB API.</p>
+
+<p>We first check that the event being received to this method is actually an <code>OrderEvent</code> and then prepare the <code>Contract</code> and <code>Order</code> objects with their respective parameters. Once both are created the IbPy method <code>placeOrder</code> of the connection object is called with an associated <code>order_id</code>.</p>
+
+<p>It is <em>extremely important</em> to call the <code>time.sleep(1)</code> method to ensure the order actually goes through to IB. Removal of this line leads to inconsistent behaviour of the API, at least on my system!</p>
+
+<p>Finally, we increment the order ID to ensure we don't duplicate orders:</p>
+
+<pre>
+<code class="language-python"># ib_execution.py
+    
+    def execute_order(self, event):
+        """
+        Creates the necessary InteractiveBrokers order object
+        and submits it to IB via their API.
+
+        The results are then queried in order to generate a
+        corresponding Fill object, which is placed back on
+        the event queue.
+
+        Parameters:
+        event - Contains an Event object with order information.
+        """
+        if event.type == 'ORDER':
+            # Prepare the parameters for the asset order
+            asset = event.symbol
+            asset_type = "STK"
+            order_type = event.order_type
+            quantity = event.quantity
+            direction = event.direction
+
+            # Create the Interactive Brokers contract via the 
+            # passed Order event
+            ib_contract = self.create_contract(
+                asset, asset_type, self.order_routing,
+                self.order_routing, self.currency
+            )
+
+            # Create the Interactive Brokers order via the 
+            # passed Order event
+            ib_order = self.create_order(
+                order_type, quantity, direction
+            )
+
+            # Use the connection to the send the order to IB
+            self.tws_conn.placeOrder(
+                self.order_id, ib_contract, ib_order
+            )
+
+            # NOTE: This following line is crucial.
+            # It ensures the order goes through!
+            time.sleep(1)
+
+            # Increment the order ID for this session
+            self.order_id += 1</code>
+</pre>
+
+<p>This class forms the basis of an Interactive Brokers execution handler and can be used in place of the simulated execution handler, which is only suitable for backtesting. Before the IB handler can be utilised, however, it is necessary to create a live market feed handler to replace the historical data feed handler of the backtester system. This will be the subject of a future article.</p>
+
+<p>In this way we are reusing as much as possible from the backtest and live systems to ensure that code "swap out" is minimised and thus behaviour across both is similar, if not identical.</p>
+        
+        
+        <script async data-uid="6296c27f4b" src="https://weathered-brook-5281.ck.page/6296c27f4b/index.js"></script>
+      </section>
+    </div>
+    <div class="col-md-4 book-card order-md-1">
+      
+<div class="sidebar-advert-container">
+  <a href="/qsalpha/?ref=art">
+    <img class="card-img-top" src="/static/images/qsalpha-sidebar-advert-small.png" alt="QSAlpha">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/qsalpha/?ref=art">QSAlpha</a></h3>
+      <p class="card-text medium-text mb-3">Join the QSAlpha research platform that helps fill your strategy research pipeline, diversifies your portfolio and improves your risk-adjusted returns for increased profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/qsalpha/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/quantcademy/?ref=art">
+    <img class="card-img-top" src="/static/images/quantcademy-sidebar-advert-small.png" alt="Quantcademy">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/quantcademy/?ref=art">The Quantcademy</a></h3>
+      <p class="card-text medium-text mb-3">Join the Quantcademy membership portal that caters to the rapidly-growing retail quant trader community and learn how to increase your strategy profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/quantcademy/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/successful-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/sat-sidebar-advert-small.png" alt="Successful Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to find new trading strategy ideas and objectively assess them for your portfolio using a Python-based backtesting engine.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/successful-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/advanced-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/aat-sidebar-advert-small.png" alt="Advanced Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to implement advanced trading strategies using time series analysis, machine learning and Bayesian statistics with R and Python.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/advanced-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+    
+
+<footer>
+  <div class="container container-full">
+    <section class="mt-1.5 mb-1">
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">QuantStart</li>
+            <li class="footer-list-link"><a class="link-fade" href="/about/">About</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/articles/">Articles</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/sitemap/">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Products</li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qsalpha/">QSAlpha</a></li>
+            
+            
+            <li class="footer-list-link"><a class="link-fade" href="/quantcademy/">Quantcademy</a></li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qstrader/">QSTrader</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Legal</li>
+            <li class="footer-list-link"><a class="link-fade" href="/privacy-policy/">Privacy Policy</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/terms-and-conditions/">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Social</li>
+            <li class="footer-list-link"><a class="link-fade" href="https://twitter.com/quantstart">Twitter</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="https://www.youtube.com/channel/UCmVnnZ6Y2TrJtY1eQJN6kWA">YouTube</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="row mb-1.5 mt-5">
+      <div class="col-12 col-md-9 col-lg-8 col-xl-6">
+        <div class="footer-copyright">
+          <p>©2012-2023 QuarkGluon Ltd. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+<script src="/static/js/jquery-3.2.1.min.js"></script>
+<script src="/static/js/prism.js.min"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/nav.js"></script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5383959-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+    
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="/static/js/highcharts/highcharts.js"></script>
+<script type="text/javascript">
+  num_colours = 10;
+</script>
+<script src="/static/js/statistics.js"></script>
+
+
+  </body>
+</html>

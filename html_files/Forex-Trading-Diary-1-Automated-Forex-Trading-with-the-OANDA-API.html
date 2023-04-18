@@ -1,0 +1,1033 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-site-verification" content="wl3-8ed1QZjI0iYZMv10zoZWYElkMObTfwLlWIj9cpA" />
+    <meta name="description" content="Forex Trading Diary #1 - Automated Forex Trading with the OANDA API">
+
+    <link rel="icon" href="/static/images/favicon.png">
+
+    <title>Forex Trading Diary #1 - Automated Forex Trading with the OANDA API | QuantStart</title>
+    
+    
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet"> 
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/prism.css" rel="stylesheet">
+<link href="/static/css/qs.css?v=10" rel="stylesheet">
+    
+  </head>
+
+  <body>
+    <header class="header covered-header" style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://quantstartmedia.s3.amazonaws.com/images/article-images/article-backgrounds/default-bg.jpg);">
+  
+<nav class="nav">
+  <div class="container nav-container">
+    <div class="nav-row row d-flex justify-content-between align-items-center">
+      <div class="col-2">
+        <ul class="nav-items justify-content-end small-capitals align-items-center">
+          <li class="nav-item">
+            <a class="link-fade" href="/">QuantStart</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-auto col-logo">
+        <ul id="top-nav-menu" class="nav-items justify-content-end align-items-center">
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/qsalpha/">QSAlpha</a>
+          </li>
+          
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/quantcademy/">Quantcademy</a>
+          </li>
+          
+          <li id="menu-link-ebooks" class="nav-item">
+            <a class="link-fade" href="#">Books</a>
+            <div id="menu-pane-ebooks" class="nav-items menu-dropdown-pane">
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/qstrader/">QSTrader</a>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/articles/">Articles</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/members/login/">Login</a>
+          </li>
+          
+        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<nav id="mobile-nav" class="mobile-nav text-left">
+  <div class="container">
+    <ul class="mt-4 ml-3 mobile-nav-menu">
+      <li class="nav-item">
+        <a class="link-fade d-block" href="/">QuantStart</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qsalpha/">QSAlpha</a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/quantcademy/">Quantcademy</a>
+      </li>
+      
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="#">Books</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qstrader/">QSTrader</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/articles/">Articles</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/members/login/">Login</a>
+      </li>
+      
+    </ul>
+    <button class="nav-toggle mobile-nav-close">
+      <svg id="mobile-nav-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M19.77,5.63,13.41,12l6.36,6.37a1,1,0,0,1-1.41,1.41L12,13.41,5.63,19.77a1,1,0,0,1-1.44-1.39l0,0L10.58,12,4.21,5.63a1,1,0,0,1,0-1.42,1,1,0,0,1,1.41,0l0,0L12,10.58l6.37-6.37a1,1,0,0,1,1.41,0A1,1,0,0,1,19.77,5.63Z"></path>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+  <div class="container hero-container">
+    <section class="mt-5 mb-4">
+      <div class="row justify-content-center">
+        <div class="col-12 text-center">
+          <p class="hero">Forex Trading Diary #1 - Automated Forex Trading with the OANDA API</p>
+          <p class="hero subhero">Forex Trading Diary #1 - Automated Forex Trading with the OANDA API</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</header>
+    
+<section class="container content-container">
+  <div class="row">
+    <div class="col-md-8 order-md-2">
+      <section class="content article-content">
+        
+        
+        <p>I previously mentioned in the <a href="http://www.quantstart.com/articles/QuantStart-2014-in-Review">QuantStart: 2014 In Review</a> article that I would be spending some of 2015 writing about <strong>automated forex trading</strong>.</p>
+
+<p>Given that I myself usually carry out research in equities and futures markets, I thought it would be fun (and educational!) to write about my experiences of entering the forex market in the style of a diary. Each "diary entry" will attempt to build on all those before, but should also be relatively self-contained.</p>
+
+<p>In this first entry of the diary I'll be describing how to set up a new practice brokerage account with <a href="http://www.oanda.com/">OANDA</a> as well as how to create a basic <strong>multithreaded event-driven trading engine</strong> that can automatically execute trades in both a practice and live setting.</p>
+
+<p>Last year we spent a lot of time looking at the <a href="http://www.quantstart.com/articles/Event-Driven-Backtesting-with-Python-Part-I">event-driven backtester</a>, primarily for equities and ETFs. The one I present below is geared towards forex and can be used for either <strong>paper trading</strong> or <strong>live trading</strong>.</p>
+
+<p>I have written all of the following instructions for Ubuntu 14.04, but they should easily translate to Windows or Mac OS X, using a Python distribution such as <a href="http://continuum.io/downloads">Anaconda</a>. The only additional library used for the Python trading engine is the <a href="https://pypi.org/project/requests/2.7.0/">requests</a> library, which is necessary for HTTP communication to the OANDA API.</p>
+
+<p>Since this is the first post directly about foreign exchange trading, and the code presented below can be straightforwardly adapted to a live trading environment, I would like to present the following disclaimers:</p>
+
+<p><em><strong>Disclaimer:</strong> Trading foreign exchange on margin carries a high level of risk, and may not be suitable for all investors. Past performance is not indicative of future results. The high degree of leverage can work against you as well as for you. Before deciding to invest in foreign exchange you should carefully consider your investment objectives, level of experience, and risk appetite. The possibility exists that you could sustain a loss of some or all of your initial investment and therefore you should not invest money that you cannot afford to lose. You should be aware of all the risks associated with foreign exchange trading, and seek advice from an independent financial advisor if you have any doubts.</em></p>
+
+<p><em>This software is provided "as is" and any expressed or implied warranties, including, but not limited to, the implied warranties of merchantability and fitness for a particular purpose are disclaimed. In no event shall the regents or contributors be liable for any direct, indirect, incidental, special, exemplary, or consequential damages (including, but not limited to, procurement of substitute goods or services; loss of use, data, or profits; or business interruption) however caused and on any theory of liability, whether in contract, strict liability, or tort (including negligence or otherwise) arising in any out of the use of this software, even if advised of the possibility of such damage.</em></p>
+
+<h2>Setting Up an Account with OANDA</h2>
+
+<p>The first question that comes to mind is "Why choose OANDA?". Simply put, after a bit of Googling around for forex brokers that had APIs, I saw that OANDA had recently released a proper <a href="http://en.wikipedia.org/wiki/Representational_state_transfer">REST API</a> that could easily be communicated with from nearly any language in an extremely straightforward manner. After reading through their <a href="http://developer.oanda.com/rest-live/introduction/">developer API documentation</a>, I decided to give them a try, at least with a practice account.</p>
+
+<p><em>To be clear - I have no prior or existing relationship with OANDA and am only providing this recommendation based on my limited experience playing around with their practice API and some brief usage (for market data download) while employed at a fund previously. If anybody has come across any other forex brokers that also have a similarly modern API then I'd be happy to give them a look as well.</em></p>
+
+<p>Before utilising the API it is necessary to sign up for a practice account. To do this, head to the <a href="https://fxtrade.oanda.com/your_account/fxtrade/register/game/signup?seg=has_gate">sign-up link</a>. You will see the following screen:</p>
+
+<p style="text-align:center;">
+  <img width="80%" alt="OANDA sign-up screen" src="https://s3.amazonaws.com/quantstartmedia/images/qs-oanda-forex-sign-up.png"><br>
+  <strong>OANDA sign-up screen</strong>
+</p>
+
+<p>You will then be able to sign in with your login credentials. Make sure to select the "fxTradePractice" tab from the sign-in screen:</p>
+
+<p style="text-align:center;">
+  <img width="80%" alt="OANDA sign-in screen" src="https://s3.amazonaws.com/quantstartmedia/images/qs-oanda-forex-sign-in.png"><br>
+  <strong>OANDA sign-in screen</strong>
+</p>
+
+<p>Once in you will need to make a note of your Account ID. It is listed underneath the black "My Funds" header next to "Primary". Mine is a 7-digit number. In addition you will also need to generate a personal API token. To do this click "Manage API Access" underneath the "Other Actions" tab on the lower left:</p>
+
+<p style="text-align:center;">
+  <img width="80%" alt="OANDA dashboard" src="https://s3.amazonaws.com/quantstartmedia/images/qs-oanda-forex-manage-api.png"><br>
+  <strong>OANDA dashboard</strong>
+</p>
+
+<p>At this stage you will be able to generate an API token. You will need the key for use later, so make sure to write it down as well.</p>
+
+<p>You will now want to launch the FXTrade Practice application, which will allow us to see the executed orders and our (paper!) profit &amp; loss.</p>
+
+<p>If you are running a Ubuntu system you will need to install a slightly different version of Java. In particular, the Oracle version of Java 8. If you don't do this then the practice simulator will not load from the browser. I ran these commands on my system:</p>
+
+<pre>
+<code class="language-bash">sudo add-apt-repository ppa:webupd8team/java
+sudo apt-get update
+sudo apt-get install oracle-java8-installer</code>
+</pre>
+
+<p>You will now be able to launch the practice trading environment. Return to the OANDA dashboard and click the green highlighted "Launch FXTrade Practice" link. It will bring up a Java dialog asking whether you want to run it. Click "Run" and the fxTrade Practice tool will load. Mine defaulted to a 15-min candle chart of EUR/USD with the Quote Panel on the left:</p>
+
+<p style="text-align:center;">
+  <img width="80%" alt="OANDA fxTrade Practice screen" src="https://s3.amazonaws.com/quantstartmedia/images/qs-oanda-forex-fxtrade-practice.png"><br>
+  <strong>OANDA fxTrade Practice screen</strong>
+</p>
+
+<p>At this point we are ready to begin designing and coding our automated forex trading system against the OANDA API.</p>
+
+<h2>Overview of Trading Architecture</h2>
+
+<p>If you have been following the <a href="http://www.quantstart.com/articles/Event-Driven-Backtesting-with-Python-Part-I">event-driven backtester series</a> for equities and ETFs that I created last year, you'll be aware of how such an event-driven trading system functions. For those of you who are new to <a href="http://en.wikipedia.org/wiki/Event-driven_programming">event-driven software</a>, I would strongly suggest reading through the <a href="http://www.quantstart.com/articles/Event-Driven-Backtesting-with-Python-Part-I">article</a> in order to gain some insight into how they work.</p>
+
+<p>In essence, the entire program is executed in an infinte <code>while</code> loop that only terminates when the trading system is shut off. The central communication mechanism of the program is given via a <a href="http://en.wikipedia.org/wiki/Queue_%28abstract_data_type%29">queue</a> that contains <a href="http://en.wikipedia.org/wiki/Event_%28computing%29">events</a>.</p>
+
+<p>The queue is constantly queried to check for new events. Once an event has been taken off the top of the queue it must be <em>handled</em> by an appropriate component of the program. Hence a market data feed might create <code>TickEvent</code>s that are placed onto the queue when a new market price arrives. A signal-generating strategy object might create <code>OrderEvent</code>s that are to be sent to a brokerage.</p>
+
+<p>The usefulness of such a system is given by the fact that it doesn't matter what order or types of events are placed on the queue, as they will always be correctly handled by the right component within the program.</p>
+
+<p>In addition different parts of the program can be run in separate <a href="http://en.wikipedia.org/wiki/Thread_%28computing%29">threads</a>, meaning that there is never any waiting for any particular component before processing any other. This is extremely useful in algorithmic trading situations where market data feed handlers and strategy signal generators have vastly different performance characteristics.</p>
+
+<p>The main trading loop is given by the following Python pseudo-code:</p>
+
+<pre>
+<code class="language-python">while True:
+    try:
+        event = events_queue.get(False)
+    except Queue.Empty:
+        pass
+    else:
+        if event is not None:
+            if event.type == 'TICK':
+                strategy.calculate_signals(event)
+            elif event.type == 'ORDER':
+                execution.execute_order(event)
+    time.sleep(heartbeat)</code>
+</pre>
+
+<p>As we stated above the code runs in an infinite loop. Firstly, the queue is <em>polled</em> to retrieve a new event. If the queue is empty, then the loop simply restarts after a short sleep period known as the "heartbeat". If an event is found its type is assessed and then the relevant module (either the <code>strategy</code> or the <code>execution</code> handler) is called upon to handle the event and possibly generate new ones that go back onto the queue.</p>
+
+<p>The basic components that we will create for our trading system include the following:</p>
+
+<ul>
+  <li><strong>Streaming Price Handler</strong> - This will keep a long-running connection open to OANDAs servers and send tick data (i.e. bid/ask) across the connection for any instruments that we're interested in.</li>
+  <li><strong>Strategy Signal Generator</strong> - This will take a sequence of tick events and use them to generate trading orders that will be executed by the execution handler.</li>
+  <li><strong>Execution Handler</strong> - Takes a set of order events and then blindly executes them with OANDA.</li>
+  <li><strong>Events</strong> - These objects constitute the "messages" that are passed around on the events queue. We only require two for this implementation, namely the <code>TickEvent</code> and the <code>OrderEvent</code>.</li>
+  <li><strong>Main Entry Point</strong> - The main entry point also includes the "trade" loop that continuously polls the message queue and dispatches messages to the correct component. This is often known as the "event loop" or "event handler".</li>
+</ul>
+
+<p>We will now discuss the implementation of the code in detail. At the bottom of the article is the complete listing of all source code files. If you place them in the same directory and run <code>python trading.py</code> you will begin generating orders, assuming you have filled in your account ID and authentication token from OANDA.</p>
+
+<h2>Python Implementation</h2>
+
+<p>It is bad practice to store passwords or authentication keys within a codebase as you can never predict who will eventually be allowed access to a project. In a production system we would store these credentials as <em>environment variables</em> with the system and then query these "envvars" each time the code is redeployed. This ensures that passwords and auth tokens are never stored in a version control system.</p>
+
+<p>However, since we are solely interested in building a "toy" trading system, and are not concerned with production details in this article, we will instead separate these auth tokens into a <em>settings</em> file.</p>
+
+<p>In the following <code>settings.py</code> configuration file we have a dictionary called <code>ENVIRONMENTS</code> which stores the API endpoints for both the OANDA price streaming API and the trading API. Each sub dictionary contains three separate API endpoints: <code>real</code>, <code>practice</code> and <code>sandbox</code>.</p>
+
+<p>The <code>sandbox</code> API is purely for testing code and for checking that there are no errors or bugs. It does not have the uptime guarantees of the <code>real</code> or <code>practice</code> APIs. The <code>practice</code> API, in essence, provides the ability to <em>paper trade</em>. That is, it provides all of the features of the <code>real</code> API on a simulated practice account. The <code>real</code> API is just that - it is live trading! If you use that endpoint in your code, it will trade against your live account balance. <em>BE EXTREMELY CAREFUL!</em></p>
+
+<p>IMPORTANT: When trading against the practice API remember that an important transaction cost, that of <strong>market impact</strong>, is not considered. Since no trades are actually being placed into the environment this cost must be accounted for in another way elsewhere using a market impact model if you wish to realistically assess performance.</em></p>
+
+<p>In the following we are using the <code>practice</code> account as given by the <code>DOMAIN</code> setting. We need two separate dictionaries for the domains, one each for the streaming and trading API components. Finally we have the <code>ACCESS_TOKEN</code> and <code>ACCOUNT_ID</code>. I've filled the two below with dummy IDs so you will need to utilise your own, which can be accessed from the OANDA account page:</p>
+
+<pre>
+<code class="language-none">ENVIRONMENTS = {
+    "streaming": {
+        "real": "stream-fxtrade.oanda.com",
+        "practice": "stream-fxpractice.oanda.com",
+        "sandbox": "stream-sandbox.oanda.com"
+    },
+    "api": {
+        "real": "api-fxtrade.oanda.com",
+        "practice": "api-fxpractice.oanda.com",
+        "sandbox": "api-sandbox.oanda.com"
+    }
+}
+
+DOMAIN = "practice"
+STREAM_DOMAIN = ENVIRONMENTS["streaming"][DOMAIN]
+API_DOMAIN = ENVIRONMENTS["api"][DOMAIN]
+ACCESS_TOKEN = 'abcdef0123456abcdef0123456-abcdef0123456abcdef0123456'
+ACCOUNT_ID = '12345678'</code>
+</pre>
+
+<p>The next step is to define the <em>events</em> that the queue will use to help all of the individual components communicate. We need two: <code>TickEvent</code> and <code>OrderEvent</code>. The first stores information about instrument market data such as the (best) bid/ask and the trade time. The second is used to transmit orders to the execution handler and thus contains the instrument, the number of units to trade, the order type ("market" or "limit") and the "side" (i.e. "buy" and "sell").</p>
+
+<p>To future-proof our events code we are going to create a base class called <code>Event</code> and have all events inherit from this. The code is provided below in <code>events.py</code>:</p>
+
+<pre>
+<code class="language-python">class Event(object):
+    pass
+
+
+class TickEvent(Event):
+    def __init__(self, instrument, time, bid, ask):
+        self.type = 'TICK'
+        self.instrument = instrument
+        self.time = time
+        self.bid = bid
+        self.ask = ask
+
+
+class OrderEvent(Event):
+    def __init__(self, instrument, units, order_type, side):
+        self.type = 'ORDER'
+        self.instrument = instrument
+        self.units = units
+        self.order_type = order_type
+        self.side = side</code>
+</pre>
+
+<p>The next class we are going to create will handle the trading strategy. In this demo we are going to create a rather nonsensical strategy that simply receives all of the market ticks and on every 5th tick randomly buys or sells 10,000 units of EUR/USD.</p>
+
+<p>Clearly this is a <strong>ridiculous</strong> "strategy"! However, it is fantastic for testing purposes because it is straightforward to code and understand. In future diary entries we will be replacing this with something significantly more exciting that will (hopefully) turn a profit!</p>
+
+<p>The <code>strategy.py</code> file can be found below. Let's work through it and see what's going on. Firstly we import the <code>random</code> library and the <code>OrderEvent</code> object from <code>events.py</code>. We need the <code>random</code> lib in order to select a random buy or sell order. We need <code>OrderEvent</code> as this is how the strategy object will send orders to the events queue, which will later be executed by the execution handler.</p>
+
+<p>The <code>TestRandomStrategy</code> class simply takes the instrument (in this case EUR/USD), the number of units and the events queue as a set of parameters. It then creates a <code>ticks</code> counter that is used to tell how many <code>TickEvent</code> instances it has seen.</p>
+
+<p>Most of the work occurs in the <code>calculate_signals</code> method, which simply takes an event, determines whether it is a <code>TickEvent</code> (otherwise ignore) and increments the tick counter. It then checks to see if the count is divisible by 5 and then randomly buys or sells, with a market order, the specified number of units. It's certainly not the world's greatest trading strategy, but it will be more than suitable for our OANDA brokerage API testing purposes!</p>
+
+<pre>
+<code class="language-python">import random
+
+from event import OrderEvent
+
+
+class TestRandomStrategy(object):
+    def __init__(self, instrument, units, events):
+        self.instrument = instrument
+        self.units = units
+        self.events = events
+        self.ticks = 0
+
+    def calculate_signals(self, event):
+        if event.type == 'TICK':
+            self.ticks += 1
+            if self.ticks % 5 == 0:
+                side = random.choice(["buy", "sell"])
+                order = OrderEvent(
+                    self.instrument, self.units, "market", side
+                )
+                self.events.put(order)</code>
+</pre>
+
+<p>The next component is the <strong>execution handler</strong>. This class is tasked with acting upon <code>OrderEvent</code> instances and making requests to the broker (in this case OANDA) in a "dumb" fashion. That is, there is no risk management or potfolio construction overlay. The execution handler will simply execute any order that it has been given.</p>
+
+<p>We must pass all of the authentication information to the <code>Execution</code> class, including the "domain" (practice, real or sandbox), the access token and account ID. We then create a secure connection with <code>httplib</code>, one of Pythons built in libraries.</p>
+
+<p>Most of the work occurs in <code>execute_order</code>. The method requires an event as a parameter. It then constructs two dictionaries - the <code>headers</code> and the <code>params</code>. These dictionaries will then be correctly encoded (partially by <code>urllib</code>, another Python library) to be sent as an HTTP POST request to OANDAs API.</p>
+
+<p>We pass the <code>Content-Type</code> and <code>Authorization</code> header parameters, which include our authentication information. In addition we encode the parameters, which include the instrument (EUR/USD), units, order type and side (buy/sell). Finally, we make the request and save the response:</p>
+
+<pre>
+<code class="language-python">import httplib
+import urllib
+
+
+class Execution(object):
+    def __init__(self, domain, access_token, account_id):
+        self.domain = domain
+        self.access_token = access_token
+        self.account_id = account_id
+        self.conn = self.obtain_connection()
+
+    def obtain_connection(self):
+        return httplib.HTTPSConnection(self.domain)
+
+    def execute_order(self, event):
+        headers = {
+            "Content-Type": "application/x-www-form-urlencoded",
+            "Authorization": "Bearer " + self.access_token
+        }
+        params = urllib.urlencode({
+            "instrument" : event.instrument,
+            "units" : event.units,
+            "type" : event.order_type,
+            "side" : event.side
+        })
+        self.conn.request(
+            "POST",
+            "/v1/accounts/%s/orders" % str(self.account_id),
+            params, headers
+        )
+        response = self.conn.getresponse().read()
+        print response</code>
+</pre>
+
+<p>The most complex component of the trading system is the <code>StreamingForexPrices</code> object, which handles the market price updates from OANDA. There are two methods: <code>connect_to_stream</code> and <code>stream_to_queue</code>.</p>
+
+<p>The first method uses the Python <a href="http://docs.python-requests.org/en/latest/">requests</a> library to connect to a streaming socket with the appropriate headers and parameters. The parameters include the Account ID and the necessary instrument list that should be listened to for updates (in this case it is only EUR/USD). Note the following line:</p>
+
+<pre>
+<code class="language-none">resp = s.send(pre, stream=True, verify=False)</code>
+</pre>
+
+<p>This tells the connection to be <em>streamed</em> and thus kept open in a long-running manner.</p>
+
+<p>The second method, <code>stream_to_queue</code>, actually attempts to connect to the stream. If the response is not successful (i.e. the response code is not HTTP 200), then we simply return and exit. If it is successful we try to load the JSON packet returned into a Python dictionary. Finally, we convert the Python dictionary with the instrument, bid/ask and timestamp into a <code>TickEvent</code> that is sent to the events queue:</p>
+
+<pre>
+<code class="language-python">import requests
+import json
+
+from event import TickEvent
+
+
+class StreamingForexPrices(object):
+    def __init__(
+        self, domain, access_token,
+        account_id, instruments, events_queue
+    ):
+        self.domain = domain
+        self.access_token = access_token
+        self.account_id = account_id
+        self.instruments = instruments
+        self.events_queue = events_queue
+
+    def connect_to_stream(self):
+        try:
+            s = requests.Session()
+            url = "https://" + self.domain + "/v1/prices"
+            headers = {'Authorization' : 'Bearer ' + self.access_token}
+            params = {'instruments' : self.instruments, 'accountId' : self.account_id}
+            req = requests.Request('GET', url, headers=headers, params=params)
+            pre = req.prepare()
+            resp = s.send(pre, stream=True, verify=False)
+            return resp
+        except Exception as e:
+            s.close()
+            print "Caught exception when connecting to stream\n" + str(e)
+
+    def stream_to_queue(self):
+        response = self.connect_to_stream()
+        if response.status_code != 200:
+            return
+        for line in response.iter_lines(1):
+            if line:
+                try:
+                    msg = json.loads(line)
+                except Exception as e:
+                    print "Caught exception when converting message into json\n" + str(e)
+                    return
+                if msg.has_key("instrument") or msg.has_key("tick"):
+                    print msg
+                    instrument = msg["tick"]["instrument"]
+                    time = msg["tick"]["time"]
+                    bid = msg["tick"]["bid"]
+                    ask = msg["tick"]["ask"]
+                    tev = TickEvent(instrument, time, bid, ask)
+                    self.events_queue.put(tev)</code>
+</pre>
+
+<p>We now have all of the major components in place. The final step is to wrap up everything we have written so far into a "main" program. The goal of this file, known as <code>trading.py</code>, is to create two separate <em>threads</em>, one of which runs the pricing handler and the other which runs the trading handler.</p>
+
+<p>Why do we need two separate threads? Put simply, we are executing two "separate" pieces of code, both of which are continuously running. If we were to create a non-threaded program, then the streaming socket used for the pricing updates would never ever "release" back to the main code path and hence we would never actually carry out any trading. Similarly, if we ran the <code>trade</code> loop (see below), we would never actually return the flow path to the price streaming socket. Hence we need multiple threads, one for each component, so that they can be carried out independently. They will both communicate to each other via the events queue.</p>
+
+<p>Let's examine this a bit futher. We create two separate threads with the following lines:</p>
+
+<pre>
+<code class="language-python">trade_thread = threading.Thread(target=trade, args=(events, strategy, execution))
+price_thread = threading.Thread(target=prices.stream_to_queue, args=[])</code>
+</pre>
+
+<p>We pass the function or method name to the <code>target</code> keyword argument and then pass an iterable (such as a list or tuple) to the <code>args</code> keyword argument, which then passes those arguments to the actual method/function.</p>
+
+<p>Finally we start both threads with the following lines:</p>
+
+<pre>
+<code class="language-python">trade_thread.start()
+price_thread.start()</code>
+</pre>
+
+<p>Thus we are able to run two, effectively infinite looping, code segments independently, which both communicate through the events queue. Note that the Python <code>threading</code> library does not produce a true multi-core multithreaded environment due to the <a href="http://en.wikipedia.org/wiki/CPython">CPython</a> implementation of Python and the <a href="http://en.wikipedia.org/wiki/Global_Interpreter_Lock">Global Interpreter Lock</a> (GIL). <em>If you would like to read more about multithreading on Python, please take a look at <a href="http://www.quantstart.com/articles/Parallelising-Python-with-Threading-and-Multiprocessing">this article</a>.</em></p>
+
+<p>Let's examine the rest of the code in detail. Firstly we import all of the necessary libraries including <code>Queue</code>, <code>threading</code> and <code>time</code>. We then import all of the above code files. I personally prefer to capitalise any configuration settings, which is a habit I picked up from working with <a href="https://www.djangoproject.com/">Django</a>!</p>
+
+<p>After that we define the <code>trade</code> function, which was explained in Python-pseudocode above. An infinite while loop is carried out (<code>while True:</code>) that continuously polls from the events queue and only skips the loop if it is found empty. If an event is found then it is either a <code>TickEvent</code> or a <code>OrderEvent</code> and then the appropriate component is called to carry it out. In this case it is either a strategy or execution handler. The loop then simply sleeps for "heartbeat" seconds (in this case 0.5 seconds) and continues.</p>
+
+<p>Finally, we define the main entrypoint of the code in the <code>__main__</code> function. It is well commented below, but I will summarise here. In essence we instantiate the events queue and define the instruments/units. We then create the <code>StreamingForexPrices</code> price streaming class and then subsequently the <code>Execution</code> execution handler. Both receive the necessary authentication details that are given by OANDA when creating an account.</p>
+
+<p>We then create the <code>TestRandomStrategy</code> instance. Finally we define the two threads and then start them:</p>
+
+<pre>
+<code class="language-python">import Queue
+import threading
+import time
+
+from execution import Execution
+from settings import STREAM_DOMAIN, API_DOMAIN, ACCESS_TOKEN, ACCOUNT_ID
+from strategy import TestRandomStrategy
+from streaming import StreamingForexPrices
+
+
+def trade(events, strategy, execution):
+    """
+    Carries out an infinite while loop that polls the
+    events queue and directs each event to either the
+    strategy component of the execution handler. The
+    loop will then pause for "heartbeat" seconds and
+    continue.
+    """
+    while True:
+        try:
+            event = events.get(False)
+        except Queue.Empty:
+            pass
+        else:
+            if event is not None:
+                if event.type == 'TICK':
+                    strategy.calculate_signals(event)
+                elif event.type == 'ORDER':
+                    print "Executing order!"
+                    execution.execute_order(event)
+        time.sleep(heartbeat)
+
+
+if __name__ == "__main__":
+    heartbeat = 0.5  # Half a second between polling
+    events = Queue.Queue()
+
+    # Trade 10000 units of EUR/USD
+    instrument = "EUR_USD"
+    units = 10000
+
+    # Create the OANDA market price streaming class
+    # making sure to provide authentication commands
+    prices = StreamingForexPrices(
+        STREAM_DOMAIN, ACCESS_TOKEN, ACCOUNT_ID,
+        instrument, events
+    )
+
+    # Create the execution handler making sure to
+    # provide authentication commands
+    execution = Execution(API_DOMAIN, ACCESS_TOKEN, ACCOUNT_ID)
+
+    # Create the strategy/signal generator, passing the
+    # instrument, quantity of units and the events queue
+    strategy = TestRandomStrategy(instrument, units, events)
+
+    # Create two separate threads: One for the trading loop
+    # and another for the market price streaming class
+    trade_thread = threading.Thread(target=trade, args=(events, strategy, execution))
+    price_thread = threading.Thread(target=prices.stream_to_queue, args=[])
+
+    # Start both threads
+    trade_thread.start()
+    price_thread.start()</code>
+</pre>
+
+<p>To run the code you simply need to place all the files in the same directory and call the following at the terminal:</p>
+
+<pre>
+<code class="language-bash">python trading.py</code>
+</pre>
+
+<p>Note that to stop the code at this stage requires a <strong>hard kill of the Python process</strong>, via "Ctrl-Z" or equivalent! I've not added an additional thread to handle looking for the <code>sys.exit()</code> that would be needed to stop the code safely. A potential way to stop the code on a Ubuntu/Linux machine is to type:</p>
+
+<pre>
+<code class="language-bash">pgrep python</code>
+</pre>
+
+<p>And then pass the output of this (a process number) into the following:</p>
+
+<pre>
+<code class="language-python">kill -9 PROCESS_ID</code>
+</pre>
+
+<p>Where PROCESS_ID must be replaced with the output of pgrep. <em>Note that this is NOT particularly good practice!</em></p>
+
+<p>In later articles we will be creating a more sophisticated stop/start mechanism that makes use of Ubuntu's process supervision in order to have the trading system running 24/7.</p>
+
+<p>The output after 30 seconds or so, depending upon the time of day relative to the main trading hours for EUR/USD, for the above code, is given below:</p>
+
+<pre>
+<code class="language-none">{u'tick': {u'ask': 1.16283, u'instrument': u'EUR_USD', u'bid': 1.1627, u'time': u'2015-01-19T15:28:19.563256Z'}}
+{u'tick': {u'ask': 1.16287, u'instrument': u'EUR_USD', u'bid': 1.16274, u'time': u'2015-01-19T15:28:28.021045Z'}}
+{u'tick': {u'ask': 1.16287, u'instrument': u'EUR_USD', u'bid': 1.16273, u'time': u'2015-01-19T15:28:30.982725Z'}}
+{u'tick': {u'ask': 1.16285, u'instrument': u'EUR_USD', u'bid': 1.16272, u'time': u'2015-01-19T15:28:52.493297Z'}}
+{u'tick': {u'ask': 1.16283, u'instrument': u'EUR_USD', u'bid': 1.16272, u'time': u'2015-01-19T15:29:12.854066Z'}}
+Executing order!
+{
+    "instrument" : "EUR_USD",
+    "time" : "2015-01-19T15:29:14.000000Z",
+    "price" : 1.16283,
+    "tradeOpened" : {
+        "id" : 821102691,
+        "units" : 10000,
+        "side" : "buy",
+        "takeProfit" : 0,
+        "stopLoss" : 0,
+        "trailingStop" : 0
+    },
+    "tradesClosed" : [],
+    "tradeReduced" : {}
+}
+{u'tick': {u'ask': 1.16284, u'instrument': u'EUR_USD', u'bid': 1.1627, u'time': u'2015-01-19T15:29:17.817401Z'}}
+{u'tick': {u'ask': 1.16283, u'instrument': u'EUR_USD', u'bid': 1.1627, u'time': u'2015-01-19T15:29:17.920900Z'}}</code>
+</pre>
+
+<p>The first five lines show the JSON tick data returned from OANDA with bid/ask prices. Subsequently you can see the <code>Executing order!</code> output as well as the JSON response returned from OANDA confirming the opening of a buy trade for 10,000 units of EUR/USD and the price it was achieved at.</p>
+
+<p>This will keep running indefinitely until you kill the program with a "Ctrl-Z" command or similar.</p>
+
+<h2>What's Next?</h2>
+
+<p>In later articles we are going to carry out some much-needed improvements, including:</p>
+
+<ul>
+  <li>Real strategies - Proper forex strategies that generate profitable signals.</li>
+  <li>Production infrastructure - Remote server implementation and 24/7 monitored trading system, with stop/start capability.</li>
+  <li>Portfolio and risk management - Portfolio and risk overlays for all suggested orders from the strategy.</li>
+  <li>Multiple strategies - Constructing a portfolio of strategies that integrate into the risk management overlay</li>
+</ul>
+
+<p>As with the equities event-driven backtester, we also need to create a forex backtesting module. That will let us carry out rapid research and make it easier to deploy strategies.</p>
+
+<h2>Full Code</h2>
+
+<p><code>settings.py</code> (remember to change <code>ACCOUNT_ID</code> and <code>ACCESS_TOKEN</code>!):</p>
+
+<pre>
+<code class="language-python">ENVIRONMENTS = {
+    "streaming": {
+        "real": "stream-fxtrade.oanda.com",
+        "practice": "stream-fxpractice.oanda.com",
+        "sandbox": "stream-sandbox.oanda.com"
+    },
+    "api": {
+        "real": "api-fxtrade.oanda.com",
+        "practice": "api-fxpractice.oanda.com",
+        "sandbox": "api-sandbox.oanda.com"
+    }
+}
+
+DOMAIN = "practice"
+STREAM_DOMAIN = ENVIRONMENTS["streaming"][DOMAIN]
+API_DOMAIN = ENVIRONMENTS["api"][DOMAIN]
+ACCESS_TOKEN = 'abcdef0123456abcdef0123456-abcdef0123456abcdef0123456'
+ACCOUNT_ID = '12345678'</code>
+</pre>
+
+<p><code>event.py</code>:</p>
+
+<pre>
+<code class="language-python">class Event(object):
+    pass
+
+
+class TickEvent(Event):
+    def __init__(self, instrument, time, bid, ask):
+        self.type = 'TICK'
+        self.instrument = instrument
+        self.time = time
+        self.bid = bid
+        self.ask = ask
+
+
+class OrderEvent(Event):
+    def __init__(self, instrument, units, order_type, side):
+        self.type = 'ORDER'
+        self.instrument = instrument
+        self.units = units
+        self.order_type = order_type
+        self.side = side</code>
+</pre>
+
+<p><code>streaming.py</code>:</p>
+
+<pre>
+<code class="language-python">import requests
+import json
+
+from event import TickEvent
+
+
+class StreamingForexPrices(object):
+    def __init__(
+        self, domain, access_token,
+        account_id, instruments, events_queue
+    ):
+        self.domain = domain
+        self.access_token = access_token
+        self.account_id = account_id
+        self.instruments = instruments
+        self.events_queue = events_queue
+
+    def connect_to_stream(self):
+        try:
+            s = requests.Session()
+            url = "https://" + self.domain + "/v1/prices"
+            headers = {'Authorization' : 'Bearer ' + self.access_token}
+            params = {'instruments' : self.instruments, 'accountId' : self.account_id}
+            req = requests.Request('GET', url, headers=headers, params=params)
+            pre = req.prepare()
+            resp = s.send(pre, stream=True, verify=False)
+            return resp
+        except Exception as e:
+            s.close()
+            print "Caught exception when connecting to stream\n" + str(e)
+
+    def stream_to_queue(self):
+        response = self.connect_to_stream()
+        if response.status_code != 200:
+            return
+        for line in response.iter_lines(1):
+            if line:
+                try:
+                    msg = json.loads(line)
+                except Exception as e:
+                    print "Caught exception when converting message into json\n" + str(e)
+                    return
+                if msg.has_key("instrument") or msg.has_key("tick"):
+                    print msg
+                    instrument = msg["tick"]["instrument"]
+                    time = msg["tick"]["time"]
+                    bid = msg["tick"]["bid"]
+                    ask = msg["tick"]["ask"]
+                    tev = TickEvent(instrument, time, bid, ask)
+                    self.events_queue.put(tev)</code>
+</pre>
+
+<p><code>strategy.py</code>:</p>
+
+<pre>
+<code class="language-python">import random
+
+from event import OrderEvent
+
+
+class TestRandomStrategy(object):
+    def __init__(self, instrument, units, events):
+        self.instrument = instrument
+        self.units = units
+        self.events = events
+        self.ticks = 0
+
+    def calculate_signals(self, event):
+        if event.type == 'TICK':
+            self.ticks += 1
+            if self.ticks % 5 == 0:
+                side = random.choice(["buy", "sell"])
+                order = OrderEvent(
+                    self.instrument, self.units, "market", side
+                )
+                self.events.put(order)</code>
+</pre>
+
+<p><code>execution.py</code>:</p>
+
+<pre>
+<code class="language-python">import httplib
+import urllib
+
+
+class Execution(object):
+    def __init__(self, domain, access_token, account_id):
+        self.domain = domain
+        self.access_token = access_token
+        self.account_id = account_id
+        self.conn = self.obtain_connection()
+
+    def obtain_connection(self):
+        return httplib.HTTPSConnection(self.domain)
+
+    def execute_order(self, event):
+        headers = {
+            "Content-Type": "application/x-www-form-urlencoded",
+            "Authorization": "Bearer " + self.access_token
+        }
+        params = urllib.urlencode({
+            "instrument" : event.instrument,
+            "units" : event.units,
+            "type" : event.order_type,
+            "side" : event.side
+        })
+        self.conn.request(
+            "POST",
+            "/v1/accounts/%s/orders" % str(self.account_id),
+            params, headers
+        )
+        response = self.conn.getresponse().read()
+        print response</code>
+</pre>
+
+<p><code>trading.py</code>:</p>
+
+<pre>
+<code class="language-python">import Queue
+import threading
+import time
+
+from execution import Execution
+from settings import STREAM_DOMAIN, API_DOMAIN, ACCESS_TOKEN, ACCOUNT_ID
+from strategy import TestRandomStrategy
+from streaming import StreamingForexPrices
+
+
+def trade(events, strategy, execution):
+    """
+    Carries out an infinite while loop that polls the
+    events queue and directs each event to either the
+    strategy component of the execution handler. The
+    loop will then pause for "heartbeat" seconds and
+    continue.
+    """
+    while True:
+        try:
+            event = events.get(False)
+        except Queue.Empty:
+            pass
+        else:
+            if event is not None:
+                if event.type == 'TICK':
+                    strategy.calculate_signals(event)
+                elif event.type == 'ORDER':
+                    print "Executing order!"
+                    execution.execute_order(event)
+        time.sleep(heartbeat)
+
+
+if __name__ == "__main__":
+    heartbeat = 0.5  # Half a second between polling
+    events = Queue.Queue()
+
+    # Trade 10000 units of EUR/USD
+    instrument = "EUR_USD"
+    units = 10000
+
+    # Create the OANDA market price streaming class
+    # making sure to provide authentication commands
+    prices = StreamingForexPrices(
+        STREAM_DOMAIN, ACCESS_TOKEN, ACCOUNT_ID,
+        instrument, events
+    )
+
+    # Create the execution handler making sure to
+    # provide authentication commands
+    execution = Execution(API_DOMAIN, ACCESS_TOKEN, ACCOUNT_ID)
+
+    # Create the strategy/signal generator, passing the
+    # instrument, quantity of units and the events queue
+    strategy = TestRandomStrategy(instrument, units, events)
+
+    # Create two separate threads: One for the trading loop
+    # and another for the market price streaming class
+    trade_thread = threading.Thread(target=trade, args=(events, strategy, execution))
+    price_thread = threading.Thread(target=prices.stream_to_queue, args=[])
+
+    # Start both threads
+    trade_thread.start()
+    price_thread.start()</code>
+</pre>
+        
+        
+        <script async data-uid="6296c27f4b" src="https://weathered-brook-5281.ck.page/6296c27f4b/index.js"></script>
+      </section>
+    </div>
+    <div class="col-md-4 book-card order-md-1">
+      
+<div class="sidebar-advert-container">
+  <a href="/qsalpha/?ref=art">
+    <img class="card-img-top" src="/static/images/qsalpha-sidebar-advert-small.png" alt="QSAlpha">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/qsalpha/?ref=art">QSAlpha</a></h3>
+      <p class="card-text medium-text mb-3">Join the QSAlpha research platform that helps fill your strategy research pipeline, diversifies your portfolio and improves your risk-adjusted returns for increased profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/qsalpha/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/quantcademy/?ref=art">
+    <img class="card-img-top" src="/static/images/quantcademy-sidebar-advert-small.png" alt="Quantcademy">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/quantcademy/?ref=art">The Quantcademy</a></h3>
+      <p class="card-text medium-text mb-3">Join the Quantcademy membership portal that caters to the rapidly-growing retail quant trader community and learn how to increase your strategy profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/quantcademy/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/successful-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/sat-sidebar-advert-small.png" alt="Successful Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to find new trading strategy ideas and objectively assess them for your portfolio using a Python-based backtesting engine.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/successful-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/advanced-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/aat-sidebar-advert-small.png" alt="Advanced Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to implement advanced trading strategies using time series analysis, machine learning and Bayesian statistics with R and Python.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/advanced-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+    
+
+<footer>
+  <div class="container container-full">
+    <section class="mt-1.5 mb-1">
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">QuantStart</li>
+            <li class="footer-list-link"><a class="link-fade" href="/about/">About</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/articles/">Articles</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/sitemap/">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Products</li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qsalpha/">QSAlpha</a></li>
+            
+            
+            <li class="footer-list-link"><a class="link-fade" href="/quantcademy/">Quantcademy</a></li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qstrader/">QSTrader</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Legal</li>
+            <li class="footer-list-link"><a class="link-fade" href="/privacy-policy/">Privacy Policy</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/terms-and-conditions/">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Social</li>
+            <li class="footer-list-link"><a class="link-fade" href="https://twitter.com/quantstart">Twitter</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="https://www.youtube.com/channel/UCmVnnZ6Y2TrJtY1eQJN6kWA">YouTube</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="row mb-1.5 mt-5">
+      <div class="col-12 col-md-9 col-lg-8 col-xl-6">
+        <div class="footer-copyright">
+          <p>©2012-2023 QuarkGluon Ltd. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+<script src="/static/js/jquery-3.2.1.min.js"></script>
+<script src="/static/js/prism.js.min"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/nav.js"></script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5383959-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+    
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="/static/js/highcharts/highcharts.js"></script>
+<script type="text/javascript">
+  num_colours = 10;
+</script>
+<script src="/static/js/statistics.js"></script>
+
+
+  </body>
+</html>

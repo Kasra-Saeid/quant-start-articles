@@ -1,0 +1,620 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-site-verification" content="wl3-8ed1QZjI0iYZMv10zoZWYElkMObTfwLlWIj9cpA" />
+    <meta name="description" content="Statistical Distributions in C++">
+
+    <link rel="icon" href="/static/images/favicon.png">
+
+    <title>Statistical Distributions in C++ | QuantStart</title>
+    
+    
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet"> 
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/prism.css" rel="stylesheet">
+<link href="/static/css/qs.css?v=10" rel="stylesheet">
+    
+  </head>
+
+  <body>
+    <header class="header covered-header" style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://quantstartmedia.s3.amazonaws.com/images/article-images/article-backgrounds/cpp.jpg);">
+  
+<nav class="nav">
+  <div class="container nav-container">
+    <div class="nav-row row d-flex justify-content-between align-items-center">
+      <div class="col-2">
+        <ul class="nav-items justify-content-end small-capitals align-items-center">
+          <li class="nav-item">
+            <a class="link-fade" href="/">QuantStart</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-auto col-logo">
+        <ul id="top-nav-menu" class="nav-items justify-content-end align-items-center">
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/qsalpha/">QSAlpha</a>
+          </li>
+          
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/quantcademy/">Quantcademy</a>
+          </li>
+          
+          <li id="menu-link-ebooks" class="nav-item">
+            <a class="link-fade" href="#">Books</a>
+            <div id="menu-pane-ebooks" class="nav-items menu-dropdown-pane">
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/qstrader/">QSTrader</a>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/articles/">Articles</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/members/login/">Login</a>
+          </li>
+          
+        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<nav id="mobile-nav" class="mobile-nav text-left">
+  <div class="container">
+    <ul class="mt-4 ml-3 mobile-nav-menu">
+      <li class="nav-item">
+        <a class="link-fade d-block" href="/">QuantStart</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qsalpha/">QSAlpha</a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/quantcademy/">Quantcademy</a>
+      </li>
+      
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="#">Books</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qstrader/">QSTrader</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/articles/">Articles</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/members/login/">Login</a>
+      </li>
+      
+    </ul>
+    <button class="nav-toggle mobile-nav-close">
+      <svg id="mobile-nav-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M19.77,5.63,13.41,12l6.36,6.37a1,1,0,0,1-1.41,1.41L12,13.41,5.63,19.77a1,1,0,0,1-1.44-1.39l0,0L10.58,12,4.21,5.63a1,1,0,0,1,0-1.42,1,1,0,0,1,1.41,0l0,0L12,10.58l6.37-6.37a1,1,0,0,1,1.41,0A1,1,0,0,1,19.77,5.63Z"></path>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+  <div class="container hero-container">
+    <section class="mt-5 mb-4">
+      <div class="row justify-content-center">
+        <div class="col-12 text-center">
+          <p class="hero">Statistical Distributions in C++</p>
+          <p class="hero subhero">Statistical Distributions in C++</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</header>
+    
+<section class="container content-container">
+  <div class="row">
+    <div class="col-md-8 order-md-2">
+      <section class="content article-content">
+        
+        
+        <p>One of the most common concepts in quantitative finance is that of a <em>statistical distribution</em>. Random variables play a huge part in quantitative financial modelling. Derivatives pricing, cash-flow forecasting and quantitative trading all make use of statistical methods in some fashion. Hence, modelling statistical distributions is extremely important in C++.</p>
+
+<p>Many of the articles written on this site have made use of random number generators in order to carry out pricing tasks. So far I have been doing this in a <em>procedural</em> manner. Functions have been called to provide random numbers without any data encapsulation of those random number generators. The goal of this article is to show you that it is beneficial to create a <em>class hierarchy</em> both for statistical distributions and random number generators, separating them out in order to gain the most leverage from code reuse.</p>
+
+<p>In a nutshell, we are splitting the generation of (uniform integer) random numbers from draws of specific statistical distributions, such that we can use the statistics classes elsewhere without bringing along the "heavy" random number generation functions. Equally useful is the fact that we will be able "swap out" different random number generators for our statistics classes for reasons of reliability, extensibility and efficiency.</p>
+
+<h2>Design of Statistical Distribution Inheritance Hierarchy</h2>
+
+<p>The inheritance hierarchy for modelling of statistical distributions is relatively simple. Each distribution of interest will share the same interface, so we will create an <em>abstract base class</em>. We are primarily interested in modelling continuous probability distributions for the time being, although in later articles we will extend the class hierarchy to handle discrete distributions.</p>
+
+<p>Each (continuous) statistical distribution contains the following properties to be modelled:</p>
+
+<ul>
+  <li><strong>Domain Interval</strong> - The interval subset of $\mathbb{R}$ with which the distribution is defined for</li> 
+  <li><strong>Probability Density Function</strong> - Describes the frequency for any particular value in our domain</li>
+  <li><strong>Cumulative Density Function</strong> - The function describing the probability that a value is less than or equal to a particular value</li>
+  <li><strong>Expectation</strong> - The expected value (the mean) of the distribution </li>
+  <li><strong>Variance</strong> - Characterisation of the spread of values around the expected value</li>
+  <li><strong>Standard Deviation</strong> - The square root of the variance, used because it possesses the same units as the expected value, unlike the variance</li>
+</ul>
+
+<p>We also wish to produce a sequence of random draws from this distribution, assuming a sequence of random numbers is available to provide the "randomness". We can achieve this in two ways. We can either use the <em>inverse cumulative distribution function</em> (also known as the <em>quantile function</em>), which is a property of the distribution itself, or we can use a custom method (such as <a href="http://en.wikipedia.org/wiki/Box%E2%80%93Muller_transform">Box-Muller</a>). Some of the distributions do not possess an analytical inverse to the CDF and hence they will need to be approximated numerically, via an appropriate algorithm. This calculation will be encapsulated into the class of the relevant inherited distribution. In later articles we will "separate out" such algorithms, allowing for re-use in other code.</p>
+
+<p>Here is the partial header file for the <code>StatisticalDistribution</code> abstract base class (we will add extra distributions later):</p>
+
+<pre>
+<code class="language-cpp">#ifndef __STATISTICS_H
+#define __STATISTICS_H
+
+#include &lt;cmath&gt;
+#include &lt;vector&gt;
+
+class StatisticalDistribution {
+ public:
+  StatisticalDistribution();
+  virtual ~StatisticalDistribution();
+
+  // Distribution functions
+  virtual double pdf(const double& x) const = 0;
+  virtual double cdf(const double& x) const = 0;
+
+  // Inverse cumulative distribution functions (aka the quantile function)
+  virtual double inv_cdf(const double& quantile) const = 0;
+  
+  // Descriptive stats
+  virtual double mean() const = 0;
+  virtual double var() const = 0;
+  virtual double stdev() const = 0;
+
+  // Obtain a sequence of random draws from this distribution
+  virtual void random_draws(const std::vector&lt;double&gt;& uniform_draws,
+                            std::vector&lt;double&gt;& dist_draws) = 0;
+};
+
+#endif</code>
+</pre>
+
+<p>We've specified pure virtual methods for the probability density function (<code>pdf</code>), cumulative density function (<code>cdf</code>), inverse cdf (<code>inv_cdf</code>), as well as descriptive statistics functions such as <code>mean</code>, <code>var</code> (variance) and <code>stdev</code> (standard deviation). Finally we have a method that takes in a <code>vector</code> of uniform random variables on the open interval $(0,1)$, then fills a vector of identical length with draws from the distribution.</p>
+
+<p>Since all of the methods are pure virtual, we only need a very simple implementation of a source file for this class, since we are simply specifying an interface. However, we would like to see a concrete implementation of a particular class. We will consider, arguably, the most important distribution in quantitative finance, namely the standard normal distribution.</p>
+
+<h2>Standard Normal Distribution Implementation</h2>
+
+<p>Firstly we'll briefly review the formulae for the various methods we need to implement for the standard normal distribution. The probability density function of the standard normal distribution is given by:</p>
+
+\begin{eqnarray*}
+\phi(x) = \frac{1}{\sqrt{2 \pi}}e^{-\frac{1}{2}x^2}
+\end{eqnarray*}
+
+<p>The cumulative density function is given by:</p>
+
+\begin{eqnarray*}
+\Phi(x) = \frac{1}{\sqrt{2 \pi}} \int^{x}_{-\infty} e^{-\frac{t^2}{2}} dt
+\end{eqnarray*}
+
+<p>The inverse cumulative density function of the standard normal distribution (also known as the <em><a href="https://en.wikipedia.org/wiki/Probit_function">probit function</a></em>) is somewhat more involved. No analytical formula exists for this particular function and so it must be approximated by numerical methods. We will utilise the Beasley-Springer-Moro algorithm, found in Korn<sup><a href="#korn">[3]</a></sup>. I won't describe it in detail here, for details refer to Korn<sup><a href="#korn">[3]</a></sup>.</p>
+
+<p>Given that we are dealing with the standard normal distribution, the mean is simply $\mu = 0$, variance $\sigma^2 = 1$ and standard deviation, $\sigma = 1$. The implementation for the header file (which is a continuation of <code>statistics.h</code> above) is as follows:</p>
+
+<pre>
+<code class="language-cpp">class StandardNormalDistribution : public StatisticalDistribution {
+ public:
+  StandardNormalDistribution();
+  virtual ~StandardNormalDistribution();
+
+  // Distribution functions
+  virtual double pdf(const double& x) const;
+  virtual double cdf(const double& x) const;
+
+  // Inverse cumulative distribution function (aka the probit function)
+  virtual double inv_cdf(const double& quantile) const;
+  
+  // Descriptive stats
+  virtual double mean() const;   // equal to 0
+  virtual double var() const;    // equal to 1 
+  virtual double stdev() const;  // equal to 1
+
+  // Obtain a sequence of random draws from the standard normal distribution
+  virtual void random_draws(const std::vector&lt;double&gt;& uniform_draws,
+                            std::vector&lt;double&gt;& dist_draws);
+};</code>
+</pre>
+
+<p>The source file is given below:</p>
+
+<pre>
+<code class="language-cpp">#ifndef __STATISTICS_CPP
+#define __STATISTICS_CPP
+
+#define _USE_MATH_DEFINES
+
+#include "statistics.h"
+#include &lt;iostream&gt;
+
+StatisticalDistribution::StatisticalDistribution() {}
+StatisticalDistribution::~StatisticalDistribution() {}
+
+// Constructor/destructor
+StandardNormalDistribution::StandardNormalDistribution() {}
+StandardNormalDistribution::~StandardNormalDistribution() {}
+
+// Probability density function
+double StandardNormalDistribution::pdf(const double& x) const {
+  return (1.0/sqrt(2.0 * M_PI)) * exp(-0.5*x*x);
+}
+
+// Cumulative density function
+double StandardNormalDistribution::cdf(const double& x) const {
+  double k = 1.0/(1.0 + 0.2316419*x);
+  double k_sum = k*(0.319381530 + k*(-0.356563782 + k*(1.781477937 + k*(-1.821255978 + 1.330274429*k))));
+
+  if (x &gt;= 0.0) {
+    return (1.0 - (1.0/(pow(2*M_PI,0.5)))*exp(-0.5*x*x) * k_sum);
+  } else {
+    return 1.0 - cdf(-x);
+  }
+}
+
+// Inverse cumulative distribution function (aka the probit function)
+double StandardNormalDistribution::inv_cdf(const double& quantile) const {
+  // This is the Beasley-Springer-Moro algorithm which can 
+  // be found in Glasserman [2004]. We won't go into the
+  // details here, so have a look at the reference for more info
+  static double a[4] = {   2.50662823884,
+                         -18.61500062529,
+                          41.39119773534,
+                         -25.44106049637};
+
+  static double b[4] = {  -8.47351093090,
+                          23.08336743743,
+                         -21.06224101826,
+                           3.13082909833};
+
+  static double c[9] = {0.3374754822726147,
+                        0.9761690190917186,
+                        0.1607979714918209,
+                        0.0276438810333863,
+                        0.0038405729373609,
+                        0.0003951896511919,
+                        0.0000321767881768,
+                        0.0000002888167364,
+                        0.0000003960315187};
+
+  if (quantile &gt;= 0.5 && quantile &lt;= 0.92) {
+    double num = 0.0;
+    double denom = 1.0;
+
+    for (int i=0; i&lt;4; i++) {
+      num += a[i] * pow((quantile - 0.5), 2*i + 1);
+      denom += b[i] * pow((quantile - 0.5), 2*i);
+    }
+    return num/denom;
+
+  } else if (quantile &gt; 0.92 && quantile &lt; 1) {
+    double num = 0.0;
+
+    for (int i=0; i&lt;9; i++) {
+      num += c[i] * pow((log(-log(1-quantile))), i);
+    }
+    return num;
+
+  } else {
+    return -1.0*inv_cdf(1-quantile);
+  }
+}
+  
+// Expectation/mean
+double StandardNormalDistribution::mean() const { return 0.0; }
+
+// Variance 
+double StandardNormalDistribution::var() const { return 1.0; }
+
+// Standard Deviation
+double StandardNormalDistribution::stdev() const { return 1.0; }
+
+// Obtain a sequence of random draws from this distribution
+void StandardNormalDistribution::random_draws(const std::vector<double>& uniform_draws,
+                                              std::vector<double>& dist_draws) {
+  // The simplest method to calculate this is with the Box-Muller method, 
+  // which has been used procedurally in many other articles on QuantStart.com
+  
+  // Check that the uniform draws and dist_draws are the same size and
+  // have an even number of elements (necessary for B-M)
+  if (uniform_draws.size() != dist_draws.size()) {
+    std::cout &lt;&lt; "Draws vectors are of unequal size in standard normal dist." &lt;&lt; std::endl;
+    return;
+  }
+  
+  // Check that uniform draws have an even number of elements (necessary for B-M)
+  if (uniform_draws.size() % 2 != 0) {
+    std::cout &lt;&lt; "Uniform draw vector size not an even number." &lt;&lt; std::endl;
+    return;
+  }
+
+  // Slow, but easy to implement
+  for (int i=0; i&lt;uniform_draws.size() / 2; i++) {
+    dist_draws[2*i] = sqrt(-2.0*log(uniform_draws[2*i])) * sin(2*M_PI*uniform_draws[2*i+1]);
+    dist_draws[2*i+1] = sqrt(-2.0*log(uniform_draws[2*i])) * cos(2*M_PI*uniform_draws[2*i+1]);
+  }
+
+  return;
+}
+#endif</code>
+</pre>
+
+<p>I'll discuss briefly some of the implementations here. The cumulative distribution function (<code>cdf</code>) is referenced from Joshi<sup><a href="#joshiconcepts">[1]</a></sup>. It is an approximation, rather than closed-form solution. The inverse CDF (<code>inv_cdf</code>) makes use of the Beasley-Springer-Moro algorithm, which I coded up directly from the implementation in Korn<sup><a href="#korn">[3]</a></sup>. A similar method can be found in Joshi<sup><a href="#joshicpp">[2]</a></sup>. Once again the algorithm is an approximation to the real function, rather than a closed form solution. The final method is <code>random_draws</code>. In this instance we are using the <a href="http://en.wikipedia.org/wiki/Box%E2%80%93Muller_transform">Box-Muller algorithm</a>. However, we could instead utilise the more efficient <a href="http://en.wikipedia.org/wiki/Ziggurat_algorithm">Ziggurat algorithm</a>, but that will be a potential discussion for a later article!</p>
+
+<h2>The Main Listing</h2>
+
+<p>We will now utilise the new statistical distribution classes with a simple random number generator in order to output statistical values:</p>
+
+<pre>
+<code class="language-cpp">#include "statistics.h"
+#include &lt;iostream&gt;
+#include &lt;vector&gt;
+
+int main(int argc, char **argv) {
+
+  // Create the Standard Normal Distribution and random draw vectors
+  StandardNormalDistribution snd;
+  std::vector&lt;double&gt; uniform_draws(20, 0.0);
+  std::vector&lt;double&gt; normal_draws(20, 0.0);
+
+  // Simple random number generation method based on RAND
+  for (int i=0; i&lt;uniform_draws.size(); i++) {
+    uniform_draws[i] = rand() / static_cast&lt;double&gt;(RAND_MAX);
+  }
+
+  // Create standard normal random draws
+  // Notice that the uniform draws are unaffected. We have separated
+  // out the uniform creation from the normal draw creation, which
+  // will allow us to create sophisticated random number generators
+  // without interfering with the statistical classes
+  snd.random_draws(uniform_draws, normal_draws);
+
+  // Output the values of the standard normal random draws
+  for (int i=0; i&lt;normal_draws.size(); i++) {
+    std::cout &lt;&lt; normal_draws[i] &lt;&lt; std::endl;
+  }
+
+  return 0;
+}</code>
+</pre>
+
+<p>The output from the program is as follows (a sequence of normally distributed random variables):</p>
+
+<pre>
+<code class="language-none">3.56692
+3.28529
+0.192324
+-0.723522
+1.10093
+0.217484
+-2.22963
+-1.06868
+-0.35082
+0.806425
+-0.168485
+-1.3742
+0.131154
+0.59425
+-0.449029
+-2.37823
+0.0431789
+0.891999
+0.564585
+1.26432</code>
+</pre>
+
+<p>Now that we have set up the inheritance hierarchy, in later articles we will construct additional (continuous) statistical distributions, such as the <em>log-normal distribution</em>, the <em>gamma distribution</em> and the <em>chi-square distribution</em>.</p>
+
+<h2>References</h2>
+
+<ul>
+  <li>[1] - Joshi, M. <a name="joshiconcepts" href="http://www.amazon.com/gp/product/0521514088/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0521514088&linkCode=as2&tag=quant0f-20"><em>The Concepts and Practice of Mathematical Finance, 2nd Ed</em></a> Cambridge University Press, 2008</li>
+  <li>[2] - Joshi, M. <a name="joshicpp" href="http://www.amazon.com/gp/product/0521721628/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0521721628&linkCode=as2&tag=quant0f-20"><em>C++ Design Patterns and Derivatives Pricing, 2nd Ed</em></a> Cambridge University Press, 2008</li>
+  <li>[3] - Korn, R., et al. <a name="korn" href="http://www.amazon.com/gp/product/1420076183/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=1420076183&linkCode=as2&tag=quant0f-20"><em>Monte Carlo Methods and Models in Finance and Insurance</em></a> CRC Press, 2010</li>
+</ul>
+        
+        
+        <script async data-uid="6296c27f4b" src="https://weathered-brook-5281.ck.page/6296c27f4b/index.js"></script>
+      </section>
+    </div>
+    <div class="col-md-4 book-card order-md-1">
+      
+<div class="sidebar-advert-container">
+  <a href="/qsalpha/?ref=art">
+    <img class="card-img-top" src="/static/images/qsalpha-sidebar-advert-small.png" alt="QSAlpha">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/qsalpha/?ref=art">QSAlpha</a></h3>
+      <p class="card-text medium-text mb-3">Join the QSAlpha research platform that helps fill your strategy research pipeline, diversifies your portfolio and improves your risk-adjusted returns for increased profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/qsalpha/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/quantcademy/?ref=art">
+    <img class="card-img-top" src="/static/images/quantcademy-sidebar-advert-small.png" alt="Quantcademy">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/quantcademy/?ref=art">The Quantcademy</a></h3>
+      <p class="card-text medium-text mb-3">Join the Quantcademy membership portal that caters to the rapidly-growing retail quant trader community and learn how to increase your strategy profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/quantcademy/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/successful-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/sat-sidebar-advert-small.png" alt="Successful Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to find new trading strategy ideas and objectively assess them for your portfolio using a Python-based backtesting engine.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/successful-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/advanced-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/aat-sidebar-advert-small.png" alt="Advanced Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to implement advanced trading strategies using time series analysis, machine learning and Bayesian statistics with R and Python.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/advanced-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+    
+
+<footer>
+  <div class="container container-full">
+    <section class="mt-1.5 mb-1">
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">QuantStart</li>
+            <li class="footer-list-link"><a class="link-fade" href="/about/">About</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/articles/">Articles</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/sitemap/">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Products</li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qsalpha/">QSAlpha</a></li>
+            
+            
+            <li class="footer-list-link"><a class="link-fade" href="/quantcademy/">Quantcademy</a></li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qstrader/">QSTrader</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Legal</li>
+            <li class="footer-list-link"><a class="link-fade" href="/privacy-policy/">Privacy Policy</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/terms-and-conditions/">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Social</li>
+            <li class="footer-list-link"><a class="link-fade" href="https://twitter.com/quantstart">Twitter</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="https://www.youtube.com/channel/UCmVnnZ6Y2TrJtY1eQJN6kWA">YouTube</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="row mb-1.5 mt-5">
+      <div class="col-12 col-md-9 col-lg-8 col-xl-6">
+        <div class="footer-copyright">
+          <p>©2012-2023 QuarkGluon Ltd. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+<script src="/static/js/jquery-3.2.1.min.js"></script>
+<script src="/static/js/prism.js.min"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/nav.js"></script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5383959-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+    
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="/static/js/highcharts/highcharts.js"></script>
+<script type="text/javascript">
+  num_colours = 10;
+</script>
+<script src="/static/js/statistics.js"></script>
+
+
+  </body>
+</html>

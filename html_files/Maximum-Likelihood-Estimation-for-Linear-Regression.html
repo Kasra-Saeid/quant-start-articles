@@ -1,0 +1,567 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-site-verification" content="wl3-8ed1QZjI0iYZMv10zoZWYElkMObTfwLlWIj9cpA" />
+    <meta name="description" content="Maximum Likelihood Estimation for Linear Regression">
+
+    <link rel="icon" href="/static/images/favicon.png">
+
+    <title>Maximum Likelihood Estimation for Linear Regression | QuantStart</title>
+    
+    
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet"> 
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/prism.css" rel="stylesheet">
+<link href="/static/css/qs.css?v=10" rel="stylesheet">
+    
+  </head>
+
+  <body>
+    <header class="header covered-header" style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://quantstartmedia.s3.amazonaws.com/images/article-images/article-backgrounds/default-bg.jpg);">
+  
+<nav class="nav">
+  <div class="container nav-container">
+    <div class="nav-row row d-flex justify-content-between align-items-center">
+      <div class="col-2">
+        <ul class="nav-items justify-content-end small-capitals align-items-center">
+          <li class="nav-item">
+            <a class="link-fade" href="/">QuantStart</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-auto col-logo">
+        <ul id="top-nav-menu" class="nav-items justify-content-end align-items-center">
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/qsalpha/">QSAlpha</a>
+          </li>
+          
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/quantcademy/">Quantcademy</a>
+          </li>
+          
+          <li id="menu-link-ebooks" class="nav-item">
+            <a class="link-fade" href="#">Books</a>
+            <div id="menu-pane-ebooks" class="nav-items menu-dropdown-pane">
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/qstrader/">QSTrader</a>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/articles/">Articles</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/members/login/">Login</a>
+          </li>
+          
+        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<nav id="mobile-nav" class="mobile-nav text-left">
+  <div class="container">
+    <ul class="mt-4 ml-3 mobile-nav-menu">
+      <li class="nav-item">
+        <a class="link-fade d-block" href="/">QuantStart</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qsalpha/">QSAlpha</a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/quantcademy/">Quantcademy</a>
+      </li>
+      
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="#">Books</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qstrader/">QSTrader</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/articles/">Articles</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/members/login/">Login</a>
+      </li>
+      
+    </ul>
+    <button class="nav-toggle mobile-nav-close">
+      <svg id="mobile-nav-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M19.77,5.63,13.41,12l6.36,6.37a1,1,0,0,1-1.41,1.41L12,13.41,5.63,19.77a1,1,0,0,1-1.44-1.39l0,0L10.58,12,4.21,5.63a1,1,0,0,1,0-1.42,1,1,0,0,1,1.41,0l0,0L12,10.58l6.37-6.37a1,1,0,0,1,1.41,0A1,1,0,0,1,19.77,5.63Z"></path>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+  <div class="container hero-container">
+    <section class="mt-5 mb-4">
+      <div class="row justify-content-center">
+        <div class="col-12 text-center">
+          <p class="hero">Maximum Likelihood Estimation for Linear Regression</p>
+          <p class="hero subhero">Maximum Likelihood Estimation for Linear Regression</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</header>
+    
+<section class="container content-container">
+  <div class="row">
+    <div class="col-md-8 order-md-2">
+      <section class="content article-content">
+        
+        
+        <p>The purpose of this article series is to introduce a very familiar technique, Linear Regression, in a more rigourous mathematical setting under a probabilistic, supervised learning interpretation. This will allow us to understand the probability framework that will subsequently be used for more complex supervised learning models, in a more straightforward setting.</p>
+
+<p>We will initially proceed by defining multiple linear regression, placing it in a probabilistic supervised learning framework and deriving an optimal estimate for its parameters via a technique known as maximum likelihood estimation.</p>
+
+<p>In subsequent articles we will discuss mechanisms to reduce or mitigate the dimensionality of certain datasets via the concepts of subset selection and shrinkage. In addition we will utilise the Python <a href="http://scikit-learn.org/stable/">Scitkit-Learn</a> library to demonstrate linear regression, subset selection and shrinkage.</p>
+
+<p>Many of these techniques will naturally carry over to more sophisticated models and will aid us significantly in creating effective, robust statistical methods for trading strategy development.</p>
+
+<p><em>This article is significantly more mathematically rigourous than other articles have been to date. The rationale for this is to introduce you to the more advanced, probabilistic mechanism which pervades machine learning research. Once you have seen a few examples of simpler models in such a framework, it makes it easier to begin looking at the more advanced ML papers for useful trading ideas.</em></p>
+
+<h2>Linear Regression</h2>
+
+<p>Linear regression is one of the most familiar and straightforward statistical techniques. It is often taught at highschool, albeit in a simplified manner. It is also usually the first technique considered when studying supervised learning as it brings up important issues that affect many other supervised models.</p>
+
+<p>Linear regression states that the response value $y$ is a linear function of its feature inputs ${\bf x}$. That is:</p>
+
+<p>
+\begin{eqnarray}
+y ({\bf x}) = \beta^T {\bf x} + \epsilon = \sum_{j=0}^p \beta_j x_j + \epsilon
+\end{eqnarray}
+</p>
+
+<p>Where $\beta^T, {\bf x} \in \mathbb{R}^{p+1}$ and $\epsilon \sim \mathcal{N}(\mu, \sigma^2)$. That is, $\beta^T$ and ${\bf x}$ are both vectors of dimension $p+1$ and $\epsilon$, the <em>error</em> or <em>residual</em> term, is normally distributed with mean $\mu$ and variance $\sigma^2$. $\epsilon$ represents the difference between the predictions made by the linear regression and the true value of the response variable.</p>
+
+<p>Note that $\beta^T$, which represents the transpose of the vector $\beta$, and ${\bf x}$ are both $p+1$-dimensional, rather than $p$ dimensional, because we need to include an intercept term. $\beta^T = (\beta_0, \beta_1, \ldots, \beta_p)$, while ${\bf x} = (1, x_1, \ldots, x_p)$. We must include the '1' in ${\bf x}$ as a notational "trick".</p>
+
+<h2>Probabilistic Interpretation</h2>
+
+<p>An alternative way to look at linear regression is to consider it as a joint probability model<sup><a href="#ref-esl">[2]</a>, <a href="#ref-murphy">[3]</a></sup>. That is, we are interested in the joint probability of how the behaviour of the response $y$ is <em>conditional</em> on the values of the feature vector ${\bf x}$, as well as any parameters of the model, given by the vector ${\bf \theta}$. Thus we are interested in a model of the form $p(y \mid {\bf x}, {\bf \theta})$. This is a <strong>conditional probability density</strong> (CPD) model.</p>
+
+<p>Linear regression can be written as a CPD in the following manner:</p>
+
+<p>
+\begin{eqnarray}
+p(y \mid {\bf x}, {\bf \theta}) = \mathcal (y \mid \mu({\bf x}), \sigma^2 ({\bf x}))
+\end{eqnarray}
+</p>
+
+<p>For linear regression we assume that $\mu({\bf x})$ is linear and so $\mu ({\bf x}) = \beta^T {\bf x}$. We must also assume that the variance in the model is fixed (i.e. that it doesn't depend on ${\bf x}$) and as such $\sigma^2 ({\bf x}) = \sigma^2$, a constant. This then implies that our parameter vector $\theta = (\beta, \sigma^2)$.</p>
+
+<p>If you recall, we used such a probabilistic interpretation when we considered <a href="https://www.quantstart.com/articles/Bayesian-Linear-Regression-Models-with-PyMC3">Bayesian Linear Regression in a previous article</a>.</p>
+
+<p>The benefit of generalising the model interpretation in this manner is that we can easily see how other models, especially those which handle non-linearities, fit into the same probabilistic framework. This allows us to derive results across models using similar techniques.</p>
+
+<p>If we restrict ${\bf x} = (1, x)$, we can make a two-dimensional plot $p(y \mid {\bf x}, {\bf \theta})$ against $y$ and $x$ to see this joint distribution graphically. In order to do so we need to fix the parameters $\beta = (\beta_0, \beta_1)$ and $\sigma^2$ (which constitute the $\theta$ parameters). Here is a Python script which uses <a href="http://matplotlib.org/">matplotlib</a> to display the distribution:</p>
+
+<pre>
+<code class="language-python line-numbers">
+from matplotlib import cm
+from matplotlib.ticker import LinearLocator, FormatStrFormatter
+import matplotlib.pyplot as plt
+import numpy as np
+from scipy.stats import norm
+
+
+if __name__ == "__main__":
+    # Set up the X and Y dimensions
+    fig = plt.figure()
+    ax = fig.gca(projection='3d')
+    X = np.arange(0, 20, 0.25)
+    Y = np.arange(-10, 10, 0.25)
+    X, Y = np.meshgrid(X, Y)
+
+    # Create the univarate normal coefficients
+    # of intercep and slope, as well as the
+    # conditional probability density
+    beta0 = -5.0
+    beta1 = 0.5
+    Z = norm.pdf(Y, beta0 + beta1*X, 1.0)
+
+    # Plot the surface with the "coolwarm" colormap
+    surf = ax.plot_surface(
+        X, Y, Z, rstride=1, cstride=1, cmap=cm.coolwarm,
+        linewidth=0, antialiased=False
+    )
+
+    # Set the limits of the z axis and major line locators
+    ax.set_zlim(0, 0.4)
+    ax.zaxis.set_major_locator(LinearLocator(5))
+    ax.zaxis.set_major_formatter(FormatStrFormatter('%.02f'))
+
+    # Label all of the axes
+    ax.set_xlabel('X')
+    ax.set_ylabel('Y')
+    ax.set_zlabel('P(Y|X)')
+
+    # Adjust the viewing angle and axes direction
+    ax.view_init(elev=30., azim=50.0)
+    ax.invert_xaxis()
+    ax.invert_yaxis()
+
+    # Plot the probability density
+    plt.show()
+</code>
+</pre>
+
+<p>And the output:</p>
+
+<p style="text-align:center">
+  <img src="https://s3.amazonaws.com/quantstartmedia/images/qs-linreg-cond-prob-dens-2dplot.png" width="100%" />
+  <strong>Plot of $p(y \mid {\bf x}, {\bf \theta})$ against $y$ and $x$, influenced from a similar plot in Murphy (2012)<sup><a href="#ref-murphy">[3]</a></sup>.</strong>
+</p>
+
+<p>It is clear that the respnse $y$ is linearly dependent upon $x$. However we are also able to ascertain the probabilistic element of the model via the fact that the probability spreads normally around the linear response.</p>
+
+<h3>Basis Function Expansion</h3>
+
+<p>One of the benefits of utilising the probabilistic interpretation is that it allows us to easily see how to model non-linear relationships, simply by replacing the feature vector ${\bf x}$ with some transformation function $\phi({\bf x})$:</p>
+
+<p>
+\begin{eqnarray}
+p(y \mid {\bf x}, {\bf \theta}) = \mathcal(y \mid \beta^T \phi({\bf x}), \sigma^2)
+\end{eqnarray}
+</p>
+
+<p>For ${\bf x} = (1, x_1, x_2, x_3)$, say, we could create a $\phi$ that includes higher order terms, including cross-terms, e.g.</p>
+
+<p>
+\begin{eqnarray}
+\phi({\bf x}) = (1, x_1, x_1^2, x_2, x^2_2, x_1 x_2, x_3, x_3^2, x_1 x_3, \ldots)
+\end{eqnarray}
+</p>
+
+<p>A key point here is that while this function is not linear in the <em>features</em>, ${\bf x}$, it is still linear in the <em>parameters</em>, ${\bf \beta}$ and thus is still called linear regression.</p>
+
+<p>Such a modification, using a transformation function $\phi$, is known as a <strong>basis function expansion</strong> and can be used to generalise linear regression to many non-linear data settings.</p>
+
+<p>We won't discuss this much further in this article as there are many other more sophisticated supervised learning techniques for capturing non-linearities. We've already discussed one such technique, Support Vector Machines with the "kernel trick", at length in <a href="https://www.quantstart.com/articles/Support-Vector-Machines-A-Guide-for-Beginners">this article</a>.</p>
+
+<h2>Maximum Likelihood Estimation</h2>
+
+<p>In this section we are going to see how optimal linear regression coefficients, that is the $\beta$ parameter components, are chosen to best fit the data. In the univariate case this is often known as "finding the line of best fit". However, we are in a multivariate case, as our feature vector ${\bf x} \in \mathbb{R}^{p+1}$. Hence we are "finding the $p$-dimensional hyperplane of best fit"!</p>
+
+<p>The main mechanism for finding parameters of statistical models is known as <strong>maximum likelihood estimation</strong> (MLE). I introduced it briefly in the <a href="https://www.quantstart.com/articles/Deep-Learning-with-Theano-Part-1-Logistic-Regression">article on Deep Learning and the Logistic Regression</a>. Here I will expand upon it further.</p>
+
+<h3>Likelihood and Negative Log Likelihood</h3>
+
+<p>The basic idea is that if the data were to have been <em>generated</em> by the model, what parameters were most likely to have been used? That is, what is the probability of seeing the data $\mathcal{D}$, given a specific set of parameters ${\bf \theta}$? Once again, this is a conditional probability density problem. We are seeking the values of $\theta$ that maximise $p(\mathcal{D} \mid {\bf \theta})$. This CPD is known as the <strong>likelihood</strong>, and you might recall seeing instances of it in the <a href="https://www.quantstart.com/articles/Bayesian-Statistics-A-Beginners-Guide">introductory article on Bayesian statistics</a>.</p>
+
+<p>This problem can be formulated as hunting for the mode of $p(\mathcal{D} \mid {\bf \theta})$, which is given by $\hat{{\bf \theta}}$. For reasons of computational ease we instead try and maximise the natural logarithm of the CPD rather than the CPD itself:</p>
+
+<p>
+\begin{eqnarray}
+\hat{{\bf \theta}} = \text{argmax}_{\theta} \log p(\mathcal{D} \mid {\bf \theta})
+\end{eqnarray}
+</p>
+
+<p>In linear regression problems we need to make the assumption that the feature vectors are all <strong>independent and identically distributed</strong> (iid). This makes it far simpler to solve the <strong>log-likelihood</strong> problem, using properties of natural logarithms. Since we will be differentiating these values it is far easier to differentiate a sum than a product, hence the logarithm:</p>
+
+<p>
+\begin{eqnarray}
+\mathcal{l}({\bf \theta}) &:=& \log p(\mathcal{D} \mid {\bf \theta}) \\
+&=& \log \left( \prod_{i=1}^{N} p(y_i \mid {\bf x}_i, {\bf \theta}) \right) \\
+&=& \sum_{i=1}^{N} \log p(y_i \mid {\bf x}_i, {\bf \theta})
+\end{eqnarray}
+</p>
+
+<p>As I also mentioned in the <a href="https://www.quantstart.com/articles/Deep-Learning-with-Theano-Part-1-Logistic-Regression">article on Deep Learning/Logistic Regression</a>, for reasons of increased computational ease, it is often easier to minimise the negative of the log-likelihood rather than maximise the log-likelihood itself. Hence, we can "stick a minus sign in front of the log-likelihood" to give us the <strong>negative log-likelihood</strong> (NLL):</p>
+
+<p>
+\begin{eqnarray}
+\text{NLL} ({\bf \theta}) = - \sum_{i=1}^{N} \log p(y_i \mid {\bf x}_i, {\bf \theta})
+\end{eqnarray}
+</p>
+
+<p>This is the function we need to minimise. By doing so we will derive the <strong>ordinary least squares</strong> estimate for the $\beta$ coefficients.</p>
+
+<h3>Ordinary Least Squares</h3>
+
+<p>Our goal here is to derive the optimal set of $\beta$ coefficients that are "most likely" to have generated the data for our training problem. These coefficients will allow us to form a hyperplane of "best fit" through the training data. The process we will follow is given by:</p>
+
+<ol>
+  <li>Use the definition of the normal distribution to expand the negative log likelihood function</li>
+  <li>Utilise the properties of logarithms to reformulate this in terms of the Residual Sum of Squares (RSS), which is equivalent to the sum of each residual across all observations</li>
+  <li>Rewrite the residuals in matrix form, creating the data matrix $X$, which is $N \times (p+1)$ dimensional, and formulate the RSS as a matrix equation</li>
+  <li>Differentiate this matrix equation with respect to (w.r.t) the parameter vector $\beta$ and set the equation to zero (with some assumptions on $X$)</li>
+  <li>Solve the subsequent equation for $\beta$ to receive $\hat{\beta}_\text{OLS}$, the <strong>ordinary least squares</strong> (OLS) estimate.</li>
+</ol>
+
+<p>The next section will closely follow the treatments of <a href="#ref-esl">[2]</a> and <a href="#ref-murphy">[3]</a>. The first step is to expand the NLL using the formula for a normal distribution:</p>
+
+<p>
+\begin{eqnarray}
+\text{NLL} ({\bf \theta}) &=& - \sum_{i=1}^{N} \log p(y_i \mid {\bf x}_i, {\bf \theta}) \\
+&=& - \sum_{i=1}^{N} \log \left[ \left(\frac{1}{2 \pi \sigma^2}\right)^{\frac{1}{2}} \exp \left( - \frac{1}{2 \sigma^2} (y_i - {\bf \beta}^{T} {\bf x}_i)^2 \right)\right] \\
+&=& - \sum_{i=1}^{N} \frac{1}{2} \log \left( \frac{1}{2 \pi \sigma^2} \right) - \frac{1}{2 \sigma^2} (y_i - {\bf \beta}^T {\bf x}_i)^2 \\
+&=& - \frac{N}{2} \log \left( \frac{1}{2 \pi \sigma^2} \right) - \frac{1}{2 \sigma^2} \sum_{i=1}^N (y_i - {\bf \beta}^T {\bf x}_i)^2 \\
+&=& - \frac{N}{2} \log \left( \frac{1}{2 \pi \sigma^2} \right) - \frac{1}{2 \sigma^2} \text{RSS}({\bf \beta})
+\end{eqnarray}
+</p>
+
+<p>Where $\text{RSS}({\bf \beta}) := \sum_{i=1}^N (y_i - {\bf \beta}^T {\bf x}_i)^2$ is the <strong>Residual Sum of Squares</strong>, also known as the <strong>Sum of Squared Errors</strong> (SSE).</p>
+
+<p>Since the first term in the equation is a constant we simply need to concern ourselves with minimising the RSS, which will be sufficient for producing the optimal parameter estimate.</p>
+
+<p>To simply the notation we can write this latter term in matrix form. By defining the $N \times (p+1)$ matrix $X$ we can write the RSS term as:</p>
+
+<p>
+\begin{eqnarray}
+\text{RSS}({\bf \beta}) = ({\bf y} - {\bf X}{\bf \beta})^T ({\bf y} - {\bf X}{\bf \beta})
+\end{eqnarray}
+</p>
+
+<p>At this stage we now want to differentiate this term w.r.t. the parameter variable ${\bf \beta}$:</p>
+
+<p>
+\begin{eqnarray}
+\frac{\partial RSS}{\partial \beta} = -2 {\bf X}^T ({\bf y} - {\bf X} \beta)
+\end{eqnarray}
+</p>
+
+<p>There is an extremely key assumption to make here. We need ${\bf X}^T {\bf X}$ to be positive-definite, which is only the case if there are more observations than there are dimensions. If this is not the case (which is extremely common in high-dimensional settings) then it is not possible to find a <em>unique</em> set of $\beta$ coefficients and thus the following matrix equation will not hold.</p>
+
+<p>Under the assumption of a positive-definite ${\bf X}^T {\bf X}$ we can set the differentiated equation to zero and solve for $\beta$:</p>
+
+<p>
+\begin{eqnarray}
+{\bf X}^T ({\bf y} - {\bf X} \beta) = 0
+\end{eqnarray}
+</p>
+
+<p>The solution to this matrix equation provides $\hat{\beta}_\text{OLS}$:</p>
+
+<p>
+\begin{eqnarray}
+\hat{\beta}_\text{OLS} = ({\bf X}^{T} {\bf X})^{-1} {\bf X}^{T} {\bf y}
+\end{eqnarray}
+</p>
+
+<h2>Next Steps</h2>
+
+<p>Now that we have considered the MLE procedure for producing the OLS estimates we are in a position to discuss what happens when we are in a high-dimensional setting (as is often the case with real world data) and thus our matrix ${\bf X}^T {\bf X}$ has no inverse. In this instance we need to use subset selection and shrinkage techniques to reduce the dimensionality of the problem. This will be the subject of the next article.</p>
+
+<h2>Bibliographic Note</h2>
+
+<p>An elementary introduction to linear regression, as well as shrinkage, regularisation and dimensionality redution, in the framework of supervised learning, can be found <a href="#ref-isl">[1]</a>. For a much more rigourous explanation of the techniques, including recent developments, can be found in <a href="#ref-esl">[2]</a>. A probabilistic (mainly Bayesian) approach to linear regression, along with a comprehensive derivation of the maximum likelihood estimate via ordinary least squares, and extensive discussion of shrinkage and regularisation, can be found in <a href="#ref-murphy">[3]</a>. A "real world" example-based overview of linear regression in a high-collinearity regime, with extensive discussion on dimensionality reduction and partial least squares can be found in <a href="#ref-kuhn">[4]</a>.</p>
+
+<h2>References</h2>
+
+<ul>
+  <li><a name="ref-isl" href="http://www-bcf.usc.edu/~gareth/ISL/">[1] James, G., Witten, D., Hastie, T., Tibshirani, R. (2013) <em>An Introduction to Statistical Learning</em>, Springer</a></li>
+  <li><a name="ref-esl" href="http://statweb.stanford.edu/~tibs/ElemStatLearn/">[2] Hastie, T., Tibshirani, R., Friedman, J. (2009) <em>The Elements of Statistical Learning</em>, Springer</a></li>
+  <li><a name="ref-murphy" href="https://www.cs.ubc.ca/~murphyk/MLbook/">[3] Murphy, K.P. (2012) <em>Machine Learning A Probabilistic Perspective</em>, MIT Press</a></li>
+  <li><a name="ref-kuhn" href="">[4] Kuhn, M., Johnson, K. (2013) <em>Applied Predictive Modelling</em>, Springer</a></li>
+</ul>
+        
+        
+        <script async data-uid="6296c27f4b" src="https://weathered-brook-5281.ck.page/6296c27f4b/index.js"></script>
+      </section>
+    </div>
+    <div class="col-md-4 book-card order-md-1">
+      
+<div class="sidebar-advert-container">
+  <a href="/qsalpha/?ref=art">
+    <img class="card-img-top" src="/static/images/qsalpha-sidebar-advert-small.png" alt="QSAlpha">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/qsalpha/?ref=art">QSAlpha</a></h3>
+      <p class="card-text medium-text mb-3">Join the QSAlpha research platform that helps fill your strategy research pipeline, diversifies your portfolio and improves your risk-adjusted returns for increased profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/qsalpha/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/quantcademy/?ref=art">
+    <img class="card-img-top" src="/static/images/quantcademy-sidebar-advert-small.png" alt="Quantcademy">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/quantcademy/?ref=art">The Quantcademy</a></h3>
+      <p class="card-text medium-text mb-3">Join the Quantcademy membership portal that caters to the rapidly-growing retail quant trader community and learn how to increase your strategy profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/quantcademy/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/successful-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/sat-sidebar-advert-small.png" alt="Successful Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to find new trading strategy ideas and objectively assess them for your portfolio using a Python-based backtesting engine.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/successful-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/advanced-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/aat-sidebar-advert-small.png" alt="Advanced Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to implement advanced trading strategies using time series analysis, machine learning and Bayesian statistics with R and Python.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/advanced-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+    
+
+<footer>
+  <div class="container container-full">
+    <section class="mt-1.5 mb-1">
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">QuantStart</li>
+            <li class="footer-list-link"><a class="link-fade" href="/about/">About</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/articles/">Articles</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/sitemap/">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Products</li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qsalpha/">QSAlpha</a></li>
+            
+            
+            <li class="footer-list-link"><a class="link-fade" href="/quantcademy/">Quantcademy</a></li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qstrader/">QSTrader</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Legal</li>
+            <li class="footer-list-link"><a class="link-fade" href="/privacy-policy/">Privacy Policy</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/terms-and-conditions/">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Social</li>
+            <li class="footer-list-link"><a class="link-fade" href="https://twitter.com/quantstart">Twitter</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="https://www.youtube.com/channel/UCmVnnZ6Y2TrJtY1eQJN6kWA">YouTube</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="row mb-1.5 mt-5">
+      <div class="col-12 col-md-9 col-lg-8 col-xl-6">
+        <div class="footer-copyright">
+          <p>©2012-2023 QuarkGluon Ltd. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+<script src="/static/js/jquery-3.2.1.min.js"></script>
+<script src="/static/js/prism.js.min"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/nav.js"></script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5383959-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+    
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="/static/js/highcharts/highcharts.js"></script>
+<script type="text/javascript">
+  num_colours = 10;
+</script>
+<script src="/static/js/statistics.js"></script>
+
+
+  </body>
+</html>

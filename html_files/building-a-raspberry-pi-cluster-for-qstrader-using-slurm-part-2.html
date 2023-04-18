@@ -1,0 +1,772 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-site-verification" content="wl3-8ed1QZjI0iYZMv10zoZWYElkMObTfwLlWIj9cpA" />
+    <meta name="description" content="In this multi-part article series we are going to discuss how to build a distributed cluster of Raspberry Pi computers, utilising the SLURM work scheduling tool to run QSTrader systematic trading parameter variation backtests. This article will describe how to configure the networking and storage for the cluster.">
+
+    <link rel="icon" href="/static/images/favicon.png">
+
+    <title>Building a Raspberry Pi Cluster for QSTrader using SLURM - Part 2 | QuantStart</title>
+    
+    
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet"> 
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/prism.css" rel="stylesheet">
+<link href="/static/css/qs.css?v=10" rel="stylesheet">
+    
+  </head>
+
+  <body>
+    <header class="header covered-header" style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://quantstartmedia.s3.amazonaws.com/images/article-images/article-backgrounds/building-a-raspberry-pi-cluster-for-qstrader-using-slurm-part-1.jpg);">
+  
+<nav class="nav">
+  <div class="container nav-container">
+    <div class="nav-row row d-flex justify-content-between align-items-center">
+      <div class="col-2">
+        <ul class="nav-items justify-content-end small-capitals align-items-center">
+          <li class="nav-item">
+            <a class="link-fade" href="/">QuantStart</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-auto col-logo">
+        <ul id="top-nav-menu" class="nav-items justify-content-end align-items-center">
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/qsalpha/">QSAlpha</a>
+          </li>
+          
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/quantcademy/">Quantcademy</a>
+          </li>
+          
+          <li id="menu-link-ebooks" class="nav-item">
+            <a class="link-fade" href="#">Books</a>
+            <div id="menu-pane-ebooks" class="nav-items menu-dropdown-pane">
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/qstrader/">QSTrader</a>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/articles/">Articles</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/members/login/">Login</a>
+          </li>
+          
+        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<nav id="mobile-nav" class="mobile-nav text-left">
+  <div class="container">
+    <ul class="mt-4 ml-3 mobile-nav-menu">
+      <li class="nav-item">
+        <a class="link-fade d-block" href="/">QuantStart</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qsalpha/">QSAlpha</a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/quantcademy/">Quantcademy</a>
+      </li>
+      
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="#">Books</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qstrader/">QSTrader</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/articles/">Articles</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/members/login/">Login</a>
+      </li>
+      
+    </ul>
+    <button class="nav-toggle mobile-nav-close">
+      <svg id="mobile-nav-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M19.77,5.63,13.41,12l6.36,6.37a1,1,0,0,1-1.41,1.41L12,13.41,5.63,19.77a1,1,0,0,1-1.44-1.39l0,0L10.58,12,4.21,5.63a1,1,0,0,1,0-1.42,1,1,0,0,1,1.41,0l0,0L12,10.58l6.37-6.37a1,1,0,0,1,1.41,0A1,1,0,0,1,19.77,5.63Z"></path>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+  <div class="container hero-container">
+    <section class="mt-5 mb-4">
+      <div class="row justify-content-center">
+        <div class="col-12 text-center">
+          <p class="hero">Building a Raspberry Pi Cluster for QSTrader using SLURM - Part 2</p>
+          <p class="hero subhero">In this multi-part article series we are going to discuss how to build a distributed cluster of Raspberry Pi computers, utilising the SLURM work scheduling tool to run QSTrader systematic trading parameter variation backtests. This article will describe how to configure the networking and storage for the cluster.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</header>
+    
+<section class="container content-container">
+  <div class="row">
+    <div class="col-md-8 order-md-2">
+      <section class="content article-content">
+        
+        
+        <p>In the <a href="https://www.quantstart.com/articles/building-a-raspberry-pi-cluster-for-qstrader-using-slurm-part-1/" target="blank" rel="noopener norefferer">previous article</a> of this series we built a Raspberry Pi distributed cluster from four Raspberry Pi 4Bs. In this article we are going to begin preparing the cluster to work with the SLURM job scheduler. We will install the latest version of Ubuntu Server Linux on each of the RPis. Then we will configure both the network and the shared storage used by the RPis in order to allow SLURM to communicate with each node. In the next article of the series we will install SLURM itself.</p>
+
+<p>This article closely follows the approach discussed in the excellent <a href="https://glmdev.medium.com/building-a-raspberry-pi-cluster-784f0df9afbd" target="blank" rel="noopener norefferer">three</a> <a href="https://medium.com/@glmdev/building-a-raspberry-pi-cluster-aaa8d1f3d2ca" target="blank" rel="noopener norefferer">part</a> <a href="https://medium.com/@glmdev/building-a-raspberry-pi-cluster-f5f2446702e8" target="blank" rel="noopener norefferer">series<a> written by <a href="https://garrettmills.dev/" target="blank" rel="noopener norefferer">Garrett Mills</a>. We will also be making changes where necessary, particularly around optimising for usage of <a href="https://www.quantstart.com/qstrader/" target="blank" rel="noopener norefferer">QSTrader</a>. We highly recommend taking a read of his articles for additional details.</a>
+
+<div class="bs-callout bs-callout-info">
+<h4>Linux Command Line</h4>
+<p>The content of this article assumes a basic familiarity with the Linux command line. We will be using standard Linux commands such as <code>ssh</code>, <code>mkfs</code>, <code>ifconfig</code>, <code>nmap</code>, <code>chown</code> and <code>chmod</code>. If you want a refresher on using the Linux command line prior to following this article we highly recommend <a href="https://amzn.to/3BiaqRh" target="blank" rel="noopener norefferer">The Linux Command Line, 2nd Ed.</a> by William Shotts, which covers these commands in detail from an introductory standpoint.</p>
+</div>
+
+<p>We will begin by downloading the Ubuntu Server ISO disk image and 'flashing' it to each of the MicroSD cards that were described in the previous article. We will then configure the IP addresses and hostnames of the RPis. Then we will set up the shared storage using the 128GB USB key that was discussed in the <a href="https://www.quantstart.com/articles/building-a-raspberry-pi-cluster-for-qstrader-using-slurm-part-1/" target="blank" rel="noopener norefferer">previous post</a>. At this point we will be ready to install and configure SLURM, which will be the topic of the subsequent article.</p>
+
+<h2>Flash SD Cards with Ubuntu 22.04</h2>
+
+<p>At the time of writing the latest version of Ubuntu Server with long term support (LTS) is Ubuntu 22.04. While it is certainly possible to use <a href="https://www.raspberrypi.com/software/operating-systems/" target="blank" rel="noopener norefferer">Raspberry Pi OS</a>, with minimal change in the instructions beyond some configuration, we have opted for Ubuntu in this article series.</p>
+
+<p>The first task is to download the Ubuntu Server ISO image for Raspberry Pi that we will be placing on our MicroSD cards. Head over to the <a href="https://ubuntu.com/download/raspberry-pi" target="blank" rel="noopener norefferer">Ubuntu Server Raspberry Pi</a> site in your web browser <a href="https://ubuntu.com/download/raspberry-pi" target="blank" rel="noopener norefferer">here</a>. You will see the following screen:</p>
+
+<figure>
+  <img src="https://quantstartmedia.s3.amazonaws.com/images/article-images/articles/raspberry-pi-cluster-for-qstrader-using-slurm-part-2/ubuntu-server-0001.png" alt="Ubuntu Server for Raspberry Pi home page" style="padding-bottom: 20px">
+  <figcaption>Figure 1 - Ubuntu Server for Raspberry Pi home page</figcaption>
+</figure>
+
+<p>Scroll down and you will see a heading titled 'Download Ubuntu Server':</p>
+
+<figure>
+  <img src="https://quantstartmedia.s3.amazonaws.com/images/article-images/articles/raspberry-pi-cluster-for-qstrader-using-slurm-part-2/ubuntu-server-0002.png" alt="Ubuntu Server download page" style="padding-bottom: 20px">
+  <figcaption>Figure 2 - Ubuntu Server for Raspberry Pi download section</figcaption>
+</figure>
+
+<p>Click the button titled 'Download 64-bit' and you will see the following 'thank you' screen:</p>
+
+<figure>
+  <img src="https://quantstartmedia.s3.amazonaws.com/images/article-images/articles/raspberry-pi-cluster-for-qstrader-using-slurm-part-2/ubuntu-server-0003.png" alt="Ubuntu Server for Raspberry Pi download thank you page" style="padding-bottom: 20px">
+  <figcaption>Figure 3 - Ubuntu Server for Raspberry Pi download thank you page</figcaption>
+</figure>
+
+<p>The download modal will pop up and ask whether we want to open or save the file. Click to save the file for later use. The Ubuntu Server ISO is a reasonably big file so it may take some time to download the image.</p>
+
+<p>While Ubuntu is downloading we also need to obtain some free software to 'flash' Ubuntu on the MicroSD cards. This will allow the RPis to use them as boot drives. As suggested by <a href="https://garrettmills.dev/" target="blank" rel="noopener norefferer">Garett Mills</a> in his original article series we are going to use an open source tool called <a href="https://www.balena.io/etcher/" target="blank" rel="noopener norefferer">balenaEtcher</a>. Head on over to the site <a href="https://www.balena.io/etcher/" target="blank" rel="noopener norefferer">here</a> in your web browser and you will see the following page:</a>
+
+<figure>
+  <img src="https://quantstartmedia.s3.amazonaws.com/images/article-images/articles/raspberry-pi-cluster-for-qstrader-using-slurm-part-2/balena-etcher-0000.png" alt="balenaEtcher home and download page" style="padding-bottom: 20px">
+  <figcaption>Figure 4 - balenaEtcher home and download page</figcaption>
+</figure>
+
+<p>Click the Download button and follow the installation instructions to install the tool. At this stage you will also need to insert the MicroSD into your computer's MicroSD port.</p>
+
+<p>Once Balena Etcher is installed load it up and you will be see the following screen (see Figure 5):</p>
+
+<figure>
+  <img src="https://quantstartmedia.s3.amazonaws.com/images/article-images/articles/raspberry-pi-cluster-for-qstrader-using-slurm-part-2/balena-etcher-0001.png" alt="Balena Etcher interface" style="padding-bottom: 20px">
+  <figcaption>Figure 5 - Balena Etcher interface</figcaption>
+</figure>
+
+<p>Click on the large plus symbol above 'Flash from file'. You will be presented with a file selection dialog (see Figure 6). Navigate to the location where the Ubuntu Server ISO was downloaded to (typically `Downloads/` in your operating system's home directory) and select the ISO file:</p>
+
+<figure>
+  <img src="https://quantstartmedia.s3.amazonaws.com/images/article-images/articles/raspberry-pi-cluster-for-qstrader-using-slurm-part-2/balena-etcher-0002.png" alt="Ubuntu Server ISO" style="padding-bottom: 20px">
+  <figcaption>Figure 6 - Select the Ubuntu Server ISO from the file selection dialog</figcaption>
+</figure>
+
+<p>The Balena Etcher screen will show that the Ubuntu Server ISO has been selected. The next step is to select the target to flash the ISO to. Click on the 'Select Target' button (see Figure 7):</p>
+
+<figure>
+  <img src="https://quantstartmedia.s3.amazonaws.com/images/article-images/articles/raspberry-pi-cluster-for-qstrader-using-slurm-part-2/balena-etcher-0003.png" alt="Flash Ubuntu Server" style="padding-bottom: 20px">
+  <figcaption>Figure 7 - Select the target to flash the Ubuntu Server ISO to</figcaption>
+</figure>
+
+<p>You will then see a screen showing 'Generic MassStorageClass' with size of 32Gb. This is the MicroSD card. Click on the checkbox next to the 'Generic MassStorageClass' and then the Select (1) button (see Figure 8):
+
+<figure>
+  <img src="https://quantstartmedia.s3.amazonaws.com/images/article-images/articles/raspberry-pi-cluster-for-qstrader-using-slurm-part-2/balena-etcher-0004.png" alt="Generic MassStorageClass" style="padding-bottom: 20px">
+  <figcaption>Figure 8 - Selecting the Generic MassStorageClass MicroSD card</figcaption>
+</figure>
+
+<p>Now that the MicroSD card has been selected Balena Etcher will show both the ISO selected and the location to flash to (see Figure 9). Click on the 'Flash!' button and wait for the process to complete (it can take a few minutes):
+
+<figure>
+  <img src="https://quantstartmedia.s3.amazonaws.com/images/article-images/articles/raspberry-pi-cluster-for-qstrader-using-slurm-part-2/balena-etcher-0005.png" alt="Balena Etcher with ISO and flash location shown" style="padding-bottom: 20px">
+  <figcaption>Figure 9 - Balena Ethcer with both ISO selected and flash location chosen</figcaption>
+</figure>
+
+<p>Once complete Balena Etcher will ask whether you wish to flash another disk (see Figure 10):</p>
+
+<figure>
+  <img src="https://quantstartmedia.s3.amazonaws.com/images/article-images/articles/raspberry-pi-cluster-for-qstrader-using-slurm-part-2/balena-etcher-0006.png" alt="Balena Etcher completion" style="padding-bottom: 20px">
+  <figcaption>Figure 10 - Balena Etcher completion screen for ISO flash to MicroSD card</figcaption>
+</figure>
+
+<p>Repeat the process for all four cards and then insert the SD cards into the appropriate ports on each Raspberry Pi.</p>
+
+<h2>Network Configuration</h2>
+
+<p>It is now time to configure the RPis to communicate with each other. The configuration approach will depend somewhat on your personal network setup and how much control you have over allocating IP addresses to the RPis. Typically this will involve using an ISP-supplied router/modem to access the internet, which is able to provide IP addresses to all connected devices automatically. This makes use of a protocol known as <a href="https://en.wikipedia.org/wiki/Dynamic_Host_Configuration_Protocol" target="blank" rel="noopener norefferer">Dynamic Host Configuration Protocol</a> (DHCP). DHCP dynamically allocates IP addresses to devices plugged in to the router, either via ethernet or WiFi.</p>
+
+<p>However we wish to assign static IP addresses, which are addresses that will persist across RPi reboots. This allows SLURM to know where all of the individual RPi nodes are on the network. In this article we are going to assume the usage of ethernet connectivity and the ability to assign static IP addresses within your router. Unfortunately it is beyond the scope of this article to describe how to assign static IP addresses within a router interface, due to the extensive variations between manufacturers and ISPs. It will be necessary to consult your router's manual, or carry out an internet search on how to carry this out.</p>
+
+<p>The first step is to plug the 8-port network switch discussed in the previous article into your router via ethernet and power it on. Activity lights will blink periodically to show that the switch is receiving network traffic from the router. The next step is to connect a <em>single</em> Raspberry Pi into this network switch with one of the previously ordered ethernet cables. The ethernet port on the RPi is located adjacent to the USB ports. Then plug in the USB-C power cable from the power bar, purchased in the previous article to the RPi. The Raspberry Pi will now boot up.</p>
+
+<p>Since we have not attached a monitor, mouse or keyboard it will be necessary to configure the RPi using a <em>headless</em> remote approach via <a href="https://en.wikipedia.org/wiki/Secure_Shell" target="blank" rel="noopener norefferer">Secure SHell</a> (<code>ssh</code>). UNIX-based systems such as macOS or Linux will likely have an <code>ssh</code> client built in, which can be accessed from the terminal. On Windows it is common to use Putty, which can be downloaded <a href="https://www.putty.org/" target="blank" rel="noopener norefferer">here</a>.</p>
+
+<p>However, in order to be able to connect to the booted RPi via <code>ssh</code> it is necessary to know its DHCP-assigned IP address on the network. To find this out it is possible to use a tool called <a href="https://en.wikipedia.org/wiki/Nmap" target="blank" rel="noopener norefferer">nmap</a>. The remainder of the article assumes usage of a macOS or Linux-based system for carrying these commands out. Similar commands exist for the Windows shell.</p>
+
+<p>Open up a terminal shell and type the following command:</p>
+
+<pre>
+<code class="language-none">ifconfig</code>
+</pre>
+
+<p>You may be presented with a message saying that <code>ifconfig</code> is not installed. To remedy this (on Ubuntu/Debian based systems) type the following and accept the installation options:</p>
+
+<pre>
+<code class="language-none">sudo apt-get install net-tools</code>
+</pre>
+
+<p>Re-run <code>ifconfig</code> and you will see output similar to the following:</p>
+
+<pre>
+<code class="language-none">lo0: flags=8049<UP,LOOPBACK,RUNNING,MULTICAST> mtu 16384
+    options=1203<RXCSUM,TXCSUM,TXSTATUS,SW_TIMESTAMP>
+    inet 127.0.0.1 netmask 0xff000000
+    inet6 ::1 prefixlen 128
+    inet6 fe80::1%lo0 prefixlen 64 scopeid 0x1
+    nd6 options=201<PERFORMNUD,DAD>
+gif0: flags=8010<POINTOPOINT,MULTICAST> mtu 1280
+stf0: flags=0<> mtu 1280
+XHC20: flags=0<> mtu 0
+en1: flags=8963<UP,BROADCAST,SMART,RUNNING,PROMISC,SIMPLEX,MULTICAST> mtu 1500
+    options=60<TSO4,TSO6>
+    ether 5b:00:22:ae:1c:32
+    media: autoselect <full-duplex>
+    status: inactive
+en0: flags=8863<UP,BROADCAST,SMART,RUNNING,SIMPLEX,MULTICAST> mtu 1500
+    ether b4:21:aa:35:b8:ca
+    inet6 ad91::2ac2:2752:e483:17a8%en0 prefixlen 64 secured scopeid 0x7
+    inet 192.168.0.103 netmask 0xffffff00 broadcast 192.168.0.255
+    nd6 options=201<PERFORMNUD,DAD>
+    media: autoselect
+    status: active</code>
+</pre>
+
+<p>We are looking for the IP address of the current system. It will likely be of the form <code>192.168.x.y</code>, <code>172.x.y.z</code> or <code>10.x.y.z</code>. We are interested in the first three parts of this address as typical DHCP configurations on most home routers will assign an IP in the range <code>x.y.z.2</code> to <code>x.y.z.254</code>. In the code snippet above this corresponds to the <code>inet 192.168.0.103 ...</code> line.</p>
+
+<p>Once you have identified this address we can utilise <code>nmap</code> to scan for other hosts on this same subnet (that is, all hosts which share the same first three parts of the address), which should help us identify the IP address of the RPi.</p>
+
+<p>Run the following command:</p>
+
+<pre>
+<code class="language-none">nmap -sP 192.168.1.0/24</code>
+</pre>
+
+<p>Where it will be necessary to replace <code>192.168.1</code> with the appropriate subnet obtained from <code>ifconfig</code>.</p>
+
+<p>The output will look similar to the following:</p>
+
+<pre>
+<code class="language-none">Starting Nmap 7.80 ( https://nmap.org ) at 2021-01-01 10:24 GMT
+Nmap scan report for 192.168.1.1
+Host is up (0.0056s latency).
+Nmap scan report for 192.168.1.104
+Host is up (0.0044s latency).
+Nmap scan report for 192.168.1.105
+Host is up (0.013s latency).
+Nmap done: 256 IP addresses (3 hosts up) scanned in 2.72 seconds</code>
+</pre>
+
+<p>One of these IP addresses will belong to the RPi. An alternative approach to identify it is to log in to your router's web interface and look for a page titled similar to 'ARP table' or 'DHCP Client List', which should list all of the hosts connected to the RPi and their current IP address.</p>
+
+<p>Once the IP address of the RPI has been correctly identified it is possible to remotely connect to the RPi via <code>ssh</code>. Type the following command on your macOs or Linux terminal, or utilise Putty on Windows:</p>
+
+<pre>
+<code class="language-none">ssh ubuntu@YOUR-IP-ADDRESS</code>
+</pre>
+
+<p>Where <code>YOUR-IP-ADDRESS</code> needs to be replaced with the previously identified RPi IP address found via <code>nmap</code>.</p>
+
+<p>You will be asked to enter a password. The default password is either <code>ubuntu</code> or <code>raspberry</code>. You should now be logged in to your RPi via <code>ssh</code>.</p>
+
+<h2>Raspberry Pi Setup</h2>
+
+<p>The first task to carry out involves updating Ubuntu's list of system packages and then upgrading them. To carry this out run the following commands:</p>
+
+<pre>
+<code class="language-none">sudo apt-get update</code>
+</pre>
+
+<p>And then:</p>
+
+<pre>
+<code class="language-none">sudo apt-get upgrade</code>
+</pre>
+
+<p>You may receive a message similar to the following when you run the second command:</p>
+
+<pre>
+<code class="language-none">E: Could not get lock /var/lib/dpkg/lock - open (11 Resource temporarily unavailable)
+E: Unable to lock the administration directory (/var/lib/dpkg/) is another process using it?</code>
+</pre>
+
+<p>This is essentially telling us that the Ubuntu package manager is currently unable to upgrade the packages because the RPi itself has already begun an automated upgrade procedure and has the locked the package state files. Unfortunately this can take some time to finish (approximately 15-30 minutes) so if this occurs it will be necessary to wait and try running the upgrade command again once it is complete.</p>
+
+<p>The next task is to install various useful system packages and tools. In particular we are going to install <code>build-essential</code>, which contains the GNU Compiler Collection for compiling software from source; <code>htop</code>, which allows us to see what commands are currently running on the system; <code>net-tools</code>, which allow us to use <code>ifconfig</code> on the RPis; <code>screen</code>, which allows us to persist our terminal session between log-outs and <code>vim</code>, which is a terminal text editing tool. The latter can be replaced with one's favourite terminal editor such as <code>nano</code> or <code>emacs</code>:</p>
+
+<pre>
+<code class="language-none">sudo apt-get install build-essential htop net-tools screen vim</code>
+</pre>
+
+<p>The next step is to provide a hostname for the RPi. Due to how SLURM works it is necessary to utilise a naming convention with an incrementing index at the end. Hence, if you wish to name your system <code>rpicluster</code>, the hostnames will need to be <code>rpicluster01</code> through to <code>rpicluster04</code> (assuming you are using four RPis for this cluster).</p>
+
+<p>Feel free to pick an appropriate hostname (by replacing <code>rpicluster</code> with your chosen name), but do ensure that it has <code>01</code> at the end. Let's now set the hostname. Type the following into the SSH terminal</p>
+
+<pre>
+<code class="language-none">sudo hostname rpicluster01</code>
+</pre>
+
+<p>In addition we need to open the <code>/etc/hostname</code> file and ensure the hostname is set here. Run the following command:</p>
+
+<pre>
+<code class="language-none">sudo vim /etc/hostname</code>
+</pre>
+
+<p>In Vim, to type it will be necessary to press <code>i</code>, then type <code>rpicluster01</code> (or your preferred hostname), unless it is already there. To save and quit, press Escape, type <code>:wq</code>.</p>
+
+<p>We will also need to modify the <code>/etc/hosts</code> file that tells the RPi about itself and other hostnames on the network. Type the following command:</p>
+
+<pre>
+<code class="language-none">sudo vim /etc/hosts</code>
+</pre>
+
+<p>You will see a set of IP addresses and hostnames. It is likely that you will only have the following:</p>
+
+<pre>
+<code class="language-none">127.0.0.1  localhost
+
+# The following lines are desirable for IPv6 capable hosts
+..
+..</code>
+</pre>
+
+<p>Where the <code>..</code> represent a list of <a href="https://en.wikipedia.org/wiki/IPv6" target="blank" rel="noopener norefferer">IPv6</a> addresses.</p>
+
+<p>It is necessary to add the current IP address beneath the <code>127.0.0.1  localhost</code> line along with the hostname. Once again, type <code>i</code> to type and write a new line such that the file looks like the following:</p>
+
+<pre>
+<code class="language-none">127.0.0.1  localhost
+192.168.1.101  rpicluster01
+
+# The following lines are desirable for IPv6 capable hosts</code>
+..
+..</code>
+</pre>
+
+<p>Making sure to replace both <code>192.168.1.101</code> with your own IP address found from <code>nmap</code> earlier on and <code>rpicluster</code> with your desired hostname.</p>
+
+<p>The next step is to install the <code>ntpdate</code> utility, which will periodically synchronise the date and time on the RPi with a Network Time Protocol (NTP) server. This is to ensure that SLURM has accurate timings between the RPis. Type the following command to install it:</p>
+
+<pre>
+<code class="language-none">sudo apt install ntpdate -y</code>
+</pre>
+
+<p>Now that we have carried out this initial configuration we can reboot the RPi:</p>
+
+<pre>
+<code class="language-none">sudo reboot</code>
+</pre>
+
+<p>This will disconnect the SSH session to your local machine. After a short while it will be possible to reconnect via the original command above, run on your local machine's terminal (or Putty):</p>
+
+<pre>
+<code class="language-none">ssh ubuntu@YOUR-IP-ADDRESS</code>
+</pre>
+
+<p>Ensuring once again to replace <code>YOUR-IP-ADDRESS</code> with that found by <code>nmap</code>.</p>
+
+<p>This process now needs to be repeated for each of the RPi secondary nodes in turn, ensuring to name them sequentially with <code>HOSTNAME02</code>, <code>HOSTNAME03</code> and <code>HOSTNAME04</code>, where <code>HOSTNAME</code> can be replaced with the same hostname used for the primary RPi node.</p> 
+
+<h2>Configuring Shared Storage</h2>
+
+<p>The next task is to configure the RPis to utilise the previously purchased 128Gb USB key as a shared network drive. This allows any programs executed by SLURM to persist data that can be seen by all of the RPi nodes.</p>
+
+<p>The first step is to plug the USB key into the primary RPi node, which is the one we have been configuring so far.</p>
+
+<p>Once it has been plugged in we need to run a tool called <code>lsblk</code>, which lists the block devices such as hard disks and USB devices attached to the system. Run the following command on the primary RPi node:</p>
+
+<pre>
+<code class="language-none">lsblk</code>
+</pre>
+
+<p>You will see output that looks similar to the following:</p>
+
+<pre>
+<code class="language-none">NAME        MAJ:MIN RM   SIZE RO TYPE MOUNTPOINT
+loop0         7:0    0  48.9M  1 loop /snap/core18/1949
+loop1         7:1    0    27M  1 loop /snap/snapd/10709
+loop2         7:2    0  61.6M  1 loop /snap/lxd/19040
+loop3         7:3    0  28.2M  1 loop /snap/snapd/13643
+loop4         7:4    0    49M  1 loop /snap/core18/2248
+loop5         7:5    0  57.4M  1 loop /snap/core20/1171
+loop6         7:6    0  60.4M  1 loop /snap/lxd/21544
+sda           8:0    1 114.6G  0 disk
+|-sda1        8:1    1   212K  0 part
+|-sda2        8:2    1   2.8M  0 part
+|-sda3        8:3    1  1001M  0 part
+|-sda4        8:4    1   300K  0 part
+mmcblk0     179:0    0  29.8G  0 disk
+|-mmcblk0p1 179:1    0   256M  0 part /boot/firmware
+|-mmcblk0p2 179:2    0  29.6G  0 part /</code>
+</pre>
+
+<p>In the output above you can see an entry called <code>sda</code> and another called <code>mmcblk0</code>. Notice that <code>sda</code> has a size of approximately 114Gb, while <code>mmcblk0</code> has a size of roughly 30Gb. Thus <code>sda</code> is the 128Gb flash drive and <code>mmcblk0</code> is the 32Gb Micro SD card.</p>
+
+<p>We now wish to format the USB key to utilise the <a href="https://en.wikipedia.org/wiki/Ext4" target="blank" rel="noopener norefferer">ext4 journaling filesystem</a>. To achieve this we can use a tool called <code>mkfs.ext4</code>, which makes the ext4 filesystem on the disk. Run the following command on the primary RPi node (the one with the USB key plugged in):</p>
+
+<pre>
+<code class="language-none">sudo mkfs.ext4 /dev/sda1</code>
+</pre>
+
+<p>We are now going to create the shared directory, called <code>sharedfs</code>, across each of the four RPi nodes. Then we are going to change the ownership (using the <code>chown</code> command) and change the permissions (using the <code>chmod</code> command) for the directory. Run these three commands across all RPi nodes:</p>
+
+<pre>
+<code class="language-none">sudo mkdir /sharedfs
+sudo chown nobody.nogroup -R /sharedfs
+sudo chmod 777 -R /sharedfs</code>
+</pre>
+
+<p>This gives permissive access to the <code>sharedfs</code> network drive across all RPis.</p>
+
+<p>In order for this drive to persist across reboots it is necessary to modify the <code>fstab</code> file to mount the USB key on boot of the RPi. We can use a utility called <code>blkid</code> to achieve this. On the primary RPi node run the following command:</p>
+
+<pre>
+<code class="language-none">blkid</code>
+</pre>
+
+<p>Now look for the UUID from the <code>/dev/sda1</code> line. It will be similar to the following:</p>
+
+<pre>
+<code class="language-none">UUID="01c788f2-0cbd-4a18-b3e2-47cd6b00f87d"</code>
+</pre>
+
+<p>Copy this UUID to the clipboard and edit the <code>fstab</code> file on the primary RPi node:</p>
+
+<pre>
+<code class="language-none">sudo vim /etc/fstab</code>
+</pre>
+
+<p>Once again, press the <code>i</code> key to edit and then add the following line at the end of the file, making sure to replace the example UUID given here with the one you obtained previously with <code>blkid</code>:</p>
+
+<pre>
+<code class="language-none">UUID=01c788f2-0cbd-4a18-b3e2-47cd6b00f87d /sharedfs ext4 defaults 0 2</code>
+</pre>
+
+<p>Now we can mount the drive with the following command:</p>
+
+<pre>
+<code class="language-none">sudo mount -a</code>
+</pre>
+
+<p>Ensure that the following ownership and permissions are set. Since we are running this in a controlled home network environment these permissions can be very permissive. If you are considering running this in a less controlled environment (e.g. some form of shared network) then you will need to consider what sort of permissions you wish to use. That topic is beyond the scope of this article however.</p>
+
+<p>Run the following commands to set the permissions and ownership:</p>
+
+<pre>
+<code class="language-none">sudo chown nobody.nogroup -R /sharedfs
+sudo chmod -R 777 /sharedfs</code>
+</pre>
+
+<p>Now that the drive is set to be automatically mounted on boot of the RPi we need to export it as a network file system so that the remaining RPi nodes can connect to it. Run the following command on the primary RPi node only:</p>
+
+<pre>
+<code class="language-none">sudo apt install nfs-kernel-server -y</code>
+</pre>
+
+<p>We need to edit the <code>/etc/exports</code> file. Use Vim or your preferred editor to open the file:</p>
+
+<pre>
+<code class="language-none">sudo vim /etc/exports</code>
+</pre>
+
+<p>Now add the following line to the file, ensuring to replace <code>IPADDRESS</code> with your local IP address subnet.</p>
+
+<p>For instance, if your IP address was identified as <code>192.168.1.103</code>, then you will need to enter <code>192.168.1.0/24</code> (note the <code>0/24</code> at the end) instead of <code>IPADDRESS</code> below:</p>
+
+<pre>
+<code class="language-none">/sharedfs    IPADDRESS(rw,sync,no_root_squash,no_subtree_check)</code>
+</pre>
+
+<p>Finally we need to update the network fileshare kernel server. Run the following command on the primary RPi node:</p>
+
+<pre>
+<code class="language-none">sudo exportfs -a</code>
+</pre>
+
+<p>The next step is to configure the individual clients to use the network file store. On each of the secondary nodes (02-04) install the network file store common tools package:</p>
+
+<pre>
+<code class="language-none">sudo apt install nfs-common -y</code>
+</pre>
+
+<p>Next, on each of the secondary nodes open up the <code>/etc/fstab</code> file:</p>
+
+<pre>
+<code class="language-none">sudo vim /etc/fstab</code>
+</pre>
+
+<p>Add the following line ensuring to replace <code>PRIMARYNODEIPADDRESS</code> with the IP address of the primary node as identified above using <code>nmap</code>. This tells the secondary nodes where to actually look for the shared filesystem:</p>
+
+<pre>
+<code class="language-none">PRIMARYNODEIPADDRESS:/sharedfs    /sharedfs    nfs    defaults   0 0</code>
+</pre>
+
+<p>Run the following command across all secondary nodes to mount the shared network file system:</p>
+
+<pre>
+<code class="language-none">sudo mount -a</code>
+</pre>
+
+<p>Change the ownership of the filesystem on each secondary node to give it loose permissions:</p>
+
+<pre>
+<code class="language-none">sudo chmod -R 777 /sharedfs</code>
+</pre>
+
+<p>At this point it should be possible to create a file from one of the RPi nodes and have it show up in each of the other three nodes. To do this simply type the following on one of the nodes (primary or secondary):</p>
+
+<pre>
+<code class="language-none">touch /sharedfs/test_file.txt</code>
+</pre>
+
+<p>Check that this file can be seen by running the <code>ls</code> directory listing command across all nodes:</p>
+
+<pre>
+<code class="language-none">ls /sharedfs</code>
+</pre>
+
+<p>You should be able to see the file across all four nodes.</p>
+
+<p>This now completes the setup of the shared network drive. In the next article (coming soon) we are going to install the SLURM scheduler on the Raspberry Pi nodes.</p>
+        
+        
+        <h2>Related Articles</h2>
+        <ul>
+        
+        <li><a href="/articles/building-a-raspberry-pi-cluster-for-qstrader-using-slurm-part-1/">Building a Raspberry Pi Cluster for QSTrader using SLURM - Part 1</a></li>
+        
+        <li><a href="/articles/building-a-raspberry-pi-cluster-for-qstrader-using-slurm-part-3/">Building a Raspberry Pi Cluster for QSTrader using SLURM - Part 3</a></li>
+        
+        <li><a href="/articles/building-a-raspberry-pi-cluster-for-qstrader-using-slurm-part-4/">Building a Raspberry Pi Cluster for QSTrader Using SLURM - Part 4</a></li>
+        
+        <li><a href="/articles/building-a-raspberry-pi-cluster-for-qstrader-using-slurm-part-5/">Building a Raspberry Pi Cluster for QSTrader Using SLURM - Part 5</a></li>
+        
+        </ul>
+        
+        <script async data-uid="6296c27f4b" src="https://weathered-brook-5281.ck.page/6296c27f4b/index.js"></script>
+      </section>
+    </div>
+    <div class="col-md-4 book-card order-md-1">
+      
+<div class="sidebar-advert-container">
+  <a href="/qsalpha/?ref=art">
+    <img class="card-img-top" src="/static/images/qsalpha-sidebar-advert-small.png" alt="QSAlpha">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/qsalpha/?ref=art">QSAlpha</a></h3>
+      <p class="card-text medium-text mb-3">Join the QSAlpha research platform that helps fill your strategy research pipeline, diversifies your portfolio and improves your risk-adjusted returns for increased profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/qsalpha/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/quantcademy/?ref=art">
+    <img class="card-img-top" src="/static/images/quantcademy-sidebar-advert-small.png" alt="Quantcademy">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/quantcademy/?ref=art">The Quantcademy</a></h3>
+      <p class="card-text medium-text mb-3">Join the Quantcademy membership portal that caters to the rapidly-growing retail quant trader community and learn how to increase your strategy profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/quantcademy/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/successful-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/sat-sidebar-advert-small.png" alt="Successful Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to find new trading strategy ideas and objectively assess them for your portfolio using a Python-based backtesting engine.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/successful-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/advanced-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/aat-sidebar-advert-small.png" alt="Advanced Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to implement advanced trading strategies using time series analysis, machine learning and Bayesian statistics with R and Python.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/advanced-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+    
+
+<footer>
+  <div class="container container-full">
+    <section class="mt-1.5 mb-1">
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">QuantStart</li>
+            <li class="footer-list-link"><a class="link-fade" href="/about/">About</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/articles/">Articles</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/sitemap/">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Products</li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qsalpha/">QSAlpha</a></li>
+            
+            
+            <li class="footer-list-link"><a class="link-fade" href="/quantcademy/">Quantcademy</a></li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qstrader/">QSTrader</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Legal</li>
+            <li class="footer-list-link"><a class="link-fade" href="/privacy-policy/">Privacy Policy</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/terms-and-conditions/">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Social</li>
+            <li class="footer-list-link"><a class="link-fade" href="https://twitter.com/quantstart">Twitter</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="https://www.youtube.com/channel/UCmVnnZ6Y2TrJtY1eQJN6kWA">YouTube</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="row mb-1.5 mt-5">
+      <div class="col-12 col-md-9 col-lg-8 col-xl-6">
+        <div class="footer-copyright">
+          <p>©2012-2023 QuarkGluon Ltd. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+<script src="/static/js/jquery-3.2.1.min.js"></script>
+<script src="/static/js/prism.js.min"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/nav.js"></script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5383959-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+    
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="/static/js/highcharts/highcharts.js"></script>
+<script type="text/javascript">
+  num_colours = 10;
+</script>
+<script src="/static/js/statistics.js"></script>
+
+
+  </body>
+</html>

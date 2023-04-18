@@ -1,0 +1,596 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-site-verification" content="wl3-8ed1QZjI0iYZMv10zoZWYElkMObTfwLlWIj9cpA" />
+    <meta name="description" content="Bayesian Statistics: A Beginner&#x27;s Guide">
+
+    <link rel="icon" href="/static/images/favicon.png">
+
+    <title>Bayesian Statistics: A Beginner&#x27;s Guide | QuantStart</title>
+    
+    
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet"> 
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/prism.css" rel="stylesheet">
+<link href="/static/css/qs.css?v=10" rel="stylesheet">
+    
+  </head>
+
+  <body>
+    <header class="header covered-header" style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://quantstartmedia.s3.amazonaws.com/images/article-images/article-backgrounds/default-bg.jpg);">
+  
+<nav class="nav">
+  <div class="container nav-container">
+    <div class="nav-row row d-flex justify-content-between align-items-center">
+      <div class="col-2">
+        <ul class="nav-items justify-content-end small-capitals align-items-center">
+          <li class="nav-item">
+            <a class="link-fade" href="/">QuantStart</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-auto col-logo">
+        <ul id="top-nav-menu" class="nav-items justify-content-end align-items-center">
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/qsalpha/">QSAlpha</a>
+          </li>
+          
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/quantcademy/">Quantcademy</a>
+          </li>
+          
+          <li id="menu-link-ebooks" class="nav-item">
+            <a class="link-fade" href="#">Books</a>
+            <div id="menu-pane-ebooks" class="nav-items menu-dropdown-pane">
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/qstrader/">QSTrader</a>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/articles/">Articles</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/members/login/">Login</a>
+          </li>
+          
+        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<nav id="mobile-nav" class="mobile-nav text-left">
+  <div class="container">
+    <ul class="mt-4 ml-3 mobile-nav-menu">
+      <li class="nav-item">
+        <a class="link-fade d-block" href="/">QuantStart</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qsalpha/">QSAlpha</a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/quantcademy/">Quantcademy</a>
+      </li>
+      
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="#">Books</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qstrader/">QSTrader</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/articles/">Articles</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/members/login/">Login</a>
+      </li>
+      
+    </ul>
+    <button class="nav-toggle mobile-nav-close">
+      <svg id="mobile-nav-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M19.77,5.63,13.41,12l6.36,6.37a1,1,0,0,1-1.41,1.41L12,13.41,5.63,19.77a1,1,0,0,1-1.44-1.39l0,0L10.58,12,4.21,5.63a1,1,0,0,1,0-1.42,1,1,0,0,1,1.41,0l0,0L12,10.58l6.37-6.37a1,1,0,0,1,1.41,0A1,1,0,0,1,19.77,5.63Z"></path>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+  <div class="container hero-container">
+    <section class="mt-5 mb-4">
+      <div class="row justify-content-center">
+        <div class="col-12 text-center">
+          <p class="hero">Bayesian Statistics: A Beginner&#x27;s Guide</p>
+          <p class="hero subhero">Bayesian Statistics: A Beginner&#x27;s Guide</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</header>
+    
+<section class="container content-container">
+  <div class="row">
+    <div class="col-md-8 order-md-2">
+      <section class="content article-content">
+        
+        
+        <p><em>Article updated April 2022 for Python 3.8</em></p>
+
+<p>Over the last few years we have spent a good deal of time on QuantStart considering option price models, time series analysis and quantitative trading. It has become clear to me that many of you are interested in learning about the modern mathematical techniques that underpin not only quantitative finance and algorithmic trading, but also the newly emerging fields of <strong>data science</strong> and <strong>statistical machine learning</strong>.</p>
+
+<p>Quantitative skills are now in high demand not only in the financial sector but also at consumer technology startups, as well as larger data-driven firms. Hence we are going to expand the topics discussed on QuantStart to include not only modern financial techniques, but also statistical learning as applied to other areas, in order to <strong>broaden your career prospects</strong> if you are quantitatively focused.</p>
+
+<p>In order to begin discussing the modern techniques, we must first gain a solid understanding in the underlying mathematics and statistics that underpins these models. One of the key modern areas is that of <strong>Bayesian Statistics</strong>. We have not yet discussed Bayesian methods in any great detail on the site. This article has been written to help you understand the "philosophy" of the Bayesian approach, how it compares to the traditional/classical frequentist approach to statistics and the potential applications in both quantitative finance and data science.</p>
+
+<p>In the article we will:</p>
+
+<ul>
+  <li>Define Bayesian statistics (or Bayesian inference)</li>
+  <li>Compare Classical ("Frequentist") statistics and Bayesian statistics</li>
+  <li>Derive the famous Bayes' rule, an essential tool for Bayesian inference</li>
+  <li>Interpret and apply Bayes' rule for carrying out Bayesian inference</li>
+  <li>Carry out a concrete probability coin-flip example of Bayesian inference
+  </li>
+</ul>
+
+<h2>What is Bayesian Statistics?</h2>
+
+<p>Bayesian statistics is a <strong>particular approach to applying probability to statistical problems</strong>. It provides us with mathematical tools to <em>update our beliefs about random events in light of seeing new data or evidence about those events</em>.</p>
+
+<p>In particular Bayesian inference interprets <em>probability</em> as a measure of <em>believability</em> or <em>confidence</em> that an <em>individual</em> may possess about the occurance of a particular event.</p>
+
+<p>We may have a <em>prior</em> belief about an event, but our beliefs are likely to change when new evidence is brought to light. Bayesian statistics gives us a solid mathematical means of incorporating our prior beliefs, and evidence, to produce new <em>posterior</em> beliefs.</p>
+
+<p><strong>Bayesian statistics provides us with mathematical tools to rationally update our subjective beliefs in light of new data or evidence.</strong></p>
+
+<p>This is in contrast to another form of <em>statistical inference</em>, known as <em>classical</em> or <em>frequentist</em> statistics, which assumes that probabilities are the <em>frequency</em> of particular random events occuring in a <em>long run</em> of <em>repeated trials</em>.</p>
+
+<p>For example, as we roll a <em>fair</em> (i.e. unweighted) six-sided die repeatedly, we would see that each number on the die tends to come up 1/6 of the time.</p>
+
+<p><strong>Frequentist statistics assumes that probabilities are the long-run frequency of random events in repeated trials.</strong></p>
+
+<p>When carrying out statistical inference, that is, inferring statistical information from probabilistic systems, the two approaches - frequentist and Bayesian - have very different philosophies.</p>
+
+<p>Frequentist statistics tries to <em>eliminate</em> uncertainty by providing <em>estimates</em>. Bayesian statistics tries to <em>preserve</em> and <em>refine</em> uncertainty by adjusting <em>individual</em> beliefs in light of new evidence.</p>
+
+<h3>Frequentist vs Bayesian Examples</h3>
+
+<p>In order to make clear the distinction between the two differing statistical philosophies, we will consider two examples of probabilistic systems:</p>
+
+<ul>
+  <li><strong>Coin flips</strong> - What is the probability of an unfair coin coming up heads?</li>
+  <li><strong>Election of a <em>particular</em> candidate for UK Prime Minister</strong> - What is the probability of seeing an individual candidate winning, who has not stood before?</li>
+</ul>
+
+<p>The following table describes the alternative philosophies of the frequentist and Bayesian approaches:</p>
+
+<table class="table">
+  <tr>
+    <th><strong>Example</strong></th>
+    <th><strong>Frequentist Interpretation</strong></th>
+    <th><strong>Bayesian Interpretation</strong></th>
+  </tr>
+  <tr>
+    <td><strong>Unfair Coin Flip</strong></td>
+    <td>The probability of seeing a head when the unfair coin is flipped is the <em>long-run relative frequency</em> of seeing a head when repeated flips of the coin are carried out. That is, as we carry out more coin flips the number of heads obtained as a proportion of the total flips tends to the "true" or "physical" probability of the coin coming up as heads. In particular the individual running the experiment <em>does not</em> incorporate their own beliefs about the fairness of other coins.</td>
+    <td>Prior to any flips of the coin an <em>individual may believe</em> that the coin is fair. After a few flips the coin continually comes up heads. Thus the <em>prior</em> belief about fairness of the coin is modified to account for the fact that three heads have come up in a row and thus the coin might not be fair. After 500 flips, with 400 heads, the individual believes that the coin is very unlikely to be fair. The <em>posterior</em> belief is heavily modified from the <em>prior</em> belief of a fair coin.</td>
+  </tr>
+  <tr>
+    <td><strong>Election of Candidate</strong></td>
+    <td>The candidate only ever stands once <em>for this particular election</em> and so we cannot perform "repeated trials". In a frequentist setting we construct "virtual" trials of the election process. The probability of the candidate winning is defined as the relative frequency of the candidate winning in the "virtual" trials as a fraction of all trials.
+    </td>
+    <td>An <em>individual</em> has a <em>prior</em> belief of a candidate's chances of winning an election and their confidence can be quantified as a probability. However another individual could also have a separate differing prior belief about the same candidate's chances. As new data arrives, both beliefs are (rationally) updated by the Bayesian procedure.
+  </tr>
+</table>
+
+<p>Thus in the Bayesian interpretation a probability is a <em>summary of an individual's opinion</em>. A key point is that different (intelligent) individuals can have different opinions (and thus different prior beliefs), since they have differing access to data and ways of interpreting it. However, as both of these individuals come across new data that they both have access to their (potentially differing) prior beliefs will lead to posterior beliefs that will begin converging towards each other under the rational updating procedure of Bayesian inference.</p>
+
+<p>In the Bayesian framework an individual would apply a probability of 0 when they have no confidence in an event occuring, while they would apply a probability of 1 when they are absolutely certain of an event occuring. A probability assigned between 0 and 1 allows weighted confidence in other potential outcomes.</p>
+
+<p>In order to carry out Bayesian inference, we need to utilise a famous theorem in probability known as <strong>Bayes' rule</strong> and <em>interpret it in the correct fashion</em>. In the following box, we derive Bayes' rule using the definition of <em>conditional probability</em>. However, it isn't essential to follow the derivation in order to use Bayesian methods, so <strong>feel free to skip the box</strong> if you wish to jump straight into learning how to use Bayes' rule.</p>
+
+<div class="bs-callout bs-callout-info">
+  <h4>Deriving Bayes' Rule</h4>
+   
+  <p>We begin by considering the definition of <strong>conditional probability</strong>, which gives us a rule for determining the probability of an event $A$, given the occurance of another event $B$. An example question in this vein might be <em>"What is the probability of rain occuring</em> given <em>that there are clouds in the sky?"</em></p>
+
+  <p>The mathematical definition of conditional probability is as follows:</p>
+
+  \begin{eqnarray}
+  P(A|B) = \frac{P(A \cap B)}{P(B)}
+  \end{eqnarray}
+
+  <p>This simply states that the probability of $A$ occuring given that $B$ has occured is equal to the probability that they have both occured, relative to the probability that $B$ has occured.</p>
+
+  <p>Or in the language of the example above: The probability of rain <em>given that we have seen clouds</em> is equal to the probability of rain <em>and</em> clouds occuring together, relative to the probability of seeing clouds at all.</p>
+
+  <p>If we multiply both sides of this equation by $P(B)$ we get:</p>
+
+  \begin{eqnarray}
+  P(B) P(A|B) = P(A \cap B)
+  \end{eqnarray}
+
+  <p>But, we can simply make the same statement about $P(B|A)$, which is akin to asking <em>"What is the probability of seeing clouds, given that it is raining?"</em>:</p>
+
+  \begin{eqnarray}
+  P(B|A) = \frac{P(B \cap A)}{P(A)}
+  \end{eqnarray}
+
+  <p>Note that $P(A \cap B) = P(B \cap A)$ and so by substituting the above and multiplying by $P(A)$, we get:</p>
+
+  \begin{eqnarray}
+  P(A) P(B|A) = P(A \cap B)
+  \end{eqnarray}
+
+  <p>We are now able to set the two expressions for $P(A \cap B)$ equal to each other:</p>
+
+  \begin{eqnarray}
+  P(B) P(A|B) = P(A) P(B|A)
+  \end{eqnarray}
+
+  <p>If we now divide both sides by $P(B)$ we arrive at the celebrated Bayes' rule:</p>
+
+  \begin{eqnarray}
+  P(A|B) = \frac{P(B|A) P(A)}{P(B)}
+  \end{eqnarray}
+
+  <p>However, it will be helpful for later usage of Bayes' rule to modify the denominator, $P(B)$ on the right hand side of the above relation to be written in terms of $P(B|A)$. We can actually write:</p>
+
+  \begin{eqnarray}
+  P(B) = \sum_{a \in A} P(B \cap A)
+  \end{eqnarray}
+
+  <p>This is possible because the events $A$ are an exhaustive partition of the sample space.</p>
+
+  <p>So that by substituting the defintion of conditional probability we get:</p>
+
+  \begin{eqnarray}
+  P(B) =  \sum_{a \in A} P(B \cap A) = \sum_{a \in A} P(B|A) P(A)
+  \end{eqnarray}
+
+  <p>Finally, we can substitute this into Bayes' rule from above to obtain an alternative version of Bayes' rule, which is used heavily in Bayesian inference:</p>
+
+  \begin{eqnarray}
+  P(A|B) = \frac{P(B|A) P(A)}{\sum_{a \in A} P(B|A) P(A)}
+  \end{eqnarray}
+
+  <p>Now that we have derived Bayes' rule we are able to apply it to statistical inference.</p>
+</div>
+
+<h2>Applying Bayes' Rule for Bayesian Inference</h2>
+
+<p>As we stated at the start of this article the basic idea of Bayesian inference is to continually update our <em>prior beliefs</em> about events as new evidence is presented. This is a very natural way to think about probabilistic events. As more and more evidence is accumulated our prior beliefs are steadily "washed out" by any new data.</p>
+
+<p>Consider a (rather nonsensical) prior belief that the Moon is going to collide with the Earth. For every night that passes, the application of Bayesian inference will tend to correct our prior belief to a <em>posterior belief</em> that the Moon is less and less likely to collide with the Earth, since it remains in orbit.</p>
+
+<p>In order to demonstrate a concrete numerical example of Bayesian inference it is necessary to introduce some new notation.</p>
+
+<p>Firstly, we need to consider the concept of <em>parameters</em> and <em>models</em>. A <em>parameter</em> could be the weighting of an unfair coin, which we could label as $\theta$. Thus $\theta = P(H)$ would describe the probability distribution of our beliefs that the coin will come up as heads when flipped. The <em>model</em> is the actual means of encoding this flip mathematically. In this instance, the coin flip can be modelled as a Bernoulli trial.</p>
+
+<div class="bs-callout bs-callout-info">
+  <h4>Bernoulli Trial</h4>
+  <p>A Bernoulli trial is a random experiment with only two outcomes, usually labelled as "success" or "failure", in which the probability of the success is exactly the same every time the trial is carried out. The probability of the success is given by $\theta$, which is a number between 0 and 1. Thus $\theta \in [0,1]$.</p>
+</div>
+
+<p>Over the course of carrying out some coin flip experiments (repeated Bernoulli trials) we will generate some <em>data</em>, $D$, about heads or tails.</p>
+
+<p>A natural example question to ask is "What is the probability of seeing 3 heads in 8 flips (8 Bernoulli trials), given a fair coin ($\theta=0.5$)?".</p>
+
+<p>A model helps us to ascertain the probability of seeing this data, $D$, given a value of the parameter $\theta$. The probability of seeing data $D$ under a particular value of $\theta$ is given by the following notation: $P(D|\theta)$.</p>
+
+<p>However, if you consider it for a moment, we are <em>actually</em> interested in the alternative question - "What is the probability that the coin is fair (or unfair), given that I have seen a particular sequence of heads and tails?".</p>
+
+<p>Thus we are interested in the <em>probability distribution</em> which reflects our belief about different possible values of $\theta$, given that we have observed some data $D$. This is denoted by $P(\theta|D)$. Notice that this is the converse of $P(D|\theta)$. So how do we get between these two probabilities? It turns out that Bayes' rule is the link that allows us to go between the two situations.</p>
+
+<div class="bs-callout bs-callout-info">
+  <h4>Bayes' Rule for Bayesian Inference</h4>
+
+  \begin{eqnarray}
+  P(\theta|D) = P(D|\theta) \; P(\theta) \; / \; P(D)
+  \end{eqnarray}
+
+  <p>Where:</p>
+
+  <ul>
+    <li><strong>$P(\theta)$</strong> is the <strong>prior</strong>. This is the strength in our belief of $\theta$ without considering the evidence $D$. <em>Our prior view on the probability of how fair the coin is.</em></li>
+    <li><strong>$P(\theta|D)$</strong> is the <strong>posterior</strong>. This is the (refined) strength of our belief of $\theta$ once the evidence $D$ has been taken into account. <em>After seeing 4 heads out of 8 flips, say, this is our updated view on the fairness of the coin.</em></li>
+    <li><strong>$P(D|\theta)$</strong> is the <strong>likelihood</strong>. This is the probability of seeing the data $D$ as generated by a model with parameter $\theta$. <em>If we knew the coin was fair, this tells us the probability of seeing a number of heads in a particular number of flips.</em></li>
+    <li><strong>$P(D)$</strong> is the <strong>evidence</strong>. This is the probability of the data as determined by summing (or integrating) across all possible values of $\theta$, weighted by how strongly we believe in those particular values of $\theta$. <em>If we had multiple views of what the fairness of the coin is (but didn't know for sure), then this tells us the probability of seeing a certain sequence of flips for all possibilities of our belief in the coin's fairness.</em></li>
+  </ul>
+</div>
+
+<p>The entire goal of Bayesian inference is to provide us with a rational and mathematically sound procedure for incorporating our prior beliefs, with any evidence at hand, in order to produce an updated posterior belief. What makes it such a valuable technique is that posterior beliefs can themselves be used as prior beliefs under the generation of <em>new</em> data. Hence Bayesian inference allows us to <em>continually</em> adjust our beliefs under new data by repeatedly applying Bayes' rule.</p>
+
+<p>There was a lot of theory to take in within the previous two sections, so I'm now going to provide a concrete example using the age-old tool of statisticians: the coin-flip.</p>
+
+<h2>Coin-Flipping Example</h2>
+
+<p>In this example we are going to consider multiple coin-flips of a coin with unknown fairness. We will use Bayesian inference to update our beliefs on the fairness of the coin as more data (i.e. more coin flips) becomes available. The coin will actually be fair, but we won't learn this until the trials are carried out. At the start we have no <em>prior</em> belief on the fairness of the coin, that is, we can say that any level of fairness is equally likely.</p>
+
+<p>In statistical language we are going to perform $N$ repeated Bernoulli trials with $\theta = 0.5$. We will use a <a href="https://en.wikipedia.org/wiki/Continuous_uniform_distribution" target="blank" rel="noopener norefferer">uniform distribution</a> as a means of characterising our prior belief that we are unsure about the fairness. This states that we consider each level of fairness (or each value of $\theta$) to be equally likely.</p>
+
+<p>We are going to use a Bayesian updating procedure to go from our prior beliefs to <em>posterior beliefs</em> as we observe new coin flips. This is carried out using a particularly mathematically succinct procedure using <em>conjugate priors</em>. We won't go into any detail on conjugate priors within this article, as it will form the basis of the next article on Bayesian inference. It will however provide us with the means of explaining how the coin flip example is carried out in practice.</p>
+
+<p>The uniform distribution is actually a more specific case of another probability distribution, known as a <a href="https://en.wikipedia.org/wiki/Beta_distribution" target="blank" rel="noopener norefferer">Beta distribution</a>. Conveniently, under the binomial model, if we use a Beta distribution for our prior beliefs it leads to a Beta distribution for our posterior beliefs. This is an extremely useful mathematical result, as Beta distributions are quite flexible in modelling beliefs. However, I don't want to dwell on the details of this too much here, since we will discuss it in the next article. At this stage, it just allows us to easily create some visualisations below that emphasises the Bayesian procedure!</p>
+
+<p>In the following figure we can see 6 particular points at which we have carried out a number of Bernoulli trials (coin flips). In the first sub-plot we have carried out no trials and hence our probability density function (in this case our prior density) is the uniform distribution. It states that we have equal belief in all values of $\theta$ representing the fairness of the coin.</p>
+
+<p>The next panel shows 2 trials carried out and they both come up heads. Our Bayesian procedure using the conjugate Beta distributions now allows us to update to a <em>posterior</em> density. Notice how the weight of the density is now shifted to the right hand side of the chart. This indicates that our prior belief of equal likelihood of fairness of the coin, coupled with 2 new data points, leads us to believe that the coin is more likely to be unfair (biased towards heads) than it is tails.</p>
+
+<p>The following two panels show 10 and 20 trials respectively. Notice that even though we have seen 2 tails in 10 trials we are still of the belief that the coin is likely to be unfair and biased towards heads. After 20 trials, we have seen a few more tails appear. The density of the probability has now shifted closer to $\theta=P(H)=0.5$. Hence we are now starting to believe that the coin is possibly fair.</p> 
+
+<p>After 50 and 500 trials respectively, we are now beginning to believe that the fairness of the coin is very likely to be around $\theta=0.5$. This is indicated by the shrinking width of the probability density, which is now clustered tightly around $\theta=0.46$ in the final panel. Were we to carry out another 500 trials (since the coin is <em>actually</em> fair) we would see this probability density become even tighter and centred closer to $\theta=0.5$.</p>
+
+<figure>
+  <img alt="Bayesian update using Beta-Binomial Model" src="https://quantstartmedia.s3.amazonaws.com/images/article-images/articles/bayesian-statistics-a-beginners-guide/qs-bayes-bernoulli.png">
+  <figcaption>Bayesian update procedure using the Beta-Binomial Model</figcaption>
+</figure>
+
+<p>Thus it can be seen that Bayesian inference gives us a <em>rational</em> procedure to go from an uncertain situation with limited information to a more certain situation with significant amounts of data. In the next article we will discuss the notion of <em>conjugate priors</em> in more depth, which heavily simplify the mathematics of carrying out Bayesian inference in this example.</p>
+
+<p>For completeness, I've provided the Python code (heavily commented) for producing this plot. It makes use of <a href="https://scipy.org/">SciPy</a>'s statistics model, in particular, the <a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.beta.html">Beta distribution</a>:</p>
+
+<pre>
+<code class="language-python">import numpy as np
+from scipy import stats
+from matplotlib import pyplot as plt
+
+
+if __name__ == "__main__":
+    # Create a list of the number of coin tosses ("Bernoulli trials")
+    number_of_trials = [0, 2, 10, 20, 50, 500]
+
+    # Conduct 500 coin tosses and output into a list of 0s and 1s
+    # where 0 represents a tail and 1 represents a head
+    data = stats.bernoulli.rvs(0.5, size=number_of_trials[-1])
+    
+    # Discretise the x-axis into 100 separate plotting points
+    x = np.linspace(0, 1, 100)
+    
+    # Loops over the number_of_trials list to continually add
+    # more coin toss data. For each new set of data, we update
+    # our (current) prior belief to be a new posterior. This is
+    # carried out using what is known as the Beta-Binomial model.
+    # For the time being, we won't worry about this too much. It 
+    # will be the subject of a later article!
+    for i, N in enumerate(number_of_trials):
+        # Accumulate the total number of heads for this 
+        # particular Bayesian update
+        heads = data[:N].sum()
+
+        # Create an axes subplot for each update 
+        ax = plt.subplot(int(len(number_of_trials) / 2), 2, i + 1)
+        ax.set_title("%s trials, %s heads" % (N, heads))
+
+        # Add labels to both axes and hide labels on y-axis
+        plt.xlabel("$P(H)$, Probability of Heads")
+        plt.ylabel("Density")
+        if i == 0:
+            plt.ylim([0.0, 2.0])
+        plt.setp(ax.get_yticklabels(), visible=False)
+                
+        # Create and plot a  Beta distribution to represent the 
+        # posterior belief in fairness of the coin.
+        y = stats.beta.pdf(x, 1 + heads, 1 + N - heads)
+        plt.plot(x, y, label="observe %d tosses,\n %d heads" % (N, heads))
+        plt.fill_between(x, 0, y, color="#aaaadd", alpha=0.5)
+
+    # Expand plot to cover full width/height and show it
+    plt.tight_layout()
+    plt.show()</code>
+</pre>
+
+<p><em>I'd like to give special thanks to my good friend Jonathan Bartlett, who runs <a href="http://thestatsgeek.com/">TheStatsGeek.com</a>, for reading drafts of this article and for providing helpful advice on interpretation and corrections. Thanks Jon!</em></p>
+        
+        
+        <h2>Related Articles</h2>
+        <ul>
+        
+        <li><a href="/articles/Bayesian-Inference-of-a-Binomial-Proportion-The-Analytical-Approach/">Bayesian Inference of a Binomial Proportion - The Analytical Approach</a></li>
+        
+        </ul>
+        
+        <script async data-uid="6296c27f4b" src="https://weathered-brook-5281.ck.page/6296c27f4b/index.js"></script>
+      </section>
+    </div>
+    <div class="col-md-4 book-card order-md-1">
+      
+<div class="sidebar-advert-container">
+  <a href="/qsalpha/?ref=art">
+    <img class="card-img-top" src="/static/images/qsalpha-sidebar-advert-small.png" alt="QSAlpha">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/qsalpha/?ref=art">QSAlpha</a></h3>
+      <p class="card-text medium-text mb-3">Join the QSAlpha research platform that helps fill your strategy research pipeline, diversifies your portfolio and improves your risk-adjusted returns for increased profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/qsalpha/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/quantcademy/?ref=art">
+    <img class="card-img-top" src="/static/images/quantcademy-sidebar-advert-small.png" alt="Quantcademy">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/quantcademy/?ref=art">The Quantcademy</a></h3>
+      <p class="card-text medium-text mb-3">Join the Quantcademy membership portal that caters to the rapidly-growing retail quant trader community and learn how to increase your strategy profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/quantcademy/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/successful-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/sat-sidebar-advert-small.png" alt="Successful Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to find new trading strategy ideas and objectively assess them for your portfolio using a Python-based backtesting engine.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/successful-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/advanced-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/aat-sidebar-advert-small.png" alt="Advanced Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to implement advanced trading strategies using time series analysis, machine learning and Bayesian statistics with R and Python.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/advanced-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+    
+
+<footer>
+  <div class="container container-full">
+    <section class="mt-1.5 mb-1">
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">QuantStart</li>
+            <li class="footer-list-link"><a class="link-fade" href="/about/">About</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/articles/">Articles</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/sitemap/">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Products</li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qsalpha/">QSAlpha</a></li>
+            
+            
+            <li class="footer-list-link"><a class="link-fade" href="/quantcademy/">Quantcademy</a></li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qstrader/">QSTrader</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Legal</li>
+            <li class="footer-list-link"><a class="link-fade" href="/privacy-policy/">Privacy Policy</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/terms-and-conditions/">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Social</li>
+            <li class="footer-list-link"><a class="link-fade" href="https://twitter.com/quantstart">Twitter</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="https://www.youtube.com/channel/UCmVnnZ6Y2TrJtY1eQJN6kWA">YouTube</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="row mb-1.5 mt-5">
+      <div class="col-12 col-md-9 col-lg-8 col-xl-6">
+        <div class="footer-copyright">
+          <p>©2012-2023 QuarkGluon Ltd. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+<script src="/static/js/jquery-3.2.1.min.js"></script>
+<script src="/static/js/prism.js.min"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/nav.js"></script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5383959-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+    
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="/static/js/highcharts/highcharts.js"></script>
+<script type="text/javascript">
+  num_colours = 10;
+</script>
+<script src="/static/js/statistics.js"></script>
+
+
+  </body>
+</html>

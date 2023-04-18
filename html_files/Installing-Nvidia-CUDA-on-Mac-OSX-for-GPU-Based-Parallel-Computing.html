@@ -1,0 +1,531 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-site-verification" content="wl3-8ed1QZjI0iYZMv10zoZWYElkMObTfwLlWIj9cpA" />
+    <meta name="description" content="Installing Nvidia CUDA on Mac OSX for GPU-Based Parallel Computing">
+
+    <link rel="icon" href="/static/images/favicon.png">
+
+    <title>Installing Nvidia CUDA on Mac OSX for GPU-Based Parallel Computing | QuantStart</title>
+    
+    
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet"> 
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/prism.css" rel="stylesheet">
+<link href="/static/css/qs.css?v=10" rel="stylesheet">
+    
+  </head>
+
+  <body>
+    <header class="header covered-header" style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://quantstartmedia.s3.amazonaws.com/images/article-images/article-backgrounds/default-bg.jpg);">
+  
+<nav class="nav">
+  <div class="container nav-container">
+    <div class="nav-row row d-flex justify-content-between align-items-center">
+      <div class="col-2">
+        <ul class="nav-items justify-content-end small-capitals align-items-center">
+          <li class="nav-item">
+            <a class="link-fade" href="/">QuantStart</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-auto col-logo">
+        <ul id="top-nav-menu" class="nav-items justify-content-end align-items-center">
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/qsalpha/">QSAlpha</a>
+          </li>
+          
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/quantcademy/">Quantcademy</a>
+          </li>
+          
+          <li id="menu-link-ebooks" class="nav-item">
+            <a class="link-fade" href="#">Books</a>
+            <div id="menu-pane-ebooks" class="nav-items menu-dropdown-pane">
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/qstrader/">QSTrader</a>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/articles/">Articles</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/members/login/">Login</a>
+          </li>
+          
+        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<nav id="mobile-nav" class="mobile-nav text-left">
+  <div class="container">
+    <ul class="mt-4 ml-3 mobile-nav-menu">
+      <li class="nav-item">
+        <a class="link-fade d-block" href="/">QuantStart</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qsalpha/">QSAlpha</a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/quantcademy/">Quantcademy</a>
+      </li>
+      
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="#">Books</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qstrader/">QSTrader</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/articles/">Articles</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/members/login/">Login</a>
+      </li>
+      
+    </ul>
+    <button class="nav-toggle mobile-nav-close">
+      <svg id="mobile-nav-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M19.77,5.63,13.41,12l6.36,6.37a1,1,0,0,1-1.41,1.41L12,13.41,5.63,19.77a1,1,0,0,1-1.44-1.39l0,0L10.58,12,4.21,5.63a1,1,0,0,1,0-1.42,1,1,0,0,1,1.41,0l0,0L12,10.58l6.37-6.37a1,1,0,0,1,1.41,0A1,1,0,0,1,19.77,5.63Z"></path>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+  <div class="container hero-container">
+    <section class="mt-5 mb-4">
+      <div class="row justify-content-center">
+        <div class="col-12 text-center">
+          <p class="hero">Installing Nvidia CUDA on Mac OSX for GPU-Based Parallel Computing</p>
+          <p class="hero subhero">Installing Nvidia CUDA on Mac OSX for GPU-Based Parallel Computing</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</header>
+    
+<section class="container content-container">
+  <div class="row">
+    <div class="col-md-8 order-md-2">
+      <section class="content article-content">
+        
+        
+        <p>This is the first article in a series that I will write about on the topic of parallel programming and CUDA. In this guide I will explain how to install CUDA 6.0 for Mac OS X. CUDA is a proprietary programming language developed by NVIDIA for GPU programming, and in the last few years it has become the standard for GPU computing. GPU computing is a new branch of computer science and, more specifically, of parallel computing.</p>
+
+<p>I will cover parallel computing in detail in later articles, but if I had to outline in a few words what parallel computing is I would say that it is the partition of repetitive (and therefore often time consuming) tasks into singular tasks, each of which is performed by a single core or processing unit.</p>
+
+<p>To better explain the key concept behind parallel computing, let me give you a more "realistic" example. You have to move to a new town and are looking to hire a furniture mover company. You have two choices: the first company can provide you with the strongest man alive driving the world's fastest van. The second one instead has 5 normal men available, each of them with a van of average speed. What would you prefer? Of course it depends of how much stuff you have to move and how much time you have to do it.</p>
+
+<p>If you need the work done quickly and have to move a lot of furniture, of course you will chose the second company. Each of the men is much slower than the strong guy, but if they are able to transport your load concurrently they will have the time to complete the task, have a beer together and come back to their family before the strong guy has done half the work. GPU computing is like having hundreds and thousands of skinny guys with old vans, which can be pretty effective.</p>
+
+<p>This is the main idea about parallel computing. What follows are the instructions to install the necessary software to use thousands of "vans" to enhance the performance of your code.</p>
+
+<h2>CUDA Installation On Mac OSX</h2>
+
+<p>In this guide, I explain how to install CUDA 6.0 (the latest release as I write) on your computer under OS X.</p>
+
+<p style="text-align:center;">
+  <img src="https://s3.amazonaws.com/quantstartmedia/images/qs-cuda-1-0001.png" alt="Finder menu 'GO'" width="250px" style="border:1px solid #eee;"><br>
+  <strong>Finder menu "GO"</strong>
+</p>
+
+<h3>General System Requirements</h3>
+
+<p>There are some general requirements which are common regardless of the operating system you use. The most important one is a CUDA-capable GPU, so you need a recent NVIDIA graphics card. A full list is available <a href="https://developer.nvidia.com/cuda-gpus">here</a>. The other requirement is to have the CUDA Toolkit, which is free and provides you all you need to install and run CUDA code. By clicking on <a href="https://developer.nvidia.com/cuda-downloads">this link</a> you will open the download page. Choose your operating system (in this case I presume Mac OS X) and then download the package by clicking on <strong>PKG</strong>.</p>
+
+<p style="text-align:center;">
+  <img src="https://s3.amazonaws.com/quantstartmedia/images/qs-cuda-1-0002.png" alt="CUDA 6.0 Downloads page" width="500px" style="border:1px solid #eee;"><br>
+  <strong>CUDA 6.0 Downloads page</strong>
+</p>
+
+<p>If you don't know the card/cards available on your Mac, then just go to <strong>Application > Utilities > System Information</strong> or search for System Information with Spotlight in this way and click on the icon.</p>
+
+<p style="text-align:center;">
+  <img src="https://s3.amazonaws.com/quantstartmedia/images/qs-cuda-1-0003.png" alt="Searching with Spotlight" width="500px" style="border:1px solid #eee;"><br>
+  <strong>Searching with Spotlight</strong>
+</p>
+
+<p>Then look for <strong>Graphics/Displays</strong> and you will get information on your graphics card, including the name. In this case I have two of them and, fortunately, one of them is an NVIDIA.</p>
+
+<p style="text-align:center;">
+  <img src="https://s3.amazonaws.com/quantstartmedia/images/qs-cuda-1-0004.png" alt="System Information - Graphics/Displays" width="620px" style="border:1px solid #eee;"><br>
+  <strong>System Information - Graphics/Displays</strong>
+</p>
+
+<h3>Mac OS X Requirements</h3>
+
+<p>If you want to install CUDA 6.0 on a Mac you need to have OS X 10.8 (Lion) or later running on your computer. If you don't, you can download Mavericks (OS X 10.9) from the App Store, which is free. In the situation where you cannot install OS X 10.8 or later, don't worry: you can install older CUDA releases. The installation is similar, but if some of you experience trouble, I will provide help in future articles.</p>
+
+<p>In order to use CUDA 6.0 you need the <strong>GNU Compiler Collection (gcc)</strong> and <strong>clang</strong> on your Mac. They are compliers for the C-family of programming languages and CUDA is a library for them. Actually, you will code the "serial" (non-parallel) parts of your code in C or C++. To get these two compilers you first need the Command Line Tools, which once again are free to download from the App Store.</p>
+
+<p>Anyway, as you might have already installed the Command Line Tools without even noticing (especially if you already have XCode), I suggest you check its presence by going to the folder <strong>/Library/Developer/</strong> by clicking on <strong>Go to Folder</strong> in the Finder menu or by using the shortcut <strong>Shift - Apple Key - G</strong> after clicking the Finder icon.</p>
+
+<p style="text-align:center;">
+  <img src="https://s3.amazonaws.com/quantstartmedia/images/qs-cuda-1-0005.png" alt="Go to Folder Window" width="350px" style="border:1px solid #eee;"><br>
+  <strong>Go to Folder Window</strong>
+</p>
+
+<p>If you find the folder named CommandLineTools you can then check for needed packages by entering it, opening the <strong>usr</strong> folder and then <strong>bin</strong>. If you already have the CommandLineTools folder you should very likely even have the <strong>clang</strong> and <strong>gcc</strong> packages. If you don't then you will need to download them.</p>
+
+<p>Open your Terminal (which can be found in <strong>/Applications/Utilities</strong> or, as usual, by typing “Terminal” in Spotlight and then clicking on its icon) and typing into the terminal:</p>
+
+<pre>
+<code class="language-bash">xcode-select --install</code>
+</pre>
+
+<p style="text-align:center;">
+  <img src="https://s3.amazonaws.com/quantstartmedia/images/qs-cuda-1-0006.png" alt="Terminal on OS X" width="400px" style="border:1px solid #eee;"><br>
+  <strong>Terminal on OS X</strong>
+</p>
+
+<p>Then a window will appear, asking you if you want to download and install this package. Click yes, and the installation will proceed. Do not close the Terminal as we will need it later.</p>
+
+<p style="text-align:center;">
+  <img src="https://s3.amazonaws.com/quantstartmedia/images/qs-cuda-1-0007.png" alt="CommandLineTools installation window" width="450px" style="border:1px solid #eee;"><br>
+  <strong>CommandLineTools installation window</strong>
+</p>
+
+<h3>Installing CUDA Packages</h3>
+
+<p>In the previously downloaded CUDA package, you should find three distinct packages: CUDA Driver, CUDA Toolkit and CUDA Samples. Despite the fact that the only essential one is the CUDA Driver, I suggest you install all of them, as they are very useful.</p>
+
+<p style="text-align:center;">
+  <img src="https://s3.amazonaws.com/quantstartmedia/images/qs-cuda-1-0008.png" alt="Packages selection during CUDA 6.0 installation" width="450px" style="border:1px solid #eee;"><br>
+  <strong>Packages selection during CUDA 6.0 installation</strong>
+</p>
+
+<p>As always installation of Mac OS X packages is straightforward. Just click "Continue" on every window. At one point you will have to agree to terms and conditions by clicking on the <strong>Agree</strong> button when it appears) and then <strong>Install</strong> in the final one. Now you have CUDA 6.0 installed on your Mac, but it is not quite ready to be used. You have to carry out the final two steps. Open the Terminal (if you missed how to do this, just read a couple of paragraphs above) and then type or, more conveniently, copy and paste, the following:</p>
+
+<pre>
+<code class="language-bash">export PATH=/Developer/NVIDIA/CUDA-6.0/bin:$PATH
+export DYLD_LIBRARY_PATH=/Developer/NVIDIA/CUDA-6.0/lib:$DYLD_LIBRARY_PATH</code>
+</pre>
+
+<p style="text-align:center;">
+  <img src="https://s3.amazonaws.com/quantstartmedia/images/qs-cuda-1-0009.png" alt="Setting path variables on Terminal" width="450px" style="border:1px solid #eee;"><br>
+  <strong>Setting path variables on Terminal</strong>
+</p>
+
+<p>This will set the environment path variables, which is necessary to use CUDA. If you have a Mac with a CUDA-capable graphic card, you probably actually have two graphic cards: an integrated one and a separate, discrete one. Since it is consumes a lot of batter power to always have the discrete card in use, OS X could prevent it by automatically switching between the two cards. So, when you want to use CUDA you have to be sure that your Mac won't "decide" to use the integrated card while you run a script.</p>
+
+<p style="text-align:center;">
+  <img src="https://s3.amazonaws.com/quantstartmedia/images/qs-cuda-1-0010.png" alt="System Preferences panel" width="450px" style="border:1px solid #eee;"><br>
+  <strong>System Preferences panel</strong>
+</p>
+
+<p>Now go to <strong>System Preferences &gt; Energy Saver </strong> (you can find System Preferences in the <strong>Utilities</strong> folder or using Spotlight), drag the <strong>Computer sleep</strong> bar to <strong>Never</strong> and uncheck <strong>Automatic Graphic Switching</strong>.</p>
+
+<p style="text-align:center;">
+  <img src="https://s3.amazonaws.com/quantstartmedia/images/qs-cuda-1-0011.png" alt="Energy Saver panel" width="450px" style="border:1px solid #eee;"><br>
+  <strong>Energy Saver panel</strong>
+</p>
+
+<p>Since it will get boring to follow this procedure every time you want to use CUDA, you can download <a href="https://www.macupdate.com/app/mac/33905/gfxcardstatus">gfxCardStatus</a> (which is free and open-source) and switch between graphics cards in a couple of clicks directly from your menu bar, as you can see in the following picture. Actually, this was my choice and I'm pretty satisfied with how it works. Also, it could be useful to have direct control of graphics switching regardless of CUDA.</p>
+
+<p style="text-align:center;">
+  <img src="https://s3.amazonaws.com/quantstartmedia/images/qs-cuda-1-0012.png" alt="gfxCardStatus menu" width="250px" style="border:1px solid #eee;"><br>
+  <strong>gfxCardStatus menu</strong>
+</p>
+
+<h3>Verification</h3>
+
+<p>Now that we have finished the installation procedure, CUDA should work. To be sure, it is worth following this verification procedure.</p>
+
+<p>To see if the CUDA Driver is installed correctly, type the following into your terminal:</p>
+
+<pre>
+<code class="language-bash">kextstat | grep -i cuda</code>
+</pre>
+
+<p>You should get a response like this:</p>
+
+<p style="text-align:center;">
+  <img src="https://s3.amazonaws.com/quantstartmedia/images/qs-cuda-1-0013.png" alt="Checking for the CUDA Driver" width="450px" style="border:1px solid #eee;"><br>
+  <strong>Checking for the CUDA Driver</strong>
+</p>
+
+<p>If you get an error, reboot your Mac and try again. If this verification is once again unsuccessful, reinstall all the CUDA packages you downloaded from NVIDIA's website.</p>
+
+<p>Now you have to check the installation of the <strong>nvcc</strong> compiler. As you should have installed CUDA in the suggested directory, using the Terminal you can check nvcc availability by typing:</p>
+
+<pre>
+<code class="language-bash">/Developer/NVIDIA/CUDA-6.0/bin/nvcc -V</code>
+</pre>
+
+<p>If you didn't install it here, just replace the above line with the directory you used.</p>
+
+<p>If you get something like this:</p>
+
+<p style="text-align:center;">
+  <img src="https://s3.amazonaws.com/quantstartmedia/images/qs-cuda-1-0014.png" alt="Checking for NVXX" width="450px" style="border:1px solid #eee;"><br>
+  <strong>Checking for NVCC</strong>
+</p>
+
+<p>or anything that doesn't include "not found" you are ok. Otherwise, look for nvcc in the <strong>bin</strong> folder.</p>
+
+<p style="text-align:center;">
+  <img src="https://s3.amazonaws.com/quantstartmedia/images/qs-cuda-1-0015.png" alt="NVCC in bin folder" width="500px" style="border:1px solid #eee;"><br>
+  <strong>NVCC in bin folder</strong>
+</p>
+
+<p>Now it's time to run some samples provided by NVIDIA. Here I make use of the samples suggested by NVIDIA, as two of them are useful to check if your GPU is ready to work with what you have just installed.</p>
+
+<p>In your terminal go to the samples folder. Again, if you have installed CUDA in the suggested directory, just type this line in your terminal:</p>
+
+<pre>
+<code class="language-bash">cd /Developer/NVIDIA/CUDA-6.0/samples/</code>
+</pre>
+
+<p>and then copy and paste the following lines (you could write and run one sample at time, but this is a quicker way):</p>
+
+<pre>
+<code class="language-bash">make -C 0_Simple/vectorAdd
+make -C 0_Simple/vectorAddDrv
+make -C 1_Utilities/deviceQuery
+make -C 1_Utilities/bandwidthTest</code>
+</pre>
+
+<p>If you get no errors, we've almost made it. Please note that you may experience some warnings (I had). This is not really a thing to worry about as CUDA will work anyway, but if you have some troubles don't hesitate to write a comment and I will answer you as soon as possible.</p>
+
+<p>Let's now see the results of those tests (the last two scripts). The previous <strong>make</strong> commands created a new folder, which is where we want to go now. This new folder can be reached by adding <strong>bin/x86_64/darwin/release</strong> to the path of the "<em>samples</em>" folder, so you can type:</p>
+
+<pre>
+<code class="language-bash">cd /Developer/NVIDIA/CUDA-6.0/samples/bin/x86_64/darwin/release</code>
+</pre>
+
+<p>in your Terminal and then run both the script deviceQuery and bandwidthTest by writing:</p>
+
+<pre>
+<code class="language-bash">./deviceQuery
+./bandwidthTest</code>
+</pre>
+
+<p>I suggest you run those scripts one at a time, but of course you can just copy and paste both these lines and press enter.</p>
+
+<p>Note that the returned parameters will change depending on your hardware and software, so don't worry if you don't have the same lines as the following screens:</p>
+
+<p style="text-align:center;">
+  <img src="https://s3.amazonaws.com/quantstartmedia/images/qs-cuda-1-0016.png" alt="deviceQuery report - check the circled part" width="500px" style="border:1px solid #eee;"><br>
+  <strong>deviceQuery report - check the circled part</strong>
+</p>
+
+<p style="text-align:center;">
+  <img src="https://s3.amazonaws.com/quantstartmedia/images/qs-cuda-1-0017.png" alt="bandwidthTest report" width="500px" style="border:1px solid #eee;"><br>
+  <strong>bandwidthTest report</strong>
+</p>
+
+<p>If you can see what I highlighted in the above figures with circles, then congratulations! You can now use CUDA on your Mac!</p>
+
+<p>In next set of articles I will write about programming in CUDA and, more generally, parallel computing, to provide you with a comprehensive tutorial on how to code your own CUDA scripts with useful financial examples.</p>
+
+<p>In the meantime, I suggest you get more confident with this environment by having a look at NVIDIA's samples and the NVIDIA Nsight Eclipse edition IDE (where you actually write code), which can be found in <strong>/Developer/NVIDIA/CUDA-6.0/libnsight</strong>.</p>
+        
+        
+        <script async data-uid="6296c27f4b" src="https://weathered-brook-5281.ck.page/6296c27f4b/index.js"></script>
+      </section>
+    </div>
+    <div class="col-md-4 book-card order-md-1">
+      
+<div class="sidebar-advert-container">
+  <a href="/qsalpha/?ref=art">
+    <img class="card-img-top" src="/static/images/qsalpha-sidebar-advert-small.png" alt="QSAlpha">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/qsalpha/?ref=art">QSAlpha</a></h3>
+      <p class="card-text medium-text mb-3">Join the QSAlpha research platform that helps fill your strategy research pipeline, diversifies your portfolio and improves your risk-adjusted returns for increased profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/qsalpha/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/quantcademy/?ref=art">
+    <img class="card-img-top" src="/static/images/quantcademy-sidebar-advert-small.png" alt="Quantcademy">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/quantcademy/?ref=art">The Quantcademy</a></h3>
+      <p class="card-text medium-text mb-3">Join the Quantcademy membership portal that caters to the rapidly-growing retail quant trader community and learn how to increase your strategy profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/quantcademy/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/successful-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/sat-sidebar-advert-small.png" alt="Successful Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to find new trading strategy ideas and objectively assess them for your portfolio using a Python-based backtesting engine.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/successful-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/advanced-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/aat-sidebar-advert-small.png" alt="Advanced Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to implement advanced trading strategies using time series analysis, machine learning and Bayesian statistics with R and Python.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/advanced-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+    
+
+<footer>
+  <div class="container container-full">
+    <section class="mt-1.5 mb-1">
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">QuantStart</li>
+            <li class="footer-list-link"><a class="link-fade" href="/about/">About</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/articles/">Articles</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/sitemap/">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Products</li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qsalpha/">QSAlpha</a></li>
+            
+            
+            <li class="footer-list-link"><a class="link-fade" href="/quantcademy/">Quantcademy</a></li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qstrader/">QSTrader</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Legal</li>
+            <li class="footer-list-link"><a class="link-fade" href="/privacy-policy/">Privacy Policy</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/terms-and-conditions/">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Social</li>
+            <li class="footer-list-link"><a class="link-fade" href="https://twitter.com/quantstart">Twitter</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="https://www.youtube.com/channel/UCmVnnZ6Y2TrJtY1eQJN6kWA">YouTube</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="row mb-1.5 mt-5">
+      <div class="col-12 col-md-9 col-lg-8 col-xl-6">
+        <div class="footer-copyright">
+          <p>©2012-2023 QuarkGluon Ltd. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+<script src="/static/js/jquery-3.2.1.min.js"></script>
+<script src="/static/js/prism.js.min"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/nav.js"></script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5383959-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+    
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="/static/js/highcharts/highcharts.js"></script>
+<script type="text/javascript">
+  num_colours = 10;
+</script>
+<script src="/static/js/statistics.js"></script>
+
+
+  </body>
+</html>

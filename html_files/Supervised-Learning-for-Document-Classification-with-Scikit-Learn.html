@@ -1,0 +1,1351 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-site-verification" content="wl3-8ed1QZjI0iYZMv10zoZWYElkMObTfwLlWIj9cpA" />
+    <meta name="description" content="Supervised Learning for Document Classification with Scikit-Learn">
+
+    <link rel="icon" href="/static/images/favicon.png">
+
+    <title>Supervised Learning for Document Classification with Scikit-Learn | QuantStart</title>
+    
+    
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet"> 
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/prism.css" rel="stylesheet">
+<link href="/static/css/qs.css?v=10" rel="stylesheet">
+    
+  </head>
+
+  <body>
+    <header class="header covered-header" style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://quantstartmedia.s3.amazonaws.com/images/article-images/article-backgrounds/default-bg.jpg);">
+  
+<nav class="nav">
+  <div class="container nav-container">
+    <div class="nav-row row d-flex justify-content-between align-items-center">
+      <div class="col-2">
+        <ul class="nav-items justify-content-end small-capitals align-items-center">
+          <li class="nav-item">
+            <a class="link-fade" href="/">QuantStart</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-auto col-logo">
+        <ul id="top-nav-menu" class="nav-items justify-content-end align-items-center">
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/qsalpha/">QSAlpha</a>
+          </li>
+          
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/quantcademy/">Quantcademy</a>
+          </li>
+          
+          <li id="menu-link-ebooks" class="nav-item">
+            <a class="link-fade" href="#">Books</a>
+            <div id="menu-pane-ebooks" class="nav-items menu-dropdown-pane">
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/qstrader/">QSTrader</a>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/articles/">Articles</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/members/login/">Login</a>
+          </li>
+          
+        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<nav id="mobile-nav" class="mobile-nav text-left">
+  <div class="container">
+    <ul class="mt-4 ml-3 mobile-nav-menu">
+      <li class="nav-item">
+        <a class="link-fade d-block" href="/">QuantStart</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qsalpha/">QSAlpha</a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/quantcademy/">Quantcademy</a>
+      </li>
+      
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="#">Books</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qstrader/">QSTrader</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/articles/">Articles</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/members/login/">Login</a>
+      </li>
+      
+    </ul>
+    <button class="nav-toggle mobile-nav-close">
+      <svg id="mobile-nav-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M19.77,5.63,13.41,12l6.36,6.37a1,1,0,0,1-1.41,1.41L12,13.41,5.63,19.77a1,1,0,0,1-1.44-1.39l0,0L10.58,12,4.21,5.63a1,1,0,0,1,0-1.42,1,1,0,0,1,1.41,0l0,0L12,10.58l6.37-6.37a1,1,0,0,1,1.41,0A1,1,0,0,1,19.77,5.63Z"></path>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+  <div class="container hero-container">
+    <section class="mt-5 mb-4">
+      <div class="row justify-content-center">
+        <div class="col-12 text-center">
+          <p class="hero">Supervised Learning for Document Classification with Scikit-Learn</p>
+          <p class="hero subhero">Supervised Learning for Document Classification with Scikit-Learn</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</header>
+    
+<section class="container content-container">
+  <div class="row">
+    <div class="col-md-8 order-md-2">
+      <section class="content article-content">
+        
+        
+        <p>This is the first article in what will become a set of tutorials on how to carry out natural language document classification, for the purposes of sentiment analysis and, ultimately, automated trade filter or signal generation. This particular article will make use of <a href="http://www.quantstart.com/articles/Support-Vector-Machines-A-Guide-for-Beginners">Support Vector Machines</a> (SVM) to classify text documents into mutually exclusive groups.</p>
+
+<p><em>Since this is the first article written in 2015, I feel it is now time to move on from Python 2.7.x and make use of the latest 3.4.x version. Hence all code in this article will be written with 3.4.x in mind.</em></p>
+
+<h2>Document Classification for Quantitative Trading</h2>
+
+<p>There are a significant number of steps to carry out between viewing a text document on a web site, say, and using its content as an input to an automated trading strategy to generate trade filters or signals. In particular, the following steps must be carried out:</p>
+
+<ul>
+  <li>Automate the download of multiple, continually generated articles from external sources at a potentially high throughput</li>
+  <li>Parse these documents for the relevant sections of text/information that require analysis, even if the format differs between documents</li>
+  <li>Convert arbitrarily long passages of text (over many possible languages) into a consistent data structure that can be understood by a classification system</li>
+  <li>Determine a set of groups (or labels) that each document will be a member of. Examples include "positive" and "negative" or "bullish" and "bearish"</li>
+  <li>Create a "training corpus" of documents that have <em>known</em> labels associated with them. For instance, a thousand financial articles may need <em>tagging</em> with the "bullish" or "bearish" labels</li>
+  <li>Train the classifier(s) on this corpus by means of a software library such as Python's <a href="http://scikit-learn.org/stable/">scikit-learn</a> (which we will be using below)</li>
+  <li>Use the classifier to label new documents, in an automated, ongoing manner.</li>
+  <li>Assess the "classification rate" and other associated performance metrics of the classifier</li>
+  <li>Integrate the classifier into an automated trading system, either by means of filtering other trade signals or generating new ones.</li>
+  <li>Continually monitoring the system and adjusting it as necessary, if its performance begins to degrade</li>
+</ul>
+
+<p>In this particular article we will avoid discussion of how to download multiple articles from external sources and make use of a given dataset that already comes with its own provided labels. This will allow us to concentrate on the implementation of the "classification pipeline", rather than spend a substantial amount of time obtaining and tagging documents.</p>
+
+<p>In subsequent articles in this series we will make use of Python libraries, such as <a href="http://scrapy.org/">ScraPy</a> and <a href="http://www.crummy.com/software/BeautifulSoup/">BeautifulSoup</a> to automatically obtain many web-based articles and effectively extract their text-based data from the HTML.</p>
+
+<p>In addition we will <strong>not</strong> be considering, within this particular article, how to integrate such a classifier into a production-ready algorithmic trading system. However, as I stated clearly in the <a href="http://www.quantstart.com/articles/QuantStart-2014-in-Review">QuantStart: 2014 in Review</a> article I <strong>do</strong> want to write subsequent articles that discuss just that.</p>
+
+<p>It is extremely important to not only create "toy" examples, as in this article, but also to discuss how to fully integrate a classifier into a system that could be used in production. Hence later articles will consider production implementation.</p>
+
+<p>So, under the assumption that we have a document corpus that is pre-labelled (to be outlined below!), we will begin by taking the training corpus and incorporating it into a Python data structure that is suitable for <em>pre-processing</em> and consumption via the classifier.</p>
+
+<p>However, before we are able to get into the details of this process we need to briefly discuss the concepts of <strong>Supervised Classification</strong> and <strong>Support Vector Machines</strong>.</p>
+
+<h2>Supervised Classification and Support Vector Machines</h2>
+
+<p><em>For a deeper overview of how statistical machine learning is carried out, please see <a href="http://www.quantstart.com/articles/Beginners-Guide-to-Statistical-Machine-Learning-Part-I">this article</a>.</em></p>
+
+<h3>Supervised Classifiers</h3>
+
+<p>Supervised Classifiers are a group of statistical machine learning techniques that attempt to attach a "class", or "label", to a particular set of features, based on prior <em>known</em> labels attached to other similar sets of features.</p>
+
+<p>This is clearly quite an abstract definition, so it may help to have an example. Consider a set of text documents. Each document has an associated set of words, which we will call "features". Each of these documents might be associated with a class label that describes what the article is about.</p>
+
+<p>For instance, a set of articles from a website discussing pets might have articles that are primarily about dogs, cats or hamsters (say). Certain words, such as "cage" (hamster), "leash" (dog) or "milk" (cat) might be more representative of certain pets than others. Supervised classifiers are able to isolate certain words which are representative of certain labels (animals) by "learning" from a set of "training" articles, which are already pre-labelled, often in a manual fashion, by a human.</p>
+
+<p>Mathematically, each of the $j$ articles about pets within a training corpus have an associated feature <em>vector</em> $X_j$, with components of this vector representing "strength" of words (we will define "strength" below). Each article also has an associated class label, $y_j$, which in this case would be the name of the pet most associated with the article.</p>
+
+<p>The "supervision" of the training procedure occurs when a <em>model</em> is trained or fit to this particular data. In the following example we will use the Support Vector Machine as our model and "train" it on a corpus (a collection of documents) which we will have previously generated.</p>
+
+<h3>Support Vector Machines</h3>
+
+<p><em>For a deeper and more comprehensive mathematical overview of how Support Vector Machines work, please see <a href="http://www.quantstart.com/articles/Support-Vector-Machines-A-Guide-for-Beginners">this article</a>.</em></p>
+
+<p>Support Vector Machines are a subclass of supervised classifiers that attempt to partition a <em>feature space</em> into two or more groups, which in our case means separating a collection of articles into two or more class labels.</p>
+
+<p>SVMs achieve this by finding an optimal means of separating such groups based on their <em>known</em> class labels. In the simpler cases the separation "boundary" is linear, leading to groups that are split up by lines (or planes) in high-dimensional spaces.</p>
+
+<p>In more complicated cases (where groups are not nicely separated by lines or planes), SVMs are able to carry out <em>non-linear</em> partitioning. This is achieved by means of a <strong>kernel</strong> function. Ultimately, this makes them very sophisticated and capable classifiers, but at the usual expense that they can be prone to <em>overfitting</em>. More details can be found <a href="http://www.quantstart.com/articles/Support-Vector-Machines-A-Guide-for-Beginners">here</a>.</p>
+
+<p>See the figure below for two examples of non-linear decision boundaries (polynomial kernel and radial kernel respectively) for two class labels (orange and blue), across two features $X_1$ and $X_2$.</p>
+
+<p style="text-align:center;">
+  <img width="550px" src="https://s3.amazonaws.com/quantstartmedia/images/qs-svm-0010.png" alt="d-degree polynomial kernel and radial kernel for SVM"><br>
+  <strong>Support Vector Machine decision boundaries for two differing <em>kernels</em></strong>
+</p>
+
+<p>SVMs are powerful classifiers when used correctly and can provide very promising results. We will now utilise SVMs for the remainder of this article.</p> 
+
+<h2>Preparing a Dataset for Classification</h2>
+
+<p>A famous dataset that is used in machine learning classification design is the <strong><a href="http://www.daviddlewis.com/resources/testcollections/reuters21578/">Reuters 21578</a></strong> set. It is one of the most widely used testing datasets for text classification, but it is somewhat out of date these days. However, for the purposes of this article it will more than suffice.</p>
+
+<p>The set consists of a collection of news articles (a "corpus") that are tagged with a selection of topics and geographic locations. Thus it comes "ready made" to be used in classification tests, since it is already pre-labelled.</p>
+
+<p>We will now download, extract and prepare the dataset. I am carrying this tutorial out on a Ubuntu 14.04 machine, so I have access to the command line. If you are on Linux or Mac OSX you will also be able to follow the commands. On Windows, you will need to download a Tar/GZIP extraction tool to get at the data.</p>
+
+<p>The Reuters 21578 dataset can be found from <a href="http://kdd.ics.uci.edu/databases/reuters21578/reuters21578.tar.gz">this link</a> as a compressed tar GZIP file. The first task to carry out is to create a new working directory and download the file into it. Please modify the directory name below as you see fit:</p>
+
+<pre>
+<code class="language-bash">cd ~
+mkdir -p quantstart/classification/data
+cd quantstart/classification/data
+wget http://kdd.ics.uci.edu/databases/reuters21578/reuters21578.tar.gz</code>
+</pre>
+
+<p>We can then unzip and untar the file:</p>
+
+<pre>
+<code class="language-bash">tar -zxvf reuters21578.tar.gz</code>
+</pre>
+
+<p>If we list the contents of the directory (<code>ls -l</code>) we can see the following (I have removed the permissions and ownership details for brevity):</p>
+
+<pre>
+<code class="language-none">...     186 Dec  4  1996 all-exchanges-strings.lc.txt
+...     316 Dec  4  1996 all-orgs-strings.lc.txt
+...    2474 Dec  4  1996 all-people-strings.lc.txt
+...    1721 Dec  4  1996 all-places-strings.lc.txt
+...    1005 Dec  4  1996 all-topics-strings.lc.txt
+...   28194 Dec  4  1996 cat-descriptions_120396.txt
+...  273802 Dec 10  1996 feldman-cia-worldfactbook-data.txt
+...    1485 Jan 23  1997 lewis.dtd
+...   36388 Sep 26  1997 README.txt
+... 1324350 Dec  4  1996 reut2-000.sgm
+... 1254440 Dec  4  1996 reut2-001.sgm
+... 1217495 Dec  4  1996 reut2-002.sgm
+... 1298721 Dec  4  1996 reut2-003.sgm
+... 1321623 Dec  4  1996 reut2-004.sgm
+... 1388644 Dec  4  1996 reut2-005.sgm
+... 1254765 Dec  4  1996 reut2-006.sgm
+... 1256772 Dec  4  1996 reut2-007.sgm
+... 1410117 Dec  4  1996 reut2-008.sgm
+... 1338903 Dec  4  1996 reut2-009.sgm
+... 1371071 Dec  4  1996 reut2-010.sgm
+... 1304117 Dec  4  1996 reut2-011.sgm
+... 1323584 Dec  4  1996 reut2-012.sgm
+... 1129687 Dec  4  1996 reut2-013.sgm
+... 1128671 Dec  4  1996 reut2-014.sgm
+... 1258665 Dec  4  1996 reut2-015.sgm
+... 1316417 Dec  4  1996 reut2-016.sgm
+... 1546911 Dec  4  1996 reut2-017.sgm
+... 1258819 Dec  4  1996 reut2-018.sgm
+... 1261780 Dec  4  1996 reut2-019.sgm
+... 1049566 Dec  4  1996 reut2-020.sgm
+...  621648 Dec  4  1996 reut2-021.sgm
+... 8150596 Mar 12  1999 reuters21578.tar.gz</code>
+</pre>
+
+<p>You will see that all the files beginning with <code>reut2-</code> are <code>.sgm</code>, which means that they are <a href="http://en.wikipedia.org/wiki/Standard_Generalized_Markup_Language">SGML</a> files. Unfortunately, Python deprecated <code>sgmllib</code> from Python in 2.6 and fully removed it for Python 3. However, all is not lost because we can create our own SGML Parser class that overrides Python's built in <a href="https://docs.python.org/2/library/htmlparser.html">HTMLParser</a>.</p>
+
+<p>Here is a single news item from one of the files:</p>
+
+<pre>
+<code class="language-none">..
+..
+&lt;REUTERS TOPICS="YES" LEWISSPLIT="TRAIN" CGISPLIT="TRAINING-SET" OLDID="5544" NEWID="1"&gt;
+&lt;DATE&gt;26-FEB-1987 15:01:01.79&lt;/DATE&gt;
+&lt;TOPICS&gt;&lt;D&gt;cocoa&lt;/D&gt;&lt;/TOPICS&gt;
+&lt;PLACES&gt;&lt;D&gt;el-salvador&lt;/D&gt;&lt;D&gt;usa&lt;/D&gt;&lt;D&gt;uruguay&lt;/D&gt;&lt;/PLACES&gt;
+&lt;PEOPLE&gt;&lt;/PEOPLE&gt;
+&lt;ORGS&gt;&lt;/ORGS&gt;
+&lt;EXCHANGES&gt;&lt;/EXCHANGES&gt;
+&lt;COMPANIES&gt;&lt;/COMPANIES&gt;
+&lt;UNKNOWN&gt; 
+&#5;&#5;&#5;C T
+&#22;&#22;&#1;f0704&#31;reute
+u f BC-BAHIA-COCOA-REVIEW   02-26 0105&lt;/UNKNOWN&gt;
+&lt;TEXT&gt;&#2;
+&lt;TITLE&gt;BAHIA COCOA REVIEW&lt;/TITLE&gt;
+&lt;DATELINE&gt;    SALVADOR, Feb 26 - &lt;/DATELINE&gt;&lt;BODY&gt;Showers continued throughout the week in
+the Bahia cocoa zone, alleviating the drought since early
+January and improving prospects for the coming temporao,
+although normal humidity levels have not been restored,
+Comissaria Smith said in its weekly review.
+    The dry period means the temporao will be late this year.
+    Arrivals for the week ended February 22 were 155,221 bags
+of 60 kilos making a cumulative total for the season of 5.93
+mln against 5.81 at the same stage last year. Again it seems
+that cocoa delivered earlier on consignment was included in the
+arrivals figures.
+    Comissaria Smith said there is still some doubt as to how
+much old crop cocoa is still available as harvesting has
+practically come to an end. With total Bahia crop estimates
+around 6.4 mln bags and sales standing at almost 6.2 mln there
+are a few hundred thousand bags still in the hands of farmers,
+middlemen, exporters and processors.
+    There are doubts as to how much of this cocoa would be fit
+for export as shippers are now experiencing dificulties in
+obtaining +Bahia superior+ certificates.
+    In view of the lower quality over recent weeks farmers have
+sold a good part of their cocoa held on consignment.
+    Comissaria Smith said spot bean prices rose to 340 to 350
+cruzados per arroba of 15 kilos.
+    Bean shippers were reluctant to offer nearby shipment and
+only limited sales were booked for March shipment at 1,750 to
+1,780 dlrs per tonne to ports to be named.
+    New crop sales were also light and all to open ports with
+June/July going at 1,850 and 1,880 dlrs and at 35 and 45 dlrs
+under New York july, Aug/Sept at 1,870, 1,875 and 1,880 dlrs
+per tonne FOB.
+    Routine sales of butter were made. March/April sold at
+4,340, 4,345 and 4,350 dlrs.
+    April/May butter went at 2.27 times New York May, June/July
+at 4,400 and 4,415 dlrs, Aug/Sept at 4,351 to 4,450 dlrs and at
+2.27 and 2.28 times New York Sept and Oct/Dec at 4,480 dlrs and
+2.27 times New York Dec, Comissaria Smith said.
+    Destinations were the U.S., Covertible currency areas,
+Uruguay and open ports.
+    Cake sales were registered at 785 to 995 dlrs for
+March/April, 785 dlrs for May, 753 dlrs for Aug and 0.39 times
+New York Dec for Oct/Dec.
+    Buyers were the U.S., Argentina, Uruguay and convertible
+currency areas.
+    Liquor sales were limited with March/April selling at 2,325
+and 2,380 dlrs, June/July at 2,375 dlrs and at 1.25 times New
+York July, Aug/Sept at 2,400 dlrs and at 1.25 times New York
+Sept and Oct/Dec at 1.25 times New York Dec, Comissaria Smith
+said.
+    Total Bahia sales are currently estimated at 6.13 mln bags
+against the 1986/87 crop and 1.06 mln bags against the 1987/88
+crop.
+    Final figures for the period to February 28 are expected to
+be published by the Brazilian Cocoa Trade Commission after
+carnival which ends midday on February 27.
+ Reuter
+&#3;&lt;/BODY&gt;&lt;/TEXT&gt;
+&lt;/REUTERS&gt;
+..
+..</code>
+</pre>
+
+<p>While it may be somewhat laborious to parse data in this manner, especially when compared to the actual machine learning, I can fully reassure you that a large part of a data scientist's or quant researcher's day is in actually getting the data into a format usable by the analysis software! This particular activity is often jokingly referred to as "data wrangling". Hence I feel it is worth it for you to get some practice at it!</p>
+
+<p>If we take a look at the topics file, <code>all-topics-strings.lc.txt</code>, by typing <code>less all-topics-strings.lc.tx</code> we can see the following (I've removed most of it for brevity):</p>
+
+<pre>
+<code class="language-none">acq
+alum
+austdlr
+austral
+barley
+bfr
+bop
+can
+carcass
+castor-meal
+castor-oil
+castorseed
+citruspulp
+cocoa
+coconut
+coconut-oil
+coffee
+copper
+copra-cake
+corn
+...
+...
+silver
+singdlr
+skr
+sorghum
+soy-meal
+soy-oil
+soybean
+stg
+strategic-metal
+sugar
+sun-meal
+sun-oil
+sunseed
+tapioca
+tea
+tin
+trade
+tung
+tung-oil
+veg-oil
+wheat
+wool
+wpi
+yen
+zinc</code>
+</pre>
+
+<p>By calling <code>cat all-topics-strings.lc.txt | wc -l</code> we can see that there are 135 separate topics among the articles. This will make for quite a classification challenge!</p>
+
+<p>At this stage we need to create what is known as a list of <em>predictor-response</em> pairs. This is a list of two-tuples that contain the most appropriate class label and the raw document text, as two separate components. For instance, we wish to end up with a data structure, after parsing, which is similar to the following:</p>
+
+<pre>
+<code class="language-none">[
+    ("cat", "It is best not to give them too much milk"),
+    ("dog", "Last night we took him for a walk, but he had to remain on the leash"),
+    ..
+    ..
+    ("hamster", "Today we cleaned out the cage and prepared the sawdust"),
+    ("cat", "Kittens require a lot of attention in the first few months")
+]</code>
+</pre>
+
+<p>To create this structure we will need to parse all of the Reuters files individually and add them to a grand corpus list. Since the file size of the corpus is rather low, it will easily fit into available RAM on most modern laptops/desktops.</p>
+
+<p>However, in production applications it is usually necessary to <em>stream</em> training data into a machine learning system and carry out "partial fitting" on each batch, in an iterative manner. In later articles we will consider this when we study extremely large data sets (particularly tick data).</p>
+
+<p>As stated above, our first goal is to actually create the SGML Parser that will achieve this. To do this we will subclass <a href="https://docs.python.org/2/library/htmlparser.html">Python's HTMLParser</a> class to handle the specific tags in the Reuters dataset.</p> 
+
+<p>Upon subclassing <code>HTMLParser</code> we override three methods, <code>handle_starttag</code>, <code>handle_endtag</code> and <code>handle_data</code>, which tell the parser what to do at the beginning of SGML tags, what to do at the closing of SGML tags and how to handle the data in between.</p>
+
+<p>We also create two additional methods, <code>_reset</code> and <code>parse</code>, which are used to take care of internal state of the class and to parse the actual data in a chunked fashion, so as not to use up too much memory.</p>
+
+<p>Finally, I have created a basic <code>__main__</code> function to test the parser on the first set of data within the Reuters corpus.</p>
+
+<p>As with most, if not all, of the QuantStart code I will comment it verbosely so that you can understand what is going on at every step:</p>
+
+<pre>
+<code class="language-python">import html
+import pprint
+import re
+from html.parser import HTMLParser
+
+
+class ReutersParser(HTMLParser):
+    """
+    ReutersParser subclasses HTMLParser and is used to open the SGML
+    files associated with the Reuters-21578 categorised test collection.
+
+    The parser is a generator and will yield a single document at a time.
+    Since the data will be chunked on parsing, it is necessary to keep 
+    some internal state of when tags have been "entered" and "exited".
+    Hence the in_body, in_topics and in_topic_d boolean members.
+    """
+    def __init__(self, encoding='latin-1'):
+        """
+        Initialise the superclass (HTMLParser) and reset the parser.
+        Sets the encoding of the SGML files by default to latin-1.
+        """
+        html.parser.HTMLParser.__init__(self)
+        self._reset()
+        self.encoding = encoding
+
+    def _reset(self):
+        """
+        This is called only on initialisation of the parser class
+        and when a new topic-body tuple has been generated. It
+        resets all off the state so that a new tuple can be subsequently
+        generated.
+        """
+        self.in_body = False
+        self.in_topics = False
+        self.in_topic_d = False
+        self.body = ""
+        self.topics = []
+        self.topic_d = ""
+
+    def parse(self, fd):
+        """
+        parse accepts a file descriptor and loads the data in chunks
+        in order to minimise memory usage. It then yields new documents
+        as they are parsed.
+        """
+        self.docs = []
+        for chunk in fd:
+            self.feed(chunk.decode(self.encoding))
+            for doc in self.docs:
+                yield doc
+            self.docs = []
+        self.close()
+
+    def handle_starttag(self, tag, attrs):
+        """
+        This method is used to determine what to do when the parser
+        comes across a particular tag of type "tag". In this instance
+        we simply set the internal state booleans to True if that particular
+        tag has been found.
+        """
+        if tag == "reuters":
+            pass
+        elif tag == "body":
+            self.in_body = True
+        elif tag == "topics":
+            self.in_topics = True
+        elif tag == "d":
+            self.in_topic_d = True 
+
+    def handle_endtag(self, tag):
+        """
+        This method is used to determine what to do when the parser
+        finishes with a particular tag of type "tag". 
+
+        If the tag is a &lt;REUTERS&gt; tag, then we remove all 
+        white-space with a regular expression and then append the 
+        topic-body tuple.
+
+        If the tag is a &lt;BODY&gt; or &lt;TOPICS&gt; tag then we simply set
+        the internal state to False for these booleans, respectively.
+
+        If the tag is a &lt;D&gt; tag (found within a &lt;TOPICS&gt; tag), then we
+        append the particular topic to the "topics" list and 
+        finally reset it.
+        """
+        if tag == "reuters":
+            self.body = re.sub(r'\s+', r' ', self.body)
+            self.docs.append( (self.topics, self.body) )
+            self._reset()
+        elif tag == "body":
+            self.in_body = False
+        elif tag == "topics":
+            self.in_topics = False
+        elif tag == "d":
+            self.in_topic_d = False
+            self.topics.append(self.topic_d)
+            self.topic_d = ""  
+
+    def handle_data(self, data):
+        """
+        The data is simply appended to the appropriate member state
+        for that particular tag, up until the end closing tag appears.
+        """
+        if self.in_body:
+            self.body += data
+        elif self.in_topic_d:
+            self.topic_d += data
+
+        
+if __name__ == "__main__":
+    # Open the first Reuters data set and create the parser
+    filename = "data/reut2-000.sgm"
+    parser = ReutersParser()
+
+    # Parse the document and force all generated docs into
+    # a list so that it can be printed out to the console
+    doc = parser.parse(open(filename, 'rb'))
+    pprint.pprint(list(doc))</code>
+</pre>
+
+<p>At this stage we will see a significant amount of output that looks like this:</p>
+
+<pre>
+<code class="language-none">..
+..
+(['grain', 'rice', 'thailand'],
+  'Thailand exported 84,960 tonnes of rice in the week ended February 24, '
+  'up from 80,498 the previous week, the Commerce Ministry said. It said '
+  'government and private exporters shipped 27,510 and 57,450 tonnes '
+  'respectively. Private exporters concluded advance weekly sales for '
+  '79,448 tonnes against 79,014 the previous week. Thailand exported '
+  '689,038 tonnes of rice between the beginning of January and February 24, '
+  'up from 556,874 tonnes during the same period last year. It has '
+  'commitments to export another 658,999 tonnes this year. REUTER '),
+ (['soybean', 'red-bean', 'oilseed', 'japan'],
+  'The Tokyo Grain Exchange said it will raise the margin requirement on '
+  'the spot and nearby month for U.S. And Chinese soybeans and red beans, '
+  'effective March 2. Spot April U.S. Soybean contracts will increase to '
+  '90,000 yen per 15 tonne lot from 70,000 now. Other months will stay '
+  'unchanged at 70,000, except the new distant February requirement, which '
+  'will be set at 70,000 from March 2. Chinese spot March will be set at '
+  '110,000 yen per 15 tonne lot from 90,000. The exchange said it raised '
+  'spot March requirement to 130,000 yen on contracts outstanding at March '
+  '13. Chinese nearby April rises to 90,000 yen from 70,000. Other months '
+  'will remain unchanged at 70,000 yen except new distant August, which '
+  'will be set at 70,000 from March 2. The new margin for red bean spot '
+  'March rises to 150,000 yen per 2.4 tonne lot from 120,000 and to 190,000 '
+  'for outstanding contracts as of March 13. The nearby April requirement '
+  'for red beans will rise to 100,000 yen from 60,000, effective March 2. '
+  'The margin money for other red bean months will remain unchanged at '
+  '60,000 yen, except new distant August, for which the requirement will '
+  'also be set at 60,000 from March 2. REUTER '),
+..
+..</code>
+</pre>
+
+<p>In particular, note that instead of having a single topic label associated with a document, we have multiple topics. In order to increase the effectiveness of the classifier, it is necessary to assign only a single class label to each document. However, you'll also note that some of the labels are actually geographic location tags, such as "japan" or "thailand". Since we are concerned solely with <em>topics</em> and not <em>countries</em> we want to remove these before we select our topic.</p>
+
+<p>The particular method that we will use to carry this out is rather simple. We will strip out the country names and then select the first remaining topic on the list. If there are no associated topics we will eliminate the article from our corpus. In the above output, this will reduce to a data structure that looks like:</p>
+
+<pre>
+<code class="language-none">..
+..
+ ('grain',
+  'Thailand exported 84,960 tonnes of rice in the week ended February 24, '
+  'up from 80,498 the previous week, the Commerce Ministry said. It said '
+  'government and private exporters shipped 27,510 and 57,450 tonnes '
+  'respectively. Private exporters concluded advance weekly sales for '
+  '79,448 tonnes against 79,014 the previous week. Thailand exported '
+  '689,038 tonnes of rice between the beginning of January and February 24, '
+  'up from 556,874 tonnes during the same period last year. It has '
+  'commitments to export another 658,999 tonnes this year. REUTER '),
+ ('soybean',
+  'The Tokyo Grain Exchange said it will raise the margin requirement on '
+  'the spot and nearby month for U.S. And Chinese soybeans and red beans, '
+  'effective March 2. Spot April U.S. Soybean contracts will increase to '
+  '90,000 yen per 15 tonne lot from 70,000 now. Other months will stay '
+  'unchanged at 70,000, except the new distant February requirement, which '
+  'will be set at 70,000 from March 2. Chinese spot March will be set at '
+  '110,000 yen per 15 tonne lot from 90,000. The exchange said it raised '
+  'spot March requirement to 130,000 yen on contracts outstanding at March '
+  '13. Chinese nearby April rises to 90,000 yen from 70,000. Other months '
+  'will remain unchanged at 70,000 yen except new distant August, which '
+  'will be set at 70,000 from March 2. The new margin for red bean spot '
+  'March rises to 150,000 yen per 2.4 tonne lot from 120,000 and to 190,000 '
+  'for outstanding contracts as of March 13. The nearby April requirement '
+  'for red beans will rise to 100,000 yen from 60,000, effective March 2. '
+  'The margin money for other red bean months will remain unchanged at '
+  '60,000 yen, except new distant August, for which the requirement will '
+  'also be set at 60,000 from March 2. REUTER '),
+..
+..</code>
+</pre>
+
+<p>To remove the geographic tags and select the primary topic tag we can add the following code:</p>
+
+<pre>
+<code class="language-python">..
+..
+
+def obtain_topic_tags():
+    """
+    Open the topic list file and import all of the topic names
+    taking care to strip the trailing "\n" from each word.
+    """
+    topics = open(
+        "data/all-topics-strings.lc.txt", "r"
+    ).readlines()
+    topics = [t.strip() for t in topics]
+    return topics
+
+def filter_doc_list_through_topics(topics, docs):
+    """
+    Reads all of the documents and creates a new list of two-tuples
+    that contain a single feature entry and the body text, instead of
+    a list of topics. It removes all geographic features and only 
+    retains those documents which have at least one non-geographic
+    topic.
+    """
+    ref_docs = []
+    for d in docs:
+        if d[0] == [] or d[0] == "":
+            continue
+        for t in d[0]:
+            if t in topics:
+                d_tup = (t, d[1])
+                ref_docs.append(d_tup)
+                break
+    return ref_docs
+
+
+if __name__ == "__main__":
+    # Open the first Reuters data set and create the parser
+    filename = "data/reut2-000.sgm"
+    parser = ReutersParser()
+
+    # Parse the document and force all generated docs into
+    # a list so that it can be printed out to the console
+    docs = list(parser.parse(open(filename, 'rb')))
+
+    # Obtain the topic tags and filter docs through it 
+    topics = obtain_topic_tags()
+    ref_docs = filter_doc_list_through_topics(topics, docs)
+    pprint.pprint(ref_docs)</code>
+</pre>
+
+<p>The output from this is as follows:</p>
+
+<pre>
+<code class="language-none">..
+..
+('acq',
+  'Security Pacific Corp said it completed its planned merger with Diablo '
+  'Bank following the approval of the comptroller of the currency. Security '
+  'Pacific announced its intention to merge with Diablo Bank, headquartered '
+  'in Danville, Calif., in September 1986 as part of its plan to expand its '
+  'retail network in Northern California. Diablo has a bank offices in '
+  'Danville, San Ramon and Alamo, Calif., Security Pacific also said. '
+  'Reuter '),
+ ('earn',
+  'Shr six cts vs five cts Net 188,000 vs 130,000 Revs 12.2 mln vs 10.1 mln '
+  'Avg shrs 3,029,930 vs 2,764,544 12 mths Shr 81 cts vs 1.45 dlrs Net '
+  '2,463,000 vs 3,718,000 Revs 52.4 mln vs 47.5 mln Avg shrs 3,029,930 vs '
+  '2,566,680 NOTE: net for 1985 includes 500,000, or 20 cts per share, for '
+  'proceeds of a life insurance policy. includes tax benefit for prior qtr '
+  'of approximately 150,000 of which 140,000 relates to a lower effective '
+  'tax rate based on operating results for the year as a whole. Reuter '),
+..
+..</code>
+</pre>
+
+<p>We are now in a position to pre-process the data for input into the classifier.</p>
+
+<h3>Vectorisation</h3>
+
+<p>At this stage we have a large collection of two-tuples, each containing a class label and raw body text from the articles. The obvious question to ask now is how do we convert the raw body text into a data representation that can be used by a (numerical) classifier?</p>
+
+<p>The answer lies in a process known as <strong>vectorisation</strong>. Vectorisation allows widely-varying lengths of raw text to be converted into a numerical format that can be processed by the classifier.</p>
+
+<p>It achieves this by creating <strong>tokens</strong> from a string. A <em>token</em> is an individual word (or group of words) extracted from a document, using whitespace or punctuation as separators. This can, of course, include numbers from within the string as additional "words". Once this list of tokens has been created they can be assigned an integer identifier, which allows them to be listed.</p>
+
+<p>Once the list of tokens have been generated, the number of tokens within a document are <strong>counted</strong>. Finally, these tokens are <strong>normalised</strong> to de-emphasise tokens that appear frequently within a document (such as "a", "the"). This process is known as the <strong>Bag Of Words</strong>.</p>
+
+<p>The Bag Of Words representation allows a <em>vector</em> to be associated with each document, each component of which is real-valued and represents the importance of tokens (i.e. "words") appearing within that document.</p>
+
+<p>Further, it means that once an entire corpus of documents has been iterated over (and thus all possible tokens have been assessed), the total number of separate tokens is known and hence the length of the token vector, <em>for any document of any length</em> is also fixed and identical.</p>
+
+<p>This means that the classifier now has a set of <em>features</em> via the frequency of token occurance. In addition the document token-vector represents a <strong>sample</strong> for the classifier.</p>
+
+<p>In essence, the entire corpus can be represented as a large matrix, each row of which represents one of the documents and each column represents token occurance within that document. This is the process of <strong>vectorisation</strong>.</p>
+
+<p><em>Note that vectorisation does not take into account the relative positioning of the words within the document, just the frequency of occurance. More sophisticated machine learning techniques will, however, use this information to enhance classification.</em></p>
+
+<h3>Term-Frequency Inverse Document-Frequency</h3>
+
+<p>One of the major issues with <strong>vectorisation</strong>, via the <strong>Bag Of Words</strong> representation, is that there is a lot of "noise" in the form of <strong>stop words</strong>, such as "a", "the", "he", "she" etc. These words provide little context to the document but their high frequency will mean that they can mask words that do provide document context.</p>
+
+<p>This motivates a transformation process, known as <strong>Term-Frequency Inverse Document-Frequency</strong> (TF-IDF). The TF-IDF value for a token increases proportionally to the frequency of the word in the <em>document</em> but is normalised by the frequency of the word in the <em>corpus</em>. This essentially reduces importance for words that appear a lot generally, as opposed to appearing a lot within a particular document.</p>
+
+<p>This is precisely what we need as words such as "a", "the" will have extremely high occurances within the entire corpus, but the word "cat" may only appear often in a particular document. This would mean that we are giving "cat" a relatively higher strength than "a" or "the", for that document.</p>
+
+<p><em>I won't dwell on the calculation of TF-IDF, but if you are interested then read the <a href="http://en.wikipedia.org/wiki/Tf%E2%80%93idf">Wikipedia article</a> on the subject, which goes into more detail.</em></p>
+
+<p>Hence we wish to combine the process of vectorisation with that of TF-IDF to produce a normalised matrix of document-token occurances. This will then be used to provide a list of features to the classifier upon which to train.</p>
+
+<p>Thankfully, the developers at scikit-learn realised that it would be an extremely common operation to vectorise and transform text files in this manner and so included the <code>TfidfVectorizer</code> class.</p>
+
+<p>We can use this class to take our list of two-tuples representing class labels and raw document text, to produce both a vector of class labels and a sparse matrix, which represents the TF-IDF and Vectorisation procedure applied to the raw text data.</p>
+
+<p>Since scikit-learn classifiers take two separate data structures for training, namely, $y$, the vector of class labels or "responses" associated with an ordered set of documents, and, $X$, the sparse TF-IDF matrix of raw document text, we modify our two-tuple list to create $y$ and $X$. The code to create these objects is given below:</p>
+
+<pre>
+<code class="language-python">..
+from sklearn.feature_extraction.text import TfidfVectorizer
+..
+..
+
+def create_tfidf_training_data(docs):
+    """
+    Creates a document corpus list (by stripping out the
+    class labels), then applies the TF-IDF transform to this
+    list. 
+
+    The function returns both the class label vector (y) and 
+    the corpus token/feature matrix (X).
+    """
+    # Create the training data class labels
+    y = [d[0] for d in docs]
+
+    # Create the document corpus list
+    corpus = [d[1] for d in docs]
+
+    # Create the TF-IDF vectoriser and transform the corpus
+    vectorizer = TfidfVectorizer(min_df=1)
+    X = vectorizer.fit_transform(corpus)
+    return X, y
+
+
+if __name__ == "__main__":
+    # Open the first Reuters data set and create the parser
+    filename = "data/reut2-000.sgm"
+    parser = ReutersParser()
+
+    # Parse the document and force all generated docs into
+    # a list so that it can be printed out to the console
+    docs = list(parser.parse(open(filename, 'rb')))
+
+    # Obtain the topic tags and filter docs through it 
+    topics = obtain_topic_tags()
+    ref_docs = filter_doc_list_through_topics(topics, docs)
+    
+    # Vectorise and TF-IDF transform the corpus 
+    X, y = create_tfidf_training_data(ref_docs)</code>
+</pre>
+
+<p>At this stage we now have two components to our <em>training data</em>. The first, $X$, is a matrix of document-token occurances. The second, $y$, is a vector (which matches the ordering of the matrix) that contains the correct class labels for each of the documents. This is all we need to begin training and testing the Support Vector Machine.</p> 
+
+<h2>Training the Support Vector Machine</h2>
+
+<p>In order to train the Support Vector Machine it is necessary to provide it with both a set of features (the $X$ matrix) and a set of "supervised" training labels, in this case the $y$ classes. However, we also need a means of evaluating the trained performance of the classifier subsequent to its training phase.</p>
+
+<p>One approach is to simply try classifying some of the documents from the corpus used to train it on. Such an evaluation procedure is known as <em>in-sample testing</em>. However, this is not a particularly effective mechanism for assessing the performance of the system.</p>
+
+<p>Simply put, the classifier has <em>already "seen" this data</em> and has been told how to act upon it and so it is very likely to correctly classify the document. This will almost certainly overstate the classifier's true <em>out-of-sample testing</em> performance. Hence we need to provide the classifier with data that it has <strong>not</strong> used for training, as a more realistic means of testing.</p>
+
+<p>However, it is not obvious where to obtain this new data from. One approach might be to create a separate corpus from some new data. However, in reality this is likely to be expensive in terms of time and/or business processes. An alternative approach is to partition the training set into two distinct subsets, one of which is used for training and the other for testing. This is known as the <em>training-test split</em>.</p>
+
+<p>Such a partition allows us to train the classifier solely on the first partition and then classify its performance on the second partition. This gives us a much better insight into how it will perform in true "out-of-sample" data going forward.</p>
+
+<p>One question that arises here is what percentage to retain for training and what to use for testing. Clearly the more that is retained for training, the "better" the classifier will be because it will have seen more data. However, more training data means less testing data and as such a poorer estimate of its true classification capability. In practice, it is common to retain about 70-80% of the data for training and use the remainder for testing.</p>
+
+<p>Since the training-test split is such a common operation in machine learning, the developers of scikit-learn provided the <code>train_test_split</code> method to automatically create the split from a dataset provided. Here is the code that provides the split:</p>
+
+<pre>
+<code class="language-python">from sklearn.cross_validation import train_test_split
+..
+..
+X_train, X_test, y_train, y_test = train_test_split(
+  X, y, test_size=0.2, random_state=42
+)</code>
+</pre>
+
+<p>The <code>test_size</code> keyword argument controls the size of the testing set, in this case 20%. The <code>random_state</code> keyword argument controls the random seed for selecting the partition randomly.</p>
+
+<p>The next step is to actually create the Support Vector Machine and train it. In this instance we are going to use the <code>SVC</code> (Support Vector Classifier) class from scikit-learn. We give it the parameters $C=1000000.0$, $\gamma=0.0$ and choose a <strong>radial kernel</strong>. <em>To understand where these parameters come from, please take a look at the article on <a href="http://www.quantstart.com/articles/Support-Vector-Machines-A-Guide-for-Beginners">Support Vector Machines</a>.</em></p>
+
+<p>The following code imports the <code>SVC</code> class and then fits it on the training data:</p>
+
+<pre>
+<code class="language-python">from sklearn.svm import SVC
+..
+..
+def train_svm(X, y):
+    """
+    Create and train the Support Vector Machine.
+    """
+    svm = SVC(C=1000000.0, gamma=0.0, kernel='rbf')
+    svm.fit(X, y)
+    return svm
+
+
+if __name__ == "__main__":
+    # Open the first Reuters data set and create the parser
+    filename = "data/reut2-000.sgm"
+    parser = ReutersParser()
+
+    # Parse the document and force all generated docs into
+    # a list so that it can be printed out to the console
+    docs = list(parser.parse(open(filename, 'rb')))
+
+    # Obtain the topic tags and filter docs through it 
+    topics = obtain_topic_tags()
+    ref_docs = filter_doc_list_through_topics(topics, docs)
+    
+    # Vectorise and TF-IDF transform the corpus 
+    X, y = create_tfidf_training_data(ref_docs)
+
+    # Create the training-test split of the data
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y, test_size=0.2, random_state=42
+    )
+
+    # Create and train the Support Vector Machine
+    svm = train_svm(X_train, y_train)</code>
+</pre>
+
+<p>Now that the SVM has been trained we need to assess its performance on the <em>testing</em> data.</p>
+
+<h3>Performance Metrics</h3>
+
+<p>The two main performance metrics that we will consider for this supervised classifer are the <strong>hit-rate</strong> and the <a href="http://en.wikipedia.org/wiki/Confusion_matrix"><strong>confusion matrix</strong></a>. The former is simply the ratio of correct assignments to total assignments and is usually quoted as a percentage.</p>
+
+<p>The confusion matrix goes into more detail and provides output on <em>true-positives</em>, <em>true-negatives</em>, <em>false-positives</em> and <em>false-negatives</em>. In a binary classification system, with a "true" or "false" class labelling, these characterise the rate at which the classifier correctly classifies something as true or false when it is, respectively, true or false, and also incorrectly classifies something as true or false when it is, respectively, false or true.</p>
+
+<p>A confusion matrix need not be restricted to a binary classifier situation. For multiple class groups (as in our situation with the Reuters dataset) we will have an $N \times N$ matrix, where $N$ is the number of class labels (or document topics).</p>
+
+<p>Scikit-learn has functions for calculating both the hit-rate and the confusion matrix of a supervised classifier. The former is a method on the classifier itself called <code>score</code>. The latter must be imported from the <code>metrics</code> library.</p>
+
+<p>The first task is to create a <em>predictions</em> array from the <code>X_test</code> test-set. This will simply contain the predicted class labels from the SVM via the retained 20% test set. This prediction array is used to create the confusion matrix. Notice that the <code>confusion_matrix</code> function takes both the <code>pred</code> predictions array and the <code>y_test</code> correct class labels to produce the matrix. In addition we create the hit-rate by providing <code>score</code> with both the <code>X_test</code> and <code>y_test</code> subsets of the dataset:</p>
+
+<pre>
+<code class="language-python">..
+..
+from sklearn.metrics import confusion_matrix
+..
+..
+
+
+if __name__ == "__main__":
+
+    ..
+    ..
+
+    # Create and train the Support Vector Machine
+    svm = train_svm(X_train, y_train)
+
+    # Make an array of predictions on the test set
+    pred = svm.predict(X_test)
+
+    # Output the hit-rate and the confusion matrix for each model
+    print(svm.score(X_test, y_test))
+    print(confusion_matrix(pred, y_test))</code>
+</pre>
+
+<p>The output of the code is as follows:</p>
+
+<pre>
+<code class="language-none">0.660194174757
+[[21  0  0  0  2  3  0  0  0  1  0  0  0  0  1  1  1  0  0]
+ [ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0]
+ [ 0  0  1  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0]
+ [ 0  0  0  1  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0]
+ [ 0  0  0  0  4  0  0  0  0  0  0  0  0  0  0  0  0  0  0]
+ [ 0  1  0  0  1 26  0  0  0  1  0  1  0  1  0  0  0  0  0]
+ [ 0  0  0  0  0  0  2  0  0  0  0  0  0  0  0  0  0  0  1]
+ [ 0  0  0  0  0  0  0  1  0  0  0  0  0  0  0  0  0  0  0]
+ [ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0]
+ [ 0  0  0  0  1  0  0  0  0  3  0  0  0  0  0  0  0  0  0]
+ [ 3  0  0  1  2  2  3  0  1  1  6  0  1  0  0  0  2  3  0]
+ [ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0]
+ [ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0]
+ [ 0  0  0  0  0  0  0  0  0  0  0  0  0  1  0  0  0  0  0]
+ [ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  1  0  0  0  0]
+ [ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  1  0  0  0]
+ [ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0]
+ [ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0]
+ [ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0]]</code>
+</pre>
+
+<p>Thus we have a 66% classification hit rate, with a confusion matrix that has entries mainly on the diagonal (i.e. the correct assignment of class label). Notice that since we are only using a single file from the Reuters set (number 000), we aren't going to see the entire set of class labels and hence our confusion matrix is smaller in dimension than if we had used the full dataset.</p> 
+
+<p>In order to make use of the full dataset we can modify the <code>__main__</code> function to load all 21 Reuters files and train the SVM on the full dataset. We can output the full hit-rate performance. I've neglected to include the confusion matrix output as it becomes large for the total number of class labels within all documents. <em>Note that this will take some time! On my system it takes about 30-45 seconds to run.</em></p>
+
+<pre>
+<code class="language-python">if __name__ == "__main__":
+    # Create the list of Reuters data and create the parser
+    files = ["data/reut2-%03d.sgm" % r for r in range(0, 22)]
+    parser = ReutersParser()
+
+    # Parse the document and force all generated docs into
+    # a list so that it can be printed out to the console
+    docs = []
+    for fn in files:
+        for d in parser.parse(open(fn, 'rb')):
+            docs.append(d)
+
+    ..
+    ..
+
+    print(svm.score(X_test, y_test))</code>
+</pre>
+
+<p>For the full corpus, the hit rate provided is 83.6%:</p>
+
+<pre>
+<code class="language-none">0.835971855761</code>
+</pre>
+
+<p>There are plenty of ways to improve on this figure. In particular we can perform a <strong>Grid Search Cross-Validation</strong>, which is a means of determining the optimal parameters for the classifier that will achieve the best hit-rate (or other metric of choice).</p>
+
+<p>In later articles we will discuss such optimisation procedures and explain how a classifier such as this can be added to a production system in a data science or quantitative finance context.</p>
+
+<h2>Full Code Implementation in Python 3.4.x</h2>
+
+<p>Here is the full code for <code>reuters_svm.py</code> written in <strong>Python 3.4.x</strong>:</p>
+
+<pre>
+<code class="language-python">import html
+import pprint
+import re
+from html.parser import HTMLParser
+
+from sklearn.cross_validation import train_test_split
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics import confusion_matrix
+from sklearn.svm import SVC
+
+
+class ReutersParser(HTMLParser):
+    """
+    ReutersParser subclasses HTMLParser and is used to open the SGML
+    files associated with the Reuters-21578 categorised test collection.
+
+    The parser is a generator and will yield a single document at a time.
+    Since the data will be chunked on parsing, it is necessary to keep 
+    some internal state of when tags have been "entered" and "exited".
+    Hence the in_body, in_topics and in_topic_d boolean members.
+    """
+    def __init__(self, encoding='latin-1'):
+        """
+        Initialise the superclass (HTMLParser) and reset the parser.
+        Sets the encoding of the SGML files by default to latin-1.
+        """
+        html.parser.HTMLParser.__init__(self)
+        self._reset()
+        self.encoding = encoding
+
+    def _reset(self):
+        """
+        This is called only on initialisation of the parser class
+        and when a new topic-body tuple has been generated. It
+        resets all off the state so that a new tuple can be subsequently
+        generated.
+        """
+        self.in_body = False
+        self.in_topics = False
+        self.in_topic_d = False
+        self.body = ""
+        self.topics = []
+        self.topic_d = ""
+
+    def parse(self, fd):
+        """
+        parse accepts a file descriptor and loads the data in chunks
+        in order to minimise memory usage. It then yields new documents
+        as they are parsed.
+        """
+        self.docs = []
+        for chunk in fd:
+            self.feed(chunk.decode(self.encoding))
+            for doc in self.docs:
+                yield doc
+            self.docs = []
+        self.close()
+
+    def handle_starttag(self, tag, attrs):
+        """
+        This method is used to determine what to do when the parser
+        comes across a particular tag of type "tag". In this instance
+        we simply set the internal state booleans to True if that particular
+        tag has been found.
+        """
+        if tag == "reuters":
+            pass
+        elif tag == "body":
+            self.in_body = True
+        elif tag == "topics":
+            self.in_topics = True
+        elif tag == "d":
+            self.in_topic_d = True 
+
+    def handle_endtag(self, tag):
+        """
+        This method is used to determine what to do when the parser
+        finishes with a particular tag of type "tag". 
+
+        If the tag is a <REUTERS> tag, then we remove all 
+        white-space with a regular expression and then append the 
+        topic-body tuple.
+
+        If the tag is a <BODY> or <TOPICS> tag then we simply set
+        the internal state to False for these booleans, respectively.
+
+        If the tag is a <D> tag (found within a <TOPICS> tag), then we
+        append the particular topic to the "topics" list and 
+        finally reset it.
+        """
+        if tag == "reuters":
+            self.body = re.sub(r'\s+', r' ', self.body)
+            self.docs.append( (self.topics, self.body) )
+            self._reset()
+        elif tag == "body":
+            self.in_body = False
+        elif tag == "topics":
+            self.in_topics = False
+        elif tag == "d":
+            self.in_topic_d = False
+            self.topics.append(self.topic_d)
+            self.topic_d = ""  
+
+    def handle_data(self, data):
+        """
+        The data is simply appended to the appropriate member state
+        for that particular tag, up until the end closing tag appears.
+        """
+        if self.in_body:
+            self.body += data
+        elif self.in_topic_d:
+            self.topic_d += data
+
+
+def obtain_topic_tags():
+    """
+    Open the topic list file and import all of the topic names
+    taking care to strip the trailing "\n" from each word.
+    """
+    topics = open(
+        "data/all-topics-strings.lc.txt", "r"
+    ).readlines()
+    topics = [t.strip() for t in topics]
+    return topics
+
+def filter_doc_list_through_topics(topics, docs):
+    """
+    Reads all of the documents and creates a new list of two-tuples
+    that contain a single feature entry and the body text, instead of
+    a list of topics. It removes all geographic features and only 
+    retains those documents which have at least one non-geographic
+    topic.
+    """
+    ref_docs = []
+    for d in docs:
+        if d[0] == [] or d[0] == "":
+            continue
+        for t in d[0]:
+            if t in topics:
+                d_tup = (t, d[1])
+                ref_docs.append(d_tup)
+                break
+    return ref_docs
+
+def create_tfidf_training_data(docs):
+    """
+    Creates a document corpus list (by stripping out the
+    class labels), then applies the TF-IDF transform to this
+    list. 
+
+    The function returns both the class label vector (y) and 
+    the corpus token/feature matrix (X).
+    """
+    # Create the training data class labels
+    y = [d[0] for d in docs]
+    
+    # Create the document corpus list
+    corpus = [d[1] for d in docs]
+
+    # Create the TF-IDF vectoriser and transform the corpus
+    vectorizer = TfidfVectorizer(min_df=1)
+    X = vectorizer.fit_transform(corpus)
+    return X, y
+
+def train_svm(X, y):
+    """
+    Create and train the Support Vector Machine.
+    """
+    svm = SVC(C=1000000.0, gamma=0.0, kernel='rbf')
+    svm.fit(X, y)
+    return svm
+
+
+if __name__ == "__main__":
+    # Create the list of Reuters data and create the parser
+    files = ["data/reut2-%03d.sgm" % r for r in range(0, 22)]
+    parser = ReutersParser()
+
+    # Parse the document and force all generated docs into
+    # a list so that it can be printed out to the console
+    docs = []
+    for fn in files:
+        for d in parser.parse(open(fn, 'rb')):
+            docs.append(d)
+
+    # Obtain the topic tags and filter docs through it 
+    topics = obtain_topic_tags()
+    ref_docs = filter_doc_list_through_topics(topics, docs)
+    
+    # Vectorise and TF-IDF transform the corpus 
+    X, y = create_tfidf_training_data(ref_docs)
+
+    # Create the training-test split of the data
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y, test_size=0.2, random_state=42
+    )
+
+    # Create and train the Support Vector Machine
+    svm = train_svm(X_train, y_train)
+
+    # Make an array of predictions on the test set
+    pred = svm.predict(X_test)
+
+    # Output the hit-rate and the confusion matrix for each model
+    print(svm.score(X_test, y_test))
+    print(confusion_matrix(pred, y_test))</code>
+</pre>
+        
+        
+        <script async data-uid="6296c27f4b" src="https://weathered-brook-5281.ck.page/6296c27f4b/index.js"></script>
+      </section>
+    </div>
+    <div class="col-md-4 book-card order-md-1">
+      
+<div class="sidebar-advert-container">
+  <a href="/qsalpha/?ref=art">
+    <img class="card-img-top" src="/static/images/qsalpha-sidebar-advert-small.png" alt="QSAlpha">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/qsalpha/?ref=art">QSAlpha</a></h3>
+      <p class="card-text medium-text mb-3">Join the QSAlpha research platform that helps fill your strategy research pipeline, diversifies your portfolio and improves your risk-adjusted returns for increased profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/qsalpha/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/quantcademy/?ref=art">
+    <img class="card-img-top" src="/static/images/quantcademy-sidebar-advert-small.png" alt="Quantcademy">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/quantcademy/?ref=art">The Quantcademy</a></h3>
+      <p class="card-text medium-text mb-3">Join the Quantcademy membership portal that caters to the rapidly-growing retail quant trader community and learn how to increase your strategy profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/quantcademy/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/successful-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/sat-sidebar-advert-small.png" alt="Successful Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to find new trading strategy ideas and objectively assess them for your portfolio using a Python-based backtesting engine.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/successful-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/advanced-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/aat-sidebar-advert-small.png" alt="Advanced Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to implement advanced trading strategies using time series analysis, machine learning and Bayesian statistics with R and Python.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/advanced-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+    
+
+<footer>
+  <div class="container container-full">
+    <section class="mt-1.5 mb-1">
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">QuantStart</li>
+            <li class="footer-list-link"><a class="link-fade" href="/about/">About</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/articles/">Articles</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/sitemap/">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Products</li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qsalpha/">QSAlpha</a></li>
+            
+            
+            <li class="footer-list-link"><a class="link-fade" href="/quantcademy/">Quantcademy</a></li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qstrader/">QSTrader</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Legal</li>
+            <li class="footer-list-link"><a class="link-fade" href="/privacy-policy/">Privacy Policy</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/terms-and-conditions/">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Social</li>
+            <li class="footer-list-link"><a class="link-fade" href="https://twitter.com/quantstart">Twitter</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="https://www.youtube.com/channel/UCmVnnZ6Y2TrJtY1eQJN6kWA">YouTube</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="row mb-1.5 mt-5">
+      <div class="col-12 col-md-9 col-lg-8 col-xl-6">
+        <div class="footer-copyright">
+          <p>©2012-2023 QuarkGluon Ltd. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+<script src="/static/js/jquery-3.2.1.min.js"></script>
+<script src="/static/js/prism.js.min"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/nav.js"></script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5383959-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+    
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="/static/js/highcharts/highcharts.js"></script>
+<script type="text/javascript">
+  num_colours = 10;
+</script>
+<script src="/static/js/statistics.js"></script>
+
+
+  </body>
+</html>

@@ -1,0 +1,1372 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-site-verification" content="wl3-8ed1QZjI0iYZMv10zoZWYElkMObTfwLlWIj9cpA" />
+    <meta name="description" content="Forex Trading Diary #2 - Adding a Portfolio to the OANDA Automated Trading System">
+
+    <link rel="icon" href="/static/images/favicon.png">
+
+    <title>Forex Trading Diary #2 - Adding a Portfolio to the OANDA Automated Trading System | QuantStart</title>
+    
+    
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet"> 
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/prism.css" rel="stylesheet">
+<link href="/static/css/qs.css?v=10" rel="stylesheet">
+    
+  </head>
+
+  <body>
+    <header class="header covered-header" style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://quantstartmedia.s3.amazonaws.com/images/article-images/article-backgrounds/default-bg.jpg);">
+  
+<nav class="nav">
+  <div class="container nav-container">
+    <div class="nav-row row d-flex justify-content-between align-items-center">
+      <div class="col-2">
+        <ul class="nav-items justify-content-end small-capitals align-items-center">
+          <li class="nav-item">
+            <a class="link-fade" href="/">QuantStart</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-auto col-logo">
+        <ul id="top-nav-menu" class="nav-items justify-content-end align-items-center">
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/qsalpha/">QSAlpha</a>
+          </li>
+          
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/quantcademy/">Quantcademy</a>
+          </li>
+          
+          <li id="menu-link-ebooks" class="nav-item">
+            <a class="link-fade" href="#">Books</a>
+            <div id="menu-pane-ebooks" class="nav-items menu-dropdown-pane">
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/qstrader/">QSTrader</a>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/articles/">Articles</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/members/login/">Login</a>
+          </li>
+          
+        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<nav id="mobile-nav" class="mobile-nav text-left">
+  <div class="container">
+    <ul class="mt-4 ml-3 mobile-nav-menu">
+      <li class="nav-item">
+        <a class="link-fade d-block" href="/">QuantStart</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qsalpha/">QSAlpha</a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/quantcademy/">Quantcademy</a>
+      </li>
+      
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="#">Books</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qstrader/">QSTrader</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/articles/">Articles</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/members/login/">Login</a>
+      </li>
+      
+    </ul>
+    <button class="nav-toggle mobile-nav-close">
+      <svg id="mobile-nav-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M19.77,5.63,13.41,12l6.36,6.37a1,1,0,0,1-1.41,1.41L12,13.41,5.63,19.77a1,1,0,0,1-1.44-1.39l0,0L10.58,12,4.21,5.63a1,1,0,0,1,0-1.42,1,1,0,0,1,1.41,0l0,0L12,10.58l6.37-6.37a1,1,0,0,1,1.41,0A1,1,0,0,1,19.77,5.63Z"></path>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+  <div class="container hero-container">
+    <section class="mt-5 mb-4">
+      <div class="row justify-content-center">
+        <div class="col-12 text-center">
+          <p class="hero">Forex Trading Diary #2 - Adding a Portfolio to the OANDA Automated Trading System</p>
+          <p class="hero subhero">Forex Trading Diary #2 - Adding a Portfolio to the OANDA Automated Trading System</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</header>
+    
+<section class="container content-container">
+  <div class="row">
+    <div class="col-md-8 order-md-2">
+      <section class="content article-content">
+        
+        
+        <p>In the last <a href="http://www.quantstart.com/articles/Forex-Trading-Diary-1-Automated-Forex-Trading-with-the-OANDA-API">Forex Trading Diary Entry (#1)</a> I described how to build an automated trading system that hooks into the <a href="http://www.oanda.com/">OANDA</a> forex brokerage <a href="http://developer.oanda.com/">API</a>. I also mentioned that the next steps included constructing a portfolio and risk management overlay for all suggested signals generated by the <code>Strategy</code> component. In this entry of the diary I want to discuss my attempt to build a functioning <code>Portfolio</code> component and how far I've currently progressed.</p>
+
+<p>After writing the last entry, I realised that I really wanted a way to be able to <strong>backtest forex strategies</strong> in much the same manner as I had demonstrated previously with equities via the <a href="http://www.quantstart.com/articles/Event-Driven-Backtesting-with-Python-Part-I">event-driven backtester</a>. I wanted there to be as minimal a difference between the live trading environment and the backtesting system. Hence I decided that I needed to build a <code>Portfolio</code> component that would reflect (as much as possible) the current state of the trading account as given by OANDA.</p>
+
+<p>The rationale for this is that the "practice" trading account and the local <code>Portfolio</code> components should have similar, if not equal, values for attributes such as the Account Balance, the Unrealised Profit &amp; Loss (P&amp;L), the Realised P&amp;L and any open Positions. If I could achieve this and run some test strategies through it, and if the attributes appeared to be equal across both the local portfolio object and OANDA, then I could have confidence in the capability of the backtester in producing more realistic results as and when strategies were deployed.</p>
+
+<p>I've spent the last couple of days attempting to implement such a <code>Portfolio</code> object and I believe I've <em>nearly</em> succeeded. I'm still seeing some differences between the local portfolio balance and the OANDA account balance after a number of trades have been carried out.</p>
+
+<p>What are the current limitations of this implementation?</p>
+
+<ul>
+  <li>The base currency, and thus exposure, is <strong>hardcoded to be GBP</strong> (since I'm in London!). I'll be changing this soon to allow any choice of base currency.</li>
+  <li>Currently I've only <strong>tested this against GBP/USD</strong>, since my base currency is GBP. Shortly I'll modify the exposure calculations to allow any currency pair.</li>
+  <li>While some <a href="http://en.wikipedia.org/wiki/Unit_testing">unit testing</a> has suggested that the addition and removal of positions and units is working as I expect it to, it has not yet been tested.</li>
+  <li>I've only tested it with opening and closing <strong>long positions</strong> so far, I've not tested short positions. I'll need to write some unit tests to handle the short positions.</li>
+</ul>
+
+<p>One might sensibly ask why I'm posting it if it has all these limitations? The rationale here is that I want individuals of all levels to realise that <strong>building algorithmic trading systems is hard work</strong> and requires a lot of <strong>attention to detail</strong>! There is a significant amount of scope for introducing bugs and incorrect behaviour. I want to outline how "real world" systems are built and show you how to test for these errors and correct them.</p> 
+
+<p>I'll start by describing how I constructed the current portfolio setup and then integrated it into the practice trading system that we look at in the <a href="http://www.quantstart.com/articles/Forex-Trading-Diary-1-Automated-Forex-Trading-with-the-OANDA-API">previous entry</a>. Then I'll present some reasons for what I think the differences may be.</p>
+
+<p><em>I've provided all of the code "as is" under the warranty that I stated in the <a href="http://www.quantstart.com/articles/Forex-Trading-Diary-1-Automated-Forex-Trading-with-the-OANDA-API">previous entry</a>. If you want to have a play with it and attempt to figure out what might be going wrong, it would be great to discuss it within the Disqus comments below!</em></p>
+
+<h2>Creating the Portfolio</h2>
+
+<p>In order to generate a <code>Portfolio</code> object it is necessary to discuss how foreign exchange trades are carried out, since they differ quite substantially from equities.</p>
+
+<h3>Calculating Pips and Units</h3>
+
+<p>In other asset classes, the smallest increment of a change in asset price is known as a "tick". In foreign exchange trading it is known as a "pip" (Price Interest Point). It is the smallest increment in any currency pair and is (usually) 1/100th of a percent, also known as a <em>basis point</em>. Since the majority of major currency pairs are priced to four decimal places, the smallest change occurs on the last decimal point.</p>
+
+<p>In GPB/USD, for example, a movement from 1.5184 to 1.5185 is one pip (4 decimal places) and thus a pip is equal to 0.0001. Any Japanese Yen based currency makes use of two decimal place pips, so a pip would be equal to 0.01.</p>
+
+<p>The question we can now ask is how much in sterling (GBP) is a movement of 20 pips (20 x 0.0001 = 0.002) equivalent to, per some fixed quantity of <em>units</em> of GBP/USD? If we take 2,000 <em>units</em> of the base currency (e.g. &#163;2,000), then we can calculate the P&amp;L in sterling as follows:</p>
+
+<p>Profit (GBP) = Pips x Exposure / GBPUSD = 0.002 x 2,000 / 1.5185 = &#163;2.63
+
+<p>With OANDA we are free to choose the number of units traded (and thus the exposure generated). Since I have a sterling (GBP) based account and I am trading GBP/USD for this example, the exposure will always equal the number of units. This is currently "hardcoded" into the system below. When I create multiple currency pair options, I will modify the exposure calculation to take into account differing base currencies.</p>
+
+<p>Since the value of the profit described above is quite small, and currencies don't fluctuate a great deal (<a href="http://www.economist.com/blogs/economist-explains/2015/01/economist-explains-13">except when they do!</a>), it is usually necessary to introduce <em>leverage</em> into the account. I'll be discussing this in later articles. For now, we won't need to worry about it.</p>
+
+<h3>Overview of Backtesting/Trading System</h3>
+
+<p>The current system consists of the following components:</p>
+
+<ul>
+  <li><strong>Event</strong> - The Event components carry the "messages" (such as ticks, signals and orders) between the Strategy, Portfolio and Execution objects.</li>
+  <li><strong>Position</strong> - The Position component represents the concept of a Forex "position", that is a "long" or a "short" in a currency pair with an associated quantity of units.</li>
+  <li><strong>Portfolio</strong> - The Portfolio component contains multiple Position objects, one for each currency pair being traded. It tracks the current P&amp;L of each position, even after subsequent additions and reductions in units.</li>
+  <li><strong>Strategy</strong> - The Strategy object takes time series information (curreny pair ticks) and then calculates and sends signal events to the Portfolio, which decide how to act upon them.</li>
+  <li><strong>Streaming Forex Prices</strong> - This component connects to OANDA over a streaming web socket and receives real-time tick-by-tick data (i.e. bid/ask) from any subscribed currency pairs.</li>
+  <li><strong>Execution</strong> - Execution takes order events and send them to OANDA to be filled.</li>
+  <li><strong>Trading Loop</strong> - The trading loop wraps all of the above components together and runs two threads: One for the streaming prices and one for the event handler.</li>
+</ul>
+
+<p>To gain more insight into how the system is connected together, it is worth reading the <a href="http://www.quantstart.com/articles/Forex-Trading-Diary-1-Automated-Forex-Trading-with-the-OANDA-API">previous entry</a> in the diary.</p>
+
+<h2>Python Implementation</h2>
+
+<p>We'll now discuss how I implemented the above system in Python.</p>
+
+<h3>Position</h3>
+
+<p>The first new component is the <code>Position</code> object. It is designed to replicate the behaviour of an open position in the OANDA fxTrade Practice system. The Positions tab in the fxTrade software contains 8 columns:</p>
+
+<ul>
+  <li><strong>Type</strong> - Whether the position is "Long" or "Short"</li>
+  <li><strong>Market</strong> - Which currency pair to trade, e.g. "GBP/USD"</li>
+  <li><strong>Units</strong> - The number of units of the currency (see above)</li>
+  <li><strong>Exposure (BASE)</strong> - The exposure in base currency of the position</li>
+  <li><strong>Avg. Price</strong> - The average price achieved for multiple purchases. If there are $P$ purchases, this is calculated as $\frac{\sum_{p=1}^P c_p u_p }{\sum_{p=1}^{P} u_p}$, where $c_p$ is the cost of purchase $p$ and $u_p$ are the units acquired for purchase $p$.</li>
+  <li><strong>Current</strong> - The current sell price.</li>
+  <li><strong>Profit (BASE)</strong> - The current P&amp;L in the base currency of the position.</li>
+  <li><strong>Profit (%)</strong> - The current percentage P&amp;L of the position.</li>
+</ul>
+
+<p>As you can see in the following code, these attributes have been reflected in the members of the <code>Position</code> class, with the exception of "Type", which I have renamed to "side", since <code>type</code> is a reserved word in Python!</p>
+
+<p>The class has four non-initialisation methods: <code>calculate_pips</code>, <code>calculate_profit_base</code>, <code>calculate_profit_perc</code> and <code>update_position_price</code>.</p>
+
+<p>The first method, <code>calculate_pips</code>, determines the number of pips that have been generated by this position since it was opened (taking into account any new units added to the position). The second method, <code>calculate_profit_base</code>, calculates the <em>current</em> profit (or loss!) on this position. The third method, <code>calculate_profit_perc</code>, determines the <em>percentage</em> profit on this position. Finally, <code>update_position_price</code> updates the previous two values based on current market data.</p>
+
+<pre>
+<code class="language-python">class Position(object):
+    def __init__(
+        self, side, market, units, 
+        exposure, avg_price, cur_price
+    ):
+        self.side = side
+        self.market = market
+        self.units = units
+        self.exposure = exposure
+        self.avg_price = avg_price
+        self.cur_price = cur_price
+        self.profit_base = self.calculate_profit_base()
+        self.profit_perc = self.calculate_profit_perc()
+
+    def calculate_pips(self):
+        mult = 1.0
+        if self.side == "SHORT":
+            mult = -1.0
+        return mult * (self.cur_price - self.avg_price)
+
+    def calculate_profit_base(self):
+        pips = self.calculate_pips()        
+        return pips * self.exposure / self.cur_price
+
+    def calculate_profit_perc(self):
+        return self.profit_base / self.exposure * 100.0
+
+    def update_position_price(self, cur_price):
+        self.cur_price = cur_price
+        self.profit_base = self.calculate_profit_base()
+        self.profit_perc = self.calculate_profit_perc()</code>
+</pre>
+
+<p>Since a portfolio can contain multiple positions there will be one class instance for each <em>market</em> that is being traded. As I mentioned above I have only written the <code>Portfolio</code> to handle GBP as the base currency and GBP/USD as the trading instrument. In future articles I will extend the Portfolio object to handle multiple base currencies and multiple currency pairs.</p>
+
+<p>Let's now discuss how to setup a basic virtual environment for Python and then how the <code>Portfolio</code> works.</p>
+
+<h3>Virtual Environment Symlink</h3>
+
+<p>In the following <code>Portfolio</code> object module I have modified how the imports are handled. I've created a virtual environment, whereby I have added a <a href="http://en.wikipedia.org/wiki/Symbolic_link">symlink</a> to my <code>qsforex</code> directory. This allows me to reference a nested hierarchy of project files within each Python module. The code to achieve this in Ubuntu looks something like this:</p>
+
+<pre>
+<code class="language-bash">cd /PATH/TO/YOUR/VIRTUALENV/DIRECTORY/lib/python2.7/site-packages/
+ln -s /PATH/TO/YOUR/QSFOREX/DIRECTORY/ROOT/ qsforex</code>
+</pre>
+
+<p>Obviously you will need to replace the locations of your virtual environment and your source code location. I store my virtual environments under the home directory in the <code>~/venv/</code> dir. I store my projects under the home directory in the <code>~/sites/</code> dir.</p>
+
+<p>This allows me to reference, for instance, <code>from qsforex.event.event import OrderEvent</code> from any file within the project.</p>
+
+<h3>Portfolio</h3>
+
+<p>The <code>__init__</code> constructor of the <code>Portfolio</code> requires the following arguments:</p>
+
+<ul>
+  <li><code>ticker</code> - This is the streaming forex prices ticker handler. It is used to get the latest bid/ask prices.</li>
+  <li><code>events</code> - This is the events queue, which the portfolio needs to palce order events into.</li>
+  <li><code>base</code> - This is the base currency, in my case this is GBP.</li>
+  <li><code>leverage</code> - This is the leverage factor. Currently it is 1:20.</li>
+  <li><code>equity</code> - This is the amount of actual equity in the account, which I've defaulted to &#163;100,000.</li>
+  <li><code>risk_per_trade</code> - This is the percentage of account equity to risk per trade, which I have defaulted to 2%. This means that the trade units will equal 2,000 for an initial account size of &#163;100,000.</li>
+</ul>
+
+<p>Upon initialisation the class calculates the <code>trade_units</code>, which are the maximum amount of units allowed per position, as well as declaring the <code>positions</code> dictionary (each market is a key) that contains all of the open positions within the portfolio:</p>
+
+<pre>
+<code class="language-python">from copy import deepcopy
+
+from qsforex.event.event import OrderEvent
+from qsforex.portfolio.position import Position
+
+
+class Portfolio(object):
+    def __init__(
+        self, ticker, events, base="GBP", leverage=20, 
+        equity=100000.0, risk_per_trade=0.02
+    ):
+        self.ticker = ticker
+        self.events = events
+        self.base = base
+        self.leverage = leverage
+        self.equity = equity
+        self.balance = deepcopy(self.equity)
+        self.risk_per_trade = risk_per_trade
+        self.trade_units = self.calc_risk_position_size()
+        self.positions = {}</code>
+</pre>
+
+<p>At this stage the "risk management" is rather unsophisticated! In the method <code>calc_risk_position_size</code> below we are simply making sure that the exposure of each position does not exceed <code>risk_per_trade</code>% of the current account equity. <code>risk_per_trade</code> defaults to 2% with the keyword argument, although this can obviously be changed. Hence for an account of &#163; 100,000, the risk per trade will not exceed &#163; 2,000 per position.</p>
+
+<p>Note that this figure will not dynamically scale with the size of the account balance, it will only use the initial account balance. Later implementations will incorporate more sophisticated risk and position sizing.</p>
+
+<pre>
+<code class="language-python"># portfolio.py
+
+    def calc_risk_position_size(self):
+        return self.equity * self.risk_per_trade</code>
+</pre>
+
+<p>The next method, <code>add_new_position</code>, takes the parameters necessary to add a new position to the <code>Portfolio</code>. Notably, it takes the <code>add_price</code> and the <code>remove_price</code>. I have not used the bid and ask prices here directly because the addition and removal prices will depend upon whether the side is "long" or "short". Hence we need to correctly specify which price is which in order to obtain a realistic backtest:</p>
+
+<pre>
+<code class="language-python"># portfolio.py
+
+    def add_new_position(
+        self, side, market, units, exposure,
+        add_price, remove_price
+    ):
+        ps = Position(
+            side, market, units, exposure,
+            add_price, remove_price
+        )
+        self.positions[market] = ps</code>
+</pre>
+
+<p>We also need a method, <code>add_position_units</code>, which allows units to be added to a position once the position has been created. In order to do this we need to calculate the new <em>average price</em> of the purchased units. Recall that this is calculated by the following expression:</p>
+
+\begin{eqnarray}
+\frac{\sum_{p=1}^{P} c_p u_p }{\sum_{p=1}^{P} u_p}
+\end{eqnarray}
+
+<p>Where $P$ is the number of purchases, $c_p$ is the cost of purchase $p$ and $u_p$ are the units purchased with purchase $p$.</p>
+
+<p>Once the new average price is calculated, the units are updated in the position and then the P&amp;L associated with the position is recalculated:</p>
+
+<pre>
+<code class="language-python"># portfolio.py
+
+    def add_position_units(
+        self, market, units, exposure, 
+        add_price, remove_price
+    ):
+        if market not in self.positions:
+            return False
+        else:
+            ps = self.positions[market]
+            new_total_units = ps.units + units
+            new_total_cost = ps.avg_price*ps.units + add_price*units
+            ps.exposure += exposure
+            ps.avg_price = new_total_cost/new_total_units
+            ps.units = new_total_units
+            ps.update_position_price(remove_price)
+            return True</code>
+</pre>
+
+<p>Similarly, we need a method to remove the units from a position (but not to close it entirely). This is given by <code>remove_position_units</code>. Once the units and exposure have been reduced the P&amp;L is calculated for the removed units and then added (or subtracted!) from the portfolio balance:</p>
+
+<pre>
+<code class="language-python"># portfolio.py
+
+    def remove_position_units(
+        self, market, units, remove_price
+    ):
+        if market not in self.positions:
+            return False
+        else:
+            ps = self.positions[market]
+            ps.units -= units
+            exposure = float(units)
+            ps.exposure -= exposure
+            ps.update_position_price(remove_price)
+            pnl = ps.calculate_pips() * exposure / remove_price 
+            self.balance += pnl
+            return True</code>
+</pre>
+
+<p>We also need a way to fully close a position. This is given by <code>close_position</code>. It is similar to <code>remove_position_units</code> except that the position is deleted from the <code>positions</code> dictionary:</p>
+
+<pre>
+<code class="language-python"># portfolio.py
+
+    def close_position(
+        self, market, remove_price
+    ):
+        if market not in self.positions:
+            return False
+        else:
+            ps = self.positions[market]
+            ps.update_position_price(remove_price)
+            pnl = ps.calculate_pips() * ps.exposure / remove_price 
+            self.balance += pnl
+            del[self.positions[market]]
+            return True</code>
+</pre>
+
+<p>The bulk of the work for the class is carried out in the <code>execute_signal</code> method. It takes <code>SignalEvent</code> objects created from the <code>Strategy</code> objects and uses these to generate <code>OrderEvent</code> objects to be placed back to the events queue.</p>
+
+<p>The basic logic is as follows:</p>
+
+<ul>
+  <li>If there is no current position for this currency pair, create one.</li>
+  <li>If a position already exists, check to see if it is adding or subtracting units.</li>
+  <li>If it is adding units, then simply add the correct amount of units.</li>
+  <li>If it is not adding units, then check if the new opposing unit reduction closes out the trade, if so, then do so.</li>
+  <li>If the reducing units are less than the position units, simply remove that quantity from the position.</li>
+  <li>However, if the reducing units exceed the current position, it is necessary to close the current position by the reducing units and then create a new opposing position with the remaining units. <em>I have not tested this extensively as of yet, so there may still be bugs!</em></li>
+</ul>
+
+<p>The code for <code>execute_signal</code> follows:</p>
+
+<pre>
+<code class="language-python"># portfolio.py
+
+    def execute_signal(self, signal_event):
+        side = signal_event.side
+        market = signal_event.instrument
+        units = int(self.trade_units)
+
+        # Check side for correct bid/ask prices
+        # Note: This only supports going long
+        add_price = self.ticker.cur_ask
+        remove_price = self.ticker.cur_bid
+        exposure = float(units)
+
+        # If there is no position, create one
+        if market not in self.positions:
+            self.add_new_position(
+                side, market, units, exposure,
+                add_price, remove_price
+            )
+            order = OrderEvent(market, units, "market", "buy")
+            self.events.put(order)
+        # If a position exists add or remove units
+        else:
+            ps = self.positions[market]
+            # Check if the sides equal
+            if side == ps.side:
+                # Add to the position
+                add_position_units(
+                    market, units, exposure,
+                    add_price, remove_price
+                )
+            else:
+                # Check if the units close out the position
+                if units == ps.units:
+                    # Close the position
+                    self.close_position(market, remove_price)
+                    order = OrderEvent(market, units, "market", "sell")
+                    self.events.put(order)
+                elif units &lt; ps.units:
+                    # Remove from the position
+                    self.remove_position_units(
+                        market, units, remove_price
+                    )
+                else: # units &gt; ps.units
+                    # Close the position and add a new one with
+                    # additional units of opposite side
+                    new_units = units - ps.units
+                    self.close_position(market, remove_price)
+                    
+                    if side == "buy":
+                        new_side = "sell"
+                    else:
+                        new_side = "sell"
+                    new_exposure = float(units)
+                    self.add_new_position(
+                        new_side, market, new_units, 
+                        new_exposure, add_price, remove_price
+                    )
+        print "Balance: %0.2f" % self.balance</code>
+</pre>
+
+<p>That concludes the code for the <code>Portfolio</code> class. Now we discuss the event handling.</p>
+
+<h3>Event</h3>
+
+<p>In order for this <code>Portfolio</code> to function with the new means of generating signals and orders it is necessary to modify <code>event.py</code>. In particular I've added the <code>SignalEvent</code> component, which is now generated by the <code>Strategy</code> object, instead of an <code>OrderEvent</code>. It simply states whether to go long or short a particular "instrument", i.e. currency pair. <code>order_type</code> refers to whether the order is a <em>market</em> order or <em>limit</em> order. I've not yet implemented the latter, so this will remain as "market" for now:</p>
+
+<pre>
+<code class="language-python">class Event(object):
+    pass
+
+
+class TickEvent(Event):
+    def __init__(self, instrument, time, bid, ask):
+        self.type = 'TICK'
+        self.instrument = instrument
+        self.time = time
+        self.bid = bid
+        self.ask = ask
+
+
+class SignalEvent(Event):
+    def __init__(self, instrument, order_type, side):
+        self.type = 'SIGNAL'
+        self.instrument = instrument
+        self.order_type = order_type
+        self.side = side        
+
+
+class OrderEvent(Event):
+    def __init__(self, instrument, units, order_type, side):
+        self.type = 'ORDER'
+        self.instrument = instrument
+        self.units = units
+        self.order_type = order_type
+        self.side = side</code>       
+</pre>
+
+<h3>Strategy</h3>
+
+<p>With the <code>SignalEvent</code> object defined, we also need to change how the <code>Strategy</code> class works. In particular, it now needs to generate <code>SignalEvent</code> events instead of <code>OrderEvent</code>s.</p>
+
+<p>I've also changed how the "strategy" actually works. Instead of creating random buy or sell signals, it now generates a buy on every 5th tick and then becomes "invested". On the next 5th tick, if it is invested it simply sells out and becomes "uninvested". This process repeats indefinitely:</p>
+
+<pre>
+<code class="language-python">from qsforex.event.event import SignalEvent
+
+
+class TestStrategy(object):
+    def __init__(self, instrument, events):
+        self.instrument = instrument
+        self.events = events
+        self.ticks = 0
+        self.invested = False
+
+    def calculate_signals(self, event):
+        if event.type == 'TICK':
+            self.ticks += 1
+            if self.ticks % 5 == 0:
+                if self.invested == False:
+                    signal = SignalEvent(self.instrument, "market", "buy")
+                    self.events.put(signal)
+                    self.invested = True
+                else:
+                    signal = SignalEvent(self.instrument, "market", "sell")
+                    self.events.put(signal)
+                    self.invested = False</code>
+</pre>
+
+<h3>StreamingForexPrices</h3>
+
+<p>The <code>Portfolio</code> object requires a <code>ticker</code> object that contains the latest bid and ask prices. I've simply modified the <code>StreamingForexPrices</code> in <code>streaming.py</code> to contain two extra members:</p>
+
+<pre>
+<code class="language-python">..
+..
+        self.cur_bid = None
+        self.cur_ask = None
+..
+..</code>
+</pre>
+
+<p>These are set in the <code>stream_to_queue</code> method:</p>
+
+<pre>
+<code class="language-python">..
+..
+                if msg.has_key("instrument") or msg.has_key("tick"):
+                    print msg
+                    instrument = msg["tick"]["instrument"]
+                    time = msg["tick"]["time"]
+                    bid = msg["tick"]["bid"]
+                    ask = msg["tick"]["ask"]
+                    self.cur_bid = bid
+                    self.cur_ask = ask
+                    tev = TickEvent(instrument, time, bid, ask)
+                    self.events_queue.put(tev)</code>
+</pre>
+
+<p>As with every object here, the full code can be found below, at the end of the diary entry.</p>
+
+<h3>Trading</h3>
+
+<p>The final set of modifications occur in the <code>trading.py</code> file. Firstly we modify the imports to take into account the new directory structure and the fact that we're now importing a <code>Portfolio</code> object:</p>
+
+<pre>
+<code class="language-python">from qsforex.execution.execution import Execution
+from qsforex.portfolio.portfolio import Portfolio
+from qsforex.settings import STREAM_DOMAIN, API_DOMAIN, ACCESS_TOKEN, ACCOUNT_ID
+from qsforex.strategy.strategy import TestStrategy
+from qsforex.streaming.streaming import StreamingForexPrices</code>
+</pre>
+
+<p>We then modify the events queue handler to direct <code>SignalEvent</code>s to the <code>Portfolio</code> instance:</p>
+
+<pre>
+<code class="language-python">..
+..
+    while True:
+        try:
+            event = events.get(False)
+        except Queue.Empty:
+            pass
+        else:
+            if event is not None:
+                if event.type == 'TICK':
+                    strategy.calculate_signals(event)
+                elif event.type == 'SIGNAL':
+                    portfolio.execute_signal(event)
+                elif event.type == 'ORDER':
+                    execution.execute_order(event)
+        time.sleep(heartbeat)
+..
+..</code>
+</pre>
+
+<h3>Main Execution Point</h3>
+
+<p>Finally we modify the <code>__main__</code> function to create the <code>Portfolio</code> and adjust the <code>trade_thread</code> to take the <code>Portfolio</code> as an argument:</p>
+
+<pre>
+<code class="language-python">..
+..
+    # Create the portfolio object that will be used to
+    # compare the OANDA positions with the local, to
+    # ensure backtesting integrity.
+    portfolio = Portfolio(prices, events, equity=100000.0)
+   
+    # Create two separate threads: One for the trading loop
+    # and another for the market price streaming class
+    trade_thread = threading.Thread(
+        target=trade, args=(
+            events, strategy, portfolio, execution
+        )
+    )
+..
+..</code>
+</pre>
+
+<h3>Environment Variables in Settings</h3>
+
+<p>I also mentioned in the previous article that it is not a good idea to store passwords or other authentication information, including API tokens, in a version controlled codebase. Hence I have modified the settings file to look like this:</p>
+
+<pre>
+<code class="language-bash">import os
+
+
+ENVIRONMENTS = { 
+    "streaming": {
+        "real": "stream-fxtrade.oanda.com",
+        "practice": "stream-fxpractice.oanda.com",
+        "sandbox": "stream-sandbox.oanda.com"
+    },
+    "api": {
+        "real": "api-fxtrade.oanda.com",
+        "practice": "api-fxpractice.oanda.com",
+        "sandbox": "api-sandbox.oanda.com"
+    }
+}
+
+DOMAIN = "practice"
+STREAM_DOMAIN = ENVIRONMENTS["streaming"][DOMAIN]
+API_DOMAIN = ENVIRONMENTS["api"][DOMAIN]
+ACCESS_TOKEN = os.environ.get('OANDA_API_ACCESS_TOKEN', None)
+ACCOUNT_ID = os.environ.get('OANDA_API_ACCOUNT_ID', None)</code>
+</pre>
+
+<p>Specifically, the following two lines:</p>
+
+<pre>
+<code class="language-bash">ACCESS_TOKEN = os.environ.get('OANDA_API_ACCESS_TOKEN', None)
+ACCOUNT_ID = os.environ.get('OANDA_API_ACCOUNT_ID', None)</code>
+</pre>
+
+<p>I've made use of the <code>os</code> library to retrieve two <a href="http://en.wikipedia.org/wiki/Environment_variable">environment variables</a> (ENVVARS). The first is the API access token and the second is the OANDA account ID. These can be stored in a suitable environment file that is loaded on boot-up of the system. In Ubuntu, you can use the hidden <code>.bash_profile</code> file in your home directory. For instance, using your favourite text editor (mine is Emacs), you can type:</p>
+
+<pre>
+<code class="language-bash">emacs ~/.bash_profile</code>
+</pre>
+
+<p>And add the following two lines, making sure to replace the variables with your own account details:</p>
+
+<pre>
+<code class="language-bash">export OANDA_API_ACCESS_TOKEN='1234567890abcdef1234567890abcdef1234567890abcdef'
+export OANDA_API_ACCOUNT_ID='12345678'</code>
+</pre>
+
+<p>You may need to make sure the terminal has access to these variables by running the following from the command line:</p>
+
+<pre>
+<code class="language-bash">source ~/.bash_profile</code>
+</pre>
+
+<h3>Running the Code</h3>
+
+<p>To get the code running you will need to make sure youre virtual environment is set. I carry this out with the following command (you will need to change this for your particular directory):</p>
+
+<pre>
+<code class="language-bash">source ~/venv/qsforex/bin/activate</code>
+</pre>
+
+<p>You will also need to install the <a href="http://docs.python-requests.org/en/latest/">requests</a> library once set, if you didn't do so in the previous article:</p>
+
+<pre>
+<code class="language-bash">pip install requests</code>
+</pre>
+
+<p>Finally, you can run the code (making sure to adjust your path to the project source code):</p>
+
+<pre>
+<code class="language-bash">python qsforex/trading/trading.py</code>
+</pre>
+
+<p>At this point, we're now carrying out our <em>practice</em> trading! As I've stated before in the <a href="http://www.quantstart.com/articles/Forex-Trading-Diary-1-Automated-Forex-Trading-with-the-OANDA-API">previous entry</a>, it is very easy to lose money with a system like this hooked up to a live trading account! Make sure to view the disclaimer in the post as well as be extremely careful with your own <code>Strategy</code> objects. I highly recommend trying this on the <strong>sandbox</strong> or <strong>practice</strong> accounts prior to a live implementation.</p>
+
+<p>However, before you go ahead and implement this with your own strategies, I'd like to discuss where I think some of the differences between the OANDA account balance and my calculated balance are arising from.</p>
+
+<h2>Possible Sources of Error</h2>
+
+<p>As the implementation of the systems become more complex, there is a greater risk that bugs have been introduced. I have used some <a href="http://en.wikipedia.org/wiki/Unit_testing">unit testing</a> in order to check the <code>Position</code> and <code>Portfolio</code> behaves as I expect, but there are still discrepancies between the local portfolio and the OANDA account balance. Possible reasons for this include:</p>
+
+<ul>
+  <li><strong>Bugs</strong> - Bugs can obviously creep in anywhere. The best way to eliminate them is to have a strong specification upfront about what the program should do and create solid unit tests. I've carried this out for some classes, but not all. Further work is required to have all classes unit tested to a good specification.</li>
+  <li><strong>Rounding errors</strong> - Since I am using floating point variables to store all financial data, there will be errors in rounding. The way around this is to use Python's <a href="https://docs.python.org/2/library/decimal.html">Decimal</a> type. Later implementations will utilise the Decimal.</li>
+  <li><strong>Slippage</strong> - Slippage is the difference between the price that the strategy object saw when deciding to buy or sell and the actual price achieved when the broker executes a fill. Given the multi-threaded nature of the program, slippage is extremely likely to be one of the causes of the differences between the local balance and OANDA account balances.</li>
+</ul>
+
+<p>I will be investigating these issues as I continue to work on the forex system. In the next diary entry I will discuss my progress.</p>
+
+<h2>What's Next?</h2>
+
+<p>In later articles we are going to discuss the following improvements:</p>
+
+<ul>
+  <li>Differing account balances - The first task is to determine why the account balances differ between OANDA and this local implementation. If anybody has any other ideas, please feel free to add them in the comments!</li>
+  <li>Real strategies - I've been reading a few papers on how to apply machine learning to forex markets recently. Converting some of these to actual strategies that we can backtest would be interesting (and fun!).</li>
+  <li>Multiple currencies - Adding multiple currency pairs and alternative base currencies.</li>
+  <li>Transaction costs - Realistic handling of transaction costs, beyond the bid-ask spread. This will include better slippage modelling and market impact.</li>
+</ul>
+
+<p>There are plenty of other improvements to make as well. This project will be continuously improving!</p>
+
+<h2>Full Code</h2>
+
+<p>As I mentioned above in order to get this working you will need to create a new virtual environment and symlink it to a directory where the code will live. I have called this directory <code>qsforex</code>. I've referenced it as such below.</p>
+
+<p><strong>Edit:</strong> In order for this to work it is necessary to create a file in every directory and subdirectory of the code called <code>__init__.py</code>. I forgot to mention this in the original article. You can carry this out in Mac/Linux by typing <code>touch __init__.py</code> in each of the directories. This will stop ImportErrors from occuring.</p>
+
+<p><strong>Also, remember that this code is a work in progress! I will definitely be making changes in the next week or so and I will update the code to reflect that. Please make sure you test all of this out on your own systems and are happy before applying it to a live trading account.</strong></p>
+
+<p><code>qsforex/settings.py</code></p>
+
+<pre>
+<code class="language-bash">import os
+
+
+ENVIRONMENTS = { 
+    "streaming": {
+        "real": "stream-fxtrade.oanda.com",
+        "practice": "stream-fxpractice.oanda.com",
+        "sandbox": "stream-sandbox.oanda.com"
+    },
+    "api": {
+        "real": "api-fxtrade.oanda.com",
+        "practice": "api-fxpractice.oanda.com",
+        "sandbox": "api-sandbox.oanda.com"
+    }
+}
+
+DOMAIN = "practice"
+STREAM_DOMAIN = ENVIRONMENTS["streaming"][DOMAIN]
+API_DOMAIN = ENVIRONMENTS["api"][DOMAIN]
+ACCESS_TOKEN = os.environ.get('OANDA_API_ACCESS_TOKEN', None)
+ACCOUNT_ID = os.environ.get('OANDA_API_ACCOUNT_ID', None)</code>
+</pre>
+
+<p><code>qsforex/event/event.py</code></p>
+
+<pre>
+<code class="language-python">class Event(object):
+    pass
+
+
+class TickEvent(Event):
+    def __init__(self, instrument, time, bid, ask):
+        self.type = 'TICK'
+        self.instrument = instrument
+        self.time = time
+        self.bid = bid
+        self.ask = ask
+
+
+class SignalEvent(Event):
+    def __init__(self, instrument, order_type, side):
+        self.type = 'SIGNAL'
+        self.instrument = instrument
+        self.order_type = order_type
+        self.side = side        
+
+
+class OrderEvent(Event):
+    def __init__(self, instrument, units, order_type, side):
+        self.type = 'ORDER'
+        self.instrument = instrument
+        self.units = units
+        self.order_type = order_type
+        self.side = side</code>     
+</pre>
+
+<p><code>qsforex/strategy/strategy.py</code></p>
+
+<pre>
+<code class="language-python">from qsforex.event.event import SignalEvent
+
+
+class TestStrategy(object):
+    def __init__(self, instrument, events):
+        self.instrument = instrument
+        self.events = events
+        self.ticks = 0
+        self.invested = False
+
+    def calculate_signals(self, event):
+        if event.type == 'TICK':
+            self.ticks += 1
+            if self.ticks % 5 == 0:
+                if self.invested == False:
+                    signal = SignalEvent(self.instrument, "market", "buy")
+                    self.events.put(signal)
+                    self.invested = True
+                else:
+                    signal = SignalEvent(self.instrument, "market", "sell")
+                    self.events.put(signal)
+                    self.invested = False</code>
+</pre>
+
+<p><code>qsforex/streaming/streaming.py</code></p>
+
+<pre>
+<code class="language-python">import requests
+import json
+
+from qsforex.event.event import TickEvent
+
+
+class StreamingForexPrices(object):
+    def __init__(
+        self, domain, access_token, 
+        account_id, instruments, events_queue
+    ):
+        self.domain = domain
+        self.access_token = access_token
+        self.account_id = account_id
+        self.instruments = instruments
+        self.events_queue = events_queue
+        self.cur_bid = None
+        self.cur_ask = None
+
+    def connect_to_stream(self):      
+        try:
+            s = requests.Session()
+            url = "https://" + self.domain + "/v1/prices"
+            headers = {'Authorization' : 'Bearer ' + self.access_token}
+            params = {'instruments' : self.instruments, 'accountId' : self.account_id}
+            req = requests.Request('GET', url, headers=headers, params=params)
+            pre = req.prepare()
+            resp = s.send(pre, stream=True, verify=False)
+            return resp
+        except Exception as e:
+            s.close()
+            print "Caught exception when connecting to stream\n" + str(e) 
+
+    def stream_to_queue(self):
+        response = self.connect_to_stream()
+        if response.status_code != 200:
+            return
+        for line in response.iter_lines(1):
+            if line:
+                try:
+                    msg = json.loads(line)
+                except Exception as e:
+                    print "Caught exception when converting message into json\n" + str(e)
+                    return
+                if msg.has_key("instrument") or msg.has_key("tick"):
+                    print msg
+                    instrument = msg["tick"]["instrument"]
+                    time = msg["tick"]["time"]
+                    bid = msg["tick"]["bid"]
+                    ask = msg["tick"]["ask"]
+                    self.cur_bid = bid
+                    self.cur_ask = ask
+                    tev = TickEvent(instrument, time, bid, ask)
+                    self.events_queue.put(tev)</code>
+</pre>
+
+<p><code>qsforex/portfolio/position.py</code></p>
+
+<pre>
+<code class="language-python">class Position(object):
+    def __init__(
+        self, side, market, units, 
+        exposure, avg_price, cur_price
+    ):
+        self.side = side
+        self.market = market
+        self.units = units
+        self.exposure = exposure
+        self.avg_price = avg_price
+        self.cur_price = cur_price
+        self.profit_base = self.calculate_profit_base()
+        self.profit_perc = self.calculate_profit_perc()
+
+    def calculate_pips(self):
+        mult = 1.0
+        if self.side == "SHORT":
+            mult = -1.0
+        return mult * (self.cur_price - self.avg_price)
+
+    def calculate_profit_base(self):
+        pips = self.calculate_pips()        
+        return pips * self.exposure / self.cur_price
+
+    def calculate_profit_perc(self):
+        return self.profit_base / self.exposure * 100.0
+
+    def update_position_price(self, cur_price):
+        self.cur_price = cur_price
+        self.profit_base = self.calculate_profit_base()
+        self.profit_perc = self.calculate_profit_perc()</code>
+</pre>
+
+<p><code>qsforex/portfolio/portfolio.py</code></p>
+
+<pre>
+<code class="language-python">from copy import deepcopy
+
+from qsforex.event.event import OrderEvent
+from qsforex.portfolio.position import Position
+
+
+class Portfolio(object):
+    def __init__(
+        self, ticker, events, base="GBP", leverage=20, 
+        equity=100000.0, risk_per_trade=0.02
+    ):
+        self.ticker = ticker
+        self.events = events
+        self.base = base
+        self.leverage = leverage
+        self.equity = equity
+        self.balance = deepcopy(self.equity)
+        self.risk_per_trade = risk_per_trade
+        self.trade_units = self.calc_risk_position_size()
+        self.positions = {}
+
+    def calc_risk_position_size(self):
+        return self.equity * self.risk_per_trade
+
+    def add_new_position(
+        self, side, market, units, exposure,
+        add_price, remove_price
+    ):
+        ps = Position(
+            side, market, units, exposure,
+            add_price, remove_price
+        )
+        self.positions[market] = ps
+
+    def add_position_units(
+        self, market, units, exposure, 
+        add_price, remove_price
+    ):
+        if market not in self.positions:
+            return False
+        else:
+            ps = self.positions[market]
+            new_total_units = ps.units + units
+            new_total_cost = ps.avg_price*ps.units + add_price*units
+            ps.exposure += exposure
+            ps.avg_price = new_total_cost/new_total_units
+            ps.units = new_total_units
+            ps.update_position_price(remove_price)
+            return True
+
+    def remove_position_units(
+        self, market, units, remove_price
+    ):
+        if market not in self.positions:
+            return False
+        else:
+            ps = self.positions[market]
+            ps.units -= units
+            exposure = float(units)
+            ps.exposure -= exposure
+            ps.update_position_price(remove_price)
+            pnl = ps.calculate_pips() * exposure / remove_price 
+            self.balance += pnl
+            return True
+
+    def close_position(
+        self, market, remove_price
+    ):
+        if market not in self.positions:
+            return False
+        else:
+            ps = self.positions[market]
+            ps.update_position_price(remove_price)
+            pnl = ps.calculate_pips() * ps.exposure / remove_price 
+            self.balance += pnl
+            del[self.positions[market]]
+            return True
+
+    def execute_signal(self, signal_event):
+        side = signal_event.side
+        market = signal_event.instrument
+        units = int(self.trade_units)
+
+        # Check side for correct bid/ask prices
+        add_price = self.ticker.cur_ask
+        remove_price = self.ticker.cur_bid
+        exposure = float(units)
+
+        # If there is no position, create one
+        if market not in self.positions:
+            self.add_new_position(
+                side, market, units, exposure,
+                add_price, remove_price
+            )
+            order = OrderEvent(market, units, "market", "buy")
+            self.events.put(order)
+        # If a position exists add or remove units
+        else:
+            ps = self.positions[market]
+            # Check if the sides equal
+            if side == ps.side:
+                # Add to the position
+                self.add_position_units(
+                    market, units, exposure,
+                    add_price, remove_price
+                )
+            else:
+                # Check if the units close out the position
+                if units == ps.units:
+                    # Close the position
+                    self.close_position(market, remove_price)
+                    order = OrderEvent(market, units, "market", "sell")
+                    self.events.put(order)
+                elif units < ps.units:
+                    # Remove from the position
+                    self.remove_position_units(
+                        market, units, remove_price
+                    )
+                else: # units > ps.units
+                    # Close the position and add a new one with
+                    # additional units of opposite side
+                    new_units = units - ps.units
+                    self.close_position(market, remove_price)
+                    
+                    if side == "buy":
+                        new_side = "sell"
+                    else:
+                        new_side = "sell"
+                    new_exposure = float(units)
+                    self.add_new_position(
+                        new_side, market, new_units, 
+                        new_exposure, add_price, remove_price
+                    )
+        print "Balance: %0.2f" % self.balance</code>
+</pre>
+
+<p><code>qsforex/trading/trading.py</code></p>
+
+<pre>
+<code class="language-python">import copy
+import Queue
+import threading
+import time
+
+from qsforex.execution.execution import Execution
+from qsforex.portfolio.portfolio import Portfolio
+from qsforex.settings import STREAM_DOMAIN, API_DOMAIN, ACCESS_TOKEN, ACCOUNT_ID
+from qsforex.strategy.strategy import TestStrategy
+from qsforex.streaming.streaming import StreamingForexPrices
+
+
+def trade(events, strategy, portfolio, execution):
+    """
+    Carries out an infinite while loop that polls the 
+    events queue and directs each event to either the
+    strategy component of the execution handler. The
+    loop will then pause for "heartbeat" seconds and
+    continue.
+    """
+    while True:
+        try:
+            event = events.get(False)
+        except Queue.Empty:
+            pass
+        else:
+            if event is not None:
+                if event.type == 'TICK':
+                    strategy.calculate_signals(event)
+                elif event.type == 'SIGNAL':
+                    portfolio.execute_signal(event)
+                elif event.type == 'ORDER':
+                    execution.execute_order(event)
+        time.sleep(heartbeat)
+
+
+if __name__ == "__main__":
+    heartbeat = 0.5  # Half a second between polling
+    events = Queue.Queue()
+
+    # Trade GBP/USD
+    instrument = "GBP_USD"
+
+    # Create the OANDA market price streaming class
+    # making sure to provide authentication commands
+    prices = StreamingForexPrices(
+        STREAM_DOMAIN, ACCESS_TOKEN, ACCOUNT_ID,
+        instrument, events
+    )
+
+    # Create the strategy/signal generator, passing the 
+    # instrument and the events queue
+    strategy = TestStrategy(instrument, events)
+
+    # Create the portfolio object that will be used to
+    # compare the OANDA positions with the local, to
+    # ensure backtesting integrity.
+    portfolio = Portfolio(prices, events, equity=100000.0)
+
+    # Create the execution handler making sure to
+    # provide authentication commands
+    execution = Execution(API_DOMAIN, ACCESS_TOKEN, ACCOUNT_ID)
+    
+    # Create two separate threads: One for the trading loop
+    # and another for the market price streaming class
+    trade_thread = threading.Thread(
+        target=trade, args=(
+            events, strategy, portfolio, execution
+        )
+    )
+    price_thread = threading.Thread(target=prices.stream_to_queue, args=[])
+    
+    # Start both threads
+    trade_thread.start()
+    price_thread.start()</code>
+</pre>
+
+<p><code>qsforex/execution/execution.py</code></p>
+
+<pre>
+<code class="language-python">mport httplib
+import urllib
+
+
+class Execution(object):
+    def __init__(self, domain, access_token, account_id):
+        self.domain = domain
+        self.access_token = access_token
+        self.account_id = account_id
+        self.conn = self.obtain_connection()
+
+    def obtain_connection(self):
+        return httplib.HTTPSConnection(self.domain)
+
+    def execute_order(self, event):
+        headers = {
+            "Content-Type": "application/x-www-form-urlencoded",
+            "Authorization": "Bearer " + self.access_token
+        }
+        params = urllib.urlencode({
+            "instrument" : event.instrument,
+            "units" : event.units,
+            "type" : event.order_type,
+            "side" : event.side
+        })
+        self.conn.request(
+            "POST", 
+            "/v1/accounts/%s/orders" % str(self.account_id), 
+            params, headers
+        )
+        response = self.conn.getresponse().read()
+        print response</code>
+</pre>
+        
+        
+        <script async data-uid="6296c27f4b" src="https://weathered-brook-5281.ck.page/6296c27f4b/index.js"></script>
+      </section>
+    </div>
+    <div class="col-md-4 book-card order-md-1">
+      
+<div class="sidebar-advert-container">
+  <a href="/qsalpha/?ref=art">
+    <img class="card-img-top" src="/static/images/qsalpha-sidebar-advert-small.png" alt="QSAlpha">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/qsalpha/?ref=art">QSAlpha</a></h3>
+      <p class="card-text medium-text mb-3">Join the QSAlpha research platform that helps fill your strategy research pipeline, diversifies your portfolio and improves your risk-adjusted returns for increased profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/qsalpha/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/quantcademy/?ref=art">
+    <img class="card-img-top" src="/static/images/quantcademy-sidebar-advert-small.png" alt="Quantcademy">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/quantcademy/?ref=art">The Quantcademy</a></h3>
+      <p class="card-text medium-text mb-3">Join the Quantcademy membership portal that caters to the rapidly-growing retail quant trader community and learn how to increase your strategy profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/quantcademy/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/successful-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/sat-sidebar-advert-small.png" alt="Successful Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to find new trading strategy ideas and objectively assess them for your portfolio using a Python-based backtesting engine.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/successful-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/advanced-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/aat-sidebar-advert-small.png" alt="Advanced Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to implement advanced trading strategies using time series analysis, machine learning and Bayesian statistics with R and Python.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/advanced-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+    
+
+<footer>
+  <div class="container container-full">
+    <section class="mt-1.5 mb-1">
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">QuantStart</li>
+            <li class="footer-list-link"><a class="link-fade" href="/about/">About</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/articles/">Articles</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/sitemap/">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Products</li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qsalpha/">QSAlpha</a></li>
+            
+            
+            <li class="footer-list-link"><a class="link-fade" href="/quantcademy/">Quantcademy</a></li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qstrader/">QSTrader</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Legal</li>
+            <li class="footer-list-link"><a class="link-fade" href="/privacy-policy/">Privacy Policy</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/terms-and-conditions/">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Social</li>
+            <li class="footer-list-link"><a class="link-fade" href="https://twitter.com/quantstart">Twitter</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="https://www.youtube.com/channel/UCmVnnZ6Y2TrJtY1eQJN6kWA">YouTube</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="row mb-1.5 mt-5">
+      <div class="col-12 col-md-9 col-lg-8 col-xl-6">
+        <div class="footer-copyright">
+          <p>©2012-2023 QuarkGluon Ltd. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+<script src="/static/js/jquery-3.2.1.min.js"></script>
+<script src="/static/js/prism.js.min"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/nav.js"></script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5383959-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+    
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="/static/js/highcharts/highcharts.js"></script>
+<script type="text/javascript">
+  num_colours = 10;
+</script>
+<script src="/static/js/statistics.js"></script>
+
+
+  </body>
+</html>

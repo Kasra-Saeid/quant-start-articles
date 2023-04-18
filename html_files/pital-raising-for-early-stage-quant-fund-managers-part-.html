@@ -1,0 +1,365 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-site-verification" content="wl3-8ed1QZjI0iYZMv10zoZWYElkMObTfwLlWIj9cpA" />
+    <meta name="description" content="Capital Raising for Early Stage Quant Fund Managers - Part I">
+
+    <link rel="icon" href="/static/images/favicon.png">
+
+    <title>Capital Raising for Early Stage Quant Fund Managers - Part I | QuantStart</title>
+    
+    
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet"> 
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/prism.css" rel="stylesheet">
+<link href="/static/css/qs.css?v=10" rel="stylesheet">
+    
+  </head>
+
+  <body>
+    <header class="header covered-header" style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://quantstartmedia.s3.amazonaws.com/images/article-images/article-backgrounds/capital-raising-for-early-stage-quant-fund-managers.jpg);">
+  
+<nav class="nav">
+  <div class="container nav-container">
+    <div class="nav-row row d-flex justify-content-between align-items-center">
+      <div class="col-2">
+        <ul class="nav-items justify-content-end small-capitals align-items-center">
+          <li class="nav-item">
+            <a class="link-fade" href="/">QuantStart</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-auto col-logo">
+        <ul id="top-nav-menu" class="nav-items justify-content-end align-items-center">
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/qsalpha/">QSAlpha</a>
+          </li>
+          
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/quantcademy/">Quantcademy</a>
+          </li>
+          
+          <li id="menu-link-ebooks" class="nav-item">
+            <a class="link-fade" href="#">Books</a>
+            <div id="menu-pane-ebooks" class="nav-items menu-dropdown-pane">
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/qstrader/">QSTrader</a>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/articles/">Articles</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/members/login/">Login</a>
+          </li>
+          
+        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<nav id="mobile-nav" class="mobile-nav text-left">
+  <div class="container">
+    <ul class="mt-4 ml-3 mobile-nav-menu">
+      <li class="nav-item">
+        <a class="link-fade d-block" href="/">QuantStart</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qsalpha/">QSAlpha</a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/quantcademy/">Quantcademy</a>
+      </li>
+      
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="#">Books</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qstrader/">QSTrader</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/articles/">Articles</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/members/login/">Login</a>
+      </li>
+      
+    </ul>
+    <button class="nav-toggle mobile-nav-close">
+      <svg id="mobile-nav-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M19.77,5.63,13.41,12l6.36,6.37a1,1,0,0,1-1.41,1.41L12,13.41,5.63,19.77a1,1,0,0,1-1.44-1.39l0,0L10.58,12,4.21,5.63a1,1,0,0,1,0-1.42,1,1,0,0,1,1.41,0l0,0L12,10.58l6.37-6.37a1,1,0,0,1,1.41,0A1,1,0,0,1,19.77,5.63Z"></path>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+  <div class="container hero-container">
+    <section class="mt-5 mb-4">
+      <div class="row justify-content-center">
+        <div class="col-12 text-center">
+          <p class="hero">Capital Raising for Early Stage Quant Fund Managers - Part I</p>
+          <p class="hero subhero">Capital Raising for Early Stage Quant Fund Managers - Part I</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</header>
+    
+<section class="container content-container">
+  <div class="row">
+    <div class="col-md-8 order-md-2">
+      <section class="content article-content">
+        
+        
+        <p><em>This is the first in a two part series of articles written by Frank Smietana, an expert guest contributor to QuantStart. In this article Frank takes a look at how early-stage quantitative hedge fund managers can go about looking to secure their first institutional allocation of capital.</em></p>
+
+<p><em>Please be aware that since this article discusses capital allocation, the article (and any information accessed through links within the article) is provided for information purposes only. It does not constitute legal or investment advice and cannot substitute for the customised advice needed to address the particular needs of individual investors and fund sponsors. Professional legal advice should be obtained before taking or refraining from any action as a result of the contents of this article.</em></p>
+
+<p>Unlike initial allocations received from family, friends, or trading platforms like <a href="https://www.quantopian.com/">Quantopian</a>; winning a significantly larger allocation in the range of USD 50M – 500M+  from an institutional investor is typically far more difficult and costly than the initial fund raise. After years of underperformance, even large, established hedge funds have lost institutional allocations, with well-publicized hedge fund <a href="http://fortune.com/2016/05/05/metlife-exit-hedge-funds/">firings</a> by CalPERS, MetLife and AIG garnering lots of unwelcome press coverage.</p>
+
+<p>While institutional allocations are well below their pre-2007 levels, the reality is far more nuanced. Institutions view hedge funds and CTAs as part of a separate asset class known as “alternatives”. This allows institutional portfolio managers to diversify their funds beyond traditional asset classes such as stocks and bonds. Even if alternatives underperform, diversification can offer other benefits, such as dampening portfolio volatility during times of market stress.</p>
+
+<p>Like all asset classes, alternatives can experience multi-year periods of underperformance, as they are right now. An institutional portfolio manager with a long time horizon grudgingly accepts the tradeoff between performance and diversification.</p>
+
+<p>This article offers some observations and suggestions for managers looking to position their fund for institutional consideration. Much of this discussion also applies to landing allocations from high-net worth individuals (HNWI), foundations and family offices.</p>
+
+<p>A hedge fund or CTA with less than USD 50M in assets under management (AUM) might consider pursuing institutional allocations after several years of consistent and audited performance. At this point, the fund manager should have a committed team of professionals in place, a proven investment process, a prime broker, legal counsel, and perhaps a PR/Marketing agency.</p>
+
+<p>Three primary avenues exist for securing institutional allocations:</p>
+
+<ol>
+  <li>The <strong>personal networks</strong> of the hedge fund's principals: depending on pedigree and experience running a fund, this can be an effective and quick way to gain an allocation. Periodic announcements in the trade press of successful traders and portfolio managers leaving their current employer to strike out on their own, with hundreds of millions of dollars as starter capital, show the value of reputation and connections. Some traders even get allocations from the fund they are leaving, a true vote of confidence in their ability to manage a fund that can be leveraged for marketing purposes.</li>
+  <li><strong>Third-party marketers:</strong> These companies utilize their industry networks to raise money for hedge funds and CTAs.  This is a fee-based business model, typically based on a percentage of the hedge fund's performance and management fees. A monthly services retainer is also common, and should be budgeted for as long as it takes to secure an institutional allocation.</li>
+  <li><strong>Prime Brokers:</strong> Prime brokers offer a number of essential services to hedge funds such as “short locates” for funds that employ long/short strategies. Many offer a “capital introduction” service that refers institutional investors to hedge funds by prime brokers.  Many prime brokers and even mini-prime brokers will provide capital introduction services to their customers.  Unlike third-party marketers, prime brokers typically provide referrals free-of-charge, but with no obligation to secure an allocation.</li>
+</ol>
+
+<p>While a solid performance track record obviously matters to potential investors, institutions that allocate to alternatives pay far more attention to operational aspects of the fund, such as scalability, compliance, cybersecurity, and risk management. The ability to effectively showcase these capabilities can prove to be a critical differentiator for small funds trying to garner institutional interest in a highly competitive environment. Fund managers hoping to gain an allocation should focus time and attention on cultivating several key attributes.</p>
+
+<p>Firms that are prepared, informed, accessible and transparent can stack the allocation deck decidedly in their favor. Most importantly, managers need to create and articulate a compelling story about their fund that differentiates it from thousands of competitors.</p>
+
+<p>In consultation with legal counsel, a fund manager needs to decide which corporate structure to pursue, typically a limited partnership (LP) or limited liability corporation (LLC). Once that decision is made, several documents and policies need to be in place before an aspiring fund invites institutional scrutiny. Creating these documents requires significant involvement from the fund's law firm and should be budgeted accordingly. Funds need to make a stellar first impression when presenting to investors—incomplete or sloppy documents can diminish that impression considerably. Equally important, failure to comply with current regulations and stay abreast of regulatory changes can expose firm principals to significant personal civil liability and even criminal penalties. The following six documents are required:</p>
+
+<ol>
+  <li>The <strong>limited partnership agreement</strong>, also known as an operating agreement for funds incorporated as LLCs, is the fund's legal governing document. While there is a fair amount of redundancy with the other documents, this agreement provides the actual framework outlining the terms of the fund and the rights of investors and managers. It formalizes the activities of the fund manager, provides a detailed breakout of management and performance fees and expenses, and explains how profits are allocated and distributed to partners. This document also establishes the terms governing account withdrawals.</li>
+  <li>The <strong>subscription agreement</strong> serves as a contract between the fund manager and potential investors. It provides the manager with information on investors, ensuring that the institution or individual is qualified to invest in the fund. For investors, the document details investment terms such as account minimums and “lock-up” periods, and the steps required to invest in the fund.</li>
+  <li>The <strong>investment management agreement</strong> defines the legal terms between the fund (financial assets) and its manager (the individuals running the fund). This document defines services the fund manager will provide and assigns power of attorney over the fund's assets to the manager. The primary purpose of the document is to provide the manager with authority to manage investor funds and securities consistent with the fund's investment strategy.</li>
+  <li>The <strong>private placement memorandum</strong> provides institutional investors with an overview of the fund's structural and business aspects. This document explains the fund's investment objectives and trading strategies, known risk factors, investment fees and expenses, and biographies and roles of the management team. Policies regarding taxation, subscriptions and withdrawals of investor funds, and the allocation of profits and losses must also be included.<br>
+  While involvement of legal counsel is critical for properly drafting this document, funds can prepare by downloading an existing template from hedge fund service providers. This exercise also provides valuable insight for anticipating potential objections prior to pitching the fund to institution.</li>
+  <li>The <strong>management company operating agreement</strong> is an internal document that governs the rights of the fund's founders, specifying how fund ownership is divided among the fund's principals.</li>
+  <li><strong>Regulatory documents</strong> depend on the country or jurisdiction in which the fund is incorporated. In the U.S., the SEC requires a <strong>Form D</strong> filing and potentially a <strong>CFTC</strong> filing as well, if the management firm is structured as a Commodity Trading Advisory</li>
+</ol>
+
+<p>Firms should also consider establishing and documenting policies that engender confidence in the fund beyond the investment process. These include operational, information privacy, and cybersecurity policies.</p>
+
+<p>The fund's <strong>pitch book</strong> is a key deliverable worth outsourcing to a hedge fund service provider or third-party marketing firm. The content should be consistent with the firm's website and marketing collateral, and needs to describe the fund's investment strategy and philosophy in only a few slides. While quant funds might find their strategies and intellectual property to be compelling, avoid the temptation of presenting overly technical content. The presentation needs to resonate with a broad constituency, and a complex (albeit profitable) strategy can sometimes work against a fund if investors lack the mathematical background to understand the details.</p>
+
+<p>This article discussed the mandatory legal and regulatory documents that hedge funds must have in place before pursuing institutional allocations. In our next article, we discuss three additional attributes that can help fund managers differentiate their offering from competing funds: expending time and effort to be highly <strong>informed</strong>, and a willingness to be <strong>transparent</strong> and <strong>accessible</strong> to potential investors.</p>
+        
+        
+        <script async data-uid="6296c27f4b" src="https://weathered-brook-5281.ck.page/6296c27f4b/index.js"></script>
+      </section>
+    </div>
+    <div class="col-md-4 book-card order-md-1">
+      
+<div class="sidebar-advert-container">
+  <a href="/qsalpha/?ref=art">
+    <img class="card-img-top" src="/static/images/qsalpha-sidebar-advert-small.png" alt="QSAlpha">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/qsalpha/?ref=art">QSAlpha</a></h3>
+      <p class="card-text medium-text mb-3">Join the QSAlpha research platform that helps fill your strategy research pipeline, diversifies your portfolio and improves your risk-adjusted returns for increased profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/qsalpha/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/quantcademy/?ref=art">
+    <img class="card-img-top" src="/static/images/quantcademy-sidebar-advert-small.png" alt="Quantcademy">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/quantcademy/?ref=art">The Quantcademy</a></h3>
+      <p class="card-text medium-text mb-3">Join the Quantcademy membership portal that caters to the rapidly-growing retail quant trader community and learn how to increase your strategy profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/quantcademy/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/successful-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/sat-sidebar-advert-small.png" alt="Successful Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to find new trading strategy ideas and objectively assess them for your portfolio using a Python-based backtesting engine.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/successful-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/advanced-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/aat-sidebar-advert-small.png" alt="Advanced Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to implement advanced trading strategies using time series analysis, machine learning and Bayesian statistics with R and Python.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/advanced-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+    
+
+<footer>
+  <div class="container container-full">
+    <section class="mt-1.5 mb-1">
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">QuantStart</li>
+            <li class="footer-list-link"><a class="link-fade" href="/about/">About</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/articles/">Articles</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/sitemap/">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Products</li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qsalpha/">QSAlpha</a></li>
+            
+            
+            <li class="footer-list-link"><a class="link-fade" href="/quantcademy/">Quantcademy</a></li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qstrader/">QSTrader</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Legal</li>
+            <li class="footer-list-link"><a class="link-fade" href="/privacy-policy/">Privacy Policy</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/terms-and-conditions/">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Social</li>
+            <li class="footer-list-link"><a class="link-fade" href="https://twitter.com/quantstart">Twitter</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="https://www.youtube.com/channel/UCmVnnZ6Y2TrJtY1eQJN6kWA">YouTube</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="row mb-1.5 mt-5">
+      <div class="col-12 col-md-9 col-lg-8 col-xl-6">
+        <div class="footer-copyright">
+          <p>©2012-2023 QuarkGluon Ltd. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+<script src="/static/js/jquery-3.2.1.min.js"></script>
+<script src="/static/js/prism.js.min"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/nav.js"></script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5383959-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+    
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="/static/js/highcharts/highcharts.js"></script>
+<script type="text/javascript">
+  num_colours = 10;
+</script>
+<script src="/static/js/statistics.js"></script>
+
+
+  </body>
+</html>

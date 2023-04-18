@@ -1,0 +1,724 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-site-verification" content="wl3-8ed1QZjI0iYZMv10zoZWYElkMObTfwLlWIj9cpA" />
+    <meta name="description" content="Back in November 2017 we published an article on how to install TensorFlow 1.4 on a system with an Nvidia GPU. Since then much has changed within the deep learning community. TensorFlow itself has matured dramatically. In this article we are going to outline how to install the new version 2.2 of TensorFlow and configure it to work with a modern Nvidia GPU.">
+
+    <link rel="icon" href="/static/images/favicon.png">
+
+    <title>Installing TensorFlow 2.2 on Ubuntu 18.04 with an Nvidia GPU | QuantStart</title>
+    
+    
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet"> 
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/prism.css" rel="stylesheet">
+<link href="/static/css/qs.css?v=10" rel="stylesheet">
+    
+  </head>
+
+  <body>
+    <header class="header covered-header" style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://quantstartmedia.s3.amazonaws.com/images/article-images/article-backgrounds/installing-tensorflow-22-on-ubuntu-1804-with-an-nvidia-gpu.png);">
+  
+<nav class="nav">
+  <div class="container nav-container">
+    <div class="nav-row row d-flex justify-content-between align-items-center">
+      <div class="col-2">
+        <ul class="nav-items justify-content-end small-capitals align-items-center">
+          <li class="nav-item">
+            <a class="link-fade" href="/">QuantStart</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-auto col-logo">
+        <ul id="top-nav-menu" class="nav-items justify-content-end align-items-center">
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/qsalpha/">QSAlpha</a>
+          </li>
+          
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/quantcademy/">Quantcademy</a>
+          </li>
+          
+          <li id="menu-link-ebooks" class="nav-item">
+            <a class="link-fade" href="#">Books</a>
+            <div id="menu-pane-ebooks" class="nav-items menu-dropdown-pane">
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/qstrader/">QSTrader</a>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/articles/">Articles</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/members/login/">Login</a>
+          </li>
+          
+        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<nav id="mobile-nav" class="mobile-nav text-left">
+  <div class="container">
+    <ul class="mt-4 ml-3 mobile-nav-menu">
+      <li class="nav-item">
+        <a class="link-fade d-block" href="/">QuantStart</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qsalpha/">QSAlpha</a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/quantcademy/">Quantcademy</a>
+      </li>
+      
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="#">Books</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qstrader/">QSTrader</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/articles/">Articles</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/members/login/">Login</a>
+      </li>
+      
+    </ul>
+    <button class="nav-toggle mobile-nav-close">
+      <svg id="mobile-nav-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M19.77,5.63,13.41,12l6.36,6.37a1,1,0,0,1-1.41,1.41L12,13.41,5.63,19.77a1,1,0,0,1-1.44-1.39l0,0L10.58,12,4.21,5.63a1,1,0,0,1,0-1.42,1,1,0,0,1,1.41,0l0,0L12,10.58l6.37-6.37a1,1,0,0,1,1.41,0A1,1,0,0,1,19.77,5.63Z"></path>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+  <div class="container hero-container">
+    <section class="mt-5 mb-4">
+      <div class="row justify-content-center">
+        <div class="col-12 text-center">
+          <p class="hero">Installing TensorFlow 2.2 on Ubuntu 18.04 with an Nvidia GPU</p>
+          <p class="hero subhero">Back in November 2017 we published an article on how to install TensorFlow 1.4 on a system with an Nvidia GPU. Since then much has changed within the deep learning community. TensorFlow itself has matured dramatically. In this article we are going to outline how to install the new version 2.2 of TensorFlow and configure it to work with a modern Nvidia GPU.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</header>
+    
+<section class="container content-container">
+  <div class="row">
+    <div class="col-md-8 order-md-2">
+      <section class="content article-content">
+        
+        
+        <p>Earlier in the year we carried out our <a href="https://www.quantstart.com/articles/quantstart-content-survey-2020/">2020 QuantStart Content Survey</a> and Advanced Machine Learning &amp; Deep Learning was voted the most popular topic. This article constitutes the first in a series on the topic of modern machine learning via deep learning as applied to systematic trading research.</p>
+
+<p>In this article we will demonstrate how to install a modern deep learning research environment on a Linux machine via the <a href="https://www.tensorflow.org/">TensorFlow</a> library, which will form the basis of all subsequent deep learning research on QuantStart.</p>
+
+<p>In the <a href="https://www.quantstart.com/articles/installing-tensorflow-on-ubuntu-1604-with-an-nvidia-gpu/">previous article on the same topic</a> we discussed how sophisticated quantitative trading research with machine learning requires a robust framework to abstract away the machine learning model <em>specification</em> from the model <em>implementation</em>.</p>
+
+<p>At the time of the original article the TensorFlow library provided such an abstraction by avoiding the need to write optimised deep learning models in low-level C, C++ or FORTRAN and the <a href="https://developer.nvidia.com/cuda-zone">CUDA</a> GPU programming model provided by Nvidia.</p>
+
+<p>Since then the situation has improved further. <a href="https://keras.io/">Keras</a>, a popular library for specifying deep learning models has now been directly incorporated into TensorFlow via the <code>tf.keras</code> high level deep learning API. This means it is now even easier to specify deep learning models within TensorFlow.</p>
+
+<p>We have previously mentioned that there are many ways to install TensorFlow, depending on chosen operating system and available hardware. It is possible to execute TensorFlow code via pre-made cloud machine images on GPU-based cloud instances.</p>
+
+<p>However for certain use cases it is arguably beneficial to train and execute deep learning models on a local custom workstation. This article describes how to install TensorFlow on such a workstation where the underlying operating system is Ubuntu 18.04.</p>
+
+<p><em>For more background on TensorFlow, along with its choice as a deep learning research framework, please see our <a href="https://www.quantstart.com/articles/installing-tensorflow-on-ubuntu-1604-with-an-nvidia-gpu/">previous article</a> on the topic.</em></p>
+
+<h2>Installation of TensorFlow</h2>
+
+<p>In the following sections we will discuss the necessary Python prerequisites, how to install TensorFlow for CPU-only use and how to install all CUDA prerequisites required for TensorFlow GPU use.</p>
+
+<h2>Python Environment Prerequisites</h2>
+
+<p>As mentioned in our <a href="https://www.quantstart.com/articles/installing-tensorflow-on-ubuntu-1604-with-an-nvidia-gpu/">previous installation article</a> it is necessary to have a functional Python3 virtual environment in which to run TensorFlow.</p>
+
+<p>To simplify the installation of a Python research environment QuantStart recommends <a href="https://www.anaconda.com/products/individual">downloading the latest Anaconda Individual distribution</a>. As of the writing date of this article the latest version includes Python 3.7.</p>
+
+<p>The Linux Python 3.7 installer script can be found <a href="https://repo.anaconda.com/archive/Anaconda3-2020.02-Linux-x86_64.sh">here</a>. Please refer to the <a href="https://docs.anaconda.com/anaconda/install/linux/">Anaconda installation instructions</a> for up to date details on how to install Anaconda on a Linux system.</p>
+
+<p>Once Anaconda has been installed a separate virtual environment needs to be created to isolate the TensorFlow install. For the purposes of this tutorial the virtual environment has been named <code>tf</code>. To do this simply type the following into a terminal:</p>
+
+<pre>
+<code class="language-none">conda create -n tf
+conda activate tf</code>
+</pre>
+
+<p>This will create a new Conda virtual environment called <code>tf</code> and activate it.</p>
+
+<h2>Installing TensorFlow for CPU Use</h2>
+
+<p>If an Nvidia CUDA-capable GPU is not available then it is possible to install TensorFlow for use solely with a CPU. Training will be significantly slower on a CPU compared to a GPU. Despite this a CPU install may prove useful for smaller models and self-teaching purposes.</p>
+
+<p>To install TensorFlow simply type the following into a Conda activated terminal:</p>
+
+<pre>
+<code class="language-none">pip install tensorflow</code>
+</pre>
+
+<p>This will install TensorFlow and the necessary dependencies. Once this has finished you can skip ahead to the <strong>TensorFlow Installation Validation</strong> section below.</p>
+
+<h2>Installing TensorFlow for GPU Use</h2>
+
+<p>The installation of TensorFlow against an Nvidia GPU has a reputation for being difficult. It often requires reasonably mature command line skills in order to diagnose potential issues that can arise.</p>
+
+<p>At QuantStart we have previously carried out this procedure on Nvidia GPUs ranging from a pair of older GeForce GTX 780 Ti variants through to a newer GeForce GTX 1080 Ti instance.</p>
+
+<p>Along the way we have encountered some of the common difficulties, particularly as related to Secure UEFI Boot (see below) and Nvidia driver installation. Thankfully the procedure is now more straightforward than it has been in the past.</p>
+
+<p>The latest range of consumer grade Nvidia GPUs as of the writing date of this article are the <a href="https://www.nvidia.com/en-gb/geforce/20-series/">20xx RTX series</a>, which are now recommended since they work well with modern deep learning models and are reasonably cheap.</p>
+
+<h3>Overview</h3>
+
+<p>To install TensorFlow 2.2 with CUDA capability we will first carry out a series of checks to ensure compatibility with both the hardware and software on the specific worksation.</p>
+
+<p>Once these checks are complete we will follow the official <a href="https://www.tensorflow.org/install/gpu">TensorFlow GPU installation instructions</a> by installing CUDA, cuDNN, TensorRT and an appropriate Nvidia driver.</p>
+
+<p>Once all the packages have been successfully installed we will test that TensorFlow works with the GPUs by importing the library and carrying out a basic tensor computation.</p>
+
+<h3>Secure UEFI Boot</h3>
+
+<p>An issue that often arises when attempting to install Nvidia drivers on Linux involves a motherboard setting known as <a href="https://wiki.ubuntu.com/UEFI/SecureBoot">Secure UEFI Boot</a>. In order for the driver installation to be successful it is necessary to disable this setting on most motherboards.</p>
+
+<p>The procedure for carrying this out is highly specific to each particular motherboard. Hence it is difficult to provide detailed instructions that apply to a range of system configurations.</p>
+
+<p>In broad terms it will be necessary to enter the BIOS as the machine boots up. This can usually be achieved by pressing the Del or F10 key. Once in the BIOS it is necessary to navigate to the section that determines boot settings. To disable Secure UEFI Boot it sometimes involves backing up and removing certain keys while in other instances it is simply a boolean setting that is easily modified.</p>
+
+<p>If this feature is not disabled then in all likelihood trouble will arise subsequent to the Nvidia driver installation. Issues may occur when attempting to login in to Ubuntu after bootup. The problem is particularly difficult to resolve as it often involves an inability to load the Ubuntu GUI!</p>
+
+<h3>Pre-CUDA Installation Checks</h3>
+
+<p>Before we consider installing CUDA it is worth carrying out the following pre-CUDA installation checks to avoid any subsequent issues:</p>
+
+<ul>
+  <li>Check that the system has a GPU that is CUDA capable</li>
+  <li>Check that the Ubuntu version is supported</li>
+  <li>Check that the GNU Compiler Collection (gcc) is installed</li>
+  <li>Check that the appropriate development packages and kernel headers are available</li>
+  <li>Check for any currently installed Nvidia drivers that may conflict with CUDA</li>
+</ul>
+
+<h4>Check GPU is CUDA Capable</h4>
+
+<p>The <code>lspci</code> command prints detailed information about PCI buses and devices within the workstation. We can use it to determine the type of Nvidia card available. Type the following into a terminal:</p>
+
+<pre>
+<code class="language-none">lspci | grep -i nvidia</code>
+</pre>
+
+<p>You should see output that resembles the following:</p>
+
+<pre>
+<code class="language-none">01:00.0 VGA compatible controller: NVIDIA Corporation GK110B [GeForce GTX 780 Ti] (rev a1)
+01:00.1 Audio device: NVIDIA Corporation GK110 HDMI Audio (rev a1)
+02:00.0 VGA compatible controller: NVIDIA Corporation GK110B [GeForce GTX 780 Ti] (rev a1)
+02:00.1 Audio device: NVIDIA Corporation GK110 HDMI Audio (rev a1)</code>
+</pre>
+
+<p>This indicates that two GeForce GTX 780 Ti cards are installed in the workstation. Nvidia provide a list of CUDA capable GPUs <a href="https://developer.nvidia.com/cuda-gpus">here</a>. Check your card against this list to ensure that it provides the necessary CUDA capability.</p>
+
+<h4>Check Ubuntu Version is Supported</h4>
+
+<p>The unix name <code>uname</code> command outputs the name, version and further details on the current machine and operating system. Type the following into a terminal to determine the architecture of the machine hardware:</p>
+
+<pre>
+<code class="language-none">uname -m</code>
+</pre>
+
+<p>You should see the following output:</p>
+
+<pre>
+<code class="language-none">x86_64</code>
+</pre>
+
+<p>This shows that a 64-bit x86 compatible CPU is available.</p>
+
+<p>To determine the version of Ubuntu installed type the following:</p>
+
+<pre>
+<code class="language-none">cat /etc/lsb-release</code>
+</pre>
+
+<p>You will see output similar to the following assuming Ubuntu 18.04 LTS is installed:</p>
+
+<pre>
+<code class="language-none">DISTRIB_ID=Ubuntu
+DISTRIB_RELEASE=18.04
+DISTRIB_CODENAME=bionic
+DISTRIB_DESCRIPTION="Ubuntu 18.04.4 LTS"</code>
+</pre>
+
+<p>This confirms the compatibility of the machine hardware and the operating system.</p> 
+
+<h4>Check gcc is Installed</h4>
+
+<p>In order to install CUDA it is necessary to have a C++ compiler installed. Ubuntu provides the GNU Compiler Collection (gcc) for this purpose. If it has not been installed previously it is usually necessary to run the following installation command:</p>
+
+<pre>
+<code class="language-none">sudo apt-get install build-essential</code>
+</pre>
+
+<p>The version of gcc can then be determined with the following command:</p>
+
+<pre>
+<code class="language-none">gcc --version</code>
+</pre>
+
+<p>The output will be similar to the following:</p>
+
+<pre>
+<code class="language-none">gcc (Ubuntu 7.5.0-3ubuntu1~18.04) 7.5.0
+Copyright (C) 2017 Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.</code>
+</pre>
+
+<p>In this case the version of gcc is 7.5.0, which is sufficient for the purposes of CUDA installation.</p>
+
+<h4>Check Appropriate Development Packages and Headers</h4>
+
+<p>To determine which <a href="https://en.wikipedia.org/wiki/Linux_kernel">Linux kernel</a> is available type the following into a terminal:</p>
+
+<pre>
+<code class="language-none">uname -r</code>
+</pre>
+
+<p>The output will be similar to the following:</p>
+
+<pre>
+<code class="language-none">5.3.0-62-generic</code>
+</pre>
+
+<p>With the name of the kernel determined the next step is to install the appropriate kernel headers and development packages via the following command. Make sure to replace your kernel version with the output from above:</p>
+
+<pre>
+<code class="language-none">sudo apt-get install linux-headers-5.3.0-62-generic</code>
+</pre>
+
+<p>The (truncated) output will be similar to the following:</p>
+
+<pre>
+<code class="language-none">Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+linux-headers-5.3.0-62-generic is already the newest version (5.3.0-62.56~18.04.1).
+linux-headers-5.3.0-62-generic set to manually installed.
+The following packages were automatically installed and are no longer required:
+  ..
+  ..
+Use 'sudo apt autoremove' to remove them.
+0 to upgrade, 0 to newly install, 0 to remove and 78 not to upgrade.</code>
+</pre>
+
+<p>The above confirms that the headers were already installed on the tested workstation.</p>
+
+<h4>Check Current Nvidia Drivers</h4>
+
+<p>If you already have an Nvidia driver installed it is possible to determine the version by typing the following into the terminal:</p>
+
+<pre>
+<code class="language-none">nvidia-smi</code>
+</pre>
+
+<p>The output will be similar to the following:</p>
+
+<pre>
+<code class="language-none">Wed Jul 15 14:27:36 2020       
++-----------------------------------------------------------------------------+
+| NVIDIA-SMI 440.100      Driver Version: 440.100      CUDA Version: 10.2     |
+|-------------------------------+----------------------+----------------------+
+| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+|===============================+======================+======================|
+|   0  GeForce GTX 780 Ti  Off  | 00000000:01:00.0 N/A |                  N/A |
+| 37%   55C    P2    N/A /  N/A |   1244MiB /  3018MiB |     N/A      Default |
++-------------------------------+----------------------+----------------------+
+|   1  GeForce GTX 780 Ti  Off  | 00000000:02:00.0 N/A |                  N/A |
+| 17%   36C    P8    N/A /  N/A |      1MiB /  3022MiB |     N/A      Default |
++-------------------------------+----------------------+----------------------+
+                                                                               
++-----------------------------------------------------------------------------+
+| Processes:                                                       GPU Memory |
+|  GPU       PID   Type   Process name                             Usage      |
+|=============================================================================|
+|    0                    Not Supported                                       |
+|    1                    Not Supported                                       |
++-----------------------------------------------------------------------------+</code>
+</pre>
+
+<p>In this instance the Nvidia driver version is 440.100 is already installed.</p>
+
+<p>We are now ready to proceed with the installation of CUDA, cuDNN and TensorRT.</p>
+
+<h3>Installation of CUDA Framework</h3>
+
+<p><em>The following steps are taken from the <a href="https://www.tensorflow.org/install/gpu">TensorFlow GPU installation documentation</a> and have been tested on a local workstation.</em></p>
+
+<p>Please enter the following commands into the terminal to install CUDA 10.1 (not 10.2) on the system:</p>
+
+<pre>
+<code class="language-none">wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/cuda-repo-ubuntu1804_10.1.243-1_amd64.deb
+sudo apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/7fa2af80.pub
+sudo dpkg -i cuda-repo-ubuntu1804_10.1.243-1_amd64.deb
+sudo apt-get update
+wget http://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1804/x86_64/nvidia-machine-learning-repo-ubuntu1804_1.0.0-1_amd64.deb
+sudo apt install ./nvidia-machine-learning-repo-ubuntu1804_1.0.0-1_amd64.deb
+sudo apt-get update</code>
+</pre>
+
+<p>The above commands download the CUDA repository for Ubuntu 18.04 as a Debian package. The keys are then obtained. The <code>dpkg</code> command is then used to install the CUDA Debian package. The apt repositories are then updated and the further repositories (<code>nvidia-machine-learning-repo-***</code>) are downloaded and installed. Finally the apt repositories are updated once again.</p>
+
+<p>At this point it is possible to install the Nvidia driver version 450:</p>
+
+<pre>
+<code class="language-none">sudo apt-get install --no-install-recommends nvidia-driver-450</code>
+</pre>
+
+<p>Once this completes it will be necessary to reboot the system to ensure that the Nvidia driver can be loaded correctly. After a successful reboot it is possible to utilise <code>nvidia-smi</code> to ensure that the GPUs remain visible:</p>
+
+<pre>
+<code class="language-none">nvidia-smi</code>
+</pre>
+
+<p>The output will look similar to the following:</p>
+
+<pre>
+<code class="language-none">Wed Jul 15 14:49:41 2020       
++-----------------------------------------------------------------------------+
+| NVIDIA-SMI 450.51.05    Driver Version: 450.51.05    CUDA Version: 11.0     |
+|-------------------------------+----------------------+----------------------+
+| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+|                               |                      |               MIG M. |
+|===============================+======================+======================|
+|   0  GeForce GTX 780 Ti  On   | 00000000:01:00.0 N/A |                  N/A |
+| 37%   57C    P0    N/A /  N/A |   1057MiB /  3018MiB |     N/A      Default |
+|                               |                      |                  N/A |
++-------------------------------+----------------------+----------------------+
+|   1  GeForce GTX 780 Ti  On   | 00000000:02:00.0 N/A |                  N/A |
+| 17%   37C    P8    N/A /  N/A |      3MiB /  3022MiB |     N/A      Default |
+|                               |                      |                  N/A |
++-------------------------------+----------------------+----------------------+
+                                                                               
++-----------------------------------------------------------------------------+
+| Processes:                                                                  |
+|  GPU   GI   CI        PID   Type   Process name                  GPU Memory |
+|        ID   ID                                                   Usage      |
+|=============================================================================|
+|  No running processes found                                                 |
++-----------------------------------------------------------------------------+</code>
+</pre>
+
+<p>The next step is to download the CUDA 10.1 and cuDNN 7.6 runtime libraries. The total file size of the packages is approximately 5GB. This will likely take time to both download and install, depending upon your connection. Type the following to install the packages:</p>
+
+<pre>
+<code class="language-none">sudo apt-get install --no-install-recommends cuda-10-1 libcudnn7=7.6.4.38-1+cuda10.1 libcudnn7-dev=7.6.4.38-1+cuda10.1</code>
+</pre>
+
+<p>The next step is to (optionally) install TensorRT, which is designed to "improve latency and throughput for inference on some models", as mentioned within the TensorFlow GPU documentation. To carry this out type the following into a terminal:</p>
+
+<pre>
+<code class="language-none">sudo apt-get install -y --no-install-recommends libnvinfer6=6.0.1-1+cuda10.1 libnvinfer-dev=6.0.1-1+cuda10.1 libnvinfer-plugin6=6.0.1-1+cuda10.1</code>
+</pre>
+
+<p>At this stage all of the necessary libraries and packages have been installed.</p>
+
+<p>It is now possible to install TensorFlow in the same manner as for the CPU above. Ensure the Conda virtual environment is activated and type the following to install TensorFlow:</p>
+
+<pre>
+<code class="language-none">pip install tensorflow</code>
+</pre>
+
+<p>The final step is to verify that the installation has been successful and that TensorFlow runs against the GPU.</p>
+
+<h2>TensorFlow Installation Validation</h2>
+
+<p>To validate the installation of TensorFlow on a GPU open up an interactive Python console by typing the following into the terminal:</p>
+
+<pre>
+<code class="language-none">python</code>
+</pre>
+
+<p>Run the following commands in the Python shell to import TensorFlow and check that it is built against CUDA:</p>
+
+<pre>
+<code class="language-python">import tensorflow as tf
+tf.test.is_built_with_cuda()</code>
+</pre>
+
+<p>If successful the output should simply state <code>True</code>:</p>
+
+<pre>
+<code class="language-python">Python 3.6.9 (default, Apr 18 2020, 01:56:04) 
+[GCC 8.4.0] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import tensorflow as tf
+>>> tf.test.is_built_with_cuda()
+True</code>
+</pre>
+
+<p><em>If you are utilising the CPU version of TensorFlow this will return </em><code>False</code><em>.</em></p>
+
+<p>In order to determine which GPUs have been detected by TensorFlow the following command can be run in a Python console after importing TensorFlow as above:</p>
+
+<pre>
+<code class="language-python">tf.config.list_physical_devices('GPU')</code>
+</pre>
+
+<p>The (truncated) output will look similar to the following:</p>
+
+<pre>
+<code class="language-python">[PhysicalDevice(name='/physical_device:GPU:0', device_type='GPU'), PhysicalDevice(name='/physical_device:GPU:1', device_type='GPU')]</code>
+</pre>
+
+<p>In this instance the two 780 Ti GPUs mentioned earlier in the article have both been detected.</p>
+
+<p>As a final check (for both CPU and GPU versions) it is possible to carry out a basic TensorFlow computation directly from the command line. This means that the following is <em>not</em> executed within a Python console. Instead the command is executed in a normal Ubuntu terminal:</p>
+
+<pre>
+<code class="language-none">python -c "import tensorflow as tf;print(tf.reduce_sum(tf.random.normal([1000, 1000])))"</code>
+</pre>
+
+<p>This (truncated) output from this command will look similar to the following:</p>
+
+<pre>
+<code class="language-none">..
+..
+..
+2020-07-15 15:20:15.379624: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:981] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2020-07-15 15:20:15.379944: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:981] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2020-07-15 15:20:15.380279: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:981] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2020-07-15 15:20:15.380570: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1247] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 1703 MB memory) -> physical GPU (device: 0, name: GeForce GTX 780 Ti, pci bus id: 0000:01:00.0, compute capability: 3.5)
+2020-07-15 15:20:15.380931: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:981] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2020-07-15 15:20:15.381252: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1247] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:1 with 2652 MB memory) -> physical GPU (device: 1, name: GeForce GTX 780 Ti, pci bus id: 0000:02:00.0, compute capability: 3.5)
+tf.Tensor(554.52527, shape=(), dtype=float32)</code>
+</pre>
+
+<p>The last line contains the result of the <code>reduce_sum</code> computation. Note that since a random normal distribution is being sampled within this computation it is possible that the resulting tensor will have a different value compared to the one above.</p>
+
+<p>This now verifies that TensorFlow has been successfully installed against the GPU.</p>
+
+<h2>Next Steps</h2>
+
+<p>The next series of articles will provide an overview of what TensorFlow is and how it works. Subsequent to our tour of TensorFlow we will begin creating some machine learning architectures to solve some simple classification problems. Eventually we will begin discussion of deep neural network architectures and how to implement them in TensorFlow.</p>
+
+<h2>References</h2>
+
+<ul>
+  <li><a href="https://towardsdatascience.com/installing-nvidia-drivers-cuda-10-cudnn-for-tensorflow-2-1-on-ubuntu-18-04-lts-f1db8bff9ea">How to Install Tensorflow 2.1 on Ubuntu 18.04 LTS with GPU support: Nvidia Drivers, CUDA 10 and cuDNN</a></li>
+  <li><a href="https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html#ubuntu-installation">NVIDIA CUDA Installation Guide for Linux</a></li>
+  <li><a href="https://www.tensorflow.org/install/gpu">TensorFlow GPU Support - Official Documentation</a></li>
+  <li><a href="https://www.tensorflow.org/install/pip">Install TensorFlow with pip - Official Documentation</a></li>
+  <li><a href="https://www.pyimagesearch.com/2019/12/09/how-to-install-tensorflow-2-0-on-ubuntu/">How to install TensorFlow 2.0 on Ubuntu</a></li>
+</ul>
+        
+        
+        <script async data-uid="6296c27f4b" src="https://weathered-brook-5281.ck.page/6296c27f4b/index.js"></script>
+      </section>
+    </div>
+    <div class="col-md-4 book-card order-md-1">
+      
+<div class="sidebar-advert-container">
+  <a href="/qsalpha/?ref=art">
+    <img class="card-img-top" src="/static/images/qsalpha-sidebar-advert-small.png" alt="QSAlpha">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/qsalpha/?ref=art">QSAlpha</a></h3>
+      <p class="card-text medium-text mb-3">Join the QSAlpha research platform that helps fill your strategy research pipeline, diversifies your portfolio and improves your risk-adjusted returns for increased profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/qsalpha/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/quantcademy/?ref=art">
+    <img class="card-img-top" src="/static/images/quantcademy-sidebar-advert-small.png" alt="Quantcademy">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/quantcademy/?ref=art">The Quantcademy</a></h3>
+      <p class="card-text medium-text mb-3">Join the Quantcademy membership portal that caters to the rapidly-growing retail quant trader community and learn how to increase your strategy profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/quantcademy/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/successful-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/sat-sidebar-advert-small.png" alt="Successful Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to find new trading strategy ideas and objectively assess them for your portfolio using a Python-based backtesting engine.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/successful-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/advanced-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/aat-sidebar-advert-small.png" alt="Advanced Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to implement advanced trading strategies using time series analysis, machine learning and Bayesian statistics with R and Python.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/advanced-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+    
+
+<footer>
+  <div class="container container-full">
+    <section class="mt-1.5 mb-1">
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">QuantStart</li>
+            <li class="footer-list-link"><a class="link-fade" href="/about/">About</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/articles/">Articles</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/sitemap/">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Products</li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qsalpha/">QSAlpha</a></li>
+            
+            
+            <li class="footer-list-link"><a class="link-fade" href="/quantcademy/">Quantcademy</a></li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qstrader/">QSTrader</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Legal</li>
+            <li class="footer-list-link"><a class="link-fade" href="/privacy-policy/">Privacy Policy</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/terms-and-conditions/">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Social</li>
+            <li class="footer-list-link"><a class="link-fade" href="https://twitter.com/quantstart">Twitter</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="https://www.youtube.com/channel/UCmVnnZ6Y2TrJtY1eQJN6kWA">YouTube</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="row mb-1.5 mt-5">
+      <div class="col-12 col-md-9 col-lg-8 col-xl-6">
+        <div class="footer-copyright">
+          <p>©2012-2023 QuarkGluon Ltd. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+<script src="/static/js/jquery-3.2.1.min.js"></script>
+<script src="/static/js/prism.js.min"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/nav.js"></script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5383959-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+    
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="/static/js/highcharts/highcharts.js"></script>
+<script type="text/javascript">
+  num_colours = 10;
+</script>
+<script src="/static/js/statistics.js"></script>
+
+
+  </body>
+</html>

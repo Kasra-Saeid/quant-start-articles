@@ -1,0 +1,588 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-site-verification" content="wl3-8ed1QZjI0iYZMv10zoZWYElkMObTfwLlWIj9cpA" />
+    <meta name="description" content="Cointegrated Time Series Analysis for Mean Reversion Trading with R">
+
+    <link rel="icon" href="/static/images/favicon.png">
+
+    <title>Cointegrated Time Series Analysis for Mean Reversion Trading with R | QuantStart</title>
+    
+    
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet"> 
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/prism.css" rel="stylesheet">
+<link href="/static/css/qs.css?v=10" rel="stylesheet">
+    
+  </head>
+
+  <body>
+    <header class="header covered-header" style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://quantstartmedia.s3.amazonaws.com/images/article-images/article-backgrounds/default-bg.jpg);">
+  
+<nav class="nav">
+  <div class="container nav-container">
+    <div class="nav-row row d-flex justify-content-between align-items-center">
+      <div class="col-2">
+        <ul class="nav-items justify-content-end small-capitals align-items-center">
+          <li class="nav-item">
+            <a class="link-fade" href="/">QuantStart</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-auto col-logo">
+        <ul id="top-nav-menu" class="nav-items justify-content-end align-items-center">
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/qsalpha/">QSAlpha</a>
+          </li>
+          
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/quantcademy/">Quantcademy</a>
+          </li>
+          
+          <li id="menu-link-ebooks" class="nav-item">
+            <a class="link-fade" href="#">Books</a>
+            <div id="menu-pane-ebooks" class="nav-items menu-dropdown-pane">
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/qstrader/">QSTrader</a>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/articles/">Articles</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/members/login/">Login</a>
+          </li>
+          
+        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<nav id="mobile-nav" class="mobile-nav text-left">
+  <div class="container">
+    <ul class="mt-4 ml-3 mobile-nav-menu">
+      <li class="nav-item">
+        <a class="link-fade d-block" href="/">QuantStart</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qsalpha/">QSAlpha</a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/quantcademy/">Quantcademy</a>
+      </li>
+      
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="#">Books</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qstrader/">QSTrader</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/articles/">Articles</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/members/login/">Login</a>
+      </li>
+      
+    </ul>
+    <button class="nav-toggle mobile-nav-close">
+      <svg id="mobile-nav-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M19.77,5.63,13.41,12l6.36,6.37a1,1,0,0,1-1.41,1.41L12,13.41,5.63,19.77a1,1,0,0,1-1.44-1.39l0,0L10.58,12,4.21,5.63a1,1,0,0,1,0-1.42,1,1,0,0,1,1.41,0l0,0L12,10.58l6.37-6.37a1,1,0,0,1,1.41,0A1,1,0,0,1,19.77,5.63Z"></path>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+  <div class="container hero-container">
+    <section class="mt-5 mb-4">
+      <div class="row justify-content-center">
+        <div class="col-12 text-center">
+          <p class="hero">Cointegrated Time Series Analysis for Mean Reversion Trading with R</p>
+          <p class="hero subhero">Cointegrated Time Series Analysis for Mean Reversion Trading with R</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</header>
+    
+<section class="container content-container">
+  <div class="row">
+    <div class="col-md-8 order-md-2">
+      <section class="content article-content">
+        
+        
+        <p>A while back we considered a trading model based on the application of the <a href="https://www.quantstart.com/articles/ARIMA-GARCH-Trading-Strategy-on-the-SP500-Stock-Market-Index-Using-R">ARIMA and GARCH time series models to daily S&amp;P500 data</a>. We mentioned in that article as well as other previous <a href="https://www.quantstart.com/articles#time-series-analysis">time series analysis articles</a> that we would eventually be considering mean reverting trading strategies and how to construct them.</p>
+
+<p>In this article I want to discuss a topic called <a href="https://en.wikipedia.org/wiki/Cointegration">cointegration</a>, which is a time series concept that allows us to determine if we are able to form a mean reverting pair of assets. We will cover the time series theory related to cointegration here and in the next article we will show how to apply that to real trading strategies using the new open source backtesting framework: <a href="https://github.com/mhallsmoore/qstrader">QSTrader</a>.</p>
+
+<p>We will proceed by discussing mean reversion in the traditional "pairs trading" framework. This will lead us to the concept of <em>stationarity</em> of a linear combination of assets, ultimately leading us to <em>cointegration</em> and <em>unit root tests</em>. Once we have outlined these tests we will simulate various time series in the R statistical environment and apply the tests in order to assess cointegration.</p>
+
+<h2>Mean Reversion Trading Strategies</h2>
+
+<p>The traditional idea of a mean reverting "pairs trade" is to simultaneously long and short two separate assets sharing underlying factors that affect their movements. An example from the equities world might be to long McDonald's (NYSE:MCD) and short Burger King (NYSE:BKW - prior to the merger with Tim Horton's).</p>
+
+<p>The rationale for this is that their long term share prices are likely to be in equilibrium due to the broad market factors affecting hamburger production and consumption. A short-term disruption to an individual in the pair, such as a supply chain disruption solely affecting McDonald's, would lead to a temporary dislocation in their relative prices. This means that a long-short trade carried out at this disruption point should become profitable as the two stocks return to their equilibrium value once the disruption is resolved. This is the essence of the classic "pairs trade".</p>
+
+<p>As quants we are interested in carrying out mean reversion trading not solely on a <em>pair</em> of assets, but also <em>baskets</em> of assets that are separately interrelated.</p>
+
+<p>To achieve this we need a robust mathematical framework for identifying pairs or baskets of assets that mean revert in the manner described above. This is where the concept of cointegrated time series arises.</p>
+
+<p>The idea is to consider a pair of non-stationary time series, such as the random-walk like assets of MCD and BKW, and form a <em>linear combination</em> of each series to produce a stationary series, which has a fixed mean and variance.</p>
+
+<p>This stationary series may have short term disruptions where the value wanders far from the mean, but due to its stationarity this value will eventually return to the mean. Trading strategies can make use of this by longing/shorting the pair at the appropriate disruption point and betting on a longer-term reversion of the series to its mean.</p>
+
+<p>Mean reverting strategies such as this permit a wide range of instruments to create the "synthetic" stationary time series. We are certainly not restricted to "vanilla" equities. For instance, we can make use of Exchange Traded Funds (ETF) that track commodity prices, such as crude oil, and baskets of oil producing companies. Hence there is plenty of scope for identifying such mean reverting systems.</p>
+
+<p>Before we delve into the mechanics of the actual trading strategies, which will be the subject of the next article, we must first understand how to statistically identify such <em>cointegrated</em> series. For this we will utilise techniques from <a href="https://www.quantstart.com/articles#time-series-analysis">time series analysis</a>, continuing the usage of the R statistical language as in <a href="https://www.quantstart.com/articles#time-series-analysis">previous articles on the topic</a>.</p>
+
+<h2>Cointegration</h2>
+
+<p>Now that we've motivated the necessity for a quantitative framework to carry out mean reversion trading we can define the concept of cointegration. Consider a pair of time series, both of which are non-stationary. If we take a particular linear combination of theses series it can sometimes lead to a stationary series. Such a pair of series would then be termed <em>cointegrated</em>.</p>
+
+<p>The mathematical definition is given by:</p>
+
+<div class="alert alert-info">
+  <h4 class="mt-3">Cointegration</h4>
+  <p>Let $\{x_t \}$ and $\{y_t \}$ be two non-stationary time series, with $a, b \in \mathbb{R}$, constants. If the combined series $a x_t + b y_t$ is stationary then we say that $\{x_t \}$ and $\{y_t \}$ are <strong>cointegrated</strong>.</p>
+</div>
+
+<p>While the definition is useful it does not directly provide us with a mechanism for either determining the values of $a$ and $b$, nor whether such a combination is in fact statistically stationary. For the latter we need to utilise tests for <em>unit roots</em>.</p>
+
+<h2>Unit Root Tests</h2>
+
+<p>In our <a href="https://www.quantstart.com/articles/Autoregressive-Moving-Average-ARMA-p-q-Models-for-Time-Series-Analysis-Part-1">previous discussion of autoregressive AR(p) models</a> we explained the role of the <em>characteristic equation</em>. We noted that it was simply an autoregressive model, written in backward shift form, set to equal zero. Solving this equation gave us a set of <em>roots</em>.</p>
+
+<p>In order for the model to be considered stationary all of the roots of the equation had to exceed unity. An AR(p) model with a root equal to unity - a <em>unit root</em> - is non-stationary. Random walks are AR(1) processes with unit roots and hence they are also non-stationary.</p> 
+
+<p>Thus in order to detect whether a time series is stationary or not we can construct a statistical hypothesis test for the presence of a unit root in a time series sample.</p>
+
+<p>We are going to consider three separate tests for unit roots: Augmented Dickey-Fuller (AFD), Phillips-Perron and Phillips-Ouliaris. We will see that they are based on differing assumptions but are all ultimately testing for the same issue, namely stationarity of the tested time series sample.</p>
+
+<p>Let's now take a brief look at all three tests in turn.</p>
+
+<h3>Augmented Dickey-Fuller Test</h3>
+
+<p>Dickey and Fuller<sup><a href="#ref-dickeyfuller">[2]</a></sup> were responsible for introducing the following test for the presence of a unit root. The original test considers a time series $z_t = \alpha z_{t-1} + w_t$, in which $w_t$ is discrete white noise. The null hypothesis is that $\alpha = 1$, while the alternative hypothesis is that $\alpha &lt; 1$.</p>
+
+<p>Said and Dickey<sup><a href="#ref-saiddickey">[6]</a></sup> improved the original Dickey-Fuller test leading to the Augmented Dickey-Fuller (ADF) test, in which the series $z_t$ is modified to an AR(p) model from an AR(1) model. I've discussed the test in a <a href="https://www.quantstart.com/articles/Basics-of-Statistical-Mean-Reversion-Testing">previous article</a> where we've used Python to calculate it. In this article we will carry out the same test using R.</p>
+
+<h3>Phillips-Perron Test</h3>
+
+<p>The ADF test assumes an AR(p) model as an approximation for the time series sample and uses this to account for higher order autocorrelations. The Phillips-Perron test<sup><a href="#ref-phillipsperron">[5]</a></sup> does not assume an AR(p) model approximation. Instead a non-parametric kernel smoothing method is utilised on the stationary process $w_t$, which allows it to account for unspecified autocorrelation and heteroscedasticity.</p>
+
+<h3>Phillips-Ouliaris Test</h3>
+
+<p>The Phillips-Ouliaris test<sup><a href="#ref-phillipsouliaris">[4]</a></sup> is different from the previous two tests in that it is testing for evidence of cointegration among the residuals between two time series. The main idea here is that tests such as ADF, when applied to the estimated cointegrating residuals, do not have the Dickey-Fuller distributions under the null hypothesis where cointegration isn't present. Instead, these distributions are known as Phillips-Ouliaris distributions and hence this test is more appropriate.</p>
+
+<h3>Difficulties with Unit Root Tests</h3>
+
+<p>While the ADF and Phillips-Perron test are equivalent asymptotically they can produce very different answers in finite samples<sup><a href="#ref-zivot">[7]</a></sup>. This is because they handle autocorrelation and heteroscedasticity differently. It is necessary to be very clear which hypotheses are being tested for when applying these tests and not to simply apply them blindly to arbitrary series.</p>
+
+<p>In addition unit root tests are not great at distinguishing highly persistent stationary processes from non-stationary processes. One must be very careful when using these on certain forms of financial time series. This can be especially problematic when the underlying relationship being modelled (i.e. mean reversion of two similar pairs) naturally breaks down due to regime change or other structural changes in the financial markets.</p>
+
+<h2>Simulated Cointegrated Time Series with R</h2>
+
+<p>Let's now apply the previous unit root tests to some simulated data that we know to be cointegrated. We can make use of the defiition of cointegration to artificially create two non-stationary time series that share an underlying stochastic trend, but with a linear combination that is stationary.</p>
+
+<p>Our first task is to define a random walk $z_t = z_{t-1} + w_t$, where $w_t$ is discrete white noise. <em>Take a look at the <a href="https://www.quantstart.com/articles/White-Noise-and-Random-Walks-in-Time-Series-Analysis">previous article on white noise and random walks</a> if you need to brush up on these concepts</em>.</p>
+
+<p>With the random walk $z_t$ let's create two new time series $x_t$ and $y_t$ that both share the underlying stochastic trend from $z_t$, albeit by different amounts:</p>
+
+<p>
+\begin{eqnarray}
+x_t &=& p z_t + w_{x,t} \\
+y_t &=& q z_t + w_{y,t}
+\end{eqnarray}
+</p>
+
+<p>If we then take a linear combination $a x_t + b y_t$:</p>
+
+<p>
+\begin{eqnarray}
+a x_t + b y_t &=& a (p z_t + w_{x,t}) + b (q z_t + w_{y,t}) \\
+&=& (ap + bq) z_t + a w_{x,t} + b w_{y,t}
+\end{eqnarray}
+</p>
+
+<p>We see that we only achieve a stationary series (that is a combination of white noise terms) if $ap + bq = 0$. We can put some numbers to this to make it more concrete. Suppose $p=0.3$ and $q=0.6$. After some simple algebra we see that if $a=2$ and $b=-1$ we have that $ap +bq = 0$, leading to a stationary series combination. Hence $x_t$ and $y_t$ are cointegrated when $a=2$ and $b=-1$.</p>
+
+<p>Let's simulate this in R in order to visualise the stationary combination. Firstly, we wish to create and plot the underlying random walk series, $z_t$:</p>
+
+<pre>
+<code class="language-r">set.seed(123)
+z <- rep(0, 1000)
+for (i in 2:1000) z[i] <- z[i-1] + rnorm(1)
+plot(z, type="l")</code>
+</pre>
+
+<p style="text-align:center">
+  <img src="https://s3.amazonaws.com/quantstartmedia/images/qs-coint-plotz.png" width="100%" />
+  <strong>Realisation of a random walk, $z_t$</strong>
+</p>
+
+<p>If we plot both the correlogram of the series and its differences we can see little evidence of autocorrelation:</p>
+
+<pre>
+<code class="language-r">layout(1:2)
+acf(z)
+acf(diff(z))</code>
+</pre>
+
+<p style="text-align:center">
+  <img src="https://s3.amazonaws.com/quantstartmedia/images/qs-coint-acfz-acfdiffz.png" width="100%" />
+  <strong>Correlograms of $z_t$ and the differenced series of $z_t$</strong>
+</p>
+
+<p>Hence this realisation of $z_t$ clearly looks like a random walk. The next step is to create $x_t$ and $y_t$ from $z_t$, using $p=0.3$ and $q=0.6$, and then plot both:</p>
+
+<pre>
+<code class="language-r">x <- y <- rep(0, 1000)
+x <- 0.3*z + rnorm(1000)
+y <- 0.6*z + rnorm(1000)
+layout(1:2)
+plot(x, type="l")
+plot(y, type="l")</code>
+</pre>
+
+<p style="text-align:center">
+  <img src="https://s3.amazonaws.com/quantstartmedia/images/qs-coint-plotxy.png" width="100%" />
+  <strong>Plot of $x_t$ and $y_t$ series, each based on underlying random walk $z_t$</strong>
+</p>
+
+<p>As you can see they both look similar. Of course they will be by definition - they share the same underlying random walk structure from $z_t$. Let's now form the linear combination, <code>comb</code>, using $p=2$ and $q=-1$ and examine the autocorrelation structure:</p>
+
+<pre>
+<code class="language-r">comb <- 2*x - y
+layout(1:2)
+plot(comb, type="l")
+acf(comb)</code>
+</pre>
+
+<p style="text-align:center">
+  <img src="https://s3.amazonaws.com/quantstartmedia/images/qs-coint-plotcomb-acfcomb.png" width="100%" />
+  <strong>Plot of <code>comb</code> - the linear combination series - and its correlogram</strong>
+</p>
+
+<p>It is clear that the combination series <code>comb</code> looks very much like a stationary series. This is to be expected given its definition.</p>
+
+<p>Let's try applying the three unit root tests to the linear combination series. Firstly, the Augmented Dickey-Fuller test:</p>
+
+<pre>
+<code class="language-r">adf.test(comb)</code>
+</pre>
+
+<p>The output is as follows:</p>
+
+<pre>
+<code class="language-none">    Augmented Dickey-Fuller Test
+
+data:  comb
+Dickey-Fuller = -10.321, Lag order = 9, p-value = 0.01
+alternative hypothesis: stationary
+
+Warning message:
+In adf.test(comb) : p-value smaller than printed p-value</code>
+</pre>
+
+<p>The p-value is small and hence we have evidence to reject the null hypothesis that the series possesses a unit root. Now we try the Phillips-Perron test:</p>
+
+<pre>
+<code class="language-r">pp.test(comb)</code>
+</pre>
+
+<p>The output is as follows:</p>
+
+<pre>
+<code class="language-none">    Phillips-Perron Unit Root Test
+
+data:  comb
+Dickey-Fuller Z(alpha) = -1016.988, Truncation lag parameter = 7,
+p-value = 0.01
+alternative hypothesis: stationary
+
+Warning message:
+In pp.test(comb) : p-value smaller than printed p-value</code>
+</pre>
+
+<p>Once again we have a small p-value and hence we have evidence to reject the null hypothesis of a unit root. Finally, we try the Phillips-Ouliaris test (notice that it requires matrix input of the underlying series constituents):</p>
+
+<pre>
+<code class="language-r">po.test(cbind(2*x,-1.0*y))</code>
+</pre>
+
+<p>The output is as follows:</p>
+
+<pre>
+<code class="language-none">    Phillips-Ouliaris Cointegration Test
+
+data:  cbind(2 * x, -1 * y)
+Phillips-Ouliaris demeaned = -1023.784, Truncation lag parameter = 9,
+p-value = 0.01
+
+Warning message:
+In po.test(cbind(2 * x, -1 * y)) : p-value smaller than printed p-value</code>
+</pre>
+
+<p>Yet again we see a small p-value indicating evidence to reject the null hypothesis. Hence it is clear we are dealing with a pair of series that are cointegrated.</p>
+
+<p>What happens if we instead create a separate combination with, say $p=-1$ and $q=2$?</p>
+
+<pre>
+<code class="language-r">badcomb <- -1.0*x + 2.0*y
+layout(1:2)
+plot(badcomb, type="l")
+acf(diff(badcomb))
+adf.test(badcomb)</code>
+</pre>
+
+<p>The output is as follows:</p>
+
+<pre>
+<code class="language-none">    Augmented Dickey-Fuller Test
+
+data:  badcomb
+Dickey-Fuller = -2.4435, Lag order = 9, p-value = 0.3906
+alternative hypothesis: stationary</code>
+</pre>
+
+<p style="text-align:center">
+  <img src="https://s3.amazonaws.com/quantstartmedia/images/qs-coint-plotbadcomb-acfbadcomb.png" width="100%" />
+  <strong>Plot of <code>badcomb</code> - the "incorrect" linear combination series - and its correlogram</strong>
+</p>
+
+<p> In this case we do not have sufficient evidence to reject the null hypothesis of the presence of a unit root, as determined by p-value of the Augmented Dickey-Fuller test. This makes sense as we arbitrarily chose the linear combination of $a$ and $b$ rather than setting them to the correct values of $p=2$ and $b=-1$ to form a stationary series.</p>
+
+<h2>Next Steps</h2>
+
+<p>In this article we examined multiple unit root tests for assessing whether a linear combination of time series was stationary, that is, whether the two series were cointegrated.</p>
+
+<p>In future articles we are going to consider full implementations of mean reverting trading strategies for daily equities and ETFs data using QSTrader based on these cointegration tests.</p>
+
+<p>In addition we will extend our analysis to cointegration across more than two assets leading to trading strategies that take advantage of cointegrated portfolios.</p>
+
+<h2>References</h2>
+
+<ul>
+  <li><a name="ref-itsr" href="http://amzn.to/1RQaOYF">[1] Cowpertwait, P.S.P., Metcalfe, A.V. (2009) <em>Introductory Time Series with R</em>, Springer</a></li>
+
+  <li><a name="ref-dickeyfuller" href="https://www.jstor.org/stable/2286348">[2] Dickey, D.A., Fuller, W.A. (1979) "Distribution of the Estimators for Autoregressive Time Series with a Unit Root", <em>Journal of the American Statistical Association</em> <strong>74</strong> (366): 427-431</a></li>
+
+  <li><a name="ref-aictsr" href="https://www.amazon.co.uk/Analysis-Integrated-Cointegrated-Time-Use/dp/0387759662/">[3] Pfaff, B. (2010) <em>Analysis of Integrated and Cointegrated Time Series with R, 2nd Ed.</em>, Springer</a></li>
+
+  <li><a name="ref-phillipsouliaris" href="http://www.jstor.org/stable/2938339">[4] Phillips, P.C.B., Ouliaris, S. (1990) "Asymptotic Properties of Residual Based Tests for Cointegration", <em>Econometrica</em> <strong>58</strong> (1): 165-193</a></li>
+
+  <li><a name="ref-phillipsperron" href="http://biomet.oxfordjournals.org/content/75/2/335.abstract">[5] Phillips, P.C.B., Perron, P. (1988) "Testing for a Unit Root in Time Series Regression", <em>Biometrika</em> <strong>75</strong> (2): 335–346</a></li>
+
+  <li><a name="ref-saiddickey" href="http://biomet.oxfordjournals.org/content/71/3/599.abstract">[6] Said, S.E., Dickey, D.A. (1984) "Testing for Unit Roots in Autoregressive-Moving Average Models of Unknown Order", <em>Biometrika</em> <strong>71</strong> (3): 599-607</a></li>
+
+  <li><a name="ref-zivot" href="http://faculty.washington.edu/ezivot/econ584/econ584.htm">[7] Zivot, E. (2006) Economics 584: Time Series Economics, <em>Course Notes</em></a></li>
+</ul>
+        
+        
+        <script async data-uid="6296c27f4b" src="https://weathered-brook-5281.ck.page/6296c27f4b/index.js"></script>
+      </section>
+    </div>
+    <div class="col-md-4 book-card order-md-1">
+      
+<div class="sidebar-advert-container">
+  <a href="/qsalpha/?ref=art">
+    <img class="card-img-top" src="/static/images/qsalpha-sidebar-advert-small.png" alt="QSAlpha">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/qsalpha/?ref=art">QSAlpha</a></h3>
+      <p class="card-text medium-text mb-3">Join the QSAlpha research platform that helps fill your strategy research pipeline, diversifies your portfolio and improves your risk-adjusted returns for increased profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/qsalpha/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/quantcademy/?ref=art">
+    <img class="card-img-top" src="/static/images/quantcademy-sidebar-advert-small.png" alt="Quantcademy">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/quantcademy/?ref=art">The Quantcademy</a></h3>
+      <p class="card-text medium-text mb-3">Join the Quantcademy membership portal that caters to the rapidly-growing retail quant trader community and learn how to increase your strategy profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/quantcademy/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/successful-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/sat-sidebar-advert-small.png" alt="Successful Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to find new trading strategy ideas and objectively assess them for your portfolio using a Python-based backtesting engine.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/successful-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/advanced-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/aat-sidebar-advert-small.png" alt="Advanced Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to implement advanced trading strategies using time series analysis, machine learning and Bayesian statistics with R and Python.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/advanced-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+    
+
+<footer>
+  <div class="container container-full">
+    <section class="mt-1.5 mb-1">
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">QuantStart</li>
+            <li class="footer-list-link"><a class="link-fade" href="/about/">About</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/articles/">Articles</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/sitemap/">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Products</li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qsalpha/">QSAlpha</a></li>
+            
+            
+            <li class="footer-list-link"><a class="link-fade" href="/quantcademy/">Quantcademy</a></li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qstrader/">QSTrader</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Legal</li>
+            <li class="footer-list-link"><a class="link-fade" href="/privacy-policy/">Privacy Policy</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/terms-and-conditions/">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Social</li>
+            <li class="footer-list-link"><a class="link-fade" href="https://twitter.com/quantstart">Twitter</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="https://www.youtube.com/channel/UCmVnnZ6Y2TrJtY1eQJN6kWA">YouTube</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="row mb-1.5 mt-5">
+      <div class="col-12 col-md-9 col-lg-8 col-xl-6">
+        <div class="footer-copyright">
+          <p>©2012-2023 QuarkGluon Ltd. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+<script src="/static/js/jquery-3.2.1.min.js"></script>
+<script src="/static/js/prism.js.min"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/nav.js"></script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5383959-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+    
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="/static/js/highcharts/highcharts.js"></script>
+<script type="text/javascript">
+  num_colours = 10;
+</script>
+<script src="/static/js/statistics.js"></script>
+
+
+  </body>
+</html>

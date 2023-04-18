@@ -1,0 +1,431 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-site-verification" content="wl3-8ed1QZjI0iYZMv10zoZWYElkMObTfwLlWIj9cpA" />
+    <meta name="description" content="STL Containers and Auto_ptrs - Why They Don&#x27;t Mix">
+
+    <link rel="icon" href="/static/images/favicon.png">
+
+    <title>STL Containers and Auto_ptrs - Why They Don&#x27;t Mix | QuantStart</title>
+    
+    
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet"> 
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/prism.css" rel="stylesheet">
+<link href="/static/css/qs.css?v=10" rel="stylesheet">
+    
+  </head>
+
+  <body>
+    <header class="header covered-header" style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://quantstartmedia.s3.amazonaws.com/images/article-images/article-backgrounds/cpp.jpg);">
+  
+<nav class="nav">
+  <div class="container nav-container">
+    <div class="nav-row row d-flex justify-content-between align-items-center">
+      <div class="col-2">
+        <ul class="nav-items justify-content-end small-capitals align-items-center">
+          <li class="nav-item">
+            <a class="link-fade" href="/">QuantStart</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-auto col-logo">
+        <ul id="top-nav-menu" class="nav-items justify-content-end align-items-center">
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/qsalpha/">QSAlpha</a>
+          </li>
+          
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/quantcademy/">Quantcademy</a>
+          </li>
+          
+          <li id="menu-link-ebooks" class="nav-item">
+            <a class="link-fade" href="#">Books</a>
+            <div id="menu-pane-ebooks" class="nav-items menu-dropdown-pane">
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/qstrader/">QSTrader</a>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/articles/">Articles</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/members/login/">Login</a>
+          </li>
+          
+        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<nav id="mobile-nav" class="mobile-nav text-left">
+  <div class="container">
+    <ul class="mt-4 ml-3 mobile-nav-menu">
+      <li class="nav-item">
+        <a class="link-fade d-block" href="/">QuantStart</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qsalpha/">QSAlpha</a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/quantcademy/">Quantcademy</a>
+      </li>
+      
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="#">Books</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qstrader/">QSTrader</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/articles/">Articles</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/members/login/">Login</a>
+      </li>
+      
+    </ul>
+    <button class="nav-toggle mobile-nav-close">
+      <svg id="mobile-nav-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M19.77,5.63,13.41,12l6.36,6.37a1,1,0,0,1-1.41,1.41L12,13.41,5.63,19.77a1,1,0,0,1-1.44-1.39l0,0L10.58,12,4.21,5.63a1,1,0,0,1,0-1.42,1,1,0,0,1,1.41,0l0,0L12,10.58l6.37-6.37a1,1,0,0,1,1.41,0A1,1,0,0,1,19.77,5.63Z"></path>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+  <div class="container hero-container">
+    <section class="mt-5 mb-4">
+      <div class="row justify-content-center">
+        <div class="col-12 text-center">
+          <p class="hero">STL Containers and Auto_ptrs - Why They Don&#x27;t Mix</p>
+          <p class="hero subhero">STL Containers and Auto_ptrs - Why They Don&#x27;t Mix</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</header>
+    
+<section class="container content-container">
+  <div class="row">
+    <div class="col-md-8 order-md-2">
+      <section class="content article-content">
+        
+        
+        <p><em>I was actually asked a question around this topic in an interview a few years ago. It is quite an interesting area and delves into some deep parts of C++.</em></p>
+
+<p>A common scenario in C++ is to create a container of user defined objects. In quantitative finance, this might be a vector of derivative contracts, for instance. One (bad) way to achieve this is by using a container of pointers to the option object.</p>
+
+<h2>Container of "Dumb" Pointers</h2>
+
+<pre>
+<code class="language-cpp">#include &lt;vector&gt;
+
+class Option {
+public:
+  ..
+}
+
+void vec_option(std::vector&lt;Option*&gt;& vec)
+{
+  vec.push_back(new Option());
+
+  // .. Some additional code ..
+
+  delete vec.back();    // Skipping this line causes a memory leak
+  vec.pop_back();       // Causes a dangling pointer if this line isn't reached
+}</code>
+</pre>
+
+<p>If the code prior to <code class="prettyprint">delete vec.back;</code> causes an exception to be thrown or <code class="prettyprint">return</code>s from the function, this will lead to a memory leak or a dangling pointer. Why is this? Simply, because although the destructor called by <code class="prettyprint">std::vector</code>, it does NOT remove the allocations that were made by the <code class="prettyprint">new</code> operator, when creating the <code class="prettyprint">Option</code> object.</p>
+
+<h2>Containers of Auto_ptrs</h2>
+
+<p>Although the above code will compile and run, it is bad practice to use such containers of "dumb" pointers due to the fragility of the function. The solution to such a problem is to use a <strong>smart pointer</strong>.</p>
+
+<p>One such smart pointer is <code class="prettyprint">std::auto_ptr&lt;&gt;</code>. Let's modify the function prototype code above to make use of it:</p>
+
+<pre>
+<code class="language-cpp">#include &lt;vector&gt;
+#include &lt;memory&gt;   // Needed for std::auto_ptr&lt;&gt;
+
+class Option {
+public:
+  ..
+}
+
+void vec_option(std::vector&lt;std::auto_ptr&lt;Option&gt; &gt;& vec)
+{
+  vec.push_back(new Option());
+  ..
+  vec.pop_back();
+}</code>
+</pre>
+
+<p>Now when we try to compile this code we receive a compiler error! What just happened?</p>
+
+<p>It all comes down to the <em>contract</em> that <code class="prettyprint">std::auto_ptr&lt;&gt;</code> makes with you when you agree to use it in your code.</p>
+
+<p><code class="prettyprint">std::auto_ptr&lt;&gt;</code> does not fulfill the requirements of being <em>copy-constructible</em> and <em>assignable</em>. Unlike objects which do have this requirement, when copying or assigning an auto_ptr the two elements are not <em>logically independent</em>. This is because auto_ptr has semantics of <em>strict ownership</em> and is thus solely responsible for an object during the object's life cycle. If we copy the auto_ptr then the source auto_ptr will lose the reference to the underlying object.</p>
+
+<p>Since objects within an STL container must be copy-constructible and assignable, a compile time error is provided if an auto_ptr is used within a container. Algorithms, such as those involved in sorting STL containers, often copy objects while carrying out their tasks. Hence, there would be a large scope for memory leaks and/or dangling pointers if containers of auto_ptrs were allowed.</p>
+
+<h2>Boost Smart Pointers and STL Containers</h2>
+
+<p>Prior to the C++11 standard the best way to overcome this problem was to use the Boost library smart pointers. In this instance we could use the Boost library shared pointer - <code class="prettyprint">boost:shared_ptr</code>. A shared pointer is useful because it removes the possibility of a memory leak due to neglect of iterating over the vector and calling <code class="prettyprint">delete</code> for each item. Let's modify the example above to make use of the shared pointer:</p>
+
+<pre>
+<code class="language-cpp">#include &lt;vector&gt;
+#include &lt;boost/shared_ptr.hpp&gt;  // Need to include the Boost header for shared_ptr
+
+class Option {
+public:
+  ..
+}
+
+typedef boost::shared_ptr&lt;Option&gt; option_ptr;   // This typedef stops excessive C++ syntax later
+
+void vec_option(std::vector&lt;option_ptr&gt;& vec)
+{
+  option_ptr ptr_opt(new Option());  // Separate allocation to avoid problems if exceptions are thrown
+  vec.push_back(ptr_opt);
+  ..
+  vec.pop_back();
+}</code>
+</pre>
+
+<p>So why does this work? Shared pointers make use of <em>reference counting</em>, which ensures that the allocation option object (<code class="prettyprint">ptr_opt</code>) is correctly transferred into the vector, in this line: <code class="prettyprint">vec.push_back(ptr_opt);</code>. Although it is not absolutely necessary to use a shared_ptr, I have done so here because debugging dangling pointers when using different types is extremely painful. It is much easier to optimise working code than trying to prematurely optimise non-working code!</p>
+
+<h2>C++11 Smart Pointers and STL Containers</h2>
+
+<p>In modern C++, which utilises the C++11 standard, the use of auto_ptrs has become deprecated. In addition, certain new smart pointers have made it into the standard. The Boost shared_ptr previously described was included via the TR1 standard to C++, then eventually made it into C++11, with some additional modifications. It is straightforward to modify the above Boost code to incorporate the new C++11 shared pointers:</p>
+
+<pre>
+<code class="language-cpp">#include &lt;vector&gt;
+#include &lt;memory&gt;  // std::shared_ptr is included in the "memory" header
+
+class Option {
+public:
+  ..
+}
+
+typedef std::shared_ptr&lt;Option&gt; option_ptr;   // This typedef stops excessive C++ syntax later
+
+void vec_option(std::vector&lt;option_ptr&gt;& vec)
+{
+  option_ptr ptr_opt(new Option());  // Separate allocation to avoid problems if exceptions are thrown
+  vec.push_back(ptr_opt);
+  ..
+  vec.pop_back();
+}</code>
+</pre>
+
+<p>One final note - using shared pointers can be considered bad practice, as it means that the programmer has not given sufficient thought to the lifetime of the object or where it should actually be deleted. Another suggestion is to use <code class="prettyprint">std::unique_ptr</code> for situations where the container object "owns" the elements within it, rather than the elements having a distinct external lifetime of their own. I won't dwell on this too much here as it is really a discussion long enough for another article!</p>
+        
+        
+        <script async data-uid="6296c27f4b" src="https://weathered-brook-5281.ck.page/6296c27f4b/index.js"></script>
+      </section>
+    </div>
+    <div class="col-md-4 book-card order-md-1">
+      
+<div class="sidebar-advert-container">
+  <a href="/qsalpha/?ref=art">
+    <img class="card-img-top" src="/static/images/qsalpha-sidebar-advert-small.png" alt="QSAlpha">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/qsalpha/?ref=art">QSAlpha</a></h3>
+      <p class="card-text medium-text mb-3">Join the QSAlpha research platform that helps fill your strategy research pipeline, diversifies your portfolio and improves your risk-adjusted returns for increased profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/qsalpha/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/quantcademy/?ref=art">
+    <img class="card-img-top" src="/static/images/quantcademy-sidebar-advert-small.png" alt="Quantcademy">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/quantcademy/?ref=art">The Quantcademy</a></h3>
+      <p class="card-text medium-text mb-3">Join the Quantcademy membership portal that caters to the rapidly-growing retail quant trader community and learn how to increase your strategy profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/quantcademy/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/successful-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/sat-sidebar-advert-small.png" alt="Successful Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to find new trading strategy ideas and objectively assess them for your portfolio using a Python-based backtesting engine.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/successful-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/advanced-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/aat-sidebar-advert-small.png" alt="Advanced Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to implement advanced trading strategies using time series analysis, machine learning and Bayesian statistics with R and Python.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/advanced-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+    
+
+<footer>
+  <div class="container container-full">
+    <section class="mt-1.5 mb-1">
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">QuantStart</li>
+            <li class="footer-list-link"><a class="link-fade" href="/about/">About</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/articles/">Articles</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/sitemap/">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Products</li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qsalpha/">QSAlpha</a></li>
+            
+            
+            <li class="footer-list-link"><a class="link-fade" href="/quantcademy/">Quantcademy</a></li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qstrader/">QSTrader</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Legal</li>
+            <li class="footer-list-link"><a class="link-fade" href="/privacy-policy/">Privacy Policy</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/terms-and-conditions/">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Social</li>
+            <li class="footer-list-link"><a class="link-fade" href="https://twitter.com/quantstart">Twitter</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="https://www.youtube.com/channel/UCmVnnZ6Y2TrJtY1eQJN6kWA">YouTube</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="row mb-1.5 mt-5">
+      <div class="col-12 col-md-9 col-lg-8 col-xl-6">
+        <div class="footer-copyright">
+          <p>©2012-2023 QuarkGluon Ltd. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+<script src="/static/js/jquery-3.2.1.min.js"></script>
+<script src="/static/js/prism.js.min"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/nav.js"></script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5383959-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+    
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="/static/js/highcharts/highcharts.js"></script>
+<script type="text/javascript">
+  num_colours = 10;
+</script>
+<script src="/static/js/statistics.js"></script>
+
+
+  </body>
+</html>

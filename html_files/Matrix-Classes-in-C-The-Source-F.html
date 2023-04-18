@@ -1,0 +1,871 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-site-verification" content="wl3-8ed1QZjI0iYZMv10zoZWYElkMObTfwLlWIj9cpA" />
+    <meta name="description" content="Matrix Classes in C++ - The Source File">
+
+    <link rel="icon" href="/static/images/favicon.png">
+
+    <title>Matrix Classes in C++ - The Source File | QuantStart</title>
+    
+    
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet"> 
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/prism.css" rel="stylesheet">
+<link href="/static/css/qs.css?v=10" rel="stylesheet">
+    
+  </head>
+
+  <body>
+    <header class="header covered-header" style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://quantstartmedia.s3.amazonaws.com/images/article-images/article-backgrounds/cpp.jpg);">
+  
+<nav class="nav">
+  <div class="container nav-container">
+    <div class="nav-row row d-flex justify-content-between align-items-center">
+      <div class="col-2">
+        <ul class="nav-items justify-content-end small-capitals align-items-center">
+          <li class="nav-item">
+            <a class="link-fade" href="/">QuantStart</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-auto col-logo">
+        <ul id="top-nav-menu" class="nav-items justify-content-end align-items-center">
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/qsalpha/">QSAlpha</a>
+          </li>
+          
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/quantcademy/">Quantcademy</a>
+          </li>
+          
+          <li id="menu-link-ebooks" class="nav-item">
+            <a class="link-fade" href="#">Books</a>
+            <div id="menu-pane-ebooks" class="nav-items menu-dropdown-pane">
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/qstrader/">QSTrader</a>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/articles/">Articles</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/members/login/">Login</a>
+          </li>
+          
+        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<nav id="mobile-nav" class="mobile-nav text-left">
+  <div class="container">
+    <ul class="mt-4 ml-3 mobile-nav-menu">
+      <li class="nav-item">
+        <a class="link-fade d-block" href="/">QuantStart</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qsalpha/">QSAlpha</a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/quantcademy/">Quantcademy</a>
+      </li>
+      
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="#">Books</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qstrader/">QSTrader</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/articles/">Articles</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/members/login/">Login</a>
+      </li>
+      
+    </ul>
+    <button class="nav-toggle mobile-nav-close">
+      <svg id="mobile-nav-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M19.77,5.63,13.41,12l6.36,6.37a1,1,0,0,1-1.41,1.41L12,13.41,5.63,19.77a1,1,0,0,1-1.44-1.39l0,0L10.58,12,4.21,5.63a1,1,0,0,1,0-1.42,1,1,0,0,1,1.41,0l0,0L12,10.58l6.37-6.37a1,1,0,0,1,1.41,0A1,1,0,0,1,19.77,5.63Z"></path>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+  <div class="container hero-container">
+    <section class="mt-5 mb-4">
+      <div class="row justify-content-center">
+        <div class="col-12 text-center">
+          <p class="hero">Matrix Classes in C++ - The Source File</p>
+          <p class="hero subhero">Matrix Classes in C++ - The Source File</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</header>
+    
+<section class="container content-container">
+  <div class="row">
+    <div class="col-md-8 order-md-2">
+      <section class="content article-content">
+        
+        
+        <p>This is the second part in a two part article series on how to create a robust, extensible and reusable <em>matrix class</em> for the necessary numerical linear algebra work needed for algorithms in quantitative finance. In order to familiarise yourself with the <em>specification</em> and <em>declaration</em> of the class, please read the <a href="http://www.quantstart.com/articles/Matrix-Classes-in-C-The-Header-File">first article on the matrix header file</a> before continuing.</p>
+
+<p>Our task with the source file is to implement all of the methods outlined in the header file. In particular we need to implement methods for the following:</p>
+
+<ul>
+  <li>Constructors (parameter and copy), destructor and assignment operator</li>
+  <li>Matrix mathematical methods: Addition, subtraction, multiplication and the transpose</li>
+  <li>Matrix/scalar element-wise mathematical methods: Addition, substraction, multiplication and division</li>
+  <li>Matrix/vector multiplication methods</li>
+  <li>Element-wise access (const and non-const)</li>
+</ul>
+
+<p>We will begin with the construction, assignment and destruction of the class.</p>
+
+<h2>Allocation and Deallocation</h2>
+
+<p>The first method to implement is the constructor, with paramaters. The constructor takes three arguments - the number of rows, the number of columns and an initial type value to populate the matrix with. Since the "vector of vectors" constructor has already been called at this stage, we need to call its <code class="prettyprint">resize</code> method in order to have enough elements to act as the row containers. Once the matrix <code class="prettyprint">mat</code> has been resized, we need to resize each individual vector within the rows to the length representing the number of columns. The <code class="prettyprint">resize</code> method can take an optional argument, which will initialise all elements to that particular value. Finally we adjust the private <code>rows</code> and <code>cols</code> unsigned integers to store the new row and column counts:</p> 
+
+<pre>
+<code class="language-cpp">// Parameter Constructor                                                                                                                                                      
+template&lt;typename T&gt;
+QSMatrix&lt;T&gt;::QSMatrix(unsigned _rows, unsigned _cols, const T& _initial) {
+  mat.resize(_rows);
+  for (unsigned i=0; i&lt;mat.size(); i++) {
+    mat[i].resize(_cols, _initial);
+  }
+  rows = _rows;
+  cols = _cols;
+}</code>
+</pre>
+
+<p>The copy constructor has a straightforward implementation. Since we have not used any <em>dynamic memory allocation</em>, we simply need to copy each private member from the corresponding copy matrix <code>rhs</code>:</p>
+
+<pre>
+<code class="language-cpp">// Copy Constructor                                                                                                                                                           
+template&lt;typename T&gt;
+QSMatrix&lt;T&gt;::QSMatrix(const QSMatrix&lt;T&gt;& rhs) {
+  mat = rhs.mat;
+  rows = rhs.get_rows();
+  cols = rhs.get_cols();
+}</code>
+</pre>
+
+<p>The destructor is even simpler. Since there is no dynamic memory allocation, we don't need to do anything. We can let the compiler handle the destruction of the individual type members (<code>mat</code>, <code>rows</code> and <code>cols</code>):</p>
+
+<pre>
+<code class="language-cpp">// (Virtual) Destructor                                                                                                                                                       
+template&lt;typename T&gt;
+QSMatrix&lt;T&gt;::~QSMatrix() {}</code>
+</pre>
+
+<p>The assignment operator is somewhat more complicated than the other construction/destruction methods. The first two lines of the method implementation check that the addresses of the two matrices aren't identical (i.e. we're not trying to assign a matrix to itself). If this is the case, then just return the dereferenced pointer to the current object (<code>*this</code>). This is purely for performance reasons. Why go through the process of copying exactly the same data into itself if it is already identical?</p>
+
+<p>However, if the matrix addresses differ, then we resize the old matrix to the be the same size as the <code>rhs</code> matrix. Once that is complete we then populate the values element-wise and finally adjust the members holding the number of rows and columns. We then return the dereferenced pointer to <code>this</code>. This is a common pattern for assignment operators and is considered good practice:</p>
+
+<pre>
+<code class="language-cpp">// Assignment Operator                                                                                                                                                        
+template&lt;typename T&gt;
+QSMatrix&lt;T&gt;& QSMatrix&lt;T&gt;::operator=(const QSMatrix&lt;T&gt;& rhs) {
+  if (&rhs == this)
+    return *this;
+
+  unsigned new_rows = rhs.get_rows();
+  unsigned new_cols = rhs.get_cols();
+
+  mat.resize(new_rows);
+  for (unsigned i=0; i&lt;mat.size(); i++) {
+    mat[i].resize(new_cols);
+  }
+
+  for (unsigned i=0; i&lt;new_rows; i++) {
+    for (unsigned j=0; j&lt;new_cols; j++) {
+      mat[i][j] = rhs(i, j);
+    }
+  }
+  rows = new_rows;
+  cols = new_cols;
+
+  return *this;
+}</code>
+</pre>
+
+<h2>Mathematical Operators Implementation</h2>
+
+<p>The next part of the implementation concerns the methods overloading the binary operators that allow matrix algebra such as addition, subtraction and multiplication. There are two types of operators to be overloaded here. The first is operation <em>without assignment</em>. The second is operation <em>with assignment</em>. The first type of operator method creates a new matrix to store the result of an operation (such as addition), while the second type applies the result of the operation into the left-hand argument. For instance the first type will produce a new matrix $C$, from the equation $C=A+B$. The second type will overwrite $A$ with the result of $A+B$.</p>
+
+<p>The first operator to implementation is that for addition without assignment. A new matrix <code>result</code> is created with initial value $0$. Then each element is iterated through to be the pairwise sum of the <code>this</code> matrix and the new right hand side matrix <code>rhs</code>. Notice that we use the pointer dereferencing syntax with <code>this</code> when accessing the element values: <code>this->mat[i][j]</code>. This is identical to writing <code>(*this).mat[i][j]</code>. We must dereference the pointer before we can access the underlying object. Finally, we return the result:</p>
+
+<p><em>Note that this can be a particularly expensive operation. We are creating a new matrix for every call of this method. However, modern compilers are smart enough to make sure that this operation is not as performance heavy as it used to be, so for our current needs we are justified in creating the matrix here. Note again that if we were to return a matrix by reference and then create the matrix within the class via the</em> <code>new</code> <em>operator, we would have an error as the matrix object would go out of scope as soon as the method returned.</em></p>
+
+<pre>
+<code class="language-cpp">// Addition of two matrices                                                                                                                                                   
+template&lt;typename T&gt;
+QSMatrix&lt;T&gt; QSMatrix&lt;T&gt;::operator+(const QSMatrix&lt;T&gt;& rhs) {
+  QSMatrix result(rows, cols, 0.0);
+
+  for (unsigned i=0; i&lt;rows; i++) {
+    for (unsigned j=0; j&lt;cols; j++) {
+      result(i,j) = this-&gt;mat[i][j] + rhs(i,j);
+    }
+  }
+
+  return result;
+}</code>
+</pre>
+
+<p>The operation with assignment method for addition is carried out slightly differently. It DOES return a reference to an object, but this is fine since the object reference it returns is to <code>this</code>, which exists outside of the scope of the method. The method itself makes use of the <code>operator+=</code> that is bound to the <em>type</em> object. Thus when we carry out the line <code>this-&gt;mat[i][j] += rhs(i,j);</code> we are making use of the types own operator overload. Finally, we return a dereferenced pointer to <code>this</code> giving us back the modified matrix:</p>
+
+<pre>
+<code class="language-cpp">// Cumulative addition of this matrix and another                                                                                                                             
+template&lt;typename T&gt;
+QSMatrix&lt;T&gt;& QSMatrix&lt;T&gt;::operator+=(const QSMatrix&lt;T&gt;& rhs) {
+  unsigned rows = rhs.get_rows();
+  unsigned cols = rhs.get_cols();
+
+  for (unsigned i=0; i&lt;rows; i++) {
+    for (unsigned j=0; j&lt;cols; j++) {
+      this-&gt;mat[i][j] += rhs(i,j);
+    }
+  }
+
+  return *this;
+}</code>
+</pre>
+
+<p>The two matrix subtraction operators <code>operator-</code> and <code>operator-=</code> are almost identical to the addition variants, so I won't explain them here. If you wish to see their implementation, have a look at the full listing below.</p>
+
+<p>I will discuss the matrix multiplication methods though as their syntax is sufficiently different to warrant explanation. The first operator is that without assignment, <code>operator*</code>. We can use this to carry out an equation of the form $C = A \times B$. The first part of the method creates a new <code>result</code> matrix that has the same size as the right hand side matrix, <code>rhs</code>. Then we perform the triple loop associated with matrix multiplication. We iterate over each element in the result matrix and assign it the value of <code>this->mat[i][k] * rhs(k,j)</code>, i.e. the value of $A_{ik} \times B_{kj}$, for $k \in \{0,…,M-1\}$:</p>
+
+<pre>
+<code class="language-cpp">// Left multiplication of this matrix and another                                                                                                                              
+template&lt;typename T&gt;
+QSMatrix&lt;T&gt; QSMatrix&lt;T&gt;::operator*(const QSMatrix&lt;T&gt;& rhs) {
+  unsigned rows = rhs.get_rows();
+  unsigned cols = rhs.get_cols();
+  QSMatrix result(rows, cols, 0.0);
+
+  for (unsigned i=0; i&lt;rows; i++) {
+    for (unsigned j=0; j&lt;cols; j++) {
+      for (unsigned k=0; k&lt;rows; k++) {
+        result(i,j) += this-&gt;mat[i][k] * rhs(k,j);
+      }
+    }
+  }
+
+  return result;
+}</code>
+</pre>
+
+<p>The implementation of the <code>operator*=</code> is far simpler, but only because we are building on what already exists. The first line creates a new matrix called <code>result</code> which stores the result of multiplying the dereferenced pointer to <code>this</code> and the right hand side matrix, <code>rhs</code>. The second line then sets <code>this</code> to be equal to the result above. This is necessary as if it was carried out in one step, data would be overwritten before it could be used, creating an incorrect result. Finally the referenced pointer to <code>this</code> is returned. Most of the work is carried out by the <code>operator*</code> which is defined above. The listing is as follows:</p>
+
+<pre>
+<code class="language-cpp">// Cumulative left multiplication of this matrix and another                                                                                                                  
+template<typename T>
+QSMatrix<T>& QSMatrix<T>::operator*=(const QSMatrix<T>& rhs) {
+  QSMatrix result = (*this) * rhs;
+  (*this) = result;
+  return *this;
+}</code>
+</pre>
+
+<p>We also wish to apply scalar element-wise operations to the matrix, in particular element-wise scalar addition, subtraction, multiplication and division. Since they are all very similar, I will only provide explanation for the addition operator. The first point of note is that the parameter is now a <code>const T&M</code>, i.e. a reference to a const type. This is the scalar value that will be added to all matrix elements. We then create a new <code>result</code> matrix as before, of identical size to <code>this</code>. Then we iterate over the elements of the result matrix and set their values equal to the sum of the individual elements of <code>this</code> and our type value, <code>rhs</code>. Finally, we return the result matrix:</p>
+
+<pre>
+<code class="language-cpp">// Matrix/scalar addition                                                                                                                                                     
+template&lt;typename T&gt;
+QSMatrix&lt;T&gt; QSMatrix&lt;T&gt;::operator+(const T& rhs) {
+  QSMatrix result(rows, cols, 0.0);
+
+  for (unsigned i=0; i&lt;rows; i++) {
+    for (unsigned j=0; j&lt;cols; j++) {
+      result(i,j) = this-&gt;mat[i][j] + rhs;
+    }
+  }
+
+  return result;
+}</code>
+</pre>
+
+<p>We also wish to allow (right) matrix vector multiplication. It is not too different from the implementation of matrix-matrix multiplication. In this instance we are returning a <code>std::vector<T></code> and also providing a separate vector as a parameter. Upon invocation of the method we create a new <code>result</code> vector that has the same size as the right hand side, <code>rhs</code>. Then we perform a double loop over the elements of the <code>this</code> matrix and assign the result to an element of the <code>result</code> vector. Finally, we return the <code>result</code> vector:</p>
+
+<pre>
+<code class="language-cpp">// Multiply a matrix with a vector                                                                                                                                            
+template&lt;typename T&gt;
+std::vector&lt;T&gt; QSMatrix&lt;T&gt;::operator*(const std::vector&lt;T&gt;& rhs) {
+  std::vector&lt;T&gt; result(rhs.size(), 0.0);
+
+  for (unsigned i=0; i&lt;rows; i++) {
+    for (unsigned j=0; j&lt;cols; j++) {
+      result[i] = this-&gt;mat[i][j] * rhs[j];
+    }
+  }
+
+  return result;
+}</code>
+</pre>
+
+<p>I've added a final matrix method, which is useful for certain numerical linear algebra techniques. Essentially it returns a vector of the diagonal elements of the matrix. Firstly we create the <code>result</code> vector, then assign it the values of the diagonal elements and finally we return the <code>result</code> vector:</p>
+
+<pre>
+<code class="language-cpp">// Obtain a vector of the diagonal elements                                                                                                                                   
+template&lt;typename T&gt;
+std::vector&lt;T&gt; QSMatrix&lt;T&gt;::diag_vec() {
+  std::vector&lt;T&gt; result(rows, 0.0);
+
+  for (unsigned i=0; i&lt;rows; i++) {
+    result[i] = this-&gt;mat[i][i];
+  }
+
+  return result;
+}</code>
+</pre>
+
+<p>The final set of methods to implement are for accessing the individual elements as well as getting the number of rows and columns from the matrix. They're all quite simple in their implementation. They dereference <code>this</code> and then obtain either an individual element or some private member data:</p>
+
+<pre>
+<code class="language-cpp">// Access the individual elements                                                                                                                                             
+template<typename T>
+T& QSMatrix<T>::operator()(const unsigned& row, const unsigned& col) {
+  return this->mat[row][col];
+}
+
+// Access the individual elements (const)                                                                                                                                     
+template<typename T>
+const T& QSMatrix<T>::operator()(const unsigned& row, const unsigned& col) const {
+  return this->mat[row][col];
+}
+
+// Get the number of rows of the matrix                                                                                                                                       
+template<typename T>
+unsigned QSMatrix<T>::get_rows() const {
+  return this->rows;
+}
+
+// Get the number of columns of the matrix                                                                                                                                    
+template<typename T>
+unsigned QSMatrix<T>::get_cols() const {
+  return this->cols;
+}</code>
+</pre>
+
+<h2>Full Source Implementation</h2>
+
+<p>Now that we have described all the methods in full, here is the full source listing for the <code class="prettyprint">QSMatrix</code> class:</p>
+
+<pre>
+<code class="language-cpp">#ifndef __QS_MATRIX_CPP
+#define __QS_MATRIX_CPP
+
+#include "matrix.h"
+
+// Parameter Constructor                                                                                                                                                      
+template&lt;typename T&gt;
+QSMatrix&lt;T&gt;::QSMatrix(unsigned _rows, unsigned _cols, const T& _initial) {
+  mat.resize(_rows);
+  for (unsigned i=0; i&lt;mat.size(); i++) {
+    mat[i].resize(_cols, _initial);
+  }
+  rows = _rows;
+  cols = _cols;
+}
+
+// Copy Constructor                                                                                                                                                           
+template&lt;typename T&gt;
+QSMatrix&lt;T&gt;::QSMatrix(const QSMatrix&lt;T&gt;& rhs) {
+  mat = rhs.mat;
+  rows = rhs.get_rows();
+  cols = rhs.get_cols();
+}
+
+// (Virtual) Destructor                                                                                                                                                       
+template&lt;typename T&gt;
+QSMatrix&lt;T&gt;::~QSMatrix() {}
+
+// Assignment Operator                                                                                                                                                        
+template&lt;typename T&gt;
+QSMatrix&lt;T&gt;& QSMatrix&lt;T&gt;::operator=(const QSMatrix&lt;T&gt;& rhs) {
+  if (&rhs == this)
+    return *this;
+
+  unsigned new_rows = rhs.get_rows();
+  unsigned new_cols = rhs.get_cols();
+
+  mat.resize(new_rows);
+  for (unsigned i=0; i&lt;mat.size(); i++) {
+    mat[i].resize(new_cols);
+  }
+
+  for (unsigned i=0; i&lt;new_rows; i++) {
+    for (unsigned j=0; j&lt;new_cols; j++) {
+      mat[i][j] = rhs(i, j);
+    }
+  }
+  rows = new_rows;
+  cols = new_cols;
+
+  return *this;
+}
+
+// Addition of two matrices                                                                                                                                                   
+template&lt;typename T&gt;
+QSMatrix&lt;T&gt; QSMatrix&lt;T&gt;::operator+(const QSMatrix&lt;T&gt;& rhs) {
+  QSMatrix result(rows, cols, 0.0);
+
+  for (unsigned i=0; i&lt;rows; i++) {
+    for (unsigned j=0; j&lt;cols; j++) {
+      result(i,j) = this-&gt;mat[i][j] + rhs(i,j);
+    }
+  }
+
+  return result;
+}
+
+// Cumulative addition of this matrix and another                                                                                                                             
+template&lt;typename T&gt;
+QSMatrix&lt;T&gt;& QSMatrix&lt;T&gt;::operator+=(const QSMatrix&lt;T&gt;& rhs) {
+  unsigned rows = rhs.get_rows();
+  unsigned cols = rhs.get_cols();
+
+  for (unsigned i=0; i&lt;rows; i++) {
+    for (unsigned j=0; j&lt;cols; j++) {
+      this-&gt;mat[i][j] += rhs(i,j);
+    }
+  }
+
+  return *this;
+}
+
+// Subtraction of this matrix and another                                                                                                                                     
+template&lt;typename T&gt;
+QSMatrix&lt;T&gt; QSMatrix&lt;T&gt;::operator-(const QSMatrix&lt;T&gt;& rhs) {
+  unsigned rows = rhs.get_rows();
+  unsigned cols = rhs.get_cols();
+  QSMatrix result(rows, cols, 0.0);
+
+  for (unsigned i=0; i&lt;rows; i++) {
+    for (unsigned j=0; j&lt;cols; j++) {
+      result(i,j) = this-&gt;mat[i][j] - rhs(i,j);
+    }
+  }
+
+  return result;
+}
+
+// Cumulative subtraction of this matrix and another                                                                                                                          
+template&lt;typename T&gt;
+QSMatrix&lt;T&gt;& QSMatrix&lt;T&gt;::operator-=(const QSMatrix&lt;T&gt;& rhs) {
+  unsigned rows = rhs.get_rows();
+  unsigned cols = rhs.get_cols();
+
+  for (unsigned i=0; i&lt;rows; i++) {
+    for (unsigned j=0; j&lt;cols; j++) {
+      this-&gt;mat[i][j] -= rhs(i,j);
+    }
+  }
+
+  return *this;
+}
+
+// Left multiplication of this matrix and another                                                                                                                              
+template&lt;typename T&gt;
+QSMatrix&lt;T&gt; QSMatrix&lt;T&gt;::operator*(const QSMatrix&lt;T&gt;& rhs) {
+  unsigned rows = rhs.get_rows();
+  unsigned cols = rhs.get_cols();
+  QSMatrix result(rows, cols, 0.0);
+
+  for (unsigned i=0; i&lt;rows; i++) {
+    for (unsigned j=0; j&lt;cols; j++) {
+      for (unsigned k=0; k&lt;rows; k++) {
+        result(i,j) += this-&gt;mat[i][k] * rhs(k,j);
+      }
+    }
+  }
+
+  return result;
+}
+
+// Cumulative left multiplication of this matrix and another                                                                                                                  
+template&lt;typename T&gt;
+QSMatrix&lt;T&gt;& QSMatrix&lt;T&gt;::operator*=(const QSMatrix&lt;T&gt;& rhs) {
+  QSMatrix result = (*this) * rhs;
+  (*this) = result;
+  return *this;
+}
+
+// Calculate a transpose of this matrix                                                                                                                                       
+template&lt;typename T&gt;
+QSMatrix&lt;T&gt; QSMatrix&lt;T&gt;::transpose() {
+  QSMatrix result(rows, cols, 0.0);
+
+  for (unsigned i=0; i&lt;rows; i++) {
+    for (unsigned j=0; j&lt;cols; j++) {
+      result(i,j) = this-&gt;mat[j][i];
+    }
+  }
+
+  return result;
+}
+
+// Matrix/scalar addition                                                                                                                                                     
+template&lt;typename T&gt;
+QSMatrix&lt;T&gt; QSMatrix&lt;T&gt;::operator+(const T& rhs) {
+  QSMatrix result(rows, cols, 0.0);
+
+  for (unsigned i=0; i&lt;rows; i++) {
+    for (unsigned j=0; j&lt;cols; j++) {
+      result(i,j) = this-&gt;mat[i][j] + rhs;
+    }
+  }
+
+  return result;
+}
+
+// Matrix/scalar subtraction                                                                                                                                                  
+template&lt;typename T&gt;
+QSMatrix&lt;T&gt; QSMatrix&lt;T&gt;::operator-(const T& rhs) {
+  QSMatrix result(rows, cols, 0.0);
+
+  for (unsigned i=0; i&lt;rows; i++) {
+    for (unsigned j=0; j&lt;cols; j++) {
+      result(i,j) = this-&gt;mat[i][j] - rhs;
+    }
+  }
+
+  return result;
+}
+
+// Matrix/scalar multiplication                                                                                                                                               
+template&lt;typename T&gt;
+QSMatrix&lt;T&gt; QSMatrix&lt;T&gt;::operator*(const T& rhs) {
+  QSMatrix result(rows, cols, 0.0);
+
+  for (unsigned i=0; i&lt;rows; i++) {
+    for (unsigned j=0; j&lt;cols; j++) {
+      result(i,j) = this-&gt;mat[i][j] * rhs;
+    }
+  }
+
+  return result;
+}
+
+// Matrix/scalar division                                                                                                                                                     
+template&lt;typename T&gt;
+QSMatrix&lt;T&gt; QSMatrix&lt;T&gt;::operator/(const T& rhs) {
+  QSMatrix result(rows, cols, 0.0);
+
+  for (unsigned i=0; i&lt;rows; i++) {
+    for (unsigned j=0; j&lt;cols; j++) {
+      result(i,j) = this-&gt;mat[i][j] / rhs;
+    }
+  }
+
+  return result;
+}
+
+// Multiply a matrix with a vector                                                                                                                                            
+template&lt;typename T&gt;
+std::vector&lt;T&gt; QSMatrix&lt;T&gt;::operator*(const std::vector&lt;T&gt;& rhs) {
+  std::vector&lt;T&gt; result(rhs.size(), 0.0);
+
+  for (unsigned i=0; i&lt;rows; i++) {
+    for (unsigned j=0; j&lt;cols; j++) {
+      result[i] = this-&gt;mat[i][j] * rhs[j];
+    }
+  }
+
+  return result;
+}
+
+// Obtain a vector of the diagonal elements                                                                                                                                   
+template&lt;typename T&gt;
+std::vector&lt;T&gt; QSMatrix&lt;T&gt;::diag_vec() {
+  std::vector&lt;T&gt; result(rows, 0.0);
+
+  for (unsigned i=0; i&lt;rows; i++) {
+    result[i] = this-&gt;mat[i][i];
+  }
+
+  return result;
+}
+
+// Access the individual elements                                                                                                                                             
+template&lt;typename T&gt;
+T& QSMatrix&lt;T&gt;::operator()(const unsigned& row, const unsigned& col) {
+  return this-&gt;mat[row][col];
+}
+
+// Access the individual elements (const)                                                                                                                                     
+template&lt;typename T&gt;
+const T& QSMatrix&lt;T&gt;::operator()(const unsigned& row, const unsigned& col) const {
+  return this-&gt;mat[row][col];
+}
+
+// Get the number of rows of the matrix                                                                                                                                       
+template&lt;typename T&gt;
+unsigned QSMatrix&lt;T&gt;::get_rows() const {
+  return this-&gt;rows;
+}
+
+// Get the number of columns of the matrix                                                                                                                                    
+template&lt;typename T&gt;
+unsigned QSMatrix&lt;T&gt;::get_cols() const {
+  return this-&gt;cols;
+}
+
+#endif</code>
+</pre>
+
+<h2>Using the Matrix Class</h2>
+
+<p>We have the full listings for both the <a href="http://www.quantstart.com/articles/Matrix-Classes-in-C-The-Header-File">matrix header</a> and source, so we can test the methods out with some examples. Here is the <code class="prettyprint">main</code> listing showing the matrix addition operator:</p>
+
+<pre>
+<code class="language-cpp">#include "matrix.h"
+#include &lt;iostream&gt;
+
+int main(int argc, char **argv) {
+  QSMatrix&lt;double&gt; mat1(10, 10, 1.0);
+  QSMatrix&lt;double&gt; mat2(10, 10, 2.0);
+
+  QSMatrix&lt;double&gt; mat3 = mat1 + mat2;
+
+  for (int i=0; i&lt;mat3.get_rows(); i++) {
+    for (int j=0; j&lt;mat3.get_cols(); j++) {
+      std::cout &lt;&lt; mat3(i,j) &lt;&lt; ", ";
+    }
+    std::cout &lt;&lt; std::endl;
+  }
+
+  return 0;
+}</code>
+</pre>
+
+<p>Here is the output of the code. We can see that the elements are all valued $3.0$, which is simply the element-wise addition of <code>mat1</code> and <code>mat2</code>:</p>
+
+<pre>
+<code class="language-none">3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 
+3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 
+3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 
+3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 
+3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 
+3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 
+3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 
+3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 
+3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 
+3, 3, 3, 3, 3, 3, 3, 3, 3, 3,</code>
+</pre>
+
+<p>We will make extensive use of this matrix class in our further numerical linear algebra routines, in particular with statistical analysis and finite difference methods.</p>
+        
+        
+        <script async data-uid="6296c27f4b" src="https://weathered-brook-5281.ck.page/6296c27f4b/index.js"></script>
+      </section>
+    </div>
+    <div class="col-md-4 book-card order-md-1">
+      
+<div class="sidebar-advert-container">
+  <a href="/qsalpha/?ref=art">
+    <img class="card-img-top" src="/static/images/qsalpha-sidebar-advert-small.png" alt="QSAlpha">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/qsalpha/?ref=art">QSAlpha</a></h3>
+      <p class="card-text medium-text mb-3">Join the QSAlpha research platform that helps fill your strategy research pipeline, diversifies your portfolio and improves your risk-adjusted returns for increased profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/qsalpha/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/quantcademy/?ref=art">
+    <img class="card-img-top" src="/static/images/quantcademy-sidebar-advert-small.png" alt="Quantcademy">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/quantcademy/?ref=art">The Quantcademy</a></h3>
+      <p class="card-text medium-text mb-3">Join the Quantcademy membership portal that caters to the rapidly-growing retail quant trader community and learn how to increase your strategy profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/quantcademy/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/successful-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/sat-sidebar-advert-small.png" alt="Successful Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to find new trading strategy ideas and objectively assess them for your portfolio using a Python-based backtesting engine.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/successful-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/advanced-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/aat-sidebar-advert-small.png" alt="Advanced Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to implement advanced trading strategies using time series analysis, machine learning and Bayesian statistics with R and Python.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/advanced-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+    
+
+<footer>
+  <div class="container container-full">
+    <section class="mt-1.5 mb-1">
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">QuantStart</li>
+            <li class="footer-list-link"><a class="link-fade" href="/about/">About</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/articles/">Articles</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/sitemap/">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Products</li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qsalpha/">QSAlpha</a></li>
+            
+            
+            <li class="footer-list-link"><a class="link-fade" href="/quantcademy/">Quantcademy</a></li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qstrader/">QSTrader</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Legal</li>
+            <li class="footer-list-link"><a class="link-fade" href="/privacy-policy/">Privacy Policy</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/terms-and-conditions/">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Social</li>
+            <li class="footer-list-link"><a class="link-fade" href="https://twitter.com/quantstart">Twitter</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="https://www.youtube.com/channel/UCmVnnZ6Y2TrJtY1eQJN6kWA">YouTube</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="row mb-1.5 mt-5">
+      <div class="col-12 col-md-9 col-lg-8 col-xl-6">
+        <div class="footer-copyright">
+          <p>©2012-2023 QuarkGluon Ltd. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+<script src="/static/js/jquery-3.2.1.min.js"></script>
+<script src="/static/js/prism.js.min"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/nav.js"></script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5383959-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+    
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="/static/js/highcharts/highcharts.js"></script>
+<script type="text/javascript">
+  num_colours = 10;
+</script>
+<script src="/static/js/statistics.js"></script>
+
+
+  </body>
+</html>

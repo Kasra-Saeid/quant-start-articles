@@ -1,0 +1,947 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-site-verification" content="wl3-8ed1QZjI0iYZMv10zoZWYElkMObTfwLlWIj9cpA" />
+    <meta name="description" content="Advanced Trading Infrastructure - Portfolio Handler Class">
+
+    <link rel="icon" href="/static/images/favicon.png">
+
+    <title>Advanced Trading Infrastructure - Portfolio Handler Class | QuantStart</title>
+    
+    
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet"> 
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/prism.css" rel="stylesheet">
+<link href="/static/css/qs.css?v=10" rel="stylesheet">
+    
+  </head>
+
+  <body>
+    <header class="header covered-header" style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://quantstartmedia.s3.amazonaws.com/images/article-images/article-backgrounds/default-bg.jpg);">
+  
+<nav class="nav">
+  <div class="container nav-container">
+    <div class="nav-row row d-flex justify-content-between align-items-center">
+      <div class="col-2">
+        <ul class="nav-items justify-content-end small-capitals align-items-center">
+          <li class="nav-item">
+            <a class="link-fade" href="/">QuantStart</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-auto col-logo">
+        <ul id="top-nav-menu" class="nav-items justify-content-end align-items-center">
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/qsalpha/">QSAlpha</a>
+          </li>
+          
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/quantcademy/">Quantcademy</a>
+          </li>
+          
+          <li id="menu-link-ebooks" class="nav-item">
+            <a class="link-fade" href="#">Books</a>
+            <div id="menu-pane-ebooks" class="nav-items menu-dropdown-pane">
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/qstrader/">QSTrader</a>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/articles/">Articles</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/members/login/">Login</a>
+          </li>
+          
+        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<nav id="mobile-nav" class="mobile-nav text-left">
+  <div class="container">
+    <ul class="mt-4 ml-3 mobile-nav-menu">
+      <li class="nav-item">
+        <a class="link-fade d-block" href="/">QuantStart</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qsalpha/">QSAlpha</a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/quantcademy/">Quantcademy</a>
+      </li>
+      
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="#">Books</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qstrader/">QSTrader</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/articles/">Articles</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/members/login/">Login</a>
+      </li>
+      
+    </ul>
+    <button class="nav-toggle mobile-nav-close">
+      <svg id="mobile-nav-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M19.77,5.63,13.41,12l6.36,6.37a1,1,0,0,1-1.41,1.41L12,13.41,5.63,19.77a1,1,0,0,1-1.44-1.39l0,0L10.58,12,4.21,5.63a1,1,0,0,1,0-1.42,1,1,0,0,1,1.41,0l0,0L12,10.58l6.37-6.37a1,1,0,0,1,1.41,0A1,1,0,0,1,19.77,5.63Z"></path>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+  <div class="container hero-container">
+    <section class="mt-5 mb-4">
+      <div class="row justify-content-center">
+        <div class="col-12 text-center">
+          <p class="hero">Advanced Trading Infrastructure - Portfolio Handler Class</p>
+          <p class="hero subhero">Advanced Trading Infrastructure - Portfolio Handler Class</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</header>
+    
+<section class="container content-container">
+  <div class="row">
+    <div class="col-md-8 order-md-2">
+      <section class="content article-content">
+        
+        
+        <p>In the current series on <strong>Advanced Trading Infrastructure</strong> we have described both the <a href="https://www.quantstart.com/articles/Advanced-Trading-Infrastructure-Position-Class">Position Class</a> and the <a href="https://www.quantstart.com/articles/Advanced-Trading-Infrastructure-Portfolio-Class">Portfolio Class</a> - two essential components of a robust backtesting and live trading system. In this article we are going to extend our discussion to the <strong>Portfolio Handler Class</strong>, which will round out the description of the portfolio Order Management System (OMS).</p>
+
+<p>The OMS is the backbone of any quantitative trading infrastructure. It needs to keep track of open (and closed) positions in assets, it needs to group those positions together into a portfolio (with cash) and must modify that portfolio with new trading signals, risk management overlays and position sizing rules.</p>
+
+<p>In this article we will discuss the <code>PortfolioHandler</code>. This particular class is tasked with managing a <code>Portfolio</code> object, telling it whether to open/close positions based on information it receives from the <code>Strategy</code>, <code>PositionSizer</code>, <code>RiskManager</code> and <code>ExecutionHandler</code>. This class is extremely important as it ties the rest of the components together.</p>
+
+<p>The following code presented in this article comes from the <a href="https://github.com/mhallsmoore/qstrader">QSTrader</a> open-source backtesting and live trading engine. I have released it under a liberal open-source MIT license and the latest version can always be found at <a href="https://github.com/mhallsmoore/qstrader">https://github.com/mhallsmoore/qstrader</a>. If you would like to keep up fully to date with the project, please take a look at that link.</p>
+
+<p>In the <a href="https://www.quantstart.com/articles/Advanced-Trading-Infrastructure-Portfolio-Class">previous article</a> I listed out a current <strong>Component Reminder</strong> that detailed how all of the components of <a href="https://github.com/mhallsmoore/qstrader">QSTrader</a> fit together. Please take a look at it to remind yourself of how they all interact.</p>
+
+<p>Let's now turn our attention to the <code>PortfolioHandler</code> class and see how it interacts with the <code>Portfolio</code> object.</p>
+
+<h2>PortfolioHandler</h2>
+
+<p>The first issue to discuss is why the older style of <code>Portfolio</code> class from <a href="https://github.com/mhallsmoore/qsforex">QSForex</a> has now been replaced with a calculation-heavy <code>Portfolio</code> class carrying out <code>Position</code> tracking, as well as the lighter <code>PortfolioHandler</code> class.</p>
+
+<p>I made this choice because I felt it was cleaner to have a separate <code>Portfolio</code> object that was only tasked with keeping track of cash and open positions. The primary purpose of such an approach is to allow "theoretical" portfolio objects to be created (i.e. by the <code>PositionSizer</code> or <code>RiskManager</code>), and subsequently create a set of necessary trades to get from the current portfolio to the theoretically desired one.</p>
+
+<p>This process is a lot more straightforward if the <code>Portfolio</code> is simply a grouping of <code>Position</code> objects and a cash balance.</p>
+
+<p>This leaves the interaction with the events queue, the <code>PositionSizer</code>, <code>RiskManager</code> and <code>PriceHandler</code>. These interactions are handled by the new object, the <code>PortfolioHandler</code>.</p>
+
+<p>I've created the <code>PortfolioHandler</code> in the file <code>portfolio_handler.py</code> and I've provided the full listing below. I'll break down the listing afterwards.</p>
+
+<p><em>Note that any of these listings are subject to change, since I will be continually making changes to this project. Eventually I hope others will collaborate by providing <a href="https://en.wikipedia.org/wiki/Pull_request">Pull Requests</a> to the codebase.</em></p>
+
+<h3>portfolio_handler.py</h3>
+
+<pre>
+<code class="language-python">from qstrader.order.order import SuggestedOrder
+from qstrader.portfolio.portfolio import Portfolio
+
+
+class PortfolioHandler(object):
+    def __init__(
+        self, initial_cash, events_queue, 
+        price_handler, position_sizer, risk_manager
+    ):
+        """
+        The PortfolioHandler is designed to interact with the 
+        backtesting or live trading overall event-driven
+        architecture. It exposes two methods, on_signal and
+        on_fill, which handle how SignalEvent and FillEvent
+        objects are dealt with.
+
+        Each PortfolioHandler contains a Portfolio object,
+        which stores the actual Position objects. 
+
+        The PortfolioHandler takes a handle to a PositionSizer
+        object which determines a mechanism, based on the current
+        Portfolio, as to how to size a new Order.
+
+        The PortfolioHandler also takes a handle to the 
+        RiskManager, which is used to modify any generated 
+        Orders to remain in line with risk parameters.
+        """
+        self.initial_cash = initial_cash
+        self.events_queue = events_queue
+        self.price_handler = price_handler
+        self.position_sizer = position_sizer
+        self.risk_manager = risk_manager
+        self.portfolio = Portfolio(price_handler, initial_cash)
+
+    def _create_order_from_signal(self, signal_event):
+        """
+        Take a SignalEvent object and use it to form a
+        SuggestedOrder object. These are not OrderEvent objects,
+        as they have yet to be sent to the RiskManager object.
+        At this stage they are simply "suggestions" that the
+        RiskManager will either verify, modify or eliminate.
+        """
+        order = SuggestedOrder(
+            signal_event.ticker, signal_event.action
+        )
+        return order
+
+    def _place_orders_onto_queue(self, order_list):
+        """
+        Once the RiskManager has verified, modified or eliminated
+        any order objects, they are placed onto the events queue,
+        to ultimately be executed by the ExecutionHandler.
+        """
+        for order_event in order_list:
+            self.events_queue.put(order_event)
+
+    def _convert_fill_to_portfolio_update(self, fill_event):
+        """
+        Upon receipt of a FillEvent, the PortfolioHandler converts
+        the event into a transaction that gets stored in the Portfolio
+        object. This ensures that the broker and the local portfolio
+        are "in sync".
+
+        In addition, for backtesting purposes, the portfolio value can
+        be reasonably estimated in a realistic manner, simply by 
+        modifying how the ExecutionHandler object handles slippage,
+        transaction costs, liquidity and market impact.
+        """
+        action = fill_event.action       
+        ticker = fill_event.ticker
+        quantity = fill_event.quantity
+        price = fill_event.price
+        commission = fill_event.commission
+        # Create or modify the position from the fill info
+        self.portfolio.transact_position(
+            action, ticker, quantity, 
+            price, commission
+        )
+
+    def on_signal(self, signal_event):
+        """
+        This is called by the backtester or live trading architecture
+        to form the initial orders from the SignalEvent. 
+
+        These orders are sized by the PositionSizer object and then
+        sent to the RiskManager to verify, modify or eliminate.
+
+        Once received from the RiskManager they are converted into
+        full OrderEvent objects and sent back to the events queue.
+        """
+        # Create the initial order list from a signal event
+        initial_order = self._create_order_from_signal(signal_event)
+        # Size the quantity of the initial order
+        sized_order = self.position_sizer.size_order(
+            self.portfolio, initial_order
+        )
+        # Refine or eliminate the order via the risk manager overlay
+        order_events = self.risk_manager.refine_orders(
+            self.portfolio, sized_order
+        )
+        # Place orders onto events queue
+        self._place_orders_onto_queue(order_events)
+
+    def on_fill(self, fill_event):
+        """
+        This is called by the backtester or live trading architecture
+        to take a FillEvent and update the Portfolio object with new
+        or modified Positions.
+
+        In a backtesting environment these FillEvents will be simulated
+        by a model representing the execution, whereas in live trading
+        they will come directly from a brokerage (such as Interactive
+        Brokers).
+        """
+        self._convert_fill_to_portfolio_update(fill_event)</code>
+</pre>
+
+<p>The <code>PortfolioHandler</code> requires the <code>SuggestedOrder</code> object as well as the <code>Portfolio</code>. The former is a separate object to an <code>OrderEvent</code> as it has not been through a position sizing or risk management process. Once an order has been through both of those processes it becomes a full <code>OrderEvent</code>.</p>
+
+<p>To initialise a <code>PortfolioHandler</code> we require an initial cash balance and references to the events queue, the price handler, the position sizer and the risk manager. Finally we create the inner associated <code>Portfolio</code> object. Notice that it itself requires access to the price handler and the initial cash balance:</p>
+
+<pre>
+<code class="language-python">from qstrader.order.order import SuggestedOrder
+from qstrader.portfolio.portfolio import Portfolio
+
+
+class PortfolioHandler(object):
+    def __init__(
+        self, initial_cash, events_queue, 
+        price_handler, position_sizer, risk_manager
+    ):
+        """
+        The PortfolioHandler is designed to interact with the 
+        backtesting or live trading overall event-driven
+        architecture. It exposes two methods, on_signal and
+        on_fill, which handle how SignalEvent and FillEvent
+        objects are dealt with.
+
+        Each PortfolioHandler contains a Portfolio object,
+        which stores the actual Position objects. 
+
+        The PortfolioHandler takes a handle to a PositionSizer
+        object which determines a mechanism, based on the current
+        Portfolio, as to how to size a new Order.
+
+        The PortfolioHandler also takes a handle to the 
+        RiskManager, which is used to modify any generated 
+        Orders to remain in line with risk parameters.
+        """
+        self.initial_cash = initial_cash
+        self.events_queue = events_queue
+        self.price_handler = price_handler
+        self.position_sizer = position_sizer
+        self.risk_manager = risk_manager
+        self.portfolio = Portfolio(price_handler, initial_cash)</code>
+</pre>
+
+<p>In the following method, <code>_create_order_from_signal</code>, we simply create the <code>SuggestedOrder</code> from the ticker and action. At this stage we are only supporting market orders. Limit orders, and more exotic forms of execution, will come later:</p>
+
+<pre>
+<code class="language-python"># portfolio_handler.py    
+
+    def _create_order_from_signal(self, signal_event):
+        """
+        Take a SignalEvent object and use it to form a
+        SuggestedOrder object. These are not OrderEvent objects,
+        as they have yet to be sent to the RiskManager object.
+        At this stage they are simply "suggestions" that the
+        RiskManager will either verify, modify or eliminate.
+        """
+        order = SuggestedOrder(
+            signal_event.ticker, signal_event.action
+        )
+        return order</code>
+</pre>
+
+<p><code>_place_orders_onto_queue</code> is a simple helper method that takes in a list of <code>OrderEvent</code> objects and adds them to the events queue:</p>
+
+<pre>
+<code class="language-python"># portfolio_handler.py    
+
+    def _place_orders_onto_queue(self, order_list):
+        """
+        Once the RiskManager has verified, modified or eliminated
+        any order objects, they are placed onto the events queue,
+        to ultimately be executed by the ExecutionHandler.
+        """
+        for order_event in order_list:
+            self.events_queue.put(order_event)</code>
+</pre>
+
+<p>The following method, <code>_convert_fill_to_portfolio_update</code>, takes in a <code>FillEvent</code> message and then adjusts the inner <code>Portfolio</code> object to account for the fill transaction. As can be seen, it shows that the <code>PortfolioHandler</code> does no mathematical calculation of its own, rather it delegates the calculations to the <code>Portfolio</code> class:</p>
+
+<pre>
+<code class="language-python"># portfolio_handler.py    
+
+    def _convert_fill_to_portfolio_update(self, fill_event):
+        """
+        Upon receipt of a FillEvent, the PortfolioHandler converts
+        the event into a transaction that gets stored in the Portfolio
+        object. This ensures that the broker and the local portfolio
+        are "in sync".
+
+        In addition, for backtesting purposes, the portfolio value can
+        be reasonably estimated in a realistic manner, simply by 
+        modifying how the ExecutionHandler object handles slippage,
+        transaction costs, liquidity and market impact.
+        """
+        action = fill_event.action       
+        ticker = fill_event.ticker
+        quantity = fill_event.quantity
+        price = fill_event.price
+        commission = fill_event.commission
+        # Create or modify the position from the fill info
+        self.portfolio.transact_position(
+            action, ticker, quantity, 
+            price, commission</code>
+        )
+</pre>
+
+<p>The <code>on_signal</code> method ties together some of the previous methods. It creates the initial suggested order, then sends it to the <code>PositionSizer</code> object (along with the portfolio) to be refined. Once the sized order is returned, the <code>RiskManager</code> is then sent the order to manage any risk associated with how the new order will affect the current portfolio.</p>
+
+<p>The risk manager then sends back a <em>list</em> of orders. Why a list? Well, consider the fact that a generated trade may induce the risk manager to create a hedging order in another security. Hence there is a need to possibly return more than one order.</p>
+
+<p>Once the list of orders has been created they are all placed onto the events queue:</p>
+
+<pre>
+<code class="language-python"># portfolio_handler.py    
+
+    def on_signal(self, signal_event):
+        """
+        This is called by the backtester or live trading architecture
+        to form the initial orders from the SignalEvent. 
+
+        These orders are sized by the PositionSizer object and then
+        sent to the RiskManager to verify, modify or eliminate.
+
+        Once received from the RiskManager they are converted into
+        full OrderEvent objects and sent back to the events queue.
+        """
+        # Create the initial order list from a signal event
+        initial_order = self._create_order_from_signal(signal_event)
+        # Size the quantity of the initial order
+        sized_order = self.position_sizer.size_order(
+            self.portfolio, initial_order
+        )
+        # Refine or eliminate the order via the risk manager overlay
+        order_events = self.risk_manager.refine_orders(
+            self.portfolio, sized_order
+        )
+        # Place orders onto events queue
+        self._place_orders_onto_queue(order_events)</code>
+</pre>
+
+<p>The final method in the <code>PortfolioHandler</code> is <code>on_fill</code>. It simply calls the previous method <code>_convert_fill_to_portfolio_update</code>. These two methods have been separated, as in later versions of <a href="https://github.com/mhallsmoore/qstrader">QSTrader</a> there might be a need for more sophisticated logic to exist. We don't wish to change the <code>on_fill</code> interface to the PortfolioHandler unless absolutely necessary. This helps maintain <a href="https://en.wikipedia.org/wiki/Backward_compatibility">backward compatibility</a>:</p>
+
+<pre>
+<code class="language-python"># portfolio_handler.py    
+
+    def on_fill(self, fill_event):
+        """
+        This is called by the backtester or live trading architecture
+        to take a FillEvent and update the Portfolio object with new
+        or modified Positions.
+
+        In a backtesting environment these FillEvents will be simulated
+        by a model representing the execution, whereas in live trading
+        they will come directly from a brokerage (such as Interactive
+        Brokers).
+        """
+        self._convert_fill_to_portfolio_update(fill_event)</code>
+</pre>
+
+<p>This completes the <code>PortfolioHandler</code> class description. For completeness you can find the full code for the <code>PortfolioHandler</code> class on Github at <a href="https://github.com/mhallsmoore/qstrader/blob/master/portfolio_handler/portfolio_handler.py">portfolio_handler.py</a>.</p>
+
+<h3>portfolio_handler_test.py</h3>
+
+<p>Now that we've created the <code>PortfolioHandler</code> we need to test it. Thankfully, the majority of the mathematical tests occur in the <a href="https://www.quantstart.com/articles/Advanced-Trading-Infrastructure-Position-Class">Position</a> and <a href="https://www.quantstart.com/articles/Advanced-Trading-Infrastructure-Portfolio-Class">Portfolio</a> classes. However, it is still necessary to test that the <code>PortfolioHandler</code> "does the right thing" when it receives strategy-generated signals and execution-generated fills.</p>
+
+<p>While the following tests may seem "trivial", I can assure you that even though it can be quite tedious to write out unit testing code, it is absolutely vital to ensure that you have a functioning system as more complexity is added. One of the most frustrating aspects of software development is <em>not</em> unit testing to "get an answer quickly" and then realising you have a bug <em>and</em> no idea where it is in a large collection of modules!</p>
+
+<p>By carrying out unit testing <em>while we write the individual modules</em> we avoid this problem as much as possible. If a bug is discovered, it is usually much more straightforward to track it down. Time spent unit testing is <em>never wasted</em>!</p>
+
+<p>The following is a full listing of <code>portfolio_handler_test.py</code>. After the listing I will break down the individual objects and methods, as before:</p>
+
+<pre>
+<code class="language-python">import datetime
+from decimal import Decimal
+import queue
+import unittest
+
+from qstrader.event.event import FillEvent, OrderEvent, SignalEvent
+from qstrader.portfolio_handler.portfolio_handler import PortfolioHandler
+
+
+class PriceHandlerMock(object):
+    def __init__(self):
+        pass
+
+    def get_best_bid_ask(self, ticker):
+        prices = {
+            "MSFT": (Decimal("50.28"), Decimal("50.31")),
+            "GOOG": (Decimal("705.46"), Decimal("705.46")),
+            "AMZN": (Decimal("564.14"), Decimal("565.14")),
+        }
+        return prices[ticker]
+
+
+class PositionSizerMock(object):
+    def __init__(self):
+        pass
+
+    def size_order(self, portfolio, initial_order):
+        """
+        This PositionSizerMock object simply modifies
+        the quantity to be 100 of any share transacted.
+        """
+        initial_order.quantity = 100
+        return initial_order
+
+
+class RiskManagerMock(object):
+    def __init__(self):
+        pass
+
+    def refine_orders(self, portfolio, sized_order):
+        """
+        This RiskManagerMock object simply lets the
+        sized order through, creates the corresponding
+        OrderEvent object and adds it to a list.
+        """
+        order_event = OrderEvent(
+            sized_order.ticker,
+            sized_order.action,
+            sized_order.quantity
+        )
+        return [order_event]
+
+
+class TestSimpleSignalOrderFillCycleForPortfolioHandler(unittest.TestCase):
+    """
+    Tests a simple Signal, Order and Fill cycle for the
+    PortfolioHandler. This is, in effect, a sanity check.
+    """
+    def setUp(self):
+        """
+        Set up the PortfolioHandler object supplying it with
+        $500,000.00 USD in initial cash.
+        """
+        initial_cash = Decimal("500000.00")
+        events_queue = queue.Queue()
+        price_handler = PriceHandlerMock()
+        position_sizer = PositionSizerMock()
+        risk_manager = RiskManagerMock()
+        # Create the PortfolioHandler object from the rest
+        self.portfolio_handler = PortfolioHandler(
+            initial_cash, events_queue, price_handler, 
+            position_sizer, risk_manager
+        )
+
+    def test_create_order_from_signal_basic_check(self):
+        """
+        Tests the "_create_order_from_signal" method 
+        as a basic sanity check.
+        """
+        signal_event = SignalEvent("MSFT", "BOT")
+        order = self.portfolio_handler._create_order_from_signal(signal_event)
+        self.assertEqual(order.ticker, "MSFT")
+        self.assertEqual(order.action, "BOT")
+        self.assertEqual(order.quantity, 0)
+
+    def test_place_orders_onto_queue_basic_check(self):
+        """
+        Tests the "_place_orders_onto_queue" method 
+        as a basic sanity check.
+        """
+        order = OrderEvent("MSFT", "BOT", 100)
+        order_list = [order]
+        self.portfolio_handler._place_orders_onto_queue(order_list)
+        ret_order = self.portfolio_handler.events_queue.get()
+        self.assertEqual(ret_order.ticker, "MSFT")
+        self.assertEqual(ret_order.action, "BOT")
+        self.assertEqual(ret_order.quantity, 100)
+
+    def test_convert_fill_to_portfolio_update_basic_check(self):
+        """
+        Tests the "_convert_fill_to_portfolio_update" method
+        as a basic sanity check.
+        """
+        fill_event_buy = FillEvent(
+            datetime.datetime.utcnow(), "MSFT", "BOT",
+            100, "ARCA", Decimal("50.25"), Decimal("1.00")
+        )
+        self.portfolio_handler._convert_fill_to_portfolio_update(fill_event_buy)
+
+        # Check the Portfolio values within the PortfolioHandler
+        port = self.portfolio_handler.portfolio
+        self.assertEqual(port.cur_cash, Decimal("494974.00"))
+
+    def test_on_signal_basic_check(self):
+        """
+        Tests the "on_signal" method as a basic sanity check.
+        """
+        signal_event = SignalEvent("MSFT", "BOT")
+        self.portfolio_handler.on_signal(signal_event)
+        ret_order = self.portfolio_handler.events_queue.get()
+        self.assertEqual(ret_order.ticker, "MSFT")
+        self.assertEqual(ret_order.action, "BOT")
+        self.assertEqual(ret_order.quantity, 100)
+
+
+if __name__ == "__main__":
+    unittest.main()</code>
+</pre>
+
+<p>The first task is to import the correct modules. We make use of <a href="https://docs.python.org/3.5/library/decimal.html">decimal</a>, as in prior articles, as well as the <a href="https://docs.python.org/3/library/unittest.html">unittest</a> module. We also need to import various <code>Event</code> objects that the <code>PortfolioHandler</code> uses to communicate. Finally we import the <code>PortfolioHandler</code> itself:</p>
+
+<pre>
+<code class="language-python">import datetime
+from decimal import Decimal
+import queue
+import unittest
+
+from qstrader.event.event import FillEvent, OrderEvent, SignalEvent
+from qstrader.portfolio_handler.portfolio_handler import PortfolioHandler</code>
+</pre>
+
+<p>We need to create three <a href="https://en.wikipedia.org/wiki/Mock_object">"mock" objects</a> (see the <a href="https://www.quantstart.com/articles/Advanced-Trading-Infrastructure-Portfolio-Class">previous article</a> for a description of mock objects), one each for the <code>PriceHandler</code>, <code>PositionSizer</code> and <code>RiskManager</code>. The first, <code>PriceHandlerMock</code>, provides us with static bid/ask prices for three shares: MSFT, GOOG and AMZN. Essentially we want to simulate the <code>get_best_bid_ask</code> method for our repeatable unit tests:</p>
+
+<pre>
+<code class="language-python">class PriceHandlerMock(object):
+    def __init__(self):
+        pass
+
+    def get_best_bid_ask(self, ticker):
+        prices = {
+            "MSFT": (Decimal("50.28"), Decimal("50.31")),
+            "GOOG": (Decimal("705.46"), Decimal("705.46")),
+            "AMZN": (Decimal("564.14"), Decimal("565.14")),
+        }
+        return prices[ticker]</code>
+</pre>
+
+<p>The second mock object is <code>PositionSizerMock</code>. It simply sets the order quantity to be 100, which is an arbitrary choice, but is necessary to be fixed for our unit tests. It simulates the <code>size_order</code> method that will be found on the "real" <code>PositionSizer</code> class when it is complete:</p>
+
+<pre>
+<code class="language-python">class PositionSizerMock(object):
+    def __init__(self):
+        pass
+
+    def size_order(self, portfolio, initial_order):
+        """
+        This PositionSizerMock object simply modifies
+        the quantity to be 100 of any share transacted.
+        """
+        initial_order.quantity = 100
+        return initial_order</code>
+</pre>
+
+<p>The final mock object is <code>RiskManagerMock</code>. It doesn't do anything beyond creating an <code>OrderEvent</code> object and placing this in a list. Crucially, there is no real risk management! While this may seem contrived, it does allow us to perform a basic "sanity check" that the <code>PortfolioHandler</code> can simply transact the most basic of orders, fills and signals. As we create more sophisticated <code>RiskManager</code> objects, our unit test list will grow, in order to test the new functionality. This way we continually ensure that the codebase is working as expected:</p>
+
+<pre>
+<code class="language-python">class RiskManagerMock(object):
+    def __init__(self):
+        pass
+
+    def refine_orders(self, portfolio, sized_order):
+        """
+        This RiskManagerMock object simply lets the
+        sized order through, creates the corresponding
+        OrderEvent object and adds it to a list.
+        """
+        order_event = OrderEvent(
+            sized_order.ticker,
+            sized_order.action,
+            sized_order.quantity
+        )
+        return [order_event]</code>
+</pre>
+
+<p>Now that we have the three mock objects defined, we can create the unit tests themselves. The class that carries this out is called <code>TestSimpleSignalOrderFillCycleForPortfolioHandler</code>. While verbose, it does tell us exactly what the test class is designed to do, namely test a simple signal-order-fill cycle within the portfolio handler.</p>
+
+<p>In order to do this, we create an initial cash balance of 500,000 USD, an events queue and the three aforementioned mock objects. Finally, we create the <code>PortfolioHandler</code> itself and attach it to the test class:</p>
+
+<pre>
+<code class="language-python">class TestSimpleSignalOrderFillCycleForPortfolioHandler(unittest.TestCase):
+    """
+    Tests a simple Signal, Order and Fill cycle for the
+    PortfolioHandler. This is, in effect, a sanity check.
+    """
+    def setUp(self):
+        """
+        Set up the PortfolioHandler object supplying it with
+        $500,000.00 USD in initial cash.
+        """
+        initial_cash = Decimal("500000.00")
+        events_queue = queue.Queue()
+        price_handler = PriceHandlerMock()
+        position_sizer = PositionSizerMock()
+        risk_manager = RiskManagerMock()
+        # Create the PortfolioHandler object from the rest
+        self.portfolio_handler = PortfolioHandler(
+            initial_cash, events_queue, price_handler, 
+            position_sizer, risk_manager
+        )</code>
+</pre>
+
+<p>The first test simply generates a fake <code>SignalEvent</code> to buy Microsoft. We then test that the correct order has been generated. Note that a quantity has not been set at this stage (it is zero). We check for all properties to ensure that the order has been created correctly:</p>
+
+<pre>
+<code class="language-python"># test_portfolio_handler.py    
+
+    def test_create_order_from_signal_basic_check(self):
+        """
+        Tests the "_create_order_from_signal" method 
+        as a basic sanity check.
+        """
+        signal_event = SignalEvent("MSFT", "BOT")
+        order = self.portfolio_handler._create_order_from_signal(signal_event)
+        self.assertEqual(order.ticker, "MSFT")
+        self.assertEqual(order.action, "BOT")
+        self.assertEqual(order.quantity, 0)</code>
+</pre>
+
+<p>The next test is checking to see whether the orders are correctly placed on the queue (and retrieved). Note that we have to wrap the <code>OrderEvent</code> into a list, as the <code>RiskManager</code> produces a list of orders, due to the aforementioned need to possibly hedge or add additional orders beyond those suggested by the <code>Strategy</code>. Finally, we assert that the returned order (which is taken from the queue) contains the appropriate information:</p>
+
+<pre>
+<code class="language-python"># test_portfolio_handler.py    
+
+    def test_place_orders_onto_queue_basic_check(self):
+        """
+        Tests the "_place_orders_onto_queue" method 
+        as a basic sanity check.
+        """
+        order = OrderEvent("MSFT", "BOT", 100)
+        order_list = [order]
+        self.portfolio_handler._place_orders_onto_queue(order_list)
+        ret_order = self.portfolio_handler.events_queue.get()
+        self.assertEqual(ret_order.ticker, "MSFT")
+        self.assertEqual(ret_order.action, "BOT")
+        self.assertEqual(ret_order.quantity, 100)</code>
+</pre>
+
+<p>The following test creates a <code>FillEvent</code>, as if one had just been received from an <code>ExecutionHandler</code> object. The portfolio handler is then told to convert the fill to an actual portfolio update (i.e. register the transaction with the inner <code>Portfolio</code> object).</p>
+
+<p>The test is to actually check that the current cash balance within the inner <code>Portfolio</code> is actually correct:</p>
+
+<pre>
+<code class="language-python"># test_portfolio_handler.py    
+
+    def test_convert_fill_to_portfolio_update_basic_check(self):
+        """
+        Tests the "_convert_fill_to_portfolio_update" method
+        as a basic sanity check.
+        """
+        fill_event_buy = FillEvent(
+            datetime.datetime.utcnow(), "MSFT", "BOT",
+            100, "ARCA", Decimal("50.25"), Decimal("1.00")
+        )
+        self.portfolio_handler._convert_fill_to_portfolio_update(fill_event_buy)
+
+        # Check the Portfolio values within the PortfolioHandler
+        port = self.portfolio_handler.portfolio
+        self.assertEqual(port.cur_cash, Decimal("494974.00"))</code>
+</pre>
+
+<p>The final test simply tests the <code>on_signal</code> method by creating a <code>SignalEvent</code> object, placing it on the queue and then retrieving it to check that the order values are as expected. This tests the "end to end" basic handling of the <code>PositionSizer</code> and <code>RiskManager</code> objects:</p>
+
+<pre>
+<code class="language-python"># test_portfolio_handler.py    
+
+    def test_on_signal_basic_check(self):
+        """
+        Tests the "on_signal" method as a basic sanity check.
+        """
+        signal_event = SignalEvent("MSFT", "BOT")
+        self.portfolio_handler.on_signal(signal_event)
+        ret_order = self.portfolio_handler.events_queue.get()
+        self.assertEqual(ret_order.ticker, "MSFT")
+        self.assertEqual(ret_order.action, "BOT")
+        self.assertEqual(ret_order.quantity, 100)</code>
+</pre>
+
+<p>We can clearly see that there is a lot more testing to be done here. We've only scratched the surface with the sort of situations that can occur. However, it is always good to have a basic set of sanity checks in place. The unit testing framework is highly extensible and as we come across new situations/bugs, we can simply write new tests and correct for the problem.</p>
+
+<p>For completeness you can find the full code for the testing of <code>PortfolioHandler</code> on Github at <a href="https://github.com/mhallsmoore/qstrader/blob/master/portfolio_handler/portfolio_handler_test.py">portfolio_handler_test.py</a>.</p>
+
+<h2>Next Steps</h2>
+
+<p>We've now covered three of the main objects for the Order Management System, namely the <code>Position</code>, the <code>Portfolio</code> and the <code>PortfolioHandler</code>. These are the "core" mathematical calculation aspects of the code and as such we need to be sure that they work as expected.</p>
+
+<p>While discussing these objects is not as exciting as building a <code>Strategy</code> object, or even a <code>RiskManager</code>, it is vital that they work, otherwise the rest of the backtesting and live trading infrastructure will be, at best, useless and at worst, highly unprofitable!</p>
+
+<p>We've got a lot of remaining componets to cover in addition to those mentioned above, including the <code>PriceHandler</code>, the <code>Backtest</code> class, the various <code>ExecutionHandler</code>s that might tie into <a href="https://www.interactivebrokers.co.uk/en/home.php">Interactive Brokers</a> or <a href="http://www.oanda.com/">OANDA</a>, as well as the implementation of a non-trivial <code>Strategy</code> object.</p>
+
+<p>In the next article I will discuss one or more of these classes.</p>
+        
+        
+        <script async data-uid="6296c27f4b" src="https://weathered-brook-5281.ck.page/6296c27f4b/index.js"></script>
+      </section>
+    </div>
+    <div class="col-md-4 book-card order-md-1">
+      
+<div class="sidebar-advert-container">
+  <a href="/qsalpha/?ref=art">
+    <img class="card-img-top" src="/static/images/qsalpha-sidebar-advert-small.png" alt="QSAlpha">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/qsalpha/?ref=art">QSAlpha</a></h3>
+      <p class="card-text medium-text mb-3">Join the QSAlpha research platform that helps fill your strategy research pipeline, diversifies your portfolio and improves your risk-adjusted returns for increased profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/qsalpha/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/quantcademy/?ref=art">
+    <img class="card-img-top" src="/static/images/quantcademy-sidebar-advert-small.png" alt="Quantcademy">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/quantcademy/?ref=art">The Quantcademy</a></h3>
+      <p class="card-text medium-text mb-3">Join the Quantcademy membership portal that caters to the rapidly-growing retail quant trader community and learn how to increase your strategy profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/quantcademy/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/successful-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/sat-sidebar-advert-small.png" alt="Successful Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to find new trading strategy ideas and objectively assess them for your portfolio using a Python-based backtesting engine.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/successful-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/advanced-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/aat-sidebar-advert-small.png" alt="Advanced Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to implement advanced trading strategies using time series analysis, machine learning and Bayesian statistics with R and Python.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/advanced-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+    
+
+<footer>
+  <div class="container container-full">
+    <section class="mt-1.5 mb-1">
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">QuantStart</li>
+            <li class="footer-list-link"><a class="link-fade" href="/about/">About</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/articles/">Articles</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/sitemap/">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Products</li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qsalpha/">QSAlpha</a></li>
+            
+            
+            <li class="footer-list-link"><a class="link-fade" href="/quantcademy/">Quantcademy</a></li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qstrader/">QSTrader</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Legal</li>
+            <li class="footer-list-link"><a class="link-fade" href="/privacy-policy/">Privacy Policy</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/terms-and-conditions/">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Social</li>
+            <li class="footer-list-link"><a class="link-fade" href="https://twitter.com/quantstart">Twitter</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="https://www.youtube.com/channel/UCmVnnZ6Y2TrJtY1eQJN6kWA">YouTube</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="row mb-1.5 mt-5">
+      <div class="col-12 col-md-9 col-lg-8 col-xl-6">
+        <div class="footer-copyright">
+          <p>©2012-2023 QuarkGluon Ltd. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+<script src="/static/js/jquery-3.2.1.min.js"></script>
+<script src="/static/js/prism.js.min"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/nav.js"></script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5383959-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+    
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="/static/js/highcharts/highcharts.js"></script>
+<script type="text/javascript">
+  num_colours = 10;
+</script>
+<script src="/static/js/statistics.js"></script>
+
+
+  </body>
+</html>

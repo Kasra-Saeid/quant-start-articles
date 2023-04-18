@@ -1,0 +1,647 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-site-verification" content="wl3-8ed1QZjI0iYZMv10zoZWYElkMObTfwLlWIj9cpA" />
+    <meta name="description" content="Should You Build Your Own Backtester?">
+
+    <link rel="icon" href="/static/images/favicon.png">
+
+    <title>Should You Build Your Own Backtester? | QuantStart</title>
+    
+    
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet"> 
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/prism.css" rel="stylesheet">
+<link href="/static/css/qs.css?v=10" rel="stylesheet">
+    
+  </head>
+
+  <body>
+    <header class="header covered-header" style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://quantstartmedia.s3.amazonaws.com/images/article-images/article-backgrounds/default-bg.jpg);">
+  
+<nav class="nav">
+  <div class="container nav-container">
+    <div class="nav-row row d-flex justify-content-between align-items-center">
+      <div class="col-2">
+        <ul class="nav-items justify-content-end small-capitals align-items-center">
+          <li class="nav-item">
+            <a class="link-fade" href="/">QuantStart</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-auto col-logo">
+        <ul id="top-nav-menu" class="nav-items justify-content-end align-items-center">
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/qsalpha/">QSAlpha</a>
+          </li>
+          
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/quantcademy/">Quantcademy</a>
+          </li>
+          
+          <li id="menu-link-ebooks" class="nav-item">
+            <a class="link-fade" href="#">Books</a>
+            <div id="menu-pane-ebooks" class="nav-items menu-dropdown-pane">
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/qstrader/">QSTrader</a>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/articles/">Articles</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/members/login/">Login</a>
+          </li>
+          
+        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<nav id="mobile-nav" class="mobile-nav text-left">
+  <div class="container">
+    <ul class="mt-4 ml-3 mobile-nav-menu">
+      <li class="nav-item">
+        <a class="link-fade d-block" href="/">QuantStart</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qsalpha/">QSAlpha</a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/quantcademy/">Quantcademy</a>
+      </li>
+      
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="#">Books</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qstrader/">QSTrader</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/articles/">Articles</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/members/login/">Login</a>
+      </li>
+      
+    </ul>
+    <button class="nav-toggle mobile-nav-close">
+      <svg id="mobile-nav-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M19.77,5.63,13.41,12l6.36,6.37a1,1,0,0,1-1.41,1.41L12,13.41,5.63,19.77a1,1,0,0,1-1.44-1.39l0,0L10.58,12,4.21,5.63a1,1,0,0,1,0-1.42,1,1,0,0,1,1.41,0l0,0L12,10.58l6.37-6.37a1,1,0,0,1,1.41,0A1,1,0,0,1,19.77,5.63Z"></path>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+  <div class="container hero-container">
+    <section class="mt-5 mb-4">
+      <div class="row justify-content-center">
+        <div class="col-12 text-center">
+          <p class="hero">Should You Build Your Own Backtester?</p>
+          <p class="hero subhero">Should You Build Your Own Backtester?</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</header>
+    
+<section class="container content-container">
+  <div class="row">
+    <div class="col-md-8 order-md-2">
+      <section class="content article-content">
+        
+        
+        <p>This post relates to a talk I gave in April at <a href="http://www.quantcon.com/">QuantCon 2016</a> in New York City. QuantCon was hosted by <a href="https://www.quantopian.com/">Quantopian</a> and I was invited to talk about some of the topics discussed on <a href="https://www.quantstart.com/">QuantStart</a>. I decided to talk about whether it is worth building your own backtesting system. This post goes into more detail about the subject area and should hopefully leave you wanting to dive into building your own system!</p>
+
+<p>If you wish to view the original slides, they can be found <a href="https://s3.amazonaws.com/quantstartmedia/powerpoint/mhm-quantcon-2016.pdf">here</a>.</p>
+
+<h2>About This Post</h2>
+
+<p>The post is suitable for those who are beginning quantitative trading as well as those who have had some experience with the area. The post discusses the common pitfalls of backtesting, as well as some uncommon ones!</p>
+
+<p>It also looks at the different sorts of backtesting mechanisms as well as the software landscape that implements these approaches. Then we discuss whether it is worth building your own backtester, even with the prevalence of open source tools available today.</p>
+
+<p>Finally, we discuss the ins-and-outs of an event-driven backtesting system, a topic that I've covered frequently on QuantStart in prior posts.</p>
+
+<h2>What Is A Backtest?</h2>
+
+<blockquote>A backtest is the application of trading strategy rules to a set of historical pricing data.</blockquote>
+
+<p>That is, if we define a set of mechanisms for entry and exit into a portfolio of assets, and apply those rules to historical pricing data of those assets, we can attempt to understand the performance of this "trading strategy" that might have been attained in the past.</p>
+
+<p>It was once said that <em>"All models are wrong, but some are useful"</em>. The same is true of backtests. So what purpose do they serve?</p>
+
+<p>Backtests ultimately help us decide whether it is worth live-trading a set of strategy rules. It provides us with an idea of how a strategy <em>might</em> have performed <em>in the past</em>. Essentially it allows us to filter out bad strategy rules before we allocate any real capital.</p>
+
+<p>It is easy to generate backtests. Unfortunately backtest results are not live trading results. They are instead a model of reality. A model that usually contains many assumptions.</p>
+
+<p>There are two main types of software backtest - the <strong>"for-loop"</strong> and the <strong>"event-driven"</strong> systems.</p>
+
+<p>When designing backtesting software there is always a trade-off between accuracy and implementation complexity. The above two backtesting types represent either end of the spectrum for this tradeoff.</p>
+
+<h2>Backtesting Pitfalls</h2>
+
+<p>There are many pitfalls associated with backtesting. They all concern the fact that a backtest is just a model of reality. Some of the more common pitfalls include:</p>
+
+<ul>
+  <li><strong>In-Sample Testing</strong> - This occurs when you utilise the same data to "train" your trading models as well as to "test" it. It almost always inflates the performance of a strategy beyond that which would be seen in live trading. This is because it has not been validated on unseen data, which will likely differ markedly from the training data. In essence, it is a form of overfitting.</li>
+  <li><strong>Survivorship Bias</strong> - For stock market indices like the S&amp;P500, a periodic process of listing and de-listing occurs, changing the composition over time. By failing to take into account this changing composition over a backtest, trading strategies are automatically "picking the winners" by virtue of ignoring all the companies that fell out of the index due to low market capitalisation. Hence it is always necessary to use survivorship-bias free data when carrying out longer-term backtests.</li>
+  <li><strong>Look-Ahead Bias</strong> - Future data can "sneak in" to backtests in very subtle ways. Consider calculating a linear regression ratio over a particular time-frame. If this ratio is then used in the same sample, then we have implicitly brought in future data and thus will have likely inflated performance. Event-driven backtesters largely solve this problem, as we will discuss below.</li>
+  <li><strong>Market Regime Change</strong> - This concerns the fact that stock market "parameters" are not stationary. That is, the underlying process generating stock movements need not have parameters that stay constant in time. This makes it hard to generalise parametrised models (of which many trading strategies are instances of) and thus performance is likely to be higher in backtests than in live trading.</li>
+  <li><strong>Transaction Costs</strong> - Many For-Loop backtests do not take into account even basic transaction costs, such as fees or commissions. This is particularly true in academic papers where backtests are largely conducted free of transaction costs. Unfortunately it is all too easy to find strategies that are highly profitable without transaction costs, but make substantial losses when subjected to a real market. Typical costs include spread, market impact and slippage. All of these should be accounted for in realistic backtests.</li>
+</ul>
+
+<p>There are some more subtle issues with backtesting that are not discusssed as often, but are still incredibly important to consider. They include:
+
+<ul>
+  <li><strong>OHLC Data</strong> - OHLC data, that is the type of daily data taken from free sites such as Yahoo Finance, is often an amalgamation of multiple exchange feeds. Hence it is unlikely that some of the more extreme values seen (including the High and Low price of the day) would likely be obtained by a live trading system. Such "order routing" needs to be considered as part of a model.</li>
+  <li><strong>Capacity Constraints</strong> - When backtesting it is easy to utilise an "infinite" pot of money. However, in reality capital, as well as margin, is tightly constrained. It is necessary also to think of Average Daily Volume (ADV) limits, especially for small-cap stocks where it is possible that our trades might indeed move the market. Such "market impact" effects would need to be taken into account for risk management purposes.</li>
+  <li><strong>Benchmark Choice</strong> - Is the choice of benchmark against which the backtested strategy is being measured a good one? For instance if you are trading commodity futures and are neutral to the S&amp;P500 US equity index, does it really make sense to use the S&amp;P500 as your benchmark? Would a basket of other commodity trading funds make more sense?</li>
+  <li><strong>Robustness</strong> - By varying the starting time of your strategy within your backtest do the results change dramatically? It should not matter for a longer term strategy whether the backtest is started on a Monday or a Thursday. However, if it is sensitive to the "initial conditions" how can you reliably predict future performance when live trading?</li>
+  <li><strong>Overfitting/Bias-Variance Tradeoff</strong> - We've discussed this a little above in the In-Sample Testing point. However, overfitting is a broader problem for all (supervised) machine learning methods. The only real way to "solve" this problem is via careful use of <a href="https://www.quantstart.com/articles/Using-Cross-Validation-to-Optimise-a-Machine-Learning-Method-The-Regression-Setting">cross-validation techniques</a>. Even then, we should be extremely careful that we haven't simply fitted our trading strategies to noise in the training set.</li>
+  <li><strong>Psychological Tolerance</strong> - Psychology is often ignored in quant finance because (supposedly) it is removed by creating an algorithmic system. However, it always creeps in because quants have a tendency to "tinker" or "override" the system once deployed live. In addition, what may seem tolerable in a backtest, might be stomach-churning in live trading. If your backtested equity curve shows a 50% drawdown at some point in its trading history, could you also ride this through in a live trading scenario?</li>
+</ul>
+
+<p>Much has been written about the problems with backtesting. <a href="http://www.cc.gatech.edu/home/tucker/">Tucker Balch</a> and <a href="http://epchan.blogspot.co.uk/">Ernie Chan</a> both consider the issues at length.</p>
+
+<h2>For-Loop Backtest Systems</h2>
+
+<p>A For-Loop Backtester is the most straightforward type of backtesting system and the variant most often seen in quant blog posts, purely for its simplicity and transparency.</p>
+
+<p>Essentially the For-Loop system iterates over every trading day (or OHLC bar), performs some calculation related to the price(s) of the asset(s), such as a Moving Average of the close, and then goes long or short a particular asset (often on the same closing price, but sometimes the day after). The iteration then continues. All the while the total equity is being tracked and stored to later produce an <em>equity curve</em>.</p>
+
+<p>Here is the pseudo-code for such an algorithm:</p>
+
+<pre>
+<code class="language-python">for each trading bar:
+    do_something_with_prices();
+    buy_sell_or_hold_something();
+    next_bar();</code>
+</pre>
+
+<p>As you can see the design of such a sytem is incredibly simple. This makes it attractive for getting a "first look" at the performance of a particular strategy ruleset.</p>
+
+<h3>Advantages</h3>
+
+<p>For-Loop backtesters are straightforward to implement in nearly any programming language and are very fast to execute. The latter advantage means that many parameter combinations can be tested in order to optimise the trading setup.</p>
+
+<h3>Disadvantages</h3>
+
+<p>The main disadvantage with For-Loop backtesters is that they are quite unrealistic. They often have no transaction cost capability unless specifically added. Usually orders are filled immediately "at market" with the midpoint price. As such there is often no accounting for spread.</p>
+
+<p>There is minimal code re-use between the backtesting system and the live-trading system. This means that code often needs to be written twice, introducing the possibility of more bugs.</p>
+
+<p>For-Loop backtesters are prone to Look-Ahead Bias, due to bugs with indexing. For instance, should you have used "i", "i+1" or "i-1" in your panel indexing?</p>
+
+<p>For-Loop backtesters should really be utilised solely as a filtration mechanism. You can use them to eliminate the obviously bad strategies, but you should remain skeptical of strong performance. Further research is often required. Strategies rarely perform better in live trading than they do in backtests!</p>
+
+<h2>Event-Driven Backtest Systems</h2>
+
+<p>Event-Driven Backtesters lie at the other end of the spectrum. They are much more akin to live-trading infrastructure implementations. As such, they are often more realistic in the difference between backtested and live trading performance.</p>
+
+<p>Such systems are run in a large "while" loop that continually looks for "events" of differing types in the "event queue". Potential events include:</p>
+
+<ul>
+  <li><strong>Tick Events</strong> - Signify arrival of new market data</li>
+  <li><strong>Signal Events</strong> - Generation of new trading signals</li>
+  <li><strong>Order Events</strong> - Orders ready to be sent to market broker</li>
+  <li><strong>Fill Events</strong> - Fill information from the market broker</li>
+</ul>
+
+<p>When a particular event is identified it is routed to the appropriate module(s) in the infrastructure, which handles the event and then potentially generates new events which go back to the queue.</p>
+
+<p>The pseudo-code for an Event-Driven backtesting system is as follows:</p>
+
+<pre>
+<code class="language-python">while event_queue_isnt_empty():
+    event = get_latest_event_from_queue();
+    if event.type == "tick":
+        strategy.calculate_trading_signals(event);
+    else if event.type == "signal":
+        portfolio.handle_signal(event);
+    else if event.type == "order":
+        portfolio.handle_order(event);
+    else if event.type == "fill":
+        portfolio.handle_fill(event)
+    sleep(600);  # Sleep for, say, 10 mins</code>
+</pre>
+
+<p>As you can see there is a heavy reliance on the portfolio handler module. Such a module is the "heart" of an Event-Driven backtesting system as we will see below.</p>
+
+<h3>Advantages</h3>
+
+<p>There are many advantages to using an Event-Driven backtester:</p>
+
+<ul>
+  <li><strong>Elimination of Look-Ahead Bias</strong> - By virtue of its message-passing design, Event-Driven systems are usually free from Look-Ahead Bias, at least at the trading level. There is the possibility of introducing bias indirectly through a pre-researched model, however.</li>
+  <li><strong>Code Re-Use</strong> - For live trading it is only necessary to replace the data handler and execution handler modules. All strategy, risk/position management and performance measurement code is identical. This means there are usually far less bugs to fix.</li>
+  <li><strong>Portfolio Level</strong> - With an Event-Driven system it is much more straightforward to think at the portfolio level. Introducing groups of instruments and strategies is easy, as are hedging instruments.</li>
+  <li><strong>"Proper" Risk/Position Management</strong> - Can easily modularise the risk and position management. Can introduce leverage and methodologies such as Kelly's Criterion easily. Can also easily include sector exposure warnings, ADV limits, volatility limits and illiquidity warnings.</li>
+  <li><strong>Remote Deployment/Monitoring</strong> - Modular nature of the code makes it easier to deploy in "the cloud" or to co-locate the software near an exchange on a virtualised system.</li>
+</ul>
+
+<h3>Disadvantages</h3>
+
+<p>While the advantages are clear, there are also some strong disadvantages to using such a complex system:</p>
+
+<ul>
+  <li><strong>Tricky to Code</strong> - Building a fully-tested Event-Driven system will likely take weeks or months of full-time work. A corollary of this is that there is always a healthy market for freelance/contract quant developers!</li>
+  <li><strong>Require Object-Orientation</strong> - A modular design necessitates using object-oriented programming (OOP) principles, and thus a language that can support OOP easily. This does however make unit testing far more straightforward.</li>
+  <li><strong>Software Engineering</strong> - More likely to require good software engineering expertise and capabilities such as logging, unit testing, version control and continuous integration.</li>
+  <li><strong>Slow Execution</strong> - The message-passing nature of the code makes it far slower to execute compared to a vectorised For-Loop approach. Multiple parameter combinations can take a long time to calculate on unoptimised codes.</li>
+</ul>
+
+<h2>The Software Landscape</h2>
+
+<p>In this section we will consider software (both open source and commercial) that exists for both For-Loop and Event-Driven systems.</p>
+
+<p>For For-Loop backtesters, the main programming languages/software that are used include Python (with the Pandas library), R (and the quantmod library) and MatLab. There are plenty of code snippets to be found on quant blogs. A great list of such blogs can be found on <a href="http://quantocracy.com/">Quantocracy</a>.</p>
+
+<p>The market for Event-Driven systems is much larger, as clients/users often want the software to be capable of both backtesting and live trading in one package.</p>
+
+<p>The expensive commercial offerings include <a href="http://www.deltixlab.com/">Deltix</a> and <a href="http://www.quanthouse.com/">QuantHouse</a>. They are often found in quant hedge funds, family offices and prop trading firms.</p>
+
+<p>Cloud-based backtesting and live trading systems are relatively new. <a href="https://www.quantopian.com/">Quantopian</a> is an example of a mature web-based setup for both backtesting and live trading.</p>
+
+<p>Institutional quants often also build their own in house software. This is due to a mix of regulatory constraints, investor relations/reporting and auditability.</p>
+
+<p>Retail quants have a choice between using the "cloud+data" approach of Quantopian or "rolling their own" using a cloud vendor such as <a href="http://aws.amazon.com/">Amazon Web Services</a>, <a href="https://www.rackspace.com/cloud">Rackspace Cloud</a> or <a href="https://azure.microsoft.com/en-gb/">Microsoft Azure</a>, along with an appropriate data vendor such as <a href="https://www.iqfeed.net/">DTN IQFeed</a> or <a href="https://quantquote.com/">QuantQuote</a>.</p>
+
+<p>In terms of open source software, there are many libraries available. They are mostly written in Python (for reasons I will outline below) and include <a href="https://github.com/quantopian/zipline">Zipline</a> (Quantopian), <a href="http://gbeced.github.io/pyalgotrade/">PyAlgoTrade</a>, <a href="http://qoppac.blogspot.co.uk/p/pysystemtrade.html">PySystemTrade</a> (Rob Carver/Investment Idiocy) and <a href="https://github.com/mhallsmoore/qstrader">QSTrader</a> (QuantStart's own backtester).</p>
+
+<p>One of the most important aspects, however, is that no matter which piece of software you ultimately use, it must be paired with an equally solid source of financial data. Otherwise you will be in a situation of "garbage in, garbage out" and your live trading results will differ substantially from your backtests.</p>
+
+<h2>Programming Languages</h2>
+
+<p>While software takes care of the details for us, it hides us from many implementation details that are often crucial when we wish to expand our trading strategy complexity. At some point it is often necessary to write our own systems and the first question that arises is "Which programming language should I use?".</p>
+
+<p>Despite having a background as a quantitative software developer I am not personally interested in "language wars". There are only so many hours in the day and, as quants, we need to get things done - not spend time arguing language design on internet forums!</p>
+
+<p>We should only be interested in <em>what works</em>. Here are some of the main contenders:</p>
+
+<h3>Python</h3>
+
+<p>Python is an extremely easy to learn programming language and is often the first language individuals come into contact with when they decide to learn programming. It has a standard library of tools that can read in nearly any form of data imaginable and talk to any other "service" very easily.</p>
+
+<p>It has some exceptional quant/data science/machine learning (ML) libraries in NumPy, SciPy, Pandas, Scikit-Learn, Matplotlib, PyMC3 and Statsmodels. While it is great for ML and general data science, it does suffer a bit for more extensive classical statistical methods and time series analysis.</p>
+
+<p>It is great for building both For-Loop and Event-Driven backtesting systems. In fact, it is perhaps one of the only languages that straightforwardly permits end-to-end research, backtesting, deployment, live trading, reporting and monitoring.</p>
+
+<p>Perhaps its greatest drawback is that it is quite slow to execute when compared to other languages such as C++. However, work is being carried out to improve this problem and over time Python is becoming faster.</p>
+
+<h3>R</h3>
+
+<p>R is a statistical programming environment, rather than a full-fledged "first class programming language" (although some might argue otherwise!). It was designed primarily for performing advanced statistical analysis for time series, classical/frequentist statistics, Bayesian statistics, machine learning and exploratory data analysis.</p>
+
+<p>It is widely used for For-Loop backtesting, often via the quantmod library, but is not particularly well suited to Event-Driven systems or live trading. It does however excel at strategy research.</p>
+
+<h3>C++</h3>
+
+<p>C++ has a reputation for being extremely fast. Nearly all scientific high-performance computing is carried out either in Fortran or C++. This is its primary advantage. Hence if you are considering high frequency trading, or work on legacy systems in large organisations, then C++ is likely to be a necessity.</p>
+
+<p>Unfortunately it is painful for carrying out strategy research. Due to being <em>statically-typed</em> it is quite tricky to easily load, read and format data compared to Python or R.</p>
+
+<p>Despite its relative age, it has recently been modernised substantially with the introduction of C++11/C++14 and further standards refinements.</p>
+
+<h3>Others?</h3>
+
+<p>You may also wish to take a look at Java, Scala, C#, Julia and many of the functional languages. However, my recommendation is to stick with Python, R and/or C++, as the quant trading communities are much larger.</p>
+
+<h2>Should You Write Your Own (Event-Driven) Backtester?</h2>
+
+<p>Answer: Yes!</p>
+
+<p>It is a great learning experience to write your own Event-Driven backtesting system. Firstly, it forces you to consider all aspects of your trading infrastructure, not just spend hours tinkering on a particular strategy.</p>
+
+<p>Even if you don't end up using the system for live trading, it will provide you with a huge number of questions that you <em>should be asking</em> of your commercial or FOSS backtesting vendors.</p>
+
+<p>For example: How does your current live system differ from your backtest simulation in terms of:</p>
+
+<ul>
+  <li>Algorithmic execution and order routing?</li>
+  <li>Spread, fees, slippage and market impact?</li>
+  <li>Risk management and position sizing?</li>
+</ul>
+
+<p>While Event-Driven systems are not quick or easy to write, the experience will pay huge educational dividends later on in your quant trading career.</p>
+
+<h2>Event-Driven Backtest Design 101</h2>
+
+<p>How do you go about writing such a system?</p>
+
+<p>The best way to get started is to simply download Zipline, QSTrader, PyAlgoTrade, PySystemTrade etc and try reading through the documentation and code. They are all written in Python (due to the reasons I outlined above) and thankfully Python is very much like reading pseudo-code. That is, it is very easy to follow.</p>
+
+<p>I've also written many articles on Event-Driven backtest design, which you can find <a href="https://www.quantstart.com/articles/Event-Driven-Backtesting-with-Python-Part-I">here</a>, that guide you through the development of each module of the system. Rob Carver, at <a href="http://qoppac.blogspot.co.uk/">Investment Idiocy</a> also lays out his approach to building such systems to trade futures.</p>
+
+<p>Remember that you don't have to be an expert on day #1. You can take it slowly, day-by-day, module-by-module. If you need help, you can always contact me or other willing quant bloggers. See the end of the article for my contact email.</p>
+
+<p>I'll now discuss the modules that are often found in many Event-Driven backtesting systems. While not an exhaustive list, it should give you a "flavour" of how such systems are designed.</p>
+
+<h3>Securities Master Database</h3>
+
+<p>This is where all of the historical pricing data is stored, along with your trading history, once live. A professsional system is not just a few CSV files from Yahoo Finance!</p>
+
+<p>Instead, we use a "first class" database or file system, such as <a href="https://www.postgresql.org/">PostgreSQL</a>, <a href="https://www.mysql.com">MySQL</a>, <a href="https://www.microsoft.com/en-us/cloud-platform/sql-server">SQL Server</a> or <a href="https://www.hdfgroup.org/HDF5/">HDF5</a>.</p>
+
+<p>Ideally, we want to obtain and store tick-level data as it gives us an idea of trading spreads. It also means we can construct our own OHLC bars, at lower frequencies, if desired.</p>
+
+<p>We should always be aware of handling corporate actions (such as stock splits and dividends), survivorship bias (stock de-listing) as well as tracking the timezone differences between various exchanges.</p>
+
+<p>Individual/retail quants can compete here as many production-quality database technologies are mature, free and open source. Data itself is becoming cheaper and "democratised" via sites like <a href="https://www.quandl.com/">Quandl</a>.</p>
+
+<p>There are still plenty of markets and strategies that are too small for the big funds to be interested in. This is a fertile ground for retail quant traders.</p>
+
+<h3>Trading Strategies</h3>
+
+<p>The trading strategy module in an Event-Driven system generally runs some kind of <strong>predictive</strong> or <strong>filtration</strong> mechanism on new market data.</p>
+
+<p>It receives bar or tick data and then uses these mechanisms to produce a trading signal to long or short an asset. This module is NOT designed to produce a quantity, that is carried out via the position-sizing module.</p>
+
+<p>95% of quant blog discussion usually revolves around <strong>trading strategies</strong>. I personally believe it should be more like 20%. This is because I think it is far easier to increase expected returns by reducing costs through proper risk management and position sizing, rather than chasing strategies with "more alpha".</p>
+
+<h3>Portfolio &amp; Order Management</h3>
+
+<p>The "heart" of an Event-Driven backtester is the <strong>Portfolio &amp; Order Management</strong> system. It is the area which requires the most development time and quality assurance testing.</p>
+
+<p>The goal of this system is to go from the <em>current portfolio</em> to the <em>desired portfolio</em>, while minimising risk and reducing transaction costs.</p>
+
+<p>The module ties together the strategy, risk, position sizing and order execution capabilities of the sytem. It also handles the position calculations while backtesting to mimic a brokerage's own calculations.</p>
+
+<p>The primary advantage of using such a complex system is that it allows a variety of financial instruments to be handled under a single portfolio. This is necessary for insitutional-style portfolios with hedging. Such complexity is very tricky to code in a For-Loop backtesting system.</p>
+
+<h3>Risk &amp; Position Management</h3>
+
+<p>Separating out the risk management into its own module can be extremely advantageous. The module can modify, add or veto orders that are sent from the portfolio.</p>
+
+<p>In particular, the risk module can add hedges to maintain market neutrality. It can reduce order sizes due to sector exposure or ADV limits. It can completely veto a trade if the spread is too wide, or fees are too large relative to the trade size.</p>
+
+<p>A separate position sizing module can implement volatility estimation and position sizing rules such as Kelly leverage. In fact, utilising a modular approach allows extensive customisation here, without affecting any of the strategy or execution code.</p>
+
+<p>Such topics are not well-represented in the quant blogosphere. However, this is probably the biggest difference between how institutions and some retail traders think about their trading. Perhaps the simplest way to get better returns is to begin implementing risk management and position sizing in this manner.</p>
+
+<h3>Execution Handling</h3>
+
+<p>In real life we are never guaranteed to get a market fill at the midpoint!</p>
+
+<p>We must consider transactional issues such as capacity, spread, fees, slippage, market impact and other algorithmic execution concerns, otherwise our backtesting returns are likely to be vastly overstated.</p>
+
+<p>The modular approach of an Event-Driven system allows us to easily switch-out the <strong>BacktestExecutionHandler</strong> with the <strong>LiveExecutionHandler</strong> and deploy to the remote server.</p>
+
+<p>We can also easily add multiple brokerages utilising the OOP concept of "inheritance". This of course assumes that said brokerages have a straightforward Application Programming Interface (API) and don't force us to utilise a Graphical User Interface (GUI) to interact with their system.</p>
+
+<p>One issue to be aware of is that of "trust" with third party libraries. There are many such modules that make it easy to talk to brokerages, but it is necessary to perform your own testing. Make sure you are completely happy with these libraries before committing extensive capital, otherwise you could lose a lot of money simply due to bugs in these modules.</p>
+
+<h3>Performance &amp; Reporting</h3>
+
+<p>Retail quants can and should borrow the sophisticated reporting techniques utilised by institutional quants. Such tools include live "dashboards" of the portfolio and corresponding risks, a "backtest equity" vs "live equity" difference or "delta", along with all the "usual" metrics such as costs per trade, the returns distribution, high water mark (HWM), maximum drawdown, average trade latency as well as alpha/beta against a benchmark.</p>
+
+<p>Consistent incremental improvements should be made to this infrastructure. This can really enchance returns over the long term, simply by eliminating bugs and improving issues such as trade latency. Don't simply become fixated on improving the "world's greatest strategy" (WGS).</p>
+
+<p>The WGS will eventually erode due to "alpha decay". Others will eventually discover the edge and will arbitrage away the returns. However, a robust trading infrastructure, a solid strategy research pipeline and continual learning are great ways of avoiding this fate.</p>
+
+<p>Infrastructure optimisation may be more "boring" than strategy development but it becomes significantly less boring when your returns are improved!</p>
+
+<h3>Deployment &amp; Monitoring</h3>
+
+<p>Deployment to a remote server, along with extensive monitoring of this remote system, is absolutely crucial for institutional grade systems. Retail quants can and should utilise these ideas as well.</p>
+
+<p>A robust system <em>must</em> be remotely deployed in "the cloud" or co-located near an exchange. Home broadband, power supplies and other factors mean that utilising a home desktop/laptop is too unreliable. Often things fail right at the worst time and lead to substantial losses.</p>
+
+<p>The main issues when considering a remote deployment include; monitoring hardware, such as CPU, RAM/swap, disk and network I/O, high-availability and redundancy of systems, a well thought through backup AND restoration plan, extensive logging of all aspects of the system as well as continuous integration, unit testing and version control.</p>
+
+<p>Remember <strong>Murphy's Law</strong> - "If it <em>can</em> fail it <em>will</em> fail."</p>
+
+<p>There are many vendors on offer that provide relatively straightforward cloud deployments, including Amazon Web Services, Microsoft Azure, Google and Rackspace. For software engineering tasks vendors include Github, Bitbucket, Travis, Loggly and Splunk, as well as many others.</p>
+
+<h2>Final Thoughts</h2>
+
+<p>Unfortunately there is no "quick fix" in quant trading. It involves a lot of hard work and learning in order to be successful.</p>
+
+<p>Perhaps a major stumbling block for beginners (and some intermediate quants!) is that they concentrate too much on the best "strategy". Such strategies <em>always</em> eventually succumb to <em>alpha decay</em> and thus become unprofitable. Hence it is necessary to be continually researching new strategies to add to a portfolio. In essence, the "strategy pipeline" should always be full.</p>
+
+<p>It is also worth investing a lot of time in your <em>trading infrastructure</em>. Spend time on issues such as deployment and monitoring. Always try and be reducing transaction costs, as profitability is as much about reducing costs as it is about gaining trading revenue.</p>
+
+<p>I recommend writing your own backtesting system simply to <em>learn</em>. You can either use it and continually improve it or you can find a vendor and then ask them all of the questions that you have discovered when you built your own. It will certainly make you aware of the limitations of commercially available systems.</p>
+
+<p>Finally, always be reading, learning and improving. There are a wealth of textbooks, trade journals, academic journals, quant blogs, forums and magazines which discuss all aspects of trading. For more advanced strategy ideas I recommend <a href="http://www.ssrn.com/en/">SSRN</a> and <a href="https://arxiv.org/archive/q-fin">arXiv - Quantitative Finance</a>.</p>
+
+<h2>About Me and QuantStart</h2>
+
+<p>My name is Mike Halls-Moore and I'm based in and around London. I have a background in computational fluid dynamics (CFD) research and as a quantitative developer in a London equities/futures fund.</p>
+
+<p>Perhaps my two biggest takeaways from working in an institutional setting are the vast chasm between backtests and live trading, as well as the importance of thinking at a portfolio level and the associated risk management thereof.</p>
+
+<p>Coming from a scientific background means that I'm very passionate about <strong>knowledge sharing</strong> and <strong>open-source software</strong>. Regular visitors will know that this is a running theme through QuantStart.</p>
+
+<p>QuantStart itself was founded in late 2012. A lot has changed in quantitative finance since then! The site discusses quant trading, quant careers, data science, machine learning and mathematics education. In particular, the site discusses a lot of implementation details that are often ignored, but I find to be absolutely necessary. The site tries to bring institutional thinking to retail/individual quants and also attempts to provide end-to-end code snippets that can be used immediately.</p>
+
+<p>If you wish to contact me about any topic related to quant finance then please email <a href="mailto:support@quantstart.com">support@quantstart.com</a> and I'll do my best to get back to you.</p>
+        
+        
+        <script async data-uid="6296c27f4b" src="https://weathered-brook-5281.ck.page/6296c27f4b/index.js"></script>
+      </section>
+    </div>
+    <div class="col-md-4 book-card order-md-1">
+      
+<div class="sidebar-advert-container">
+  <a href="/qsalpha/?ref=art">
+    <img class="card-img-top" src="/static/images/qsalpha-sidebar-advert-small.png" alt="QSAlpha">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/qsalpha/?ref=art">QSAlpha</a></h3>
+      <p class="card-text medium-text mb-3">Join the QSAlpha research platform that helps fill your strategy research pipeline, diversifies your portfolio and improves your risk-adjusted returns for increased profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/qsalpha/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/quantcademy/?ref=art">
+    <img class="card-img-top" src="/static/images/quantcademy-sidebar-advert-small.png" alt="Quantcademy">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/quantcademy/?ref=art">The Quantcademy</a></h3>
+      <p class="card-text medium-text mb-3">Join the Quantcademy membership portal that caters to the rapidly-growing retail quant trader community and learn how to increase your strategy profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/quantcademy/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/successful-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/sat-sidebar-advert-small.png" alt="Successful Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to find new trading strategy ideas and objectively assess them for your portfolio using a Python-based backtesting engine.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/successful-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/advanced-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/aat-sidebar-advert-small.png" alt="Advanced Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to implement advanced trading strategies using time series analysis, machine learning and Bayesian statistics with R and Python.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/advanced-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+    
+
+<footer>
+  <div class="container container-full">
+    <section class="mt-1.5 mb-1">
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">QuantStart</li>
+            <li class="footer-list-link"><a class="link-fade" href="/about/">About</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/articles/">Articles</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/sitemap/">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Products</li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qsalpha/">QSAlpha</a></li>
+            
+            
+            <li class="footer-list-link"><a class="link-fade" href="/quantcademy/">Quantcademy</a></li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qstrader/">QSTrader</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Legal</li>
+            <li class="footer-list-link"><a class="link-fade" href="/privacy-policy/">Privacy Policy</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/terms-and-conditions/">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Social</li>
+            <li class="footer-list-link"><a class="link-fade" href="https://twitter.com/quantstart">Twitter</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="https://www.youtube.com/channel/UCmVnnZ6Y2TrJtY1eQJN6kWA">YouTube</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="row mb-1.5 mt-5">
+      <div class="col-12 col-md-9 col-lg-8 col-xl-6">
+        <div class="footer-copyright">
+          <p>©2012-2023 QuarkGluon Ltd. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+<script src="/static/js/jquery-3.2.1.min.js"></script>
+<script src="/static/js/prism.js.min"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/nav.js"></script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5383959-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+    
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="/static/js/highcharts/highcharts.js"></script>
+<script type="text/javascript">
+  num_colours = 10;
+</script>
+<script src="/static/js/statistics.js"></script>
+
+
+  </body>
+</html>

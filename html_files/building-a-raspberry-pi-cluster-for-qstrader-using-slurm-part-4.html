@@ -1,0 +1,755 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-site-verification" content="wl3-8ed1QZjI0iYZMv10zoZWYElkMObTfwLlWIj9cpA" />
+    <meta name="description" content="In this multi-part article series we are going to discuss how to build a distributed cluster of Raspberry Pi computers, utilising the SLURM work scheduling tool to run QSTrader systematic trading parameter variation backtests. This article will describe how to install QSTrader on multiple nodes.">
+
+    <link rel="icon" href="/static/images/favicon.png">
+
+    <title>Building a Raspberry Pi Cluster for QSTrader Using SLURM - Part 4 | QuantStart</title>
+    
+    
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet"> 
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/prism.css" rel="stylesheet">
+<link href="/static/css/qs.css?v=10" rel="stylesheet">
+    
+  </head>
+
+  <body>
+    <header class="header covered-header" style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://quantstartmedia.s3.amazonaws.com/images/article-images/article-backgrounds/building-a-raspberry-pi-cluster-for-qstrader-using-slurm-part-1.jpg);">
+  
+<nav class="nav">
+  <div class="container nav-container">
+    <div class="nav-row row d-flex justify-content-between align-items-center">
+      <div class="col-2">
+        <ul class="nav-items justify-content-end small-capitals align-items-center">
+          <li class="nav-item">
+            <a class="link-fade" href="/">QuantStart</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-auto col-logo">
+        <ul id="top-nav-menu" class="nav-items justify-content-end align-items-center">
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/qsalpha/">QSAlpha</a>
+          </li>
+          
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/quantcademy/">Quantcademy</a>
+          </li>
+          
+          <li id="menu-link-ebooks" class="nav-item">
+            <a class="link-fade" href="#">Books</a>
+            <div id="menu-pane-ebooks" class="nav-items menu-dropdown-pane">
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/qstrader/">QSTrader</a>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/articles/">Articles</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/members/login/">Login</a>
+          </li>
+          
+        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<nav id="mobile-nav" class="mobile-nav text-left">
+  <div class="container">
+    <ul class="mt-4 ml-3 mobile-nav-menu">
+      <li class="nav-item">
+        <a class="link-fade d-block" href="/">QuantStart</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qsalpha/">QSAlpha</a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/quantcademy/">Quantcademy</a>
+      </li>
+      
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="#">Books</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qstrader/">QSTrader</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/articles/">Articles</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/members/login/">Login</a>
+      </li>
+      
+    </ul>
+    <button class="nav-toggle mobile-nav-close">
+      <svg id="mobile-nav-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M19.77,5.63,13.41,12l6.36,6.37a1,1,0,0,1-1.41,1.41L12,13.41,5.63,19.77a1,1,0,0,1-1.44-1.39l0,0L10.58,12,4.21,5.63a1,1,0,0,1,0-1.42,1,1,0,0,1,1.41,0l0,0L12,10.58l6.37-6.37a1,1,0,0,1,1.41,0A1,1,0,0,1,19.77,5.63Z"></path>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+  <div class="container hero-container">
+    <section class="mt-5 mb-4">
+      <div class="row justify-content-center">
+        <div class="col-12 text-center">
+          <p class="hero">Building a Raspberry Pi Cluster for QSTrader Using SLURM - Part 4</p>
+          <p class="hero subhero">In this multi-part article series we are going to discuss how to build a distributed cluster of Raspberry Pi computers, utilising the SLURM work scheduling tool to run QSTrader systematic trading parameter variation backtests. This article will describe how to install QSTrader on multiple nodes.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</header>
+    
+<section class="container content-container">
+  <div class="row">
+    <div class="col-md-8 order-md-2">
+      <section class="content article-content">
+        
+        
+        <p>In the <a href="http://www.quantstart.com/articles/building-a-raspberry-pi-cluster-for-qstrader-using-slurm-part-3/" target="blank" rel="noopener noreferrer">previous article</a> in this series we installed and configured SLURM to enable us to parellelise work loads. In this article we will be using SLURM to install QSTrader on all our secondary nodes. This will enable us to run multiple parameter sweeps for backtests of single or multiple strategies in parallel. By the end of this article we will have QSTrader installed and running the example sixty-forty strategy.</p>
+
+<h2>Installing the Packages</h2>
+<p>The first task is to check our Python installation and install the necessary system packages. In <a href= "https://www.quantstart.com/articles/building-a-raspberry-pi-cluster-for-qstrader-using-slurm-part-2/" target="blank" rel="noopener noreferrer">part 2</a> of this article series we installed Ubuntu 22.04 onto our Raspberry Pis. Ubuntu 22.04 comes with Python 3.8 preinstalled at the system level. We first ssh into the primary node (see part 2 of this series for details on SSH and finding the IP address with NMAP).</p>
+<pre>
+<code class="language-bash">ssh ubuntu@YOUR-IP-ADDRESS</code>
+</pre>
+
+<p>Where <code>YOUR-IP-ADDRESS</code> should be replaced with the IP address of the primary Raspberry Pi. You will be asked to enter a password. This will be either the default or your chosen password.</p>
+
+<p>As we have SLURM up and running we are able to use the primary node to run commands simultaneously on all the secondary nodes. First we will check to see whether Python is installed on all the secondary nodes. In the primary node type the following:</p>
+
+<pre>
+<code class="language-bash">srun --nodes=3 python3 --version</code>
+</pre>
+
+<p>srun will run a command on as many nodes/cores as you require. In this case we run the command <code>python3 --version</code> on all three of our secondary nodes. If you are using a different number of nodes you simply need to replace the '3' with the correct number of nodes. The command should return something similar to that shown below.</p>
+
+<pre>
+<code class="language-none">Python 3.8.10
+Python 3.8.10
+Python 3.8.10</code>
+</pre>
+
+<p>If Python is not installed you will see the following error. If this occurs you can simply add Python3 as an additional package to install in the next step.</p>
+
+<pre>
+<code class="language-none">srun: error: node04: task 2: Exited with exit code 2
+slurmstepd-node04: error: execve(): python3: No such file or directory
+slurmstepd-node03: error: execve(): python3: No such file or directory
+slurmstepd-node02: error: execve(): python3: No such file or directory
+srun: error: node03: task 1: Exited with exit code 2
+srun: error: node02: task 0: Exited with exit code 2</code>
+</pre>
+
+<p>We will now install the necessary packages onto all the secondary nodes using the srun command. These include:</p>
+<ul>
+  <li><code>pip3</code>   the python package manager</li>
+  <li><code>python3-venv</code>   for creating virtual environments</li>
+  <li><code>python3-dev</code>   for creating the header files needed to build python extensions</li>
+  <li><code>build-essential</code>   neccessary for compiling software</li>
+  <li><code>vim</code>   a text editor neccessary for creating SLURM batch scripts, this can be replaced with your chosen text editor</li>
+  <li><em>If you recieved an error when testing the Python installation you will also need to add   </em><code>python3</code></li>
+</ul>
+<p>These will need to be installed as root.</p>
+
+<pre>
+<code class="language-bash">sudo su -
+srun --nodelist=YOUR_NODE_NAME[02,03,04] apt install build-essential vim python3-dev python3-pip python3-venv -y</code>
+</pre>
+
+<p>Notice here that we are using the --nodelist flag with srun. This ensures that the commands will be run on each of our nodes, rather than on the first available nodes. When using srun this behaviour is usually default and you can use the --nodes=num_of_nodes instead. However, when using sbatch if your system has been configured to use the consumable resources plugin (as we did in part 3) the nodes will not be assigned exclusively. They will be assigned based on availability and will not necessarily be every node in your system. The <code>--nodelist</code> parameter forces the system to run the code on each node in the list. Remember to replace YOUR_NODE_NAME with the name you gave to your nodes in <a href= "https://www.quantstart.com/articles/building-a-raspberry-pi-cluster-for-qstrader-using-slurm-part-3/" target="blank" rel="noopener noreferrer">part 3</a> of this series.</p> 
+
+<h2>Creating the Virtual Environment and Installing QSTrader</h2>
+<p>Once the packages have finished installing you can exit root by typing <code>exit</code>. We can create a virtual environment called 'backtest' on all our secondary nodes where we will install QSTrader.</p>
+
+<pre>
+<code class="language-bash">srun --nodelist=YOUR_NODE_NAME[02,03,04] python3 -m venv backtest</code>
+</pre>
+
+<p>Now if you ssh into each of you Raspberry Pis you will see a new folder <code>backtest</code> inside the home directory. Within this folder you will see a <code>bin</code> directry which contains a <code>pip3</code> file and a symlink to python3. We will be using both of these to access the virtual environment, first to install QSTrader and then to run QSTrader in our batch file.</p>
+
+<p>To complete the install we can now run the following command using srun. This will use pip3 located inside the virtual environment to install QSTrader into that environment. Remember to repalce your paths and names!</p>
+
+<pre>
+<code class="language-bash">srun --nodelist=YOUR_NODE_NAME[02,03,04] /PATH_TO_YOUR_VENV/backtest/bin/pip3 install qstrader</code>
+</pre>
+
+<p>To check your installation it is best to SSH into each node and run pip freeze within your virtual environment.</p>
+
+<h2>Testing QSTrader</h2>
+<p>In order to test the QSTrader is working we will now run the example 60-40 strategy on all the secondary nodes. This will repeat the same job on all of the nodes allowing us to check that our installation is working correctly. In order to run the example we will need to download the CSV files for the AGG and SPY ETFs. Then we will make some changes to the sixty_forty.py script to allow the output to be saved as JSON file, rather than directly plotting the tearsheet. We will then create a batch file to run the job. All these three files will need to be created or added to the <code>/sharedfs/</code> shared storage that was configured in <a href="https://www.quantstart.com/articles/building-a-raspberry-pi-cluster-for-qstrader-using-slurm-part-2/" target="blank" rel="noopener noreferrer">part two</a> of this series.</p>
+
+<p>We begin by downloading the CSV files <a href="https://finance.yahoo.com/quote/SPY/history?p=SPY" target="blank" rel="noopener noreferrer">SPY</a> and <a href="https://finance.yahoo.com/quote/AGG/history?p=AGG" target="blank" rel="noopener noreferrer">AGG</a> from yahoo finance. Make sure you download the full history for each. More information on the strategy is available <a href="http://www.quantstart.com/qstrader/tutorial-60-40-portfolio/" target="blank" rel="noopener noreferrer">here</a>. Once you have the CSV files we will copy them into the shared storage on the primary node using <code>scp</code>. Remember to replace YOUR_IP_ADDRESS with the ip address of your primary node, you will also need the password.</p>
+
+<pre>
+<code class="language-bash">scp AGG.csv SPY.csv ubuntu@YOUR_IP_ADDRESS:/sharedfs/</code>
+</pre>
+
+<p>We can now create sixty_forty.py in the <code>sharedfs</code> drive and edit it in your chosen text editor. We are using vim. Using ssh, on the primary node run the following commands.</p>
+
+<pre>
+<code class="language-bash">cd /sharedfs/
+touch sixty_forty.py
+vim sixty_forty.py</code>
+</pre>
+
+<p>The code for the sixty-forty strategy can be copied from the <a href="https://github.com/mhallsmoore/qstrader/blob/master/examples/sixty_forty.py" target="blank" rel="noopener noreferrer">example</a> in the github repository and pasted directly into this file. Once you have pasted the original code we will need to make a few adjustments so that the code can be run in a headless, parallel environment. First we need to remove the function that plots the backtest statistics to a tearsheet and replace it with a function that allows the statistics to be saved to a JSON file. This will allow us to store rather than visualise the backtest information. As we are running the code across multiple nodes we will also make an adjustment to the output file name so that we get a file from each of the nodes, rather that one which has been overwritten. </p>
+
+<p>First let's adjust the import statements. We add the standard library <code>socket</code>. This allows us to get the hostname of each node and append it to the output JSON file. This way we can be sure that QSTrader has been run on each of the nodes. Next we remove the tearsheet import and replace it with an import statement from the <code>JSONStatistics</code> class.</p>
+
+<pre>
+<code class="language-python">import os
+# NEW
+import socket
+
+import pandas as pd
+import pytz
+
+from qstrader.alpha_model.fixed_signals import FixedSignalsAlphaModel
+from qstrader.asset.equity import Equity
+from qstrader.asset.universe.static import StaticUniverse
+from qstrader.data.backtest_data_handler import BacktestDataHandler
+from qstrader.data.daily_bar_csv import CSVDailyBarDataSource
+# NEW
+from qstrader.statistics.json_statistics import JSONStatistics
+# Line below is removed
+#from qstrader.statistics.tearsheet import TearsheetStatistics
+from qstrader.trading.backtest import BacktestTradingSession</code>
+</pre>
+
+<p>Next we need to edit the dates on the script to be the same as the period covering the data. Inside the main statement you will need to modify the <code>end_dt</code> variable to the last date available from the data you have downloaded. In our case we downloaded data up to the October 3rd 2022 so we will make the following modifcations.</p>
+
+<pre>
+<code class="language-python">if __name__ == "__main__":
+    start_dt = pd.Timestamp('2003-09-30 14:30:00', tz=pytz.UTC)
+    end_dt = pd.Timestamp('2022-10-03 23:59:00', tz=pytz.UTC)</code>
+</pre>
+
+<p>Now we need to remove the invocation of the TearsheetStatistic class and replace it with a call to the <code>JSONStatistics</code> class we have just imported. The <a href="https://github.com/mhallsmoore/qstrader/blob/master/qstrader/statistics/json_statistics.py" target="blank" rel="noopener noreferrer">JSONStatistics</a> class requires a Pandas DataFrame containing the datetime indexed equity curve. This is contained within the <code>strategy_backtest</code> variable which calls the <code>BacktestTradingSession</code> class. It can be obtained by calling the <code>get_equity_curve()</code> method.</p>
+
+<p>The first keyword argument we pass to <code>JSONStatistics</code> is <code>equity_curve=strategy_backtest.get_equity_curve()</code>. The next keyword argument gives our strategy an optional name <code>strategy_name="sixty_forty"</code>. We also need to name our output file, here we will use the socket library to get the hostname from our nodes <code>output_filename="sixty_forty_test_%s".json" % socket.gethostname()</code>. The final keyword deals with target allocations. For some strategies QSTrader requires target allocations to enable portfolio rebalancing. This is not necessary for the sixty_forty strategy so we can instead pass an empty Pandas DataFrame. The final keyword argument we need to pass to our invocation of the <code>JSONStatistics</code> class is <code>target_allocations=pd.DataFrame()</code>. The code should look as below.</p>
+
+<pre>
+<code class="language-python"># NEW 
+    # Code to enable JSON Output
+    backtest_statistics = JSONStatistics(
+        equity_curve = strategy_backtest.get_equity_curve(),
+        strategy_name = "sixty_forty",
+        output_filename = "sixty_forty_test_%s.json" % socket.gethostname(),
+        target_allocations = pd.DataFrame()
+    )
+    backtest_statistics.to_file()
+
+"""
+    The following code needs to be removed
+    # Performance Output
+    tearsheet = TearsheetStatistics(
+        strategy_equity=strategy_backtest.get_equity_curve(),
+        benchmark_equity=benchmark_backtest.get_equity_curve(),
+        title='60/40 US Equities/Bonds'
+    )
+    tearsheet.plot_results()
+"""</code>
+</pre>
+
+<p>The complete code is given below:</p>
+
+<pre>
+<code class="language-python">import os
+import socket
+
+import pandas as pd
+import pytz
+
+from qstrader.alpha_model.fixed_signals import FixedSignalsAlphaModel
+from qstrader.asset.equity import Equity
+from qstrader.asset.universe.static import StaticUniverse
+from qstrader.data.backtest_data_handler import BacktestDataHandler
+from qstrader.data.daily_bar_csv import CSVDailyBarDataSource
+from qstrader.statistics.json_statistics import JSONStatistics
+from qstrader.trading.backtest import BacktestTradingSession
+
+
+if __name__ == "__main__":
+    start_dt = pd.Timestamp('2003-09-30 14:30:00', tz=pytz.UTC)
+    end_dt = pd.Timestamp('2022-10-03 23:59:00', tz=pytz.UTC)
+
+    # Construct the symbols and assets necessary for the backtest
+    strategy_symbols = ['SPY', 'AGG']
+    strategy_assets = ['EQ:%s' % symbol for symbol in strategy_symbols]
+    strategy_universe = StaticUniverse(strategy_assets)
+
+    # To avoid loading all CSV files in the directory, set the
+    # data source to load only those provided symbols
+    csv_dir = os.environ.get('QSTRADER_CSV_DATA_DIR', '.')
+    data_source = CSVDailyBarDataSource(csv_dir, Equity, csv_symbols=strategy_symbols)
+    data_handler = BacktestDataHandler(strategy_universe, data_sources=[data_source])
+
+    # Construct an Alpha Model that simply provides
+    # static allocations to a universe of assets
+    # In this case 60% SPY ETF, 40% AGG ETF,
+    # rebalanced at the end of each month
+    strategy_alpha_model = FixedSignalsAlphaModel({'EQ:SPY': 0.6, 'EQ:AGG': 0.4})
+    strategy_backtest = BacktestTradingSession(
+        start_dt,
+        end_dt,
+        strategy_universe,
+        strategy_alpha_model,
+        rebalance='end_of_month',
+        long_only=True,
+        cash_buffer_percentage=0.01,
+        data_handler=data_handler
+    )
+    strategy_backtest.run()
+
+    # Construct benchmark assets (buy & hold SPY)
+    benchmark_assets = ['EQ:SPY']
+    benchmark_universe = StaticUniverse(benchmark_assets)
+
+    # Construct a benchmark Alpha Model that provides
+    # 100% static allocation to the SPY ETF, with no rebalance
+    benchmark_alpha_model = FixedSignalsAlphaModel({'EQ:SPY': 1.0})
+    benchmark_backtest = BacktestTradingSession(
+        start_dt,
+        end_dt,
+        benchmark_universe,
+        benchmark_alpha_model,
+        rebalance='buy_and_hold',
+        long_only=True,
+        cash_buffer_percentage=0.01,
+        data_handler=data_handler
+    )
+    benchmark_backtest.run()
+
+    # JSON Output
+    backtest_statistics = JSONStatistics(
+        equity_curve = strategy_backtest.get_equity_curve(),
+        strategy_name = "sixty_forty",
+        output_filename = "sixty_forty_test_%s.json" % socket.gethostname(),
+        target_allocations = pd.DataFrame()
+    )
+    backtest_statistics.to_file()</code>
+</pre>
+
+<p>Once you have modified the file, copied across the CSV files and saved them to the shared storage directory on the master node you should have everything ready to execute QSTrader using SLURM.</p>
+
+<p>Now we will create our first <em>batch file</em> which we will run using the command <code>sbatch</code>. This command is the usual way to run SLURM jobs. It takes a number of configuration flags and a shell script or batch file. The top of the batch file includes a <a href="https://en.wikipedia.org/wiki/Shebang_(Unix)" target="blank" rel="noopener noreferrer">shebang</a> which will tell SLURM what the required resources are to run the job. Inside the primary node create the batch file, we have chosen to name our batch file "sub_test_qstrader.sh" but you can call it anything you wish. Ensure that the file extension is .sh. Open the file in your chosen text editor.</p>
+
+<pre>
+<code class="language-bash">touch sub_test_qstrader.sh
+vim sub_test_qstrader.sh</code>
+</pre>
+
+<p>As we are attempting to test QSTrader across all nodes we will use the <code>#SBATCH --nodelist</code> flag to run the commands across a specified list of nodes and we use srun to execute the commands. Add the following lines to the shell script, remembering to replace YOUR_NODE_NAME with the hostname of your nodes and PATH_TO_YOUR_ENV with the path to your virtual environment. If you are unsure how to find this, SSH into one of the Raspberry Pis and activate the virtual environment as normal. Then type <code>echo $VIRTUAL_ENV</code>. This will give you the path.</p>
+
+<pre>
+<code class="language-bash">#!/bin/bash
+#SBATCH --job-name="test_qstrader"
+#SBATCH -D .
+#SBATCH --output=./logs_%j.out
+#SBATCH --error=./logs_%j.err
+#SBATCH --nodes=3
+#SBATCH --ntasks-per-node=1
+#SBATCH --nodelist=YOUR_NODE_NAME[02,03,04]
+
+srun /PATH_TO_YOUR_VENV/backtest/bin/python3 sixty_forty.py</code>
+</pre>
+
+<p>Once you have saved the file you can execute the job by typing</p>
+
+<pre>
+<code class="language-bash">sbatch sub_test_qstrader.sh</code>
+</pre>
+
+<p>The <code>#SBATCH</code> flags are almost identical to those used with srun. A full list can be found by typing <code>sbatch --help</code> into the terminal. The difference between the sbatch and srun flags is that the sbatch flag aren't automaticallly relaunched on specified nodes or cores. The job is instead run on the first core of the first node allcoated to it. The shebang at the top of this file tells SLURM how to allocate our job. Let's look at what each flag is doing.</p>
+
+<ul>
+  <li><code>--job-name</code>  Names the job for ease of identification.</li>
+  <li><code>--chdir</code>  The directory the job will run in. We have set it to the current directory. You could instead add the line <code>cd $SLURM_SUBMIT_DIR</code> to the main body of the shell script.</li>
+  <li><code>--output</code>  Saves the standard output to a file for debugging. We have created a file "logs_%j.out" in the current directory, where %j is a placeholder for the SLURM job number.</li>
+  <li><code>--error</code>  Similar to --output but saves the standard error.</li>
+  <li><code>--nodes</code>  The number of nodes you wish to use to run the job.</li>
+  <li><code>--ntasks-per-node</code>  Number of tasks to be carried out on each node.</li>
+  <li><code>--nodelist</code>  Requests specific hosts You will need to use the name of your nodes.</li>
+</ul>
+
+<p>The key flag here is the <code>--nodelist</code>. This ensures that all the commands will be run on each node. As we are testing the software we want to make sure that we are performing this action on all the nodes. We will not need to use this parameter in future, it is only necessary here as a test to ensure that we are running QSTrader on all nodes.</p>
+
+<p>While QSTrader is running we will take a look at another SLURM command <code>squeue</code>. This command allows you to view scheduled jobs. The default view displays the following.</p>
+
+<pre>
+<code class="language-none">squeue
+JOBID PARTITION     NAME               USER ST       TIME  NODES NODELIST(REASON)
+    57 mycluster qstrader-test    ubuntu  R       0:03      3     node_name[02-04]</code>
+</pre>
+
+<p>The most important parameter here to note is the ST parameter, which stands for STATUS. A status code of R means the job is running. It is possible to have SLURM send an email once the job has completed. For now we will just use squeue to see if the job has completed.</p>
+
+<p>The other useful command to run is <code>sinfo -lNe</code>. This will allow you to see the nodes running, the partition and the number of CPUS in use.</p>
+
+<pre>
+<code class="language-none">NODELIST   NODES  PARTITION       STATE CPUS    S:C:T MEMORY TMP_DISK WEIGHT AVAIL_FE REASON              
+node02       1 mycluster*       mixed    4    4:1:1      1        0      1   (null) none                
+node03       1 mycluster*       mixed    4    4:1:1      1        0      1   (null) none                
+node04       1 mycluster*       mixed    4    4:1:1      1        0      1   (null) none </code>
+</pre>
+
+<p>Once the backtest has finished you will have a JSON output file for each of your secondary nodes. As this is a test and we have not varied any of the parameters for the backtests each of these files will contain the same information, the results of a backtest of the sixty-forty strategy holding SPY and AGG. 
+Let's have a look at how to access the information and carry out some simple plots to show first the Equity Curve, compare drawdowns and returns and also the Annual Returns Distribution.</p>
+
+<h2>Plotting the Backtest Statistics</h2>
+<p>In order to analyse and plot the information generated we will be using Pandas and Matplotlib. As our Raspberry Pi server is headless we will not be able to visualise any plots on the system. To visualise the plots you will need to create them on a system that has a GUI so that Matplotlib can generate a window to display the image. This can be done by using <scp> and copying the output file to your preferred host GUI system. If this host system also has QSTrader installed you can make use of the <code>TearsheetStatistics</code> class to plot the tearsheet. Once you have one of the output files inside your chosen environment for analysis open up a python console and carry out the following imports.</p>
+
+<pre>
+<code class="language-python">import json
+import pandas as pd
+import matplotlib.pyplot as plt</code>
+</pre>
+
+<p>We can now access the information in our output file using the <code>json.load()</code> method from the standard library. Remember to replace YOUR_FILE_NAME with the name of the output file from QSTrader that you are using.</p>
+
+<pre>
+<code class="language-python">bt = json.load(open("YOUR_FILE_NAME.json", 'r'))</code>
+</pre>
+
+<p>Our variable <code>bt</code> is a dictionary of dictionaries that contains the information from the backtest. We can see the information stored by calling <code>bt['strategy'].keys()</code>.</p>
+
+<pre>
+<code class="language-none">>>> bt['strategy'].keys()
+dict_keys(['equity_curve', 'returns', 'cum_returns', 'monthly_agg_returns', 'monthly_agg_returns_hc', 'yearly_agg_returns', 'yearly_agg_returns_hc', 'returns_quantiles', 'returns_quantiles_hc', 'drawdowns', 'max_drawdown', 'max_drawdown_duration', 'mean_returns', 'stdev_returns', 'cagr', 'annualised_vol', 'sharpe', 'sortino', 'target_allocations'])</code>
+</pre>
+
+<p>The QSTrader backtest returns a number of useful statistics which we can use to investigate the performance of the strategy. Let's plot the equity curve. First we create a Pandas DataFrame from the equity_curve key. We set the Date as the index.</p>
+
+<pre>
+<code class="language-python">equity_df = pd.DataFrame(bt['strategy']['equity_curve'], columns=['Date', 'Equity']).set_index('Date')
+>>> equity_df
+                     Equity
+Date                       
+1064880000000  1.000000e+06
+1064966400000  1.010972e+06
+1065052800000  1.012555e+06
+1065139200000  1.015287e+06
+1065398400000  1.018659e+06
+...                     ...
+1664236800000  3.476039e+06
+1664323200000  3.538717e+06
+1664409600000  3.487817e+06
+1664496000000  3.452970e+06
+1664755200000  3.518063e+06
+
+[4960 rows x 1 columns]</code>
+</pre>
+
+<p>As you can see the date is stored as the Unix timestamp in milliseconds as an integer. This is the number of milliseconds since January 1st, 1970, 00:00:00. We can convert the date to a human readable format using the following command.</p>
+
+<pre>
+<code class="language-python">equity_df.index = pd.to_datetime(equity_df.index, unit='ms')
+>>> equity_df
+                  Equity
+Date                    
+2003-09-30  1.000000e+06
+2003-10-01  1.010972e+06
+2003-10-02  1.012555e+06
+2003-10-03  1.015287e+06
+2003-10-06  1.018659e+06
+...                  ...
+2022-09-27  3.476039e+06
+2022-09-28  3.538717e+06
+2022-09-29  3.487817e+06
+2022-09-30  3.452970e+06
+2022-10-03  3.518063e+06
+
+[4960 rows x 1 columns]</code>
+</pre>
+
+<p>You can plot and visualise the plot using the following commands.</p>
+
+<pre>
+<code class="language-none">equity_df.plot()
+AxesSubplot:xlabel='Date'
+>>> plt.show()</code>
+</pre>
+
+<figure>
+  <img src="https://quantstartmedia.s3.amazonaws.com/images/article-images/articles/raspberry-pi-cluster-for-qstrader-using-slurm-part-4/equity.png" alt="Equity Curve from the test of QSTrader install on SLURM">
+  <figcaption>Equity Curve from the Sixty-Forty test Strategy.</figcaption>
+</figure>
+
+<p>To compare the drawdowns and returns we will need to create two DataFrames and concatenate them together.</p>
+
+<pre>
+<code class="language-python">cumret_df = pd.DataFrame(bt['strategy']['cum_returns'], columns=['Date', 'cum_rets']).set_index('Date')
+>>>drawdown_df = pd.DataFrame(bt['strategy']['drawdowns'], columns=['Date', 'drawndowns']).set_index('Date')
+>>>result = pd.concat([eq_df, cumret_df, drawdown_df],axis=1)</code>
+</pre>
+
+<p>We can now plot them as we did before</p>
+
+<pre>
+<code class="language-none">result.plot()
+AxesSubplot:xlabel='Date'
+>>> plt.show()</code>
+</pre>
+
+<figure>
+  <img src="https://quantstartmedia.s3.amazonaws.com/images/article-images/articles/raspberry-pi-cluster-for-qstrader-using-slurm-part-4/returns_drawdowns.png" alt="Plotting the returns and drawdowns from the test of QSTrader install on SLURM">
+  <figcaption>Comparing Returns and Drawdowns from the Sixty-Forty test Strategy.</figcaption>
+</figure>
+
+<p>Now let's generate the Annual Returns Distribution. This will require us to create subplots so that we can plot a KDE and a bar chart on the same figure.</p>
+<pre>
+<code class="language-python">fig, ax1 = plt.subplots()
+>>> ax1 = result['cum_rets'].plot.hist(bins=10)
+>>> ax2 = ax1.twinx()
+>>> ax2 = result['cum_rets'].plot.kde(color='black')
+>>> plt.show()</code>
+</pre>
+
+<figure>
+  <img src="https://quantstartmedia.s3.amazonaws.com/images/article-images/articles/raspberry-pi-cluster-for-qstrader-using-slurm-part-4/rets_dist.png" alt="Plotting the Annual Returns Distribution from the test of QSTrader install on SLURM">
+  <figcaption>Annualised Returns Distribution from the Sixty-Forty test Strategy.</figcaption>
+</figure>
+
+<p>If your host environment has a GUI and QSTrader installed you can use the <code>TearsheetStatistics</code> class to plot the tearsheet which is usually generated by QSTrader. This can be done simply by importing the TearsheetStatistics class and passing in the equity_df DataFrame we have just created.</p>
+
+<pre>
+<code class="language-python">from qstrader.statistics.tearsheet import TearsheetStatistics
+>>> tearsheet = TearsheetStatistics(strategy_equity=equity_df, title='60/40 US Equities/Bonds')
+>>> tearsheet.plot_results()
+Plotting the tearsheet...</code>
+</pre>
+
+<figure>
+  <img src="https://quantstartmedia.s3.amazonaws.com/images/article-images/articles/raspberry-pi-cluster-for-qstrader-using-slurm-part-4/tearsheet.png" alt="Plotting the Tearsheet from the test of QSTrader install on SLURM">
+  <figcaption>Tearsheet from the Sixty-Forty test Strategy.</figcaption>
+</figure>
+
+<p>This completes the installation and testing of QSTrader on the Raspberry Pi cluster. In the next article in the series we will be running a parameter sweep on a Momentum strategy.</p>
+        
+        
+        <h2>Related Articles</h2>
+        <ul>
+        
+        <li><a href="/articles/building-a-raspberry-pi-cluster-for-qstrader-using-slurm-part-3/">Building a Raspberry Pi Cluster for QSTrader using SLURM - Part 3</a></li>
+        
+        <li><a href="/articles/building-a-raspberry-pi-cluster-for-qstrader-using-slurm-part-2/">Building a Raspberry Pi Cluster for QSTrader using SLURM - Part 2</a></li>
+        
+        <li><a href="/articles/building-a-raspberry-pi-cluster-for-qstrader-using-slurm-part-1/">Building a Raspberry Pi Cluster for QSTrader using SLURM - Part 1</a></li>
+        
+        <li><a href="/articles/building-a-raspberry-pi-cluster-for-qstrader-using-slurm-part-5/">Building a Raspberry Pi Cluster for QSTrader Using SLURM - Part 5</a></li>
+        
+        </ul>
+        
+        <script async data-uid="6296c27f4b" src="https://weathered-brook-5281.ck.page/6296c27f4b/index.js"></script>
+      </section>
+    </div>
+    <div class="col-md-4 book-card order-md-1">
+      
+<div class="sidebar-advert-container">
+  <a href="/qsalpha/?ref=art">
+    <img class="card-img-top" src="/static/images/qsalpha-sidebar-advert-small.png" alt="QSAlpha">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/qsalpha/?ref=art">QSAlpha</a></h3>
+      <p class="card-text medium-text mb-3">Join the QSAlpha research platform that helps fill your strategy research pipeline, diversifies your portfolio and improves your risk-adjusted returns for increased profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/qsalpha/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/quantcademy/?ref=art">
+    <img class="card-img-top" src="/static/images/quantcademy-sidebar-advert-small.png" alt="Quantcademy">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/quantcademy/?ref=art">The Quantcademy</a></h3>
+      <p class="card-text medium-text mb-3">Join the Quantcademy membership portal that caters to the rapidly-growing retail quant trader community and learn how to increase your strategy profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/quantcademy/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/successful-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/sat-sidebar-advert-small.png" alt="Successful Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to find new trading strategy ideas and objectively assess them for your portfolio using a Python-based backtesting engine.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/successful-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/advanced-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/aat-sidebar-advert-small.png" alt="Advanced Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to implement advanced trading strategies using time series analysis, machine learning and Bayesian statistics with R and Python.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/advanced-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+    
+
+<footer>
+  <div class="container container-full">
+    <section class="mt-1.5 mb-1">
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">QuantStart</li>
+            <li class="footer-list-link"><a class="link-fade" href="/about/">About</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/articles/">Articles</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/sitemap/">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Products</li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qsalpha/">QSAlpha</a></li>
+            
+            
+            <li class="footer-list-link"><a class="link-fade" href="/quantcademy/">Quantcademy</a></li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qstrader/">QSTrader</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Legal</li>
+            <li class="footer-list-link"><a class="link-fade" href="/privacy-policy/">Privacy Policy</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/terms-and-conditions/">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Social</li>
+            <li class="footer-list-link"><a class="link-fade" href="https://twitter.com/quantstart">Twitter</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="https://www.youtube.com/channel/UCmVnnZ6Y2TrJtY1eQJN6kWA">YouTube</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="row mb-1.5 mt-5">
+      <div class="col-12 col-md-9 col-lg-8 col-xl-6">
+        <div class="footer-copyright">
+          <p>©2012-2023 QuarkGluon Ltd. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+<script src="/static/js/jquery-3.2.1.min.js"></script>
+<script src="/static/js/prism.js.min"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/nav.js"></script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5383959-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+    
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="/static/js/highcharts/highcharts.js"></script>
+<script type="text/javascript">
+  num_colours = 10;
+</script>
+<script src="/static/js/statistics.js"></script>
+
+
+  </body>
+</html>

@@ -1,0 +1,501 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-site-verification" content="wl3-8ed1QZjI0iYZMv10zoZWYElkMObTfwLlWIj9cpA" />
+    <meta name="description" content="In this article we will be discussing how to set up a Python environment for algorithmic trading in 2022. We will set up a virtual environment and plot 5 years of stock data.">
+
+    <link rel="icon" href="/static/images/favicon.png">
+
+    <title>Installing an Algorithmic Trading Research Environment with Python on Mac | QuantStart</title>
+    
+    
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet"> 
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/prism.css" rel="stylesheet">
+<link href="/static/css/qs.css?v=10" rel="stylesheet">
+    
+  </head>
+
+  <body>
+    <header class="header covered-header" style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://quantstartmedia.s3.amazonaws.com/images/article-images/article-backgrounds/hiring-a-software-developer-to-code-up-a-trading-strategy.jpg);">
+  
+<nav class="nav">
+  <div class="container nav-container">
+    <div class="nav-row row d-flex justify-content-between align-items-center">
+      <div class="col-2">
+        <ul class="nav-items justify-content-end small-capitals align-items-center">
+          <li class="nav-item">
+            <a class="link-fade" href="/">QuantStart</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-auto col-logo">
+        <ul id="top-nav-menu" class="nav-items justify-content-end align-items-center">
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/qsalpha/">QSAlpha</a>
+          </li>
+          
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/quantcademy/">Quantcademy</a>
+          </li>
+          
+          <li id="menu-link-ebooks" class="nav-item">
+            <a class="link-fade" href="#">Books</a>
+            <div id="menu-pane-ebooks" class="nav-items menu-dropdown-pane">
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/qstrader/">QSTrader</a>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/articles/">Articles</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/members/login/">Login</a>
+          </li>
+          
+        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<nav id="mobile-nav" class="mobile-nav text-left">
+  <div class="container">
+    <ul class="mt-4 ml-3 mobile-nav-menu">
+      <li class="nav-item">
+        <a class="link-fade d-block" href="/">QuantStart</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qsalpha/">QSAlpha</a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/quantcademy/">Quantcademy</a>
+      </li>
+      
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="#">Books</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qstrader/">QSTrader</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/articles/">Articles</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/members/login/">Login</a>
+      </li>
+      
+    </ul>
+    <button class="nav-toggle mobile-nav-close">
+      <svg id="mobile-nav-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M19.77,5.63,13.41,12l6.36,6.37a1,1,0,0,1-1.41,1.41L12,13.41,5.63,19.77a1,1,0,0,1-1.44-1.39l0,0L10.58,12,4.21,5.63a1,1,0,0,1,0-1.42,1,1,0,0,1,1.41,0l0,0L12,10.58l6.37-6.37a1,1,0,0,1,1.41,0A1,1,0,0,1,19.77,5.63Z"></path>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+  <div class="container hero-container">
+    <section class="mt-5 mb-4">
+      <div class="row justify-content-center">
+        <div class="col-12 text-center">
+          <p class="hero">Installing an Algorithmic Trading Research Environment with Python on Mac</p>
+          <p class="hero subhero">In this article we will be discussing how to set up a Python environment for algorithmic trading in 2022. We will set up a virtual environment and plot 5 years of stock data.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</header>
+    
+<section class="container content-container">
+  <div class="row">
+    <div class="col-md-8 order-md-2">
+      <section class="content article-content">
+        
+        
+        <p><em>Updated January 2023. At time of writing Pandsa DataReader no longer supports Yahoo data due to an API change. This article has been updated to reflect the change.</em></p>
+
+<p>In the early days of QuantStart we posted an article on setting up an <a href="https://www.quantstart.com/articles/Installing-a-Desktop-Algorithmic-Trading-Research-Environment-using-Ubuntu-Linux-and-Python" target="blank" rel="noopener noreferrer">Algorithmic Trading Research Environment with Ubuntu Linux and Python</a>. In 2013 when the article was first written, installing Python was not a trivial task. Problems with GCC compilers, cross dependencies between libraries and operating system intricacies all played a role in making the job of installing Python much harder than it needed to be. These days the problem is largely solved. In fact there are now so many options for installing Python that it is easy to get confused.</p>
+
+<figure>
+  <img src="https://imgs.xkcd.com/comics/python_environment.png" alt="Flow chart of may different Python istallation from XKCD" style="padding-bottom:20px;">
+  <figcaption><a href=" https://xkcd.com/1987/">XKCD</a>'s image for a typical Python Environment</figcaption>
+</figure>
+
+<p>There are many different approaches you can take to installing Python, and there are plenty of contradictory opinions on the best appraoch. With that in mind it is better to choose the method based on how you intend to use the programming language. If you plan to use Python to explore algorithmic trading then this article will show you how to get an environment up and running in the simplest way. If you are familiar with programming and installing software then you might prefer to install the <a href="https://www.python.org/" target="blank" rel="noopener noreferrer">Official Python Distribution</a>. There is an excellent tutorial on for this method <a href="https://realpython.com/installing-python/#what-your-options-are">here</a>.</p>
+
+<p>Currently we recommend using the Anaconda Python distribution by Continuum Analytics. The main reasons for this are discussed below. 
+  <ul>
+    <li>Anaconda comes with everything you need to get started analysing your data. <br> To quote their website <em>Anaconda is a Python and R distribution that aims to provide everything you need (python wise) for data science tasks</em>.</li>
+    <li>Anaconda comes with <strong>Conda</strong>. <br> Conda is a package manager that allows you to install, upgrade and uninstall all your Python libraries. It can install from pre-built conda packages and it can build from source code. Conda also allows you to create and manage your virtual environments.</li>
+    <li> Anaconda works well with Jupyter Notebooks. <br>By using IPyKernel you can quickly and easily hook up your virtual environments to your notebooks.</li>
+  </ul>
+</p>
+
+<p>When you install Ananconda you get immediate access to over 1500 Python libraries including NumPy, SciPy, Pandas, Beautiful Soup and Requests. As you will see in later tutorials you can even control the versions of these libraries by creating your own virtual environments. Some of the criticisms of Anaconda have been that it is bloated, not all of the packages are relevant and it takes up too much space. If you would prefer a more streamlined version Continuum Analytics offers <strong>Miniconda</strong> which gives you access to Python and the Conda package manager, but you will have to install all the libraries yourself. If you have limited disk space and feel this is a better option for you there is a good tutorial on installing Miniconda <a href="https://katiekodes.com/setup-python-windows-miniconda/" target="blank" rel="noopener noreferrer">here</a>.</p>
+
+<div class="bs-callout bs-callout-info">
+<h4>Installing Anaconda</h4>
+<p>This post is part of a series on how to install the Anaconda Python distribution on different operating systems. In this post we will discuss how to install Anaconda3 version 2021.11 (Python 3.9), on <strong>Mac OS X</strong>. This will require 530 Mb of free space. Please ensure you have that much room available before you begin. Other posts in the series concentrate on installation with:
+  <ul>
+    <li><a href="https://www.quantstart.com/articles/installing-an-algorithmic-trading-research-environment-with-python-on-linux/" target="blank" rel="noopener noreferrer">Linux with Ubuntu</a></li>
+    <li><a href="https://www.quantstart.com/articles/installing-an-algorithmic-trading-research-environment-with-python-on-windows/" target="blank" rel="noopener noreferrer">Windows</a></li>
+  </ul>
+</p>
+</div>
+
+<h2 id='mac_install'>Installing Anaconda on Mac OS X</h2>
+<p>Open up your web browser and head to the following address: <a href='https://www.anaconda.com/products/individual' target="blank" rel="noopener noreferrer">https://www.anaconda.com/products/individual</a> The website should determine the correct download for your system.</p> 
+
+<figure>
+  <img src='s3://quantstartmedia/images/article-images/articles/Installing-an-Algorithmic-Trading-Research-Environmemt-with-Python-2022-Mac/anaconda-download.png' alt='Image of Anaconda Individual edition download screen' style="padding-bottom:20px;">
+  <figcaption>Anaconda Individual edition download screen</figcaption>
+</figure>
+
+<p>Click the green download button. Your download should begin immediately. Once the download is complete the installer will open and and you will be taken to the Anaconda setup wizard.</p>
+
+<figure>
+  <img src='https://quantstartmedia.s3.amazonaws.com/images/article-images/articles/Installing-an-Algorithmic-Trading-Research-Environmemt-with-Python-2022-Mac/anaconda-download-complete.png' alt='Image of complete download' style='padding-bottom: 20px'>
+  <figcaption>Completed Anaconda Download</figcaption>
+</figure>
+
+<figure>
+  <img src='https://quantstartmedia.s3.amazonaws.com/images/article-images/articles/Installing-an-Algorithmic-Trading-Research-Environmemt-with-Python-2022-Mac/anaconda-setup-1.png' alt='Anaconda Installation stage 1' style="padding-bottom: 20px;">
+  <figcaption>Anaconda Install 1</figcaption>
+</figure>
+
+<p>You will need to agree to the license agreement to continue the install</p>
+
+<figure>
+  <img src='https://quantstartmedia.s3.amazonaws.com/images/article-images/articles/Installing-an-Algorithmic-Trading-Research-Environmemt-with-Python-2022-Mac/anaconda-setup-2.png' alt='Anaconda license agreement' style="padding-bottom: 20px;">
+  <figcaption>Anaconda Install 2</figcaption>
+</figure>
+
+<p>Select how you wish to install Anaconda, we recommend installing just for the current user, and click next. You will then be asked to confirm your download location. We recommend leaving this as the default. The download will take 530Mb of space.</p>
+
+<figure>
+  <img src='https://quantstartmedia.s3.amazonaws.com/images/article-images/articles/Installing-an-Algorithmic-Trading-Research-Environmemt-with-Python-2022-Mac/anaconda-setup-3.png' alt='Anaconda install stage 3' style="padding-bottom: 20px;">
+  <figcaption>Anaconda Install 3</figcaption>
+</figure>
+
+<p>Once completed you should see a screen providing you with a link to download PyCharm, an Python IDE. You can download this at any time if you wish but it is not essential. Clicking next brings you to the final screen where you can click finish to complete the setup.</p>
+<figure>
+  <img src='https://quantstartmedia.s3.amazonaws.com/images/article-images/articles/Installing-an-Algorithmic-Trading-Research-Environmemt-with-Python-2022-Mac/anaconda-install-success.png' alt='Anaconda install success' style="padding-bottom: 20px;">
+  <figcaption>Anaconda Install Success</figcaption>
+</figure>
+
+<p>In order to check Python has been correctly installed we will open up the terminal. If you are unfamiliar with this application go to the search function and type <strong>terminal</strong>. This should bring up the following options.</p>
+<figure>
+  <img src='https://quantstartmedia.s3.amazonaws.com/images/article-images/articles/Installing-an-Algorithmic-Trading-Research-Environmemt-with-Python-2022-Mac/anaconda-terminal-search.png' alt='Mac Terminal Search' style="padding-bottom: 20px;">
+  <figcaption>Confirming Python Install 1</figcaption>
+</figure>
+
+<p>Select the Terminal. This will bring up the command line prompt or shell. Type <code>python</code> into the prompt and press enter. You should see a couple of lines of text telling you which version of Python you are running followed by three chevrons (>>>), this is the Python prompt, it indicates that you can enter Python commands. You are now in a Python console and can begin coding in Python.</p>
+<figure>
+  <img src='https://quantstartmedia.s3.amazonaws.com/images/article-images/articles/Installing-an-Algorithmic-Trading-Research-Environmemt-with-Python-2022-Mac/anaconda-prompt-test.png' alt='Mac Anaconda shell, python' style="padding-bottom: 20px;">
+  <figcaption>Confirming Python Install 2</figcaption>
+</figure>
+
+<p>Try typing <code>import pandas as pd</code> into the prompt. After pressing enter you will see that nothing has changed. you will be presented with a new line contianing the Python prompt. If you type <code>pd.__version__</code>and press enter you can find the version of the Pandas library you have just imported into the Anaconda prompt.</p>
+<figure>
+  <img src='https://quantstartmedia.s3.amazonaws.com/images/article-images/articles/Installing-an-Algorithmic-Trading-Research-Environmemt-with-Python-2022-Mac/anaconda-prompt-test-2.png' alt='Mac shell, pandas' style='padding-bottom: 20px'>
+  <figcaption>Confirming Python Install 3</figcaption>
+</figure>
+
+<p>To exit python and return to the Anaconda prompt you can simply type <code>exit()</code>. You are now back in the command line prompt.</p>
+
+<h3>Creating your first virtual environment</h3>
+<p>Once you have been using Python for a while or across multiple different projects you will quickly run into the issue of dependencies. A script you have written or a project you are working on may require you to use features that are available in the latest version of a Python library like Pandas, but you have other projects or scripts that use older versions. How do you manage and maintain your Python environment to allow you to run and work on both scripts or projects? The answer is to use a virtual environment.</p>
+
+<p>A virtual environment is an isolated Python environment that has its own dependencies, or in other words, its own versions of libraries and packages. Virtual environments can be created for each of your projects so that you can use whatever versions of libraries are necessary for each one. With Anaconda you can also specify versions of Python when you create them.</p>
+
+<p>One of the benefits of Anaconda is that it comes with the package manager Conda, which allows you to create virtual environments easily. Anaconda currently allows you to create virtual environments for Python 2.7, 3.5, 3.6, 3.7, 3.8 and 3.9. Most package versions can be found using conda or conda-forge or, as a last resort you can use the python package manager pip. <em>If you have used pip to install your libraries within your conda environments they will be installed into a different channel and you will not be able to uprade them using the command <code>conda upgrade</code>. If you prefer not to use anaconda as your Python distribution and have installed Python directly from the <a href="https://www.python.org/" target="blank" rel="noopener noreferrer">Official Python Distribution</a>, this same task can be accomplished using pyenv to obtain multiple versions of Python and pipenv or virtualenv to manage virtual environments. A good tutorial on this can be found <a href="https://realpython.com/python-virtual-environments-a-primer/" target="blank" rel="noopener noreferrer">here</a>.</em></p>
+
+<p>In the prompt you will notice that there is a prefix in brackets before the directory information about the user. This appears as <code>(base)</code> and indicates that you are in the base anaconda environment. Here you have access to all the packages that were downloaded and installed by Anaconda and if you type <code>python --version</code> into the prompt you will see that you are running the default version of Python in this case Python 3.9.7.</p>
+<figure>
+  <img src='https://quantstartmedia.s3.amazonaws.com/images/article-images/articles/Installing-an-Algorithmic-Trading-Research-Environmemt-with-Python-2022-Mac/anaconda-python-version.png' alt='Mac shell, checking the python version' style="padding-bottom: 20px;">
+  <figcaption>Confirming Python version in the base Anaconda environment</figcaption>
+</figure>
+
+<p>We'll now create a virtual environment with Python 3.8 and install some basic packages to display 5 years of Apple data with only a few lines of code. Let's create the environment first. In the anaconda prompt enter the following line</p> 
+
+<pre>
+<code class="language-bash">conda create -n py3.8 python=3.8</code>
+</pre>
+
+<p>The first part "conda create -n" uses the package manager conda to create a new environment. The second part "py3.8" is the name of the environment, this can be anything you want. If you forget the name of your environments you can use <code>conda env list</code> at anytime in the terminal to display a list of all the environments you have created. The final part "python=3.8" specifies that we want Python 3.8 to be our Python version for this environment. The prompt will then provide you with a list of what will be installed and downloaded into your environment and ask you if you are happy to proceed. Once complete you type the following into the terminal to activate the environment.</p>
+
+<pre>
+<code class="language-bash">conda activate py3.8</code>
+</pre>
+
+<p>You will notice that the prefix in brackets has changed to display <code>(py3.8)</code> We can now begin to add our dependencies.</p>
+<figure>
+  <img src='https://quantstartmedia.s3.amazonaws.com/images/article-images/articles/Installing-an-Algorithmic-Trading-Research-Environmemt-with-Python-2022-Mac/conda-py3.8.png' alt='Mac shell, creating a virtual environment' style="padding-bottom: 20px;">
+  <figcaption>Creating a virtual environment</figcaption>
+</figure>
+
+<p>In order to view our stock data we need to install only three libraries: <a href="https://pandas.pydata.org/" target="blank" rel="noopener noreferrer">Pandas</a> to analyse and plot our data and <a href="https://pandas-datareader.readthedocs.io/en/latest/index.html" target="blank" rel="noopener noreferrer">Pandas-datareader</a> to obtain our data. Finally <a href="https://matplotlib.org/" target="blank" rel="noopener noreferrer">Matplotlib</a> which will allow us to plot our data using the Pandas plotting interface. In the prompt type the following:</p>
+
+<pre>
+<code class="language-bash">conda install pandas pandas-datareader matplotlib</code>
+</pre> 
+
+
+<p>We will begin by importing our libraries into our namespace to obtain and analyse our data.</p>
+
+<pre>
+<code class="language-python">import matplotlib.pyplot as plt
+import pandas as pd
+import pandas_datareader.data as web</code>
+</pre>
+
+<p>This takes care of the libraries we need to import. Now we can begin to obtain our data. We can use Pandsa DataReader to obtain 5 years of stock data and place it directly into a DataFrame object. The following command will get OHLCV Apple data from Stooq.com. Pandas-Datareader allows you to download data from multiple sources including Quandl, AlphaVantage and IEX. A full list of data sources can be found <a href="https://pandas-datareader.readthedocs.io/en/latest/remote_data.html" target="blank" rel="noopener noreferrer">here</a>.</p>
+
+<pre>
+  <code class="language-python">
+  aapl = web.DataReader("AAPL", "stooq")</code>
+</pre>
+
+<p>We now have five years of Apple data stored as a DataFrame. We can display the first fews rows using the Pandas command <code>aapl.head()</code>.</p>
+
+<figure>
+  <img src='https://quantstartmedia.s3.amazonaws.com/images/article-images/articles/Installing-an-Algorithmic-Trading-Research-Environmemt-with-Python-2022-Mac/aapl-head.png' alt='Output from aapl.head' style="padding-bottom: 20px;">
+  <figcaption>Top rows from our Apple OHLC data</figcaption>
+</figure>
+
+<p>Plotting our data is simple using Pandas, just type the following lines:</p>
+
+<pre>
+  <code class="language-python">aapl.plot(y="Adj Close")
+  plt.show()</code>
+</pre>
+
+<p>Notice that the last line of code uses <code>plt.show()</code>. This command is making use of the Matplotlib.pyplot library that we imported at the start. It allows us to display the graph directly. The graph of Apple adjusted close price will open in a new window.</p>
+
+<figure>
+  <img src='https://quantstartmedia.s3.amazonaws.com/images/article-images/articles/Installing-an-Algorithmic-Trading-Research-Environmemt-with-Python-2022-Mac/aapl-graph.png' alt='Apple adjust close price graph' style="padding-bottom: 20px;">
+  <figcaption>Apple adjusted close price Nov 2016 to Nov 2021</figcaption>
+</figure>
+
+<p>And that's it! Using Pandas and Pandas-Datareader you can import multiple stocks, from different data providers. You can perform simple tasks from plotting the close price to building complex strategies all using just three open source Python libraries. The only issue with this approach is that once you exit the Python console you will lose all your work. You can exit the Python console by typing <code>exit()</code> and then deactivate your virtual enviroment by typing <code>conda deactivate</code>.</p>
+
+<p>In the next article we will be looking at how to use <strong>Jupyter Notebooks</strong> to build <strong>candlestick plots and moving averages</strong>.<em>There is a great conda cheat sheet available <a href="https://docs.conda.io/projects/conda/en/4.6.0/_downloads/52a95608c49671267e40c689e0bc00ca/conda-cheatsheet.pdf" target="blank" rel="noopener noreferrer">here</a>, it's a really useful reference in case you need to quickly check a command.</em></p>
+        
+        
+        <h2>Related Articles</h2>
+        <ul>
+        
+        <li><a href="/articles/installing-an-algorithmic-trading-research-environment-with-python-on-windows/">Installing an Algorithmic Trading Research Environment with Python on Windows</a></li>
+        
+        <li><a href="/articles/installing-an-algorithmic-trading-research-environment-with-python-on-linux/">Installing an Algorithmic Trading Research Environment with Python on Linux</a></li>
+        
+        <li><a href="/articles/creating-an-algorithmic-trading-prototyping-environment-with-jupyter-notebooks-and-plotly/">Creating an Algorithmic Trading Prototyping Environment with Jupyter Notebooks and Plotly</a></li>
+        
+        </ul>
+        
+        <script async data-uid="6296c27f4b" src="https://weathered-brook-5281.ck.page/6296c27f4b/index.js"></script>
+      </section>
+    </div>
+    <div class="col-md-4 book-card order-md-1">
+      
+<div class="sidebar-advert-container">
+  <a href="/qsalpha/?ref=art">
+    <img class="card-img-top" src="/static/images/qsalpha-sidebar-advert-small.png" alt="QSAlpha">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/qsalpha/?ref=art">QSAlpha</a></h3>
+      <p class="card-text medium-text mb-3">Join the QSAlpha research platform that helps fill your strategy research pipeline, diversifies your portfolio and improves your risk-adjusted returns for increased profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/qsalpha/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/quantcademy/?ref=art">
+    <img class="card-img-top" src="/static/images/quantcademy-sidebar-advert-small.png" alt="Quantcademy">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/quantcademy/?ref=art">The Quantcademy</a></h3>
+      <p class="card-text medium-text mb-3">Join the Quantcademy membership portal that caters to the rapidly-growing retail quant trader community and learn how to increase your strategy profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/quantcademy/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/successful-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/sat-sidebar-advert-small.png" alt="Successful Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to find new trading strategy ideas and objectively assess them for your portfolio using a Python-based backtesting engine.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/successful-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/advanced-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/aat-sidebar-advert-small.png" alt="Advanced Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to implement advanced trading strategies using time series analysis, machine learning and Bayesian statistics with R and Python.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/advanced-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+    
+
+<footer>
+  <div class="container container-full">
+    <section class="mt-1.5 mb-1">
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">QuantStart</li>
+            <li class="footer-list-link"><a class="link-fade" href="/about/">About</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/articles/">Articles</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/sitemap/">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Products</li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qsalpha/">QSAlpha</a></li>
+            
+            
+            <li class="footer-list-link"><a class="link-fade" href="/quantcademy/">Quantcademy</a></li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qstrader/">QSTrader</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Legal</li>
+            <li class="footer-list-link"><a class="link-fade" href="/privacy-policy/">Privacy Policy</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/terms-and-conditions/">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Social</li>
+            <li class="footer-list-link"><a class="link-fade" href="https://twitter.com/quantstart">Twitter</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="https://www.youtube.com/channel/UCmVnnZ6Y2TrJtY1eQJN6kWA">YouTube</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="row mb-1.5 mt-5">
+      <div class="col-12 col-md-9 col-lg-8 col-xl-6">
+        <div class="footer-copyright">
+          <p>©2012-2023 QuarkGluon Ltd. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+<script src="/static/js/jquery-3.2.1.min.js"></script>
+<script src="/static/js/prism.js.min"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/nav.js"></script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5383959-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+    
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="/static/js/highcharts/highcharts.js"></script>
+<script type="text/javascript">
+  num_colours = 10;
+</script>
+<script src="/static/js/statistics.js"></script>
+
+
+  </body>
+</html>

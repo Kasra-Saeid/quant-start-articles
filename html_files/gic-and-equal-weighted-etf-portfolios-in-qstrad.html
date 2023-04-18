@@ -1,0 +1,753 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-site-verification" content="wl3-8ed1QZjI0iYZMv10zoZWYElkMObTfwLlWIj9cpA" />
+    <meta name="description" content="Strategic and Equal Weighted ETF Portfolios in QSTrader">
+
+    <link rel="icon" href="/static/images/favicon.png">
+
+    <title>Strategic and Equal Weighted ETF Portfolios in QSTrader | QuantStart</title>
+    
+    
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet"> 
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/prism.css" rel="stylesheet">
+<link href="/static/css/qs.css?v=10" rel="stylesheet">
+    
+  </head>
+
+  <body>
+    <header class="header covered-header" style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://quantstartmedia.s3.amazonaws.com/images/article-images/article-backgrounds/default-bg.jpg);">
+  
+<nav class="nav">
+  <div class="container nav-container">
+    <div class="nav-row row d-flex justify-content-between align-items-center">
+      <div class="col-2">
+        <ul class="nav-items justify-content-end small-capitals align-items-center">
+          <li class="nav-item">
+            <a class="link-fade" href="/">QuantStart</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-auto col-logo">
+        <ul id="top-nav-menu" class="nav-items justify-content-end align-items-center">
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/qsalpha/">QSAlpha</a>
+          </li>
+          
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/quantcademy/">Quantcademy</a>
+          </li>
+          
+          <li id="menu-link-ebooks" class="nav-item">
+            <a class="link-fade" href="#">Books</a>
+            <div id="menu-pane-ebooks" class="nav-items menu-dropdown-pane">
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/qstrader/">QSTrader</a>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/articles/">Articles</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/members/login/">Login</a>
+          </li>
+          
+        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<nav id="mobile-nav" class="mobile-nav text-left">
+  <div class="container">
+    <ul class="mt-4 ml-3 mobile-nav-menu">
+      <li class="nav-item">
+        <a class="link-fade d-block" href="/">QuantStart</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qsalpha/">QSAlpha</a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/quantcademy/">Quantcademy</a>
+      </li>
+      
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="#">Books</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qstrader/">QSTrader</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/articles/">Articles</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/members/login/">Login</a>
+      </li>
+      
+    </ul>
+    <button class="nav-toggle mobile-nav-close">
+      <svg id="mobile-nav-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M19.77,5.63,13.41,12l6.36,6.37a1,1,0,0,1-1.41,1.41L12,13.41,5.63,19.77a1,1,0,0,1-1.44-1.39l0,0L10.58,12,4.21,5.63a1,1,0,0,1,0-1.42,1,1,0,0,1,1.41,0l0,0L12,10.58l6.37-6.37a1,1,0,0,1,1.41,0A1,1,0,0,1,19.77,5.63Z"></path>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+  <div class="container hero-container">
+    <section class="mt-5 mb-4">
+      <div class="row justify-content-center">
+        <div class="col-12 text-center">
+          <p class="hero">Strategic and Equal Weighted ETF Portfolios in QSTrader</p>
+          <p class="hero subhero">Strategic and Equal Weighted ETF Portfolios in QSTrader</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</header>
+    
+<section class="container content-container">
+  <div class="row">
+    <div class="col-md-8 order-md-2">
+      <section class="content article-content">
+        
+        
+        <p>In a <a href="https://www.quantstart.com/articles/monthly-rebalancing-of-etfs-with-fixed-initial-weights-in-qstrader">previous article</a> the monthly rebalance feature of the open-source backtesting library <a href="https://github.com/mhallsmoore/qstrader/">QSTrader</a> was demonstrated on a simplistic equities/bonds ETF mix portfolio.</p>
+
+<p>In this article new streamlined code will be presented to allow straightforward modification of the portfolio weightings. In particular two new portfolios of ETFs will be presented, influenced by by a recent post<sup><a href="#ref-picerno2016a">[1]</a></sup> at <a href="http://www.capitalspectator.com/">The Capital Spectator</a>.</p>
+
+<p>The first will contain a "strategic" weighting of ETFs mixing US equities (large and small-cap), US bonds (investment grade and high-yield), emerging markets equities and "alternative assets" such as commodities and <a href="https://en.wikipedia.org/wiki/Real_estate_investment_trust">REITs</a>. The second contains the same set of ETFs albeit with an equal dollar weighting as opposed to a strategic mix.</p>
+
+<p>The performance between the two portfolios since late 2007 will be analysed and discussed.</p>
+
+<h2>The Trading Strategies</h2>
+
+<p>The trading strategies are extremely similar and only vary in portfolio weightings and starting dates.</p>
+
+<p>At the end of every month the strategy fully liquidates the portfolio and then rebalances each asset to be dollar-weighted according to the current account equity.</p>
+
+<p>The first strategy simply carries a 60%/40% weighting of SPY and AGG, representing large-cap US equities and investment grade bonds respectively.</p>
+
+<p>The second strategy provides a 30% allocation to US equities via SPY and IJS, 25% to emerging markets equities via EFA and EEM, 25% to US bonds (investment grade and high-yield) via AGG and JNK, 10% allocation to commodities via DJP and finally 10% allocation to real estate investment trusts (REIT).</p>
+
+<p>The third strategy uses the same set of ETFs as the second strategy but utilises equal weighting at 12.5% for all eight.</p>
+
+<p>The starting dates are varied solely on the availability of data. Strategy #1 begins on the 29th September 2003, while strategies #2 and #3 begin on the 4th December 2007. All strategies end on the 12th October 2016.</p>
+
+<table class="table">
+  <tr>
+    <th>Ticker</th>
+    <th>#1 - 60/40 US Equities/Bonds</th>
+    <th>#2 - "Strategic" Weight</th>
+    <th>#3 - Equal Weight</th>
+  </tr>
+  <tr>
+    <td>SPY</td>
+    <td>60.0%</td>
+    <td>25.0%</td>
+    <td>12.5%</td>
+  </tr>
+  <tr>
+    <td>IJS</td>
+    <td>0.0%</td>
+    <td>5.0%</td>
+    <td>12.5%</td>
+  </tr>
+  <tr>
+    <td>EFA</td>
+    <td>0.0%</td>
+    <td>20.0%</td>
+    <td>12.5%</td>
+  </tr>
+  <tr>
+    <td>EEM</td>
+    <td>0.0%</td>
+    <td>5.0%</td>
+    <td>12.5%</td>
+  </tr>
+  <tr>
+    <td>AGG</td>
+    <td>40.0%</td>
+    <td>20.0%</td>
+    <td>12.5%</td>
+  </tr>
+  <tr>
+    <td>JNK</td>
+    <td>0.0%</td>
+    <td>5.0%</td>
+    <td>12.5%</td>
+  </tr>
+  <tr>
+    <td>DJP</td>
+    <td>0.0%</td>
+    <td>10.0%</td>
+    <td>12.5%</td>
+  </tr>
+  <tr>
+    <td>RWR</td>
+    <td>0.0%</td>
+    <td>10.0%</td>
+    <td>12.5%</td>
+  </tr>
+</table>
+
+<h2>Data</h2>
+
+<p>In order to carry out this strategy it is necessary to have OHLCV pricing data for the ETFs in the period covered by this backtest:
+
+<table class="table">
+  <tr>
+    <th>Ticker</th>
+    <th>Name</th>
+    <th>Period</th>
+    <th>Link</th>
+  </tr>
+  <tr>
+    <td>SPY</td>
+    <td>SPDR S&P 500 ETF</td>
+    <td>29th September 2003 - 12th October 2016</td>
+    <td><a href="http://real-chart.finance.yahoo.com/table.csv?s=SPY&d=9&e=14&f=2016&g=d&a=0&b=29&c=1993&ignore=.csv">Yahoo Finance</a></td>
+  </tr>
+  <tr>
+    <td>IJS</td>
+    <td>iShares S&P Small-Cap 600 Value ETF</td>
+    <td>4th December 2007 - 12th October 2016</td>
+    <td><a href="http://real-chart.finance.yahoo.com/table.csv?s=IJS&d=9&e=14&f=2016&g=d&a=6&b=28&c=2000&ignore=.csv">Yahoo Finance</a></td>
+  </tr>
+  <tr>
+    <td>EFA</td>
+    <td>iShares MSCI EAFE ETF</td>
+    <td>4th December 2007 - 12th October 2016</td>
+    <td><a href="http://real-chart.finance.yahoo.com/table.csv?s=EFA&d=9&e=14&f=2016&g=d&a=7&b=27&c=2001&ignore=.csv">Yahoo Finance</a></td>
+  </tr>
+  <tr>
+    <td>EEM</td>
+    <td>iShares MSCI Emerging Markets ETF</td>
+    <td>4th December 2007 - 12th October 2016</td>
+    <td><a href="http://real-chart.finance.yahoo.com/table.csv?s=EEM&d=9&e=14&f=2016&g=d&a=3&b=14&c=2003&ignore=.csv">Yahoo Finance</a></td>
+  </tr>
+  <tr>
+    <td>AGG</td>
+    <td>iShares Core US Aggregate Bond ETF</td>
+    <td>29th September 2003 - 12th October 2016</td>
+    <td><a href="http://real-chart.finance.yahoo.com/table.csv?s=AGG&d=9&e=14&f=2016&g=d&a=8&b=29&c=2003&ignore=.csv">Yahoo Finance</a></td>
+  </tr>
+  <tr>
+    <td>JNK</td>
+    <td>SPDR Barclays Capital High Yield Bond ETF</td>
+    <td>4th December 2007 - 12th October 2016</td>
+    <td><a href="http://real-chart.finance.yahoo.com/table.csv?s=JNK&d=9&e=14&f=2016&g=d&a=11&b=4&c=2007&ignore=.csv">Yahoo Finance</a></td>
+  </tr>
+  <tr>
+    <td>DJP</td>
+    <td>iPath Bloomberg Commodity Index Total Return ETN</td>
+    <td>4th December 2007 - 12th October 2016</td>
+    <td><a href="http://real-chart.finance.yahoo.com/table.csv?s=DJP&d=9&e=14&f=2016&g=d&a=9&b=30&c=2006&ignore=.csv">Yahoo Finance</a></td>
+  </tr>
+  <tr>
+    <td>RWR</td>
+    <td>SPDR Dow Jones REIT ETF</td>
+    <td>4th December 2007 - 12th October 2016</td>
+    <td><a href="http://real-chart.finance.yahoo.com/table.csv?s=RWR&d=9&e=14&f=2016&g=d&a=7&b=27&c=2001&ignore=.csv">Yahoo Finance</a></td>
+  </tr>
+</table>
+
+<p>This data will need to placed in the directory specified by the QSTrader settings file if you wish to replicate the results.</p>
+
+<h2>Python QSTrader Implementation</h2>
+
+<p>The procedure for carrying out a backtest with a monthly full liquidation and rebalance is outlined in the <a href="https://www.quantstart.com/articles/monthly-rebalancing-of-etfs-with-fixed-initial-weights-in-qstrader">previous article</a>.</p>
+
+<p>In order to streamline the generation of multiple separate portfolios without excessive code duplication a new file called <code>monthly_rebalance_run.py</code> has been created. This contains the backtesting "boilerplate" code necessary to carry out a monthly full liquidation and rebalanced backtest.</p>
+
+<p>To generate the separate portfolio backtests for this article the function <code>run_monthly_rebalance</code> is imported from <code>monthly_rebalance_run.py</code>. It is then called with the benchmark ticker (SPY), the <code>ticker_weights</code> dictionary containing the ETF proportions, the tearsheet title text, start/end dates and account equity.</p>
+
+<p>This makes it extremely straightforward to modify portfolio composition assuming availability of the pricing data. As an example the code for the 60/40 US equities/bond mix is given by:</p>
+
+<pre>
+<code class="language-python"># equities_bonds_60_40_etf_portfolio_backtest.py
+
+import datetime
+
+from qstrader import settings
+from monthly_rebalance_run import run_monthly_rebalance
+
+
+if __name__ == "__main__":
+    ticker_weights = {
+        "SPY": 0.6,
+        "AGG": 0.4,
+    }
+    run_monthly_rebalance(
+        settings.DEFAULT_CONFIG_FILENAME, False, "",
+        "SPY", ticker_weights, "US Equities/Bonds 60/40 Mix ETF Strategy",
+        datetime.datetime(2003, 9, 29), datetime.datetime(2016, 10, 12),
+        500000.00
+    )</code>
+</pre>
+
+<p>The code for other portfolio compositions can be found in the "Full Code" section at the end of the article, although they are very similar to the above snippet.</p>
+
+<p>To run any of the backtests it is necessary to change directory to the location of the <code>monthly_rebalance_run.py</code> file and then type the following into the console:</p>
+
+<pre>
+<code class="language-bash">$ python equities_bonds_60_40_etf_portfolio_backtest.py</code>
+</pre>
+
+<p><em>Remember to change the filename depending upon which backtest you wish to run.</em></p>
+
+<h2>Strategy Results</h2>
+
+<h3>Transaction Costs</h3>
+
+<p>The strategy results presented here are given <em>net</em> of transaction costs. The costs are simulated using <a href="https://www.interactivebrokers.co.uk/en/index.php?f=1590&p=stocks1">Interactive Brokers US equities fixed pricing for shares in North America</a>. They do not take into account commission differences for ETFs, but they are reasonably representative of what could be achieved in a real trading strategy.</p>
+
+<h3>US Equities/Bonds 60/40 ETF Portfolio</h3>
+
+<p>The strategy itself is identical to that in the <a href="https://www.quantstart.com/articles/monthly-rebalancing-of-etfs-with-fixed-initial-weights-in-qstrader">previous post</a> and has been republished here due to the use of additional historic data stretching back to 2003.</p>
+
+<p>The tearsheet for the strategy is given below:</p>
+
+<p style="text-align:center;">
+  <a href="https://s3.amazonaws.com/quantstartmedia/images/qs-qstrader-etf-strategy-60-40-tearsheet.png">
+    <img width="100%" src="https://s3.amazonaws.com/quantstartmedia/images/qs-qstrader-etf-strategy-60-40-tearsheet.png">
+  </a>
+</p>
+
+<p><em>Click the image for a larger view.</em></p>
+
+<p><em>The benchmark is provided by a buy-and-hold portfolio (i.e. no monthly rebalancing) solely of the SPY ETF.</em></p>
+
+<p>The Sharpe Ratio of the benchmark and this portfolio are identical at 0.4. Hence we are accepting a higher maximum drawdown by only investing in SPY. The CAGR of the strategy is 4.43%, which is lower than the 5.92% of SPY. This is due to transaction costs of carrying out the rebalancing as well as the underperformance of AGG with respect to SPY.</p>
+
+<p>AGG did somewhat cushion the vast drawdown of 2008 for the portfolio but not by a significant amount. Because of the 2008/2009 crash the portfolio is underwater for 1242 days—almost 3 1/2 years—compared to the benchmark's 1365 days. Be aware however that this period has had a dramatic effect on nearly any ETF portfolio.</p>
+
+<h3>"Strategic" Weight ETF Portfolio</h3>
+
+<p>The tearsheet for the strategy is given below:</p>
+
+<p style="text-align:center;">
+  <a href="https://s3.amazonaws.com/quantstartmedia/images/qs-qstrader-etf-strategy-strategic-tearsheet.png">
+    <img width="100%" src="https://s3.amazonaws.com/quantstartmedia/images/qs-qstrader-etf-strategy-strategic-tearsheet.png">
+  </a>
+</p>
+
+<p><em>Click the image for a larger view.</em></p>
+
+<p><em>The benchmark is provided by a buy-and-hold portfolio (i.e. no monthly rebalancing) solely of the SPY ETF.</em></p>
+
+<p>In the strategic weight portfolio an attempt was made to replicate the portfolio over at this post<sup><a href="#ref-picerno2016a">[1]</a></sup>. However, suitable instruments could not be found to replicate the specific indices of VWEXH, RPIBX, PREMX and VGSIX. These represent US junk bonds, foreign developed markets bonds, emerging markets bonds and US REITs respectively.</p>
+
+<p>In addition it was difficult to locate sufficient data for ETFs intended to represent RPIBX and PREMX, namely VWOB (Vanguard Emerging Markets Govt Bd ETF) and BNDX (Vanguard Total International Bond ETF). The latter two only began trading in late 2013, which meant only a 36-month period backtest. Such a duration is not sufficiently long to produce representative performance for a monthly rebalance strategy.</p>
+
+<p>Hence the universe was reduced to eight ETFs compared to ten in the aforementioned post. They are outlined above in the "Data" section. Instead the portfolio is weighted 30% to US equities, 25% to emerging markets equities, 25% to US bonds, 10% to commodities and 10% to real estate.</p>
+
+<p>The performance of this strategy is far worse than the 60/40 portfolio. It has a negative CAGR. Some of the pressure on the returns are a consequence of trading in eight separate securities every month. However nearly all other ETFs in the portfolio underperformed SPY by a wide margin, dragging the returns down significantly.</p>
+
+<p>Commodities and fixed income in particular have not had good performance over the last five years relative to US equities.</p>
+
+<p>This suggests that an equal weighting will likely make things far worse. In the next section the strategy for equal weighting is carried out.</p>
+
+<h3>Equal Weight ETF Portfolio</h3>
+
+<p>The tearsheet for the strategy is given below:</p>
+
+<p style="text-align:center;">
+  <a href="https://s3.amazonaws.com/quantstartmedia/images/qs-qstrader-etf-strategy-equal-tearsheet.png">
+    <img width="100%" src="https://s3.amazonaws.com/quantstartmedia/images/qs-qstrader-etf-strategy-equal-tearsheet.png">
+  </a>
+</p>
+
+<p><em>Click the image for a larger view.</em></p>
+
+<p><em>The benchmark is provided by a buy-and-hold portfolio (i.e. no monthly rebalancing) solely of the SPY ETF.</em></p>
+
+<p>As expected the performance of this portfolio is indeed significantly worse than either the strategic weighting or the 60/40 mix. The portfolio remains underwater from 2008 onwards and posts a CAGR of almost -5%. The maximum daily drawdown of this strategy is just under 73%.</p>
+
+<p>However it is also clear that nearly all of the drawdown is a consequence of the 2008 financial crisis. Had the backtest been carried out a year later the results would likely have been quite different, albeit still underperforming with regards to SPY.</p>
+
+<p>In summary it is clearly relatively tricky to construct an equal-weighted or dollar-weighted portfolio that can weather significant market events such as the 2008 crash. In future posts we will investigate ways of mitigating against such problems.</p>
+
+<h2>Next Steps</h2>
+
+<p>The unequal volatility, as measured by historic standard deviations of returns, of the various asset classes motivates the concept of <a href="https://en.wikipedia.org/wiki/Risk_parity">risk parity</a>, whereby capital is allocated on the basis of "risk" rather than dollar-weighting.</p>
+
+<p>Risk parity requires historical calculations over streams of returns and thus has a fundamentally different structure to the strategies outlined above. A future version of QSTrader will enable calculations of this sort, such that a wide variety of risk parity portfolios can be constructed in an attempt to increase Sharpe Ratios.</p>
+
+<h2>References</h2>
+
+<ul>
+  <li><a name="ref-picerno2016a" href="http://www.capitalspectator.com/is-equal-weighting-beneficial-for-asset-allocation">[1] Picerno, J. (2016) <em>Is Equal Weighting Beneficial For Asset Allocation?</em>, http://www.capitalspectator.com/is-equal-weighting-beneficial-for-asset-allocation</a></li>
+</ul>
+
+<h2>Full Code</h2>
+
+<pre>
+<code class="language-python"># monthly_rebalance_run.py
+
+import datetime
+
+import click
+
+from qstrader import settings
+from qstrader.compat import queue
+from qstrader.price_parser import PriceParser
+from qstrader.price_handler.yahoo_daily_csv_bar import YahooDailyCsvBarPriceHandler
+from qstrader.strategy.monthly_liquidate_rebalance_strategy import MonthlyLiquidateRebalanceStrategy
+from qstrader.strategy import Strategies, DisplayStrategy
+from qstrader.position_sizer.rebalance import LiquidateRebalancePositionSizer
+from qstrader.risk_manager.example import ExampleRiskManager
+from qstrader.portfolio_handler import PortfolioHandler
+from qstrader.compliance.example import ExampleCompliance
+from qstrader.execution_handler.ib_simulated import IBSimulatedExecutionHandler
+from qstrader.statistics.tearsheet import TearsheetStatistics
+from qstrader.trading_session.backtest import Backtest
+
+
+def run_monthly_rebalance(
+    config, testing, filename, 
+    benchmark, ticker_weights, title_str, 
+    start_date, end_date, equity
+):
+    config = settings.from_file(config, testing)
+    tickers = [t for t in ticker_weights.keys()]
+
+    # Set up variables needed for backtest
+    events_queue = queue.Queue()
+    csv_dir = config.CSV_DATA_DIR
+    initial_equity = PriceParser.parse(equity)
+
+    # Use Yahoo Daily Price Handler
+    price_handler = YahooDailyCsvBarPriceHandler(
+        csv_dir, events_queue, tickers,
+        start_date=start_date, end_date=end_date
+    )
+
+    # Use the monthly liquidate and rebalance strategy
+    strategy = MonthlyLiquidateRebalanceStrategy(tickers, events_queue)
+    strategy = Strategies(strategy, DisplayStrategy())
+
+    # Use the liquidate and rebalance position sizer
+    # with prespecified ticker weights
+    position_sizer = LiquidateRebalancePositionSizer(ticker_weights)
+
+    # Use an example Risk Manager
+    risk_manager = ExampleRiskManager()
+
+    # Use the default Portfolio Handler
+    portfolio_handler = PortfolioHandler(
+        initial_equity, events_queue, price_handler,
+        position_sizer, risk_manager
+    )
+
+    # Use the ExampleCompliance component
+    compliance = ExampleCompliance(config)
+
+    # Use a simulated IB Execution Handler
+    execution_handler = IBSimulatedExecutionHandler(
+        events_queue, price_handler, compliance
+    )
+
+    # Use the default Statistics
+    title = [title_str]
+    statistics = TearsheetStatistics(
+        config, portfolio_handler, title, benchmark
+    )
+
+    # Set up the backtest
+    backtest = Backtest(
+        price_handler, strategy,
+        portfolio_handler, execution_handler,
+        position_sizer, risk_manager,
+        statistics, initial_equity
+    )
+    results = backtest.simulate_trading(testing=testing)
+    statistics.save(filename)
+    return results</code>
+</pre>
+
+<pre>
+<code class="language-python"># equities_bonds_60_40_etf_portfolio_backtest.py
+
+import datetime
+
+from qstrader import settings
+from monthly_rebalance_run import run_monthly_rebalance
+
+
+if __name__ == "__main__":
+    ticker_weights = {
+        "SPY": 0.6,
+        "AGG": 0.4,
+    }
+    run_monthly_rebalance(
+        settings.DEFAULT_CONFIG_FILENAME, False, "",
+        "SPY", ticker_weights, "US Equities/Bonds 60/40 Mix ETF Strategy",
+        datetime.datetime(2003, 9, 29), datetime.datetime(2016, 10, 12),
+        500000.00
+    )</code>
+</pre>
+
+<pre>
+<code class="language-python"># strategic_weight_etf_portfolio_backtest.py
+
+import datetime
+
+from qstrader import settings
+from monthly_rebalance_run import run_monthly_rebalance
+
+
+if __name__ == "__main__":
+    ticker_weights = {
+        "SPY": 0.25,
+        "IJS": 0.05,
+        "EFA": 0.20,
+        "EEM": 0.05,
+        "AGG": 0.20,
+        "JNK": 0.05,
+        "DJP": 0.10,
+        "RWR": 0.10 
+    }
+    run_monthly_rebalance(
+        settings.DEFAULT_CONFIG_FILENAME, False, "",
+        "SPY", ticker_weights, "Strategic Weight ETF Strategy",
+        datetime.datetime(2007, 12, 4), datetime.datetime(2016, 10, 12),
+        500000.00
+    )</code>
+</pre>
+
+<pre>
+<code class="language-python"># equal_weight_etf_portfolio_backtest.py
+
+import datetime
+
+from qstrader import settings
+from monthly_rebalance_run import run_monthly_rebalance
+
+
+if __name__ == "__main__":
+    ticker_weights = {
+        "SPY": 0.125,
+        "IJS": 0.125,
+        "EFA": 0.125,
+        "EEM": 0.125,
+        "AGG": 0.125,
+        "JNK": 0.125,
+        "DJP": 0.125,
+        "RWR": 0.125 
+    }
+    run_monthly_rebalance(
+        settings.DEFAULT_CONFIG_FILENAME, False, "",
+        "SPY", ticker_weights, "Equal Weight ETF Strategy",
+        datetime.datetime(2007, 12, 4), datetime.datetime(2016, 10, 12),
+        500000.00
+    )</code>
+</pre>
+        
+        
+        <script async data-uid="6296c27f4b" src="https://weathered-brook-5281.ck.page/6296c27f4b/index.js"></script>
+      </section>
+    </div>
+    <div class="col-md-4 book-card order-md-1">
+      
+<div class="sidebar-advert-container">
+  <a href="/qsalpha/?ref=art">
+    <img class="card-img-top" src="/static/images/qsalpha-sidebar-advert-small.png" alt="QSAlpha">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/qsalpha/?ref=art">QSAlpha</a></h3>
+      <p class="card-text medium-text mb-3">Join the QSAlpha research platform that helps fill your strategy research pipeline, diversifies your portfolio and improves your risk-adjusted returns for increased profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/qsalpha/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/quantcademy/?ref=art">
+    <img class="card-img-top" src="/static/images/quantcademy-sidebar-advert-small.png" alt="Quantcademy">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/quantcademy/?ref=art">The Quantcademy</a></h3>
+      <p class="card-text medium-text mb-3">Join the Quantcademy membership portal that caters to the rapidly-growing retail quant trader community and learn how to increase your strategy profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/quantcademy/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/successful-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/sat-sidebar-advert-small.png" alt="Successful Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to find new trading strategy ideas and objectively assess them for your portfolio using a Python-based backtesting engine.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/successful-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/advanced-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/aat-sidebar-advert-small.png" alt="Advanced Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to implement advanced trading strategies using time series analysis, machine learning and Bayesian statistics with R and Python.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/advanced-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+    
+
+<footer>
+  <div class="container container-full">
+    <section class="mt-1.5 mb-1">
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">QuantStart</li>
+            <li class="footer-list-link"><a class="link-fade" href="/about/">About</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/articles/">Articles</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/sitemap/">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Products</li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qsalpha/">QSAlpha</a></li>
+            
+            
+            <li class="footer-list-link"><a class="link-fade" href="/quantcademy/">Quantcademy</a></li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qstrader/">QSTrader</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Legal</li>
+            <li class="footer-list-link"><a class="link-fade" href="/privacy-policy/">Privacy Policy</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/terms-and-conditions/">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Social</li>
+            <li class="footer-list-link"><a class="link-fade" href="https://twitter.com/quantstart">Twitter</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="https://www.youtube.com/channel/UCmVnnZ6Y2TrJtY1eQJN6kWA">YouTube</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="row mb-1.5 mt-5">
+      <div class="col-12 col-md-9 col-lg-8 col-xl-6">
+        <div class="footer-copyright">
+          <p>©2012-2023 QuarkGluon Ltd. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+<script src="/static/js/jquery-3.2.1.min.js"></script>
+<script src="/static/js/prism.js.min"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/nav.js"></script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5383959-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+    
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="/static/js/highcharts/highcharts.js"></script>
+<script type="text/javascript">
+  num_colours = 10;
+</script>
+<script src="/static/js/statistics.js"></script>
+
+
+  </body>
+</html>

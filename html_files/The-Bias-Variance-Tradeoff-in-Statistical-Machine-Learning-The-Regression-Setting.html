@@ -1,0 +1,508 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-site-verification" content="wl3-8ed1QZjI0iYZMv10zoZWYElkMObTfwLlWIj9cpA" />
+    <meta name="description" content="The Bias-Variance Tradeoff in Statistical Machine Learning - The Regression Setting">
+
+    <link rel="icon" href="/static/images/favicon.png">
+
+    <title>The Bias-Variance Tradeoff in Statistical Machine Learning - The Regression Setting | QuantStart</title>
+    
+    
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet"> 
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/prism.css" rel="stylesheet">
+<link href="/static/css/qs.css?v=10" rel="stylesheet">
+    
+  </head>
+
+  <body>
+    <header class="header covered-header" style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://quantstartmedia.s3.amazonaws.com/images/article-images/article-backgrounds/default-bg.jpg);">
+  
+<nav class="nav">
+  <div class="container nav-container">
+    <div class="nav-row row d-flex justify-content-between align-items-center">
+      <div class="col-2">
+        <ul class="nav-items justify-content-end small-capitals align-items-center">
+          <li class="nav-item">
+            <a class="link-fade" href="/">QuantStart</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-auto col-logo">
+        <ul id="top-nav-menu" class="nav-items justify-content-end align-items-center">
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/qsalpha/">QSAlpha</a>
+          </li>
+          
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/quantcademy/">Quantcademy</a>
+          </li>
+          
+          <li id="menu-link-ebooks" class="nav-item">
+            <a class="link-fade" href="#">Books</a>
+            <div id="menu-pane-ebooks" class="nav-items menu-dropdown-pane">
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/qstrader/">QSTrader</a>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/articles/">Articles</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/members/login/">Login</a>
+          </li>
+          
+        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<nav id="mobile-nav" class="mobile-nav text-left">
+  <div class="container">
+    <ul class="mt-4 ml-3 mobile-nav-menu">
+      <li class="nav-item">
+        <a class="link-fade d-block" href="/">QuantStart</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qsalpha/">QSAlpha</a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/quantcademy/">Quantcademy</a>
+      </li>
+      
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="#">Books</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qstrader/">QSTrader</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/articles/">Articles</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/members/login/">Login</a>
+      </li>
+      
+    </ul>
+    <button class="nav-toggle mobile-nav-close">
+      <svg id="mobile-nav-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M19.77,5.63,13.41,12l6.36,6.37a1,1,0,0,1-1.41,1.41L12,13.41,5.63,19.77a1,1,0,0,1-1.44-1.39l0,0L10.58,12,4.21,5.63a1,1,0,0,1,0-1.42,1,1,0,0,1,1.41,0l0,0L12,10.58l6.37-6.37a1,1,0,0,1,1.41,0A1,1,0,0,1,19.77,5.63Z"></path>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+  <div class="container hero-container">
+    <section class="mt-5 mb-4">
+      <div class="row justify-content-center">
+        <div class="col-12 text-center">
+          <p class="hero">The Bias-Variance Tradeoff in Statistical Machine Learning - The Regression Setting</p>
+          <p class="hero subhero">The Bias-Variance Tradeoff in Statistical Machine Learning - The Regression Setting</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</header>
+    
+<section class="container content-container">
+  <div class="row">
+    <div class="col-md-8 order-md-2">
+      <section class="content article-content">
+        
+        
+        <p>In this article I want to discuss one of the most important and tricky issues in machine learning, that of <em>model selection</em> and the <em>bias-variance tradeoff</em>. The latter is one of the most crucial issues in helping us achieve profitable trading strategies based on machine learning techniques.</p>
+
+<p><strong>Model selection</strong> refers to our ability to assess performance of differing machine learning models in order to choose the best one.</p>
+
+<p>The <strong>bias-variance tradeoff</strong> is a particular property of all (supervised) machine learning models, that enforces a tradeoff between how "flexible" the model is and how well it performs on unseen data. The latter is known as a models <em>generalisation performance</em>.</p>
+
+<p>We will begin by understanding why model selection is important and then discuss the bias-variance tradeoff qualitatively. We will wrap up the article by deriving the bias-variance tradeoff mathematically and discuss measures to minimise the problems it introduces.</p>
+
+<p>In this article we are considering <em>supervised regression models</em>. That is, models which are <em>trained</em> on a set of labelled training data and produce a <em>quantitative</em> response. An example of this would be attempting to predict future stock prices based on other factors such as past prices, interest rates or foreign exchange rates.</p>
+
+<p>This is in contrast to a <em>categorical</em> or binary response model as in the case of <em>supervised classification</em>. An example of a classification setting would be attempting to assign a topic to a text document, from a finite set of topics. The bias-variance and model selection situations for classification are extremely similar to the regression setting and simply require modification to handle the differing ways in which errors and performance are measured. We will discuss these modifications in a latter article.</p>
+
+<p><em>Note: If you wish to learn more about the basic model notation that we will use in this article, it is worth having a read of the <a href="http://www.quantstart.com/articles/Beginners-Guide-to-Statistical-Machine-Learning-Part-I">article on the basics of statistical machine learning</a>.</em></p>
+
+<h2>Machine Learning Models</h2>
+
+<p>As with most of our discussions in machine learning the basic model is given by the following:</p>
+
+\begin{eqnarray}
+Y = f(X) + \epsilon
+\end{eqnarray}
+
+<p>This states that the response vector, $Y$, is given as a (potentially non-linear) function, $f$, of the predictor vector, $X$, with a set of normally distributed error terms that have mean zero and a standard deviation of one.</p>
+
+<p>What does this mean in practice?</p>
+
+<p>As an example, our vector $X$ could represent a set of lagged financial prices. It could also represent interest rates, derivatives prices, real-estate prices, word-frequencies in a document or any other factor that we consider useful in making a <em>prediction</em>.</p>
+
+<p>The vector $Y$ could be single or multi-valued. In the former case it might simply represent tomorrow's stock price, in the latter case it might represent the next week's daily predicted prices.</p>
+
+<p>$f$ represents our view on the underlying relationship between $Y$ and $X$. This could be <em>linear</em>, in which case we may <em>estimate</em> $f$ via a linear regression model. It may be <em>non-linear</em>, in which case we may estimate $f$ with a Support Vector Machine or a spline-based method, for instance.</p>
+
+<p>The error terms $\epsilon$ represent all of the factors that affect $Y$ that we haven't taken into account with our function $f$. They are essentially the "unknown" components of our prediction model. It is commmon to assume that these are normally distributed with mean zero and a standard deviation of one.</p>
+
+<p>In this article we are going to describe how to <strong>measure the performance</strong> of an estimate for the (unknown) function $f$. Such an estimate uses "hat" notation. Hence, $\hat{f}$ can be read as "the estimate of $f$".</p>
+
+<p>In addition we will describe the effect on the performance of the model as we make it more <em>flexible</em>. Flexibility describes the ability to increase the <em>degrees of freedom</em> available to the model to "fit" to the training data. We will see that the relationship between flexibility and performance error is non-linear and thus we need to be extremely careful when choosing the "best" model.</p>
+
+<p>Note that there is never a "best" model across the entirety of statistics and machine learning. <strong>Different models have varying strengths and weaknesses.</strong> One model may work very well on one dataset, but may perform badly on another. The challenge in statistical machine learning is to pick the "best" model for the problem at hand with the data available.</p>
+
+<h2>Model Selection</h2>
+
+<p>When trying to ascertain which statistical machine learning method is best we need some means of characterising the relative performance between models.</p> 
+
+<p>To achieve this we need to compare the <em>known values of the underlying relationship</em> with those that are <em>predicted by an estimated model</em>.</p>
+
+<p>For instance, if we are attempting to predict tomorrow's stock prices, then we wish to evaluate how close our models predictions are to the true value on that particular day.</p>
+
+<p>This motivates the concept of a <strong>loss function</strong>, which quantitatively compares the difference between the true values with the predicted values.</p>
+
+<p>Let's assume that we have created an estimate $\hat{f}$ of the underlying relationship $f$. $\hat{f}$ might be a linear regression or a Random Forest model, for instance. $\hat{f}$ will have been trained on a particular data set, $\tau$, which contains predictor-response pairs. If there are $N$ such pairs then $\tau$ is given by:</p>
+
+\begin{eqnarray}
+\tau = \{ (X_1, Y_1), ..., (X_N, Y_N) \}
+\end{eqnarray}
+
+<p>The $X_i$ represent the prediction factors, which could be prior lagged prices for a series or some other factors, as mentioned above. The $Y_i$ could be the predictions for our stock prices in the following period. In this instance, $N$ represents the number of days of data that we have available.</p>
+
+<p>The loss function is denoted by $L(Y, \hat{f}(X))$. Its job is to compare the predictions made by $\hat{f}$ at particular values of $X$ to their true values given by $Y$. A common choice for $L$ is the <em>absolute error</em>:</p>
+
+\begin{eqnarray}
+L(Y, \hat{f}(X)) = |Y - \hat{f}(X)|
+\end{eqnarray}
+
+<p>Another popular choice is the <em>squared error</em>:</p>
+
+\begin{eqnarray}
+L(Y, \hat{f}(X)) = (Y - \hat{f}(X))^2
+\end{eqnarray}
+
+<p>Note that both choices of loss function are non-negative. Hence the "best" loss for a model is zero, that is, there is no difference between the prediction and the true value.</p>
+
+<h3>Training Error versus Test Error</h3>
+
+<p>Now that we have a loss function we need some way of aggregating the various differences between the true values and the predicted values. One way to do this is to define the <strong>Mean Squared Error</strong> (MSE), which is simply the average, or expectation value, of the squared loss:</p>
+
+\begin{eqnarray}
+MSE := \frac{1}{N} \sum^{N}_{i=1} (Y_i - \hat{f}(X_i))^2
+\end{eqnarray}
+
+<p>The definition simply states that the Mean Squared Error is the average of all of the squared differences between the true values $Y_i$ and the predicted values $\hat{f}(X_i)$. A smaller MSE means that the estimate is more accurate.</p>
+
+<p>It is important to realise that this MSE value is computed using only the <em>training</em> data. That is, it is computed using only the data that the model was fitted on. Hence, it is actually known as the <strong>training MSE</strong>.</p>
+
+<p>In practice this value is of little interest to us. What we are really concerned about is how well the model can predict values on new unseen data.</p>
+
+<p>For instance, we are not really interested in how well the model can predict <em>past</em> stock prices of the following day, we are only concerned with how it can predict the following days stock prices <em>going forward</em>. This quantification of a models performance is known as its <em>generalisation performance</em>. It is what we are <em>really</em> interested in.</p>
+
+<p>Mathematically, if we have a new prediction value $X_0$ and a true response $Y_0$, then we wish to take the expectation across all such new values to come up with the <strong>test MSE</strong>:</p>
+
+\begin{eqnarray}
+\text{Test MSE} := \mathbb{E}\left[ (Y_0 - \hat{f}(X_0))^2 \right]
+\end{eqnarray}
+
+<p>Where the expectation is taken across all new unseen predictor-response pairs $(X_0, Y_0)$.</p>
+
+<p>Our goal is to select the model where the <em>test MSE</em> is lowest across choices of other models.</p>
+
+<p>Unfortunately it is difficult to calculate the test MSE! This is because we are often in a situation where we <em>do not have any test data available</em>.</p>
+
+<p>In general machine learning domains this can be quite common. In quantitative trading we are (usually) in a "data rich" environment and thus we can retain some of our data for training and some for testing. In future articles we will discuss <em>cross-validation</em>, which is one means of utilising subsets of the training data in order to <em>estimate</em> the <em>test</em> MSE.</p>
+
+<p>A pertinent question to ask at this stage is "Why can we not simply use the model with the lowest <em>training</em> MSE?". The simple answer is that we are unable to use this approach because there is no guarantee that the model with the lowest <em>training</em> MSE will also be the model with the lowest <em>test</em> MSE. Why is this so? The answer lies in a particular property of statistical machine learning methods known as the <strong>bias-variance tradeoff</strong>.</p>
+
+<h2>The Bias-Variance Tradeoff</h2>
+
+<p>Let's consider a slightly contrived situation where we know the underlying "true" relationship between $Y$ and $X$, which I will state is given by a sinusoidal function, $f = \sin$, such that $Y = f(X) = \sin(X)$. Note that in reality we will not ever know the underlying $f$, which is why we are estimating it in the first place!</p>
+
+<p>For this contrived situation I have created a set of training points, $\tau$, given by $Y_i = \sin(X_i) + \epsilon_i$, where $\epsilon_i$ are draws from a standard normal distribution (mean of zero, standard deviation equal to one). This can be seen in Figure 1. The black curve is the "true" function $f$, restricted to the interval $[0, 2 \pi]$, while the circled points represent the $Y_i$ simulated data values.</p>
+
+<p style="text-align:center">
+  <img src="https://s3.amazonaws.com/quantstartmedia/images/qs-bias-variance-fig1.png" width="100%" />
+  <strong>Figure 1 - Various estimates of the underlying sinusoidal model, $f=\sin$.</strong>
+</p>
+
+<p>We can now try to fit a few different models to this training data. The first model, given by the green line, is a linear regression fitted with ordinary least squares estimation. The second model, given by the blue line, is a polynomial model with degree $m=3$. The third model, given by the red curve is a higher degree polynomial with degree $m=20$. Between each of the models I have varied the <em>flexibility</em>, that is, the <em>degrees of freedom</em> (DoF). The linear model is the <em>least flexible</em> with only two DoF. The most flexible model is the polynomial of order $m=20$. It can be seen that the polynomial of order $m=3$ is the apparent closest fit to the underlying sinusoidal relationship.</p>
+
+<p>For each of these models we can calculate the <em>training</em> MSE. It can be seen in Figure 2 that the training MSE (given by the green curve) decreases monotonically as the flexibility of the model increases. This makes sense, since the polynomial fit can become as flexible as we need it to in order to minimise the difference between its values and those of the sinusoidal data.</p>
+
+<p style="text-align:center">
+  <img src="https://s3.amazonaws.com/quantstartmedia/images/qs-bias-variance-fig2.png" width="100%" />
+  <strong>Figure 2 - Training MSE and Test MSE as a function of model flexibility.</strong>
+</p>
+
+<p>However, if we plot the <em>test</em> MSE (given by the blue curve) the situation is vastly different. The test MSE initially decreases as we increase the flexibility of the model but eventually starts to increase again after we introduce a lot of flexibility. Why is this? By allowing the model to be extremely flexible we are letting it fit to "patterns" in the training data.</p> 
+
+<p>However, as soon as we introduce new unseen data points in the test set the model cannot generalise well because these "patterns" are only random artifacts of the training data and are not an underlying property of the true sinusoidal form. We are in a situation of <em>overfitting</em>.</p>
+
+<p>In fact, this property of a "u-shaped" test MSE as a function of model flexibility is an intrinsic property of statistical machine learning models, known as the <strong>bias-variance tradeoff</strong>.</p>
+
+<p>It can be shown (see below in the <em>Mathematical Explanation</em> section) that the <strong>expected test MSE</strong>, where the expectation is taken across many training sets, is given by:</p>
+
+\begin{eqnarray}
+\mathbb{E}(Y_0 - \hat{f}(X_0))^2 = \text{Var}(\hat{f}(X_0)) + \left[ \text{Bias} \hat{f}(X_0)\right]^2 + \text{Var}(\epsilon)
+\end{eqnarray}
+
+<p>The first term on the right hand side is the <em>variance</em> of the estimate across many training sets. It determines how much the average model estimation deviates as different training data is tried. In particular, a model with high variance is suggestive that it is overfit to the training data.</p>
+
+<p>The middle term is the <em>squared bias</em>, which characterises the difference between the <em>averages</em> of the estimate and the true values. A model with high bias is not capturing the underlying behaviour of the true functional form well. One can imagine the situation where a linear regression is used to model a sine curve (as above). No matter how well "fit" to the data the model is, it will never capture the non-linearity inherant in a sine curve.</p>
+
+<p>The final term is known as the <em>irreducible error</em>. It is the minimum lower bound for the test MSE. Since we only ever have access to the training data points (including the randomness associated with the $\epsilon$ values) we can't ever hope to get a "more accurate" fit than what the variance of the residuals offer.</p>
+
+<p>Generally, as flexibility increases we see an increase in variance and a decrease in bias. However it is the <em>relative</em> rate of change between these two factors that determines whether the <em>expected test MSE</em> increases or decreases.</p>
+
+<p>As flexibility is increased the bias will tend to drop quickly (faster than the variance can increase) and so we see a drop in test MSE. However, as flexibility increases further, there is less reduction in bias (because the flexibility of the model can fit the training data easily) and instead the variance rapidly increases, due to the model being overfit.</p>
+
+<p><strong>Our ultimate goal in machine learning is to try and minimise the <em>expected test MSE</em>, that is we must choose a statistical machine learning model that simultaneously has <em>low variance</em> and <em>low bias</em>.</strong></p>
+
+<p>In order to estimate the expected test MSE, we can use techniques such as <em>cross-validation</em>. Such techniques will be the subject of future articles.</p>
+
+<p>If you wish to gain a more mathematically precise definition of the bias-variance tradeoff then you can read the next section.</p>
+
+<h3>A More Mathematical Explanation</h3>
+
+<p>We've now qualitatively outlined the issues surrounding model flexibility, bias and variance. In the following box we are going to carry out a mathematical decomposition of the expected prediction error for a particular model estimate, $\hat{f}(X)$ with prediction vector $X=x_0$ using the latter of our loss functions, the squared-error loss:</p>
+
+<div class="bs-callout bs-callout-info">
+  <p>The definition of the squared error loss, at the prediction point $X_0$, is given by:</p>
+
+  \begin{eqnarray}
+  \text{Err} (X_0) = \mathbb{E} \left[ \left( Y - \hat{f}(X_0) \right)^2 | X = X_0 \right]
+  \end{eqnarray}
+
+  <p>However, we can expand the expectation on the right hand side into three terms:</p>
+
+  \begin{eqnarray}
+  \text{Err} (X_0) = \sigma^{2}_{\epsilon} + \left[ \mathbb{E} \hat{f} (X_0) - f(X_0)\right]^2 + \mathbb{E} \left[ \hat{f}(X_0) - \mathbb{E} \hat{f}(X_0) \right]^2
+  \end{eqnarray}
+
+  <p>The first term on the RHS is known as the <em>irreducible error</em>. It is the lower bound on the possible expected prediction error.</p>
+
+  <p>The middle term is the <em>squared bias</em> and represents the difference in the average value of all predictions at $X_0$, across all possible training sets, and the true mean value of the underlying function at $X_0$.</p>
+
+  <p>This can be thought of as the error introduced by the model in not representing the underlying behaviour of the true function. For example, using a linear model when the phenomena is inherently non-linear.</p>
+
+  <p>The third term is known as the <em>variance</em>. It characterises the error that is introduced as the model becomes more flexible, and thus more sensitive to variation across differing training sets, $\tau$.</p>
+
+  \begin{eqnarray}
+  \text{Err} (X_0) &=& \sigma^{2}_{\epsilon} + \text{Bias}^2 + \text{Var} (\hat{f}(X_0))\\
+                   &=& \text{Irreducible Error} + \text{Bias}^2 + \text{Variance}
+  \end{eqnarray}
+
+  <p>It is important to remember that $\sigma^{2}_\epsilon$ represents an <strong>absolute lower bound</strong> on the expected prediction error. While the expected training error can be reduced monotonically to zero (just by increasing model flexibility), the expected prediction error will always be at least the irreducible error, even if the squared bias and variance are both zero.</p>
+</div>
+
+<p>In future articles we will consider means of estimating the expected test MSE, via resampling techniques such as <strong>cross-validation</strong>. In addition we will consider how the situation differs when considering categorical classification problems.</p>
+        
+        
+        <script async data-uid="6296c27f4b" src="https://weathered-brook-5281.ck.page/6296c27f4b/index.js"></script>
+      </section>
+    </div>
+    <div class="col-md-4 book-card order-md-1">
+      
+<div class="sidebar-advert-container">
+  <a href="/qsalpha/?ref=art">
+    <img class="card-img-top" src="/static/images/qsalpha-sidebar-advert-small.png" alt="QSAlpha">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/qsalpha/?ref=art">QSAlpha</a></h3>
+      <p class="card-text medium-text mb-3">Join the QSAlpha research platform that helps fill your strategy research pipeline, diversifies your portfolio and improves your risk-adjusted returns for increased profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/qsalpha/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/quantcademy/?ref=art">
+    <img class="card-img-top" src="/static/images/quantcademy-sidebar-advert-small.png" alt="Quantcademy">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/quantcademy/?ref=art">The Quantcademy</a></h3>
+      <p class="card-text medium-text mb-3">Join the Quantcademy membership portal that caters to the rapidly-growing retail quant trader community and learn how to increase your strategy profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/quantcademy/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/successful-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/sat-sidebar-advert-small.png" alt="Successful Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to find new trading strategy ideas and objectively assess them for your portfolio using a Python-based backtesting engine.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/successful-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/advanced-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/aat-sidebar-advert-small.png" alt="Advanced Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to implement advanced trading strategies using time series analysis, machine learning and Bayesian statistics with R and Python.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/advanced-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+    
+
+<footer>
+  <div class="container container-full">
+    <section class="mt-1.5 mb-1">
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">QuantStart</li>
+            <li class="footer-list-link"><a class="link-fade" href="/about/">About</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/articles/">Articles</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/sitemap/">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Products</li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qsalpha/">QSAlpha</a></li>
+            
+            
+            <li class="footer-list-link"><a class="link-fade" href="/quantcademy/">Quantcademy</a></li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qstrader/">QSTrader</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Legal</li>
+            <li class="footer-list-link"><a class="link-fade" href="/privacy-policy/">Privacy Policy</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/terms-and-conditions/">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Social</li>
+            <li class="footer-list-link"><a class="link-fade" href="https://twitter.com/quantstart">Twitter</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="https://www.youtube.com/channel/UCmVnnZ6Y2TrJtY1eQJN6kWA">YouTube</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="row mb-1.5 mt-5">
+      <div class="col-12 col-md-9 col-lg-8 col-xl-6">
+        <div class="footer-copyright">
+          <p>©2012-2023 QuarkGluon Ltd. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+<script src="/static/js/jquery-3.2.1.min.js"></script>
+<script src="/static/js/prism.js.min"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/nav.js"></script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5383959-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+    
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="/static/js/highcharts/highcharts.js"></script>
+<script type="text/javascript">
+  num_colours = 10;
+</script>
+<script src="/static/js/statistics.js"></script>
+
+
+  </body>
+</html>

@@ -1,0 +1,546 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-site-verification" content="wl3-8ed1QZjI0iYZMv10zoZWYElkMObTfwLlWIj9cpA" />
+    <meta name="description" content="Implied Volatility in C++ using Template Functions and Interval Bisection">
+
+    <link rel="icon" href="/static/images/favicon.png">
+
+    <title>Implied Volatility in C++ using Template Functions and Interval Bisection | QuantStart</title>
+    
+    
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet"> 
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/prism.css" rel="stylesheet">
+<link href="/static/css/qs.css?v=10" rel="stylesheet">
+    
+  </head>
+
+  <body>
+    <header class="header covered-header" style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://quantstartmedia.s3.amazonaws.com/images/article-images/article-backgrounds/cpp.jpg);">
+  
+<nav class="nav">
+  <div class="container nav-container">
+    <div class="nav-row row d-flex justify-content-between align-items-center">
+      <div class="col-2">
+        <ul class="nav-items justify-content-end small-capitals align-items-center">
+          <li class="nav-item">
+            <a class="link-fade" href="/">QuantStart</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-auto col-logo">
+        <ul id="top-nav-menu" class="nav-items justify-content-end align-items-center">
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/qsalpha/">QSAlpha</a>
+          </li>
+          
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/quantcademy/">Quantcademy</a>
+          </li>
+          
+          <li id="menu-link-ebooks" class="nav-item">
+            <a class="link-fade" href="#">Books</a>
+            <div id="menu-pane-ebooks" class="nav-items menu-dropdown-pane">
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/qstrader/">QSTrader</a>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/articles/">Articles</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/members/login/">Login</a>
+          </li>
+          
+        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<nav id="mobile-nav" class="mobile-nav text-left">
+  <div class="container">
+    <ul class="mt-4 ml-3 mobile-nav-menu">
+      <li class="nav-item">
+        <a class="link-fade d-block" href="/">QuantStart</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qsalpha/">QSAlpha</a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/quantcademy/">Quantcademy</a>
+      </li>
+      
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="#">Books</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qstrader/">QSTrader</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/articles/">Articles</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/members/login/">Login</a>
+      </li>
+      
+    </ul>
+    <button class="nav-toggle mobile-nav-close">
+      <svg id="mobile-nav-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M19.77,5.63,13.41,12l6.36,6.37a1,1,0,0,1-1.41,1.41L12,13.41,5.63,19.77a1,1,0,0,1-1.44-1.39l0,0L10.58,12,4.21,5.63a1,1,0,0,1,0-1.42,1,1,0,0,1,1.41,0l0,0L12,10.58l6.37-6.37a1,1,0,0,1,1.41,0A1,1,0,0,1,19.77,5.63Z"></path>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+  <div class="container hero-container">
+    <section class="mt-5 mb-4">
+      <div class="row justify-content-center">
+        <div class="col-12 text-center">
+          <p class="hero">Implied Volatility in C++ using Template Functions and Interval Bisection</p>
+          <p class="hero subhero">Implied Volatility in C++ using Template Functions and Interval Bisection</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</header>
+    
+<section class="container content-container">
+  <div class="row">
+    <div class="col-md-8 order-md-2">
+      <section class="content article-content">
+        
+        
+        <p>In this article I want to discuss a practical application of the Black-Scholes model, design patterns and function objects in C++. In particular, we are going to consider the concept of <strong>Implied Volatility</strong>. In derivatives pricing, the implied volatility of an option is the value of the underlyings volatility (usually denoted by $\sigma$), which when input into an derivatives pricing model (such as with the Black-Scholes equation) provides a pricing value for the option which is equal to the currently observed market price of that option.</p>
+
+<h2>Motivation</h2>
+
+<p>The use of implied volatility is motivated by the fact that it is often more useful as a measure of <em>relative value</em> between options than the actual price of those options. This is because the option price is heavily dependent upon the price of the underlying asset. Options are often held in a <em>delta neutral portfolio</em>, which means that the portfolio is hedged for small moves in the price of the underlying asset. Given the need to continuously rebalance these portfolios, an option with a higher actual price can be <em>cheaper in terms of its volatility</em> if the underlying itself rises, as the underlying asset can be sold at a higher price.</p>
+
+<p>Implied volatilities can in fact be considered a form of "prices", as their values have been determined by actual transactions in the marketplace, not on the basis of statistical estimates. Professional traders actually tend to quote values of options in terms of their "vol", rather than their actual market prices.</p>
+
+<p>Our task for this article is to attempt to calculate implied volatilities using the Black-Scholes equation. If we let the market price of an option be given by $C_M$ and the Black-Scholes function by $B(S, K, r, T, \sigma)$, where $S$ is the underlying price, $K$ is the option strike, $r$ is the risk-free interest rate, $T$ is the time to maturity, then we are trying to find the value of $\sigma$ such that:</p>
+
+\begin{eqnarray}
+B(S,K,r,T,\sigma) = C_M
+\end{eqnarray}
+
+<h2>Root-Finding Algorithms</h2>
+
+<p>The first place to start is to consider whether an analytical inverse exists. Unfortunately, the Black-Scholes model does not lend itself to an analytical inverse and thus we are forced to carry out the computation using numerical methods. The common methods for achieving these are known as <em>root finding algorithms</em>. In this article we will look at <a href="http://en.wikipedia.org/wiki/Bisection_method">Interval Bisection</a>. In later articles we will consider <a href="https://en.wikipedia.org/wiki/Newton%27s_method">Newton-Raphson</a> and <a href="http://en.wikipedia.org/wiki/Brent%27s_method">Brent's Method</a>.</p>
+
+<h3>Interval Bisection Method</h3>
+
+<p>The first numerical algorithm considered is Interval Bisection. It makes use of a <a href="http://en.wikipedia.org/wiki/Real_analysis">real analysis</a> concept known as the <a href="http://en.wikipedia.org/wiki/Intermediate_value_theorem">intermediate value theorem</a>. Since the Black-Scholes formula is continuous (and "well behaved", which for us means sufficiently smooth), we can make use of the theorem to help us find a volatility.</p>
+
+<p>The theorem states, mathematically, that if $\exists m,n \in \mathbb{R}$, and $g(x):\mathbb{R}\rightarrow \mathbb{R}$, continuous, such that $g(m) &lt; y$, $g(n) &gt; y$, then $\exists p \in (m,n) \subset \mathbb{R}$ such that $g(p)=y$. For us, $g$ is the Black-Scholes function, $y$ is the current market price and $p$ is the volatility.</p>
+
+<p>Heuristically, the theorem states that if a function is continuous and we know two (differing) values in the domain that generate an image interval, then there must exist a value in the domain between these two values that provides a mapped value lying within the image domain. This is exactly what we need in order to determine the implied volatility from the market prices.</p>
+
+<p>Interval bisection is quite straightforward to understand. It is a "trial and error" algorithm. We pick the mid-point value, $c$, of an interval, and then either $g(c) = y$, $g(c) &lt; y$ or $g(c) &gt; y$. In the first instance the algorithm terminates. In the latter two cases, we subdivide the interval $(c,n)$ (respectively $(m,c)$) and find the corresponding midpoints. At each level of the recursion, the interval size is halved. In practice the algorithm is terminated using a tolerance value, $\epsilon$, once $|g(c) - y| &lt; \epsilon$.</p>
+
+<p>Interval bisection is not an efficient method for root-finding, but it is straightforward to implement, especially when we make use of <em>functors</em> and <em>function templates</em>.</p>
+
+<h2>Interval Bisection with Function Templates</h2>
+
+<p>So far we've made extensive use of object-orientation and, in particular, inheritance hierarchies as one of the main design patterns for solving quantitative finance problems. We're now going to use a very different set of tools, that of <em>functors</em> and <em>function templates</em>. We've <a href="http://www.quantstart.com/articles/Function-Objects-Functors-in-C-Part-1">discussed how functors work before</a> and have used them to create <code>PayOff</code> classes. Now we are going to supplement their use by including function templates, which are a means of applying the template generic programming paradigm that we have previously applied to classes, to functions themselves.</p>
+
+<p>The motivation for using functors and function templates is that we wish to create our interval bisection code in a <em>reusable fashion</em>. Ideally, the interval bisection code should be able to cope with a generic function, including those with their own set of (fixed) parameters. This is the situation we are in, because the Black-Scholes formula requires not only the volatility, but the strike, spot price, maturity time and interest rate.</p>
+
+<p>Creating the Black-Scholes call option as a functor allows us to pass it to the interval bisection function with <em>attached state</em>, which in this case is the collection of extra arguments representing the option parameters. In fact, the interval bisection method doesn't even need to know about these parameters, as the only interface exposed to it is an option pricing <code>operator()</code> method, which accepts only a volatility.</p>
+
+<p>Another reason to use function templatisation over inheritance is that we would be at the mercy of virtual functions. Virtual functions are relatively slow, as each time a function is called the <em>vtable</em> has to be queried, which is extra overhead. Further, virtual functions cannot be inlined, which is a major disadvantage. This leads to slower code. These problems also apply to function pointers as well, which is why we aren't making use of them either.</p>
+
+<p>The approach we will follow is to make the <code>interval_bisection</code> function a template function, such that it can accept a generic function object, which in our case will be the Black-Scholes call pricing method. We'll now discuss the C++ implementation.</p>
+
+<h2>C++ Implementation</h2>
+
+<p>We've previously considered <a href="http://www.quantstart.com/articles/European-vanilla-option-pricing-with-C-and-analytic-formulae">analytical pricing of European call options</a> in some depth. However, I've reproduced and modified the code here for completeness (<code>bs_prices.h</code>). If you are interested in the details of the algorithms or approximations, check out the aforementioned link:</p>
+
+<pre>
+<code class="language-cpp">#ifndef __BS_PRICES_H
+#define __BS_PRICES_H
+
+#define _USE_MATH_DEFINES
+
+#include &lt;iostream&gt;
+#include &lt;cmath&gt;
+
+// Standard normal probability density function
+double norm_pdf(const double x) {
+  return (1.0/(pow(2*M_PI,0.5)))*exp(-0.5*x*x);
+}
+
+// An approximation to the cumulative distribution function
+// for the standard normal distribution
+// Note: This is a recursive function
+double norm_cdf(const double x) {
+  double k = 1.0/(1.0 + 0.2316419*x);
+  double k_sum = k*(0.319381530 + k*(-0.356563782 + k*(1.781477937 + k*(-1.821255978 + 1.330274429*k))));
+
+  if (x &gt;= 0.0) {
+    return (1.0 - (1.0/(pow(2*M_PI,0.5)))*exp(-0.5*x*x) * k_sum);
+  } else {
+    return 1.0 - norm_cdf(-x);
+  }
+}
+
+// This calculates d_j, for j in {1,2}. This term appears in the closed
+// form solution for the European call or put price
+double d_j(const int j, const double S, const double K, const double r, const double sigma, const double T) {
+  return (log(S/K) + (r + (pow(-1,j-1))*0.5*sigma*sigma)*T)/(sigma*(pow(T,0.5)));
+}
+
+// Calculate the European vanilla call price based on
+// underlying S, strike K, risk-free rate r, volatility of
+// underlying sigma and time to maturity T
+double call_price(const double S, const double K, const double r, const double sigma, const double T) {
+  return S * norm_cdf(d_j(1, S, K, r, sigma, T))-K*exp(-r*T) * norm_cdf(d_j(2, S, K, r, sigma, T));
+}
+
+#endif</code>
+</pre>
+
+<p>The following is a listing for <code>black_scholes.h</code>, which contains a basic <a href="http://www.quantstart.com/articles/Function-Objects-Functors-in-C-Part-1">function object (functor)</a> for handling calculation of options prices when provided with a volatility, $\sigma$. Notice that all of the Black-Scholes model option paramaters are stored as private variables, with the exception of the volatility $\sigma$. This is because the function call <code>operator()</code> method takes it as a parameter. This method will eventually be (repeatedly) called by the <code>interval_bisection</code> function:</p>
+
+<pre>
+<code class="language-cpp">#ifndef __BLACK_SCHOLES_H
+#define __BLACK_SCHOLES_H
+
+class BlackScholesCall {
+private:
+  double S;  // Underlying asset price
+  double K;  // Strike price
+  double r;  // Risk-free rate
+  double T;  // Time to maturity
+
+public:
+  BlackScholesCall(double _S, double _K, 
+                   double _r, double _T);
+
+  double operator()(double sigma) const;
+};
+#endif</code>
+</pre>
+
+<p>The following is a listing for <code>black_scholes.cpp</code>, which contains the source implementation for the Black-Scholes options class. This class simply provides a wrapper around the analytical price for the call option, but crucially specifies the needed parameters, in such a way that the <code>interval_bisection</code> function avoids having to concern itself with them. Notice that $S$, $K$, $r$ and $T$ are referencing private member data, while $\sigma$ is being passed from the method call as a parameter:</p>
+
+<pre>
+<code class="language-cpp">#ifndef __BLACK_SCHOLES_CPP
+#define __BLACK_SCHOLES_CPP
+
+#include "black_scholes.h"
+#include "bs_prices.h"
+
+BlackScholesCall::BlackScholesCall(double _S, double _K, 
+                                   double _r, double _T) :
+  S(_S), K(_K), r(_r), T(_T) {}
+
+double BlackScholesCall::operator()(double sigma) const {
+  return call_price(S, K, r, sigma, T);
+}
+
+#endif</code>
+</pre>
+
+<p>The following is a listing for <code>interval_bisection.h</code>, which contains the <em>function template</em> for carrying out interval bisection. As with classes, we need to add the <code>template&lt;typename T&gt;</code> syntax to the signature of the function in order to tell the compiler it should be expecting a generic type as one of its parameters. The function body implicitly calls <code>operator()</code> of the function object $g$, so any object passed to it must define <code>operator()</code> for a sole parameter.</p>
+
+<p>The remainder of the code carries out the Interval Bisection algorithm for finding a root of the generic function $g$:</p>
+
+<pre>
+<code class="language-cpp">#ifndef __INTERVAL_BISECTION_H
+#define __INTERVAL_BISECTION_H
+
+#include &lt;cmath&gt;
+
+// Creating a function template
+// Trying to find an x such that |g(x) - y| &lt; epsilon,
+// starting with the interval (m, n).
+template&lt;typename T&gt;
+double interval_bisection(double y_target,  // Target y value
+                          double m,         // Left interval value
+                          double n,         // Right interval value
+                          double epsilon,   // Tolerance
+                          T g) {            // Function object of type T, named g
+
+  // Create the initial x mid-point value
+  // Find the mapped y value of g(x)
+  double x = 0.5 * (m + n);
+  double y = g(x);
+
+  // While the difference between y and the y_target
+  // value is greater than epsilon, keep subdividing
+  // the interval into successively smaller halves
+  // and re-evaluate the new y.
+  do {
+    if (y &lt; y_target) {
+      m = x;
+    }
+
+    if (y &gt; y_target) {
+      n = x;
+    }
+
+    x = 0.5 * (m + n);
+    y = g(x);
+  } while (fabs(y-y_target) &gt; epsilon);
+
+  return x;
+}
+
+#endif</code>
+</pre>
+
+<p>The final listing is for the main implementation (<code>main.cpp</code>). I've hardcoded some option parameters (but you could easily modify this to input them from the command line), so that the implied volatility can be calculated. Firstly we create a <code>BlackScholesCall</code> instance and pass it the required parameters (without the volatility, at this stage). Then we define the parameters for the interval bisection itself, and finally pass the <code>interval_bisection</code> the <code>bsc</code> function object as a generic parameter. This then calculates the implied volatility of the option for us:</p>
+
+<pre>
+<code class="language-cpp">#ifndef __MAIN_CPP
+#define __MAIN_CPP
+
+#include "black_scholes.h"
+#include "interval_bisection.h"
+#include &lt;iostream&gt;
+
+int main(int argc, char **argv) {
+  // First we create the parameter list
+  double S = 100.0;  // Underlying spot price
+  double K = 100.0;  // Strike price
+  double r = 0.05;   // Risk-free rate (5%)
+  double T = 1.0;    // One year until expiry
+  double C_M = 10.5; // Option market price
+
+  // Create the Black-Scholes Call functor
+  BlackScholesCall bsc(S, K, r, T);
+
+  // Interval Bisection parameters
+  double low_vol = 0.05;
+  double high_vol = 0.35;
+  double episilon = 0.001;
+
+  // Calculate the implied volatility
+  double sigma = interval_bisection(C_M, low_vol, high_vol, episilon, bsc);
+
+  // Output the values
+  std::cout &lt;&lt; "Implied Vol: " &lt;&lt; sigma &lt;&lt; std::endl;
+
+  return 0;
+}
+#endif</code>
+</pre>
+
+<p>The output of the code is as follows:</p>
+
+<pre>
+<code class="language-none">Implied Vol: 0.201318</code>
+</pre>
+
+<p>Thus we obtain an implied volatility of 20.1% for this particular call option. The object-oriented and generic aspects of the above code lend themselves naturally to extension and re-use. In subsequent articles we will create a Newton-Raphson solver as well as a Brent's Method solver to calculate the same values, but in a significantly more optimal manner.</p>
+        
+        
+        <script async data-uid="6296c27f4b" src="https://weathered-brook-5281.ck.page/6296c27f4b/index.js"></script>
+      </section>
+    </div>
+    <div class="col-md-4 book-card order-md-1">
+      
+<div class="sidebar-advert-container">
+  <a href="/qsalpha/?ref=art">
+    <img class="card-img-top" src="/static/images/qsalpha-sidebar-advert-small.png" alt="QSAlpha">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/qsalpha/?ref=art">QSAlpha</a></h3>
+      <p class="card-text medium-text mb-3">Join the QSAlpha research platform that helps fill your strategy research pipeline, diversifies your portfolio and improves your risk-adjusted returns for increased profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/qsalpha/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/quantcademy/?ref=art">
+    <img class="card-img-top" src="/static/images/quantcademy-sidebar-advert-small.png" alt="Quantcademy">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/quantcademy/?ref=art">The Quantcademy</a></h3>
+      <p class="card-text medium-text mb-3">Join the Quantcademy membership portal that caters to the rapidly-growing retail quant trader community and learn how to increase your strategy profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/quantcademy/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/successful-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/sat-sidebar-advert-small.png" alt="Successful Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to find new trading strategy ideas and objectively assess them for your portfolio using a Python-based backtesting engine.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/successful-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/advanced-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/aat-sidebar-advert-small.png" alt="Advanced Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to implement advanced trading strategies using time series analysis, machine learning and Bayesian statistics with R and Python.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/advanced-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+    
+
+<footer>
+  <div class="container container-full">
+    <section class="mt-1.5 mb-1">
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">QuantStart</li>
+            <li class="footer-list-link"><a class="link-fade" href="/about/">About</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/articles/">Articles</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/sitemap/">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Products</li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qsalpha/">QSAlpha</a></li>
+            
+            
+            <li class="footer-list-link"><a class="link-fade" href="/quantcademy/">Quantcademy</a></li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qstrader/">QSTrader</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Legal</li>
+            <li class="footer-list-link"><a class="link-fade" href="/privacy-policy/">Privacy Policy</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/terms-and-conditions/">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Social</li>
+            <li class="footer-list-link"><a class="link-fade" href="https://twitter.com/quantstart">Twitter</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="https://www.youtube.com/channel/UCmVnnZ6Y2TrJtY1eQJN6kWA">YouTube</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="row mb-1.5 mt-5">
+      <div class="col-12 col-md-9 col-lg-8 col-xl-6">
+        <div class="footer-copyright">
+          <p>©2012-2023 QuarkGluon Ltd. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+<script src="/static/js/jquery-3.2.1.min.js"></script>
+<script src="/static/js/prism.js.min"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/nav.js"></script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5383959-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+    
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="/static/js/highcharts/highcharts.js"></script>
+<script type="text/javascript">
+  num_colours = 10;
+</script>
+<script src="/static/js/statistics.js"></script>
+
+
+  </body>
+</html>

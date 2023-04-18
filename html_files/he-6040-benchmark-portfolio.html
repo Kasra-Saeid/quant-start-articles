@@ -1,0 +1,506 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-site-verification" content="wl3-8ed1QZjI0iYZMv10zoZWYElkMObTfwLlWIj9cpA" />
+    <meta name="description" content="The traditional 60/40 portfolio is an allocation of 60% to equities and 40% to bonds. It is periodically rebalanced (usually once per month) in order to maintain this proportion as each asset class grows or shrinks between rebalances. In this article we backtest a US-only 60/40 benchmark asset allocation strategy, describe its recent performance as well as provide expectations of how it will likely behave in the future.">
+
+    <link rel="icon" href="/static/images/favicon.png">
+
+    <title>The 60/40 Benchmark Portfolio | QuantStart</title>
+    
+    
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet"> 
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/prism.css" rel="stylesheet">
+<link href="/static/css/qs.css?v=10" rel="stylesheet">
+    
+  </head>
+
+  <body>
+    <header class="header covered-header" style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://quantstartmedia.s3.amazonaws.com/images/article-images/article-backgrounds/the-60-40-benchmark-portfolio.jpg);">
+  
+<nav class="nav">
+  <div class="container nav-container">
+    <div class="nav-row row d-flex justify-content-between align-items-center">
+      <div class="col-2">
+        <ul class="nav-items justify-content-end small-capitals align-items-center">
+          <li class="nav-item">
+            <a class="link-fade" href="/">QuantStart</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-auto col-logo">
+        <ul id="top-nav-menu" class="nav-items justify-content-end align-items-center">
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/qsalpha/">QSAlpha</a>
+          </li>
+          
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/quantcademy/">Quantcademy</a>
+          </li>
+          
+          <li id="menu-link-ebooks" class="nav-item">
+            <a class="link-fade" href="#">Books</a>
+            <div id="menu-pane-ebooks" class="nav-items menu-dropdown-pane">
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/qstrader/">QSTrader</a>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/articles/">Articles</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/members/login/">Login</a>
+          </li>
+          
+        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<nav id="mobile-nav" class="mobile-nav text-left">
+  <div class="container">
+    <ul class="mt-4 ml-3 mobile-nav-menu">
+      <li class="nav-item">
+        <a class="link-fade d-block" href="/">QuantStart</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qsalpha/">QSAlpha</a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/quantcademy/">Quantcademy</a>
+      </li>
+      
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="#">Books</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qstrader/">QSTrader</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/articles/">Articles</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/members/login/">Login</a>
+      </li>
+      
+    </ul>
+    <button class="nav-toggle mobile-nav-close">
+      <svg id="mobile-nav-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M19.77,5.63,13.41,12l6.36,6.37a1,1,0,0,1-1.41,1.41L12,13.41,5.63,19.77a1,1,0,0,1-1.44-1.39l0,0L10.58,12,4.21,5.63a1,1,0,0,1,0-1.42,1,1,0,0,1,1.41,0l0,0L12,10.58l6.37-6.37a1,1,0,0,1,1.41,0A1,1,0,0,1,19.77,5.63Z"></path>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+  <div class="container hero-container">
+    <section class="mt-5 mb-4">
+      <div class="row justify-content-center">
+        <div class="col-12 text-center">
+          <p class="hero">The 60/40 Benchmark Portfolio</p>
+          <p class="hero subhero">The traditional 60/40 portfolio is an allocation of 60% to equities and 40% to bonds. It is periodically rebalanced (usually once per month) in order to maintain this proportion as each asset class grows or shrinks between rebalances. In this article we backtest a US-only 60/40 benchmark asset allocation strategy, describe its recent performance as well as provide expectations of how it will likely behave in the future.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</header>
+    
+<section class="container content-container">
+  <div class="row">
+    <div class="col-md-8 order-md-2">
+      <section class="content article-content">
+        
+        
+        <p>In a recent article we <a href="https://www.quantstart.com/articles/systematic-tactical-asset-allocation-an-introduction">introduced systematic tactical asset allocation</a> (TAA) as a low-frequency example of quantitative trading strategy.</p>
+
+<p>For those who are taking their first steps in systematic trading, are wanting to consider systematic trading in the context of their retirement planning or are simply wishing to minimise the day-to-day work of running a strategy TAA can be a great choice.</p>
+
+<p>Despite its seeming simplicity as a systematic trading mechanism there is a substantial body of theory behind some of the more complex implementations. Many—if not all—TAA strategies rely on a good understanding of macroeconomic trends and an awareness of the behaviour of various asset classes over the long-term. The typical monthly rebalance frequency of these strategies lends itself to spending more time on research and less time on operational implementation.</p>
+
+<p>In this and subsequent articles we are going to start delving into some of these issues. The goal will be to provide a solid overview of TAA, via a series of example strategies, which you can then use a 'tool' in your systematic trading toolbox, potentially to diversify against higher frequency strategies.</p>
+
+<p>In addition to learning a new set of investment skills we are also going to make use of the current development version of our freely available open source backtesting engine <a href="https://www.quantstart.com/qstrader">QSTrader</a>. QSTrader has recently been redeveloped 'from the ground up' to be easier to use, allowing straightforward implementation of TAA strategies. All of the asset allocation approaches discussed in our TAA articles will have backtests provided via interactive charts helping you to determine if such a strategy should be added to your portfolio.</p>
+
+<h2>Strategy Benchmarks</h2>
+
+<p>Many TAA strategies consist of straightforward static asset allocations that are periodically rebalanced. Some will utilise sophisticated portfolio construction methods to tactically weight allocations on a more frequent basis.</p>
+
+<p>As with all forms of investing it is prudent to be aware of the opportunity cost of allocating capital to one strategy or portfolio over another. If we are to consider running a complex TAA strategy with non-trivial weighting rules it is necessary to ask whether one can achieve similar—or better—performance solely with simple static allocations.</p>
+
+<p>This motivates the concept of a strategy <em>benchmark</em>. A benchmark is a particular choice of portfolio that provides a comparison mechanism against another trading strategy. One can think of the benchmark as the 'default option'. In particular, for a certain set of investor risk/reward preferences if the benchmark cannot be beaten with an active complex trading strategy then why spend operational time on its implementation?</p>
+
+<p>Choosing a benchmark is not as straightforward as it seems. Consider an active long-only equities strategy run by a large institutional fund. The usual 'go to' benchmark is a geographic market cap weighted index, such as the S&amp;P500 for the US or the FTSE100 for the UK. However, an argument can be made that the benchmark could also be an index aggregating the performance of other institutional long-only equities funds. Since an investor, such as a pension fund allocator, is effectively choosing between multiple firms rather than likely investing in a market index directly this may seem like a more sensible comparison.</p> 
+
+<p>When considering static and active asset allocation strategies specifically a broad range of potential asset class and geographic options are available to the investor. Hence utilising a geographically-dependent single asset class instrument such as a domestic market index makes less sense. Such a method would fail to take into account the diversifying power of multiple asset classes or geographies.</p> 
+
+<p>One of the most common benchmarks utilised in the TAA space is the 60/40 equities/bonds static allocation. In this article we will describe the 60/40 portfolio and implement it as a 'trading strategy' in <a href="https://www.quantstart.com/qstrader">QSTrader</a>. We will attempt to understand—based on the current macroeconomic climate—why it has been an attractive allocation to date, but may not provide comparable performance going forward.</p>
+
+<h2>What is 60/40?</h2>
+
+<p>The traditional 60/40 portfolio is an allocation of 60% of an account to equities and 40% of an account to bonds. This allocation is periodically rebalanced (usually once per month) in order to maintain this proportion as each asset class grows or shrinks between rebalances.</p>
+
+<p>60/40 is often implemented as a fully domestic portfolio with US-only equities and a mixture of Treasuries and corporate bonds from US firms. It can also be implemented as a global strategy utilising world equities (developed and non-developed) as well as a mixture of sovereign and corporate global bonds.</p>
+
+<p>Its primary advantage lies in the diversification benefit offered by the partially uncorrelated nature of stocks and bonds. The historical effect has been to lower maximum drawdowns compared to a portfolio fully invested in equities.</p>
+
+<p>Low-cost ETFs allow the strategy (and variants thereof) to be straightforwardly implemented by systematic retail traders, with nothing more than a spreadsheet examined once per month.</p>
+
+<p>However the focus in this article is on 60/40 as a benchmark asset allocation strategy that will used as a comparison 'yardstick' for all other systematic tactical asset allocation strategies described in future articles.</p>
+
+<h2>Advantages of 60/40</h3>
+
+<p>Despite its seemingly simple allocation methodology the 60/40 mix possesses some useful advantages:</p>
+
+<ul>
+  <li><strong>Diversification</strong> - The underlying assumption of the investment thesis is that stocks and bonds are (to some extent) uncorrelated. Hence by adding an allocation towards bonds there is a useful diversification benefit.</li>
+  <li><strong>Risk/Reward</strong> - The 60/40 is designed to provide 'equity-like returns with bond-like volatility'. The addition of bonds should thus increase the risk-adjusted return (and hence Sharpe Ratio).</li>
+  <li><strong>Implementation</strong> - The strategy is exceedingly simple to implement. It only requires monthly or annual rebalancing. It uses easy-to-access liquid ETF instruments making it suitable for systematic retail traders who want to minimise long-term trading costs.</li>
+  <li><strong>Taxation</strong> - While this particular advantage is strongly dependent upon the investor's location the infrequency of <em>realising</em> gains due to the sparse rebalances makes the strategy attractive from the point of view of taxation.</li>
+</ul>
+
+<h3>Disadvantages of 60/40</h3>
+
+<p>60/40 also suffers from some significant disadvantages. These contribute to its usage as a 'benchmark' rather than a 'strategy' for most systematic asset allocators:</p>
+
+<ul>
+  <li><strong>Geography</strong> - The traditional 60/40 portfolio utilises US-only assets, implemented in this article via the <a href="https://www.etf.com/SPY">SPY</a> and <a href="https://www.etf.com/AGG">AGG</a> ETFs. An alternative is to utilise ETFs capturing global equities and bonds.</li>
+  <li><strong>Drawdowns</strong> - As can be seen from the backtest results below the portfolio suffers from a maximum 35% drawdown over a period of 27 months during the Global Financial Crisis. While this is certainly superior to that of a 100% allocation to SPY, which would have seen an approximate 50% drawdown over the same timeframe, it would still be difficult to tolerate for most investors.</li>
+  <li><strong>Inception Date</strong> - The strategy performance is very sensitive to the inception date due to the large allocation to stocks and their subsequent valuations. If stocks are 'expensive' (on a price-earnings basis) when the strategy begins this can have a dramatic impact on the overall returns. See <a href="https://mebfaber.com">Meb Faber</a>'s take on this <a href="https://mebfaber.com/2015/03/06/chapter-2-the-benchmark-portfolio-6040/">[2]</a> for a more detailed discussion.</li>
+  <li><strong>Risk</strong> - While only 60% of the dollar value of the portfolio is in stocks, on a volatility-adjusted basis much more of the <em>risk</em> is actually being placed in that asset class. In future articles the concept of <em>volatility weighting</em> or <em>risk parity</em> will be discussed, which is designed to mitigate this effect.</li>
+  <li><strong>Future Performance</strong> - While 60/40 has had a strong performance over the last 30 years there is an expectation amongst market participants (see <a href="https://mebfaber.com/2015/03/06/chapter-2-the-benchmark-portfolio-6040/">[2]</a>, <a href="https://www.investopedia.com/why-morgan-stanley-says-the-60-40-portfolio-is-doomed-4775352">[3]</a>, <a href="https://portfolio-adviser.com/what-a-downbeat-forecast-for-60-40-portfolios-means-for-alternatives/">[5]</a> and <a href="https://www.ipe.com/reports/special-reports/multi-asset-strategies/asset-allocation-the-60/40-question/10015917.article">[7]</a>) that future performance may be substantially less attractive. A combination of the appearance of negative bond yields and expensive stocks means that 60/40 will have a difficult time even beating inflation over the next 10 years.</li>
+</ul>
+
+<h2>Strategy Methodology</h2>
+
+<p>At the close of the final calendar trading day of the month calculate the total equity of the portfolio and ensure 60% of dollar value is allocated to the SPY ETF and 40% is allocated to the AGG ETF, carrying out any rebalancing trades as necessary.</p>
+
+<h3>Instruments Utilised</h3>
+
+<ul>
+  <li><strong><a href="https://www.etf.com/SPY">SPY</a></strong> - SPDR S&amp;P500 ETF Trust, tracking the S&amp;P500 US large-cap stock market index. Alternative ETFs include IVV and VOO.</li>
+  <li><strong><a href="https://www.etf.com/AGG">AGG</a></strong> - iShares Core U.S. Aggregate Bond ETF, tracking an index of US investment-grade bonds. An alternative ETF is BND.</li>
+</ul>
+
+<h2>QSTrader Implementation</h2>
+
+<p>The backtest results below make use of the <a href="https://github.com/mhallsmoore/qstrader/tree/development">latest development version</a> of <a href="https://www.quantstart.com/qstrader">QSTrader</a>. In order to aid reproducibility the backtest parameters have been published below:</p>
+
+<ul>
+  <li><strong>Data</strong> - SPY and AGG daily historical OHLCV data was utilised from YahooFinance</li>
+  <li><strong>Start Date<sup>1</sup></strong> - 30th September 2003</li>
+  <li><strong>End Date</strong> - 3rd December 2019</li>
+  <li><strong>Target Weights</strong> - SPY 60%, AGG 40%</li>
+  <li><strong>Cash Buffer<sup>2</sup></strong> - 1%</li>
+  <li><strong>Initial Account</strong> - $1MM</li>
+  <li><strong>Transaction Costs</strong> - None modelled</li>
+  <li><strong>Rebalance</strong> - Once per month on final calendar day, trades executed at next available market open, with no buffering</li>
+  <li><strong>Update Frequency</strong> - Statistics were collected daily at the end of market close</li>
+</ul>
+
+<h2>Results</h2>
+
+<p>The results of the backtest from 30th September 2003 to 3rd December 2019 are presented below:</p>
+
+<div class="mb-4">
+  <table id="strategyTable" class="table table-hover table-striped table-strategies-list">
+    <thead class="thead-dark">
+      <tr>
+        <th style="width:22.5%;" class="text-left">Statistic</th>
+        <th style="width:13.75%;" class="right-align">SPY</th>
+        <th style="border-right:1px solid #333;width:13.75%;" class="right-align">60/40</th>
+        <th style="width:22.5%;" class="text-left">Statistic</th>
+        <th style="width:13.75%;" class="right-align">SPY</th>
+        <th style="width:13.75%;" class="right-align">60/40</th>
+      </tr>
+    </thead>
+    <tbody">
+      <tr>
+        <td style="width:22.5%;" class="text-left">CAGR</td>
+        <td style="width:13.75%;" class="right-align">9.0%</td>
+        <td class="right-align" style="border-right:1px solid #ccc;width:13.75%;">7.1%</td>
+        <td style="width:22.5%;" class="text-left">Annualised Volatility</td>
+        <td style="width:13.75%;" class="right-align">17.4%</td>
+        <td style="width:13.75%;" class="right-align">10.2%</td>
+      </tr>  
+      <tr>
+        <td style="width:22.5%;" class="text-left">Sharpe Ratio</td>
+        <td style="width:13.75%;" class="right-align">0.58</td>
+        <td class="right-align" style="border-right:1px solid #ccc;width:13.75%;">0.73</td>
+        <td style="width:22.5%;" class="text-left">Sortino Ratio</td>
+        <td style="width:13.75%;" class="right-align">0.70</td>
+        <td style="width:13.75%;" class="right-align">0.88</td>
+      </tr>
+      <tr>
+        <td style="width:22.5%;" class="text-left">Max Drawdown</td>
+        <td style="width:13.75%;" class="right-align">-54.7%</td>
+        <td class="right-align" style="border-right:1px solid #ccc;width:13.75%;">-35.1%</td>
+        <td style="width:22.5%;" class="text-left">Longest Drawdown</td>
+        <td style="width:13.75%;" class="right-align">42 months</td>
+        <td style="width:13.75%;" class="right-align">27 months</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div id="strategy-equity-curve" class="mb-4"></div>
+
+<div id="strategy-drawdown-curve" class="mb-4"></div>
+
+<p>60/40 has delivered a CAGR of 7% with an annualised vol of 10%, providing a respectable (daily, zero risk-free rate) Sharpe Ratio of 0.73. It is clear from the equity curve above that subsequent to the Global Financial Crisis of 2008 the 60/40 portfolio has performed well, even on an inflation-adjusted basis.</p>
+
+<p>However this performance has largely been delivered through a combination of central bank quantitative easing programs and a low inflation environment in the US. US stocks have performed very well in this period.</p>
+
+<p>One possible explanation is that as yields have decreased in cash and bonds due to lowering interest rates, investors have entered a 'risk on' phase and have bought up stocks 'artificially' bidding up their prices. Unfortunately the expectation is that future stock returns will diminish over the next 10 years, partially due to their currently high valuations. In addition 10-year US treasury yields have steadily declined from around 4% in 2003 to less than 2% in 2019, putting further pressure on future 60/40 performance expectations.</p>
+
+<p>Given that US inflation is currently around 2-3% the 60/40 portfolio will likely have trouble even generating a positive return in real terms. There is also no guarantee that the historically low correlation behaviour between the two asset classes of stocks and bonds will persist. If correlation increases (as it seems it may be doing) it undermines one of the central investment theses behind 60/40 in the first place.</p>
+
+<p>Despite these headwinds it will likely remain the primary choice of benchmark for TAA based strategies for some time, albeit with a global implementation rather than the traditional US-only methodology.</p>
+
+<h2>Next Steps</h2>
+
+<p>In subsequent articles we will consider more complex TAA strategies that try to mitigate the effects of the geographic concentration, asset class correlation and risk-weighting issues described above in an attempt to improve our long-term risk-adjusted returns.</p>
+
+<h2>References</h2>
+
+<ul>
+  <li><a href="https://www.schroders.com/en/insights/economics/what-is-the-60-40-investment-rule-and-can-it-deliver-better-outcomes/">[1]</a> Can a 60/40 split portfolio deliver better outcomes? - Schroders</li>
+  <li><a href="https://mebfaber.com/2015/03/06/chapter-2-the-benchmark-portfolio-6040/">[2]</a> Chapter 2: The Benchmark Portfolio 60/40 - Meb Faber</li>
+  <li><a href="https://www.investopedia.com/why-morgan-stanley-says-the-60-40-portfolio-is-doomed-4775352">[3]</a> Why Morgan Stanley Says the 60/40 Portfolio Is Doomed - Investopedia</li>
+  <li><a href="https://www.forbes.com/sites/robisbitts2/2019/04/25/destroying-the-6040-portfolio-myth/#749347d130d3">[4]</a> Destroying The 60/40 Portfolio Myth - Forbes</li>
+  <li><a href="https://portfolio-adviser.com/what-a-downbeat-forecast-for-60-40-portfolios-means-for-alternatives/">[5]</a> What a downbeat forecast for 60/40 portfolios means for alternatives- Portfolio Adviser</li>
+  <li><a href="https://smartasset.com/investing/60-40-portfolio">[6]</a> What Is the 60/40 Portfolio (And Should You Have One)? - SmartAsset</li>
+  <li><a href="https://www.ipe.com/reports/special-reports/multi-asset-strategies/asset-allocation-the-60/40-question/10015917.article">[7]</a> Asset Allocation: The 60/40 question - IPE</li>
+</ul>
+
+<h2>Footnotes</h2>
+
+<p class="footnote">1. The backtest duration is relatively short compared to many others carried out in the asset allocation space. This is due to the starting date of the AGG ETF. We have elected not to create a 'synthetic asset' to cover performance prior to AGG's inception date for the purposes of this article in order to enhance transparency and aid reproducibility.</p>
+
+<p class="footnote">2. QSTrader does not currently simulate margin and hence will not allow new purchases to exceed the current account cash balance. In order to account for pricing changes between rebalance at close and purchase at next subsequent open it is necessary to maintain a small target cash buffer in the account. We have utilised a value of 1% in the above backtest. This means the remaining 99% of account equity is allocated to a target of 60% SPY and 40% AGG at each rebalance period.</p>
+        
+        
+        <script async data-uid="6296c27f4b" src="https://weathered-brook-5281.ck.page/6296c27f4b/index.js"></script>
+      </section>
+    </div>
+    <div class="col-md-4 book-card order-md-1">
+      
+<div class="sidebar-advert-container">
+  <a href="/qsalpha/?ref=art">
+    <img class="card-img-top" src="/static/images/qsalpha-sidebar-advert-small.png" alt="QSAlpha">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/qsalpha/?ref=art">QSAlpha</a></h3>
+      <p class="card-text medium-text mb-3">Join the QSAlpha research platform that helps fill your strategy research pipeline, diversifies your portfolio and improves your risk-adjusted returns for increased profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/qsalpha/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/quantcademy/?ref=art">
+    <img class="card-img-top" src="/static/images/quantcademy-sidebar-advert-small.png" alt="Quantcademy">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/quantcademy/?ref=art">The Quantcademy</a></h3>
+      <p class="card-text medium-text mb-3">Join the Quantcademy membership portal that caters to the rapidly-growing retail quant trader community and learn how to increase your strategy profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/quantcademy/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/successful-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/sat-sidebar-advert-small.png" alt="Successful Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to find new trading strategy ideas and objectively assess them for your portfolio using a Python-based backtesting engine.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/successful-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/advanced-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/aat-sidebar-advert-small.png" alt="Advanced Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to implement advanced trading strategies using time series analysis, machine learning and Bayesian statistics with R and Python.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/advanced-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+    
+
+<footer>
+  <div class="container container-full">
+    <section class="mt-1.5 mb-1">
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">QuantStart</li>
+            <li class="footer-list-link"><a class="link-fade" href="/about/">About</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/articles/">Articles</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/sitemap/">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Products</li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qsalpha/">QSAlpha</a></li>
+            
+            
+            <li class="footer-list-link"><a class="link-fade" href="/quantcademy/">Quantcademy</a></li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qstrader/">QSTrader</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Legal</li>
+            <li class="footer-list-link"><a class="link-fade" href="/privacy-policy/">Privacy Policy</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/terms-and-conditions/">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Social</li>
+            <li class="footer-list-link"><a class="link-fade" href="https://twitter.com/quantstart">Twitter</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="https://www.youtube.com/channel/UCmVnnZ6Y2TrJtY1eQJN6kWA">YouTube</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="row mb-1.5 mt-5">
+      <div class="col-12 col-md-9 col-lg-8 col-xl-6">
+        <div class="footer-copyright">
+          <p>©2012-2023 QuarkGluon Ltd. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+<script src="/static/js/jquery-3.2.1.min.js"></script>
+<script src="/static/js/prism.js.min"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/nav.js"></script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5383959-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+    
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="/static/js/highcharts/highcharts.js"></script>
+<script type="text/javascript">
+  num_colours = 10;
+</script>
+<script src="/static/js/statistics.js"></script>
+
+
+<script type="text/javascript">
+$(document).ready(function() {
+  $.getJSON("https://quantstartmedia.s3.amazonaws.com/data/articles/the-60-40-benchmark-portfolio/60_40_SPY_AGG_monthly.json", function(data) {
+    plot_equity_curve(
+        'strategy-equity-curve', 
+        'The 60/40 Benchmark Portfolio', data['strategy']['equity_curve'],
+        'Buy & Hold SPY', data['benchmark']['equity_curve']
+    );
+    plot_drawdown_curve('strategy-drawdown-curve', 
+        'The 60/40 Benchmark Portfolio', data['strategy']['drawdowns'],
+        'Buy & Hold SPY', data['benchmark']['drawdowns']
+    );
+  });
+});
+</script>
+
+
+
+  </body>
+</html>

@@ -1,0 +1,550 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-site-verification" content="wl3-8ed1QZjI0iYZMv10zoZWYElkMObTfwLlWIj9cpA" />
+    <meta name="description" content="This article has been written for early career readers who are hoping to gain an introductory understanding of equities data.">
+
+    <link rel="icon" href="/static/images/favicon.png">
+
+    <title>Understanding Equities Data | QuantStart</title>
+    
+    
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet"> 
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/prism.css" rel="stylesheet">
+<link href="/static/css/qs.css?v=10" rel="stylesheet">
+    
+  </head>
+
+  <body>
+    <header class="header covered-header" style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://quantstartmedia.s3.amazonaws.com/images/article-images/article-backgrounds/default-bg.jpg);">
+  
+<nav class="nav">
+  <div class="container nav-container">
+    <div class="nav-row row d-flex justify-content-between align-items-center">
+      <div class="col-2">
+        <ul class="nav-items justify-content-end small-capitals align-items-center">
+          <li class="nav-item">
+            <a class="link-fade" href="/">QuantStart</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-auto col-logo">
+        <ul id="top-nav-menu" class="nav-items justify-content-end align-items-center">
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/qsalpha/">QSAlpha</a>
+          </li>
+          
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/quantcademy/">Quantcademy</a>
+          </li>
+          
+          <li id="menu-link-ebooks" class="nav-item">
+            <a class="link-fade" href="#">Books</a>
+            <div id="menu-pane-ebooks" class="nav-items menu-dropdown-pane">
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/qstrader/">QSTrader</a>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/articles/">Articles</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/members/login/">Login</a>
+          </li>
+          
+        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<nav id="mobile-nav" class="mobile-nav text-left">
+  <div class="container">
+    <ul class="mt-4 ml-3 mobile-nav-menu">
+      <li class="nav-item">
+        <a class="link-fade d-block" href="/">QuantStart</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qsalpha/">QSAlpha</a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/quantcademy/">Quantcademy</a>
+      </li>
+      
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="#">Books</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qstrader/">QSTrader</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/articles/">Articles</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/members/login/">Login</a>
+      </li>
+      
+    </ul>
+    <button class="nav-toggle mobile-nav-close">
+      <svg id="mobile-nav-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M19.77,5.63,13.41,12l6.36,6.37a1,1,0,0,1-1.41,1.41L12,13.41,5.63,19.77a1,1,0,0,1-1.44-1.39l0,0L10.58,12,4.21,5.63a1,1,0,0,1,0-1.42,1,1,0,0,1,1.41,0l0,0L12,10.58l6.37-6.37a1,1,0,0,1,1.41,0A1,1,0,0,1,19.77,5.63Z"></path>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+  <div class="container hero-container">
+    <section class="mt-5 mb-4">
+      <div class="row justify-content-center">
+        <div class="col-12 text-center">
+          <p class="hero">Understanding Equities Data</p>
+          <p class="hero subhero">This article has been written for early career readers who are hoping to gain an introductory understanding of equities data.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</header>
+    
+<section class="container content-container">
+  <div class="row">
+    <div class="col-md-8 order-md-2">
+      <section class="content article-content">
+        
+        
+        <!-- Summary: This article has been written for early career readers who are hoping to gain an introductory understanding of equities data.-->
+
+<p>In this brief tutorial we will take a look at the different aspects of end-of-day equities data. We will develop an understanding of what the Open, High, Low and Close (OHLC) prices mean, as well as discuss the traded Volume. We will look at how a typical Adjusted Close price is calculated and the effects that stock splits, dividends and rights offerings have on our data and why they are important.</p>
+
+<p>If you would like to follow along with any of the code in this tutorial we will be using data for AAPL from October 30th 2010 to October 30th 2020 inclusive. This data is freely available from vendors such as  <a href="https://finance.yahoo.com/">Yahoo Finance</a>. The environment utilised for this article consists of Python 3.8, Pandas 1.3 and Matplotlib 3.4.</p>
+
+<p>When working with financial data in Python the most appropriate way to evaluate and analyse the data is to use the <a href="https://pandas.pydata.org/">Pandas</a> library. For more information on using Pandas check out our <a href="https://www.quantstart.com/quantcademy/">Quantcademy</a> course on <em>Introduction to Financial Data Analysis with Pandas</em>. We will begin by creating a <code>DataFrame</code>, which we have named <code>aapl</code>, and ensuring that the <code>date</code> column has been converted correctly to a Pandas <code>datetime</code> object. How you achieve this will depend largely on how your data is stored. We are using the Pandas function <code>read_csv()</code>.</p>
+
+<pre>
+<code class="language-python">import pandas as pd
+aapl = pd.read_csv('/PATH/TO/YOUR/CSV')
+aapl['Date'] = pd.to_datetime(aapl['Date'])</code>
+</pre>
+
+<p><em>Note: Make sure to adjust the <code>/PATH/TO/YOUR/CSV</code> to point to the downloaded Apple daily stock data CSV file.</em></p>
+
+<p>Once you have created a DataFrame containing your stock data you can display the first few rows using the command <code>aapl.head()</code>. You should see the following output.</p>
+
+<pre>
+<code class="language-python">
+In [1]: aapl.head()
+Out[1]:
+  Date  Open  High  Low   Close   Volume  Adj Close
+0   2010-11-01  302.22  305.60  302.20  304.18  15138900  9.386487
+1   2010-11-02  307.00  310.19  307.00  309.36  15497500  9.546333
+2   2010-11-03  311.37  312.88  308.53  312.80  18155300  9.652486
+3   2010-11-04  315.45  320.18  315.03  318.27  22946000  9.821281
+4   2010-11-05  317.99  319.57  316.75  317.13  12901900  9.786103
+</code>
+</pre>
+
+<h2>What is Open, High, Low, Close?</h2>
+
+<p>When analysing the above stock data we can see that there are five different price columns and one volume column. The <strong>open</strong> price refers to the price at which the stock started trading each day. The <strong>close</strong> price is the last buy-sell order that was executed for the stock. It is the price agreed upon after a full day of trading. Depending on the liquidity of the stock this may have occured in the final few seconds of trading or much earlier in the day. The closing price of a stock is considered to be the standard measure of value for a specific day.</p>
+
+<p>As demonstrated in the above stock data the opening price is not necessarily the same as the closing price from the previous day. Opening price deviations are due to the effects of after-hours trading. Corporate announcements such as earnings events, man-made or natural disasters that occur after market close can all have an impact on the price of an equity. These factors encourage investors to engage in after-hours trading.</p>
+
+<p>After-hours trading begins at 4pm and ends at 8pm. Stock volume is generally lower than in normal trading hours. As a result the spread between the bid and offer is often much wider. This means that it is much easier for the price of an equity to be pushed higher or lower, requiring fewer shares than in normal hours to make an impact on the price of the asset. Stop loss orders are often used in these circumstances so that trades are only executed at prices previously determined by traders. However, due to the lower volumes of available stock they are more likely to be unfilled. As these incomplete orders are executed at prices that differ from the previous day's close they cause a disparity which affects the next day's opening price.</p>
+
+<p><strong>High</strong> refers to the highest price at which a stock was traded during the time period specified. Likewise, <strong>Low</strong> refers to lowest traded price.</p>
+
+<h2>How is Volume Recorded?</h2>
+
+<p>Volume is a measure of the number of shares traded in a particular time period. Each time shares are bought and sold the trade volume is recorded. If the same shares are bought and sold multiple times, the volume of shares in each transaction is recorded. Volume doesn't reflect the number of available shares, it is a measure of share turnover, a count of all transactions that occur on every share. Every market exchange tracks their trade volume and provides estimates at an intraday frequency. An accurate report of the total daily volume is provided the following day.</p> 
+
+<p>Volume is often used as a technical analysis indicator. Trade volume is considered a measure of market strength. A rising stock price with increasing volume indicates a healthy market. The higher the volume of trades the more liquidity the stock has and the higher the volume of trades during a price change, the more significant that price change becomes.</p>
+
+<h2>Understanding the Adjusted Close</h2>
+
+<p>The final column in the daily data above is the <strong>adjusted close</strong> price. This is the most useful column for analysing historic price changes. It incorporates changes in the price of an equity resulting from dividend payouts, stock splits and from new shares being issued. In order to deliver a coherent picture of stock returns the historic close price must be adjusted for all corporate actions. In practice this is handled for you by most data providers but it is necessary to understand how these corporate actions affect close prices and how the adjustments are made.</p>
+
+<h3>The Effect of Stock Splits</h3>
+
+<p>A stock split is a multiplication or division of a company's share content, without a change in its market capitalisation. If a stock splits 2:1 then a company has doubled the number of shares by halving each share's value. This is an example of a <strong>forward split</strong>. If an investor owned 20 shares prior to the split they would own 40 shares subsequently, but the shares would equate to the same dollar value. A company may consider a forward split as a way to reduce their share price making it more affordable for smaller investors to trade their shares.</p>
+
+<p>The announcement of a split draws media attention to a company and so a forward split is usually followed by a price rise. After the split there is often an increase in volume traded as many new smaller investors take the opportunity to purchase shares. Existing investors may seek to rebalance their positions, allowing capital previously tied up in smaller amounts of the high value shares to be reallocated to different investments. They may also take the oppotunity to double down on their existing positions by purchasing more shares at the new lower price. All of these factors increase liquidity allowing the shares to be traded more easily and quickly.</p> 
+
+<p>In contrast to the forward split the <strong>reverse split</strong> can have an adverse effect on share price. In a reverse split existing shares owned by investors are replaced with a smaller number of shares with no effect on market capitalisation. For example a 1-for-2 reverse split replaces every two shares owned by an investor with a single share. If an investor owned 20 shares in a company before the split they would have 10 at the same value after the split. This type of split usually occurs for a negative reason and has the effect of decreasing the share price after the announcement. If this is true then why would a company carry out a reverse split? Most major stock exchanges require a single share to trade above $1 to maintain the listing. If a company's shares have been trading poorly, the board may consider a reverse split to avoid the stock becoming a penny stock and being delisted.</p>
+
+<p>Stock split announcements will provide information on the split ratio, the announcement date, the record date and the effective date. The <strong>ratio</strong> determines whether a split is forward or reverse. For example a 3-for-1 split is a forward split as the first number is larger than the second. The <strong>announcement date</strong> is when the company publically announces the plans for the split. The <strong>record date</strong> is the date on which shareholders need to own the stock to be eligible for the split however, this right is transferable for shares bought and sold before the effective date. The <strong>effective date</strong> is the date on which the shares actually appear in an investors account.</p>
+
+<p>Apple has undergone five stock splits since their Initial Public Offering (IPO) in December 1980; 4-for-1 on August 28th 2020, 7-for-1 on June 9th 2014 and 2-for-1 splits on Februrary 28th 2005, June 21st 2000 and June 16th 1987. Let's have a look at the effect of a stock split on the close and adjusted close by plotting them both for the period encompassing the August 2020 4-for-1 split.</p>
+
+<pre>
+<code class="language-python">data = aapl.loc[(aapl['Date']>= '2020-07-10') & (aapl['Date']<= '2020-10-01')]
+data.plot(x='Date', y=['Close', 'Adj Close'], kind='line')</code>
+</pre>
+
+<figure>
+  <img src="https://quantstartmedia.s3.amazonaws.com/images/article-images/articles/understanding_equities_data/stock_split_1.png" alt="Close and adjusted close prices surrounding a stock split event.">
+  <figcaption>The effect of a stock split on close and adjusted close prices.</figcaption>
+</figure>
+
+<p>As you can see from the graph there is a large difference between the closing price and the adjusted close until the 31st August when there is a huge drop in the closing price. As previously discussed this anomaly in the close price represents an increase in the number of shares, not a crash in the value of the stock. If we take a closer look at the two prices around August 28th 2020 you can see that the close is approximately four times the size of the adjusted close, inline with the split ratio. To look at these prices more closely we will first create a date range mask and then use the Pandas method <code>loc</code> to filter the <code>DataFrame</code> for these dates.</p>
+
+<pre>
+<code class="language-python">split_start = '2020-08-27'
+split_end = '2020-09-01'
+split_mask = (aapl['Date'] >= split_start) & (aapl['Date'] <= split_end)
+split_data = aapl.loc[split_mask]
+In [2]: split_data
+Out[2]:   Date  Open  High  Low   Close   Volume  Adj Close
+2472  2020-08-27  508.57  509.94  495.33  500.04  38888096  125.0100
+2473  2020-08-28  504.05  505.77  498.31  499.23  46907479  124.8075
+2474  2020-08-31  127.58  131.00  126.00  129.04  223505733   129.0400
+2475  2020-09-01  132.76  134.80  130.53  134.18  152470142   134.1800</code>
+</pre>
+
+<h3>Calculating Stock Split Adjustments</h3>
+
+<p>All stock prices prior to the effective date of the split are multiplied by a factor which is calculated from the split ratio. In an N-for-M split this factor is calculated by $\frac{M}{N}$. For example in a 2-for-1 split the factor would be $\frac{1}{2} = 0.5$. The volume of stock is also adjusted in a similar manner but the calculation of the factor is reversed. For a 2-for-1 stock split the volume adjustment factor is $\frac{2}{1}=2$. All stock volumes prior to the effective date would be multiplied by 2. These methods apply to both forward and reverse splits.</p> 
+
+<p>How does this work with stocks that have multiple splits historically? In order to visualise this let's take a look at the full range of our data for Apple.</p>
+
+<pre>
+<code class="language-python">aapl.plot(x='Date', y=['Close', 'Adj Close'], kind='line')</code>
+</pre>
+
+<figure>
+  <img src="https://quantstartmedia.s3.amazonaws.com/images/article-images/articles/understanding_equities_data/stock_split_2.png" alt="Graph showing close and adjusted close prices surrounding multiple stock split events.">
+  <figcaption>The effect of multiple stock splits on Close and Adjusted Close prices.</figcaption>
+</figure>
+
+<p>You can see two sharp drops in the close price on August 28th 2020 (4-for-1 stock split) and June 9th 2014 (7-for-1 stock split). In order to correctly adjust the price for both splits we simply multiply the two calculated factors together before multiplying all close prices prior to the final split date. In this example from June 9th 2014 to August 28th 2020 the close price would be multipled by $\frac{1}{4} \times \frac{1}{7} = \frac{1}{28}$ or $0.25 \times 0.143 = 0.0357$.</p>
+
+<p><em>As Apple has been through five stock splits this calculation is incomplete, there are three additional stock split factors needed to accurately calculate the adjusted close for this time period, as well as a series of dividends.</em></p>
+
+<h3>The Effect of Dividends</h3>
+
+<p>Dividends are a share of profits that a company pays to its shareholders. When a company consistently generates more profit than it can put to good use by reinvestment it may choose to reward its shareholders by starting to pay dividends.</p>
+    
+<p>There are three main types of dividend; a <strong>regular dividend</strong>, paid consistently over time, most often on a quarterly basis. A <strong>special dividend</strong>, a one-off payment to shareholders due to the accumulation of cash that has no immediate use. A <strong>variable dividend</strong>, these are sometimes paid by companies that produce commodities in addition to regular dividends. They occur at consistent intervals but vary in amount.</p> 
+    
+<p>The <strong>dividend yield</strong> is the annual dividend per share divided by the share price. A stock with a share price of <span>$</span>10 that pays a dividend of <span>$</span>0.60 per share has a yield of 6%. The dividend yield is used by investors to quickly estimate how much they could earn by investing in a stock. A yield of 6% would give a dividend income of <span>$</span>6 for every <span>$</span>100 invested.</p>
+    
+<p>The amount a company pays out as a dividend is voted on and approved by the company board. The <strong>declaration date</strong> is the date on which the dividend is publically declared by the company. This announcement includes a <strong>record date</strong> which is the date on which an investor must own shares in order to receive the dividend. The <strong>ex-dividend date</strong> is the date on which new shareholders are not eligible for the dividend. The <strong>payment date</strong> is the date on which the income is received by the shareholders.</p>
+
+<p>On the announcement date of a dividend payment the share price of the company will often rise by roughly the amount of the dividend. When the company pays out the dividend the amount of cash available to the company decreases. This is realised as a drop in the share price at the open of the payment date. With a highly liquid stock such as Apple, where the amount of the dividend is a small fraction of the share price such fluctuations are well within the standard deviation of daily price moves, as a result their effect on prices is often masked. Let's take a closer look at the prices for the Apple dividend that was announced on April 30th 2020 with a record date of May 11th, an ex-dividend date of May 12th and a payment date of May 14th.</p>
+
+<pre>
+<code class="language-python">div_start = '2020-04-23'
+div_end = '2020-05-19'
+div_mask = (aapl['Date'] >= div_start) & (aapl['Date'] <= div_end) 
+div_data = aapl.loc[div_mask]
+In [3]:div_data
+Out[3]: Date  Open  High  Low   Close   Volume  Adj Close
+2384  2020-04-23  275.87  281.75  274.87  275.03  31203582  68.449893
+2385  2020-04-24  277.20  283.01  277.00  282.97  31627183  70.426012
+2386  2020-04-27  281.80  284.54  279.95  283.17  29271893  70.475788
+2387  2020-04-28  285.08  285.83  278.20  278.58  28001187  69.333422
+2388  2020-04-29  284.73  289.67  283.89  287.73  34320204  71.610688
+2389  2020-04-30  289.96  294.53  288.35  293.80  45765968  73.121399
+2390  2020-05-01  286.25  299.00  285.85  289.07  60154175  71.944189
+2391  2020-05-04  289.17  293.69  286.32  293.16  33391986  72.962115
+2392  2020-05-05  295.06  301.00  294.46  297.56  36937795  74.057194
+2393  2020-05-06  300.46  303.24  298.87  300.63  35583438  74.821260
+2394  2020-05-07  303.22  305.17  301.97  303.74  28803764  75.595282
+2395  2020-05-08  305.64  310.35  304.29  310.13  33511985  77.389718
+2396  2020-05-11  308.10  317.05  307.24  315.01  36486561  78.607471
+2397  2020-05-12  317.83  319.69  310.91  311.41  40575263  77.709128
+2398  2020-05-13  312.15  315.95  303.21  307.65  50155639  76.770860
+2399  2020-05-14  304.51  309.79  301.53  309.54  39732269  77.242489
+2400  2020-05-15  300.35  307.90  300.21  307.71  41587094  76.785832
+2401  2020-05-18  313.17  316.50  310.32  314.96  33843125  78.594994
+2402  2020-05-19  315.03  318.52  313.01  313.14  25432385  78.140832</code>
+</pre>
+
+<p>If we look at the price fluctuations in the open and close price of AAPL for this period we can see that there is a rise in close price on April 30th, however these price moves are somewhat dwarfed by the normal daily fluctuations. To visualise this we will create a chart showing the rolling standard deviation across the period. In order to create this chart we will need to add Matplotlib to our list of Python library imports. Here we will also make use of a library called <code>mdates</code> to make the date range on our charts more readable. You can find more information on using mdates <a href="https://matplotlib.org/stable/gallery/ticks_and_spines/date_concise_formatter.html" target="_blank">here</a>.</p>
+
+<pre>
+<code class="language-python">import matplotlib.pyplot as plt
+import mdates
+
+
+# Calculate the rolling mean (simple moving average)
+# and rolling standard deviation of the open and
+# close prices.
+price_close = pd.Series(div_data['Close'].values, index=div_data['Date'])
+close_ma = price_close.rolling(2).mean()
+close_mstd = price_close.rolling(2).std()
+price_open = pd.Series(div_data['Open'].values, index=div_data['Date'])
+open_ma = price_open.rolling(2).mean()
+open_mstd = price_open.rolling(2).std()
+
+fig, axs = plt.subplots(1, 2, figsize=(12, 4), sharey=True)
+
+for nn, ax in enumerate(axs):
+    prices = [price_close, price_open]
+    colors = ["cornflowerblue", "forestgreen"]
+    means = [close_ma, open_ma]
+    stds = [close_mstd, open_mstd]
+    
+    locator = mdates.AutoDateLocator(minticks=3, maxticks=20)
+    formatter = mdates.ConciseDateFormatter(locator)
+    
+    ax.xaxis.set_major_locator(locator)
+    ax.xaxis.set_major_formatter(formatter)
+    ax.set_xlabel("Date")
+    ax.plot(prices[nn].index, prices[nn], colors[nn])
+    ax.fill_between(stds[nn].index, means[nn] - 2 * stds[nn], means[nn] + 2 * stds[nn], color="lightgrey", alpha=0.2)
+
+axs[0].set_ylabel("Close Price")
+axs[1].set_ylabel("Open Price")
+
+fig.suptitle("Standard Deviation of Open and Close price for AAPL April 23rd to May 19th 2020")
+</code>
+</pre>
+
+<figure>
+  <img src="https://quantstartmedia.s3.amazonaws.com/images/article-images/articles/understanding_equities_data/appl_std_dev.png" alt="Graph showing standard deviation of open and close prices for AAPL" style="padding-bottom:20px;">
+  <figcaption>Standard Deviation of Open and Close price for AAPL April 23rd to May 19th 2020</figcaption>
+</figure>
+
+<p>As you can see in the chart above there is a rise in the close price on April 30th. This is then followed by a drop the next day, however the close price then continues to rise and remains higher for the rest of the period. On the payment date of May 14th there is also a drop in the open price. As can be seen in the chart above the open price drops from May 12th through to May 15th. However, when considered with respect to price moves across the monthly period it can be seen that this price drop is once again not significant. It is well within the standard deviation.</p>
+
+<h3>Calculating Dividend Adjustments</h3>
+
+<p>In a similar manner to stock splits a dividend adjustment factor must be calculated and applied to all close prices prior to the ex-dividend date. For dividends the adjustment factor is calculated by subtracting the dividend from the close price the day before the ex-dividend date, and then dividing by that close price to get the adjustment factor in percentage terms.</p>
+
+<p>Let's look at an example; A company announces a dividend of <span>$</span>2. The stock closes at <span>$</span>40 the day before the ex-dividend date. Without any adjustment the stock would open at <span>$</span>38 and there would be a gap of <span>$</span>2. To calculate the adjustment factor the dividend is subtracted from the close price (<span>$</span>40 - <span>$</span>2 = <span>$</span>38). This value is then divided by the close price (<span>$</span>38/<span>$</span>40 = 0.95). The historic close prices prior to the ex-dividend date are then multiplied by the adjustment factor so that they stay rationally aligned.</p>
+
+<h3>Rights Offerings</h3>
+
+<p>A rights offering is an offer to buy new shares created by a company. It is made to current shareholders and entitles them to purchase new shares at a reduced value to that presented to the public. This is often carried out by a company to raise additional capital. The creation of new shares lowers the value of the existing shares as it increases supply and each share now represents a smaller amount of the net profit.</p> 
+
+<p>The group of rights offered to shareholders are known as <strong>subscription warrants</strong> and are in effect a type of option. The shareholder has the right but not the obligation to purchase the shares within a specific period, which is usually no more than 30 days. Until the date at which the shares must be purchased these rights are transferable and may be sold. Their value compensates the shareholder for the dilutative effect of creating the new shares. The <strong>rights issue ratio</strong> describes the number of additional shares a shareholder may purchase and is based upon the number of shares they currently own. So if the rights issue ratio is 1:2 a shareholder may purchase one additional share for every two shares they hold. The ratio is expressed as rights:owned.</p>
+
+<p>The adjusted close price takes into account the dilutive effect of the rights offering. The close price is adjusted in a simialr way to that of dividends and stock splits, by multiplying with an adjustment factor. In the case of a rights offering the adjustment factor is calculated from the rights issue ratio.</p>
+
+<p>Let's continue with our above example. A company announces a rights offering to shareholders with a rights issue ratio of 1:2. The adjustment factor is (1+2)/2 or 3/2 = 1.5. In this case all prior closing prices of the stock will be multiplied by 1.5.</p>
+
+<p>As you have seen the <strong>adjusted close</strong> price alters the close price based on the effects of corporate actions.  It makes a stock's performance easier to evaluate as well as allowing an investor to compare the performance of multiple assets. Since it does not suffer from price drops due to stock splits it is more appropriate for backtesting any trading strategy rules.</p>
+
+<h2>Ticker Symbol Changes</h2>
+
+<p>Stock tickers are created when a company begins to trade publicly on an exchange. They identify the stock at the exchange level. Note that the ticker is not to be confused with the International Securities Identification Number (ISIN) which is a unique identifier for a security. For example, IBM is traded on 25 different stock exchanges, it has 25 different tickers but only one ISIN. By convention the symbol or ticker is often an abbrieviation of the company name, although this is not a requirement. Stock tickers were first created by Standard &amp; Poor (S&P) and are used across the world on every major exchange. The number of characters in a ticker is variable and dependant on the exchange. Stocks traded on the New York Stock Exchange (NYSE) have tickers made up of 3 characters while stocks traded on the NASDAQ have 4 characters.</p>
+
+<p>Ticker symbol changes can result from a company name change, a merger or acquistion, or a delisting or bankruptcy event. When ticker symbol changes result from a merger, acquisition or name change the ticker symbols will update automatically within your brokerage account and in any data you may be using. The change will become visible within two to three days and all historical data will be updated accordingly.</p> 
+
+<p>Symbol changes due to a name change are regarded as price neutral. There is no adjustment made to historic share price or volume. A company may choose to change its name simply as a rebranding exercise to update its image. Examples include when AOL became Time Warner and when Totalizer became International Business Machines (IBM).</p>
+
+<p>Mergers or acquisitions are often regarded as a positive change. The ticker of the acquired company generally becomes the ticker of the acquirer. Existing stock in the acquiree may be exchanged for stock of an equal value in the acquiring company or you may recieve the cash equivalent of your shares. When a merger occurs an adjustment factor will need to be applied to historic stock prices. These function in a similar way to stock splits but do not require any adjusment to volume. A split ratio is calculated and used to multiply all historic prices.</p>
+
+<p>Another reason for changes to symbols is delisting or bankruptcy filing. This is regarded in a negative light. If the value of stock in a company begins to fall the company may eventually be delisted from the exchange. Each exchange has its own rules regarding the delisting process but generally when a stock becomes a penny stock or trades below <span>$</span>1 per share the company can no longer be traded publicly. The ticker will be suffixed by a .pk, .ob or a .otcbb. The pk indicates that the stock is now available on the 'pink sheets', whereas the ob or otcbb means that the stock is now traded on the over-the-counter bulletin board. The NASDAQ exchange has a special case of ticker symbol changes in listings up to Jan 2016. They added a Q to the ticker for bankruptcy and an E for delinquent Securities and Exchange Commission (SEC) filings. This practice has now been discontinued but may show in historic data.</p>
+
+<h2>Next Steps</h2>
+
+<p>In subsequent articles we will consider various equities data providers and determine how straightforward it is to obtain and analyse data from these vendors.</p>
+        
+        
+        <script async data-uid="6296c27f4b" src="https://weathered-brook-5281.ck.page/6296c27f4b/index.js"></script>
+      </section>
+    </div>
+    <div class="col-md-4 book-card order-md-1">
+      
+<div class="sidebar-advert-container">
+  <a href="/qsalpha/?ref=art">
+    <img class="card-img-top" src="/static/images/qsalpha-sidebar-advert-small.png" alt="QSAlpha">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/qsalpha/?ref=art">QSAlpha</a></h3>
+      <p class="card-text medium-text mb-3">Join the QSAlpha research platform that helps fill your strategy research pipeline, diversifies your portfolio and improves your risk-adjusted returns for increased profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/qsalpha/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/quantcademy/?ref=art">
+    <img class="card-img-top" src="/static/images/quantcademy-sidebar-advert-small.png" alt="Quantcademy">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/quantcademy/?ref=art">The Quantcademy</a></h3>
+      <p class="card-text medium-text mb-3">Join the Quantcademy membership portal that caters to the rapidly-growing retail quant trader community and learn how to increase your strategy profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/quantcademy/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/successful-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/sat-sidebar-advert-small.png" alt="Successful Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to find new trading strategy ideas and objectively assess them for your portfolio using a Python-based backtesting engine.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/successful-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/advanced-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/aat-sidebar-advert-small.png" alt="Advanced Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to implement advanced trading strategies using time series analysis, machine learning and Bayesian statistics with R and Python.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/advanced-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+    
+
+<footer>
+  <div class="container container-full">
+    <section class="mt-1.5 mb-1">
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">QuantStart</li>
+            <li class="footer-list-link"><a class="link-fade" href="/about/">About</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/articles/">Articles</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/sitemap/">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Products</li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qsalpha/">QSAlpha</a></li>
+            
+            
+            <li class="footer-list-link"><a class="link-fade" href="/quantcademy/">Quantcademy</a></li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qstrader/">QSTrader</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Legal</li>
+            <li class="footer-list-link"><a class="link-fade" href="/privacy-policy/">Privacy Policy</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/terms-and-conditions/">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Social</li>
+            <li class="footer-list-link"><a class="link-fade" href="https://twitter.com/quantstart">Twitter</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="https://www.youtube.com/channel/UCmVnnZ6Y2TrJtY1eQJN6kWA">YouTube</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="row mb-1.5 mt-5">
+      <div class="col-12 col-md-9 col-lg-8 col-xl-6">
+        <div class="footer-copyright">
+          <p>©2012-2023 QuarkGluon Ltd. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+<script src="/static/js/jquery-3.2.1.min.js"></script>
+<script src="/static/js/prism.js.min"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/nav.js"></script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5383959-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+    
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="/static/js/highcharts/highcharts.js"></script>
+<script type="text/javascript">
+  num_colours = 10;
+</script>
+<script src="/static/js/statistics.js"></script>
+
+
+  </body>
+</html>

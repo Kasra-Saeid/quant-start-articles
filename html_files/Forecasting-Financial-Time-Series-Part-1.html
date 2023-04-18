@@ -1,0 +1,546 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-site-verification" content="wl3-8ed1QZjI0iYZMv10zoZWYElkMObTfwLlWIj9cpA" />
+    <meta name="description" content="Forecasting Financial Time Series - Part I">
+
+    <link rel="icon" href="/static/images/favicon.png">
+
+    <title>Forecasting Financial Time Series - Part I | QuantStart</title>
+    
+    
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet"> 
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/prism.css" rel="stylesheet">
+<link href="/static/css/qs.css?v=10" rel="stylesheet">
+    
+  </head>
+
+  <body>
+    <header class="header covered-header" style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://quantstartmedia.s3.amazonaws.com/images/article-images/article-backgrounds/default-bg.jpg);">
+  
+<nav class="nav">
+  <div class="container nav-container">
+    <div class="nav-row row d-flex justify-content-between align-items-center">
+      <div class="col-2">
+        <ul class="nav-items justify-content-end small-capitals align-items-center">
+          <li class="nav-item">
+            <a class="link-fade" href="/">QuantStart</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-auto col-logo">
+        <ul id="top-nav-menu" class="nav-items justify-content-end align-items-center">
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/qsalpha/">QSAlpha</a>
+          </li>
+          
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/quantcademy/">Quantcademy</a>
+          </li>
+          
+          <li id="menu-link-ebooks" class="nav-item">
+            <a class="link-fade" href="#">Books</a>
+            <div id="menu-pane-ebooks" class="nav-items menu-dropdown-pane">
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/qstrader/">QSTrader</a>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/articles/">Articles</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/members/login/">Login</a>
+          </li>
+          
+        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<nav id="mobile-nav" class="mobile-nav text-left">
+  <div class="container">
+    <ul class="mt-4 ml-3 mobile-nav-menu">
+      <li class="nav-item">
+        <a class="link-fade d-block" href="/">QuantStart</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qsalpha/">QSAlpha</a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/quantcademy/">Quantcademy</a>
+      </li>
+      
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="#">Books</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qstrader/">QSTrader</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/articles/">Articles</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/members/login/">Login</a>
+      </li>
+      
+    </ul>
+    <button class="nav-toggle mobile-nav-close">
+      <svg id="mobile-nav-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M19.77,5.63,13.41,12l6.36,6.37a1,1,0,0,1-1.41,1.41L12,13.41,5.63,19.77a1,1,0,0,1-1.44-1.39l0,0L10.58,12,4.21,5.63a1,1,0,0,1,0-1.42,1,1,0,0,1,1.41,0l0,0L12,10.58l6.37-6.37a1,1,0,0,1,1.41,0A1,1,0,0,1,19.77,5.63Z"></path>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+  <div class="container hero-container">
+    <section class="mt-5 mb-4">
+      <div class="row justify-content-center">
+        <div class="col-12 text-center">
+          <p class="hero">Forecasting Financial Time Series - Part I</p>
+          <p class="hero subhero">Forecasting Financial Time Series - Part I</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</header>
+    
+<section class="container content-container">
+  <div class="row">
+    <div class="col-md-8 order-md-2">
+      <section class="content article-content">
+        
+        
+        <p>Updated for Python 3.10, January 2023<p>
+
+<p>In this series of articles we are going to create a statistically robust process for forecasting financial time series. These forecasts will form the basis for a group of automated trading strategies. The first article in the series will discuss the modelling approach and a group of <em>classification algorithms</em> that will enable us to predict market direction.</p>
+
+<p>Within these articles we will be making use of <a href="https://scikit-learn.org/stable/">scikit-learn</a>, a machine learning library for Python. Scikit-learn contains implementations of many machine learning techniques. Not only does this save us a great deal of time in implementing our own, but it minimises the risk of bugs introduced by our own code and allows additional verification against libraries written in other packages, such as R. This gives us a great deal of confidence if we need to create our own custom implementation (for reasons of execution speed, say).</p>
+
+<h2>Process for Forecasting</h2>
+
+<p>A detailed explanation of the field of statistical machine learning is beyond this article. In order to utilise techniques such as <a href="https://en.wikipedia.org/wiki/Logistic_regression">Logistic Regression</a>, <a href="https://en.wikipedia.org/wiki/Linear_discriminant_analysis">Linear Discriminant Analysis</a> and <a href="https://en.wikipedia.org/wiki/Quadratic_classifier#Quadratic_discriminant_analysis">Quadratic Discriminant Analysis</a> we need to outline some basic concepts.</p>
+
+<h3>Supervised Learning Techniques</h3>
+
+<p>Supervised learning techniques involve a set of <em>known</em> tuples $(x_i, y_i)$, $i \in \{1,...,N \}$, with $x_i$ representing the predictor variables (such as lagged stock market returns or volume traded) and $y_i$ representing the associated response/observation variables (such as the stock market return today). In this situation we are interested in <em>prediction</em>. Given future predictor variables we wish to estimate the responses from these predictors. This is in opposition to <em>inference</em> where we are more interested in the <em>relationship</em> between the variables.</p>
+
+<p>All of the algorithms we make use of in this article, along with many others that we will employ in the future, are from the supervised learning domain.</p>
+
+<h3>Measuring Prediction Accuracy</h3>
+
+<p>The particular class of methods that we are interested in involves <em>binary classification</em>. That is, we will attempt to allocate the percentage return for a particular day into two buckets: "Up" or "Down". In a production forecaster we would be very concerned with the magnitude of this prediction and the deviations of the prediction from the actual value.</p>
+
+<p>In such cases we can make use of the <a href="https://en.wikipedia.org/wiki/Mean_squared_error">Mean-Squared Error</a>, <a href="https://en.wikipedia.org/wiki/Median_absolute_deviation">Mean Absolute Deviation</a> and <a href="https://en.wikipedia.org/wiki/Root-mean-square_deviation">Root-Mean-Squared Error</a> to provide an estimate of forecasting accuracy. The literature provides numerous other examples of forecasting accuracy measures.</p>
+
+<p>In this instance we are only going to be concerned with the <strong>hit rate</strong>, which is simply the percentage of times that the forecaster achieved an accurate prediction (i.e. up when the day was up and vice versa). In later examples we will make use of a <a href="https://en.wikipedia.org/wiki/Confusion_matrix">confusion matrix</a> to determine the prediction performance on a class-by-class basis. In addition we will calculate the aforementioned values and incorporate them into our trading research process.</p>
+
+<h3>Forecasting Factors</h3>
+
+<p>A forecasting methodology is only as good as the factors chosen as predictors. There are a staggering number of potential factors to choose from when forecasting stock market index returns. In this article we are going to restrict the factors to time lags of the current percentage returns. This is not because they are the best predictors, rather it is because it is straightforward to demonstrate the process of forecasting on an easily obtained dataset.</p>
+
+<p>Forecasting factor choice is extremely important, if not the most important, component of the forecaster. Even simple machine learning techniques will produce good results on well-chosen factors. Note that the converse is not often the case. "Throwing an algorithm at a problem" will usually lead to poor forecasting accuracy.</p>
+
+<p>For this forecaster specifically, I have chosen the first and second time lags of the percentage returns as the predictors for the current stock market direction. This is a relatively arbitrary choice and there is plenty of scope for modification, for instance by adding in additional lags or the volume of shares traded. It is generally better to have fewer predictors in a model, although there are statistical tests available which can demonstrate the predictive capability of each factor.</p>
+
+<h2>Forecasting S&amp;P500 with Logistic Regression, LDA and QDA</h2>
+
+<p>The <a href="https://en.wikipedia.org/wiki/S%26P_500">S&amp;P500</a> is a weighted index of the 500 largest publicly traded companies (by market capitalisation) in the US stock market. It is often considered an equities "benchmark". Many derivative products exist in order to allow speculation or hedging on the index. In particular, the <a href="https://www.cmegroup.com/markets/equities/sp/e-mini-sandp500.quotes.html">S&amp;P500 E-Mini Index Fultures Contract</a> is an extremely liquid means of trading the index.</p>
+
+<p>In this section we are going to use three <em>classifiers</em> to predict the direction of the closing price at day $N$ based solely on price information known at day $N-1$. An upward directional move means that the closing price at $N$ is higher than the price at $N-1$, while a downward move implies a closing price at $N$ lower than at $N-1$.</p>
+
+<p>If we can determine the direction of movement in a manner that significantly exceeds a 50% hit rate, with low error and a good statistical significance, then we are on the road to forming a basic systematic trading strategy based on our forecasts. At this stage we're not concerned with the most up to date machine learning classification algorithms. Right now we're just introducing concepts and so we'll begin the discussion on forecasting with some elementary methods.</p>
+
+<h3>Logistic Regression</h3>
+
+<p>The first technique we will consider is <a href="https://en.wikipedia.org/wiki/Logistic_regression">logistic regression</a> (LR). In our case we are going to use LR to measures the relationship between a binary categorical dependent variable ("Up" or "Down") and multiple independent continuous variables (the lagged percentage returns). The model provides the <em>probability</em> that a particular (following) day will be categorised as "Up" or "Down". In this implementation we have chosen to assign each day as "Up" if the probability exceeds 0.5. We could make use of a different threshold, but for simplicity I have chosen 0.5.</p>
+
+<p>LR uses the logistic formula to model the probability of obtaining an "Up" day ($Y=U$) based on the lag factors ($L_1$, $L_2$):</p>
+
+\begin{eqnarray}
+p(Y=U|L_1, L_2) = \frac{e^{\beta_0 + \beta_1 L_1 + \beta_2 L_2}}{1+e^{\beta_0 + \beta_1 L_1 + \beta_2 L_2}}
+\end{eqnarray}
+
+<p>The logistic function is used because it provides a probability between $[0,1]$ for all values of $L_1$ and $L_2$, unlike linear regression where negative probabilities can be generated in the same setting.</p>
+
+<p>To fit the model (i.e. estimate the $\beta_i$ coefficients) the <a href="https://en.wikipedia.org/wiki/Maximum_likelihood">maximum likelihood method</a> is used. Fortunately for us, the implementation of the fitting and prediction of the LR model is <a href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html">handled by the scikit-learn library</a>.</p>
+
+<h3>Linear Discriminant Analysis</h3>
+
+<p>The next technique used is <a href="https://en.wikipedia.org/wiki/Linear_discriminant_analysis">Linear Discriminant Analysis</a> (LDA). LDA differs from LR in because in LR we model $P(Y=U|L_1,L_2)$ as a conditional distribution of the response $Y$ given the predictors $L_i$, using a logistic function. In LDA the distribution of the $L_i$ variables are modelled separately, given $Y$, and $P(Y=U|L_1,L_2)$ is obtained via <a href="https://en.wikipedia.org/wiki/Bayes%27_theorem">Bayes' Theorem</a>.</p>
+
+<p>Essentially, LDA results from assuming that predictors are drawn from a multivariate Gaussian distribution. After calculting estimates for the parameters of this distribution, the parameters can be input into Bayes' Theorem in order to make predictions about which class an observation belongs to.</p>
+
+<p>LDA assumes that all classes share the same <a href="https://en.wikipedia.org/wiki/Covariance_matrix">covariance matrix</a>.</p>
+
+<p>We won't dwell on the formulae for estimating the distribution or <em>posterior probabilities</em> that are needed to make predictions, as once again <a href="https://scikit-learn.org/0.16/modules/generated/sklearn.lda.LDA.html">scikit-learn handles this for us</a>.</p>
+
+<h3>Quadratic Discriminant Analysis</h3>
+
+<p><a href="https://en.wikipedia.org/wiki/Quadratic_classifier#Quadratic_discriminant_analysis">Quadratic Discriminant Analysis</a> (QDA) is closely related to LDA. The significant difference is that each class can now possess its own covariance matrix.</p>
+
+<p>QDA generally performs better when the decision boundaries are non-linear. LDA generally performs better when there are fewer training observations (i.e. when needing to reduce variance). QDA, on the other hand, performs well when the training set is large (i.e. variance is of less concern). The use of one or the other ultimately comes down to the <a href="https://en.wikipedia.org/wiki/Bias-variance_dilemma">bias-variance trade-off</a>.</p>
+
+<p>As with LR and LDA, <a href="https://scikit-learn.org/0.16/modules/generated/sklearn.qda.QDA.html">scikit-learn takes care of the QDA implementation</a> so we only need to provide it with training/test data for parameter estimation and prediction.</p>
+
+<h3>Python Implementation</h3>
+
+<p>For the implementation of these forecasters we will make use of <a href="https://www.numpy.org/">NumPy</a>, <a href="https://pandas.pydata.org/">pandas</a> and <a href="https://scikit-learn.org/stable/">scikit-learn</a>. If you would like to follow along with the code and are new to Python, we highly recommend our early career researcher series which will help you <a href="https://www.quantstart.com/articles/installing-an-algorithmic-trading-research-environment-with-python-on-linux/" target="blank" rel="noopener norefferer">install Python</a> and <a href="https://www.quantstart.com/articles/creating-an-algorithmic-trading-prototyping-environment-with-jupyter-notebooks-and-plotly/" target="blank" rel="noopener norefferer">create an algorithmic trading prototyping environment</a>.</p> 
+
+<p>Once you have you Python environment up and running the first step is to import the relevant modules and libraries. Depending on your environment it maybe necessary for you to install the necessary library with a suitable package manager such as pip or conda. In order to follow along with this example you will need:</p>
+<p>
+  <ul>
+    <li>Numpy v1.23</li>
+    <li>Pandas v1.5</li>
+    <li>Scikit-Learn v1.2</li>
+  </ul>
+</p>
+
+<p>You will also need to obtain as CSV file for SPY from January 3rd 2000 and 31st December 2005. The choice of data vendor is up to you, but your CSV needs to have the format:</p>
+
+<pre>
+<code class="language-python">Date,Open,High,Low,Close,Adj Close,Volume
+2000-01-03,148.250000,148.250000,143.875000,145.437500,95.308777,8164300
+2000-01-04,143.531250,144.062500,139.640625,139.750000,91.581642,8089800
+2000-01-05,139.937500,141.531250,137.250000,140.000000,91.745522,12177900
+2000-01-06,139.625000,141.500000,137.750000,137.750000,90.271004,6227200</code>
+</pre>
+
+<p>Below are the imports that need to be made:</p>
+
+<pre>
+<code class="language-python">import datetime
+import datetime
+import numpy as np
+import pandas as pd
+import sklearn
+
+from sklearn.linear_model import LogisticRegression
+from sklearn.discriminant_analysis import LinearDiscriminantAnalysis as LDA
+from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis as QDA</code>
+</pre>
+
+<p>Now that the libraries are imported, we need to create a pandas DataFrame that contains the lagged percentage returns for a prior number of days (defaulting to five). <code>create_lagged_series</code> will take a CSV file and create a lagged DataFrame across the period specified:</p>
+
+<pre>
+<code class="language-python">def create_dataframe(spy, start_date, lags=5):
+    # Obtain stock information
+    ts = pd.read_csv(spy)
+    ts = ts.set_index(pd.DatetimeIndex(ts['Date']))
+    
+    # Create lagged dataframe
+    tslag = pd.DataFrame(index=ts.index)
+    tslag["Today"] = ts["Adj Close"]
+    tslag["Volume"] = ts["Volume"]
+
+    # Create the shifted lag series of prior trading period close values
+    for i in range(0, lags):
+        tslag[f"Lag{i+1}"] = ts["Adj Close"].shift(i+1)
+
+    # Create the returns dataframe
+    tsret = pd.DataFrame(index=tslag.index)
+    tsret["Volume"] = tslag['Volume']
+    tsret["Today"] = tslag["Today"].pct_change()*100.0
+
+    # If any of the values of percentage returns are zero, set them to
+    # a small number. This stops issues with QDA model.
+    tsret.loc[:, 'Today'] = tsret.apply(
+        lambda row: 0.0001 if abs(row['Today']) < 0.0001 else row['Today'], axis=1
+    )
+
+    # Create the lagged percentage returns columns
+    for i in range(0, lags):
+        tsret[f"Lag{i+1}"] = tslag[f"Lag{i+1}"].pct_change()*100.0 
+
+    # Create a "Direction" column (+1 or -1) indicating an up/down day
+    tsret["Direction"] = np.sign(tsret["Today"])
+    tsret = tsret[tsret.index >= start_date]
+    return tsret</code>
+</pre>
+
+<p>The next helper function is designed to create a percentage <code>hit_rate</code> for each model, by eliminating duplicated code. It relies on the fact that the Logistic Regression, LDA and QDA objects have the same methods (<code>fit</code> and <code>predict</code>). The hit rate is output to the terminal:</p>
+
+<pre>
+<code class="language-python">def fit_model(name, model, X_train, y_train, X_test, pred):
+    """Fits a classification model (for our purposes this is LR, LDA and QDA)
+    using the training data, then makes a prediction and subsequent "hit rate"
+    for the test data."""
+
+    # Fit and predict the model on the training, and then test, data
+    model.fit(X_train, y_train)
+    pred[name] = model.predict(X_test)
+
+    # Create a series with 1 being correct direction, 0 being wrong
+    # and then calculate the hit rate based on the actual direction
+    pred["%s_Correct" % name] = (1.0+pred[name]*pred["Actual"])/2.0
+    hit_rate = np.mean(pred["%s_Correct" % name])
+    print( "%s: %.3f" % (name, hit_rate))</code>
+</pre>
+
+<p>Finally, we tie it together with a <code>__main__</code> function. In this instance we're going to attempt to forecast the US stock market direction in 2005, using returns data from 2001 to 2004:</p>
+
+<pre>
+<code class="language-python">if __name__ == "__main__":
+    # Create a lagged series of the S&P500 US stock market index
+    spy = "PATH/TO/YOUR/CSV"
+    snpret = create_dataframe(spy, dt(2001, 1, 10), lags=5)
+
+    # Use the prior two days of returns as predictor values, with direction as the response
+    X = snpret[["Lag1","Lag2"]]
+    y = snpret["Direction"]
+
+    # The test data is split into two parts: Before and after 1st Jan 2005.
+    start_test = dt(2005,1,1)
+
+    # Create training and test sets
+    X_train = X[X.index < start_test]
+    X_test = X[X.index >= start_test]
+    y_train = y[y.index < start_test]
+    y_test = y[y.index >= start_test]
+
+    # Create prediction DataFrame
+    pred = pd.DataFrame(index=y_test.index)
+    pred["Actual"] = y_test
+    
+    # Create and fit the three models    
+    print("Hit Rates:")
+    models = [("LR", LogisticRegression()), ("LDA", LDA()), ("QDA", QDA())]
+    for m in models:
+        fit_model(m[0], m[1], X_train, y_train, X_test, pred)</code>
+</pre>
+
+<p>The output of the code is as follows:</p>
+
+<pre>
+<code class="language-python">Hit Rates:
+LR: 0.556
+LDA: 0.556
+QDA: 0.552</code>
+</pre>
+
+<p>It can be seen that the Logistic Regression and Linear Discriminant Analyser were both able to gain a 56% hit rate. However, the Quadratic Discriminant Analyser performed slightly worse and managed to gain a 55% hit rate.</p>
+
+<p>Thus, there is hope that we <em>may</em> be able to partially predict the US stock market. There are a few caveats to this forecasting methodology:</p>
+
+<ul>
+  <li>We haven't used any form of <strong>cross-validation</strong> to reduce fitting errors. A production forecaster would require such analysis to be considered robust.</li>
+  <li>The forecaster has only been trained on data between <strong>2001-2004</strong> inclusive. More recent stock market data may have substantially different prediction accuracy.</li>
+  <li>We haven't actually attempted to trade off this information. In particular, how would we actually <strong>execute trades</strong>? Would we use the US e-mini future? Would we make use of Market-On-Open (MOO) or Market-On-Close (MOC) orders? We would also need to consider transaction costs.</li>
+</ul>
+
+<p>In subsequent articles we will consider these issues in greater depth.</p>
+
+<h2>A Warning on Random Forecasting</h2>
+
+<p>In this section I want to overtly highlight the problem of statistical significance when dealing with forecasters. In addition to the forecaster outlined above I also generated a "forecasting" series based solely on the sign of random draws from a standard normal distribution. Note that in the same period it has produced a forecasting hit-rate of 53.4% and yet the method used to generate the series is essentially no different to tossing a coin! Keep this in mind whenever you carry out forecasting procedures as it can often lead to dire trading performance if not taken into account.</p> 
+
+<p>In the following articles we will consider more advanced supervised non-linear forecasting classifiers such as <a href="http://en.wikipedia.org/wiki/Artificial_neural_network">artificial neural networks</a> (ANN) and <a href="http://en.wikipedia.org/wiki/Support_vector_machine">support vector machines</a> (SVM). With a "stable" of machine learning techniques at our disposal we will subsequently be able to make use of <a href="http://en.wikipedia.org/wiki/Ensemble_learning"><em>ensemble methods</em></a> to produce a forecasting accuracy and robustness that can sometimes exceed those of any individual forecaster.</p>
+        
+        
+        <script async data-uid="6296c27f4b" src="https://weathered-brook-5281.ck.page/6296c27f4b/index.js"></script>
+      </section>
+    </div>
+    <div class="col-md-4 book-card order-md-1">
+      
+<div class="sidebar-advert-container">
+  <a href="/qsalpha/?ref=art">
+    <img class="card-img-top" src="/static/images/qsalpha-sidebar-advert-small.png" alt="QSAlpha">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/qsalpha/?ref=art">QSAlpha</a></h3>
+      <p class="card-text medium-text mb-3">Join the QSAlpha research platform that helps fill your strategy research pipeline, diversifies your portfolio and improves your risk-adjusted returns for increased profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/qsalpha/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/quantcademy/?ref=art">
+    <img class="card-img-top" src="/static/images/quantcademy-sidebar-advert-small.png" alt="Quantcademy">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/quantcademy/?ref=art">The Quantcademy</a></h3>
+      <p class="card-text medium-text mb-3">Join the Quantcademy membership portal that caters to the rapidly-growing retail quant trader community and learn how to increase your strategy profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/quantcademy/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/successful-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/sat-sidebar-advert-small.png" alt="Successful Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to find new trading strategy ideas and objectively assess them for your portfolio using a Python-based backtesting engine.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/successful-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/advanced-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/aat-sidebar-advert-small.png" alt="Advanced Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to implement advanced trading strategies using time series analysis, machine learning and Bayesian statistics with R and Python.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/advanced-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+    
+
+<footer>
+  <div class="container container-full">
+    <section class="mt-1.5 mb-1">
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">QuantStart</li>
+            <li class="footer-list-link"><a class="link-fade" href="/about/">About</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/articles/">Articles</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/sitemap/">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Products</li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qsalpha/">QSAlpha</a></li>
+            
+            
+            <li class="footer-list-link"><a class="link-fade" href="/quantcademy/">Quantcademy</a></li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qstrader/">QSTrader</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Legal</li>
+            <li class="footer-list-link"><a class="link-fade" href="/privacy-policy/">Privacy Policy</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/terms-and-conditions/">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Social</li>
+            <li class="footer-list-link"><a class="link-fade" href="https://twitter.com/quantstart">Twitter</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="https://www.youtube.com/channel/UCmVnnZ6Y2TrJtY1eQJN6kWA">YouTube</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="row mb-1.5 mt-5">
+      <div class="col-12 col-md-9 col-lg-8 col-xl-6">
+        <div class="footer-copyright">
+          <p>©2012-2023 QuarkGluon Ltd. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+<script src="/static/js/jquery-3.2.1.min.js"></script>
+<script src="/static/js/prism.js.min"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/nav.js"></script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5383959-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+    
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="/static/js/highcharts/highcharts.js"></script>
+<script type="text/javascript">
+  num_colours = 10;
+</script>
+<script src="/static/js/statistics.js"></script>
+
+
+  </body>
+</html>

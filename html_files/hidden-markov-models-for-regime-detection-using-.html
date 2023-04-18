@@ -1,0 +1,634 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-site-verification" content="wl3-8ed1QZjI0iYZMv10zoZWYElkMObTfwLlWIj9cpA" />
+    <meta name="description" content="Hidden Markov Models for Regime Detection using R">
+
+    <link rel="icon" href="/static/images/favicon.png">
+
+    <title>Hidden Markov Models for Regime Detection using R | QuantStart</title>
+    
+    
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet"> 
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/prism.css" rel="stylesheet">
+<link href="/static/css/qs.css?v=10" rel="stylesheet">
+    
+  </head>
+
+  <body>
+    <header class="header covered-header" style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://quantstartmedia.s3.amazonaws.com/images/article-images/article-backgrounds/default-bg.jpg);">
+  
+<nav class="nav">
+  <div class="container nav-container">
+    <div class="nav-row row d-flex justify-content-between align-items-center">
+      <div class="col-2">
+        <ul class="nav-items justify-content-end small-capitals align-items-center">
+          <li class="nav-item">
+            <a class="link-fade" href="/">QuantStart</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-auto col-logo">
+        <ul id="top-nav-menu" class="nav-items justify-content-end align-items-center">
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/qsalpha/">QSAlpha</a>
+          </li>
+          
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/quantcademy/">Quantcademy</a>
+          </li>
+          
+          <li id="menu-link-ebooks" class="nav-item">
+            <a class="link-fade" href="#">Books</a>
+            <div id="menu-pane-ebooks" class="nav-items menu-dropdown-pane">
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/qstrader/">QSTrader</a>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/articles/">Articles</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/members/login/">Login</a>
+          </li>
+          
+        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<nav id="mobile-nav" class="mobile-nav text-left">
+  <div class="container">
+    <ul class="mt-4 ml-3 mobile-nav-menu">
+      <li class="nav-item">
+        <a class="link-fade d-block" href="/">QuantStart</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qsalpha/">QSAlpha</a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/quantcademy/">Quantcademy</a>
+      </li>
+      
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="#">Books</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qstrader/">QSTrader</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/articles/">Articles</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/members/login/">Login</a>
+      </li>
+      
+    </ul>
+    <button class="nav-toggle mobile-nav-close">
+      <svg id="mobile-nav-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M19.77,5.63,13.41,12l6.36,6.37a1,1,0,0,1-1.41,1.41L12,13.41,5.63,19.77a1,1,0,0,1-1.44-1.39l0,0L10.58,12,4.21,5.63a1,1,0,0,1,0-1.42,1,1,0,0,1,1.41,0l0,0L12,10.58l6.37-6.37a1,1,0,0,1,1.41,0A1,1,0,0,1,19.77,5.63Z"></path>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+  <div class="container hero-container">
+    <section class="mt-5 mb-4">
+      <div class="row justify-content-center">
+        <div class="col-12 text-center">
+          <p class="hero">Hidden Markov Models for Regime Detection using R</p>
+          <p class="hero subhero">Hidden Markov Models for Regime Detection using R</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</header>
+    
+<section class="container content-container">
+  <div class="row">
+    <div class="col-md-8 order-md-2">
+      <section class="content article-content">
+        
+        
+        <p>In the <a href="https://www.quantstart.com/articles/hidden-markov-models-an-introduction">previous article</a> in the series Hidden Markov Models were introduced. They were discussed in the context of the broader class of Markov Models. They were motivated by the need for quantitative traders to have the ability to detect market regimes in order to adjust how their quant strategies are managed.</p>
+
+<p>In particular it was mentioned that "<em>various regimes lead to adjustments of asset returns via shifts in their means, variances/volatilities, serial correlation and covariances, which impact the effectiveness of time series methods that rely on stationarity</em>". This has a significant bearing on how trading strategies are modified throughout the strategy lifecycle.</p>
+
+<p>In this article Hidden Markov Models will be implemented using the R statistical language via the Dependent Mixture Models <a href="https://cran.r-project.org/web/packages/depmixS4/index.html">depmixS4</a> package. They will be used to analyse when US equities markets are in various regime states. In subsequent articles these regime overlays will be used in a subclassed <code>RiskManager</code> module of <a href="https://github.com/mhallsmoore/qstrader">QSTrader</a> to adjust trade signal suggestions from various strategies.</p>
+
+<p>Within the article a simulation of streamed market returns across two separate regimes - "bullish" and "bearish" - will be carried out. A Hidden Markov Model will be fitted to the returns stream to identify the probability of being in a particular regime state.</p>
+
+<p>Subsequent to outlining the procedure on simulated data the Hidden Markov Model will be applied to US equities data in order to determine two-state underlying regimes.</p>
+
+<p><em>Acknowledgements: This article and code is heavily influenced by the post over at Systematic Investor on Regime Detection<sup><a href="#ref-systematicinvestor-regimedetectupdate2015">[6]</a></sup>. Please take a look at the article and references therein for additional discussion.</em></p>
+
+<h2>Market Regimes</h2>
+
+<p>Applying Hidden Markov Models to regime detection is tricky since the problem is actually a form of <strong>unsupervised learning</strong>. That is, there is no "ground truth" or labelled data on which to "train" the model. In particular it is not clear how many regime states exist a priori. Are there two, three, four or more "true" hidden market regimes?</p>
+
+<p>Answers to these questions depend heavily on the asset class being modelled, the choice of time frame and the nature of data utilised. For instance, daily returns data in equities markets often exhibits periods of calm lower volatility, even over a number of years, with exceptional periods of high volatility in moments of "panic" or "correction". Is it natural then to consider modelling equity indices with two states? Might there be a third intermediate state representing more vol than usual but not outright panic?</p>
+
+<p>Utilising Hidden Markov Models as overlays to a risk manager that can interfere with strategy-generated orders requires careful research analysis and a solid understanding of the asset class(es) being modelled. In future articles the performance of various trading strategies will be studied under various Hidden Markov Model based risk managers.</p>
+
+<h2>Simulated Data</h2>
+
+<p>In this section simulated returns data will be generated from separate Gaussian distributions, each of which represents a "bullish" or "bearish" market regime. The bullish returns draw from a Guassian distribution with positive mean and low variance, while the bearish returns draw from a Gaussian distribution with slight negative mean but higher variance.</p>
+
+<p>Five separate market regime periods will be simulated and "stitched" together in R. The subsequent stream of returns will then be utilised by a Hidden Markov Model in order to infer posterior probabilities of the regime states, given the sequence of observations.</p>
+
+<p>The first task is to install the depmixS4 and <a href="http://www.quantmod.com/">quantmod</a> libraries and then import them into R. The random seed will also be fixed in order to allow consistent replication of results:</p>
+
+<pre>
+<code class="language-r">install.packages('depmixS4')
+install.packages('quantmod')
+library('depmixS4')
+library('quantmod')
+set.seed(1)</code>
+</pre>
+
+<p>At this stage a two-regime market will be simulated. This is achieved by assuming market returns are normally distributed. Separate regimes will be simulated with each containing $N_k$ days of returns. Each of the $k$ regimes will be bullish or bearish. The goal of the Hidden Markov Model will be to identify when the regime has switched from bullish to bearish and vice versa.</p>
+
+<p>In this example $k=5$ and $N_k \in [50, 150]$. The bull market is distributed as $\mathcal{N}(0.1, 0.1)$ while the bear market is distributed as $\mathcal{N}(-0.05, 0.2)$. The parameters are set via the following code:</p>
+
+<pre>
+<code class="language-r"># Create the parameters for the bull and
+# bear market returns distributions
+Nk_lower <- 50
+Nk_upper <- 150
+bull_mean <- 0.1
+bull_var <- 0.1
+bear_mean <- -0.05
+bear_var <- 0.2</code>
+</pre>
+
+<p>The $N_k$ values are randomly chosen:</p>
+
+<pre>
+<code class="language-r"># Create the list of durations (in days) for each regime
+days <- replicate(5, sample(Nk_lower:Nk_upper, 1))</code>
+</pre>
+
+<p>The returns for each $k$th period are randomly drawn:</p>
+
+<pre>
+<code class="language-r"># Create the various bull and bear markets returns
+market_bull_1 <- rnorm( days[1], bull_mean, bull_var ) 
+market_bear_2 <- rnorm( days[2], bear_mean, bear_var ) 
+market_bull_3 <- rnorm( days[3], bull_mean, bull_var ) 
+market_bear_4 <- rnorm( days[4], bear_mean, bear_var ) 
+market_bull_5 <- rnorm( days[5], bull_mean, bull_var )</code>
+</pre>
+
+<p>The R code for creating the true regime states (either 1 for bullish or 2 for bearish) and final list of returns is given by the following:</p>
+
+<pre>
+<code class="language-r"># Create the list of true regime states and full returns list
+true_regimes <- c( rep(1,days[1]), rep(2,days[2]), rep(1,days[3]), rep(2,days[4]), rep(1,days[5]))
+returns <- c( market_bull_1, market_bear_2, market_bull_3, market_bear_4, market_bull_5)</code>
+</pre>
+
+<p>Plotting the returns shows the clear changes in mean and variance between the regime switches:</p>
+
+<pre>
+<code class="language-r">plot(returns, type="l", xlab='', ylab="Returns") </code>
+</pre>
+
+<p style="text-align:center;">
+  <a href="https://s3.amazonaws.com/quantstartmedia/images/qs-hmm-returns.png">
+    <img src="https://s3.amazonaws.com/quantstartmedia/images/qs-hmm-returns.png" width="100%">
+  </a>
+</p>
+
+<p>At this stage the Hidden Markov Model can be specified and fit using the <a href="https://en.wikipedia.org/wiki/Expectation%E2%80%93maximization_algorithm">Expectation Maximisation algorithm</a>, the details of which are beyond the scope of this article. The family of distributions is specified as <code>gaussian</code> and the number of states is set to two (<code>nstates = 2</code>):</p>
+
+<pre>
+<code class="language-r"># Create and fit the Hidden Markov Model
+hmm <- depmix(returns ~ 1, family = gaussian(), nstates = 2, data=data.frame(returns=returns))
+hmmfit <- fit(hmm, verbose = FALSE)</code>
+</pre>
+
+<p>Subsequent to model fitting it is possible to plot the posterior probabilities of being in a particular regime state. <code>post_probs</code> contain the posterior probabilities. These are compared with the underlying true states. Notice that the Hidden Markov Model does a good job of correctly identifying regimes, albeit with some lag:</p>
+
+<pre>
+<code class="language-r"># Output both the true regimes and the 
+# posterior probabilities of the regimes
+post_probs <- posterior(hmmfit)
+layout(1:2)
+plot(post_probs$state, type='s', main='True Regimes', xlab='', ylab='Regime')
+matplot(post_probs[,-1], type='l', main='Regime Posterior Probabilities', ylab='Probability')
+legend(x='topright', c('Bull','Bear'), fill=1:2, bty='n')</code>
+</pre>
+
+<p style="text-align:center;">
+  <a href="https://s3.amazonaws.com/quantstartmedia/images/qs-hmm-simulated.png">
+    <img src="https://s3.amazonaws.com/quantstartmedia/images/qs-hmm-simulated.png" width="100%">
+  </a>
+</p>
+
+<p>The discussion will now turn towards applying the Hidden Markov Model to real world historical financial data.</p>
+
+<h2>Financial Data</h2>
+
+<p>In the above section it was straightforward for the Hidden Markov Model to determine regimes because they had been simulated from pre-specified set of Gaussians. As stated above the problem of Regime Detection is actually an unsupervised learning challenge since the number of states is not known a priori, nor is there any "ground truth" on which to "train" the HMM.</p>
+
+<p>In this section two separate modelling tasks will be carried out. The first will involve fitting the HMM with two regime states to S&amp;P500 returns, while the second will utilise three states. The results between the two models will be compared.</p>
+
+<p>The process for applying the Hidden Markov Model provided by depmixS4 is similar to that carried out for the simulated data. Instead of generating the returns stream from two Gaussian distributions it will simply be downloaded using the <a href="http://www.quantmod.com/">quantmod</a> library:</p>
+
+<pre>
+<code class="language-r"># Obtain S&P500 data from 2004 onwards and
+# create the returns stream from this
+getSymbols( "^GSPC", from="2004-01-01" )
+gspcRets = diff( log( Cl( GSPC ) ) )
+returns = as.numeric(gspcRets)</code>
+</pre>
+
+<p>The <code>gspcRets</code> time series object can be plotted, showing the volatile periods around 2008 and 2011:</p>
+
+<pre>
+<code class="language-r">plot(gspcRets)</code>
+</pre>
+
+<p style="text-align:center;">
+  <a href="https://s3.amazonaws.com/quantstartmedia/images/qs-hmm-gspcrets.png">
+    <img src="https://s3.amazonaws.com/quantstartmedia/images/qs-hmm-gspcrets.png" width="100%">
+  </a>
+</p>
+
+<p>As before a two-state Hidden Markov Model is fitted using the EM algorithm. The returns and posterior probabilities of each regime are plotted:</p>
+
+<pre>
+<code class="language-r"># Fit a Hidden Markov Model with two states 
+# to the S&P500 returns stream
+hmm <- depmix(returns ~ 1, family = gaussian(), nstates = 2, data=data.frame(returns=returns))
+hmmfit <- fit(hmm, verbose = FALSE)
+post_probs <- posterior(hmmfit)
+
+# Plot the returns stream and the posterior
+# probabilities of the separate regimes
+layout(1:2)
+plot(returns, type='l', main='Regime Detection', xlab='', ylab='Returns')
+matplot(post_probs[,-1], type='l', main='Regime Posterior Probabilities', ylab='Probability')
+legend(x='bottomleft', c('Regime #1','Regime #2'), fill=1:2, bty='n')</code>
+</pre>
+
+<p style="text-align:center;">
+  <a href="https://s3.amazonaws.com/quantstartmedia/images/qs-hmm-market-regime-two-state.png">
+    <img src="https://s3.amazonaws.com/quantstartmedia/images/qs-hmm-market-regime-two-state.png" width="100%">
+  </a>
+</p>
+
+<p>Notice that within 2004 and 2007 the markets were calmer and hence the Hidden Markov Model has given high posterior probability to Regime #2 for this period. However between 2007-2009 the markets were incredibly volatile due to the <a href="https://en.wikipedia.org/wiki/Financial_crisis_of_2007%E2%80%9308">sub-prime crisis</a>. This has the initial effect of rapidly changing the posterior probabilities between the two states but being fairly consistently in Regime #1 during 2008 itself.</p>
+
+<p>The markets became calmer in 2010 but additional volatility occurred in 2011, leading once again for the HMM to give high posterior probability to Regime #1. Subsequent to 2011 the markets became calmer once again and the HMM is consistently giving high probability to Regime #2. In 2015 the markets once again became choppier and this is reflected in the increased switching between regimes for the HMM.</p>
+
+<p>The same process will now be carried out for a three-state HMM. There is little to modify between the two, with the exception of modifying <code>nstates = 3</code> and adjusting the plotting legend:</p>
+
+<pre>
+<code class="language-r"># Fit a Hidden Markov Model with three states 
+# to the S&P500 returns stream
+hmm <- depmix(returns ~ 1, family = gaussian(), nstates = 3, data=data.frame(returns=returns))
+hmmfit <- fit(hmm, verbose = FALSE)
+post_probs <- posterior(hmmfit)
+ 
+# Plot the returns stream and the posterior
+# probabilities of the separate regimes
+layout(1:2)
+plot(returns, type='l', main='Regime Detection', xlab='', ylab='Returns')
+matplot(post_probs[,-1], type='l', main='Regime Posterior Probabilities', ylab='Probability')
+legend(x='bottomleft', c('Regime #1','Regime #2', 'Regime #3'), fill=1:3, bty='n')</code>
+</pre>
+
+<p style="text-align:center;">
+  <a href="https://s3.amazonaws.com/quantstartmedia/images/qs-hmm-market-regime-three-state.png">
+    <img src="https://s3.amazonaws.com/quantstartmedia/images/qs-hmm-market-regime-three-state.png" width="100%">
+  </a>
+</p>
+
+<p>The length of data makes the posterior probabilities chart somewhat trickier to interpret. Since the model is forced to consider three separate regimes it leads to a switching behaviour between Regime #2 and Regime #3 in the calmer period of 2004-2007. However in the volatile periods of 2008, 2010 and 2011, Regime #1 dominates the posterior probability indicating a highly volatile state. Subsequent to 2011 the model reverts to switching between Regime #2 and Regime #3.</p>
+
+<p>It is clear that choosing the initial number of states to apply to a real returns stream is a challenging problem. It will depend upon the asset class being utilised, how the trading for that asset is carried out as well as the time period chosen.</p>
+
+<h2>Next Steps</h2>
+
+<p>In subsequent articles the Hidden Markov Model will be used by a <code>RiskManager</code> subclass in the <a href="https://github.com/mhallsmoore/qstrader">QSTrader</a> backtesting and live trading engine. It will determine when to apply a trend following strategy in an attempt to improve profitability over the case of no risk management.</p> 
+
+<h2>Bibliographic Note</h2>
+
+<p>Regime detection has a long history in the quant blogosphere. Quantivity (2009, 2012)<sup><a href="#ref-quantivity-tumr2009">[12]</a>, <a href="#ref-quantivity-mrd2009">[13]</a>, <a href="#ref-quantivity-mamr2012">[2]</a></sup> replicates the research of Kritzman et al (2012)<sup><a href="#ref-kritzman2012">[1]</a></sup> using R to determine US equity "regimes" via macroeconomic indicators. Slaff (2015)<sup><a href="#ref-slaff2015">[3]</a></sup> applies the depmixS4 HMM library in R to EUR/USD forex data to detect volatility regimes.</p>
+
+<p>Systematic Investor (2012, 2015)<sup><a href="#ref-systematicinvestor-regimedetect2012">[4]</a>, <a href="#ref-systematicinvestor-regimedetectpitfalls2012">[5]</a></sup> initially uses simulated data and the RHmm package in R to determine regime states, but then applies these methods to SPY using a rolling window approach. A later post<sup><a href="#ref-systematicinvestor-regimedetectupdate2015">[6]</a></sup> reintroduces the methods using the depmixS4 package.</p>
+
+<p>Gekkoquant (2014, 2015)<sup><a href="#ref-gekkoquant-hmm1-2014">[7]</a>, <a href="#ref-gekkoquant-hmm2-2014">[8]</a>, <a href="#ref-gekkoquant-hmm3-2014">[9]</a>, <a href="#ref-gekkoquant-hmm4-2015">[10]</a></sup> provides a four-part series on applying HMM for regime detection, using the RHmm package. The first two posts concentrate solely on the mathematics of the model along with the derivation of the Viterbi algorithm. The third post considers two approaches to using HMM: One HMM with each state representing a regime and another with multiple HMM, one per regime. The final post applies this to a trend-following strategy, ultimately leading to a Sharpe Ratio of 0.857.</p>
+
+<p>Wiecki (2013)<sup><a href="#ref-wiecki-hmm-2013">[14]</a></sup> presents a Guassian HMM in the Quantopian framework, although this is not directly applied to a trading strategy.</p>
+
+<h2>References</h2>
+
+<ul>
+  <li><a name="ref-kritzman2012" href="http://www.cfapubs.org/doi/abs/10.2469/faj.v68.n3.3">[1] Kritzman, M., Page, S., Turkington, D. (2012) "Regime Shifts: Implications for Dynamic Strategies", <em>Financial Analysts Journal</em> <strong>68</strong> (3): </a></li>
+  <li><a name="ref-quantivity-mamr2012" href="https://quantivity.wordpress.com/2012/11/09/multi-asset-market-regimes/">[2] Quantivity (2012) <em>Multi-Asset Market Regimes</em>, https://quantivity.wordpress.com/2012/11/09/multi-asset-market-regimes/</a></li>
+  <li><a name="ref-slaff2015" href="https://inovancetech.com/hmm-tutorial-1.html">[3] Slaff, T. (2015) <em>Identifying Changing Market Conditions</em>, https://inovancetech.com/hmm-tutorial-1.html</a></li>
+  <li><a name="ref-systematicinvestor-regimedetect2012" href="https://systematicinvestor.wordpress.com/2012/11/01/regime-detection/">[4] Systematic Investor (2012) <em>Regime Detection</em>, https://systematicinvestor.wordpress.com/2012/11/01/regime-detection/</a></li>
+  <li><a name="ref-systematicinvestor-regimedetectpitfalls2012" href="http://systematicinvestor.wordpress.com/2012/11/15/regime-detection-pitfalls/">[5] Systematic Investor (2012) <em>Regime Detection Pitfalls</em>, http://systematicinvestor.wordpress.com/2012/11/15/regime-detection-pitfalls/</a></li>
+  <li><a name="ref-systematicinvestor-regimedetectupdate2015" href="http://systematicinvestor.github.io/Regime-Detection-Update">[6] Systematic Investor (2015) <em>Regime Detection Update</em>, http://systematicinvestor.github.io/Regime-Detection-Update</a></li>
+  <li><a name="ref-gekkoquant-hmm1-2014" href="http://gekkoquant.com/2014/05/18/hidden-markov-models-model-description-part-1-of-4/">[7] GekkoQuant (2014) <em>Hidden Markov Models – Model Description Part 1 of 4</em>, http://gekkoquant.com/2014/05/18/hidden-markov-models-model-description-part-1-of-4/</a></li>
+  <li><a name="ref-gekkoquant-hmm2-2014" href="http://gekkoquant.com/2014/05/26/hidden-markov-models-forward-viterbi-algorithm-part-2-of-4/">[8] GekkoQuant (2014) <em>Hidden Markov Models – Forward & Viterbi Algorithm Part 2 of 4</em>, http://gekkoquant.com/2014/05/26/hidden-markov-models-forward-viterbi-algorithm-part-2-of-4/</a></li>
+  <li><a name="ref-gekkoquant-hmm3-2014" href="http://gekkoquant.com/2014/09/07/hidden-markov-models-examples-in-r-part-3-of-4/">[9] GekkoQuant (2014) <em>Hidden Markov Models – Examples In R – Part 3 of 4</em>, http://gekkoquant.com/2014/09/07/hidden-markov-models-examples-in-r-part-3-of-4/</a></li>
+  <li><a name="ref-gekkoquant-hmm4-2015" href="http://gekkoquant.com/2015/02/01/hidden-markov-models-trend-following-sharpe-ratio-3-1-part-4-of-4/">[10] GekkoQuant (2015) <em>Hidden Markov Models – Trend Following – Part 4 of 4</em>, http://gekkoquant.com/2015/02/01/hidden-markov-models-trend-following-sharpe-ratio-3-1-part-4-of-4/</a></li>
+  <li><a name="ref-jurafsky2016" href="https://web.stanford.edu/~jurafsky/slp3/">[11] Jurafsky, D., Martin, J.H. (2016) <em>Speech and Language Processing (Draft), 3rd Ed.</em>, Pearson</a></li>
+  <li><a name="ref-quantivity-tumr2009" href="https://quantivity.wordpress.com/2009/09/20/trade-using-market-regimes/">[12] Quantivity (2009) <em>Trade Using Market Regimes?</em>, https://quantivity.wordpress.com/2009/09/20/trade-using-market-regimes/</a></li>
+  <li><a name="ref-quantivity-mrd2009" href="https://quantivity.wordpress.com/2009/08/23/market-regime-dashboard/">[13] Quantivity (2009) <em>Market Regime Dashboard</em>, https://quantivity.wordpress.com/2009/08/23/market-regime-dashboard/</a></li>
+  <li><a name="ref-wiecki-hmm-2013" href="https://www.quantopian.com/posts/inferring-latent-states-using-a-gaussian-hidden-markov-model">[14] Wiecki, T. (2013) <em>Inferring latent states using a Gaussian Hidden Markov Model</em>, https://www.quantopian.com/posts/inferring-latent-states-using-a-gaussian-hidden-markov-model</a></li>
+  <li><a name="ref-davies2016" href="http://blogs.ft.com/gavyndavies/2016/07/24/regime-changes-in-the-financial-markets/">[15] Davies, G. (2016) <em>Regime changes in the financial markets</em>, http://blogs.ft.com/gavyndavies/2016/07/24/regime-changes-in-the-financial-markets/</a></li>
+  <li><a name="ref-schreiber2016" href="https://github.com/jmschrei/pomegranate/blob/master/tutorials/Tutorial_3_Hidden_Markov_Models.ipynb">[16] Schreiber, J. (2016) <em>Hidden Markov Models (Pomegranate Tutorial)</em>, https://github.com/jmschrei/pomegranate/blob/master/tutorials/Tutorial_3_Hidden_Markov_Models.ipynb</a></li>
+</ul>
+
+<h2>Full Code</h2>
+
+<pre>
+<code class="language-r"># Import the necessary packages and set 
+# random seed for replication consistency
+install.packages('depmixS4')
+install.packages('quantmod')
+library('depmixS4')
+library('quantmod')
+set.seed(1)
+
+# Create the parameters for the bull and 
+# bear market returns distributions
+Nk_lower <- 50
+Nk_upper <- 150
+bull_mean <- 0.1
+bull_var <- 0.1
+bear_mean <- -0.05
+bear_var <- 0.2
+
+# Create the list of durations (in days) for each regime
+days <- replicate(5, sample(Nk_lower:Nk_upper, 1))
+
+# Create the various bull and bear markets returns
+market_bull_1 <- rnorm( days[1], bull_mean, bull_var ) 
+market_bear_2 <- rnorm( days[2], bear_mean, bear_var ) 
+market_bull_3 <- rnorm( days[3], bull_mean, bull_var ) 
+market_bear_4 <- rnorm( days[4], bear_mean, bear_var ) 
+market_bull_5 <- rnorm( days[5], bull_mean, bull_var ) 
+
+# Create the list of true regime states and full returns list
+true_regimes <- c( rep(1,days[1]), rep(2,days[2]), rep(1,days[3]), rep(2,days[4]), rep(1,days[5]))
+returns <- c( market_bull_1, market_bear_2, market_bull_3, market_bear_4, market_bull_5)
+
+# Create and fit the Hidden Markov Model
+hmm <- depmix(returns ~ 1, family = gaussian(), nstates = 2, data=data.frame(returns=returns))
+hmmfit <- fit(hmm, verbose = FALSE)
+post_probs <- posterior(hmmfit)
+
+# Output both the true regimes and the 
+# posterior probabilities of the regimes
+layout(1:2)
+plot(post_probs$state, type='s', main='True Regimes', xlab='', ylab='Regime')
+matplot(post_probs[,-1], type='l', main='Regime Posterior Probabilities', ylab='Probability')
+legend(x='topright', c('Bull','Bear'), fill=1:2, bty='n')
+
+# Obtain S&P500 data from 2004 onwards and
+# create the returns stream from this
+getSymbols( "^GSPC", from="2004-01-01" )
+gspcRets = diff( log( Cl( GSPC ) ) )
+returns = as.numeric(gspcRets)
+
+# Fit a Hidden Markov Model with two states 
+# to the S&P500 returns stream
+hmm <- depmix(returns ~ 1, family = gaussian(), nstates = 2, data=data.frame(returns=returns))
+hmmfit <- fit(hmm, verbose = FALSE)
+post_probs <- posterior(hmmfit)
+
+# Plot the returns stream and the posterior
+# probabilities of the separate regimes
+layout(1:2)
+plot(returns, type='l', main='Regime Detection', xlab='', ylab='Returns')
+matplot(post_probs[,-1], type='l', main='Regime Posterior Probabilities', ylab='Probability')
+legend(x='topright', c('Regime #1','Regime #2'), fill=1:2, bty='n')
+
+# Fit a Hidden Markov Model with three states 
+# to the S&P500 returns stream
+hmm <- depmix(returns ~ 1, family = gaussian(), nstates = 3, data=data.frame(returns=returns))
+hmmfit <- fit(hmm, verbose = FALSE)
+post_probs <- posterior(hmmfit)
+
+# Plot the returns stream and the posterior
+# probabilities of the separate regimes
+layout(1:2)
+plot(returns, type='l', main='Regime Detection', xlab='', ylab='Returns')
+matplot(post_probs[,-1], type='l', main='Regime Posterior Probabilities', ylab='Probability')
+legend(x='bottomleft', c('Regime #1','Regime #2', 'Regime #3'), fill=1:3, bty='n')</code>
+</pre>
+        
+        
+        <script async data-uid="6296c27f4b" src="https://weathered-brook-5281.ck.page/6296c27f4b/index.js"></script>
+      </section>
+    </div>
+    <div class="col-md-4 book-card order-md-1">
+      
+<div class="sidebar-advert-container">
+  <a href="/qsalpha/?ref=art">
+    <img class="card-img-top" src="/static/images/qsalpha-sidebar-advert-small.png" alt="QSAlpha">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/qsalpha/?ref=art">QSAlpha</a></h3>
+      <p class="card-text medium-text mb-3">Join the QSAlpha research platform that helps fill your strategy research pipeline, diversifies your portfolio and improves your risk-adjusted returns for increased profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/qsalpha/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/quantcademy/?ref=art">
+    <img class="card-img-top" src="/static/images/quantcademy-sidebar-advert-small.png" alt="Quantcademy">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/quantcademy/?ref=art">The Quantcademy</a></h3>
+      <p class="card-text medium-text mb-3">Join the Quantcademy membership portal that caters to the rapidly-growing retail quant trader community and learn how to increase your strategy profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/quantcademy/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/successful-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/sat-sidebar-advert-small.png" alt="Successful Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to find new trading strategy ideas and objectively assess them for your portfolio using a Python-based backtesting engine.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/successful-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/advanced-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/aat-sidebar-advert-small.png" alt="Advanced Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to implement advanced trading strategies using time series analysis, machine learning and Bayesian statistics with R and Python.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/advanced-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+    
+
+<footer>
+  <div class="container container-full">
+    <section class="mt-1.5 mb-1">
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">QuantStart</li>
+            <li class="footer-list-link"><a class="link-fade" href="/about/">About</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/articles/">Articles</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/sitemap/">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Products</li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qsalpha/">QSAlpha</a></li>
+            
+            
+            <li class="footer-list-link"><a class="link-fade" href="/quantcademy/">Quantcademy</a></li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qstrader/">QSTrader</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Legal</li>
+            <li class="footer-list-link"><a class="link-fade" href="/privacy-policy/">Privacy Policy</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/terms-and-conditions/">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Social</li>
+            <li class="footer-list-link"><a class="link-fade" href="https://twitter.com/quantstart">Twitter</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="https://www.youtube.com/channel/UCmVnnZ6Y2TrJtY1eQJN6kWA">YouTube</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="row mb-1.5 mt-5">
+      <div class="col-12 col-md-9 col-lg-8 col-xl-6">
+        <div class="footer-copyright">
+          <p>©2012-2023 QuarkGluon Ltd. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+<script src="/static/js/jquery-3.2.1.min.js"></script>
+<script src="/static/js/prism.js.min"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/nav.js"></script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5383959-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+    
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="/static/js/highcharts/highcharts.js"></script>
+<script type="text/javascript">
+  num_colours = 10;
+</script>
+<script src="/static/js/statistics.js"></script>
+
+
+  </body>
+</html>

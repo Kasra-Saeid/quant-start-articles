@@ -1,0 +1,641 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-site-verification" content="wl3-8ed1QZjI0iYZMv10zoZWYElkMObTfwLlWIj9cpA" />
+    <meta name="description" content="Serial Correlation in Time Series Analysis">
+
+    <link rel="icon" href="/static/images/favicon.png">
+
+    <title>Serial Correlation in Time Series Analysis | QuantStart</title>
+    
+    
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet"> 
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/prism.css" rel="stylesheet">
+<link href="/static/css/qs.css?v=10" rel="stylesheet">
+    
+  </head>
+
+  <body>
+    <header class="header covered-header" style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://quantstartmedia.s3.amazonaws.com/images/article-images/article-backgrounds/default-bg.jpg);">
+  
+<nav class="nav">
+  <div class="container nav-container">
+    <div class="nav-row row d-flex justify-content-between align-items-center">
+      <div class="col-2">
+        <ul class="nav-items justify-content-end small-capitals align-items-center">
+          <li class="nav-item">
+            <a class="link-fade" href="/">QuantStart</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-auto col-logo">
+        <ul id="top-nav-menu" class="nav-items justify-content-end align-items-center">
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/qsalpha/">QSAlpha</a>
+          </li>
+          
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/quantcademy/">Quantcademy</a>
+          </li>
+          
+          <li id="menu-link-ebooks" class="nav-item">
+            <a class="link-fade" href="#">Books</a>
+            <div id="menu-pane-ebooks" class="nav-items menu-dropdown-pane">
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/qstrader/">QSTrader</a>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/articles/">Articles</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/members/login/">Login</a>
+          </li>
+          
+        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<nav id="mobile-nav" class="mobile-nav text-left">
+  <div class="container">
+    <ul class="mt-4 ml-3 mobile-nav-menu">
+      <li class="nav-item">
+        <a class="link-fade d-block" href="/">QuantStart</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qsalpha/">QSAlpha</a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/quantcademy/">Quantcademy</a>
+      </li>
+      
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="#">Books</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qstrader/">QSTrader</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/articles/">Articles</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/members/login/">Login</a>
+      </li>
+      
+    </ul>
+    <button class="nav-toggle mobile-nav-close">
+      <svg id="mobile-nav-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M19.77,5.63,13.41,12l6.36,6.37a1,1,0,0,1-1.41,1.41L12,13.41,5.63,19.77a1,1,0,0,1-1.44-1.39l0,0L10.58,12,4.21,5.63a1,1,0,0,1,0-1.42,1,1,0,0,1,1.41,0l0,0L12,10.58l6.37-6.37a1,1,0,0,1,1.41,0A1,1,0,0,1,19.77,5.63Z"></path>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+  <div class="container hero-container">
+    <section class="mt-5 mb-4">
+      <div class="row justify-content-center">
+        <div class="col-12 text-center">
+          <p class="hero">Serial Correlation in Time Series Analysis</p>
+          <p class="hero subhero">Serial Correlation in Time Series Analysis</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</header>
+    
+<section class="container content-container">
+  <div class="row">
+    <div class="col-md-8 order-md-2">
+      <section class="content article-content">
+        
+        
+        <p>In <a href="https://www.quantstart.com/articles/Beginners-Guide-to-Time-Series-Analysis">last week's article</a> we looked at Time Series Analysis as a means of helping us create trading strategies. In this article we are going to look at one of the most important aspects of time series, namely <strong>serial correlation</strong> (also known as <strong>autocorrelation</strong>).</p>
+
+<p>Before we dive into the <em>definition</em> of serial correlation we will discuss the broad purpose of time series modelling and why we're <em>interested</em> in serial correlation.</p>
+
+<p>When we are given one or more financial time series we are primarily interested in forecasting or simulating data. It is relatively straightforward to identify <strong>deterministic trends</strong> as well as <strong>seasonal variation</strong> and <em>decompose</em> a series into these components. However, once such a time series has been <em>decomposed</em> we are left with a <strong>random component</strong>.</p>
+
+<p>Sometimes such a time series can be well modelled by independent random variables. However, there are many situations, particularly in finance, where consecutive elements of this random component time series will possess <strong>correlation</strong>. That is, the behaviour of sequential points in the remaining series affect each other in a dependent manner. One major example occurs in mean-reverting pairs trading. Mean-reversion shows up as correlation between sequential variables in time series.</p>
+
+<p>Our task as quantitative modellers is to try and identify the structure of these correlations, as they will allow us to markedly improve our forecasts and thus the potential profitability of a strategy. In addition identifying the correlation structure will improve the realism of any <em>simulated</em> time series based on the model. This is extremely useful for improving the effectiveness of risk management components of the strategy implementation.</p>
+
+<p>When sequential observations of a time series are correlated in the manner described above we say that <strong>serial correlation</strong> (or <strong>autocorrelation</strong>) exists in the time series.</p>
+
+<p>Now that we have outlined the usefulness of studying serial correlation we need to define it in a rigourous mathematical manner. Before we can do that we must build on simpler concepts, including <strong>expectation</strong> and <strong>variance</strong>.</p>
+
+<h2>Expectation, Variance and Covariance</h2>
+
+<p>Many of these definitions will be familiar to most QuantStart readers, but I am going to outline them specifically for purposes of consistent notation.</p>
+
+<p>The first definition is that of the <strong>expected value</strong> or <strong>expectation</strong>:</p>
+
+<div class="bs-callout bs-callout-info">
+<h4>Expectation</h4>
+<p>The <em>expected value</em> or <em>expectation</em>, $E(x)$, of a random variable $x$ is its mean average value in the population. We denote the expectation of $x$ by $\mu$, such that $E(x) = \mu$.</p>
+</div>
+
+<p>Now that we have the definition of expectation we can define the <strong>variance</strong>, which characterises the "spread" of a random variable:</p>
+
+<div class="bs-callout bs-callout-info">
+<h4>Variance</h4>
+<p>The <em>variance</em> of a random variable is the expectation of the squared deviations of the variable from the mean, denoted by $\sigma^2 (x) = E[(x-\mu)^2]$.</p>
+</div>
+
+<p>Notice that the variance is always non-negative. This allows us to define the <em>standard deviation</em>:</p>
+
+<div class="bs-callout bs-callout-info">
+<h4>Standard Deviation</h4>
+<p>The <em>standard deviation</em> of a random variable $x$, $\sigma (x)$, is the square root of the variance of $x$.</p>
+</div>
+
+<p>Now that we've outlined these elementary statistical definitions we can generalise the variance to the concept of <strong>covariance</strong> between two random variables. Covariance tells us how linearly related these two variables are:</p>
+
+<div class="bs-callout bs-callout-info">
+<h4>Covariance</h4>
+<p>The <em>covariance</em> of two random variables $x$ and $y$, each having respective expectations $\mu_x$ and $\mu_y$, is given by $\sigma(x,y) = E[(x-\mu_x)(y-\mu_y)]$.</p>
+</div>
+
+<blockquote>
+Covariance tells us how two variables move together.</p>
+</blockquote>
+
+<p>However since we are in a statistical situation we do not have access to the population means $\mu_x$ and $\mu_y$. Instead we must <em>estimate</em> the covariance from a <em>sample</em>. For this we use the respective <em>sample means</em> $\bar{x}$ and $\bar{y}$.</p>
+
+<p>If we consider a set of $n$ pairs of elements of random variables from $x$ and $y$, given by $(x_i, y_i)$, the <strong>sample covariance</strong>, $\text{Cov}(x,y)$ (also sometimes denoted by $q(x,y)$) is given by:</p>
+
+\begin{eqnarray}
+\text{Cov}(x,y) = \frac{1}{n-1}\sum^n_{i=1} (x_i - \bar{x})(y_i - \bar{y})
+\end{eqnarray}
+
+<p><em>Note: Some of you may be wondering why we divide by $n-1$ in the denominator, rather than $n$. This is a valid question! The reason we choose $n-1$ is that it makes $\text{Cov}(x,y)$ an <a href="https://en.wikipedia.org/wiki/Bias_of_an_estimator">unbiased estimator</a>.</em></p>
+
+<h3>Example: Sample Covariance in R</h3>
+
+<p>This is actually our first usage of R on QuantStart. I am not going to discuss the installation procedure of R here, but I will do so in later articles. Thankfully it is much more straightforward than installing Python! Assuming you have R installed you can open up the R terminal.</p>
+
+<p>In the following commands we are going to <em>simulate</em> two vectors of length 100, each with a linearly increasing sequence of integers with some normally distributed noise added. Thus we are constructing linearly associated variables <em>by design</em>.</p>
+
+<p>We will firstly construct a scatter plot and then calculate the sample covariance using the <code>cor</code> function. In order to ensure you see exactly the same data as I do, we will set a random seed of 1 and 2 respectively for each variable:</p>
+
+<pre>
+<code class="language-r">> set.seed(1)
+> x <- seq(1,100) + 20.0*rnorm(1:100)
+> set.seed(2)
+> y <- seq(1,100) + 20.0*rnorm(1:100)
+> plot(x,y)</code>
+</pre>
+
+<p>The plot is as follows:</p>
+
+<p style="text-align:center">
+  <img src="https://s3.amazonaws.com/quantstartmedia/images/qs-tsa-cor-sample-cov-scatter.png" width="100%" />
+  <strong>Scatter plot of two linearly increasing variables with normally distributed noise</strong>
+</p>
+
+<p>There is a relatively clear association between the two variables. We can now calculate the sample covariance:</p>
+
+<pre>
+<code class="language-r">> cov(x,y)</code>
+</pre>
+
+<pre>
+<code class="language-none">681.6859</code>
+</pre>
+
+<p>The sample covariance is given as 681.6859.</p>
+
+<p>One drawback of using the covariance to estimate linear association between two random variables is that it is a <em>dimensional</em> measure. That is, it isn't normalised by the spread of the data and thus it is hard to draw comparisons between datasets with large differences in spread. This motivates another concept, namely <strong>correlation</strong>.</p>
+
+<h2>Correlation</h2>
+
+<p>Correlation is a <em>dimensionless</em> measure of how two variables vary together, or "co-vary". In essence, it is the covariance of two random variables normalised by their respective spreads. The (population) correlation between two variables is often denoted by $\rho(x,y)$:</p>
+
+\begin{eqnarray}
+\rho(x,y)= \frac{E[(x-\mu_x)(y-\mu_y)]}{\sigma_x \sigma_y} = \frac{\sigma(x,y)}{\sigma_x \sigma_y}
+\end{eqnarray}
+
+<p>The denominator product of the two spreads will constrain the correlation to lie within the interval $[-1,1]$:</p>
+
+<ul>
+  <li>A correlation of $\rho(x,y) = +1$ indicates exact positive linear association</li>
+  <li>A correlation of $\rho(x,y) = 0$ indicates no linear association at all</li>
+  <li>A correlation of $\rho(x,y) = -1$ indicates exact negative linear association</li>
+</ul>
+
+<p>As with the covariance, we can define the <strong>sample correlation</strong>, $\text{Cor}(x,y)$:</p>
+
+\begin{eqnarray}
+\text{Cor}(x,y) = \frac{\text{Cov(x,y)}}{\text{sd}(x) \text{sd}(y)}
+\end{eqnarray}
+
+<p>Where $\text{Cov}(x,y)$ is the sample covariance of $x$ and $y$, while $\text{sd}(x)$ is the <em>sample standard deviation</em> of $x$.</p>
+
+<h3>Example: Sample Correlation in R</h3>
+
+<p>We will use the same $x$ and $y$ vectors of the previous example. The following R code will calculate the sample correlation:</p>
+
+<pre>
+<code class="language-r">> cor(x,y)</code>
+</pre>
+
+<pre>
+<code class="language-none">0.5796604</code>
+</pre>
+
+<p>The sample correlation is given as 0.5796604 showing a reasonably strong positive linear association between the two vectors, as expected.</p>
+
+<h2>Stationarity in Time Series</h2>
+
+<p>Now that we outlined the general definitions of expectation, variance, standard deviation, covariance and correlation we are in a position to discuss how they apply to time series data.</p>
+
+<p>Firstly, we will discuss a concept known as <strong>stationarity</strong>. This is an extremely important aspect of time series and much of the analysis carried out on financial time series data will concern stationarity. Once we have discussed stationarity we are in a position to talk about <strong>serial correlation</strong> and construct some <strong>correlogram</strong> plots.</p>
+
+<p>We will begin by trying to apply the above definitions to time series data, starting with the mean/expectation:</p>
+
+<div class="bs-callout bs-callout-info">
+<h4>Mean of a Time Series</h4>
+<p>The mean of a time series $x_t$, $\mu(t)$, is given as the expectation $E(x_t)=\mu(t)$.</p>
+</div>
+
+<p>There are two important points to note about this definition:</p>
+
+<ul>
+  <li>$\mu = \mu(t)$, i.e. the mean (in general) is a function of time.</li>
+  <li>This expectation is taken across the <em>ensemble population</em> of all the possible time series that could have been generated under the time series model. In particular, it is NOT the expression $(x_1 + x_2 + ... + x_k)/k$ (more on this below).</li>
+</ul>
+
+<p>This definition is useful when we are able to generate many realisations of a time series model. However in real life this is usually not the case! We are "stuck" with only one past history and as such we will often only have access to a single historical time series for a particular asset or situation.</p>
+
+<p>So how do we proceed if we wish to estimate the mean, given that we don't have access to these hypothetical realisations from the ensemble? Well, there are two options:</p>
+
+<ul>
+  <li>Simply estimate the mean at each point using the observed value.</li>
+  <li>Decompose the time series to remove any deterministic trends or seasonality effects, giving a <em>residual series</em>. Once we have this series we can <em>make the assumption</em> that the residual series is <strong>stationary in the mean</strong>, i.e. that $\mu(t) = \mu$, a fixed value independent of time. It then becomes possible to estimate this constant population mean using the sample mean $\bar{x} = \sum^{n}_{t=1} \frac{x_t}{n}$.</li>
+</ul>
+
+<div class="bs-callout bs-callout-info">
+<h4>Stationary in the Mean</h4>
+<p>A time series is <em>stationary in the mean</em> if $\mu(t)=\mu$, a constant.</p>
+</div>
+
+<p>Now that we've seen how we can discuss expectation values we can use this to flesh out the definition of variance. Once again we make the simplifying assumption that the time series under consideration is stationary in the mean. With that assumption we can define the variance:</p>
+
+<div class="bs-callout bs-callout-info">
+<h4>Variance of a Time Series</h4>
+<p>The variance $\sigma^2 (t)$ of a time series model that is stationary in the mean is given by $\sigma^2 (t) = E[(x_t-\mu)^2]$.</p>
+</div>
+
+<p>This is a straightforward extension of the variance defined above for random variables, except that $\sigma^2 (t)$ is a function of time. Importantly, you can see how the definition strongly relies on the fact that the time series is stationary in the mean (i.e. that $\mu$ is not time-dependent).</p>
+
+<p>You might notice that this definition leads to a tricky situation. If the variance itself varies with time how are we supposed to estimate it from a <em>single</em> time series? As before, the presence of $E(..)$ requires an <em>ensemble</em> of time series and yet we will often only have one!</p>
+
+<p>Once again, we simplify the situation by making an assumption. In particular, and as with the mean, we assume a constant population variance, denoted $\sigma^2$, which is not a function of time. Once we have made this assumption we are in a position to estimate its value using the sample variance definition above:</p>
+
+\begin{eqnarray}
+\text{Var(x)} = \frac{\sum(x_t - \bar{x})^2}{n-1}
+\end{eqnarray}
+
+<p>Note for this to work we need to be able to estimate the sample mean, $\bar{x}$. In addition, as with the sample covariance defined above, we must use $n-1$ in the denominator in order to make the sample variance an unbiased estimator.</p>
+
+<div class="bs-callout bs-callout-info">
+<h4>Stationary in the Variance</h4>
+<p>A time series is <em>stationary in the variance</em> if $\sigma^2 (t)=\sigma^2$, a constant.</p>
+</div>
+
+<p>This is where we need to be careful! With time series we are in a situation where <em>sequential observations may be correlated</em>. This will have the effect of biasing the estimator, i.e. over- or under-estimating the true population variance.</p>
+
+<p>This will be particularly problematic in time series where we are short on data and thus only have a small number of observations. In a high correlation series, such observations will be close to each other and thus will lead to <strong>bias</strong>.</p>
+
+<p>In practice, and particularly in high-frequency finance, we are often in a situation of having a substantial number of observations. The drawback is that we often cannot assume that financial series are truly <em>stationary in the mean</em> or <em>stationary in the variance</em>.</p>
+
+<p>As we progress with this article series and develop more sophisticated models, we will address these issues in order to improve our forecasts and simulations.</p>
+
+<p>We are now in a position to apply our time series definitions of mean and variance to that of <strong>serial correlation</strong>.</p>
+
+<h2>Serial Correlation</h2>
+
+<p>The essence of serial correlation is that we wish to see <em>how sequential observations in a time series affect each other</em>. If we can find structure in these observations then it will likely help us improve our forecasts and simulation accuracy. This will lead to greater profitability in our trading strategies or better risk management approaches.</p>
+
+<p>Firstly, another definition. If we assume, as above, that we have a time series that is <em>stationary in the mean</em> and <em>stationary in the variance</em> then we can talk about <strong>second order stationarity</strong>:</p>
+
+<div class="bs-callout bs-callout-info">
+<h4>Second Order Stationary</h4>
+<p>A time series is <em>second order stationary</em> if the correlation between sequential observations is only a function of the <em>lag</em>, that is, the number of time steps separating each sequential observation.</p>
+</div>
+
+<p>Finally, we are in a position to define serial covariance and serial correlation!</p>
+
+<div class="bs-callout bs-callout-info">
+<h4>Autocovariance of a Time Series</h4>
+<p>If a time series model is <em>second order stationary</em> then the (population) serial covariance or <strong>autocovariance</strong>, of lag $k$, $C_k = E[(x_t-\mu)(x_{t+k}-\mu)]$.</p>
+</div>
+
+<p>The autocovariance $C_k$ is not a function of time. This is because it involves an expectation $E(..)$, which, as before, is taken across the population ensemble of possible time series realisations. This means it is the same for all times $t$.</p>
+
+<p>As before this motivates the definition of serial correlation or <strong>autocorrelation</strong>, simply by dividing through by the square of the spread of the series. This is possible because the time series is <em>stationary in the variance</em> and thus $\sigma^2 (t) = \sigma^2$:</p>
+
+<div class="bs-callout bs-callout-info">
+<h4>Autocorrelation of a Time Series</h4>
+<p>The serial correlation or <strong>autocorrelation</strong> of lag $k$, $\rho_k$, of a <em>second order stationary</em> time series is given by the autocovariance of the series normalised by the product of the spread. That is, $\rho_k = \frac{C_k}{\sigma^2}$.</p>
+</div>
+
+<p>Note that $\rho_0 = \frac{C_0}{\sigma^2} = \frac{E[(x_t - \mu)^2]}{\sigma^2} = \frac{\sigma^2}{\sigma^2} = 1$. That is, the first lag of $k=0$ will always give a value of unity.</p>
+
+<p>As with the above definitions of covariance and correlation, we can define the sample autocovariance and sample autocorrelation. In particular, we denote the sample autocovariance with a lower-case $c$ to differentiate between the population value given by an upper-case $C$.</p>
+
+<p>The <strong>sample autocovariance function</strong> $c_k$ is given by:</p>
+
+\begin{eqnarray}
+c_k = \frac{1}{n} \sum^{n-k}_{t=1} (x_t - \bar{x})(x_{t+k} - \bar{x})
+\end{eqnarray}
+
+<p>The <strong>sample autocorrelation function</strong> $r_k$ is given by:</p>
+
+\begin{eqnarray}
+r_k = \frac{c_k}{c_0}
+\end{eqnarray}
+
+<p>Now that we have defined the sample autocorrelation function we are in a position to define and plot the <strong>correlogram</strong>, an essential tool in time series analysis.</p>
+
+<h2>The Correlogram</h2>
+
+<p>A <strong>correlogram</strong> is simply a plot of the autocorrelation function for sequential values of lag $k=0,1,...,n$. It allows us to see the correlation structure in each lag.</p>
+
+<p>The main usage of correlograms is to detect any autocorrelation subsequent to the removal of any deterministic trends or seasonality effects.</p>
+
+<p>If we have fitted a time series model then the correlogram helps us justify that this model is well fitted or whether we need to further refine it to remove any additional autocorrelation.</p>
+
+<p>Here is an example correlogram, plotted in R using the <code>acf</code> function, for a  sequence of normally distributed random variables. The full R code is as follows:</p>
+
+<pre>
+<code class="language-r">> set.seed(1)
+> w <- rnorm(100)
+> acf(w)</code>
+</pre>
+
+<p style="text-align:center">
+  <img src="https://s3.amazonaws.com/quantstartmedia/images/qs-tsa-cor-correl-random.png" width="100%" />
+  <strong>Correlogram plotted in R of a sequence of normally distributed random variables</strong>
+</p>
+
+<p>There are a few notable features of the correlogram plot in R:</p>
+
+<ul>
+  <li>Firstly, since the sample correlation of lag $k=0$ is given by $r_0 = \frac{c_0}{c_0} = 1$ we will always have a line of height equal to unity at lag $k=0$ on the plot. In fact, this provides us with a reference point upon which to judge the remaining autocorrelations at subsequent lags. Note also that the y-axis ACF is dimensionless, since correlation is itself dimensionless.</li>
+  <li>The dotted blue lines represent boundaries upon which if values fall outside of these, we have evidence against the null hypothesis that our correlation at lag $k$, $r_k$, is equal to zero at the 5% level. However we must take care because we should expect 5% of these lags to exceed these values anyway! Further we are displaying <em>correlated</em> values and hence if one lag falls outside of these boundaries then proximate sequential values are more likely to do so as well. In practice we are looking for lags that may have some underlying reason for exceeding the 5% level. For instance, in a commodity time series we may be seeing unanticipated seasonality effects at certain lags (possibly monthly, quarterly or yearly intervals).</li>
+</ul>
+
+<p>Here are a couple of examples of correlograms for sequences of data.</p>
+
+<h3>Example 1 - Fixed Linear Trend</h3>
+
+<p>The following R code generates a sequence of integers from 1 to 100 and then plots the autocorrelation:</p>
+
+<pre>
+<code class="language-r">> w <- seq(1, 100)
+> acf(w)</code>
+</pre>
+
+<p>The plot is as follows:</p>
+
+<p style="text-align:center">
+  <img src="https://s3.amazonaws.com/quantstartmedia/images/qs-tsa-cor-correl-trend.png" width="100%" />
+  <strong>Correlogram plotted in R of a sequence of integers from 1 to 100</strong>
+</p>
+
+<p>Notice that the ACF plot decreases in an almost linear fashion as the lags increase. Hence a correlogram of this type is clear indication of a trend.</p>
+
+<h3>Example 2 - Repeated Sequence</h3>
+
+<p>The following R code generates a repeated sequence of numbers with period $p=10$ and then plots the autocorrelation:</p>
+
+<pre>
+<code class="language-r">> w <- rep(1:10, 10)
+> acf(w)</code>
+</pre>
+
+<p>The plot is as follows:</p>
+
+<p style="text-align:center">
+  <img src="https://s3.amazonaws.com/quantstartmedia/images/qs-tsa-cor-correl-repeat.png" width="100%" />
+  <strong>Correlogram plotted in R of a sequence of integers from 1 to 10, repeated 10 times</strong>
+</p>
+
+<p>We can see that at lag 10 and 20 there are significant peaks. This makes sense, since the sequences are repeating with a period of 10. Interestingly, note that there is a negative correlation at lags 5 and 15 of exactly -0.5. This is very characteristic of seasonal time series and behaviour of this sort in a correlogram is usually indicative that seasonality/periodic effects have not fully been accounted for in a model.</p> 
+
+<h2>Next Steps</h2>
+
+<p>Now that we've discussed autocorrelation and correlograms in some depth, in future articles we will be moving on to <strong>linear models</strong> and begin the process of <strong>forecasting</strong>.</p>
+
+<p>While linear models are far from the state of the art in time series analysis, we need to develop the theory on simpler cases before we can apply it to the more interesting non-linear models that are in use today.</p>
+        
+        
+        <script async data-uid="6296c27f4b" src="https://weathered-brook-5281.ck.page/6296c27f4b/index.js"></script>
+      </section>
+    </div>
+    <div class="col-md-4 book-card order-md-1">
+      
+<div class="sidebar-advert-container">
+  <a href="/qsalpha/?ref=art">
+    <img class="card-img-top" src="/static/images/qsalpha-sidebar-advert-small.png" alt="QSAlpha">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/qsalpha/?ref=art">QSAlpha</a></h3>
+      <p class="card-text medium-text mb-3">Join the QSAlpha research platform that helps fill your strategy research pipeline, diversifies your portfolio and improves your risk-adjusted returns for increased profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/qsalpha/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/quantcademy/?ref=art">
+    <img class="card-img-top" src="/static/images/quantcademy-sidebar-advert-small.png" alt="Quantcademy">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/quantcademy/?ref=art">The Quantcademy</a></h3>
+      <p class="card-text medium-text mb-3">Join the Quantcademy membership portal that caters to the rapidly-growing retail quant trader community and learn how to increase your strategy profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/quantcademy/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/successful-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/sat-sidebar-advert-small.png" alt="Successful Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to find new trading strategy ideas and objectively assess them for your portfolio using a Python-based backtesting engine.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/successful-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/advanced-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/aat-sidebar-advert-small.png" alt="Advanced Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to implement advanced trading strategies using time series analysis, machine learning and Bayesian statistics with R and Python.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/advanced-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+    
+
+<footer>
+  <div class="container container-full">
+    <section class="mt-1.5 mb-1">
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">QuantStart</li>
+            <li class="footer-list-link"><a class="link-fade" href="/about/">About</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/articles/">Articles</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/sitemap/">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Products</li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qsalpha/">QSAlpha</a></li>
+            
+            
+            <li class="footer-list-link"><a class="link-fade" href="/quantcademy/">Quantcademy</a></li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qstrader/">QSTrader</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Legal</li>
+            <li class="footer-list-link"><a class="link-fade" href="/privacy-policy/">Privacy Policy</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/terms-and-conditions/">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Social</li>
+            <li class="footer-list-link"><a class="link-fade" href="https://twitter.com/quantstart">Twitter</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="https://www.youtube.com/channel/UCmVnnZ6Y2TrJtY1eQJN6kWA">YouTube</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="row mb-1.5 mt-5">
+      <div class="col-12 col-md-9 col-lg-8 col-xl-6">
+        <div class="footer-copyright">
+          <p>©2012-2023 QuarkGluon Ltd. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+<script src="/static/js/jquery-3.2.1.min.js"></script>
+<script src="/static/js/prism.js.min"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/nav.js"></script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5383959-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+    
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="/static/js/highcharts/highcharts.js"></script>
+<script type="text/javascript">
+  num_colours = 10;
+</script>
+<script src="/static/js/statistics.js"></script>
+
+
+  </body>
+</html>

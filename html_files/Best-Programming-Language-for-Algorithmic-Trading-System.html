@@ -1,0 +1,547 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-site-verification" content="wl3-8ed1QZjI0iYZMv10zoZWYElkMObTfwLlWIj9cpA" />
+    <meta name="description" content="Best Programming Language for Algorithmic Trading Systems?">
+
+    <link rel="icon" href="/static/images/favicon.png">
+
+    <title>Best Programming Language for Algorithmic Trading Systems? | QuantStart</title>
+    
+    
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet"> 
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/prism.css" rel="stylesheet">
+<link href="/static/css/qs.css?v=10" rel="stylesheet">
+    
+  </head>
+
+  <body>
+    <header class="header covered-header" style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://quantstartmedia.s3.amazonaws.com/images/article-images/article-backgrounds/default-bg.jpg);">
+  
+<nav class="nav">
+  <div class="container nav-container">
+    <div class="nav-row row d-flex justify-content-between align-items-center">
+      <div class="col-2">
+        <ul class="nav-items justify-content-end small-capitals align-items-center">
+          <li class="nav-item">
+            <a class="link-fade" href="/">QuantStart</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-auto col-logo">
+        <ul id="top-nav-menu" class="nav-items justify-content-end align-items-center">
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/qsalpha/">QSAlpha</a>
+          </li>
+          
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/quantcademy/">Quantcademy</a>
+          </li>
+          
+          <li id="menu-link-ebooks" class="nav-item">
+            <a class="link-fade" href="#">Books</a>
+            <div id="menu-pane-ebooks" class="nav-items menu-dropdown-pane">
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/qstrader/">QSTrader</a>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/articles/">Articles</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/members/login/">Login</a>
+          </li>
+          
+        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<nav id="mobile-nav" class="mobile-nav text-left">
+  <div class="container">
+    <ul class="mt-4 ml-3 mobile-nav-menu">
+      <li class="nav-item">
+        <a class="link-fade d-block" href="/">QuantStart</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qsalpha/">QSAlpha</a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/quantcademy/">Quantcademy</a>
+      </li>
+      
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="#">Books</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qstrader/">QSTrader</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/articles/">Articles</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/members/login/">Login</a>
+      </li>
+      
+    </ul>
+    <button class="nav-toggle mobile-nav-close">
+      <svg id="mobile-nav-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M19.77,5.63,13.41,12l6.36,6.37a1,1,0,0,1-1.41,1.41L12,13.41,5.63,19.77a1,1,0,0,1-1.44-1.39l0,0L10.58,12,4.21,5.63a1,1,0,0,1,0-1.42,1,1,0,0,1,1.41,0l0,0L12,10.58l6.37-6.37a1,1,0,0,1,1.41,0A1,1,0,0,1,19.77,5.63Z"></path>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+  <div class="container hero-container">
+    <section class="mt-5 mb-4">
+      <div class="row justify-content-center">
+        <div class="col-12 text-center">
+          <p class="hero">Best Programming Language for Algorithmic Trading Systems?</p>
+          <p class="hero subhero">Best Programming Language for Algorithmic Trading Systems?</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</header>
+    
+<section class="container content-container">
+  <div class="row">
+    <div class="col-md-8 order-md-2">
+      <section class="content article-content">
+        
+        
+        <p>One of the most frequent questions I receive in the QS mailbag is "What is the best programming language for algorithmic trading?". The short answer is that there is no "best" language. Strategy parameters, performance, modularity, development, resiliency and cost must all be considered. This article will outline the necessary components of an algorithmic trading system architecture and how decisions regarding implementation affect the choice of language.</p>
+
+<p>Firstly, the major components of an algorithmic trading system will be considered, such as the research tools, portfolio optimiser, risk manager and execution engine. Subsequently, different trading strategies will be examined and how they affect the design of the system. In particular the <em>frequency</em> of trading and the likely <em>trading volume</em> will both be discussed.</p>
+
+<p>Once the trading strategy has been selected, it is necessary to architect the entire system. This includes choice of hardware, the operating system(s) and system resiliency against rare, potentially catastrophic events. While the architecture is being considered, due regard must be paid to performance - both to the research tools as well as the live execution environment.</p>
+
+<h2>What Is The Trading System Trying To Do?</h2>
+
+<p>Before deciding on the "best" language with which to write an automated trading system it is necessary to define the requirements. Is the system going to be purely execution based? Will the system require a risk management or portfolio construction module? Will the system require a high-performance backtester? For most strategies the trading system can be partitioned into two categories: Research and signal generation.</p>
+
+<p>Research is concerned with evaluation of a strategy performance over historical data. The process of evaluating a trading strategy over prior market data is known as <em>backtesting</em>. The data size and algorithmic complexity will have a big impact on the computational intensity of the backtester. CPU speed and concurrency are often the limiting factors in optimising research execution speed.</p>
+
+<p>Signal generation is concerned with generating a set of trading signals from an algorithm and sending such orders to the market, usually via a brokerage. For certain strategies a high level of performance is required. I/O issues such as network bandwidth and latency are often the limiting factor in optimising execution systems. Thus the choice of languages for each component of your entire system may be quite different.</p>
+
+<h3>Type, Frequency and Volume of Strategy</h3>
+
+<p>The type of algorithmic strategy employed will have a substantial impact on the design of the system. It will be necessary to consider the markets being traded, the connectivity to external data vendors, the frequency and volume of the strategy, the trade-off between ease of development and performance optimisation, as well as any custom hardware, including co-located custom servers, GPUs or FPGAs that might be necessary.</p>
+
+<p>The technology choices for a low-frequency US equities strategy will be vastly different from those of a high-frequency statistical arbitrage strategy trading on the futures market. Prior to the choice of language many data vendors must be evaluated that pertain to a the strategy at hand.</p>
+
+ <p>It will be necessary to consider connectivity to the vendor, structure of any APIs, timeliness of the data, storage requirements and resiliency in the face of a vendor going offline. It is also wise to possess rapid access to multiple vendors! Various instruments all have their own storage quirks, examples of which include multiple ticker symbols for equities and expiration dates for futures (not to mention any specific OTC data). This needs to be factored in to the platform design.</p>
+
+<p>Frequency of strategy is likely to be one of the biggest drivers of how the technology stack will be defined. Strategies employing data more frequently than minutely or secondly bars require significant consideration with regards to performance.</p> 
+
+<p>A strategy exceeding secondly bars (i.e. tick data) leads to a <em>performance driven design</em> as the primary requirement. For high frequency strategies a substantial amount of market data will need to be stored and evaluated. Software such as <a href="http://www.hdfgroup.org/HDF5/">HDF5</a> or <a href="http://kx.com/kdb-plus.php">kdb+</a> are commonly used for these roles.</p>
+
+<p>In order to process the extensive volumes of data needed for HFT applications, an extensively optimised backtester and execution system must be used. C/C++ (possibly with some assembler) is likely to the strongest language candidate. Ultra-high frequency strategies will almost certainly require custom hardware such as FPGAs, exchange co-location and kernal/network interface tuning.</p>
+
+<h3>Research Systems</h3>
+
+<p>Research systems typically involve a mixture of interactive development and automated scripting. The former often takes place within an IDE such as Visual Studio, MatLab or R Studio. The latter involves extensive numerical calculations over numerous parameters and data points. This leads to a  language choice providing a straightforward environment to test code, but also provides sufficient performance to evaluate strategies over multiple parameter dimensions.</p>
+
+<p>Typical IDEs in this space include Microsoft Visual C++/C#, which contains extensive debugging utilities, code completion capabilities (via "Intellisense") and straightforward overviews of the entire project stack (via the database ORM, <a href="https://docs.microsoft.com/en-us/previous-versions/bb397926(v=vs.140)?redirectedfrom=MSDN">LINQ</a>); <a href="https://uk.mathworks.com/products/matlab.html">MatLab</a>, which is designed for extensive numerical linear algebra and vectorised operations, but in an interactive console manner; <a href="https://www.rstudio.com/">R Studio</a>, which wraps the <a href="https://www.r-project.org/">R</a> statistical language console in a fully-fledged IDE; <a href="https://www.eclipse.org/">Eclipse IDE</a> for Linux Java and C++; and semi-proprietary IDEs such as <a href="https://www.anaconda.com/distribution/">Anaconda Distribution which includes the Spyder IDE</a> for Python. This distribution includes data analysis libraries such as <a href="https://www.numpy.org/">NumPy</a>, <a href="https://www.scipy.org/">SciPy</a>, <a href="https://scikit-learn.org/stable">scikit-learn</a> and <a href="https://pandas.pydata.org/">pandas</a> in a single interactive (console) environment.</p>
+
+<p>For numerical backtesting, all of the above languages are suitable, although it is not necessary to utilise a GUI/IDE as the code will be executed "in the background". The prime consideration at this stage is that of execution speed. A compiled language (such as C++) is often useful if the backtesting parameter dimensions are large. Remember that it is necessary to be <a href="http://www.quantstart.com/articles/Successful-Backtesting-of-Algorithmic-Trading-Strategies-Part-I">wary of such systems</a> if that is the case!</p> 
+
+<p>Interpreted languages such as Python often make use of high-performance libraries such as NumPy/pandas for the backtesting step, in order to maintain a reasonable degree of competitiveness with compiled equivalents. Ultimately the language chosen for the backtesting will be determined by specific algorithmic needs as well as the range of libraries available in the language (more on that below). However, the language used for the backtester and research environments can be completely independent of those used in the portfolio construction, risk management and execution components, as will be seen.</p>
+
+<h3>Portfolio Construction and Risk Management</h3>
+
+<p>The portfolio construction and risk management components are often overlooked by retail algorithmic traders. This is almost always a mistake. These tools provide the mechanism by which capital will be preserved. They not only attempt to alleviate the number of "risky" bets, but also minimise churn of the trades themselves, reducing transaction costs.</p>
+
+<p>Sophisticated versions of these components can have a significant effect on the quality and consistentcy of profitability. It is straightforward to create a stable of strategies as the portfolio construction mechanism and risk manager can easily be modified to handle multiple systems. Thus they should be considered essential components at the outset of the design of an algorithmic trading system.</p>
+
+<p>The job of the portfolio construction system is to take a set of <em>desired trades</em> and produce the set of <em>actual trades</em> that minimise churn, maintain exposures to various factors (such as sectors, asset classes, volatility etc) and optimise the allocation of capital to various strategies in a portfolio.</p>
+
+<p>Portfolio construction often reduces to a linear algebra problem (such as a matrix factorisation) and hence performance is highly dependent upon the effectiveness of the numerical linear algebra implementation available. Common libraries include <a href="http://www.boost.org/doc/libs/1_54_0/libs/numeric/ublas/doc/index.htm">uBLAS</a>, <a href="http://math.nist.gov/lapack++/">LAPACK</a> and <a href="http://www.nag.com/numeric/CL/CLdescription.asp">NAG</a> for C++. MatLab also possesses extensively optimised matrix operations. Python utilises NumPy/SciPy for such computations. A frequently rebalanced portfolio will require a compiled (and well optimised!) matrix library to carry this step out, so as not to bottleneck the trading system.</p>
+
+<p>Risk management is another extremely important part of an algorithmic trading system. Risk can come in many forms: Increased volatility (although this may be seen as desirable for certain strategies!), increased correlations between asset classes, counter-party default, server outages, "black swan" events and undetected bugs in the trading code, to name a few.</p>
+
+<p>Risk management components try and anticipate the effects of excessive volatility and correlation between asset classes and their subsequent effect(s) on trading capital. Often this reduces to a set of statistical computations such as Monte Carlo "stress tests". This is very similar to the computational needs of a derivatives pricing engine and as such will be CPU-bound. These simulations are highly parallelisable (see below) and, to a certain degree, it is possible to "throw hardware at the problem".</p>
+
+<h3>Execution Systems</h3>
+
+<p>The job of the execution system is to receive filtered trading signals from the portfolio construction and risk management components and send them on to a brokerage or other means of market access. For the majority of retail algorithmic trading strategies this involves an API or FIX connection to a brokerage such as <a href="http://www.interactivebrokers.com">Interactive Brokers</a>. The primary considerations when deciding upon a language include quality of the API, language-wrapper availability for an API, execution frequency and the anticipated slippage.</p>
+
+<p>The "quality" of the API refers to how well documented it is, what sort of performance it provides, whether it needs standalone software to be accessed or whether a gateway can be established in a <em>headless</em> fashion (i.e. no GUI). In the case of Interactive Brokers, the Trader WorkStation tool needs to be running in a GUI environment in order to access their API. I once had to install a Desktop Ubuntu edition onto an Amazon cloud server to access Interactive Brokers remotely, purely for this reason!</em>
+
+<p>Most APIs will provide a C++ and/or Java interface. It is usually up to the community to develop language-specific wrappers for C#, Python, R, Excel and MatLab. Note that with every additional plugin utilised (especially API wrappers) there is scope for bugs to creep into the system. Always test plugins of this sort and ensure they are actively maintained. A worthwhile gauge is to see how many new updates to a codebase have been made in recent months.</p>
+
+<p>Execution frequency is of the utmost importance in the execution algorithm. Note that hundreds of orders may be sent every minute and as such performance is critical. Slippage will be incurred through a badly-performing execution system and this will have a dramatic impact on profitability.</p>
+
+<p>Statically-typed languages (see below) such as C++/Java are generally optimal for execution but there is a trade-off in development time, testing and ease of maintenance. Dynamically-typed languages, such as Python and Perl are now generally "fast enough". Always make sure the components are designed in a modular fashion (see below) so that they can be "swapped out" out as the system scales.</p>
+
+<h2>Architectural Planning and Development Process</h2>
+
+<p>The components of a trading system, its frequency and volume requirements have been discussed above, but system infrastructure has yet to be covered. Those acting as a retail trader or working in a small fund will likely be "wearing many hats". It will be necessary to be covering the alpha model, risk management and execution parameters, and also the final implementation of the system. Before delving into specific languages the design of an optimal system architecture will be discussed.</p>
+
+<h3>Separation of Concerns</h3>
+
+<p>One of the most important decisions that must be made at the outset is how to "separate the concerns" of a trading system. In software development, this essentially means how to break up the different aspects of the trading system into separate modular components.</p>
+
+<p>By exposing interfaces at each of the components it is easy to swap out parts of the system for other versions that aid performance, reliability or maintenance, without modifying any external dependency code. This is the "best practice" for such systems. For strategies at lower frequencies such practices are advised. For ultra high frequency trading the rulebook might have to be ignored at the expense of tweaking the system for even more performance. A more tightly coupled system may be desirable.</p>
+
+<p>Creating a component map of an algorithmic trading system is worth an article in itself. However, an optimal approach is to make sure there are separate components for the historical and real-time market data inputs, data storage, data access API, backtester, strategy parameters, portfolio construction, risk management and automated execution systems.</p>
+
+<p>For instance, if the data store being used is currently underperforming, even at significant levels of optimisation, it can be swapped out with minimal rewrites to the data ingestion or data access API. As far the as the backtester and subsequent components are concerned, there is no difference.</p>
+
+<p>Another benefit of separated components is that it allows a variety of programming languages to be used in the overall system. There is no need to be restricted to a single language if the communication method of the components is language independent. This will be the case if they are communicating via TCP/IP, <a href="http://www.zeromq.org/">ZeroMQ</a> or some other language-independent protocol.</p>
+
+<p>As a concrete example, consider the case of a backtesting system being written in C++ for "number crunching" performance, while the portfolio manager and execution systems are written in Python using <a href="http://www.scipy.org/">SciPy</a> and <a href="https://github.com/blampe/IbPy">IBPy</a>.</p>
+
+<h3>Performance Considerations</h3>
+
+<p>Performance is a significant consideration for most trading strategies. For higher frequency strategies it is the most important factor. "Performance" covers a wide range of issues, such as algorithmic execution speed, network latency, bandwidth, data I/O, concurrency/parallelism and scaling. Each of these areas are individually covered by large textbooks, so this article will only scratch the surface of each topic. Architecture and language choice will now be discussed in terms of their effects on performance.</p>
+
+<p>The prevailing wisdom as stated by <a href="http://en.wikipedia.org/wiki/Donald_Knuth">Donald Knuth</a>, one of the fathers of Computer Science, is that "premature optimisation is the root of all evil". This is almost always the case - except when building a high frequency trading algorithm! For those who are interested in lower frequency strategies, a common approach is to build a system in the simplest way possible and only optimise as <em>bottlenecks</em> begin to appear.</p>
+
+<p><em>Profiling</em> tools are used to determine where bottlenecks arise. Profiles can be made for all of the factors listed above, either in a MS Windows or Linux environment. There are many operating system and language tools available to do so, as well as third party utilities. Language choice will now be discussed in the context of performance.</p>
+
+<p>C++, Java, Python, R and MatLab all contain high-performance libraries (either as part of their standard or externally) for basic data structure and algorithmic work. C++ ships with the Standard Template Library, while Python contains NumPy/SciPy. Common mathematical tasks are to be found in these libraries and it is rarely beneficial to write a new implementation.</p>
+
+<p>One exception is if highly customised hardware architecture is required and an algorithm is making extensive use of proprietary extensions (such as custom caches). However, often "reinvention of the wheel" wastes time that could be better spent developing and optimising other parts of the trading infrastructure. Development time is extremely precious especially in the context of sole developers.</p>
+
+<p>Latency is often an issue of the execution system as the research tools are usually situated on the same machine. For the former, latency can occur at multiple points along the execution path. Databases must be consulted (disk/network latency), signals must be generated (operating syste, kernal messaging latency), trade signals sent (NIC latency) and orders processed (exchange systems internal latency).</p>
+
+<p>For higher frequency operations it is necessary to become intimately familiar with kernal optimisation as well as optimisation of network transmission. This is a deep area and is significantly beyond the scope of the article but if an UHFT algorithm is desired then be aware of the depth of knowledge required!</p>
+
+<p>Caching is very useful in the toolkit of a quantitative trading developer. Caching refers to the concept of storing frequently accessed data in a manner which allows higher-performance access, at the expense of potential <em>staleness</em> of the data. A common use case occurs in web development when taking data from a disk-backed relational database and putting it into memory. Any subsequent requests for the data do not have to "hit the database" and so performance gains can be significant.</p> 
+
+<p>For trading situations caching can be extremely beneficial. For instance, the current state of a strategy portfolio can be stored in a cache until it is rebalanced, such that the list doesn't need to be regenerated upon each loop of the trading algorithm. Such regeneration is likely to be a high CPU or disk I/O operation.</p>
+
+<p>However, caching is not without its own issues. Regeneration of cache data all at once, due to the volatilie nature of cache storage, can place significant demand on infrastructure. Another issue is <em><a href="http://en.wikipedia.org/wiki/Cache_stampede">dog-piling</a></em>, where multiple generations of a new cache copy are carried out under extremely high load, which leads to cascade failure.</p>
+
+<p>Dynamic memory allocation is an expensive operation in software execution. Thus it is imperative for higher performance trading applications to be well-aware how memory is being allocated and deallocated during program flow. Newer language standards such as Java, C# and Python all perform automatic <em>garbage collection</em>, which refers to deallocation of dynamically allocated memory when objects go <em>out of scope</em>.</p>
+
+<p>Garbage collection is extremely useful during development as it reduces errors and aids readability. However, it is often sub-optimal for certain high frequency trading strategies. Custom garbage collection is often desired for these cases. In Java, for instance, by tuning the garbage collector and heap configuration, it is possible to obtain high performance for HFT strategies.</p> 
+
+<p>C++ doesn't provide a native garbage collector and so it is necessary to handle all memory allocation/deallocation as part of an object's implementation. While potentially error prone (potentially leading to dangling pointers) it is extremely useful to have fine-grained control of how objects appear on the heap for certain applications. When choosing a language make sure to study how the garbage collector works and whether it can be modified to optimise for a particular use case.</p>
+
+<p>Many operations in algorithmic trading systems are amenable to <em>parallelisation</em>. This refers to the concept of carrying out multiple programmatic operations at the same time, i.e in "parallel". So-called "embarassingly parallel" algorithms include steps that can be computed fully independently of other steps. Certain statistical operations, such as Monte Carlo simulations, are a good example of embarassingly parallel algorithms as each random draw and subsequent path operation can be computed without knowledge of other paths.</p>
+
+<p>Other algorithms are only partially parallelisable. Fluid dynamics simulations are such an example, where the domain of computation can be subdivided, but ultimately these domains must communicate with each other and thus the operations are partially sequential. Parallelisable algorithms are subject to <a href="http://en.wikipedia.org/wiki/Amdahl%27s_law">Amdahl's Law</a>, which provides a theoretical upper limit to the performance increase of a parallelised algorithm when subject to $N$ separate processes (e.g. on a <em>CPU core</em> or <em>thread</em>).</p>
+
+<p>Parallelisation has become increasingly important as a means of optimisation since processor clock-speeds have stagnated, as newer processors contain many <em>cores</em> with which to perform parallel calculations. The rise of consumer graphics hardware (predominently for video games) has lead to the development of Graphical Processing Units (GPUs), which contain hundreds of "cores" for highly concurrent operations. Such GPUs are now very affordable. High-level frameworks, such as Nvidia's <a href="http://www.nvidia.com/object/cuda_home_new.html">CUDA</a> have lead to widespread adoption in academia and finance.</p>
+
+<p>Such GPU hardware is generally only suitable for the research aspect of quantitative finance, whereas other more specialised hardware (including <a href="https://en.wikipedia.org/wiki/Field-programmable_gate_array">Field-Programmable Gate Arrays</a> - FPGAs) are used for (U)HFT. Nowadays, most modern langauges support a degree of concurrency/multithreading. Thus it is straightforward to optimise a backtester, since all calculations are generally independent of the others.</p>
+
+<p><em>Scaling</em> in software engineering and operations refers to the ability of the system to handle consistently increasing loads in the form of greater requests, higher processor usage and more memory allocation. In algorithmic trading a strategy is able to <em>scale</em> if it can accept larger quantities of capital and still produce consistent returns. The trading technology stack <em>scales</em> if it can endure larger trade volumes and increased latency, without <em>bottlenecking</em>.</p> 
+
+<p>While systems must be designed to scale, it is often hard to predict beforehand where a bottleneck will occur. Rigourous logging, testing, profiling and monitoring will aid greatly in allowing a system to scale. Languages themselves are often described as "unscalable". This is usually the result of misinformation, rather than hard fact. It is the total technology stack that should be ascertained for scalability, not the language. Clearly certain languages have greater performance than others in particular use cases, but one language is never "better" than another in every sense.</p>
+
+<p>One means of managing scale is to separate concerns, as stated above. In order to further introduce the ability to handle "spikes" in the system (i.e. sudden volatility which triggers a raft of trades), it is useful to create a "message queuing architecture". This simply means placing a <em>message queue</em> system between components so that orders are "stacked up" if a certain component is unable to process many requests.</p>
+
+<p>Rather than requests being lost they are simply kept in a stack until the message is handled. This is particularly useful for sending trades to an execution engine. If the engine is suffering under heavy latency then it will back up trades. A queue between the trade signal generator and the execution API will alleviate this issue at the expense of potential trade slippage. A well-respected open source message queue broker is <a href="http://www.rabbitmq.com/">RabbitMQ</a>.</p>
+
+<h3>Hardware and Operating Systems</h3>
+
+<p>The hardware running your strategy can have a significant impact on the profitability of your algorithm. This is not an issue restricted to high frequency traders either. A poor choice in hardware and operating system can lead to a machine crash or reboot at the most inopportune moment. Thus it is necessary to consider where your application will reside. The choice is generally between a personal desktop machine, a remote server, a "cloud" provider or an exchange co-located server.</p>
+
+<p>Desktop machines are simple to install and administer, especially with newer user friendly operating systems such as Windows 7/8, Mac OSX and Ubuntu. Desktop systems do possess some significant drawbacks, however. The foremost is that the versions of operating systems designed for desktop machines are likely to require reboots/patching (and often at the worst of times!). They also use up more computational resources by the virtue of requiring a graphical user interface (GUI).</p> 
+
+<p>Utilising hardware in a home (or local office) environment can lead to internet connectivity and power uptime problems. The main benefit of a desktop system is that significant computational horsepower can be purchased for the fraction of the cost of a remote dedicated server (or cloud based system) of comparable speed.</p>
+
+<p>A dedicated server or cloud-based machine, while often more expensive than a desktop option, allows for more significant redundancy infrastructure, such as automated data backups, the ability to more straightforwardly ensure uptime and remote monitoring. They are harder to administer since they require the ability to use remote login capabilities of the operating system.</p>
+
+<p>In Windows this is generally via the GUI Remote Desktop Protocol (RDP). In Unix-based systems the command-line Secure SHell (SSH) is used. Unix-based server infrastructure is almost always command-line based which immediately renders GUI-based programming tools (such as MatLab or Excel) to be unusable.</p>
+
+<p>A co-located server, as the phrase is used in the capital markets, is simply a dedicated server that resides within an exchange in order to reduce latency of the trading algorithm. This is absolutely necessary for certain high frequency trading strategies, which rely on low latency in order to generate alpha.</p>
+
+<p>The final aspect to hardware choice and the choice of programming language is platform-independence. Is there a need for the code to run across multiple different operating systems? Is the code designed to be run on a particular type of processor architecture, such as the Intel x86/x64 or will it be possible to execute on RISC processors such as those manufactured by ARM? These issues will be highly dependent upon the frequency and type of strategy being implemented.</p>
+
+<h3>Resilience and Testing</h3>
+
+<p>One of the best ways to lose a lot of money on algorithmic trading is to create a system with no <em>resiliency</em>. This refers to the durability of the sytem when subject to rare events, such as brokerage bankruptcies, sudden excess volatility, region-wide downtime for a cloud server provider or the accidental deletion of an entire trading database. Years of profits can be eliminated within seconds with a poorly-designed architecture. It is absolutely essential to consider issues such as debuggng, testing, logging, backups, high-availability and monitoring as core components of your system.</p>
+
+<p>It is likely that in any reasonably complicated custom quantitative trading application at least 50% of development time will be spent on debugging, testing and maintenance.</p>
+
+<p>Nearly all programming languages either ship with an associated <em>debugger</em> or possess well-respected third-party alternatives. In essence, a debugger allows execution of a program with insertion of arbitrary <em>break points</em> in the code path, which temporarily halt execution in order to investigate the <em>state</em> of the system. The main benefit of debugging is that it is possible to investigate the behaviour of code prior to a known <em>crash point</em>.</p> 
+
+<p>Debugging is an essential component in the toolbox for analysing programming errors. However, they are more widely used in <em>compiled</em> languages such as C++ or Java, as <em>interpreted</em> languages such as Python are often easier to debug due to fewer LOC and less verbose statements. Despite this tendency Python does ship with the <a href="http://docs.python.org/2/library/pdb.html">pdb</a>, which is a sophisticated debugging tool. The Microsoft Visual C++ IDE possesses extensive GUI debugging utilities, while for the command line Linux C++ programmer, the <a href="http://www.gnu.org/software/gdb/">gdb</a> debugger exists.</p>
+
+<p><em>Testing</em> in software development refers to the process of applying known parameters and results to specific functions, methods and objects within a codebase, in order to simulate behaviour and evaluate multiple code-paths, helping to ensure that a system behaves as it should. A more recent paradigm is known as <em>Test Driven Development</em> (TDD), where test code is developed against a specified interface with no implementation. Prior to the completion of the actual codebase all tests will fail. As code is written to "fill in the blanks", the tests will eventually all pass, at which point development should cease.</p>
+
+<p>TDD requires extensive upfront specification design as well as a healthy degree of discipline in order to carry out successfully. In C++, Boost provides a unit testing framework. In Java, the JUnit library exists to fulfill the same purpose. Python also has the <a href="http://docs.python.org/2/library/unittest.html">unittest</a> module as part of the standard library. Many other languages possess unit testing frameworks and often there are multiple options.</p> 
+
+<p>In a production environment, sophisticated logging is absolutely essential. Logging refers to the process of outputting messages, with various degrees of severity, regarding execution behaviour of a system to a flat file or database. Logs are a "first line of attack" when hunting for unexpected program runtime behaviour. Unfortunately the shortcomings of a logging system tend only to be discovered after the fact! As with backups discussed below, a logging system should be given due consideration BEFORE a system is designed.</p>
+
+<p>Both Microsoft Windows and Linux come with extensive system logging capability and programming languages tend to ship with standard logging libraries that cover most use cases. It is often wise to centralise logging information in order to analyse it at a later date, since it can often lead to ideas about improving performance or error reduction, which will almost certainly have a positive impact on your trading returns.</p>
+
+<p>While logging of a system will provide information about what has transpired in the past, monitoring of an application will provide insight into what is happening <em>right now</em>. All aspects of the system should be considered for monitoring. System level metrics such as disk usage, available memory, network bandwidth and CPU usage provide basic load information.</p>
+
+<p>Trading metrics such as abnormal prices/volume, sudden rapid drawdowns and account exposure for different sectors/markets should also be continuously monitored. Further, a threshold system should be instigated that provides notification when certain metrics are breached, elevating the notification method (email, SMS, automated phone call) depending upon the severity of the metric.</p>
+
+<p>System monitoring is often the domain of the system administrator or operations manager. However, as a sole trading developer, these metrics must be established as part of the larger design. Many solutions for monitoring exist: proprietary, hosted and open source, which allow extensive customisation of metrics for a particular use case.</p>
+
+<p>Backups and high availability should be prime concerns of a trading system. Consider the following two questions: 1) If an entire production database of market data and trading history was deleted (without backups) how would the research and execution algorithm be affected? 2) If the trading system suffers an outage for an extended period (with open positions) how would account equity and ongoing profitability be affected? The answers to both of these questions are often sobering!</p>
+
+<p>It is imperative to put in place a system for backing up data and also for testing the restoration of such data. Many individuals do not test a restore strategy. If recovery from a crash has not been tested in a safe environment, what guarantees exist that restoration will be available at the worst possible moment?</p>
+
+<p>Similarly, high availability needs to be "baked in from the start". Redundant infrastructure (even at additional expense) must always be considered, as the cost of downtime is likely to far outweigh the ongoing maintenance cost of such systems. I won't delve too deeply into this topic as it is a large area, but make sure it is one of the first considerations given to your trading system.</o>
+
+<h2>Choosing a Language</h2>
+
+<p>Considerable detail has now been provided on the various factors that arise when developing a custom high-performance algorithmic trading system. The next stage is to discuss how programming languages are generally categorised.</p>
+
+<h3>Type Systems</h3>
+
+<p>When choosing a language for a trading stack it is necessary to consider the <em>type system</em>. The languages which are of interest for algorithmic trading are either <em>statically-</em> or <em>dynamically-typed</em>. A statically-typed language performs checks of the types (e.g. integers, floats, custom classes etc) during the compilation process. Such languages include C++ and Java. A dynamically-typed language performs the majority of its type-checking at runtime. Such languages include Python, Perl and JavaScript.</p>
+
+<p>For a highly numerical system such as an algorithmic trading engine, type-checking at compile time can be extremely beneficial, as it can eliminate many bugs that would otherwise lead to numerical errors. However, type-checking doesn't catch everything, and this is where <em>exception handling</em> comes in due to the necessity of having to handle unexpected operations. 'Dynamic' languages (i.e. those that are dynamically-typed) can often lead to run-time errors that would otherwise be caught with a compilation-time type-check. For this reason, the concept of TDD (see above) and unit testing arose which, when carried out correctly, often provides more safety than compile-time checking alone.</p>
+
+<p>Another benefit of statically-typed languages is that the compiler is able to make many optimisations that are otherwise unavailable to the dynamically- typed language, simply because the type (and thus memory requirements) are known at compile-time. In fact, part of the inefficiency of many dynamically-typed languages stems from the fact that certain objects must be type-inspected at run-time and this carries a performance hit. Libraries for dynamic languages, such as NumPy/SciPy alleviate this issue due to enforcing a type within arrays.</p>
+
+<h3>Open Source or Proprietary?</h3>
+
+<p>One of the biggest choices available to an algorithmic trading developer is whether to use proprietary (commercial) or open source technologies. There are advantages and disadvantages to both approaches. It is necessary to consider how well a language is supported, the activity of the community surrounding a language, ease of installation and maintenance, quality of the documentation and any licensing/maintenance costs.</p>
+
+<p>The <a href="https://www.microsoft.com/net">Microsoft .NET</a> stack (including Visual C++, Visual C#) and <a href="http://www.mathworks.co.uk/products/matlab/">MathWorks' MatLab</a> are two of the larger proprietary choices for developing custom algorithmic trading software. Both tools have had significant "battle testing" in the financial space, with the former making up the predominant software stack for investment banking trading infrastructure and the latter being heavily used for quantitative trading research within investment funds.</p>
+
+<p>Microsoft and MathWorks both provide extensive high quality documentation for their products. Further, the communities surrounding each tool are very large with active web forums for both. The .NET software allows cohesive integration with multiple languages such as C++, C# and VB. MatLab also has many plugins/libraries (some free, some commercial) for nearly any quantitative research domain.</p>
+
+<p>There are also drawbacks. With either piece of software the costs are not insignificant for a lone trader (although Microsoft does provide entry-level version of Visual Studio for free). Microsoft tools "play well" with each other, but integrate less well with external code. Visual Studio must also be executed on Microsoft Windows, which is arguably far less performant than an equivalent Linux server which is optimally tuned.</p>
+
+<p>MatLab also lacks a few key plugins such as a good wrapper around the Interactive Brokers API, one of the few brokers amenable to high-performance algorithmic trading. The main issue with proprietary products is the lack of availability of the source code. This means that if ultra performance is truly required, both of these tools will be far less attractive.</p>
+
+<p>Open source tools have been industry grade for sometime. Much of the alternative asset space makes extensive use of open-source Linux, MySQL/PostgreSQL, Python, R, C++ and Java in high-performance production roles. However, they are far from restricted to this domain. Python and R, in particular, contain a wealth of extensive numerical libraries for performing nearly any type of data analysis imaginable, often at execution speeds comparable to compiled languages, with certain caveats.</p>
+
+<p>The main benefit of using interpreted languages is the speed of development time. Python and R require far fewer lines of code (LOC) to achieve similar functionality, principally due to the extensive libraries. Further, they often allow interactive console based development, rapidly reducing the iterative development process.</p>
+
+<p>Given that time as a developer is extremely valuable, and execution speed often less so (unless in the HFT space), it is worth giving extensive consideration to an open source technology stack. Python and R possess significant development communities and are extremely well supported, due to their popularity. Documentation is excellent and bugs (at least for core libraries) remain scarce.</p>
+
+<p>Open source tools often suffer from a lack of a dedicated commercial support contract and run optimally on systems with less-forgiving user interfaces. A typical Linux server (such as Ubuntu) will often be fully command-line oriented. In addition, Python and R can be slow for certain execution tasks. There are mechanisms for integrating with C++ in order to improve execution speeds, but it requires some experience in multi-language programming.</p> 
+
+<p>While proprietary software is not immune from dependency/versioning issues it is far less common to have to deal with incorrect library versions in such environments. Open source operating systems such as Linux can be trickier to administer.</p>
+
+<p>I will venture my personal opinion here and state that I build all of my trading tools with open source technologies. In particular I use: Ubuntu, MySQL, Python, C++ and R. The maturity, community size, ability to "dig deep" if problems occur and lower total cost ownership (TCO) far outweigh the simplicity of proprietary GUIs and easier installations. Having said that, Microsoft Visual Studio (especially for C++) is a fantastic Integrated Development Environment (IDE) which I would also highly recommend.</p>
+
+<h3>Batteries Included?</h3>
+
+<p>The header of this section refers to the "out of the box" capabilities of the language - what libraries does it contain and how good are they? This is where mature languages have an advantage over newer variants. C++, Java and Python all now possess extensive libraries for network programming, HTTP, operating system interaction, GUIs, regular expressions (regex), iteration and basic algorithms.</P>
+
+<p>C++ is famed for its Standard Template Library (STL) which contains a wealth of high performance <a href="https://www.quantstart.com/articles/C-Standard-Template-Library-Part-I-Containers">data structures</a> and <a href="http://www.quantstart.com/articles/C-Standard-Template-Library-Part-III-Algorithms">algorithms</a> "for free". Python is known for being able to communicate with nearly any other type of system/protocol (especially the web), mostly through its own standard library. R has a wealth of statistical and econometric tools built in, while MatLab is extremely optimised for any numerical linear algebra code (which can be found in portfolio optimisation and derivatives pricing, for instance).</p>
+
+<p>Outside of the standard libraries, C++ makes use of the <a href="http://www.boost.org/">Boost</a> library, which fills in the "missing parts" of the standard library. In fact, many parts of Boost made it into the TR1 standard and subsequently are available in the C++11 spec, including native support for lambda expressions and concurrency.</p> 
+
+<p>Python has the high performance NumPy/SciPy/Pandas data analysis library combination, which has gained widespread acceptance for algorithmic trading research. Further, high-performance plugins exist for access to the main relational databases, such as <a href="http://tangentsoft.net/mysql++/">MySQL++</a> (MySQL/C++), <a href="http://www.oracle.com/technetwork/java/javase/jdbc/index.html">JDBC</a> (Java/MatLab) and <a href="http://mysql-python.sourceforge.net/">MySQLdb</a> (MySQL/Python). Python can even communicate with R via the <a href="http://rpy.sourceforge.net/">RPy</a> plugin!</p>
+
+<p>An often overlooked aspect of a trading system while in the initial research and design stage is the connectivity to a broker API. Most APIs natively support C++ and Java, but some also support C# and Python, either directly or with community-provided wrapper code to the C++ APIs. In particular, Interactive Brokers can be connected to via the IBPy plugin. If high-performance is required, brokerages will support the <a href="http://www.fixprotocol.org/">FIX protocol</a>.</p>
+
+<h2>Conclusion</h2>
+
+<p>As is now evident, the choice of programming language(s) for an algorithmic trading system is not straightforward and requires deep thought. The main considerations are performance, ease of development, resiliency and testing, separation of concerns, familiarity, maintenance, source code availability, licensing costs and maturity of libraries.</p>
+
+<p>The benefit of a separated architecture is that it allows languages to be "plugged in" for different aspects of a trading stack, as and when requirements change. A trading system is an evolving tool and it is likely that any language choices will evolve along with it.</p>
+        
+        
+        <script async data-uid="6296c27f4b" src="https://weathered-brook-5281.ck.page/6296c27f4b/index.js"></script>
+      </section>
+    </div>
+    <div class="col-md-4 book-card order-md-1">
+      
+<div class="sidebar-advert-container">
+  <a href="/qsalpha/?ref=art">
+    <img class="card-img-top" src="/static/images/qsalpha-sidebar-advert-small.png" alt="QSAlpha">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/qsalpha/?ref=art">QSAlpha</a></h3>
+      <p class="card-text medium-text mb-3">Join the QSAlpha research platform that helps fill your strategy research pipeline, diversifies your portfolio and improves your risk-adjusted returns for increased profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/qsalpha/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/quantcademy/?ref=art">
+    <img class="card-img-top" src="/static/images/quantcademy-sidebar-advert-small.png" alt="Quantcademy">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/quantcademy/?ref=art">The Quantcademy</a></h3>
+      <p class="card-text medium-text mb-3">Join the Quantcademy membership portal that caters to the rapidly-growing retail quant trader community and learn how to increase your strategy profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/quantcademy/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/successful-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/sat-sidebar-advert-small.png" alt="Successful Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to find new trading strategy ideas and objectively assess them for your portfolio using a Python-based backtesting engine.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/successful-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/advanced-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/aat-sidebar-advert-small.png" alt="Advanced Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to implement advanced trading strategies using time series analysis, machine learning and Bayesian statistics with R and Python.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/advanced-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+    
+
+<footer>
+  <div class="container container-full">
+    <section class="mt-1.5 mb-1">
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">QuantStart</li>
+            <li class="footer-list-link"><a class="link-fade" href="/about/">About</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/articles/">Articles</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/sitemap/">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Products</li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qsalpha/">QSAlpha</a></li>
+            
+            
+            <li class="footer-list-link"><a class="link-fade" href="/quantcademy/">Quantcademy</a></li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qstrader/">QSTrader</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Legal</li>
+            <li class="footer-list-link"><a class="link-fade" href="/privacy-policy/">Privacy Policy</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/terms-and-conditions/">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Social</li>
+            <li class="footer-list-link"><a class="link-fade" href="https://twitter.com/quantstart">Twitter</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="https://www.youtube.com/channel/UCmVnnZ6Y2TrJtY1eQJN6kWA">YouTube</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="row mb-1.5 mt-5">
+      <div class="col-12 col-md-9 col-lg-8 col-xl-6">
+        <div class="footer-copyright">
+          <p>©2012-2023 QuarkGluon Ltd. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+<script src="/static/js/jquery-3.2.1.min.js"></script>
+<script src="/static/js/prism.js.min"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/nav.js"></script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5383959-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+    
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="/static/js/highcharts/highcharts.js"></script>
+<script type="text/javascript">
+  num_colours = 10;
+</script>
+<script src="/static/js/statistics.js"></script>
+
+
+  </body>
+</html>

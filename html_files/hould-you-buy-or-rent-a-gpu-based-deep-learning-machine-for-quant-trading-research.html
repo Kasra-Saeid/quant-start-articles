@@ -1,0 +1,371 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-site-verification" content="wl3-8ed1QZjI0iYZMv10zoZWYElkMObTfwLlWIj9cpA" />
+    <meta name="description" content="Should You Buy or Rent a GPU-Based Deep Learning Machine for Quant Trading Research?">
+
+    <link rel="icon" href="/static/images/favicon.png">
+
+    <title>Should You Buy or Rent a GPU-Based Deep Learning Machine for Quant Trading Research? | QuantStart</title>
+    
+    
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet"> 
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/prism.css" rel="stylesheet">
+<link href="/static/css/qs.css?v=10" rel="stylesheet">
+    
+  </head>
+
+  <body>
+    <header class="header covered-header" style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://quantstartmedia.s3.amazonaws.com/images/article-images/article-backgrounds/should-you-buy-or-rent-a-gpu-based-deep-learning-machine-for-quant-trading-research.jpg);">
+  
+<nav class="nav">
+  <div class="container nav-container">
+    <div class="nav-row row d-flex justify-content-between align-items-center">
+      <div class="col-2">
+        <ul class="nav-items justify-content-end small-capitals align-items-center">
+          <li class="nav-item">
+            <a class="link-fade" href="/">QuantStart</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-auto col-logo">
+        <ul id="top-nav-menu" class="nav-items justify-content-end align-items-center">
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/qsalpha/">QSAlpha</a>
+          </li>
+          
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/quantcademy/">Quantcademy</a>
+          </li>
+          
+          <li id="menu-link-ebooks" class="nav-item">
+            <a class="link-fade" href="#">Books</a>
+            <div id="menu-pane-ebooks" class="nav-items menu-dropdown-pane">
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/qstrader/">QSTrader</a>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/articles/">Articles</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/members/login/">Login</a>
+          </li>
+          
+        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<nav id="mobile-nav" class="mobile-nav text-left">
+  <div class="container">
+    <ul class="mt-4 ml-3 mobile-nav-menu">
+      <li class="nav-item">
+        <a class="link-fade d-block" href="/">QuantStart</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qsalpha/">QSAlpha</a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/quantcademy/">Quantcademy</a>
+      </li>
+      
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="#">Books</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qstrader/">QSTrader</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/articles/">Articles</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/members/login/">Login</a>
+      </li>
+      
+    </ul>
+    <button class="nav-toggle mobile-nav-close">
+      <svg id="mobile-nav-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M19.77,5.63,13.41,12l6.36,6.37a1,1,0,0,1-1.41,1.41L12,13.41,5.63,19.77a1,1,0,0,1-1.44-1.39l0,0L10.58,12,4.21,5.63a1,1,0,0,1,0-1.42,1,1,0,0,1,1.41,0l0,0L12,10.58l6.37-6.37a1,1,0,0,1,1.41,0A1,1,0,0,1,19.77,5.63Z"></path>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+  <div class="container hero-container">
+    <section class="mt-5 mb-4">
+      <div class="row justify-content-center">
+        <div class="col-12 text-center">
+          <p class="hero">Should You Buy or Rent a GPU-Based Deep Learning Machine for Quant Trading Research?</p>
+          <p class="hero subhero">Should You Buy or Rent a GPU-Based Deep Learning Machine for Quant Trading Research?</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</header>
+    
+<section class="container content-container">
+  <div class="row">
+    <div class="col-md-8 order-md-2">
+      <section class="content article-content">
+        
+        
+        <p>We've recently been considering the <a href="https://www.quantstart.com/articles/what-is-deep-learning">field of deep learning</a> as a modelling methodology for forming new quantitative trading models. Such models have been shown to be 'unreasonably effective' in the fields of computer vision, natural language processing and games of strategy. This motivates us to see if these models can be applied to quant trading strategies.</p>
+
+<p>We've so far looked at the basic mathematical foundations through a new series on <a href="https://www.quantstart.com/articles/scalars-vectors-matrices-and-tensors-linear-algebra-for-deep-learning-part-1">linear algebra for deep learning</a>, but have yet to discuss any deep learning models themselves beyond a cursory <a href="https://www.quantstart.com/articles/Deep-Learning-with-Theano-Part-1-Logistic-Regression">introduction to logistic regression using Theano</a>.</p>
+
+<p>Before we dive into deep learning model architecture it is necessary to set up a research environment that will be used for training models prior to their addition into a trading infrastructure. This article will motivate the need for specialised hardware. It will also provide an analysis of whether to purchase this hardware directly or whether to rent it from a cloud computing vendor.</p>
+
+<p>Deep learning models are incredibly compute intensive. Training times on unoptimised hardware can be on the order of weeks or months. This length of time can rapidly slow down the iterative nature of quant trading research and prevent deployment of potentially profitable strategies.</p>
+
+<p>Due to the heavy reliance on basic linear algebra routines deep learning training is extremely well-suited to massive parallelisation. Hence it is a perfect candidate for execution on <a href="https://en.wikipedia.org/wiki/Graphics_processing_unit">Graphics Processing Units</a> (GPU). GPUs are specialised hardware architectures originally designed for real-time video game graphics, but have now grown into a mature <a href="https://en.wikipedia.org/wiki/Supercomputer">High Performance Computing</a> (HPC) platform.</p>
+
+<p>GPUs can reduce training times by a significant factor and are thus almost an essential tool for serious deep learning practitioners. However the GPUs themselves, as well as the surrounding hardware necessary to effectively run them is a significant investment. In addition to this quant traders have widely varying requirements, depending upon trade frequency, assets under management and whether the capital is being managed institutionally or through a personal retail account.</p>
+
+<p>This article is largely written for retail quants who possess the time and capital to invest in deep learning R&amp;D as a means of diversifying a portfolio. However, it should also be of use to small institutional quants in boutique funds who are considering a deep learning component to their offering.</p>
+
+<p>For those on more modest budgets it can not be stressed enough that you should not invest a great deal of money into building a high-end deep learning setup right away. Since deep learning compute power has become such a commoditised resource it is very straightforward to "try before you buy" using cloud vendors. Once you have more experience at training models, along with a solid quant trading research plan in mind, the hardware specification—and financial outlay—can be tailored for your specific requirements.</p>
+
+<h2>Renting vs Purchasing</h2>
+
+<p>Now that the need for GPU hardware has been established the next task is to determine whether to rent GPU-compute resources from "the cloud" or whether to purchase a local GPU desktop workstation.</p> 
+
+<p>The answer is heavily dependent upon the type of models being trained, the space of (hyper)parameters being searched, the cost of electricity in your locale, your current algorithmic trading data setup along with your own personal preferences and research style.</p>
+
+<h3>Renting GPUs via Amazon Web Services P2 Instances</h3>
+
+<p>Comparing a cross-section of cloud vendors is beyond the scope of an article such as this. Any pricing and performance information will likely become out of date—particularly in the rapidly moving field of deep learning. Hence I've decided to consider one of the major vendors (if not <em>the</em> major vendor) in <a href="https://aws.amazon.com/">Amazon Web Services</a>, through their <a href="https://aws.amazon.com/ec2/">Elastic Compute Cloud (EC2)</a> platform.</p>
+
+<p>The EC2 platform offers a wide range of <a href="https://aws.amazon.com/ec2/instance-types/">instance types</a>. We are particularly interested in the P2 instances found under the Accelerated Computing Instances header. Right now there are three instances offered, namely the p2.xlarge, p2.8xlarge and the p2.16xlarge. They vary in the quantity of GPUs, virtual CPU units and available RAM. They are currently priced, in the US East/Ohio block with spot values, at <span class="tex2jax_ignore">$</span>0.90/hr, <span class="tex2jax_ignore">$</span>7.20/hr and <span class="tex2jax_ignore">$</span>14.40/hr, respectively.</p>
+
+<p>This means continual usage of the p2.xlarge machine, which contains a single <a href="http://www.nvidia.com/object/tesla-k80.html">Nvidia K80 GPU</a> with 12Gb of onboard video RAM, will cost approximately $650 per month. Note of course that this includes the price of electricity. There are other costs to factor in such as data transfer out of EC2 and the cost of the Elastic Block Storage (EBS) necessary for storing both the operating system and deep learning datasets. All of these costs will need to be considered when renting.</p>
+
+<p>Despite this it is reasonably straightforward to set up a GPU instance. In fact we will be releasing a tutorial in the near future on how to do just that. However since these instances are Linux servers rather than desktops they are run <em>headless</em> meaning that the only way to access them is with through a tool such as SSH. Hence all work will need to be carried out on the command line. This is quite a shift for those who are used to a Windows local desktop environment.</p>
+
+<p>Another major benefit of renting is that once the model is trained it can be exported and the GPU instance can be terminated. The model can then be executed elsewhere on much cheaper hardware (possibly locally). This is not the case for local machines where all of the cost is front-loaded. Hence, once the deep learning research has finished you may be left with a high-powered deep learning machine with nothing to do!</p>
+
+<h3>Buying a GPU-Enabled Local Desktop Workstation</h3>
+
+<p>Buying a full deep learning system is becoming more and more popular due to the significant price reductions in commodity GPUs. While the reasons for choosing a particular GPU will be left to another article (see <a href="http://timdettmers.com/2017/04/09/which-gpu-for-deep-learning/">here</a> for a great discussion), it is possible to recommend one or two cards. In particular the <a href="http://www.geforce.co.uk/hardware/10series/geforce-gtx-1080-ti/">Nvidia GeForce GTX 1080 Ti</a>, with 11Gb VRAM, is currently retailing for around <span class="tex2jax_ignore">$</span>700. For those on a budget the Geforce GTX 1060, 3Gb VRAM version, currently retails for around <span class="tex2jax_ignore">$</span>250. The latter has significantly less video memory, which can constrain individual model size.</p>
+
+<p>The main benefit of purchasing over renting is that all costs, with the exception of electricity, are paid upfront. It is now possible to <a href="https://www.oreilly.com/learning/build-a-super-fast-deep-learning-machine-for-under-1000">build entry-level deep learning research workstations for under <span class="tex2jax_ignore">$</span>1,000</a>. However it is recommended to spend around <span class="tex2jax_ignore">$</span>2,000 for a reasonably future-proof machine, as this will allow the inclusion of a single 1080 Ti. A second 1080 Ti can be added at a future date, if budgets allow.</p>
+
+<p>The ability to customise the hardware is also beneficial. By obtaining a large workstation case it is possible to expand internal storage capacity cheaply, which is extremely useful if you run data-hungry models or want a local replica of a <a href="https://www.quantstart.com/articles/Securities-Master-Databases-for-Algorithmic-Trading">securities master database</a>. It might also be a necessary requirement of the organisation that you work for, which may disallow usage of cloud resources for security reasons.</p>
+
+<p>The downsides of purchasing and building a deep learning workstation are the upfront costs as well as the need to construct it yourself. These days it is relatively straightforward to build a workstation from components. It shouldn't take more than a couple of hours to get a working installation of Ubuntu, say.</p>
+
+<p>Configuration of the current popular deep learning software stacks can be problematic though. Installing Nvidia CUDA and Tensorflow is a challenging exercise even on the latest versions of Ubuntu (at the time of writing 16.04 LTS was a popular choice). For this reason we will be writing an entire article on this process at a later date.</p>
+
+<h2>Next Steps</h2>
+
+<p>For those that are interested in "trying before they buy" the next article will show how to provision an AWS EC2 P2.xlarge instance at <span class="tex2jax_ignore">$</span>0.90/hr and describe the process for installing Tensorflow and Keras.</p>
+        
+        
+        <script async data-uid="6296c27f4b" src="https://weathered-brook-5281.ck.page/6296c27f4b/index.js"></script>
+      </section>
+    </div>
+    <div class="col-md-4 book-card order-md-1">
+      
+<div class="sidebar-advert-container">
+  <a href="/qsalpha/?ref=art">
+    <img class="card-img-top" src="/static/images/qsalpha-sidebar-advert-small.png" alt="QSAlpha">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/qsalpha/?ref=art">QSAlpha</a></h3>
+      <p class="card-text medium-text mb-3">Join the QSAlpha research platform that helps fill your strategy research pipeline, diversifies your portfolio and improves your risk-adjusted returns for increased profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/qsalpha/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/quantcademy/?ref=art">
+    <img class="card-img-top" src="/static/images/quantcademy-sidebar-advert-small.png" alt="Quantcademy">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/quantcademy/?ref=art">The Quantcademy</a></h3>
+      <p class="card-text medium-text mb-3">Join the Quantcademy membership portal that caters to the rapidly-growing retail quant trader community and learn how to increase your strategy profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/quantcademy/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/successful-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/sat-sidebar-advert-small.png" alt="Successful Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to find new trading strategy ideas and objectively assess them for your portfolio using a Python-based backtesting engine.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/successful-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/advanced-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/aat-sidebar-advert-small.png" alt="Advanced Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to implement advanced trading strategies using time series analysis, machine learning and Bayesian statistics with R and Python.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/advanced-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+    
+
+<footer>
+  <div class="container container-full">
+    <section class="mt-1.5 mb-1">
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">QuantStart</li>
+            <li class="footer-list-link"><a class="link-fade" href="/about/">About</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/articles/">Articles</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/sitemap/">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Products</li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qsalpha/">QSAlpha</a></li>
+            
+            
+            <li class="footer-list-link"><a class="link-fade" href="/quantcademy/">Quantcademy</a></li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qstrader/">QSTrader</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Legal</li>
+            <li class="footer-list-link"><a class="link-fade" href="/privacy-policy/">Privacy Policy</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/terms-and-conditions/">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Social</li>
+            <li class="footer-list-link"><a class="link-fade" href="https://twitter.com/quantstart">Twitter</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="https://www.youtube.com/channel/UCmVnnZ6Y2TrJtY1eQJN6kWA">YouTube</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="row mb-1.5 mt-5">
+      <div class="col-12 col-md-9 col-lg-8 col-xl-6">
+        <div class="footer-copyright">
+          <p>©2012-2023 QuarkGluon Ltd. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+<script src="/static/js/jquery-3.2.1.min.js"></script>
+<script src="/static/js/prism.js.min"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/nav.js"></script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5383959-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+    
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="/static/js/highcharts/highcharts.js"></script>
+<script type="text/javascript">
+  num_colours = 10;
+</script>
+<script src="/static/js/statistics.js"></script>
+
+
+  </body>
+</html>

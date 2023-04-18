@@ -1,0 +1,750 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-site-verification" content="wl3-8ed1QZjI0iYZMv10zoZWYElkMObTfwLlWIj9cpA" />
+    <meta name="description" content="Autoregressive Moving Average ARMA(p, q) Models for Time Series Analysis - Part 3">
+
+    <link rel="icon" href="/static/images/favicon.png">
+
+    <title>Autoregressive Moving Average ARMA(p, q) Models for Time Series Analysis - Part 3 | QuantStart</title>
+    
+    
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet"> 
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/prism.css" rel="stylesheet">
+<link href="/static/css/qs.css?v=10" rel="stylesheet">
+    
+  </head>
+
+  <body>
+    <header class="header covered-header" style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://quantstartmedia.s3.amazonaws.com/images/article-images/article-backgrounds/default-bg.jpg);">
+  
+<nav class="nav">
+  <div class="container nav-container">
+    <div class="nav-row row d-flex justify-content-between align-items-center">
+      <div class="col-2">
+        <ul class="nav-items justify-content-end small-capitals align-items-center">
+          <li class="nav-item">
+            <a class="link-fade" href="/">QuantStart</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-auto col-logo">
+        <ul id="top-nav-menu" class="nav-items justify-content-end align-items-center">
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/qsalpha/">QSAlpha</a>
+          </li>
+          
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/quantcademy/">Quantcademy</a>
+          </li>
+          
+          <li id="menu-link-ebooks" class="nav-item">
+            <a class="link-fade" href="#">Books</a>
+            <div id="menu-pane-ebooks" class="nav-items menu-dropdown-pane">
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/qstrader/">QSTrader</a>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/articles/">Articles</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/members/login/">Login</a>
+          </li>
+          
+        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<nav id="mobile-nav" class="mobile-nav text-left">
+  <div class="container">
+    <ul class="mt-4 ml-3 mobile-nav-menu">
+      <li class="nav-item">
+        <a class="link-fade d-block" href="/">QuantStart</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qsalpha/">QSAlpha</a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/quantcademy/">Quantcademy</a>
+      </li>
+      
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="#">Books</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qstrader/">QSTrader</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/articles/">Articles</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/members/login/">Login</a>
+      </li>
+      
+    </ul>
+    <button class="nav-toggle mobile-nav-close">
+      <svg id="mobile-nav-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M19.77,5.63,13.41,12l6.36,6.37a1,1,0,0,1-1.41,1.41L12,13.41,5.63,19.77a1,1,0,0,1-1.44-1.39l0,0L10.58,12,4.21,5.63a1,1,0,0,1,0-1.42,1,1,0,0,1,1.41,0l0,0L12,10.58l6.37-6.37a1,1,0,0,1,1.41,0A1,1,0,0,1,19.77,5.63Z"></path>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+  <div class="container hero-container">
+    <section class="mt-5 mb-4">
+      <div class="row justify-content-center">
+        <div class="col-12 text-center">
+          <p class="hero">Autoregressive Moving Average ARMA(p, q) Models for Time Series Analysis - Part 3</p>
+          <p class="hero subhero">Autoregressive Moving Average ARMA(p, q) Models for Time Series Analysis - Part 3</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</header>
+    
+<section class="container content-container">
+  <div class="row">
+    <div class="col-md-8 order-md-2">
+      <section class="content article-content">
+        
+        
+        <p>This is the third and final post in the mini-series on Autoregressive Moving Average (ARMA) models for time series analysis. We've introduced <a href="https://www.quantstart.com/articles/Autoregressive-Moving-Average-ARMA-p-q-Models-for-Time-Series-Analysis-Part-1">Autoregressive models</a> and <a href="https://www.quantstart.com/articles/Autoregressive-Moving-Average-ARMA-p-q-Models-for-Time-Series-Analysis-Part-2">Moving Average models</a> in the two previous articles. Now it is time to combine them to produce a more sophisticated model.</p>
+
+<p>Ultimately this will lead us to the ARIMA and GARCH models that will allow us to predict asset returns and forecast volatility. These models will form the basis for trading signals and risk management techniques.</p>
+
+<p>If you've read <a href="https://www.quantstart.com/articles/Autoregressive-Moving-Average-ARMA-p-q-Models-for-Time-Series-Analysis-Part-1">Part 1</a> and <a href="https://www.quantstart.com/articles/Autoregressive-Moving-Average-ARMA-p-q-Models-for-Time-Series-Analysis-Part-2">Part 2</a> you will have seen that we tend to follow a pattern for our analysis of a time series model. I'll repeat it briefly here:</p>
+
+<ul>
+  <li><strong>Rationale</strong> - Why are we interested in <em>this particular</em> model?</li>
+  <li><strong>Definition</strong> - A mathematical definition to reduce ambiguity.</li>
+  <li><strong>Correlogram</strong> - Plotting a sample correlogram to visualise a models behaviour.</li>
+  <li><strong>Simulation and Fitting</strong> - Fitting the model to simulations, in order to ensure we've understood the model correctly.</li>
+  <li><strong>Real Financial Data</strong> - Apply the model to real historical asset prices.</li>
+  <li><strong>Prediction</strong> - Forecast subsequent values to build trading signals or filters.</li>
+</ul>
+
+<p><em>In order to follow this article it is advisable to take a look at the prior articles on time series analysis. They can all be found <a href="https://www.quantstart.com/articles#time-series-analysis">here</a>.</em></p>
+
+<h2>Bayesian Information Criterion</h2>
+
+<p>In <a href="https://www.quantstart.com/articles/Autoregressive-Moving-Average-ARMA-p-q-Models-for-Time-Series-Analysis-Part-1">Part 1 of this article series</a> we looked at the Akaike Information Criterion (AIC) as a means of helping us choose between separate "best" time series models.</p>
+
+<p>A closely related tool is the <strong>Bayesian Information Criterion</strong> (BIC). Essentially it has similar behaviour to the AIC in that it penalises models for having too many parameters. This may lead to <a href="https://www.quantstart.com/articles/The-Bias-Variance-Tradeoff-in-Statistical-Machine-Learning-The-Regression-Setting">overfitting</a>. The difference between the BIC and AIC is that the BIC is more stringent with its penalisation of additional parameters.</p>
+
+<div class="bs-callout bs-callout-info">
+<h4>Bayesian Information Criterion</h4>
+<p>If we take the <a href="https://en.wikipedia.org/wiki/Likelihood_function">likelihood function</a> for a statistical model, which has $k$ parameters, and $L$ <a href="https://en.wikipedia.org/wiki/Maximum_likelihood">maximises the likelihood</a>, then the <em>Bayesian Information Criterion</em> is given by:</p>
+
+\begin{eqnarray}
+BIC = -2 \text{log} (L) + k \text{log}(n)
+\end{eqnarray}
+
+<p>Where $n$ is the number of data points in the time series.</p>
+</div>
+
+<p>We will be using the AIC and BIC below when choosing appropriate ARMA(p,q) models.</p>
+
+<h2>Ljung-Box Test</h2>
+
+<p>In <a href="https://www.quantstart.com/articles/Autoregressive-Moving-Average-ARMA-p-q-Models-for-Time-Series-Analysis-Part-1">Part 1 of this article series</a> Rajan mentioned in the Disqus comments that the Ljung-Box test was more appropriate than using the Akaike Information Criterion of the Bayesian Information Criterion in deciding whether an ARMA model was a good fit to a time series.</p>
+
+<p>The <strong>Ljung-Box test</strong> is a classical hypothesis test that is designed to test whether a set of autocorrelations of a fitted time series model differ significantly from zero. The test does <em>not</em> test each individual lag for randomness, but rather tests the randomness over a group of lags.</p>
+
+<p>Formally:</p>
+
+<div class="bs-callout bs-callout-info">
+<h4>Ljung-Box Test</h4>
+<p>We define the null hypothesis ${\bf H_0}$ as: The time series data at each lag are <a href="https://en.wikipedia.org/wiki/Independent_and_identically_distributed_random_variables">i.i.d.</a>, that is, the correlations between the population series values are zero.</p>
+
+<p>We define the alternate hypothesis ${\bf H_a}$ as: The time series data are not i.i.d. and possess serial correlation.</p>
+
+<p>We calculate the following <a href="https://en.wikipedia.org/wiki/Test_statistic">test statistic</a>, $Q$:</p>
+
+\begin{eqnarray}
+Q = n (n+2) \sum_{k=1}^{h} \frac{\hat{\rho}^2_k}{n-k}
+\end{eqnarray}
+
+<p>Where $n$ is the length of the time series sample, $\hat{\rho}_k$ is the sample autocorrelation at lag $k$ and $h$ is the number of lags under the test.</p>
+
+<p>The decision rule as to whether to reject the null hypothesis ${\bf H_0}$ is to check whether $Q &gt; \chi^2_{\alpha,h}$, for a <a href="https://en.wikipedia.org/wiki/Chi-squared_distribution">chi-squared distribution</a> with $h$ degrees of freedom at the $100(1-\alpha)$th percentile.</p>
+</div>
+
+<p>While the details of the test may seem slightly complex, we can in fact use R to calculate the test for us, simplifying the procedure somewhat.</p>
+
+<h2>Autogressive Moving Average (ARMA) Models of order p, q</h2>
+
+<p>Now that we've discussed the BIC and the Ljung-Box test, we're ready to discuss our first mixed model, namely the Autoregressive Moving Average of order p, q, or ARMA(p,q).</p>
+
+<h3>Rationale</h3>
+
+<p>To date we have considered autoregressive processes and moving average processes.</p>
+
+<p>The former model considers its own past behaviour as inputs for the model and as such attempts to capture market participant effects, such as momentum and mean-reversion in stock trading.</p>
+
+<p>The latter model is used to characterise "shock" information to a series, such as a surprise earnings announcement or unexpected event (such as the <a href="https://en.wikipedia.org/wiki/Deepwater_Horizon_oil_spill">BP Deepwater Horizon oil spill</a>).</p>
+
+<p>Hence, an ARMA model attempts to capture both of these aspects when modelling financial time series.</p>
+
+<p>Note that an ARMA model <em>does not</em> take into account volatility clustering, a key empirical phenomena of many financial time series. It is not a conditionally heteroscedastic model. For that we will need to wait for the ARCH and GARCH models.</p>
+
+<h3>Definition</h3>
+
+<p>The ARMA(p,q) model is a linear combination of two linear models and thus is itself still linear:</p>
+
+<div class="bs-callout bs-callout-info">
+<h4>Autoregressive Moving Average Model of order p, q</h4>
+<p>A time series model, $\{ x_t \}$, is an <em>autoregressive moving average model of order $p,q$</em>, ARMA(p,q), if:</p>
+
+\begin{eqnarray}
+x_t = \alpha_1 x_{t-1} + \alpha_2 x_{t-2} + \ldots + w_t + \beta_1 w_{t-1} + \beta_2 w_{t-2} \ldots + \beta_q w_{t-q}
+\end{eqnarray}
+
+<p>Where $\{ w_t \}$ is <a href="https://www.quantstart.com/articles/White-Noise-and-Random-Walks-in-Time-Series-Analysis"><em>white noise</em></a> with $E(w_t) = 0$ and variance $\sigma^2$.</p>
+
+<p>If we consider the <em>Backward Shift Operator</em>, ${\bf B}$ (see a <a href="https://www.quantstart.com/articles/White-Noise-and-Random-Walks-in-Time-Series-Analysis">previous article</a>) then we can rewrite the above as a function $\theta$ and $\phi$ of ${\bf B}$:</p>
+
+\begin{eqnarray}
+\theta_p ({\bf B}) x_t = \phi_q ({\bf B}) w_t
+\end{eqnarray}
+</div>
+
+<p>We can straightforwardly see that by setting $p \neq 0$ and $q=0$ we recover the AR(p) model. Similarly if we set $p = 0$ and $q \neq 0$ we recover the MA(q) model.</p>
+
+<p>One of the key features of the ARMA model is that it is <em>parsimonious</em> and <em>redundant</em> in its parameters. That is, an ARMA model will often require fewer parameters than an AR(p) or MA(q) model alone. In addition if we rewrite the equation in terms of the BSO, then the $\theta$ and $\phi$ polynomials can sometimes share a common factor, thus leading to a simpler model.</p>
+
+<h3>Simulations and Correlograms</h3>
+
+<p>As with the autoregressive and moving average models we will now simulate various ARMA series and then attempt to fit ARMA models to these realisations. We carry this out because we want to ensure that we understand the fitting procedure, including how to calculate confidence intervals for the models, as well as ensure that the procedure does actually recover reasonable estimates for the original ARMA parameters.</p>
+
+<p>In Part 1 and Part 2 we manually constructed the AR and MA series by drawing $N$ samples from a normal distribution and then crafting the specific time series model using lags of these samples.</p>
+
+<p>However, there is a more straightforward way to simulate AR, MA, ARMA and even ARIMA data, simply by using the <code>arima.sim</code> method in R.</p>
+
+<p>Let's start with the simplest possible non-trivial ARMA model, namely the ARMA(1,1) model. That is, an autoregressive model of order one combined with a moving average model of order one. Such a model has only two coefficients, $\alpha$ and $\beta$, which represent the first lags of the time series itself and the "shock" white noise terms. Such a model is given by:</p>
+
+\begin{eqnarray}
+x_t = \alpha x_{t-1} + w_t + \beta w_{t-1}
+\end{eqnarray}
+
+<p>We need to specify the coefficients prior to simulation. Let's take $\alpha = 0.5$ and $\beta = -0.5$:</p>
+
+<pre>
+<code class="language-r">> set.seed(1)
+> x <- arima.sim(n=1000, model=list(ar=0.5, ma=-0.5))
+> plot(x)</code>
+</pre>
+
+<p>The output is as follows:</p>
+
+<p style="text-align:center">
+  <img src="https://s3.amazonaws.com/quantstartmedia/images/qs-tsa-armapq-arma11-p5-x.png" width="100%" />
+  <strong>Realisation of an ARMA(1,1) Model, with $\alpha=0.5$ and $\beta = 0.5$</strong>
+</p>
+
+<p>Let's also plot the correlogram:</p>
+
+<pre>
+<code class="language-r">> acf(x)</code>
+</pre>
+
+<p style="text-align:center">
+  <img src="https://s3.amazonaws.com/quantstartmedia/images/qs-tsa-armapq-arma11-p5-x-cor.png" width="100%" />
+  <strong>Correlogram of an ARMA(1,1) Model, with $\alpha=0.5$ and $\beta = 0.5$</strong>
+</p>
+
+<p>We can see that there is no significant autocorrelation, which is to be expected from an ARMA(1,1) model.</p>
+
+<p>Finally, let's try and determine the coefficients and their standard errors using the <code>arima</code> function:</p>
+
+<pre>
+<code class="language-r">> arima(x, order=c(1, 0, 1))</code>
+</pre>
+
+<pre>
+<code class="language-none">Call:
+arima(x = x, order = c(1, 0, 1))
+
+Coefficients:
+          ar1     ma1  intercept
+      -0.3957  0.4503     0.0538
+s.e.   0.3727  0.3617     0.0337
+
+sigma^2 estimated as 1.053:  log likelihood = -1444.79,  aic = 2897.58</code>
+</pre>
+
+<p>We can calculate the confidence intervals for each parameter using the standard errors:</p>
+
+<pre>
+<code class="language-r">> -0.396 + c(-1.96, 1.96)*0.373</code>
+</pre>
+
+<pre>
+<code class="language-none">-1.12708  0.33508</code>
+</pre>
+
+<pre>
+<code class="language-r">> 0.450 + c(-1.96, 1.96)*0.362</code>
+</pre>
+
+<pre>
+<code class="language-none">-0.25952  1.15952</code>
+</pre>
+
+<p>The confidence intervals do contain the true parameter values for both cases, however we should note that the 95% confidence intervals are very wide (a consequence of the reasonably large standard errors).</p>
+
+<p>Let's now try an ARMA(2,2) model. That is, an AR(2) model combined with a MA(2) model. We need to specify four parameters for this model: $\alpha_1$, $\alpha_2$, $\beta_1$ and $\beta_2$. Let's take $\alpha_1 = 0.5$, $\alpha_2=-0.25$ $\beta_1=0.5$ and $\beta_2=-0.3$:</p>
+
+<pre>
+<code class="language-r">> set.seed(1)
+> x <- arima.sim(n=1000, model=list(ar=c(0.5, -0.25), ma=c(0.5, -0.3)))
+> plot(x)</code>
+</pre>
+
+<p>The output of our ARMA(2,2) model is as follows:</p>
+
+<p style="text-align:center">
+  <img src="https://s3.amazonaws.com/quantstartmedia/images/qs-tsa-armapq-arma22-x.png" width="100%" />
+  <strong>Realisation of an ARMA(2,2) Model, with $\alpha_1=0.5$, $\alpha_2=-0.25$, $\beta_1=0.5$ and $\beta_2 = -0.3$</strong>
+</p>
+
+<p>And the corresponding autocorelation:</p>
+
+<pre>
+<code class="language-r">> acf(x)</code>
+</pre>
+
+<p style="text-align:center">
+  <img src="https://s3.amazonaws.com/quantstartmedia/images/qs-tsa-armapq-arma22-cor.png" width="100%" />
+  <strong>Correlogram of an ARMA(2,2) Model, with $\alpha_1=0.5$, $\alpha_2=-0.25$, $\beta_1=0.5$ and $\beta_2 = -0.3$</strong>
+</p>
+
+<p>We can now try fitting an ARMA(2,2) model to the data:</p>
+
+<pre>
+<code class="language-r">> arima(x, order=c(2, 0, 2))</code>
+</pre>
+
+<pre>
+<code class="language-none">Call:
+arima(x = x, order = c(2, 0, 2))
+
+Coefficients:
+         ar1      ar2     ma1      ma2  intercept
+      0.6529  -0.2291  0.3191  -0.5522    -0.0290
+s.e.  0.0802   0.0346  0.0792   0.0771     0.0434
+
+sigma^2 estimated as 1.06:  log likelihood = -1449.16,  aic = 2910.32</code>
+</pre>
+
+<p>We can also calculate the confidence intervals for each parameter:</p>
+
+<pre>
+<code class="language-r">> 0.653 + c(-1.96, 1.96)*0.0802</code>
+</pre>
+
+<pre>
+<code class="language-none">0.495808 0.810192</code>
+</pre>
+
+<pre>
+<code class="language-r">> -0.229 + c(-1.96, 1.96)*0.0346</code>
+</pre>
+
+<pre>
+<code class="language-none">-0.296816 -0.161184</code>
+</pre>
+
+<pre>
+<code class="language-r">> 0.319 + c(-1.96, 1.96)*0.0792</code>
+</pre>
+
+<pre>
+<code class="language-none">0.163768 0.474232</code>
+</pre>
+
+<pre>
+<code class="language-r">> -0.552 + c(-1.96, 1.96)*0.0771</code>
+</pre>
+
+<pre>
+<code class="language-none">-0.703116 -0.400884</code>
+</pre>
+
+<p>Notice that the confidence intervals for the coefficients for the moving average component ($\beta_1$ and $\beta_2$) do not actually contain the original parameter value. This outlines the danger of attempting to fit models to data, even when we know the true parameter values!</p>
+
+<p>However, for trading purposes we just need to have a predictive power that exceeds chance and produces enough profit above transaction costs, in order to be profitable in the long run.</p>
+
+<p>Now that we've seen some examples of simulated ARMA models we need mechanism for choosing the values of $p$ and $q$ when fitting to the models to real financial data.</p>
+
+<h3>Choosing the Best ARMA(p,q) Model</h3>
+
+<p>In order to determine which order $p,q$ of the ARMA model is appropriate for a series, we need to use the AIC (or BIC) across a subset of values for $p,q$, and then apply the Ljung-Box test to determine if a good fit has been achieved, <em>for particular values of $p,q$</em>.</p>
+
+<p>To show this method we are going to firstly simulate a particular ARMA(p,q) process. We will then loop over all pairwise values of $p \in \{ 0,1,2,3,4 \}$ and $q \in \{ 0,1,2,3,4 \}$ and calculate the AIC. We will select the model with the lowest AIC and then run a Ljung-Box test on the residuals to determine if we have achieved a good fit.</p>
+
+<p>Let's begin by simulating an ARMA(3,2) series:</p>
+
+<pre>
+<code class="language-r">> set.seed(3)
+> x <- arima.sim(n=1000, model=list(ar=c(0.5, -0.25, 0.4), ma=c(0.5, -0.3)))</code>
+</pre>
+
+<p>We will now create an object <code>final</code> to store the best model fit and lowest AIC value. We loop over the various $p,q$ combinations and use the <code>current</code> object to store the fit of an ARMA(i,j) model, for the looping variables $i$ and $j$.</p>
+
+<p>If the current AIC is less than any previously calculated AIC we set the final AIC to this current value and select that order. Upon termination of the loop we have the order of the ARMA model stored in <code>final.order</code> and the ARIMA(p,d,q) fit itself (with the "Integrated" $d$ component set to 0) stored as <code>final.arma</code>:</p>
+
+<pre>
+<code class="language-r">> final.aic <- Inf
+> final.order <- c(0,0,0)
+> for (i in 0:4) for (j in 0:4) {
+>   current.aic <- AIC(arima(x, order=c(i, 0, j)))
+>   if (current.aic < final.aic) {
+>     final.aic <- current.aic
+>     final.order <- c(i, 0, j)
+>     final.arma <- arima(x, order=final.order)
+>   }
+> }</code>
+</pre>
+
+<p>Let's output the AIC, order and ARIMA coefficients:</p>
+
+<pre>
+<code class="language-r">> final.aic</code>
+</pre>
+
+<pre>
+<code class="language-none">2863.365</code>
+</pre>
+
+<pre>
+<code class="language-r">> final.order</code>
+</pre>
+
+<pre>
+<code class="language-none">3 0 2</code>
+</pre>
+
+<pre>
+<code class="language-r">> final.arma</code>
+</pre>
+
+<pre>
+<code class="language-none">Call:
+arima(x = x, order = final.order)
+
+Coefficients:
+         ar1      ar2     ar3     ma1      ma2  intercept
+      0.4470  -0.2822  0.4079  0.5519  -0.2367     0.0274
+s.e.  0.0867   0.0345  0.0309  0.0954   0.0905     0.0975
+
+sigma^2 estimated as 1.009:  log likelihood = -1424.68,  aic = 2863.36</code>
+</pre>
+
+<p>We can see that the original order of the simulated ARMA model was recovered, namely with $p=3$ and $q=2$. We can plot the corelogram of the residuals of the model to see if they look like a realisation of discrete white noise (DWN):</p>
+
+<pre>
+<code class="language-r">> acf(resid(final.arma))</code>
+</pre>
+
+<p style="text-align:center">
+  <img src="https://s3.amazonaws.com/quantstartmedia/images/qs-tsa-armapq-arma32-resid-cor.png" width="100%" />
+  <strong>Correlogram of the residuals of the best fitting ARMA(p,q) Model, $p=3$ and $q=2$</strong>
+</p>
+
+<p>The corelogram does indeed look like a realisation of DWN. Finally, we perform the Ljung-Box test for 20 lags to confirm this:</p>
+
+<pre>
+<code class="language-r">> Box.test(resid(final.arma), lag=20, type="Ljung-Box")</code>
+</pre>
+
+<pre>
+<code class="language-none">  Box-Ljung test
+
+data:  resid(final.arma)
+X-squared = 13.1927, df = 20, p-value = 0.869</code>
+</pre>
+
+<p>Notice that the p-value is greater than 0.05, which states that the residuals <em>are</em> independent at the 95% level and thus an ARMA(3,2) model provides a good model fit.</p>
+
+<p>Clearly this should be the case since we've simulated the data ourselves! However, this is precisely the procedure we will use when we come to fit ARMA(p,q) models to the S&amp;P500 index in the following section.</p>
+
+<h3>Financial Data</h3>
+
+<p>Now that we've outlined the procedure for choosing the optimal time series model for a simulated series, it is rather straightforward to apply it to financial data. For this example we are going to once again choose the S&amp;P500 US Equity Index.</p>
+
+<p>Let's download the daily closing prices using <a href="http://www.quantmod.com/">quantmod</a> and then create the log returns stream:</p>
+
+<pre>
+<code class="language-r">> require(quantmod)
+> getSymbols("^GSPC")
+> sp = diff(log(Cl(GSPC)))</code>
+</pre>
+
+<p>Let's perform the same fitting procedure as for the simulated ARMA(3,2) series above on the log returns series of the S&amp;P500 using the AIC:</p>
+
+<pre>
+<code class="language-r">> spfinal.aic <- Inf
+> spfinal.order <- c(0,0,0)
+> for (i in 0:4) for (j in 0:4) {
+>   spcurrent.aic <- AIC(arima(sp, order=c(i, 0, j)))
+>   if (spcurrent.aic < spfinal.aic) {
+>     spfinal.aic <- spcurrent.aic
+>     spfinal.order <- c(i, 0, j)
+>     spfinal.arma <- arima(sp, order=spfinal.order)
+>   }
+> }</code>
+</pre>
+
+<p>The best fitting model has order ARMA(3,3):</p>
+
+<pre>
+<code class="language-r">> spfinal.order</code>
+</pre>
+
+<pre>
+<code class="language-none">3 0 3</code>
+</pre>
+
+<p>Let's plot the residuals of the fitted model to the S&amp;P500 log daily returns stream:</p>
+
+<pre>
+<code class="language-r">> acf(resid(spfinal.arma), na.action=na.omit)</code>
+</pre>
+
+<p style="text-align:center">
+  <img src="https://s3.amazonaws.com/quantstartmedia/images/qs-tsa-armapq-sp500-resid-cor.png" width="100%" />
+  <strong>Correlogram of the residuals of the best fitting ARMA(p,q) Model, $p=3$ and $q=3$, to the S&amp;P500 daily log returns stream</strong>
+</p>
+
+<p>Notice that there are some significant peaks, especially at higher lags. This is indicative of a poor fit. Let's perform a Ljung-Box test to see if we have statistical evidence for this:</p>
+
+<pre>
+<code class="language-r">> Box.test(resid(spfinal.arma), lag=20, type="Ljung-Box")</code>
+</pre>
+
+<pre>
+<code class="language-none">  Box-Ljung test
+
+data:  resid(spfinal.arma)
+X-squared = 37.1912, df = 20, p-value = 0.0111</code>
+</pre>
+
+<p>As we suspected, the p-value is <em>less</em> that 0.05 and as such we cannot say that the residuals are a realisation of discrete white noise. Hence there is additional autocorrelation in the residuals that is not explained by the fitted ARMA(3,3) model.</p>
+
+<h2>Next Steps</h2>
+
+<p>As we've discussed all along in this article series we have seen evidence of conditional heteroscedasticity (volatility clustering) in the S&amp;P500 series, especially in the periods around 2007-2008. When we use a GARCH model later in the article series we will see how to eliminate these autocorrelations.</p>
+
+<p>In practice, ARMA models are never generally good fits for log equities returns. We need to take into account the conditional heteroscedasticity and use a combination of ARIMA and GARCH. The next article will consider ARIMA and show how the "Integrated" component differs from the ARMA model we have been considering in this article.</p>
+        
+        
+        <script async data-uid="6296c27f4b" src="https://weathered-brook-5281.ck.page/6296c27f4b/index.js"></script>
+      </section>
+    </div>
+    <div class="col-md-4 book-card order-md-1">
+      
+<div class="sidebar-advert-container">
+  <a href="/qsalpha/?ref=art">
+    <img class="card-img-top" src="/static/images/qsalpha-sidebar-advert-small.png" alt="QSAlpha">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/qsalpha/?ref=art">QSAlpha</a></h3>
+      <p class="card-text medium-text mb-3">Join the QSAlpha research platform that helps fill your strategy research pipeline, diversifies your portfolio and improves your risk-adjusted returns for increased profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/qsalpha/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/quantcademy/?ref=art">
+    <img class="card-img-top" src="/static/images/quantcademy-sidebar-advert-small.png" alt="Quantcademy">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/quantcademy/?ref=art">The Quantcademy</a></h3>
+      <p class="card-text medium-text mb-3">Join the Quantcademy membership portal that caters to the rapidly-growing retail quant trader community and learn how to increase your strategy profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/quantcademy/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/successful-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/sat-sidebar-advert-small.png" alt="Successful Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to find new trading strategy ideas and objectively assess them for your portfolio using a Python-based backtesting engine.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/successful-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/advanced-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/aat-sidebar-advert-small.png" alt="Advanced Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to implement advanced trading strategies using time series analysis, machine learning and Bayesian statistics with R and Python.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/advanced-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+    
+
+<footer>
+  <div class="container container-full">
+    <section class="mt-1.5 mb-1">
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">QuantStart</li>
+            <li class="footer-list-link"><a class="link-fade" href="/about/">About</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/articles/">Articles</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/sitemap/">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Products</li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qsalpha/">QSAlpha</a></li>
+            
+            
+            <li class="footer-list-link"><a class="link-fade" href="/quantcademy/">Quantcademy</a></li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qstrader/">QSTrader</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Legal</li>
+            <li class="footer-list-link"><a class="link-fade" href="/privacy-policy/">Privacy Policy</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/terms-and-conditions/">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Social</li>
+            <li class="footer-list-link"><a class="link-fade" href="https://twitter.com/quantstart">Twitter</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="https://www.youtube.com/channel/UCmVnnZ6Y2TrJtY1eQJN6kWA">YouTube</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="row mb-1.5 mt-5">
+      <div class="col-12 col-md-9 col-lg-8 col-xl-6">
+        <div class="footer-copyright">
+          <p>©2012-2023 QuarkGluon Ltd. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+<script src="/static/js/jquery-3.2.1.min.js"></script>
+<script src="/static/js/prism.js.min"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/nav.js"></script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5383959-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+    
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="/static/js/highcharts/highcharts.js"></script>
+<script type="text/javascript">
+  num_colours = 10;
+</script>
+<script src="/static/js/statistics.js"></script>
+
+
+  </body>
+</html>

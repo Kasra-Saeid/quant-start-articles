@@ -1,0 +1,1067 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-site-verification" content="wl3-8ed1QZjI0iYZMv10zoZWYElkMObTfwLlWIj9cpA" />
+    <meta name="description" content="Sentiment Analysis Trading Strategy via Sentdex Data in QSTrader">
+
+    <link rel="icon" href="/static/images/favicon.png">
+
+    <title>Sentiment Analysis Trading Strategy via Sentdex Data in QSTrader | QuantStart</title>
+    
+    
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet"> 
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/prism.css" rel="stylesheet">
+<link href="/static/css/qs.css?v=10" rel="stylesheet">
+    
+  </head>
+
+  <body>
+    <header class="header covered-header" style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://quantstartmedia.s3.amazonaws.com/images/article-images/article-backgrounds/default-bg.jpg);">
+  
+<nav class="nav">
+  <div class="container nav-container">
+    <div class="nav-row row d-flex justify-content-between align-items-center">
+      <div class="col-2">
+        <ul class="nav-items justify-content-end small-capitals align-items-center">
+          <li class="nav-item">
+            <a class="link-fade" href="/">QuantStart</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-auto col-logo">
+        <ul id="top-nav-menu" class="nav-items justify-content-end align-items-center">
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/qsalpha/">QSAlpha</a>
+          </li>
+          
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/quantcademy/">Quantcademy</a>
+          </li>
+          
+          <li id="menu-link-ebooks" class="nav-item">
+            <a class="link-fade" href="#">Books</a>
+            <div id="menu-pane-ebooks" class="nav-items menu-dropdown-pane">
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/qstrader/">QSTrader</a>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/articles/">Articles</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/members/login/">Login</a>
+          </li>
+          
+        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<nav id="mobile-nav" class="mobile-nav text-left">
+  <div class="container">
+    <ul class="mt-4 ml-3 mobile-nav-menu">
+      <li class="nav-item">
+        <a class="link-fade d-block" href="/">QuantStart</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qsalpha/">QSAlpha</a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/quantcademy/">Quantcademy</a>
+      </li>
+      
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="#">Books</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qstrader/">QSTrader</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/articles/">Articles</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/members/login/">Login</a>
+      </li>
+      
+    </ul>
+    <button class="nav-toggle mobile-nav-close">
+      <svg id="mobile-nav-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M19.77,5.63,13.41,12l6.36,6.37a1,1,0,0,1-1.41,1.41L12,13.41,5.63,19.77a1,1,0,0,1-1.44-1.39l0,0L10.58,12,4.21,5.63a1,1,0,0,1,0-1.42,1,1,0,0,1,1.41,0l0,0L12,10.58l6.37-6.37a1,1,0,0,1,1.41,0A1,1,0,0,1,19.77,5.63Z"></path>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+  <div class="container hero-container">
+    <section class="mt-5 mb-4">
+      <div class="row justify-content-center">
+        <div class="col-12 text-center">
+          <p class="hero">Sentiment Analysis Trading Strategy via Sentdex Data in QSTrader</p>
+          <p class="hero subhero">Sentiment Analysis Trading Strategy via Sentdex Data in QSTrader</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</header>
+    
+<section class="container content-container">
+  <div class="row">
+    <div class="col-md-8 order-md-2">
+      <section class="content article-content">
+        
+        
+        <p>In addition to the "usual" tricks of statistical arbitrage, trend-following and fundamental analysis, many quant shops (and retail quants!) engage in natural language processing (NLP) techniques to build systematic strategies. Such techniques fall under the banner of <strong>Sentiment Analysis</strong>.</p>
+
+<p>In this article a group of quantitative trading strategies will be developed that utilise a set of sentiment signals generated from a vendor API. These signals provide an integer scale ranging from -3 ("Strongest negative sentiment") to +6 ("Strongest positive sentiment"), associated with a date and a ticker symbol, that can be used as entry and exit thresholds in an event-driven backtesting simulation.</p>
+
+<p>A key challenge in developing such a system is integrating the events representing sentiment, as stored in a CSV file of "datetime-ticker-sentiment" rows, into an event-driven trading system that is (usually) designed to trade directly off pricing data.</p>
+
+<p>This article will begin with a brief discussion of how sentiment analysis is carried out, along with an outline of the nature of vendor APIs and sample files. The article will continue by discussing how sentiment functionality has recently been added into <a href="https://www.quantstart.com/qstrader">QSTrader</a>, including the associated Python code. It will conclude by presenting the results of three separate backtests of the sentiment strategy applied to S&amp;P500 stocks in the tech, defence and energy sectors.</p> 
+
+<h2>Sentiment Analysis</h2>
+
+<p>The goal of sentiment analysis is, generally, to take large quantities of "unstructured" data (such as blog posts, newspaper articles, research reports, tweets, video, images etc) and use NLP techniques to quantify positive or negative "sentiment" about certain assets.</p>
+
+<p>For equities in particular this often amounts to a statistical machine learning analysis of the language utilised and whether it contains bullish or bearish phrasing. This phrasing can be quantified in terms of strength of sentiment, which translates into numerical values. Often this means positive values reflecting bullish sentiment and negative values representing bearish sentiment.</p>
+
+<p>In recent years there has been a steady growth of sentiment analysis vendors, including <a href="http://sentdex.com/">Sentdex</a>, <a href="https://psychsignal.com/">PsychSignal</a> and <a href="https://www.accern.com/">Accern</a>. All use proprietary techniques to identify "entities" within alternative data and then associate a timestamped sentiment score with any extracted information. This information can then be aggregated over a time period (such as a day), in order to produce date-entity-sentiment tuples. Such tuples form the basis of a trading signal.</p>
+
+<p>The actual task of taking large quantities of "big data" and quantifying the sentiment is beyond the scope of this particular article. An end-to-end production-ready sentiment analysis tool is a large software engineering undertaking. Hence for retail traders it is often practical to obtain vendor signals and use those as part of a broader portfolio of quantitative signals to form a strategy.</p>
+
+<p>This article will describe a trading strategy based around a particular vendor's sentiment data, namely Sentdex, and how a basic long-only strategy can be generated around it.</p>
+
+<h3>Sentdex API and Sample File</h3>
+
+<p>Sentdex provides an API that allows download of their sentiment data for a wide variety of financial instruments. The data is available at one minute or one day granularity. More details of their (paid) offering can be found at their <a href="http://api.sentdex.com/">API page</a>.</p>
+
+<p>The API will not be discussed in this article since it is a paid product and is mostly useful as a paper trading or live trading streaming event generator. Since this article concerns backtesting strategies across historical data it is more appropriate to use a static, locally-stored file to represent the sentiment data.</p>
+
+<p>Fortuitously, Sentdex provides a sample data file (which can be found <a href="http://sentdex.com/api/finance/sentiment-signals/sample/">here</a>) that contains almost five years worth of sentiment signals, at daily resolution, for many of the constituents of the S&amp;P500.</p>
+
+<p>A snippet of the file is presented below:</p>
+
+<pre>
+<code class="language-bash">date,symbol,sentiment_signal
+2012-10-15,AAPL,6
+2012-10-16,AAPL,2
+2012-10-17,AAPL,6
+2012-10-18,AAPL,6
+2012-10-19,AAPL,6
+2012-10-20,AAPL,6
+2012-10-21,AAPL,1
+2012-10-22,MSFT,6
+2012-10-22,GOOG,6
+2012-10-22,AAPL,-1
+2012-10-23,AAPL,-3
+2012-10-23,GOOG,-3
+2012-10-23,MSFT,6
+2012-10-24,GOOG,-1
+2012-10-24,MSFT,-3
+2012-10-24,AAPL,-1</code>
+</pre>
+
+<p>It can be seen that each row contains a date, a ticker symbol and then an integer representing strength of sentiment, between +6 ("strong positive sentiment") and -3 ("strong negative sentiment").</p>
+
+<p>This sample file forms the basis of the sentiment data utilised within the three separate simulations carried out in this article.</p>
+
+<h2>The Trading Strategy</h2>
+
+<p>The complexity of this implementation comes mainly from adjustments to QSTrader, rather than the strategy itself, which is quite straightforward once the sentiment signal has been generated. The strategy has been deliberately kept simple and there is plenty of scope for modification and optimisation, which will be the subject of later articles.</p>
+
+<p>The strategy is long-only in this implementation but is easily modified to include short positions. Entry and exit thresholds are determined, which are then used to generate long positions and close them out, respectively.</p>
+
+<p>There are three strategies presented that are all identical with the exception of the selection of stocks they operate on. The list of stocks are as follows:</p>
+
+<ul>
+  <li><strong>Tech</strong> - MSFT, AMZN, GOOG, IBM, AAPL</li>
+  <li><strong>Energy</strong> - XOM, CVX, SLB, OXY, COP</li>
+  <li><strong>Defence</strong> - BA, GD, NOC, LMT, RTN</li>
+</ul>
+
+<p>The rules of the strategy are as follows:</p>
+
+<ul>
+  <li>Long a ticker if its sentiment value reaches +6</li>
+  <li>Close the ticker position if its sentiment value reaches -1</li>
+</ul>
+
+<p>There is no percentage allocation to each stock, instead a fixed quantity of shares is used for each throughout the strategy. This fixed quantity is modified for each of the above three sectors, however.</p>
+
+<p>One obvious modification would be to create a dollar-weighted investment that dynamically adjusts allocation based on account size. However, in this article the position-sizing is kept simple for ease of understanding the core sentiment event generation.</p>
+
+<h2>Data</h2>
+
+<p>In order to carry out this strategy it is necessary to have daily OHLCV pricing data for the equities in the period covered by these backtests. There are three separate simulations carried out in this article, each containing a group of five stocks from the S&amp;P500. The first group consists of technology/consumer staple stocks:</p>
+
+<table class="table">
+  <tr>
+    <th>Ticker</th>
+    <th>Name</th>
+    <th>Period</th>
+    <th>Link</th>
+  </tr>
+  <tr>
+    <td>MSFT</td>
+    <td>Microsoft</td>
+    <td>15th October 2012 - 2nd February 2016</td>
+    <td><a href="http://chart.finance.yahoo.com/table.csv?s=MSFT&a=9&b=15&c=2012&d=1&e=2&f=2016&g=d&ignore=.csv">Yahoo Finance</a></td>
+  </tr>
+  <tr>
+    <td>AMZN</td>
+    <td>Amazon.com</td>
+    <td>15th October 2012 - 2nd February 2016</td>
+    <td><a href="http://chart.finance.yahoo.com/table.csv?s=AMZN&a=9&b=15&c=2012&d=1&e=2&f=2016&g=d&ignore=.csv">Yahoo Finance</a></td>
+  </tr>
+  <tr>
+    <td>GOOG</td>
+    <td>Alphabet</td>
+    <td>15th October 2012 - 2nd February 2016</td>
+    <td><a href="http://chart.finance.yahoo.com/table.csv?s=GOOG&a=9&b=15&c=2012&d=1&e=2&f=2016&g=d&ignore=.csv">Yahoo Finance</a></td>
+  </tr>
+  <tr>
+    <td>AAPL</td>
+    <td>Apple</td>
+    <td>15th October 2012 - 2nd February 2016</td>
+    <td><a href="http://chart.finance.yahoo.com/table.csv?s=AAPL&a=9&b=15&c=2012&d=1&e=2&f=2016&g=d&ignore=.csv">Yahoo Finance</a></td>
+  </tr>
+  <tr>
+    <td>IBM</td>
+    <td>International Business Machines</td>
+    <td>15th October 2012 - 2nd February 2016</td>
+    <td><a href="http://chart.finance.yahoo.com/table.csv?s=IBM&a=9&b=15&c=2012&d=1&e=2&f=2016&g=d&ignore=.csv">Yahoo Finance</a></td>
+  </tr>
+</table>
+
+<p>The second group consist of a set of defence stocks, also from the S&amp;P500:</p>
+
+<table class="table">
+  <tr>
+    <th>Ticker</th>
+    <th>Name</th>
+    <th>Period</th>
+    <th>Link</th>
+  </tr>
+  <tr>
+    <td>BA</td>
+    <td>The Boeing Company</td>
+    <td>15th October 2012 - 2nd February 2016</td>
+    <td><a href="http://chart.finance.yahoo.com/table.csv?s=BA&a=9&b=15&c=2012&d=1&e=2&f=2016&g=d&ignore=.csv">Yahoo Finance</a></td>
+  </tr>
+  <tr>
+    <td>LMT</td>
+    <td>Lockheed Martin</td>
+    <td>15th October 2012 - 2nd February 2016</td>
+    <td><a href="http://chart.finance.yahoo.com/table.csv?s=LMT&a=9&b=15&c=2012&d=1&e=2&f=2016&g=d&ignore=.csv">Yahoo Finance</a></td>
+  </tr>
+  <tr>
+    <td>NOC</td>
+    <td>Northrop Grumman</td>
+    <td>15th October 2012 - 2nd February 2016</td>
+    <td><a href="http://chart.finance.yahoo.com/table.csv?s=NOC&a=9&b=15&c=2012&d=1&e=2&f=2016&g=d&ignore=.csv">Yahoo Finance</a></td>
+  </tr>
+  <tr>
+    <td>GD</td>
+    <td>General Dynamics</td>
+    <td>15th October 2012 - 2nd February 2016</td>
+    <td><a href="http://chart.finance.yahoo.com/table.csv?s=GD&a=9&b=15&c=2012&d=1&e=2&f=2016&g=d&ignore=.csv">Yahoo Finance</a></td>
+  </tr>
+  <tr>
+    <td>RTN</td>
+    <td>Raytheon</td>
+    <td>15th October 2012 - 2nd February 2016</td>
+    <td><a href="http://chart.finance.yahoo.com/table.csv?s=RTN&a=9&b=15&c=2012&d=1&e=2&f=2016&g=d&ignore=.csv">Yahoo Finance</a></td>
+  </tr>
+</table>
+
+<p>The final set of tickers consist of energy stocks, once again from the S&amp;P500:</p>
+
+<table class="table">
+  <tr>
+    <th>Ticker</th>
+    <th>Name</th>
+    <th>Period</th>
+    <th>Link</th>
+  </tr>
+  <tr>
+    <td>XOM</td>
+    <td>Exxon Mobil</td>
+    <td>15th October 2012 - 2nd February 2016</td>
+    <td><a href="http://chart.finance.yahoo.com/table.csv?s=XOM&a=9&b=15&c=2012&d=1&e=2&f=2016&g=d&ignore=.csv">Yahoo Finance</a></td>
+  </tr>
+  <tr>
+    <td>CVX</td>
+    <td>Chevron</td>
+    <td>15th October 2012 - 2nd February 2016</td>
+    <td><a href="http://chart.finance.yahoo.com/table.csv?s=CVX&a=9&b=15&c=2012&d=1&e=2&f=2016&g=d&ignore=.csv">Yahoo Finance</a></td>
+  </tr>
+  <tr>
+    <td>SLB</td>
+    <td>Schlumberger</td>
+    <td>15th October 2012 - 2nd February 2016</td>
+    <td><a href="http://chart.finance.yahoo.com/table.csv?s=SLB&a=9&b=15&c=2012&d=1&e=2&f=2016&g=d&ignore=.csv">Yahoo Finance</a></td>
+  </tr>
+  <tr>
+    <td>OXY</td>
+    <td>Occidental Petroleum</td>
+    <td>15th October 2012 - 2nd February 2016</td>
+    <td><a href="http://chart.finance.yahoo.com/table.csv?s=OXY&a=9&b=15&c=2012&d=1&e=2&f=2016&g=d&ignore=.csv">Yahoo Finance</a></td>
+  </tr>
+  <tr>
+    <td>COP</td>
+    <td>ConocoPhilips</td>
+    <td>15th October 2012 - 2nd February 2016</td>
+    <td><a href="http://chart.finance.yahoo.com/table.csv?s=COP&a=9&b=15&c=2012&d=1&e=2&f=2016&g=d&ignore=.csv">Yahoo Finance</a></td>
+  </tr>
+</table>
+
+<p>This data will need to placed in the directory specified by the QSTrader settings file if you wish to replicate the results.</p>
+
+<p>In addition the <a href="http://sentdex.com/api/finance/sentiment-signals/sample/">Sentdex API sample file</a> will be need to be placed in the same QSTrader data directory.</p>
+
+<h2>Python Implementation</h2>
+
+<h3>Sentiment Handling with QSTrader</h3>
+
+<p>In order to backtest the sentiment-based strategies it is necessary to first consider how sentiment "signals" will be incorporated into the backtest.</p>
+
+<p>QSTrader's current model for backtesting is to place the event response-handling branching code into a large <code>while</code> loop that iterates over all <code>TickEvent</code> or <code>BarEvent</code> objects. Any set of historical data stored in a database or separate ticker CSV files is concatenated and iterated over line-by-line, with each row in the subsequent pandas DataFrame forming a <code>TickEvent</code> or <code>BarEvent</code> per ticker.</p>
+
+<p>The previous code to carry this out was as follows:</p>
+
+<pre>
+<code class="language-python">while self.price_handler.continue_backtest:
+    try:
+        event = self.events_queue.get(False)
+    except queue.Empty:
+        self.price_handler.stream_next()
+    else:
+        if event is not None:
+            if event.type == EventType.TICK or event.type == EventType.BAR:
+                self.cur_time = event.time
+                self.strategy.calculate_signals(event)
+                self.portfolio_handler.update_portfolio_value()
+                self.statistics.update(event.time, self.portfolio_handler)
+            elif event.type == EventType.SIGNAL:
+                self.portfolio_handler.on_signal(event)
+            elif event.type == EventType.ORDER:
+                self.execution_handler.execute_order(event)
+            elif event.type == EventType.FILL:
+                self.portfolio_handler.on_fill(event)
+            else:
+                raise NotImplemented("Unsupported event.type '%s'" % event.type)</code>
+</pre>
+
+<p>This code continues looping until the backtest finishes (this being determined by the <code>PriceHandler</code> object). It attempts to pull the latest <code>Event</code> from the queue and dispatches it to the correct event handler object.</p>
+
+<p>However, the challenge here is that the previously mentioned sentiment signals CSV file also contains timestamped sentiment signals. Hence it is necessary to "inject" the appropriate sentiment signal for a particular ticker at the correct time point in the backtest.</p>
+
+<p>This has been achieved by creating a new event called <code>SentimentEvent</code>. It stores a timestamp, a ticker and a sentiment value (which can be a floating-point value, integer or a string) that is sent to the <code>Strategy</code> object in order to generate <code>SignalEvent</code>s. The QSTrader code for <code>SentimentEvent</code> is as follows:</p>
+
+<pre>
+<code class="language-python">class SentimentEvent(Event):
+    """
+    Handles the event of streaming a "Sentiment" value associated
+    with a ticker. Can be used for a generic "date-ticker-sentiment"
+    service, often provided by many data vendors.
+    """
+    def __init__(self, timestamp, ticker, sentiment):
+        """
+        Initialises the SentimentEvent.
+
+        Parameters:
+        timestamp - The timestamp when the sentiment was generated.
+        ticker - The ticker symbol, e.g. 'GOOG'.
+        sentiment - A string, float or integer value of "sentiment",
+            e.g. "bullish", -1, 5.4, etc.
+        """
+        self.type = EventType.SENTIMENT
+        self.timestamp = timestamp
+        self.ticker = ticker
+        self.sentiment = sentiment</code>
+</pre>
+
+<p>An additional object hierarchy called <code>AbstractSentimentHandler</code> has also been created. This allows subclassing of sentiment handler objects for various vendor APIs, all shared through a common interface. Since sentiment indicators are nearly always "timestamp-ticker-sentiment" tuples, it is useful to create a unified interface.</p>
+
+<p>To handle the Sentdex sample CSV file a <code>SentdexSentimentHandler</code> object has been written into QSTrader. As with most handlers it requires a handle to the events queue, a subset of tickers to act upon as well as a starting and ending date:</p>
+
+<pre>
+<code class="language-python">class SentdexSentimentHandler(AbstractSentimentHandler):
+    """
+    SentdexSentimentHandler is designed to provide a backtesting
+    sentiment analysis handler for the Sentdex sentiment analysis
+    provider (http://sentdex.com/financial-analysis/).
+
+    It uses a CSV file with date-ticker-sentiment tuples/rows.
+    Hence in order to avoid implicit lookahead bias a specific
+    method is provided "stream_sentiment_events_on_date" that only
+    allows sentiment signals to be retrieved for a particular date.
+    """
+    def __init__(
+        self, csv_dir, filename,
+        events_queue, tickers=None,
+        start_date=None, end_date=None
+    ):
+        self.csv_dir = csv_dir
+        self.filename = filename
+        self.events_queue = events_queue
+        self.tickers = tickers
+        self.start_date = start_date
+        self.end_date = end_date
+        self.sent_df = self._open_sentiment_csv()</code>
+</pre>
+
+<p>There are two methods associated with this class. The first is <code>_open_sentiment_csv</code>. It wraps the opening of a CSV into a pandas DataFrame along with associated ticker and date filtering:</p>
+
+<pre>
+<code class="language-python">def _open_sentiment_csv(self):
+    """
+    Opens the CSV file containing the sentiment analysis
+    information for all represented stocks and places
+    it into a pandas DataFrame.
+    """
+    sentiment_path = os.path.join(self.csv_dir, self.filename)
+    sent_df = pd.read_csv(
+        sentiment_path, parse_dates=True,
+        header=0, index_col=0,
+        names=("Date", "Ticker", "Sentiment")
+    )
+    if self.start_date is not None:
+        sent_df = sent_df[self.start_date.strftime("%Y-%m-%d"):]
+    if self.end_date is not None:
+        sent_df = sent_df[:self.end_date.strftime("%Y-%m-%d")]
+    if self.tickers is not None:
+        sent_df = sent_df[sent_df["Ticker"].isin(self.tickers)]
+    return sent_df</code>
+</pre>
+
+<p>The second is <code>stream_next</code>, which is used to "stream" the next sentiment signal into the events queue. Since the Sentdex CSV file contains multiple tickers on the same date, it is necessary to specify a <code>stream_date</code> so that lookahead bias is not introduced. That is, the event-handler should never see a sentiment signal that is generated "in the future" by peeking too far ahead into the CSV file.</p>
+
+<p>Crucially, this method actually outputs <em>multiple</em> <code>SentimentEvent</code> objects, which are all those that were generated on a particular day:</p>
+
+<pre>
+<code class="language-python">def stream_next(self, stream_date=None):
+    """
+    Stream the next set of ticker sentiment values into
+    SentimentEvent objects.
+    """
+    if stream_date is not None:
+        stream_date_str = stream_date.strftime("%Y-%m-%d")
+        date_df = self.sent_df.ix[stream_date_str:stream_date_str]
+        for row in date_df.iterrows():
+            sev = SentimentEvent(
+                stream_date, row[1]["Ticker"],
+                row[1]["Sentiment"]
+            )
+            self.events_queue.put(sev)
+    else:
+        print("No stream_date provided for stream_next sentiment event!")</code>
+</pre>
+
+<p>The final modification to the QSTrader codebase is within the <code>Backtest</code> object. It involves modifying the event dispatcher to handle the addition of <code>SentimentEvent</code> objects that must be dispatched to an appropriate <code>Strategy</code> object.</p>
+
+<p>In particular, within the event handling for <code>TICK</code> or <code>BAR</code> events, an extra few lines have been added. The first of these checks whether this is a strategy that contains a <code>SentimentHandler</code> or not. If it does, then all <code>SentimentEvent</code> objects for a particular day, referenced in the Sentdex sentiment file, are created.</p>
+
+<p>Further down the event handler such events are sent to the <code>Strategy</code> object, which will then act upon them to generate signals:</p>
+
+<pre>
+<code class="language-python">while self.price_handler.continue_backtest:
+    try:
+        event = self.events_queue.get(False)
+    except queue.Empty:
+        self.price_handler.stream_next()
+    else:
+        if event is not None:
+            if event.type == EventType.TICK or event.type == EventType.BAR:
+                self.cur_time = event.time
+                # Generate any sentiment events here
+                if self.sentiment_handler is not None:
+                    self.sentiment_handler.stream_next(
+                        stream_date=self.cur_time
+                    )
+                self.strategy.calculate_signals(event)
+                self.portfolio_handler.update_portfolio_value()
+                self.statistics.update(event.time, self.portfolio_handler)
+            elif event.type == EventType.SENTIMENT:
+                self.strategy.calculate_signals(event)
+            elif event.type == EventType.SIGNAL:
+                self.portfolio_handler.on_signal(event)
+            elif event.type == EventType.ORDER:
+                self.execution_handler.execute_order(event)
+            elif event.type == EventType.FILL:
+                self.portfolio_handler.on_fill(event)
+            else:
+                raise NotImplemented("Unsupported event.type '%s'" % event.type)</code>
+</pre>
+
+<p>That concludes the modifications to QSTrader. These changes are now in the <a href="https://github.com/mhallsmoore/qstrader">latest version found on Github</a>, so if you wish to replicate these strategies, make sure to update your local QSTrader version to the latest copy.</p>
+
+<h3>Sentiment Analysis Strategy Code</h3>
+
+<p><em>The full code listings for this strategy and backtest are presented at the end of the article.</em></p>
+
+<p>The above modifications to QSTrader provide the necessary structure to run a sentiment analysis strategy. However it remains to be shown how the above entry and exit rules are actually implemented. As it turns out the majority of the "hard work" has been done in the above modules. The strategy implementation itself is relatively straightforward.</p>
+
+<p>As always the first task is to import the necessary libraries. There are no surprises here, simply Python2/3 compatibility and the basic QSTrader objects that interact with a <code>Strategy</code> subclass:</p>
+
+<pre>
+<code class="language-python"># sentdex_sentiment_strategy.py
+
+from __future__ import print_function
+
+from qstrader.event import (SignalEvent, EventType)
+from qstrader.strategy.base import AbstractStrategy</code>
+</pre>
+
+<p>The new subclass is called <code>SentdexSentimentStrategy</code>. It only requires a list of tickers to act upon, a handle to the events queue, a <code>sent_buy</code> integer sentiment threshold entry value and a <code>sent_sell</code> corresponding exit threshold. Both of these are specified later in the backtest code.</p>
+
+<p>In addition a base quantity of shares is required for trading. In order to keep the strategy relatively straightforward the position sizing solely buys and sells such a base quantity for <em>each</em> ticker at <em>any</em> time point in the strategy. That is, there is no dynamic adjustment of position sizes or percentage allocation to any ticker. In a production strategy this would be one of the first parts to optimise. Since this position sizing code is likely to distract from the main "sentiment" aspect of the strategy, it was decided that it be kept simple for this article.</p>
+
+<p>Finally a <code>self.invested</code> dictionary member is created to store whether each ticker is currently being traded. This is done by adjusting a boolean <code>True</code>/<code>False</code> value, for each ticker, depending upon whether a long position is open or not:</p>
+
+<pre>
+<code class="language-python">class SentdexSentimentStrategy(AbstractStrategy):
+    """
+    Requires:
+    tickers - The list of ticker symbols
+    events_queue - A handle to the system events queue
+    sent_buy - Integer entry threshold
+    sent_sell - Integer exit threshold
+    base_quantity - Number of shares to be traded
+    """
+    def __init__(
+        self, tickers, events_queue, 
+        sent_buy, sent_sell, base_quantity
+    ):
+        self.tickers = tickers
+        self.events_queue = events_queue
+        self.sent_buy = sent_buy
+        self.sent_sell = sent_sell
+        self.qty = base_quantity
+        self.time = None
+        self.tickers.remove("SPY")
+        self.invested = dict(
+            (ticker, False) for ticker in self.tickers
+        )</code>
+</pre>
+
+<p>As with all subclasses of <code>AbstractStrategy</code> the <code>calculate_signals</code> method is where the actual event-driven trading rules are placed. In all other QSTrader strategies to date this method responds to <code>BarEvent</code> or <code>TickEvent</code> objects.</p>
+
+<p>In every strategy presented thus far the first line in this method always checks what the event type is (<code>if event.type == EventType...</code>). This provides greater flexibility in <code>AbstractStrategy</code> subclasses, since they can respond to arbitrary events, not just those based around asset pricing data.</p>
+
+<p>Once the event has been confirmed as a <code>SentimentEvent</code> the code checks whether that particular ticker is already being traded. If not, it checks whether the sentiment exceeds the sentiment integer entry threshold and then creates a long of the base quantity of shares. If it is already trading this ticker and the current sentiment threshold is below the provided exit threshold, then it closes the position.</p>
+
+<p>Hence the strategy presented below only goes long. It is a straightforward matter to extend this to short trading. Example code for shorting has been presented in other trading strategies to date. In particular the code for the <a href="https://www.quantstart.com/articles/kalman-filter-based-pairs-trading-strategy-in-qstrader">Kalman Filter pairs trade</a> is similar.</p>
+
+<pre>
+<code class="language-python">def calculate_signals(self, event):
+    """
+    Calculate the signals for the strategy.
+    """
+    if event.type == EventType.SENTIMENT:
+        ticker = event.ticker
+        # Long signal
+        if (
+            self.invested[ticker] is False and 
+            event.sentiment >= self.sent_buy
+        ):
+            print("LONG %s at %s" % (ticker, event.timestamp))
+            self.events_queue.put(SignalEvent(ticker, "BOT", self.qty))
+            self.invested[ticker] = True
+        # Close signal
+        if (
+            self.invested[ticker] is True and
+            event.sentiment <= self.sent_sell
+        ):
+            print("CLOSING LONG %s at %s" % (ticker, event.timestamp))
+            self.events_queue.put(SignalEvent(ticker, "SLD", self.qty))
+            self.invested[ticker] = False</code>
+</pre>
+
+<p>As with all QSTrader implemented strategies, there is a corresponding backtest file that specifies the parameters of the strategy. It is very similar to many previous backtest files and so the full listing is only presented at the end of this article.</p>
+
+<p>The main differences are the instantiation of the <code>SentimentHandler</code> object and setting of the parameters for the entry and exit thresholds. These are set to 6 for entry and -1 for exit, as reflected in the underlying strategy rules above. It is instructive (and potentially more profitable!) to optimise these values for various sets of tickers.</p>
+
+<p>The <code>sentdex_sample.csv</code> is placed in the QSTrader <code>CSV_DATA_DIR</code>, which is where the pricing data also usually resides. The start and end dates reflect the duration over which the Sentdex sample file contains sentiment predictions.</p>
+
+<pre>
+<code class="language-python">..
+..
+start_date = datetime.datetime(2012, 10, 15)
+end_date = datetime.datetime(2016, 2, 2)
+..
+..
+
+# Use the Sentdex Sentiment trading strategy
+sentiment_handler = SentdexSentimentHandler(
+    config.CSV_DATA_DIR, "sentdex_sample.csv",
+    events_queue, tickers=tickers, 
+    start_date=start_date, end_date=end_date
+)
+
+base_quantity = 2000
+sent_buy = 6
+sent_sell = -1
+strategy = SentdexSentimentStrategy(
+    tickers, events_queue, 
+    sent_buy, sent_sell, base_quantity
+)
+strategy = Strategies(strategy, DisplayStrategy())</code>
+</pre>
+
+<p>In order to execute this strategy it is necessary to utilise your QSTrader virtual environment (as always) and type the following into the terminal, where the list of tickers must be adapted to suit the particular strategy at hand. Make sure to include SPY if a benchmark comparison is desired.</p>
+
+<p>The following example execution consists of a selection of S&amp;P500 defence stocks, including Boeing, General Dynamics, Lockheed Martin, Northrop-Grumman and Raytheon:</p>
+
+<pre>
+<code class="language-bash">$ python sentdex_sentiment_backtest.py --tickers=BA,GD,LMT,NOC,RTN,SPY</code>
+</pre>
+
+<p>The truncated output of the defence stocks example will be as follows:</p>
+
+<pre>
+<code class="language-none">..
+..
+---------------------------------
+Backtest complete.
+Sharpe Ratio: 1.62808089233
+Max Drawdown: 0.0977963517677
+Max Drawdown Pct: 0.0977963517677</code>
+</pre>
+
+<h2>Strategy Results</h2>
+
+<h3>Transaction Costs</h3>
+
+<p>The strategy results presented here are given <em>net</em> of transaction costs. The costs are simulated using <a href="https://www.interactivebrokers.co.uk/en/index.php?f=1590&p=stocks1">Interactive Brokers US equities fixed pricing for shares in North America</a>. They are reasonably representative of what could be achieved in a real trading strategy.</p>
+
+<h3>Sentiment on S&amp;P500 Tech Stocks</h3>
+
+<p><em>The base quantity of shares used for each ticker is 2,000.</em></p>
+
+<p style="text-align:center;">
+  <a href="https://s3.amazonaws.com/quantstartmedia/images/qs-qstrader-sentdex-sentiment-tech-tearsheet.png">
+    <img width="100%" src="https://s3.amazonaws.com/quantstartmedia/images/qs-qstrader-sentdex-sentiment-tech-tearsheet.png">
+  </a>
+</p>
+
+<p><em>Click the image for a larger view.</em></p>
+
+<p>The tech stocks sentiment analysis strategy posts a CAGR of 21.0% compared to the benchmark of 9.4%, using 2,000 shares of each of the five tickers. It generates large gains in only three months, namely May 2013, October 2013 and July 2015. The remainder of the time it is mostly down or flat. In addition it has a large drawdown duration of 318 days during mid-2014 to mid-2015 and a large maximum daily drawdown of 17.23%, compared to 13.04% for the benchmark.</p>
+
+<p>Despite this it does admit a Sharpe ratio of 1.12 compared to 0.75 for the benchmark, but the performance is not significant enough to justify a full production implementation of the strategy.</p>
+
+<h3>Sentiment on S&amp;P500 Energy Stocks</h3>
+
+<p><em>The base quantity of shares used for each ticker is 5,000.</em></p>
+
+<p style="text-align:center;">
+  <a href="https://s3.amazonaws.com/quantstartmedia/images/qs-qstrader-sentdex-sentiment-energy-tearsheet.png">
+    <img width="100%" src="https://s3.amazonaws.com/quantstartmedia/images/qs-qstrader-sentdex-sentiment-energy-tearsheet.png">
+  </a>
+</p>
+
+<p><em>Click the image for a larger view.</em></p>
+
+<p>The energy stocks mix performs quite differently to the collection of tech stocks. It is very volatile, posting months with large gains and other months with large losses. Its maximum daily drawdown is extensive at 27.49%, which single-handedly eliminates it from any further consideration as a reasonable quantitative strategy. In addition the strategy seems to lose all effectiveness after mid-2014, when it drops underwater and remains flat through 2015.</p>
+
+<p>It has a poor Sharpe ratio at 0.63 compared to the benchmark of 0.75. Hence this is not a viable strategy that would be taken forward in its current form.</p>
+
+<h3>Sentiment on S&amp;P500 Defence Stocks</h3>
+
+<p><em>The base quantity of shares used for each ticker is 2,000.</em></p>
+
+<p style="text-align:center;">
+  <a href="https://s3.amazonaws.com/quantstartmedia/images/qs-qstrader-sentdex-sentiment-defence-tearsheet.png">
+    <img width="100%" src="https://s3.amazonaws.com/quantstartmedia/images/qs-qstrader-sentdex-sentiment-defence-tearsheet.png">
+  </a>
+</p>
+
+<p><em>Click the image for a larger view.</em></p>
+
+<p>Defence stocks provide a different story compared to tech and energy. The strategy possesses many months of solid gains and has a healthy long-only, daily-period Sharpe of 1.69. Its maximum drawdown is less than the benchmark at 9.69%. It also has a strong CAGR at 25.45%. Despite these advantages it made most of its gains in 2013, with 2014 and 2015 posting far smaller returns.</p> 
+
+<p>While this strategy is certainly interesting there is a lot more to be done in order to put it into production. For one, it should be tested over a far larger period. In addition adding shorts would allow the strategy to be somewhat market-neutral, hopefully reducing market beta.</p>
+
+<p>Optimisation of position sizing and risk management are the next logical steps and would likely have a significant effect on performance. A final modification would be to increase diversification by adding many more stocks to the mix, perhaps across sectors. Clearly there is significant scope for improvement.</p>
+
+<p>In later articles many of these optimisations will be explored via modification of the <code>PositionSizer</code> and <code>RiskManager</code> objects in QSTrader. This will help to bring the strategies closer to a production implementation.</p>
+
+<h2>Full Code</h2>
+
+<pre>
+<code class="language-python"># sentdex_sentiment_strategy.py
+
+from __future__ import print_function
+
+from qstrader.event import (SignalEvent, EventType)
+from qstrader.strategy.base import AbstractStrategy
+
+
+class SentdexSentimentStrategy(AbstractStrategy):
+    """
+    Requires:
+    tickers - The list of ticker symbols
+    events_queue - A handle to the system events queue
+    sent_buy - Integer entry threshold
+    sent_sell - Integer exit threshold
+    base_quantity - Number of shares to be traded
+    """
+    def __init__(
+        self, tickers, events_queue, 
+        sent_buy, sent_sell, base_quantity
+    ):
+        self.tickers = tickers
+        self.events_queue = events_queue
+        self.sent_buy = sent_buy
+        self.sent_sell = sent_sell
+        self.qty = base_quantity
+        self.time = None
+        self.tickers.remove("SPY")
+        self.invested = dict(
+            (ticker, False) for ticker in self.tickers
+        )
+
+    def calculate_signals(self, event):
+        """
+        Calculate the signals for the strategy.
+        """
+        if event.type == EventType.SENTIMENT:
+            ticker = event.ticker
+            # Long signal
+            if (
+                self.invested[ticker] is False and 
+                event.sentiment >= self.sent_buy
+            ):
+                print("LONG %s at %s" % (ticker, event.timestamp))
+                self.events_queue.put(SignalEvent(ticker, "BOT", self.qty))
+                self.invested[ticker] = True
+            # Close signal
+            if (
+                self.invested[ticker] is True and
+                event.sentiment <= self.sent_sell
+            ):
+                print("CLOSING LONG %s at %s" % (ticker, event.timestamp))
+                self.events_queue.put(SignalEvent(ticker, "SLD", self.qty))
+                self.invested[ticker] = False</code>
+</pre>
+
+<pre>
+<code class="language-python"># sentiment_sentdex_backtest.py
+
+import datetime
+
+import click
+import numpy as np
+
+from qstrader import settings
+from qstrader.compat import queue
+from qstrader.price_parser import PriceParser
+from qstrader.price_handler.yahoo_daily_csv_bar import YahooDailyCsvBarPriceHandler
+from qstrader.sentiment_handler.sentdex_sentiment_handler import SentdexSentimentHandler
+from qstrader.strategy import Strategies, DisplayStrategy
+from qstrader.position_sizer.naive import NaivePositionSizer
+from qstrader.risk_manager.example import ExampleRiskManager
+from qstrader.portfolio_handler import PortfolioHandler
+from qstrader.compliance.example import ExampleCompliance
+from qstrader.execution_handler.ib_simulated import IBSimulatedExecutionHandler
+from qstrader.statistics.tearsheet import TearsheetStatistics
+from qstrader.trading_session.backtest import Backtest
+
+from sentdex_sentiment_strategy import SentdexSentimentStrategy
+
+
+def run(config, testing, tickers, filename):
+    # Set up variables needed for backtest
+    events_queue = queue.Queue()
+    csv_dir = config.CSV_DATA_DIR
+    initial_equity = PriceParser.parse(500000.00)
+
+    # Use Yahoo Daily Price Handler
+    start_date = datetime.datetime(2012, 10, 15)
+    end_date = datetime.datetime(2016, 2, 2)
+    price_handler = YahooDailyCsvBarPriceHandler(
+        csv_dir, events_queue, tickers,
+        start_date=start_date, end_date=end_date
+    )
+
+    # Use the Sentdex Sentiment trading strategy
+    sentiment_handler = SentdexSentimentHandler(
+        config.CSV_DATA_DIR, "sentdex_sample.csv",
+        events_queue, tickers=tickers, 
+        start_date=start_date, end_date=end_date
+    )
+
+    base_quantity = 2000
+    sent_buy = 6
+    sent_sell = -1
+    strategy = SentdexSentimentStrategy(
+        tickers, events_queue, 
+        sent_buy, sent_sell, base_quantity
+    )
+    strategy = Strategies(strategy, DisplayStrategy())
+
+    # Use the Naive Position Sizer 
+    # where suggested quantities are followed
+    position_sizer = NaivePositionSizer()
+
+    # Use an example Risk Manager
+    risk_manager = ExampleRiskManager()
+
+    # Use the default Portfolio Handler
+    portfolio_handler = PortfolioHandler(
+        initial_equity, events_queue, price_handler,
+        position_sizer, risk_manager
+    )
+
+    # Use the ExampleCompliance component
+    compliance = ExampleCompliance(config)
+
+    # Use a simulated IB Execution Handler
+    execution_handler = IBSimulatedExecutionHandler(
+        events_queue, price_handler, compliance
+    )
+
+    # Use the Tearsheet Statistics
+    title = ["Sentiment Sentdex Strategy"]
+    statistics = TearsheetStatistics(
+        config, portfolio_handler, title,
+        benchmark="SPY"
+    )
+
+    # Set up the backtest
+    backtest = Backtest(
+        price_handler, strategy,
+        portfolio_handler, execution_handler,
+        position_sizer, risk_manager,
+        statistics, initial_equity,
+        sentiment_handler=sentiment_handler
+    )
+    results = backtest.simulate_trading(testing=testing)
+    statistics.save(filename)
+    return results
+
+
+@click.command()
+@click.option('--config', default=settings.DEFAULT_CONFIG_FILENAME, help='Config filename')
+@click.option('--testing/--no-testing', default=False, help='Enable testing mode')
+@click.option('--tickers', default='SPY', help='Tickers (use comma)')
+@click.option('--filename', default='', help='Pickle (.pkl) statistics filename')
+def main(config, testing, tickers, filename):
+    tickers = tickers.split(",")
+    config = settings.from_file(config, testing)
+    run(config, testing, tickers, filename)
+
+
+if __name__ == "__main__":
+    main()</code>
+</pre>
+        
+        
+        <script async data-uid="6296c27f4b" src="https://weathered-brook-5281.ck.page/6296c27f4b/index.js"></script>
+      </section>
+    </div>
+    <div class="col-md-4 book-card order-md-1">
+      
+<div class="sidebar-advert-container">
+  <a href="/qsalpha/?ref=art">
+    <img class="card-img-top" src="/static/images/qsalpha-sidebar-advert-small.png" alt="QSAlpha">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/qsalpha/?ref=art">QSAlpha</a></h3>
+      <p class="card-text medium-text mb-3">Join the QSAlpha research platform that helps fill your strategy research pipeline, diversifies your portfolio and improves your risk-adjusted returns for increased profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/qsalpha/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/quantcademy/?ref=art">
+    <img class="card-img-top" src="/static/images/quantcademy-sidebar-advert-small.png" alt="Quantcademy">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/quantcademy/?ref=art">The Quantcademy</a></h3>
+      <p class="card-text medium-text mb-3">Join the Quantcademy membership portal that caters to the rapidly-growing retail quant trader community and learn how to increase your strategy profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/quantcademy/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/successful-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/sat-sidebar-advert-small.png" alt="Successful Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to find new trading strategy ideas and objectively assess them for your portfolio using a Python-based backtesting engine.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/successful-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/advanced-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/aat-sidebar-advert-small.png" alt="Advanced Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to implement advanced trading strategies using time series analysis, machine learning and Bayesian statistics with R and Python.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/advanced-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+    
+
+<footer>
+  <div class="container container-full">
+    <section class="mt-1.5 mb-1">
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">QuantStart</li>
+            <li class="footer-list-link"><a class="link-fade" href="/about/">About</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/articles/">Articles</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/sitemap/">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Products</li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qsalpha/">QSAlpha</a></li>
+            
+            
+            <li class="footer-list-link"><a class="link-fade" href="/quantcademy/">Quantcademy</a></li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qstrader/">QSTrader</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Legal</li>
+            <li class="footer-list-link"><a class="link-fade" href="/privacy-policy/">Privacy Policy</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/terms-and-conditions/">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Social</li>
+            <li class="footer-list-link"><a class="link-fade" href="https://twitter.com/quantstart">Twitter</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="https://www.youtube.com/channel/UCmVnnZ6Y2TrJtY1eQJN6kWA">YouTube</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="row mb-1.5 mt-5">
+      <div class="col-12 col-md-9 col-lg-8 col-xl-6">
+        <div class="footer-copyright">
+          <p>©2012-2023 QuarkGluon Ltd. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+<script src="/static/js/jquery-3.2.1.min.js"></script>
+<script src="/static/js/prism.js.min"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/nav.js"></script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5383959-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+    
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="/static/js/highcharts/highcharts.js"></script>
+<script type="text/javascript">
+  num_colours = 10;
+</script>
+<script src="/static/js/statistics.js"></script>
+
+
+  </body>
+</html>

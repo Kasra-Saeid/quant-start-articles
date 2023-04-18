@@ -1,0 +1,697 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-site-verification" content="wl3-8ed1QZjI0iYZMv10zoZWYElkMObTfwLlWIj9cpA" />
+    <meta name="description" content="Backtesting An Intraday Mean Reversion Pairs Strategy Between SPY And IWM">
+
+    <link rel="icon" href="/static/images/favicon.png">
+
+    <title>Backtesting An Intraday Mean Reversion Pairs Strategy Between SPY And IWM | QuantStart</title>
+    
+    
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet"> 
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/prism.css" rel="stylesheet">
+<link href="/static/css/qs.css?v=10" rel="stylesheet">
+    
+  </head>
+
+  <body>
+    <header class="header covered-header" style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://quantstartmedia.s3.amazonaws.com/images/article-images/article-backgrounds/default-bg.jpg);">
+  
+<nav class="nav">
+  <div class="container nav-container">
+    <div class="nav-row row d-flex justify-content-between align-items-center">
+      <div class="col-2">
+        <ul class="nav-items justify-content-end small-capitals align-items-center">
+          <li class="nav-item">
+            <a class="link-fade" href="/">QuantStart</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-auto col-logo">
+        <ul id="top-nav-menu" class="nav-items justify-content-end align-items-center">
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/qsalpha/">QSAlpha</a>
+          </li>
+          
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/quantcademy/">Quantcademy</a>
+          </li>
+          
+          <li id="menu-link-ebooks" class="nav-item">
+            <a class="link-fade" href="#">Books</a>
+            <div id="menu-pane-ebooks" class="nav-items menu-dropdown-pane">
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/qstrader/">QSTrader</a>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/articles/">Articles</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/members/login/">Login</a>
+          </li>
+          
+        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<nav id="mobile-nav" class="mobile-nav text-left">
+  <div class="container">
+    <ul class="mt-4 ml-3 mobile-nav-menu">
+      <li class="nav-item">
+        <a class="link-fade d-block" href="/">QuantStart</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qsalpha/">QSAlpha</a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/quantcademy/">Quantcademy</a>
+      </li>
+      
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="#">Books</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qstrader/">QSTrader</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/articles/">Articles</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/members/login/">Login</a>
+      </li>
+      
+    </ul>
+    <button class="nav-toggle mobile-nav-close">
+      <svg id="mobile-nav-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M19.77,5.63,13.41,12l6.36,6.37a1,1,0,0,1-1.41,1.41L12,13.41,5.63,19.77a1,1,0,0,1-1.44-1.39l0,0L10.58,12,4.21,5.63a1,1,0,0,1,0-1.42,1,1,0,0,1,1.41,0l0,0L12,10.58l6.37-6.37a1,1,0,0,1,1.41,0A1,1,0,0,1,19.77,5.63Z"></path>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+  <div class="container hero-container">
+    <section class="mt-5 mb-4">
+      <div class="row justify-content-center">
+        <div class="col-12 text-center">
+          <p class="hero">Backtesting An Intraday Mean Reversion Pairs Strategy Between SPY And IWM</p>
+          <p class="hero subhero">Backtesting An Intraday Mean Reversion Pairs Strategy Between SPY And IWM</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</header>
+    
+<section class="container content-container">
+  <div class="row">
+    <div class="col-md-8 order-md-2">
+      <section class="content article-content">
+        
+        
+        <p><em>Article updated December 2021 for Python 3.8</em></p>
+
+<p>In this article we are going to consider our first intraday trading strategy. It will be using a classic trading idea, that of "trading pairs". In this instance we are going to be making use of two <a href="https://en.wikipedia.org/wiki/Exchange-traded_fund">Exchange Traded Funds</a> (ETFs), <a href="https://en.wikipedia.org/wiki/SPDR_S%26P_500_Trust_ETF">SPY</a> and <a href="https://en.wikipedia.org/wiki/IShares_Russell_2000">IWM</a>, which are traded on the New York Stock Exchange (NYSE) and attempt to represent the US stock market indices, the <a href="https://en.wikipedia.org/wiki/S&P_500">S&amp;P500</a> and the <a href="https://en.wikipedia.org/wiki/Russell_2000">Russell 2000</a>, respectively.</p>
+
+<p>The strategy broadly creates a "spread" between the pair of ETFs by longing one and shorting an amount of the other. The ratio of long to short can be defined in many ways such as utilising statistical cointegrating time series techniques. In this scenario we are going to calculate a <em>hedge ratio</em> between SPY and IWM via a rolling <a href="https://en.wikipedia.org/wiki/Linear_regression_model">linear regression</a>. This will then allow us to create a "spread" between SPY and IWM which is normalised to a <a href="https://en.wikipedia.org/wiki/Standard_score">z-score</a>. The trading signals will be generated when the z-score exceeds certain thresholds under the belief that the spread will <a href="https://en.wikipedia.org/wiki/Ornstein%E2%80%93Uhlenbeck_process">revert to the mean</a>.</p>
+
+<p>The rationale for the strategy is that SPY and IWM are approximately characterising the same situation, that of the economics of a group of large-cap and small-cap US corporations. The premise is that if one takes the spread of the prices then it should be mean-reverting, since while "local" (in time) events may effect either the S&P500 or the Russell 2000 indices separately (such as small-cap/large-cap differences, rebalancing dates or block trades), the long-term price series of the two will likely be cointegrated.</p>
+
+<h2>The Strategy</h2>
+
+<p>The strategy is carried out in the following steps:</p>
+
+<ol>
+  <li><strong>Data</strong> - 1-minute bars of SPY and IWM are obtained from April 2007 through to February 2014.</li>
+  <li><strong>Processing</strong> - The data are correctly aligned and missing bars are mutually discarded.</li>
+  <li><strong>Spread</strong> - The hedge ratio between the two ETFs is calculated by taking a rolling linear regression. This is defined as the $\beta$ regression coefficient using a <em>lookback window</em> which shifts forward by 1 bar and recalculates the regression coefficients. Thus the hedge ratio $\beta_i$, for bar $b_i$ is calculated across points $b_{i-1-k}$ to $b_{i-1}$ for a lookback of $k$ bars.</li>
+  <li><strong>Z-Score</strong> - The standard score of the spread is calculated in the usual manner. This means subtracting the (sample) mean of the spread and dividing by the (sample) standard deviation of the spread. The rationale for this is to make threshold parameters more straightforward to interpet since the z-score is a dimensionless quantity. We have deliberately introduced a <a href="https://www.investopedia.com/terms/l/lookaheadbias.asp"><strong>lookahead bias</strong></a> into the calculations in order to show how subtle it can be. Try and look out for it!</li>
+  <li><strong>Trades</strong> - Long signals are generated when the negative z-score drops below a pre-determined (or post-optimised) threshold, while short signals are the converse of this. Exit signals are generated when the absolute z-score drops below an additional threshold. For this strategy I have (somewhat arbitrarily) picked an absolute entry threshold of $|z|=2$ and an exit threshold of $|z|=1$. Assuming mean reverting behaviour in the spread, this will hopefully capture that relationship and provide positive performance.</li>
+</ol>
+
+<p>Perhaps the best way to understand the strategy in depth is to actually implement it. The following section describes a full Python code (single file) for implementing this mean-reverting strategy. I have liberally commented the code in order to aid understanding.</p>
+
+<h2>Python Implementation</h2>
+
+<p>As with all of the Python/pandas tutorials it is necessary to have setup a Python research environment as described in <a href="https://www.quantstart.com/articles/Installing-a-Desktop-Algorithmic-Trading-Research-Environment-using-Ubuntu-Linux-and-Python">this tutorial</a>. Once setup, the first task is to import the necessary Python libraries. For this backtest <a href="https://matplotlib.org/">matplotlib</a> and <a href="https://pandas.pydata.org/">pandas</a> are required.</p>
+
+<p>The specific library versions that I am using are as follows:</p>
+
+<ul>
+  <li>Python - 3.8</li>
+  <li>NumPy - 1.20</li>
+  <li>pandas - 1.3</li>
+  <li>matplotlib - 3.4</li>
+  <li>statsmodels - 0.12</li>
+</ul>
+
+<p>Let's go ahead and import the librararies:</p>
+
+<pre>
+<code class="language-python"># mr_spy_iwm.py
+
+import matplotlib.pyplot as plt
+import numpy as np
+import os, os.path
+import pandas as pd
+import seaborn as sns
+
+import statsmodels.api as sm
+from statsmodels.regression.rolling import RollingOLS
+
+sns.set_style("darkgrid")</code>
+</pre>
+
+<p>The following function <code>create_pairs_dataframe</code> imports two CSV files containing the intraday bars of two symbols. In our case this will be SPY and IWM. It then creates a separate dataframe <code>pairs</code>, which uses the indexes of both original files. Since their timestamps are likely to be different due to missed trades and errors, this guarantees that we will have matching data. This is one of the main benefits of using a data analyis library like pandas. The "boilerplate" code is handled for us in a very efficient manner.</p>
+
+<pre>
+<code class="language-python"># mr_spy_iwm.py
+
+def create_pairs_dataframe(datadir, symbols):
+    """
+    Creates a pandas DataFrame containing the closing price
+    of a pair of symbols based on CSV files containing a datetime
+    stamp and OHLCV data.
+
+    Parameters
+    ----------
+    datadir : `str`
+        Directory location of CSV files containing OHLCV intraday data.
+    symbols : `tup`
+        Tuple containing ticker symbols as `str`.
+
+    Returns
+    -------
+    pairs : `pd.DataFrame`
+        A DataFrame containing Close price for SPY and IWM. Index is a 
+        Datetime object.
+    """
+    # Open the individual CSV files and read into pandas DataFrames 
+    # using the first column as an index and col_names as the headers
+    
+    print("Importing CSV data...")
+    col_names = ['datetime','open','high','low','close', 'volume', 'na']
+    sym1 = pd.read_csv(
+        os.path.join(datadir, '%s.csv' % symbols[0]),
+        header=0,
+        index_col=0,
+        names=col_names
+    )
+    sym2 = pd.read_csv(
+        os.path.join(datadir, '%s.csv' % symbols[1]),
+        header=0,
+        index_col=0,
+        names=col_names
+    )
+
+    # Create a pandas DataFrame with the close prices of each symbol
+    # correctly aligned and dropping missing entries
+    print("Constructing dual matrix for %s and %s..." % symbols)
+    pairs = pd.DataFrame(index=sym1.index)
+    pairs['%s_close' % symbols[0].lower()] = sym1['close']
+    pairs['%s_close' % symbols[1].lower()] = sym2['close']
+    pairs.index = pd.to_datetime(pairs.index)
+    pairs = pairs.dropna()
+    return pairs</code>
+</pre>
+
+<p>The next step is to carry out the rolling linear regression between SPY and IWM. In this instance IWM is the predictor ('x') and SPY is the response ('y'). I have set a default lookback window of 100 bars. As discussed above this is a parameter of the strategy. In order for the strategy to be considered robust we ideally want to see a returns profile (or other measure of performance) as a convex function of lookback period. Thus at a later stage in the code we will carry out a <em>sensitivity analysis</em> by varying the lookback period over a range.</p>
+
+<p>Once the rolling <em>beta</em> coefficient is calculated in the linear regression model for SPY-IWM, we add it to the <code>pairs</code> DataFrame and drop the empty rows. This constitutes the first set of bars equal to the size of the lookback as a trimming measure. We then create the spread of the two ETFs as a unit of SPY and $-\beta_i$ units of IWM. Clearly this is not a realistic situation as we are taking fractional amounts of IWM, which is not possible in a real implementation.</p>
+
+<p>Finally, we create the z-score of the spread, which is calculated by subtracting the mean of the spread and normalising by the standard deviation of the spread. Note that there is a rather subtle <strong>lookahead bias</strong> occuring here. I deliberately left it in the code as I wanted to emphasise how easy it is to make such a mistake in research. The mean and standard deviation are calculated for the <em>entire</em> spread time series. If this is to reflect true historical accuracy then this information would not have been available as it implicitly makes use of future information. Thus we should use a rolling mean and stdev to calculate the z-score.</p>
+
+<pre>
+<code class="language-python"># mr_spy_iwm.py
+
+def calculate_spread_zscore(pairs, symbols, lookback=100):
+    """
+    Creates a hedge ratio between the two symbols by calculating
+    a rolling linear regression with a defined lookback period. This
+    is then used to create a z-score of the 'spread' between the two
+    symbols based on a linear combination of the two.
+
+    Parameters
+    ----------
+    pairs : `pd.DataFrame`
+        A DataFrame containing Close price for SPY and IWM. Index is a 
+        Datetime object.
+    symbols : `tup`
+        Tuple containing ticker symbols as `str`.
+    lookback : `int`, optional (default: 100)
+        Lookback preiod for rolling linear regression.
+
+    Returns
+    -------
+    pairs : 'pd.DataFrame'
+        Updated DataFrame containing the spread and z score between
+        the two symbols based on the rolling linear regression.    
+    """
+
+    # Use the statsmodels Rolling Ordinary Least Squares method to fit
+    # a rolling linear regression between the two closing price time series
+    print("Fitting the rolling Linear Regression...")
+
+    model = RollingOLS(
+        endog=pairs['%s_close' % symbols[0].lower()],
+        exog=sm.add_constant(pairs['%s_close' % symbols[1].lower()]),
+        window=lookback
+    )
+    rres = model.fit()
+    params = rres.params.copy()
+    
+    
+    # Construct the hedge ratio and eliminate the first 
+    # lookback-length empty/NaN period
+    pairs['hedge_ratio'] = params['iwm_close']
+    pairs.dropna(inplace=True)
+
+    # Create the spread and then a z-score of the spread
+    print("Creating the spread/zscore columns...")
+    pairs['spread'] = (
+        pairs['spy_close'] - pairs['hedge_ratio']*pairs['iwm_close']
+    )
+    pairs['zscore'] = (
+        pairs['spread'] - np.mean(pairs['spread']))/np.std(pairs['spread']
+    )
+    return pairs</code>
+</pre>
+
+<p>In <code>create_long_short_market_signals</code> the trading signals are created. These are calculated by going long the spread when the z-score negatively exceeds a negative z-score and going short the spread when the z-score positively exceeds a positive z-score. The exit signal is given when the absolute value of the z-score is less than or equal to another (smaller in magnitude) threshold.</p>
+
+<p>In order to achieve this situation it is necessary to know, for each bar, whether the strategy is "in" or "out" of the market. <code>long_market</code> and <code>short_market</code> are two variables defined to keep track of the long and short market positions. Unfortunately this is far simpler to code in an iterative manner as opposed to a vectorised approach and thus it is slow to calculate. Despite 1-minute bars requiring ~700,000 data points per CSV file it is still relatively quick to calculate on my older desktop machine!</p>
+
+<p>To iterate over a pandas DataFrame (which admittedly is NOT a common operation) it is necessary to use the <code>iterrows</code> method, which provides a <a href="https://wiki.python.org/moin/Generators">generator</a> over which to iterate:</p>
+
+<pre>
+<code class="language-python"># mr_spy_iwm.py
+
+def create_long_short_market_signals(
+        pairs, symbols, z_entry_threshold=2.0, z_exit_threshold=1.0
+    ):
+    """
+    Create the entry/exit signals based on the exceeding of z_entry_threshold
+    for entering a position and falling below z_exit_threshold for exiting
+    a position.
+
+    Parameters
+    ----------
+    pairs : `pd.DataFrame`
+        Updated DataFrame containing the close price, spread and z score
+        between the two symbols.
+    symbols : `tup`
+        Tuple containing ticker symbols as `str`.
+    z_entry_threshold : `float`, optional (default:2.0)
+        Z Score threshold for market entry. 
+    z_exit_threshold : `float`, optional (default:1.0)
+        Z Score threshold for market exit.
+
+    Returns
+    -------
+    pairs : `pd.DataFrame`
+        Updated DataFrame containing long, short and exit signals.
+    """
+
+    # Calculate when to be long, short and when to exit
+    pairs['longs'] = (pairs['zscore'] <= -z_entry_threshold)*1.0
+    pairs['shorts'] = (pairs['zscore'] >= z_entry_threshold)*1.0
+    pairs['exits'] = (np.abs(pairs['zscore']) <= z_exit_threshold)*1.0
+
+    # These signals are needed because we need to propagate a
+    # position forward, i.e. we need to stay long if the zscore
+    # threshold is less than z_entry_threshold by still greater
+    # than z_exit_threshold, and vice versa for shorts.
+    pairs['long_market'] = 0.0
+    pairs['short_market'] = 0.0
+
+    # These variables track whether to be long or short while
+    # iterating through the bars
+    long_market = 0
+    short_market = 0
+
+    # Calculates when to actually be "in" the market, i.e. to have a
+    # long or short position, as well as when not to be.
+    # Since this is using iterrows to loop over a dataframe, it will
+    # be significantly less efficient than a vectorised operation,
+    # i.e. slow!
+    print("Calculating when to be in the market (long and short)...")
+    for i, b in enumerate(pairs.iterrows()):
+        # Calculate longs
+        if b[1]['longs'] == 1.0:
+            long_market = 1            
+        # Calculate shorts
+        if b[1]['shorts'] == 1.0:
+            short_market = 1
+        # Calculate exists
+        if b[1]['exits'] == 1.0:
+            long_market = 0
+            short_market = 0
+        # This directly assigns a 1 or 0 to the long_market/short_market
+        # columns, such that the strategy knows when to actually stay in!
+        pairs.iloc[i]['long_market'] = long_market
+        pairs.iloc[i]['short_market'] = short_market
+    return pairs</code>
+</pre>
+
+<p>At this stage we have updated <code>pairs</code> to contain the actual long/short signals, which allows us to determine whether we need to be in the market. Now we need to create a <em>portfolio</em> to keep track of the market value of the positions. The first task is to create a <code>positions</code> column that combines the long and short signals. This will contain a list of elements from $(1,0,-1)$, with $1$ representing a long/market position, $0$ representing no position (should be exited) and $-1$ representing a short/market position. The <code>sym1</code> and <code>sym2</code> columns represent the market values of SPY and IWM positions at the close of each bar.</p>
+
+<p>Once the ETF market values have been created, we sum them to produce a total market value at the end of every bar. This is then turned into a returns stream by the <code>pct_change</code> method for that Series object. Subsequent lines of code clear up the bad entries (NaN and inf elements) and finally calculate the full equity curve.</p>
+
+<pre>
+<code class="language-python"># mr_spy_iwm.py
+
+def create_portfolio_returns(pairs, symbols):
+    """
+    Creates a portfolio pandas DataFrame which keeps track of
+    the account equity and ultimately generates an equity curve.
+    This can be used to generate drawdown and risk/reward ratios.
+    
+    Parameters
+    ----------
+    pairs : `pd.DataFrame`
+        Updated DataFrame containing the close price, spread and z score
+        between the two symbols and the long, short and exit signals.
+    symbols : `tup`
+        Tuple containing ticker symbols as `str`.
+
+    Returns
+    -------
+    portfolio : 'pd.DataFrame'
+        A DataFrame with datetime index from the pairs DataFrame, positions,
+        total market value and returns.
+    """
+    
+    # Convenience variables for symbols
+    sym1 = symbols[0].lower()
+    sym2 = symbols[1].lower()
+
+    # Construct the portfolio object with positions information
+    # Note the minuses to keep track of shorts!
+    print("Constructing a portfolio...")
+    portfolio = pd.DataFrame(index=pairs.index)
+    portfolio['positions'] = pairs['long_market'] - pairs['short_market']
+    portfolio[sym1] = -1.0 * pairs['%s_close' % sym1] * portfolio['positions']
+    portfolio[sym2] = pairs['%s_close' % sym2] * portfolio['positions']
+    portfolio['total'] = portfolio[sym1] + portfolio[sym2]
+
+    # Construct a percentage returns stream and eliminate all 
+    # of the NaN and -inf/+inf cells
+    print("Constructing the equity curve...")
+    portfolio['returns'] = portfolio['total'].pct_change()
+    portfolio['returns'].fillna(0.0, inplace=True)
+    portfolio['returns'].replace([np.inf, -np.inf], 0.0, inplace=True)
+    portfolio['returns'].replace(-1.0, 0.0, inplace=True)
+
+    # Calculate the full equity curve
+    portfolio['returns'] = (portfolio['returns'] + 1.0).cumprod()
+    return portfolio</code>
+</pre>
+
+<p>The <code>__main__</code> function brings it all together. The intraday CSV files are located at the <code>datadir</code> path. Make sure to modify the code below to point to your particular directory.</p>
+
+<p>In order to determine how sensitive the strategy is to the lookback period it is necessary to calculate a performance metric for a range of lookbacks. I have chosen the final total percentage return of the portfolio as the performance measure and the lookback range in $[50,200]$ with increments of 10. You can see in the following code that the previous functions are wrapped in a <code>for</code> loop across this range, with other thresholds held fixed. The final task is to use matplotlib to create a line chart of lookbacks vs returns:</p>
+
+<pre>
+<code class="language-python"># mr_spy_iwm.py
+
+if __name__ == "__main__":
+    datadir = '/your/path/to/data/'  # Change this to reflect your data path!
+    symbols = ('SPY', 'IWM')
+
+    lookbacks = range(50, 210, 10)
+    returns = []
+
+    # Adjust lookback period from 50 to 200 in increments
+    # of 10 in order to produce sensitivities
+    for lb in lookbacks: 
+        print("Calculating lookback=%s..." % lb)
+        pairs = create_pairs_dataframe(datadir, symbols)
+        pairs = calculate_spread_zscore(pairs, symbols, lookback=lb)
+        pairs = create_long_short_market_signals(
+            pairs, symbols, z_entry_threshold=2.0, z_exit_threshold=1.0
+        )
+        portfolio = create_portfolio_returns(pairs, symbols)
+        returns.append(portfolio.iloc[-1]['returns'])
+
+    print("Plot the lookback-performance scatterchart...")
+    plt.plot(lookbacks, returns, '-o')
+    plt.show()</code>
+</pre>
+
+<p>The chart of lookback period vs returns can now be seen. Note that there is a "global" maximum around a lookback equal to 110 bars. If we had seen a situation where lookback was independent of returns this would have been cause for concern:</p>
+
+<figure>
+    <img src="https://quantstartmedia.s3.amazonaws.com/images/article-images/articles/backtesting-intraday-mean-reverting/final_lookback.png" alt="SPY-IWM linear regression hedge-ratio lookback period sensitivity analysis">
+    <figcaption>SPY-IWM linear regression hedge-ratio lookback period sensitivity analysis</figcaption>
+</figure>
+
+<p>No backtesting article would be complete without an upwardly sloping equity curve! Thus if you wish to plot a curve of the cumulated returns vs time, you can use the following code, which will plot the final portfolio generated from the lookback parameter study. It will be necessary to choose the lookback depending upon which chart you wish to visualise. The chart also plots the returns of SPY in the same period to aid comparison:</p>
+
+<pre>
+<code class="language-python"> #mr_spy_iwm.py
+
+    # This is still within the main function
+    print("Plotting the performance charts...")
+    fig = plt.figure()
+
+    ax1 = fig.add_subplot(211,  ylabel='%s growth (%%)' % symbols[0])
+    (pairs['%s_close' % symbols[0].lower()].pct_change()+1.0).cumprod().plot(ax=ax1, color='r', lw=2.)
+
+    ax2 = fig.add_subplot(212, ylabel='Portfolio value growth (%%)')
+    portfolio['returns'].plot(ax=ax2, lw=2.)
+
+    plt.show()</code>
+</pre>
+
+<p>The following equity curve chart is for a lookback period of 100 days:</p>
+
+<figure>
+    <img src="https://quantstartmedia.s3.amazonaws.com/images/article-images/articles/backtesting-intraday-mean-reverting/final_equity.png" alt="Equity curve for strategy compared to SPY">
+    <figcaption>SPY-IWM Mean Reverting Strategy Portfolio Equity Curve</figcaption>
+</figure>
+
+<p>Note that the drawdown of SPY is significant in 2009 during the period of the <a href="https://en.wikipedia.org/wiki/Financial_crisis_of_2007%E2%80%9308">financial crisis</a>. The strategy also had a volatile period at this stage. Also note that performance has deteriorated somewhat in the last year due to the strongly trending nature of SPY in this period, which reflects the S&amp;P500 index.</p>
+
+<p>Note that we still have to take into account the lookahead bias when calculating the z-score of the spread. Further, all of these calculations have been carried out without transaction costs. This strategy would certainly perform very poorly once these factors are taken into consideration. Fees, bid/ask spread and slippage are all currently unaccounted for. In addition the strategy is trading in fractional units of ETFs, which is also very unrealistic.</p>
+
+<p>In later articles we will create a much more sophisticated event-driven backtester that will take these factors into consideration and give us significantly more confidence in our equity curve and performance metrics.</p>
+        
+        
+        <h2>Related Articles</h2>
+        <ul>
+        
+        <li><a href="/articles/Basics-of-Statistical-Mean-Reversion-Testing-Part-II/">Basics of Statistical Mean Reversion Testing - Part II</a></li>
+        
+        <li><a href="/articles/Basics-of-Statistical-Mean-Reversion-Testing/">Basics of Statistical Mean Reversion Testing</a></li>
+        
+        </ul>
+        
+        <script async data-uid="6296c27f4b" src="https://weathered-brook-5281.ck.page/6296c27f4b/index.js"></script>
+      </section>
+    </div>
+    <div class="col-md-4 book-card order-md-1">
+      
+<div class="sidebar-advert-container">
+  <a href="/qsalpha/?ref=art">
+    <img class="card-img-top" src="/static/images/qsalpha-sidebar-advert-small.png" alt="QSAlpha">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/qsalpha/?ref=art">QSAlpha</a></h3>
+      <p class="card-text medium-text mb-3">Join the QSAlpha research platform that helps fill your strategy research pipeline, diversifies your portfolio and improves your risk-adjusted returns for increased profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/qsalpha/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/quantcademy/?ref=art">
+    <img class="card-img-top" src="/static/images/quantcademy-sidebar-advert-small.png" alt="Quantcademy">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/quantcademy/?ref=art">The Quantcademy</a></h3>
+      <p class="card-text medium-text mb-3">Join the Quantcademy membership portal that caters to the rapidly-growing retail quant trader community and learn how to increase your strategy profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/quantcademy/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/successful-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/sat-sidebar-advert-small.png" alt="Successful Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to find new trading strategy ideas and objectively assess them for your portfolio using a Python-based backtesting engine.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/successful-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/advanced-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/aat-sidebar-advert-small.png" alt="Advanced Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to implement advanced trading strategies using time series analysis, machine learning and Bayesian statistics with R and Python.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/advanced-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+    
+
+<footer>
+  <div class="container container-full">
+    <section class="mt-1.5 mb-1">
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">QuantStart</li>
+            <li class="footer-list-link"><a class="link-fade" href="/about/">About</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/articles/">Articles</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/sitemap/">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Products</li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qsalpha/">QSAlpha</a></li>
+            
+            
+            <li class="footer-list-link"><a class="link-fade" href="/quantcademy/">Quantcademy</a></li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qstrader/">QSTrader</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Legal</li>
+            <li class="footer-list-link"><a class="link-fade" href="/privacy-policy/">Privacy Policy</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/terms-and-conditions/">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Social</li>
+            <li class="footer-list-link"><a class="link-fade" href="https://twitter.com/quantstart">Twitter</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="https://www.youtube.com/channel/UCmVnnZ6Y2TrJtY1eQJN6kWA">YouTube</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="row mb-1.5 mt-5">
+      <div class="col-12 col-md-9 col-lg-8 col-xl-6">
+        <div class="footer-copyright">
+          <p>©2012-2023 QuarkGluon Ltd. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+<script src="/static/js/jquery-3.2.1.min.js"></script>
+<script src="/static/js/prism.js.min"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/nav.js"></script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5383959-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+    
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="/static/js/highcharts/highcharts.js"></script>
+<script type="text/javascript">
+  num_colours = 10;
+</script>
+<script src="/static/js/statistics.js"></script>
+
+
+  </body>
+</html>

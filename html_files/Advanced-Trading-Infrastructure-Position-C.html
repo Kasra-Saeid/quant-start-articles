@@ -1,0 +1,960 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-site-verification" content="wl3-8ed1QZjI0iYZMv10zoZWYElkMObTfwLlWIj9cpA" />
+    <meta name="description" content="Advanced Trading Infrastructure - Position Class">
+
+    <link rel="icon" href="/static/images/favicon.png">
+
+    <title>Advanced Trading Infrastructure - Position Class | QuantStart</title>
+    
+    
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet"> 
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/prism.css" rel="stylesheet">
+<link href="/static/css/qs.css?v=10" rel="stylesheet">
+    
+  </head>
+
+  <body>
+    <header class="header covered-header" style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://quantstartmedia.s3.amazonaws.com/images/article-images/article-backgrounds/default-bg.jpg);">
+  
+<nav class="nav">
+  <div class="container nav-container">
+    <div class="nav-row row d-flex justify-content-between align-items-center">
+      <div class="col-2">
+        <ul class="nav-items justify-content-end small-capitals align-items-center">
+          <li class="nav-item">
+            <a class="link-fade" href="/">QuantStart</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-auto col-logo">
+        <ul id="top-nav-menu" class="nav-items justify-content-end align-items-center">
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/qsalpha/">QSAlpha</a>
+          </li>
+          
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/quantcademy/">Quantcademy</a>
+          </li>
+          
+          <li id="menu-link-ebooks" class="nav-item">
+            <a class="link-fade" href="#">Books</a>
+            <div id="menu-pane-ebooks" class="nav-items menu-dropdown-pane">
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/qstrader/">QSTrader</a>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/articles/">Articles</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/members/login/">Login</a>
+          </li>
+          
+        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<nav id="mobile-nav" class="mobile-nav text-left">
+  <div class="container">
+    <ul class="mt-4 ml-3 mobile-nav-menu">
+      <li class="nav-item">
+        <a class="link-fade d-block" href="/">QuantStart</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qsalpha/">QSAlpha</a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/quantcademy/">Quantcademy</a>
+      </li>
+      
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="#">Books</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qstrader/">QSTrader</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/articles/">Articles</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/members/login/">Login</a>
+      </li>
+      
+    </ul>
+    <button class="nav-toggle mobile-nav-close">
+      <svg id="mobile-nav-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M19.77,5.63,13.41,12l6.36,6.37a1,1,0,0,1-1.41,1.41L12,13.41,5.63,19.77a1,1,0,0,1-1.44-1.39l0,0L10.58,12,4.21,5.63a1,1,0,0,1,0-1.42,1,1,0,0,1,1.41,0l0,0L12,10.58l6.37-6.37a1,1,0,0,1,1.41,0A1,1,0,0,1,19.77,5.63Z"></path>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+  <div class="container hero-container">
+    <section class="mt-5 mb-4">
+      <div class="row justify-content-center">
+        <div class="col-12 text-center">
+          <p class="hero">Advanced Trading Infrastructure - Position Class</p>
+          <p class="hero subhero">Advanced Trading Infrastructure - Position Class</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</header>
+    
+<section class="container content-container">
+  <div class="row">
+    <div class="col-md-8 order-md-2">
+      <section class="content article-content">
+        
+        
+        <p>At the end of last year <a href="https://www.quantstart.com/articles/Announcing-the-QuantStart-Advanced-Trading-Infrastructure-Article-Series">I announced</a> that I would be working on a series of articles regarding the development of an Advanced Trading Infrastructure. Since the initial announcement I haven't mentioned the project to any great extent. However, in this article I want to discuss the progress I've made to date.</p>
+
+<p>At the outset I decided that I wanted to re-use and improve upon as much of the codebases of the <a href="https://www.quantstart.com/articles/Event-Driven-Backtesting-with-Python-Part-I">event-driven backtester</a> and <a href="https://www.quantstart.com/qsforex">QSForex</a> as possible in order to avoid duplicated effort. Despite a solid attempt to make use of large parts of these two codebases, I came to the conclusion that it was necessary to "start from scratch" with how the position handling/sizing, risk management and portfolio construction was handled.</p>
+
+<p>In effect I've modified the design of QSForex and the event-driven backtesters to include proper integration of position sizing and risk management layers, which were not present in previous versions. These two components provide robust portfolio construction tools that aid in crafting "professional" portfolios, rather than those found in a simplistic vectorised backtester.</p>
+
+<p>At this stage I have not actually written any specific risk management or position sizing logic. Since this logic is highly specific to an individual or firm, I have decided that I will provide example modules for straightforward situations such as Kelly Criterion positioning or volatility risk levels, but will leave complicated risk and position management overlays to be developed by users of the software. This allows you to use the "off the shelf" versions that I develop, but also to completely swap out these components with your own custom logic as you see fit. This way the software is not forcing you down a particular risk management methodology.</p>
+
+<p>To date I have coded the basics of a portfolio management system. The entire backtesting and trading tool, which I am tentatively naming <strong>QSTrader</strong>, is far from being production-ready. In fact, I would go so far as to say it is in a "pre-alpha" state at this stage! Despite the fact that the system is early in its development, I have put significant effort into <a href="https://en.wikipedia.org/wiki/Unit_testing">unit-testing</a> the early components, as well as testing against external brokerage-calculated values. I am currently quite confident in the position handling mechanism. However, if edge cases do arrive, they can simply be added as unit tests to further improve robustness.</p>
+
+<p>The project is now available (in an extremely early state!) at <a href="https://www.github.com/mhallsmoore/qstrader.git">https://www.github.com/mhallsmoore/qstrader.git</a> under a liberal open-source MIT license. At this stage it lacks documentation, so I am only adding the link for those who wish to browse the code as it stands.</p>
+
+<h2>Component Design</h2>
+
+<p>In the <a href="https://www.quantstart.com/articles/Announcing-the-QuantStart-Advanced-Trading-Infrastructure-Article-Series">previous article</a> in the series on Advanced Trading Infrastructure I discussed the broad roadmap for development. In this article I want to discuss one of the most important aspects of the system, namely the <code>Position</code> component, that will form the basis of the <code>Portfolio</code> and subsequently <code>PortfolioHandler</code>.</p>
+
+<p>When designing such a system it is necessary to consider how we will break down separate behaviours into various submodules. Not only does this prevent strong coupling of the components, but it also allows much more straightforward testing, as each component can be unit tested separately.</p>
+
+<p>The design I have chosen for the portfolio management infrastructure consists of the following components:</p>
+
+<ul>
+  <li><strong>Position</strong> - This class encapsulates all data associated with an open position in an asset. That is, it tracks the realised and unrealised profit and loss (PnL) by averaging the multiple "legs" of the transaction, inclusive of transaction costs.</li>
+  <li><strong>Portfolio</strong> - The Portfolio class that encapsulates a list of Positions, as well as a cash balance, equity and PnL.</li>
+  <li><strong>PositionSizer</strong> - The PositionSizer class provides the PortfolioHandler (see below) with guidance on how to size positions once a strategy signal is received. For instance, the PositionSizer could incorporate a Kelly Criterion approach.</li>
+  <li><strong>RiskManager</strong> - The RiskManager is used by the PortfolioHandler to verify, modify or veto any suggested trades that pass through from the PositionSizer, based on the current composition of the portfolio and external risk considerations (such as correlation to indices or volatility).</li>
+  <li><strong>PortfolioHandler</strong> - The PortfolioHandler class is responsible for the management of the current Portfolio, interacting with the RiskManager and PositionSizer as well as submitting orders to be executed by an execution handler.</li>
+</ul>
+
+<p>Note that this component organisation is somewhat different to how the backtesting system operates in <a href="https://www.quantstart.com/qsforex">QSForex</a>. In that case the <code>Portfolio</code> object is the equivalent of the <code>PortfolioHandler</code> class above. I've split these into two here. This allows much more straightforward risk management and position sizing with the <code>RiskManager</code> and <code>PositionSizer</code> classes.</p>
+
+<p>We will now turn our attention to the <code>Position</code> class. In later articles we will look at the <code>Portfolio</code>, <code>PortfolioHandler</code> and the risk/position sizing components.</p>
+
+<h2>Position</h2>
+
+<p>The <code>Position</code> class is very similar to its namesake in the <a href="https://www.quantstart.com/qsforex">QSForex</a> project, with the exception that it has initially been designed for use with equity, rather than forex, instruments. Hence there is no notion of a "base" or "quote" currency. However, we retain the ability to update the unrealised PnL on demand, via updating of the current bid and ask prices quoted on the market.</p>
+
+<p>I'll output the code listing in full and then run through how it works.</p>
+
+<p><em>Note that any of these listings are subject to change, since I will be continually making changes to this project. Eventually I hope others will collaborate by providing <a href="https://en.wikipedia.org/wiki/Pull_request">Pull Requests</a> to the codebase.</em></p>
+
+<h3>position.py</h3>
+
+<pre>
+<code class='language-python'>from decimal import Decimal
+
+
+TWOPLACES = Decimal("0.01")
+FIVEPLACES = Decimal("0.00001")
+
+
+class Position(object):
+    def __init__(
+        self, action, ticker, init_quantity,
+        init_price, init_commission,
+        bid, ask
+    ):
+        """
+        Set up the initial "account" of the Position to be
+        zero for most items, with the exception of the initial
+        purchase/sale.
+
+        Then calculate the initial values and finally update the
+        market value of the transaction.
+        """
+        self.action = action
+        self.ticker = ticker
+        self.quantity = init_quantity
+        self.init_price = init_price
+        self.init_commission = init_commission
+
+        self.realised_pnl = Decimal("0.00")
+        self.unrealised_pnl = Decimal("0.00")
+
+        self.buys = Decimal("0")
+        self.sells = Decimal("0")
+        self.avg_bot = Decimal("0.00")
+        self.avg_sld = Decimal("0.00")
+        self.total_bot = Decimal("0.00")
+        self.total_sld = Decimal("0.00")
+        self.total_commission = init_commission
+
+        self._calculate_initial_value()
+        self.update_market_value(bid, ask)
+
+    def _calculate_initial_value(self):
+        """
+        Depending upon whether the action was a buy or sell ("BOT"
+        or "SLD") calculate the average bought cost, the total bought
+        cost, the average price and the cost basis.
+
+        Finally, calculate the net total with and without commission.
+        """
+
+        if self.action == "BOT":
+            self.buys = self.quantity
+            self.avg_bot = self.init_price.quantize(FIVEPLACES)
+            self.total_bot = (self.buys * self.avg_bot).quantize(TWOPLACES)
+            self.avg_price = (
+                (self.init_price * self.quantity + self.init_commission)/self.quantity
+            ).quantize(FIVEPLACES)
+            self.cost_basis = (
+                self.quantity * self.avg_price
+            ).quantize(TWOPLACES)
+        else:  # action == "SLD"
+            self.sells = self.quantity
+            self.avg_sld = self.init_price.quantize(FIVEPLACES)
+            self.total_sld = (self.sells * self.avg_sld).quantize(TWOPLACES)
+            self.avg_price = (
+                (self.init_price * self.quantity - self.init_commission)/self.quantity
+            ).quantize(FIVEPLACES)
+            self.cost_basis = (
+                -self.quantity * self.avg_price
+            ).quantize(TWOPLACES)
+        self.net = self.buys - self.sells
+        self.net_total = (self.total_sld - self.total_bot).quantize(TWOPLACES)
+        self.net_incl_comm = (self.net_total - self.init_commission).quantize(TWOPLACES)
+
+    def update_market_value(self, bid, ask):
+        """
+        The market value is tricky to calculate as we only have
+        access to the top of the order book through Interactive
+        Brokers, which means that the true redemption price is
+        unknown until executed.
+
+        However, it can be estimated via the mid-price of the
+        bid-ask spread. Once the market value is calculated it
+        allows calculation of the unrealised and realised profit
+        and loss of any transactions.
+        """
+        midpoint = (bid+ask)/Decimal("2.0")
+        self.market_value = (
+            self.quantity * midpoint
+        ).quantize(TWOPLACES)
+        self.unrealised_pnl = (
+            self.market_value - self.cost_basis
+        ).quantize(TWOPLACES)
+        self.realised_pnl = (
+            self.market_value + self.net_incl_comm
+        )
+
+    def transact_shares(self, action, quantity, price, commission):
+        """
+        Calculates the adjustments to the Position that occur
+        once new shares are bought and sold.
+
+        Takes care to update the average bought/sold, total
+        bought/sold, the cost basis and PnL calculations,
+        as carried out through Interactive Brokers TWS.
+        """
+        prev_quantity = self.quantity
+        prev_commission = self.total_commission
+
+        self.total_commission += commission
+
+        # Adjust total bought and sold
+        if action == "BOT":
+            self.avg_bot = (
+                (self.avg_bot*self.buys + price*quantity)/(self.buys + quantity)
+            ).quantize(FIVEPLACES)
+            if self.action != "SLD":
+                self.avg_price = (
+                    (
+                        self.avg_price*self.buys +
+                        price*quantity+commission
+                    )/(self.buys + quantity)
+                ).quantize(FIVEPLACES)
+            self.buys += quantity
+            self.total_bot = (self.buys * self.avg_bot).quantize(TWOPLACES)
+
+        # action == "SLD"
+        else:
+            self.avg_sld = (
+                (self.avg_sld*self.sells + price*quantity)/(self.sells + quantity)
+            ).quantize(FIVEPLACES)
+            if self.action != "BOT":
+                self.avg_price = (
+                    (
+                        self.avg_price*self.sells +
+                        price*quantity-commission
+                    )/(self.sells + quantity)
+                ).quantize(FIVEPLACES)
+            self.sells += quantity
+            self.total_sld = (self.sells * self.avg_sld).quantize(TWOPLACES)
+
+        # Adjust net values, including commissions
+        self.net = self.buys - self.sells
+        self.quantity = self.net
+        self.net_total = (
+            self.total_sld - self.total_bot
+        ).quantize(TWOPLACES)
+        self.net_incl_comm = (
+            self.net_total - self.total_commission
+        ).quantize(TWOPLACES)
+
+        # Adjust average price and cost basis
+        self.cost_basis = (
+            self.quantity * self.avg_price
+        ).quantize(TWOPLACES)</code>
+</pre>
+
+<p>You'll notice that the entire project makes extensive use of the <a href="https://docs.python.org/3.5/library/decimal.html">decimal</a> module. This is an absolute necessity in financial applications, otherwise you end up causing significant rounding errors due to the <a href="http://floating-point-gui.de/">mathematics of floating point handling</a>.</p>
+
+<p>I've created two helper variables, <code>TWOPLACES</code> and <code>FIVEPLACES</code>, which are used subsequently to define the level of precision necessary for rounding in calculations.</p>
+
+<pre>
+<code class='language-python'>TWOPLACES = Decimal("0.01")
+FIVEPLACES = Decimal("0.00001")</code>
+</pre>
+
+<p>The <code>Position</code> class requires a transaction action: "Buy" or "Sell". I've used the <a href="https://www.interactivebrokers.com/en/home.php">Interactive Brokers</a> code <strong>BOT</strong> and <strong>SLD</strong> for these throughout the code. In addition, the <code>Position</code> requires a ticker symbol, a quantity to transact, the price of purchase or sale and the commission.</p>
+
+<pre>
+<code class='language-python'>class Position(object):
+    def __init__(
+        self, action, ticker, init_quantity,
+        init_price, init_commission,
+        bid, ask
+    ):
+        """
+        Set up the initial "account" of the Position to be
+        zero for most items, with the exception of the initial
+        purchase/sale.
+        Then calculate the initial values and finally update the
+        market value of the transaction.
+        """
+        self.action = action
+        self.ticker = ticker
+        self.quantity = init_quantity
+        self.init_price = init_price
+        self.init_commission = init_commission</code>
+</pre>
+
+<p>The <code>Position</code> also keeps track of a few other metrics, which fully mirror those handled by Interactive Brokers. It tracks the PnL, the quantity of buys and sells, the average purchase price and the average sale price, the total purchase price and the total sale price, as well as the total commission spent to date.</p>
+
+<pre>
+<code class='language-python'># position.py
+
+        self.realised_pnl = Decimal("0.00")
+        self.unrealised_pnl = Decimal("0.00")
+
+        self.buys = Decimal("0")
+        self.sells = Decimal("0")
+        self.avg_bot = Decimal("0.00")
+        self.avg_sld = Decimal("0.00")
+        self.total_bot = Decimal("0.00")
+        self.total_sld = Decimal("0.00")
+        self.total_commission = init_commission</code>
+</pre>
+
+<p>The <code>Position</code> class has been structured this way because it is very difficult to pin down the idea of a "trade". For instance, let's imagine we carry out the following transactions:</p>
+
+<ul>
+  <li><strong>Day 1</strong> - Purchase 100 shares of GOOG. Total 100.</li>
+  <li><strong>Day 2</strong> - Purchase 200 shares of GOOG. Total 300.</li>
+  <li><strong>Day 3</strong> - Sell 400 shares of GOOG. Total -100.</li>
+  <li><strong>Day 4</strong> - Purchase 200 shares of GOOG. Total 100.</li>
+  <li><strong>Day 5</strong> - Sell 100 shares of GOOG. Total 0.</li>
+</ul>
+
+<p>This constitutes a "round trip". How are we to determine the profit on this? Do we work out the profit on every leg of the transaction? Do we only calculate profit once the quantity nets out back to zero?</p>
+
+<p>These problems are solved by using a realised and unrealised PnL. We will always know how much we have made <em>to date</em> and how much we <em>might make</em> by keeping track of these two values. At the <code>Portfolio</code> level we can simply total these values up and work out our total PnL at any time.</p>
+
+<p>Finally, in the initialisation method <code>__init__</code>, we calculate the initial values and update the market value by the latest bid/ask:</p>
+
+<pre>
+<code class='language-python'># position.py
+
+        self._calculate_initial_value()
+        self.update_market_value(bid, ask)</code>
+</pre>
+
+<p>The <code>_calculate_initial_value</code> method is as follows:</p>
+
+<pre>
+<code class='language-python'># position.py
+
+   def _calculate_initial_value(self):
+        """
+        Depending upon whether the action was a buy or sell ("BOT"
+        or "SLD") calculate the average bought cost, the total bought
+        cost, the average price and the cost basis.
+        Finally, calculate the net total with and without commission.
+        """
+
+        if self.action == "BOT":
+            self.buys = self.quantity
+            self.avg_bot = self.init_price.quantize(FIVEPLACES)
+            self.total_bot = (self.buys * self.avg_bot).quantize(TWOPLACES)
+            self.avg_price = (
+                (self.init_price * self.quantity + self.init_commission)/self.quantity
+            ).quantize(FIVEPLACES)
+            self.cost_basis = (
+                self.quantity * self.avg_price
+            ).quantize(TWOPLACES)
+        else:  # action == "SLD"
+            self.sells = self.quantity
+            self.avg_sld = self.init_price.quantize(FIVEPLACES)
+            self.total_sld = (self.sells * self.avg_sld).quantize(TWOPLACES)
+            self.avg_price = (
+                (self.init_price * self.quantity - self.init_commission)/self.quantity
+            ).quantize(FIVEPLACES)
+            self.cost_basis = (
+                -self.quantity * self.avg_price
+            ).quantize(TWOPLACES)
+        self.net = self.buys - self.sells
+        self.net_total = (self.total_sld - self.total_bot).quantize(TWOPLACES)
+        self.net_incl_comm = (self.net_total - self.init_commission).quantize(TWOPLACES)</code>
+</pre>
+
+<p>This method carries out the initial calculations upon opening a new position. For "BOT" actions (purchases), the number of buys is incremented, the average and total bought values are calculated, as is the average <em>price</em> of the position. The <em>cost basis</em> is calculated as the current quantity multiplied by the average price paid. Hence it is the "total price paid so far". In addition, the net quantity, net total and net including commission are also calculated.</p>
+
+<p>The next method is <code>update_market_value</code>. This is a tricky method to implement as it relies on a particular choice for how "market value" is calculated. There is no correct choice for this, as there is no such thing as "market value". There are some useful choices though:</p>
+
+<ul>
+  <li><strong>Midpoint</strong> - A common choice is to take the mid-point of the bid-ask spread. This takes the top bid and ask prices of the order book (for a particular exchange) and averages them.</li>
+  <li><strong>Last Traded Price</strong> - This is the last price that a stock traded at. Calculating this is tricky because the trade may have occurred across multiple prices (different lots at different prices). Hence it could be a weighted average.</li>
+  <li><strong>Bid or Ask</strong> - Depending upon the side of the transaction (i.e. a purchase or sale), the top bid or ask price could be used as an indication.</li>
+</ul>
+
+<p>None of these prices are likely to be the one achieved in practice, however. The order book dynamics, slippage and market impact are all going to cause the true sale price to differ from the currently quoted bid/ask.</p>
+
+<p>In the following method I have opted for the midpoint calculation in order to provide some sense of "market value". It is important to stress, however, that this value can find its way into the risk management and position sizing calculations, so it is necessary to make sure that you are happy with how it is calculated and modify it accordingly if you wish to use it in your own trading engines.</p>
+
+<p>Once the market value is calculated it allows subsequent calculation of the unrealised and realised PnL of the position:</p>
+
+<pre>
+<code class='language-python'># position.py
+
+    def update_market_value(self, bid, ask):
+        """
+        The market value is tricky to calculate as we only have
+        access to the top of the order book through Interactive
+        Brokers, which means that the true redemption price is
+        unknown until executed.
+        However, it can be estimated via the mid-price of the
+        bid-ask spread. Once the market value is calculated it
+        allows calculation of the unrealised and realised profit
+        and loss of any transactions.
+        """
+        midpoint = (bid+ask)/Decimal("2.0")
+        self.market_value = (
+            self.quantity * midpoint
+        ).quantize(TWOPLACES)
+        self.unrealised_pnl = (
+            self.market_value - self.cost_basis
+        ).quantize(TWOPLACES)
+        self.realised_pnl = (
+            self.market_value + self.net_incl_comm
+        )</code>
+</pre>
+
+<p>The final method is <code>transact_shares</code>. This is the method called by the <code>Portfolio</code> class to actually carry out a transaction. I won't repeat the method in full here, as it can be found above and at <a href="https://github.com/mhallsmoore/qstrader/blob/master/position/position.py">Github</a>, but I will concentrate on some important sections.</p>
+
+<p>In the code snippet below you can see that if the action is a purchase ("BOT") then the average buy price is recalculated. If the original action was also a purchase, the average price is necessarily modified. The total buys are increased by the new quantity and the total purchase price is modified. The logic is similar for the sell/"SLD" side:</p>
+
+<pre>
+<code class='language-python'># position.py
+
+        if action == "BOT":
+            self.avg_bot = (
+                (self.avg_bot*self.buys + price*quantity)/(self.buys + quantity)
+            ).quantize(FIVEPLACES)
+            if self.action != "SLD":
+                self.avg_price = (
+                    (
+                        self.avg_price*self.buys +
+                        price*quantity+commission
+                    )/(self.buys + quantity)
+                ).quantize(FIVEPLACES)
+            self.buys += quantity
+            self.total_bot = (self.buys * self.avg_bot).quantize(TWOPLACES)</code>
+</pre>
+
+<p>Finally, the net values are all adjusted. The calculations are relatively straightforward and can be followed from the snippet. Notice that they are all rounded to two decimal places:</p>
+
+<pre>
+<code class='language-python'># position.py
+
+        # Adjust net values, including commissions
+        self.net = self.buys - self.sells
+        self.quantity = self.net
+        self.net_total = (
+            self.total_sld - self.total_bot
+        ).quantize(TWOPLACES)
+        self.net_incl_comm = (
+            self.net_total - self.total_commission
+        ).quantize(TWOPLACES)
+
+        # Adjust average price and cost basis
+        self.cost_basis = (
+            self.quantity * self.avg_price
+        ).quantize(TWOPLACES)</code>
+</pre>
+
+<p>That concludes the <code>Position</code> class. It provides a robust mechanism for handling position calculation and storage. <p>For completeness you can find the full code for the <code>Position</code> class on Github at <a href="https://github.com/mhallsmoore/qstrader/blob/master/position/position.py">position.py</a>.</p>
+
+<h3>position_test.py</h3>
+
+<p>In order to test the calculations within the <code>Position</code> class I've written the following unit tests, checking them against similar transactions carried out within Interactive Brokers. I do fully anticipate finding new edge cases and bugs that will need error correction, but these current unit tests will provide strong confidence in the results going forward.</p>
+
+<p>The full listing of <code>position_test.py</code> is as follows:</p>
+
+<pre>
+<code class='language-python'>from decimal import Decimal
+import unittest
+
+from qstrader.position.position import Position
+
+
+class TestRoundTripXOMPosition(unittest.TestCase):
+    """
+    Test a round-trip trade in Exxon-Mobil where the initial
+    trade is a buy/long of 100 shares of XOM, at a price of
+    $74.78, with $1.00 commission.
+    """
+    def setUp(self):
+        """
+        Set up the Position object that will store the PnL.
+        """
+        self.position = Position(
+            "BOT", "XOM", Decimal('100'), 
+            Decimal("74.78"), Decimal("1.00"), 
+            Decimal('74.78'), Decimal('74.80')
+        )
+
+    def test_calculate_round_trip(self):
+        """
+        After the subsequent purchase, carry out two more buys/longs
+        and then close the position out with two additional sells/shorts.
+
+        The following prices have been tested against those calculated
+        via Interactive Brokers' Trader Workstation (TWS).
+        """
+        self.position.transact_shares(
+            "BOT", Decimal('100'), Decimal('74.63'), Decimal('1.00')
+        )
+        self.position.transact_shares(
+            "BOT", Decimal('250'), Decimal('74.620'), Decimal('1.25')
+        )
+        self.position.transact_shares(
+            "SLD", Decimal('200'), Decimal('74.58'), Decimal('1.00')
+        )
+        self.position.transact_shares(
+            "SLD", Decimal('250'), Decimal('75.26'), Decimal('1.25')
+        )
+        self.position.update_market_value(Decimal("77.75"), Decimal("77.77"))
+
+        self.assertEqual(self.position.action, "BOT")
+        self.assertEqual(self.position.ticker, "XOM")
+        self.assertEqual(self.position.quantity, Decimal("0"))
+        
+        self.assertEqual(self.position.buys, Decimal("450"))
+        self.assertEqual(self.position.sells, Decimal("450"))
+        self.assertEqual(self.position.net, Decimal("0"))
+        self.assertEqual(self.position.avg_bot, Decimal("74.65778"))
+        self.assertEqual(self.position.avg_sld, Decimal("74.95778"))
+        self.assertEqual(self.position.total_bot, Decimal("33596.00"))
+        self.assertEqual(self.position.total_sld, Decimal("33731.00"))
+        self.assertEqual(self.position.net_total, Decimal("135.00"))
+        self.assertEqual(self.position.total_commission, Decimal("5.50"))
+        self.assertEqual(self.position.net_incl_comm, Decimal("129.50"))
+
+        self.assertEqual(self.position.avg_price, Decimal("74.665"))
+        self.assertEqual(self.position.cost_basis, Decimal("0.00"))
+        self.assertEqual(self.position.market_value, Decimal("0.00"))
+        self.assertEqual(self.position.unrealised_pnl, Decimal("0.00"))
+        self.assertEqual(self.position.realised_pnl, Decimal("129.50"))
+
+
+class TestRoundTripPGPosition(unittest.TestCase):
+    """
+    Test a round-trip trade in Proctor & Gamble where the initial
+    trade is a sell/short of 100 shares of PG, at a price of
+    $77.69, with $1.00 commission.
+    """
+    def setUp(self):
+        self.position = Position(
+            "SLD", "PG", Decimal('100'), 
+            Decimal("77.69"), Decimal("1.00"), 
+            Decimal('77.68'), Decimal('77.70')
+        )
+
+    def test_calculate_round_trip(self):
+        """
+        After the subsequent sale, carry out two more sells/shorts
+        and then close the position out with two additional buys/longs.
+
+        The following prices have been tested against those calculated
+        via Interactive Brokers' Trader Workstation (TWS).
+        """
+        self.position.transact_shares(
+            "SLD", Decimal('100'), Decimal('77.68'), Decimal('1.00')
+        )
+        self.position.transact_shares(
+            "SLD", Decimal('50'), Decimal('77.70'), Decimal('1.00')
+        )
+        self.position.transact_shares(
+            "BOT", Decimal('100'), Decimal('77.77'), Decimal('1.00')
+        )
+        self.position.transact_shares(
+            "BOT", Decimal('150'), Decimal('77.73'), Decimal('1.00')
+        )
+        self.position.update_market_value(Decimal("77.72"), Decimal("77.72"))
+
+        self.assertEqual(self.position.action, "SLD")
+        self.assertEqual(self.position.ticker, "PG")
+        self.assertEqual(self.position.quantity, Decimal("0"))
+        
+        self.assertEqual(self.position.buys, Decimal("250"))
+        self.assertEqual(self.position.sells, Decimal("250"))
+        self.assertEqual(self.position.net, Decimal("0"))
+        self.assertEqual(self.position.avg_bot, Decimal("77.746"))
+        self.assertEqual(self.position.avg_sld, Decimal("77.688"))
+        self.assertEqual(self.position.total_bot, Decimal("19436.50"))
+        self.assertEqual(self.position.total_sld, Decimal("19422.00"))
+        self.assertEqual(self.position.net_total, Decimal("-14.50"))
+        self.assertEqual(self.position.total_commission, Decimal("5.00"))
+        self.assertEqual(self.position.net_incl_comm, Decimal("-19.50"))
+
+        self.assertEqual(self.position.avg_price, Decimal("77.67600"))
+        self.assertEqual(self.position.cost_basis, Decimal("0.00"))
+        self.assertEqual(self.position.market_value, Decimal("0.00"))
+        self.assertEqual(self.position.unrealised_pnl, Decimal("0.00"))
+        self.assertEqual(self.position.realised_pnl, Decimal("-19.50"))
+
+
+if __name__ == "__main__":
+    unittest.main()</code>
+</pre>
+
+<p>The imports for this module are straightforward. We once again import the <code>Decimal</code> class, but also add the <a href="https://docs.python.org/3.5/library/unittest.html">unittest</a> module as well as the <code>Position</code> class itself, since it is being tested:</p>
+
+<pre>
+<code class='language-python'>from decimal import Decimal
+import unittest
+
+from qstrader.position.position import Position</code>
+</pre>
+
+<p>For those who have not yet seen a Python unit test, the basic idea is to create a class called <code>TestXXXX</code> that inherits from <code>unittest.TestCase</code> as in the subsequent snippet. The class exposes a <code>setUp</code> method that allows any data or state to be utilised for the remainder of <em>that particular test</em>. Here's an example unit test setup of a "round trip" trade for Exxon-Mobil/XOM:</p>
+
+<pre>
+<code class='language-python'>class TestRoundTripXOMPosition(unittest.TestCase):
+    """
+    Test a round-trip trade in Exxon-Mobil where the initial
+    trade is a buy/long of 100 shares of XOM, at a price of
+    $74.78, with $1.00 commission.
+    """
+    def setUp(self):
+        """
+        Set up the Position object that will store the PnL.
+        """
+        self.position = Position(
+            "BOT", "XOM", Decimal('100'), 
+            Decimal("74.78"), Decimal("1.00"), 
+            Decimal('74.78'), Decimal('74.80')
+        )</code>
+</pre>
+
+<p>Notice that <code>self.position</code> is set to be a new <code>Position</code> class, where 100 shares of XOM are purchased for 74.78 USD.</p>
+
+<p>Subsequent methods, in the format of <code>test_XXXX</code>, allow unit testing of various aspects of the system. In this particular method, after the initial purchase, two more long purchases are made and finally two sales are made to net the position out to zero:</p>
+
+<pre>
+<code class='language-python'># position_test.py
+
+    def test_calculate_round_trip(self):
+        """
+        After the subsequent purchase, carry out two more buys/longs
+        and then close the position out with two additional sells/shorts.
+        The following prices have been tested against those calculated
+        via Interactive Brokers' Trader Workstation (TWS).
+        """
+        self.position.transact_shares(
+            "BOT", Decimal('100'), Decimal('74.63'), Decimal('1.00')
+        )
+        self.position.transact_shares(
+            "BOT", Decimal('250'), Decimal('74.620'), Decimal('1.25')
+        )
+        self.position.transact_shares(
+            "SLD", Decimal('200'), Decimal('74.58'), Decimal('1.00')
+        )
+        self.position.transact_shares(
+            "SLD", Decimal('250'), Decimal('75.26'), Decimal('1.25')
+        )
+        self.position.update_market_value(Decimal("77.75"), Decimal("77.77"))</code>
+</pre>
+
+<p><code>transact_shares</code> is called four times and finally the market value is updated by <code>update_market_value</code>. At this point <code>self.position</code> stores all of the various calculations and is ready to be tested, using the <code>assertEqual</code> method derived from the <code>unittest.TestCase</code> class. Notice how all of the various properties of the <code>Position</code> class are tested against externally calculated (in this case by Interactive Brokers TWS) values:</p>
+
+<pre>
+<code class='language-python'># position_test.py
+
+        self.assertEqual(self.position.action, "BOT")
+        self.assertEqual(self.position.ticker, "XOM")
+        self.assertEqual(self.position.quantity, Decimal("0"))
+        
+        self.assertEqual(self.position.buys, Decimal("450"))
+        self.assertEqual(self.position.sells, Decimal("450"))
+        self.assertEqual(self.position.net, Decimal("0"))
+        self.assertEqual(self.position.avg_bot, Decimal("74.65778"))
+        self.assertEqual(self.position.avg_sld, Decimal("74.95778"))
+        self.assertEqual(self.position.total_bot, Decimal("33596.00"))
+        self.assertEqual(self.position.total_sld, Decimal("33731.00"))
+        self.assertEqual(self.position.net_total, Decimal("135.00"))
+        self.assertEqual(self.position.total_commission, Decimal("5.50"))
+        self.assertEqual(self.position.net_incl_comm, Decimal("129.50"))
+
+        self.assertEqual(self.position.avg_price, Decimal("74.665"))
+        self.assertEqual(self.position.cost_basis, Decimal("0.00"))
+        self.assertEqual(self.position.market_value, Decimal("0.00"))
+        self.assertEqual(self.position.unrealised_pnl, Decimal("0.00"))
+        self.assertEqual(self.position.realised_pnl, Decimal("129.50"))</code>
+</pre>
+
+<p>When I execute the correct Python binary from within my virtual environment (under the command line in Ubuntu), I receive the following output:</p>
+
+<pre>
+<code class='language-bash'>(qstrader)mhallsmoore@desktop:~/sites/qstrader/approot/position$ python position_test.py</code>
+</pre>
+
+<pre>
+<code class='language=none'>
+Ran 2 tests in 0.000s
+
+OK</code>
+</pre>
+
+<p>Note that there are <em>two</em> tests within the full file, so take a look at the second test in the full listing in order to familiarise yourself with the calculations.</p>
+
+<p>Clearly there are a lot more tests that could be carried out on the <code>Position</code> class. At this stage we can be reassured that it handles the basic functionality of holding an equity position. In time, the class will likely be expanded to cope with forex, futures and options instruments, allowing a sophisticated investment strategy to be carried out within a portfolio.</p>
+
+<p>The full listing itself can be found at <a href="https://github.com/mhallsmoore/qstrader/blob/master/position/position_test.py">position_test.py</a> on Github.</p>
+
+<h2>Next Steps</h2>
+
+<p>In the following articles we are going to look at the <code>Portfolio</code> and <code>PortfolioHandler</code> classes. Both of these are currently coded up and unit tested in a basic manner. If you wish to "jump ahead" and see the code, you can take a look at the full QSTrader repository here: <a href="https://github.com/mhallsmoore/qstrader">https://github.com/mhallsmoore/qstrader</a>.</p>
+        
+        
+        <script async data-uid="6296c27f4b" src="https://weathered-brook-5281.ck.page/6296c27f4b/index.js"></script>
+      </section>
+    </div>
+    <div class="col-md-4 book-card order-md-1">
+      
+<div class="sidebar-advert-container">
+  <a href="/qsalpha/?ref=art">
+    <img class="card-img-top" src="/static/images/qsalpha-sidebar-advert-small.png" alt="QSAlpha">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/qsalpha/?ref=art">QSAlpha</a></h3>
+      <p class="card-text medium-text mb-3">Join the QSAlpha research platform that helps fill your strategy research pipeline, diversifies your portfolio and improves your risk-adjusted returns for increased profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/qsalpha/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/quantcademy/?ref=art">
+    <img class="card-img-top" src="/static/images/quantcademy-sidebar-advert-small.png" alt="Quantcademy">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/quantcademy/?ref=art">The Quantcademy</a></h3>
+      <p class="card-text medium-text mb-3">Join the Quantcademy membership portal that caters to the rapidly-growing retail quant trader community and learn how to increase your strategy profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/quantcademy/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/successful-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/sat-sidebar-advert-small.png" alt="Successful Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to find new trading strategy ideas and objectively assess them for your portfolio using a Python-based backtesting engine.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/successful-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/advanced-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/aat-sidebar-advert-small.png" alt="Advanced Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to implement advanced trading strategies using time series analysis, machine learning and Bayesian statistics with R and Python.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/advanced-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+    
+
+<footer>
+  <div class="container container-full">
+    <section class="mt-1.5 mb-1">
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">QuantStart</li>
+            <li class="footer-list-link"><a class="link-fade" href="/about/">About</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/articles/">Articles</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/sitemap/">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Products</li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qsalpha/">QSAlpha</a></li>
+            
+            
+            <li class="footer-list-link"><a class="link-fade" href="/quantcademy/">Quantcademy</a></li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qstrader/">QSTrader</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Legal</li>
+            <li class="footer-list-link"><a class="link-fade" href="/privacy-policy/">Privacy Policy</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/terms-and-conditions/">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Social</li>
+            <li class="footer-list-link"><a class="link-fade" href="https://twitter.com/quantstart">Twitter</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="https://www.youtube.com/channel/UCmVnnZ6Y2TrJtY1eQJN6kWA">YouTube</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="row mb-1.5 mt-5">
+      <div class="col-12 col-md-9 col-lg-8 col-xl-6">
+        <div class="footer-copyright">
+          <p>©2012-2023 QuarkGluon Ltd. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+<script src="/static/js/jquery-3.2.1.min.js"></script>
+<script src="/static/js/prism.js.min"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/nav.js"></script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5383959-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+    
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="/static/js/highcharts/highcharts.js"></script>
+<script type="text/javascript">
+  num_colours = 10;
+</script>
+<script src="/static/js/statistics.js"></script>
+
+
+  </body>
+</html>

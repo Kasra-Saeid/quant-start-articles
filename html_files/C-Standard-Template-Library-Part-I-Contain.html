@@ -1,0 +1,381 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-site-verification" content="wl3-8ed1QZjI0iYZMv10zoZWYElkMObTfwLlWIj9cpA" />
+    <meta name="description" content="C++ Standard Template Library Part I - Containers">
+
+    <link rel="icon" href="/static/images/favicon.png">
+
+    <title>C++ Standard Template Library Part I - Containers | QuantStart</title>
+    
+    
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet"> 
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/prism.css" rel="stylesheet">
+<link href="/static/css/qs.css?v=10" rel="stylesheet">
+    
+  </head>
+
+  <body>
+    <header class="header covered-header" style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://quantstartmedia.s3.amazonaws.com/images/article-images/article-backgrounds/cpp.jpg);">
+  
+<nav class="nav">
+  <div class="container nav-container">
+    <div class="nav-row row d-flex justify-content-between align-items-center">
+      <div class="col-2">
+        <ul class="nav-items justify-content-end small-capitals align-items-center">
+          <li class="nav-item">
+            <a class="link-fade" href="/">QuantStart</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-auto col-logo">
+        <ul id="top-nav-menu" class="nav-items justify-content-end align-items-center">
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/qsalpha/">QSAlpha</a>
+          </li>
+          
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/quantcademy/">Quantcademy</a>
+          </li>
+          
+          <li id="menu-link-ebooks" class="nav-item">
+            <a class="link-fade" href="#">Books</a>
+            <div id="menu-pane-ebooks" class="nav-items menu-dropdown-pane">
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/qstrader/">QSTrader</a>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/articles/">Articles</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/members/login/">Login</a>
+          </li>
+          
+        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<nav id="mobile-nav" class="mobile-nav text-left">
+  <div class="container">
+    <ul class="mt-4 ml-3 mobile-nav-menu">
+      <li class="nav-item">
+        <a class="link-fade d-block" href="/">QuantStart</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qsalpha/">QSAlpha</a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/quantcademy/">Quantcademy</a>
+      </li>
+      
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="#">Books</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qstrader/">QSTrader</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/articles/">Articles</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/members/login/">Login</a>
+      </li>
+      
+    </ul>
+    <button class="nav-toggle mobile-nav-close">
+      <svg id="mobile-nav-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M19.77,5.63,13.41,12l6.36,6.37a1,1,0,0,1-1.41,1.41L12,13.41,5.63,19.77a1,1,0,0,1-1.44-1.39l0,0L10.58,12,4.21,5.63a1,1,0,0,1,0-1.42,1,1,0,0,1,1.41,0l0,0L12,10.58l6.37-6.37a1,1,0,0,1,1.41,0A1,1,0,0,1,19.77,5.63Z"></path>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+  <div class="container hero-container">
+    <section class="mt-5 mb-4">
+      <div class="row justify-content-center">
+        <div class="col-12 text-center">
+          <p class="hero">C++ Standard Template Library Part I - Containers</p>
+          <p class="hero subhero">C++ Standard Template Library Part I - Containers</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</header>
+    
+<section class="container content-container">
+  <div class="row">
+    <div class="col-md-8 order-md-2">
+      <section class="content article-content">
+        
+        
+        <p>The Standard Template Library (STL) is a cross-platform standard of efficient data structures and algorithms. It is one of the most important features of C++ and will form the basis of all ongoing quantitative finance programs within this book. The STL is often confusing to novice programmers because it makes use of the <em>generic programming paradigm</em>, as opposed to the <em>object oriented paradigm</em>. In fact, it could be said that the STL is the opposite approach, in that rather than encapsulate the data and algorithms acting upon it, the STL actually separates these functions through a common <em>iterator</em> interface.</p>
+
+<p>The STL is extremely important in quantitative finance because many of the quant data structures and algorithms rely on more elementary concepts such as sorting, maxima/minima, copying, mathematical function modelling and searching. Rather than reinvent these basic algorithms from scratch, C++ provides them "out of the box". This allows you to spend more time testing your own algorithms, rather then "reinventing the wheel".</p>
+
+<p>The STL is a large library. It contains a wealth of data structures and algorithms. In this article I will attempt to give a broad overview of the STL and highlight those aspects which are relevant to quantitative finance.</p>
+
+<h2>Components of the STL</h2>
+
+<p>The STL can be broadly split into four separate components:</p>
+
+<ul>
+  <li><strong>Containers</strong> - Data structures designed to efficiently store information across a variety of generic types.</li>
+  <li><strong>Iterators</strong> - Methods by which to traverse/access the data within the containers.</li>
+  <li><strong>Algorithms</strong> - Basic algorithmic capabilities, such as sort, find, max, min, replace. Makes use of iterators to allow "container independent" code.</li>
+  <li><strong>Function Objects</strong> - a.k.a. <em>functors</em>. Used to make templates classes "callable" to allow modelling of mathematical functions.</li> 
+</ul>
+
+<p>There are extra smaller components, but these are the four that will interest us for quantitative finance work.</p>
+
+<h2>Containers</h2>
+
+<p>Containers allow certain types of data to be grouped into logical structures. The STL provides <em>generic containers</em> so that the same data structure can handle multiple different types without any additional required coding. For instance, we could create a <code>std::vector&lt;double&gt;</code> or a <code>std::vector&lt;int&gt;</code>. The former would be a <em>vector</em> of double precision values, while the latter is a vector of integer precision values. Notice that we are not required to code anything else to let the vector know we are using different types!</p>
+
+<h3>Sequence Containers</h3>
+
+<p>Sequence containers are extremely common within quantitative finance applications. They are often used to store numerical data sequentially. For instance we may want to store components of an element of a vector field or matrix of complex numbers. There are three main types of sequential containers that tend to be used the most:
+
+<ul>
+  <li><strong>Lists</strong> - The two types of list are the <em>singly-linked list</em> and the <em>doubly-linked list</em>. A singly-linked list only has forward pointers to the next element, whereas a doubly-linked list has forward and backward pointers. They do not allow <em>random access</em> to elements, but do allow fast inserts and removals.</li>
+  <li><strong>Vectors</strong> - Vectors allow fast random access to elements, but are slow for inserts and removals within the vector (as all elements need to be copied and moved). They allow fast appends and "pops" (i.e. removals from the end).</li>
+  <li><strong>Deques</strong> - i.e. <em>double-ended queues</em>. Deques are similar to vectors except that they allow fast appends/removals to both ends of the queue.</li>
+</ul>
+
+<p>There is also the <strong>valarray</strong> sequence container, which is (supposedly) optimised for numerical work. However, in practice valarray is harder to use and many modern compilers do not implement the optimisations well enough to warrant using them as an alternative to vectors.</p>
+
+<h3>Associative Containers</h3>
+
+<p>Associative containers are different to sequential containers in that there is no direct linear sequence to the elements within the container. Instead, they are <em>sorted</em> based on a comparison criterion. This criterion is often determined via the context. For instance, in a <code>std::set&lt;int&gt;</code>, the comparison operator is the <em>less than</em> (&lt;) operator. There are four main types of associative container, which differ in terms of duplicate elements and whether the <em>key</em> data and <em>value</em> data coincide:</p>
+
+<ul>
+  <li><strong>Set</strong> - A set provides a container that does not allow duplicate elements and where the data is itself the <em>key</em> and <em>value</em>. Sets can be <em>sorted</em> according to comparison functions. Here is an example of a set of integers: $\{1,2,3,4\}$.</li>
+  <li><strong>Multiset</strong> - A multiset is very similar to a set except that it can possess multiple duplicate values. Here is an example of a multiset of integers: $\{1,2,3,3,4\}$. Notice the duplicate 3s.</li>
+  <li><strong>Map</strong> - A map contains pairs of elements, the two components of which are known as the <em>key</em> and the <em>value</em>. The key is used to "look up" the value data. Maps do not allow duplicate keys, but they do provide a great deal of flexibility in what types of data can represent the keys and values. An example of a map would be a set of date keys, each of which possessed a price value, without duplicate dates.</li>
+  <li><strong>Multimap</strong> - A multimap is similar to a map except that duplicate keys are allowed. This is possible because the values can be iterated over in a sorted fashion, using the aforementioned comparison function.</li>
+</ul>
+
+<p>Although it might initially seem that associative containers are less appropriate for handling numerical data within quantitative finance, this is not actually the case. A map is ideal for holding the values of sparse matrices (such as tridiagonal or banded), which crop up in finite difference methods, for instance.</p>
+
+<h3>Container Adaptors</h3>
+
+<p>Although not strictly containers in themselves <em>container adaptors</em> are a very useful component of the STL. Container adaptors are designed to adapt the behaviour of the aforementioned containers above such that their behaviour is restricted or modified in some fashion. The three container adaptors that are of interest to us are as follows:</p>
+
+<ul>
+<li><strong>Stacks</strong> - A <em>stack</em> is a common data structure within computer science as well in day-to-day life. It represents the Last-In-First-Out (LIFO) concept, where elements are placed upon each other and the first one to be removed was the last one to be added.</li>
+<li><strong>Queues</strong> -A <em>queue</em> differs from a stack in that it represents the First-In-First-Out (FIFO) concept, where the first element added to the queue becomes the first to be removed. Queues are often used to represent task lists of "background jobs" that might need to be carried out, such as heavy-duty numerical processing.</li>
+<li><strong>Priority Queues</strong> -A <em>priority queue</em> is similar to a queue, except that elements are removed from it based on a priority comparison function. This is particularly common in operating system design where many tasks are constantly being added to a queue, but some are more essential than others and so will be executed first, even if they were added at a later point.</li>
+</ul>
+
+<p>In the next article we will discuss <a href="http://www.quantstart.com/articles/C-Standard-Template-Library-Part-II-Iterators">iterators</a> and how they allow <a href="http://www.quantstart.com/articles/C-Standard-Template-Library-Part-III-Algorithms">algorithms</a> to interface with the containers we have just discussed.</p>
+        
+        
+        <script async data-uid="6296c27f4b" src="https://weathered-brook-5281.ck.page/6296c27f4b/index.js"></script>
+      </section>
+    </div>
+    <div class="col-md-4 book-card order-md-1">
+      
+<div class="sidebar-advert-container">
+  <a href="/qsalpha/?ref=art">
+    <img class="card-img-top" src="/static/images/qsalpha-sidebar-advert-small.png" alt="QSAlpha">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/qsalpha/?ref=art">QSAlpha</a></h3>
+      <p class="card-text medium-text mb-3">Join the QSAlpha research platform that helps fill your strategy research pipeline, diversifies your portfolio and improves your risk-adjusted returns for increased profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/qsalpha/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/quantcademy/?ref=art">
+    <img class="card-img-top" src="/static/images/quantcademy-sidebar-advert-small.png" alt="Quantcademy">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/quantcademy/?ref=art">The Quantcademy</a></h3>
+      <p class="card-text medium-text mb-3">Join the Quantcademy membership portal that caters to the rapidly-growing retail quant trader community and learn how to increase your strategy profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/quantcademy/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/successful-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/sat-sidebar-advert-small.png" alt="Successful Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to find new trading strategy ideas and objectively assess them for your portfolio using a Python-based backtesting engine.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/successful-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/advanced-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/aat-sidebar-advert-small.png" alt="Advanced Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to implement advanced trading strategies using time series analysis, machine learning and Bayesian statistics with R and Python.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/advanced-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+    
+
+<footer>
+  <div class="container container-full">
+    <section class="mt-1.5 mb-1">
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">QuantStart</li>
+            <li class="footer-list-link"><a class="link-fade" href="/about/">About</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/articles/">Articles</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/sitemap/">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Products</li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qsalpha/">QSAlpha</a></li>
+            
+            
+            <li class="footer-list-link"><a class="link-fade" href="/quantcademy/">Quantcademy</a></li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qstrader/">QSTrader</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Legal</li>
+            <li class="footer-list-link"><a class="link-fade" href="/privacy-policy/">Privacy Policy</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/terms-and-conditions/">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Social</li>
+            <li class="footer-list-link"><a class="link-fade" href="https://twitter.com/quantstart">Twitter</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="https://www.youtube.com/channel/UCmVnnZ6Y2TrJtY1eQJN6kWA">YouTube</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="row mb-1.5 mt-5">
+      <div class="col-12 col-md-9 col-lg-8 col-xl-6">
+        <div class="footer-copyright">
+          <p>©2012-2023 QuarkGluon Ltd. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+<script src="/static/js/jquery-3.2.1.min.js"></script>
+<script src="/static/js/prism.js.min"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/nav.js"></script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5383959-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+    
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="/static/js/highcharts/highcharts.js"></script>
+<script type="text/javascript">
+  num_colours = 10;
+</script>
+<script src="/static/js/statistics.js"></script>
+
+
+  </body>
+</html>

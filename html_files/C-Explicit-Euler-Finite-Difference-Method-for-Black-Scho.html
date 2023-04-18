@@ -1,0 +1,1030 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-site-verification" content="wl3-8ed1QZjI0iYZMv10zoZWYElkMObTfwLlWIj9cpA" />
+    <meta name="description" content="C++ Explicit Euler Finite Difference Method for Black Scholes">
+
+    <link rel="icon" href="/static/images/favicon.png">
+
+    <title>C++ Explicit Euler Finite Difference Method for Black Scholes | QuantStart</title>
+    
+    
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet"> 
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/prism.css" rel="stylesheet">
+<link href="/static/css/qs.css?v=10" rel="stylesheet">
+    
+  </head>
+
+  <body>
+    <header class="header covered-header" style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://quantstartmedia.s3.amazonaws.com/images/article-images/article-backgrounds/cpp.jpg);">
+  
+<nav class="nav">
+  <div class="container nav-container">
+    <div class="nav-row row d-flex justify-content-between align-items-center">
+      <div class="col-2">
+        <ul class="nav-items justify-content-end small-capitals align-items-center">
+          <li class="nav-item">
+            <a class="link-fade" href="/">QuantStart</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-auto col-logo">
+        <ul id="top-nav-menu" class="nav-items justify-content-end align-items-center">
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/qsalpha/">QSAlpha</a>
+          </li>
+          
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/quantcademy/">Quantcademy</a>
+          </li>
+          
+          <li id="menu-link-ebooks" class="nav-item">
+            <a class="link-fade" href="#">Books</a>
+            <div id="menu-pane-ebooks" class="nav-items menu-dropdown-pane">
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/qstrader/">QSTrader</a>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/articles/">Articles</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/members/login/">Login</a>
+          </li>
+          
+        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<nav id="mobile-nav" class="mobile-nav text-left">
+  <div class="container">
+    <ul class="mt-4 ml-3 mobile-nav-menu">
+      <li class="nav-item">
+        <a class="link-fade d-block" href="/">QuantStart</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qsalpha/">QSAlpha</a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/quantcademy/">Quantcademy</a>
+      </li>
+      
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="#">Books</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qstrader/">QSTrader</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/articles/">Articles</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/members/login/">Login</a>
+      </li>
+      
+    </ul>
+    <button class="nav-toggle mobile-nav-close">
+      <svg id="mobile-nav-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M19.77,5.63,13.41,12l6.36,6.37a1,1,0,0,1-1.41,1.41L12,13.41,5.63,19.77a1,1,0,0,1-1.44-1.39l0,0L10.58,12,4.21,5.63a1,1,0,0,1,0-1.42,1,1,0,0,1,1.41,0l0,0L12,10.58l6.37-6.37a1,1,0,0,1,1.41,0A1,1,0,0,1,19.77,5.63Z"></path>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+  <div class="container hero-container">
+    <section class="mt-5 mb-4">
+      <div class="row justify-content-center">
+        <div class="col-12 text-center">
+          <p class="hero">C++ Explicit Euler Finite Difference Method for Black Scholes</p>
+          <p class="hero subhero">C++ Explicit Euler Finite Difference Method for Black Scholes</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</header>
+    
+<section class="container content-container">
+  <div class="row">
+    <div class="col-md-8 order-md-2">
+      <section class="content article-content">
+        
+        
+        <p>We've spent a lot of time on QuantStart looking at Monte Carlo Methods for pricing of derivatives. However, we've so far neglected a very deep theory of pricing that takes a different approach. In this article we are going to make use of Finite Difference Methods (FDM) in order to price European options, via the <strong>Explicit Euler Method</strong>.</p>
+
+<p>Finite Difference Methods are extremely common in fields such as fluid dynamics where they are used to provide numerical solutions to partial differential equations (PDE), which often possess no analytical equivalent. Finite Difference Methods are relevant to us since the Black Scholes equation, which represents the price of an option as a function of underlying asset spot price, is a partial differential equation. In particular, it is actually a <strong><a href="http://en.wikipedia.org/wiki/Convection%E2%80%93diffusion_equation">convection-diffusion equation</a></strong>, a type of second-order PDE.</p>
+
+<p>Finite Difference Methods make appropriate approximations to the derivative terms in a PDE, such that the problem is reduced from a continuous differential equation to a finite set of discrete algebraic equations. The solution of these equations, under certain conditions, approximates the continuous solution. By refining the number of discretisation points it is possible to more closely approximate the continuous solution to any accuracy desired, assuming certain <em>stability conditions</em>.</p>
+
+<p>Finite Difference Methods use a <em>time-marching</em> approach to take a known approximate solution at time $N$, $C^n$, and calculate a new approximate solution at a stepped time $N+1$, $C^{n+1}$. However, the Black-Scholes equation is slightly different in that the known solution is actually the pay-off of the option at expiry time, $T$. Hence time is marched <em>backwards</em> from the expiry point to the initial time, $t=0$. This is analogous to the diffusion of heat in the <em>heat equation</em>. <em>In fact, the Black-Scholes can be transformed into the heat equation by a suitable coordinate change and solved analytically, although this is beyond the scope of this article!</em></p>
+
+<p>In order to obtain a solution to the Black-Scholes PDE for a European vanilla call option, we will carry out the following steps:</p>
+
+<ul>
+  <li><strong>Describe the PDE</strong> - Our first task is to outline the mathematical formalism by describing the Black-Scholes equation itself along with any initial and boundary conditions that apply as well as the domain over which the solution will be calculated.</li>
+  <li><strong>Discretisation</strong> - We will then discretise the Black-Scholes PDE using suitable approximations to the derivative terms.</li>
+  <li><strong>Object Orientation</strong> - Once we have the discretisation in place we will decide how to define the objects representing our finite difference method in C++ code.</li>
+  <li><strong>Execution and Output</strong> - After we have created all of the C++ code for the implementation, and executed it, we will plot the resulting option pricing surface using Python and <a href="http://matplotlib.org">matplotlib</a>.</li>
+</ul>
+
+<p>The formula for the Black-Scholes PDE is as follows:</p>
+
+\begin{eqnarray*}
+-\frac{\partial C}{\partial t} + rS\frac{\partial C}{\partial S}+\frac{1}{2} \sigma^2 S^2 \frac{\partial^2 C}{\partial S^2} - rC = 0
+\end{eqnarray*}
+
+<p>Our goal is to find a <em>stable</em> discretisation for this formula that we can implement. It will produce an option pricing surface, $C(S,t)$ as a function of spot $S$ and time $t$ that we can plot.</p>
+
+<h2>Black-Scholes PDE for a European Call Option</h2>
+
+<p>In this article we are going to start simply by approximating the solution to a European vanilla call option. In fact an analytic solution exists for such an option. However, our task here is to outline the Finite Difference Method, not to solve the most exotic option we can find right away!</p>
+
+<p>In order to carry out the procedure we must specify the Black-Scholes PDE, the domain on which the solution will exist and the constraints - namely the initial and boundary conditions - that apply. Here is the full mathematical formalism of the problem:</p>
+
+\begin{eqnarray*}
+\frac{\partial C}{\partial t} &=& rS\frac{\partial C}{\partial S}+\frac{1}{2} \sigma^2 S^2 \frac{\partial^2 C}{\partial S^2} - rC \\[10pt]
+C(0,t) &=& 0, \hspace{4pt} C(S_{\max},t)=S_{\max} - K e^{-r(T-t)}, \hspace{10pt} 0 \leq t \leq T \\[10pt]
+C(S,T) &=& \max(S-K,0), \hspace{10pt} 0 \leq S \leq S_{\max}
+\end{eqnarray*}
+
+<p>Let's step through the problem. The first line is simply the Black-Scholes equation.</p>
+
+<p>The second line describes the <strong>boundary conditions</strong> for the case of a European vanilla call option. The left-hand boundary equation states that on the left-boundary, for all times up to expiry, the value of the call will equal $0$. The right-hand equation for the right-boundary states that, for all times up to expiry, the value of the call will equal the pay-off function, albeit slightly adjusted to take into account discounting due to the risk-free rate, $r$. This is a consequence of <a href="http://en.wikipedia.org/wiki/Put%E2%80%93call_parity">Put-Call Parity</a>. Both of these boundary conditions are of the <a href="http://en.wikipedia.org/wiki/Dirichlet_boundary_condition">Dirichlet</a> type.</p>
+
+<p>The final line is the <strong>initial condition</strong>, which describes how the solution should behave at the start of the time-marching procedure. Since we are marching backwards, this is actually the final pay-off of the option at expiry, which is the familiar expression for a vanilla call option pay-off.</p>
+
+<h2>Finite Difference Discretisation</h2>
+
+<p>Now that we have specified the continuous problem mathematically, we have to take this and create a finite set of discretised algebraic equations, which are able to be solved by the computer. I've already discussed how to <a href="http://www.quantstart.com/articles/Solving-the-Diffusion-Equation-Explicitly">discretise the heat equation</a>. This is a very similar procedure. We will make use of <em>forward differencing</em> for the time partial derivative, <em>centred differencing</em> for the first order spatial derivative and a <em>centred second difference</em> for the diffusion term:</p>
+
+\begin{eqnarray*}
+-\frac{C^{n+1}-C^n}{\Delta t} + \frac{1}{2} \sigma^2 S^2_j \left( \frac{C^n_{j+1} - 2 C^n_j + C^n_{j-1}}{\Delta x^2} \right) + r S_j \left( \frac{C^n_{j+1}-C^n_{j-1}}{2 \Delta x} \right) - r C^n_j = 0
+\end{eqnarray*}
+
+<p>This can be rearranged so that the solution at time level $N+1$ is given in terms of the solution at time level $N$. This is what gives the method its <em>explicit</em> name. The solution is <em>explicitly</em> dependent upon previous time levels. In later FDM methods we will see that this does not have to be the case. Here is the rearranged equation:</p>
+
+\begin{eqnarray*}
+C^{n+1}_j = \alpha_j C^{n}_{j-1} + \beta_j C^n_j + \gamma_j C^n_{j+1}
+\end{eqnarray*}
+
+<p>In order to describe these coefficients succinctly we can use the fact that the spot values, $S_j$, increase linearly with $\Delta x$. Therefore $S_j = j\Delta x$. After some algebraic rearrangement, the coefficients are given by:</p>
+
+\begin{eqnarray*}
+\alpha_j &=& \frac{\sigma^2 j^2 \Delta t}{2} - \frac{rj\Delta t}{2}\\[5pt]
+\beta_j &=& 1 - \sigma^2 j^2 \Delta t - r\Delta t\\[5pt]
+\gamma_j &=& \frac{\sigma^2 j^2 \Delta t}{2} + \frac{rj\Delta t}{2} 
+\end{eqnarray*}
+
+<p>This provides us with everything we need to begin our Finite Difference implementation.</p>
+
+<p><em>Note that I have not discussed some extremely important topics with regards to finite difference methods - particularly <strong>consistency</strong>, <strong>stability</strong> and <strong>convergence</strong>. These are all deep areas of numerical analysis in their own right. However, I will be going into more detail about these topics in later articles!</em></p>
+
+<h2>Implementation</h2>
+
+<p>We're now ready to begin turning our mathematical algorithm into a C++ implementation. At this stage it isn't immediately obvious how we will go about doing this. One could create a monolithic procedural code to calculate the entire solution. However, frequent QuantStarters will know that this is a suboptimal approach for many reasons. Instead we will make use of the object-oriented paradigm, as well as previous code that we have already written, in order to save development time.</p>
+
+<p>Let's discuss the classes which will form the basis of our FDM solver:</p>
+
+<ul>
+  <li><strong>PayOff</strong> - This class represents the pay-off functionality of an option. It is also a <a href="http://www.quantstart.com/articles/Function-Objects-Functors-in-C-Part-1">functor</a>. We have already made extensive use of it in our Monte Carlo options pricing articles. I have added the code listing below for completeness.</li>
+  <li><strong>VanillaOption</strong> - This is a simple class that encapsulates the option parameters. We are using it as well as <code>PayOff</code> as we will want to extend the FDM solver to allow more exotic options in the future.</li>
+  <li><strong>ConvectionDiffusionPDE</strong> - This is an <em>abstract base class</em> designed to provide an interface to all subsequent derived classes. It consists of pure virtual functions representing the various coefficients of the PDE as well as boundary and initial conditions.</li>
+  <li><strong>BlackScholesPDE</strong> - This inherits from <code>ConvectionDiffusionPDE</code> and provides concrete implementations of the coefficients and boundary/initial conditions specific to the Black-Scholes equation.</li>
+  <li><strong>FDMBase</strong> - This is another abstract base class that provides discretisation parameters and result storage for the Finite Difference scheme. It possesses a pointer to a <code>ConvectionDiffusionPDE</code>.</li>
+  <li><strong>FDMEulerExplicit</strong> - This inherits from <code>FDMBase</code> and provides concrete methods for the Finite Difference scheme methods for the particular case of the Explicit Euler Method, which we described above.</li>
+</ul>
+
+<p>Let's now describe each class in detail.</p>
+
+<h3>PayOff Class</h3>
+
+<p>I don't want elaborate too much on the <code>PayOff</code> class as it has been discussed before in other articles, such as when <a href="http://www.quantstart.com/articles/Asian-option-pricing-with-C-via-Monte-Carlo-Methods">pricing Asian options by Monte Carlo</a>. However, I have included the listings for the header and source files for completeness.</p> 
+
+<p>Here is the listing for <code>payoff.h</code>:</p>
+
+<pre>
+<code class="language-cpp">#ifndef __PAY_OFF_HPP
+#define __PAY_OFF_HPP
+
+#include &lt;algorithm&gt; // This is needed for the std::max comparison function, used in the pay-off calculations
+
+class PayOff {
+ public:
+  PayOff(); // Default (no parameter) constructor
+  virtual ~PayOff() {}; // Virtual destructor
+
+  // Overloaded () operator, turns the PayOff into an abstract function object
+  virtual double operator() (const double& S) const = 0;
+};
+
+class PayOffCall : public PayOff {
+ private:
+  double K; // Strike price
+
+ public:
+  PayOffCall(const double& K_);
+  virtual ~PayOffCall() {};
+
+  // Virtual function is now over-ridden (not pure-virtual anymore)
+  virtual double operator() (const double& S) const;
+};
+
+class PayOffPut : public PayOff {
+ private:
+  double K; // Strike
+
+ public:
+  PayOffPut(const double& K_);
+  virtual ~PayOffPut() {};
+  virtual double operator() (const double& S) const;
+};
+
+#endif</code>
+</pre>
+
+<p>Here is the listing for <code>payoff.cpp</code>:</p>
+
+<pre>
+<code class="language-cpp">#ifndef __PAY_OFF_CPP
+#define __PAY_OFF_CPP
+
+#include "payoff.h"
+
+PayOff::PayOff() {}
+
+// ==========
+// PayOffCall
+// ==========
+
+// Constructor with single strike parameter
+PayOffCall::PayOffCall(const double& _K) { K = _K; }
+
+// Over-ridden operator() method, which turns PayOffCall into a function object
+double PayOffCall::operator() (const double& S) const {
+  return std::max(S-K, 0.0); // Standard European call pay-off
+}
+
+// =========
+// PayOffPut
+// =========
+
+// Constructor with single strike parameter
+PayOffPut::PayOffPut(const double& _K) {
+  K = _K;
+}
+
+// Over-ridden operator() method, which turns PayOffPut into a function object
+double PayOffPut::operator() (const double& S) const {
+  return std::max(K-S, 0.0); // Standard European put pay-off
+}
+
+#endif</code>
+</pre>
+
+<h3>VanillaOption Class</h3>
+
+<p>In the future we may wish to price many differing types of exotic options via Finite Difference Methods. Thus it is sensible to create a <code>VanillaOption</code> class to encapsulate this functionality. In particular, we are going to encapsulate the storage of the parameters of a European vanilla option. Despite the fact that the interest rate, $r$, and the volatility, $\sigma$, are not part of an option <em>term sheet</em>, we will include them as parameters for simplicity.</p>
+
+<p>The notable component of the option is the pointer to a <code>PayOff</code> class. This allows us to use a call, put or some other form of pay-off without needing to expose this to the "outside world", which in this instance refers to the FDM solver.</p> 
+
+<p>Here is the listing for <code>option.h</code>:</p>
+
+<pre>
+<code class="language-cpp">#ifndef __VANILLA_OPTION_H
+#define __VANILLA_OPTION_H
+
+#include "payoff.h"
+
+class VanillaOption {
+ public:
+  PayOff* pay_off;
+
+  double K;
+  double r;
+  double T;
+  double sigma;
+
+  VanillaOption();
+  VanillaOption(double _K, double _r, double _T, 
+                double _sigma, PayOff* _pay_off);
+};
+
+#endif</code>
+</pre>
+
+<p>The source file only really provides implementations for the constructors, both of which are blank as the member initialisation list takes care of member initialisation.</p>
+
+<p>Here is the listing for <code>option.cpp</code>:</p>
+
+<pre>
+<code class="language-cpp">#ifndef __VANILLA_OPTION_CPP
+#define __VANILLA_OPTION_CPP
+
+#include "option.h"
+
+VanillaOption::VanillaOption() {}
+
+VanillaOption::VanillaOption(double _K, double _r, double _T, 
+                             double _sigma, PayOff* _pay_off) : 
+  K(_K), r(_r), T(_T), sigma(_sigma), pay_off(_pay_off) {}
+
+#endif</code>
+</pre>
+
+<h3>PDE Classes</h3>
+
+<p>Separating the mathematical formalism of the PDE with the finite difference method that solves it leads to the creation of the <code>ConvectionDiffusionPDE</code> and <code>BlackScholesPDE</code> classes. <code>ConvectionDiffusionPDE</code> is simply an abstract base class, providing an interface for all subsequent inherited classes.</p>
+
+<p>The pure virtual methods consist of all of the coefficients found in a second-order convection-diffusion PDE. In addition, pure virtual methods are provided for "left" and "right" boundary conditions. Thus we are defining a one-dimensional (in 'space') PDE here, as is evident by the parameters for each method - they only require a single spatial value $x$, along with the temporal parameter, $t$. The final method is <code>init_cond</code>, which allows an initial condition to be applied to the PDE.</p>
+
+<p>The big difference between <code>BlackScholesPDE</code> and <code>ConvectionDiffusionPDE</code>, apart from the abstractness of the latter, is that <code>BlackScholesPDE</code> contains a public pointer member to a <code>VanillaOption</code> class, which is where it obtains the parameters necessary for the calculation of the coefficients.</p>
+
+<p>Here is the listing for <code>pde.h</code>:</p> 
+
+<pre>
+<code class="language-cpp">#ifndef __PDE_H
+#define __PDE_H
+
+#include "option.h"
+
+// Convection Diffusion Equation - Second-order PDE
+class ConvectionDiffusionPDE {
+ public:
+  // PDE Coefficients 
+  virtual double diff_coeff(double t, double x) const = 0;
+  virtual double conv_coeff(double t, double x) const = 0;
+  virtual double zero_coeff(double t, double x) const = 0;
+  virtual double source_coeff(double t, double x) const = 0;
+
+  // Boundary and initial conditions
+  virtual double boundary_left(double t, double x) const = 0;
+  virtual double boundary_right(double t, double x) const = 0;
+  virtual double init_cond(double x) const = 0;
+};
+
+// Black-Scholes PDE
+class BlackScholesPDE : public ConvectionDiffusionPDE {
+ public:
+  VanillaOption* option;
+  BlackScholesPDE(VanillaOption* _option);
+  
+  double diff_coeff(double t, double x) const;
+  double conv_coeff(double t, double x) const;
+  double zero_coeff(double t, double x) const;
+  double source_coeff(double t, double x) const;
+
+  double boundary_left(double t, double x) const;
+  double boundary_right(double t, double x) const;
+  double init_cond(double x) const;
+};
+
+#endif</code>
+</pre>
+
+<p>The source file <code>pde.cpp</code> implements the virtual methods for the <code>BlackScholesPDE</code> class. In particular, the diffusion, convection, zero-term and source coefficients are provided, based on the Black-Scholes equation. In this instance, $x$ is the spot price.</p>
+
+<p><code>diff_coeff</code>, <code>conv_coeff</code>, <code>zero_coeff</code> and <code>source_coeff</code> are self-explanatory from the Black-Scholes PDE. However, note that the way to access the parameters from the option is through the dereferenced pointer member access syntax. <code>option-&gt;r</code> is equivalent to <code>(*option).r</code>.</p>
+
+<p>The right boundary condition makes use of <a href="http://en.wikipedia.org/wiki/Put%E2%80%93call_parity">Put-Call Parity</a> and is actually a <a href="http://en.wikipedia.org/wiki/Dirichlet_boundary_condition">Dirichlet</a> specification. The left boundary is also Dirichlet and set to 0.</p>
+
+<p>The syntax for <code>init_cond</code> may require some explanation. Essentially the option and subsequent pay-off are being dereferenced by the pointer member access syntax at which point the function call operator <code>operator()</code> is called on the pay-off. This is possible because it is a <a href="http://www.quantstart.com/articles/Function-Objects-Functors-in-C-Part-1">functor</a>.</p>
+
+<p>Here is a listing for <code>pde.cpp</code>:</p>
+
+<pre>
+<code class="language-cpp">#ifndef __PDE_CPP
+#define __PDE_CPP
+
+#include "pde.h"
+#include &lt;math.h&gt;
+
+BlackScholesPDE::BlackScholesPDE(VanillaOption* _option) : option(_option) {}
+
+// Diffusion coefficient
+double BlackScholesPDE::diff_coeff(double t, double x) const {
+  double vol = option-&gt;sigma;
+  return 0.5*vol*vol*x*x;  // \frac{1}{2} \sigma^2 S^2
+}
+
+// Convection coefficient
+double BlackScholesPDE::conv_coeff(double t, double x) const {
+  return (option-&gt;r)*x;  // rS
+}
+
+// Zero-term coefficient
+double BlackScholesPDE::zero_coeff(double t, double x) const {
+  return -(option-&gt;r);  // -r
+}
+
+// Source coefficient
+double BlackScholesPDE::source_coeff(double t, double x) const {
+  return 0.0;
+}
+
+// Left boundary-condition (vanilla call option)
+double BlackScholesPDE::boundary_left(double t, double x) const {
+  return 0.0;  // Specifically for a CALL option
+}
+
+// Right boundary-condition (vanilla call option)
+double BlackScholesPDE::boundary_right(double t, double x) const {
+  // This is via Put-Call Parity and works for a call option
+  return (x-(option-&gt;K)*exp(-(option-&gt;r)*((option-&gt;T)-t))); 
+}
+
+// Initial condition (vanilla call option)
+double BlackScholesPDE::init_cond(double x) const {
+  return option-&gt;pay_off-&gt;operator()(x);
+}
+
+#endif</code>
+</pre>
+
+<h3>FDM Class</h3>
+
+<p>The separation of the PDE from the Finite Difference Method to solve it means that we need a separate inheritance hierarchy for FDM discretisation. <code>FDMBase</code> constitutes the abstract base class for a FDM solver specific to a convection-diffusion PDE. It contains members for parameters related to spatial discretisation, temporal discretisation, time-marching, the coefficients for the actual derivative approximation as well as storage for the current and previous solutions. The comments in the listing should be explanatory for each of the values.</p>
+
+<p>There are five pure virtual methods to implement in the derived classes. <code>calculate_step_sizes</code> is called on construction and populates all of the spatial and temporal step sizes. <code>set_initial_conditions</code> makes use of the PDE itself, and subsequently the option pay-off, to create the solution pay-off profile at expiry, i.e. the "initial" condition. <code>calculate_boundary_conditions</code> is called on every time-step to set the boundary conditions. In the case of <code>FDMEulerExplicit</code>, with the Black-Scholes European vanilla call, these are Dirichlet conditions.</p>
+
+<p><code>calculate_inner_domain</code> updates all solution discretisation points which do not lie on the boundary. The bulk of the work is carried out in this method. The client interacts with an FDM solver via the public method <code>step_march</code>, which performs the actual time looping across the temporal domain.</p>
+
+<p>Here is the listing for <code>fdm.h</code>:</p>
+
+<pre>
+<code class="language-cpp">#ifndef __FDM_H
+#define __FDM_H
+
+#include "pde.h"
+#include &lt;vector&gt;
+
+// Finite Difference Method - Abstract Base Class
+class FDMBase {
+ protected:
+  ConvectionDiffusionPDE* pde;
+
+  // Space discretisation
+  double x_dom;      // Spatial extent [0.0, x_dom]
+  unsigned long J;   // Number of spatial differencing points
+  double dx;         // Spatial step size (calculated from above)
+  std::vector&lt;double&gt; x_values;  // Stores the coordinates of the x dimension
+
+  // Time discretisation
+  double t_dom;      // Temporal extent [0.0, t_dom]
+  unsigned long N;   // Number of temporal differencing points
+  double dt;         // Temporal step size (calculated from above)
+
+  // Time-marching
+  double prev_t, cur_t;   // Current and previous times
+
+  // Differencing coefficients
+  double alpha, beta, gamma;
+
+  // Storage
+  std::vector&lt;double&gt; new_result;   // New solution (becomes N+1)
+  std::vector&lt;double&gt; old_result;   // Old solution (becomes N)
+
+  // Constructor
+  FDMBase(double _x_dom, unsigned long _J,
+          double _t_dom, unsigned long _N,
+          ConvectionDiffusionPDE* _pde);
+
+  // Override these virtual methods in derived classes for 
+  // specific FDM techniques, such as explicit Euler, Crank-Nicolson, etc.
+  virtual void calculate_step_sizes() = 0;
+  virtual void set_initial_conditions() = 0;
+  virtual void calculate_boundary_conditions() = 0;
+  virtual void calculate_inner_domain() = 0;
+
+ public:
+  // Carry out the actual time-stepping
+  virtual void step_march() = 0;
+};
+
+class FDMEulerExplicit : public FDMBase {
+ protected:
+  void calculate_step_sizes();
+  void set_initial_conditions();
+  void calculate_boundary_conditions();
+  void calculate_inner_domain();
+
+ public:
+  FDMEulerExplicit(double _x_dom, unsigned long _J,
+                   double _t_dom, unsigned long _N,
+                   ConvectionDiffusionPDE* _pde);
+
+  void step_march();
+};
+
+#endif</code> 
+</pre>
+
+<p>The source listing for the FDM hierarchy, <code>fdm.cpp</code> contains some tricky code. We'll run through each part separately below. Here's the full listing before we get started:</p>
+
+<pre>
+<code class="language-cpp">#ifndef __FDM_CPP
+#define __FDM_CPP
+
+#include &lt;fstream&gt;
+#include "fdm.h"
+
+FDMBase::FDMBase(double _x_dom, unsigned long _J,
+                 double _t_dom, unsigned long _N,
+                 ConvectionDiffusionPDE* _pde) 
+  : x_dom(_x_dom), J(_J), t_dom(_t_dom), N(_N), pde(_pde) {}
+
+FDMEulerExplicit::FDMEulerExplicit(double _x_dom, unsigned long _J,
+                                   double _t_dom, unsigned long _N,
+                                   ConvectionDiffusionPDE* _pde) 
+  : FDMBase(_x_dom, _J, _t_dom, _N, _pde) {
+  calculate_step_sizes();
+  set_initial_conditions();
+}
+
+void FDMEulerExplicit::calculate_step_sizes() {
+  dx = x_dom/static_cast&lt;double&gt;(J-1);
+  dt = t_dom/static_cast&lt;double&gt;(N-1);
+}
+
+void FDMEulerExplicit::set_initial_conditions() {
+  // Spatial settings
+  double cur_spot = 0.0;
+
+  old_result.resize(J, 0.0);
+  new_result.resize(J, 0.0);
+  x_values.resize(J, 0.0);
+
+  for (unsigned long j=0; j&lt;J; j++) {
+    cur_spot = static_cast&lt;double&gt;(j)*dx;
+    old_result[j] = pde-&gt;init_cond(cur_spot);
+    x_values[j] = cur_spot;
+  }
+
+  // Temporal settings
+  prev_t = 0.0;
+  cur_t = 0.0;
+}
+
+void FDMEulerExplicit::calculate_boundary_conditions() {
+  new_result[0] = pde-&gt;boundary_left(prev_t, x_values[0]);
+  new_result[J-1] = pde-&gt;boundary_right(prev_t, x_values[J-1]);
+}
+
+void FDMEulerExplicit::calculate_inner_domain() {
+  // Only use inner result indices (1 to J-2)
+  for (unsigned long j=1; j&lt;J-1; j++) {
+    // Temporary variables used throughout
+    double dt_sig = dt * (pde-&gt;diff_coeff(prev_t, x_values[j]));
+    double dt_sig_2 = dt * dx * 0.5 * (pde->conv_coeff(prev_t, x_values[j]));
+
+    // Differencing coefficients (see \alpha, \beta and \gamma in text)
+    alpha = dt_sig - dt_sig_2;
+    beta = dx * dx - (2.0 * dt_sig) + (dt * dx * dx * (pde->zero_coeff(prev_t, x_values[j])));
+    gamma = dt_sig + dt_sig_2;
+
+    // Update inner values of spatial discretisation grid (Explicit Euler)
+    new_result[j] = ( (alpha * old_result[j-1]) + 
+                      (beta * old_result[j]) + 
+                      (gamma * old_result[j+1]) )/(dx*dx) - 
+      (dt*(pde-&gt;source_coeff(prev_t, x_values[j])));
+  }
+}
+
+void FDMEulerExplicit::step_march() { 
+  std::ofstream fdm_out("fdm.csv");
+
+  while(cur_t &lt; t_dom) {
+    cur_t = prev_t + dt;
+    calculate_boundary_conditions();
+    calculate_inner_domain();
+    for (int j=0; j&lt;J; j++) {
+      fdm_out &lt;&lt; x_values[j] &lt;&lt; " " &lt;&lt; prev_t &lt;&lt; " " &lt;&lt; new_result[j] &lt;&lt; std::endl;
+    }
+    
+    old_result = new_result;
+    prev_t = cur_t;
+  }
+
+  fdm_out.close();
+}
+
+#endif</code>
+</pre>
+
+<p>Let's go through each part in turn. The first thing to note is that we're including the <code>stream</code> library. This is necessary to output the solution surface to disk:</p>
+
+<pre>
+<code class="language-cpp">#include &lt;fstream&gt;</code>
+</pre>
+
+<p>You'll notice that we actually need to implement a constructor for the abstract base class <code>FDMBase</code>. This is because it is actually storing member data and so we need to call this constructor from a derived class' member initialisation list:</p>
+
+<pre>
+<code class="language-cpp">FDMBase::FDMBase(double _x_dom, unsigned long _J,
+                 double _t_dom, unsigned long _N,
+                 ConvectionDiffusionPDE* _pde) 
+  : x_dom(_x_dom), J(_J), t_dom(_t_dom), N(_N), pde(_pde) {}</code>
+</pre>
+
+<p>The constructor for <code>FDMEulerExplicit</code> initialises the parent class members, as well as calls the methods to fill in the step sizes and initial conditions:</p>
+
+<pre>
+<code class="language-cpp">FDMEulerExplicit::FDMEulerExplicit(double _x_dom, unsigned long _J,
+                                   double _t_dom, unsigned long _N,
+                                   ConvectionDiffusionPDE* _pde) 
+  : FDMBase(_x_dom, _J, _t_dom, _N, _pde) {
+  calculate_step_sizes();
+  set_initial_conditions();
+}</code>
+</pre>
+
+<p>For $N$ temporal discretisation points we have $N-1$ intervals. Similarly for the spatial discretisation. This method calculates these steps values for later use:</p>
+
+<p><em>Note that in more sophisticated finite difference solvers the step size need not be constant. One can create "stretched grids" where areas of interest (such as boundaries) are given greater resolution at the expense of poorer resolution where it is less important.</em></p>
+
+<pre>
+<code class="language-cpp">void FDMEulerExplicit::calculate_step_sizes() {
+  dx = x_dom/static_cast&lt;double&gt;(J-1);
+  dt = t_dom/static_cast&lt;double&gt;(N-1);
+}</code>
+</pre>
+
+<p>Now that the step sizes are set it is time to pre-fill the initial condition. All of the spatial arrays are set to have $J$ points and are zeroed. Then the method loops these arrays and uses the pointer to the PDE to obtain the initial condition as a function of spot. We also have a useful "helper" array, <code>x_values</code> which stores the spot value at each discretisation point to save us calculating it every time step. Finally, we set the current and previous times to zero:</p>
+
+<pre>
+<code class="language-cpp">void FDMEulerExplicit::set_initial_conditions() {
+  // Spatial settings
+  double cur_spot = 0.0;
+
+  old_result.resize(J, 0.0);
+  new_result.resize(J, 0.0);
+  x_values.resize(J, 0.0);
+
+  for (unsigned long j=0; j&lt;J; j++) {
+    cur_spot = static_cast&lt;double&gt;(j)*dx;
+    old_result[j] = pde-&gt;init_cond(cur_spot);
+    x_values[j] = cur_spot;
+  }
+
+  // Temporal settings
+  prev_t = 0.0;
+  cur_t = 0.0;
+}</code>
+</pre>
+
+<p>Now that the initial conditions are set we can begin the time-marching. However, in each time step we must first set the boundary conditions. In this instance the edge points (at index $0$ and index $J-1$) are set using the PDE <code>boundary_left</code> and <code>boundary_right</code> method. This is an example of a Dirichlet condition. More sophisticated boundary conditions approximate the derivative at these points (Neumann conditions), although we won't be utilising these conditions here:</p>
+
+<pre>
+<code class="language-cpp">void FDMEulerExplicit::calculate_boundary_conditions() {
+  new_result[0] = pde-&gt;boundary_left(prev_t, x_values[0]);
+  new_result[J-1] = pde-&gt;boundary_right(prev_t, x_values[J-1]);
+}</code>
+</pre>
+
+<p>The "meat" of the FDM solver occurs in the <code>calculate_inner_domain</code> method. Let's run through how it works. A loop is carried out over the spatial cells - but only those away from the boundary, hence the index $1$ to $J-2$. In order to save excessive repetitive calculation (and enhance readability), we create two helper variables called <code>dt_sig</code> and <code>dt_sig_2</code>. If you refer back to the mathematical formalism at the top of the article, it will be apparent where these variables arise from.</p>
+
+<p>The next step is to calculate the $\alpha$, $\beta$ and $\gamma$ coefficients which represent the algebraic rearrangement of the derivative discretisation. Again, these terms will be clear from the above mathematical formalism. In fact, I've tried to make the C++ implementation as close as possible to the mathematical algorithm in order to make it easier to follow! Notice that we need to obtain certain coefficients via pointer dereferencing of the underlying PDE.</p>
+
+<p>Once $\alpha$, $\beta$ and $\gamma$ are defined we can use the finite differencing to update the solution into the <code>new_result</code> vector. This formula will also be clear from the mathematical algorithm above:</p>
+
+<pre>
+<code class="language-cpp">void FDMEulerExplicit::calculate_inner_domain() {
+  // Only use inner result indices (1 to J-2)
+  for (unsigned long j=1; j&lt;J-1; j++) {
+    // Temporary variables used throughout
+    double dt_sig = dt * (pde-&gt;diff_coeff(prev_t, x_values[j]));
+    double dt_sig_2 = dt * dx * 0.5 * (pde->conv_coeff(prev_t, x_values[j]));
+
+    // Differencing coefficients (see \alpha, \beta and \gamma in text)
+    alpha = dt_sig - dt_sig_2;
+    beta = dx * dx - (2.0 * dt_sig) + (dt * dx * dx * (pde->zero_coeff(prev_t, x_values[j])));
+    gamma = dt_sig + dt_sig_2;
+
+    // Update inner values of spatial discretisation grid (Explicit Euler)
+    new_result[j] = ( (alpha * old_result[j-1]) + 
+                      (beta * old_result[j]) + 
+                      (gamma * old_result[j+1]) )/(dx*dx) - 
+      (dt*(pde-&gt;source_coeff(prev_t, x_values[j])));
+  }
+}</code>
+</pre>
+
+<p>Now that all of the prior pure virtual methods have been given an implementation in the derived <code>FDMEulerExplicit</code> class it is possible to write the <code>step_march</code> method to "wrap everything together".</p>
+
+<p>The method opens a file stream to disk and then carries out a while loop in time, only exiting when the current time exceeds the maximum domain time. Within the loop time is advanced by the time-step <code>dt</code>. In each step the boundary conditions are reapplied, the inner domain new solution values are calculated and then this new result is output to disk sequentially. The old solution vector is then set to the new solution vector and the looping continues. Finally, we close the file stream. This concludes the implementation of <code>FDMEulerExplicit</code>:</p>
+
+<pre>
+<code class="language-cpp">void FDMEulerExplicit::step_march() { 
+  std::ofstream fdm_out("fdm.csv");
+
+  while(cur_t &lt; t_dom) {
+    cur_t = prev_t + dt;
+    calculate_boundary_conditions();
+    calculate_inner_domain();
+    for (int j=0; j&lt;J; j++) {
+      fdm_out &lt;&lt; x_values[j] &lt;&lt; " " &lt;&lt; prev_t &lt;&lt; " " &lt;&lt; new_result[j] &lt;&lt; std::endl;
+    }
+    
+    old_result = new_result;
+    prev_t = cur_t;
+  }
+
+  fdm_out.close();
+}</code>
+</pre>
+
+<h3>Main Implementation</h3>
+
+<p>It is now time to tie all of the previous components together. The main implementation is actually quite straightforward, which is a consequence of the design choices we made above. Firstly, we include the relevant header files. Then we define the parameters of our European vanilla call option. The next stage is to define the discretisation parameters for the finite difference solver. In this instance we're using a mesh 20x20 representing a domain $[0.0,1.0]\times[0.0,1.0]$ in size.</p>
+
+<p>Once the option and FDM parameters have been declared, the next step is to create the pay-off, call option, Black-Scholes PDE and the FDM solver objects. Since we're dynamically allocating some of our objects we need to make sure we call delete prior to the pointers going out of scope.</p>
+
+<p>After the declaration of all the relevant solver machinery, we call the public <code>step_march</code> method of the <code>FDMEulerExplicit</code> instance, which then carries out the solution, outputting it to <code>fdm.csv</code>.</p>
+
+<pre>
+<code class="language-cpp">#include "payoff.h"
+#include "option.h"
+#include "pde.h"
+#include "fdm.h"
+
+int main(int argc, char **argv) {
+  // Create the option parameters
+  double K = 0.5;  // Strike price
+  double r = 0.05;   // Risk-free rate (5%)
+  double v = 0.2;    // Volatility of the underlying (20%)
+  double T = 1.00;    // One year until expiry
+
+  // FDM discretisation parameters
+  double x_dom = 1.0;       // Spot goes from [0.0, 1.0]
+  unsigned long J = 20; 
+  double t_dom = T;         // Time period as for the option
+  unsigned long N = 20;     
+
+  // Create the PayOff and Option objects
+  PayOff* pay_off_call = new PayOffCall(K);
+  VanillaOption* call_option = new VanillaOption(K, r, T, v, pay_off_call);
+
+  // Create the PDE and FDM objects
+  BlackScholesPDE* bs_pde = new BlackScholesPDE(call_option);
+  FDMEulerExplicit fdm_euler(x_dom, J, t_dom, N, bs_pde);
+
+  // Run the FDM solver
+  fdm_euler.step_march();
+
+  // Delete the PDE, PayOff and Option objects
+  delete bs_pde;
+  delete call_option;
+  delete pay_off_call;
+
+  return 0;
+}</code>
+</pre>
+
+<h2>Execution and Output</h2>
+
+<p>Upon execution of the code a file <code>fdm.csv</code> is generated in the same directory as <code>main.cpp</code>. I've written a simple Python script (using the matplotlib library) to plot the option price surface $C(S,t)$ as a function of time to expiry, $t$, and spot price, $S$.</p>
+
+<pre>
+<code class="language-python">from mpl_toolkits.mplot3d import Axes3D
+import matplotlib
+import numpy as np
+from matplotlib import cm
+from matplotlib import pyplot as plt
+
+x, y, z = np.loadtxt('fdm.csv', unpack=True)
+
+X = np.reshape(x, (20,20))
+Y = np.reshape(y, (20,20))
+Z = np.reshape(z, (20,20))
+
+print X.shape, Y.shape, Z.shape
+
+step = 0.04
+maxval = 1.0
+fig = plt.figure()
+ax = fig.add_subplot(111, projection='3d')
+
+ax.plot_surface(X, Y, Z, rstride=1, cstride=1, cmap=cm.YlGnBu_r)
+ax.set_zlim3d(0, 1.0)
+ax.set_xlabel(r'$S$')
+ax.set_ylabel(r'$T-t$')
+ax.set_zlabel(r'$C(S,t)$')
+plt.show()</code>
+</pre>
+
+<p>The output of the code is the following surface plot:</p>
+
+<p style="text-align:center;"><img src="https://s3.amazonaws.com/quantstartmedia/images/qs-fdm-euler.png"><br><strong>European vanilla call price surface, $C(S,t)$</strong></p>
+
+<p>Note that at $T-t = 0.0$, when the option expires, the profile follows that for a vanilla call option pay-off. This is a non-smooth piecewise linear pay-off function, with a turning point at the point at which spot equals strike, i.e. $S=K$. As the option is "marched back in time" via the FDM solver, the profile "smooths out" (see the smoothed region around $S=K$ at $T-t=1.0$). This is exactly the same behaviour as in a forward heat equation, where heat diffuses from an initial profile to a smoother profile.</p>
+
+<p>The next articles will concentrate on more sophisticated ways of solving the equation, specifically via the semi-implicit Crank-Nicolson techniques as well as more recent methods.</p>
+        
+        
+        <script async data-uid="6296c27f4b" src="https://weathered-brook-5281.ck.page/6296c27f4b/index.js"></script>
+      </section>
+    </div>
+    <div class="col-md-4 book-card order-md-1">
+      
+<div class="sidebar-advert-container">
+  <a href="/qsalpha/?ref=art">
+    <img class="card-img-top" src="/static/images/qsalpha-sidebar-advert-small.png" alt="QSAlpha">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/qsalpha/?ref=art">QSAlpha</a></h3>
+      <p class="card-text medium-text mb-3">Join the QSAlpha research platform that helps fill your strategy research pipeline, diversifies your portfolio and improves your risk-adjusted returns for increased profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/qsalpha/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/quantcademy/?ref=art">
+    <img class="card-img-top" src="/static/images/quantcademy-sidebar-advert-small.png" alt="Quantcademy">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/quantcademy/?ref=art">The Quantcademy</a></h3>
+      <p class="card-text medium-text mb-3">Join the Quantcademy membership portal that caters to the rapidly-growing retail quant trader community and learn how to increase your strategy profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/quantcademy/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/successful-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/sat-sidebar-advert-small.png" alt="Successful Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to find new trading strategy ideas and objectively assess them for your portfolio using a Python-based backtesting engine.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/successful-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/advanced-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/aat-sidebar-advert-small.png" alt="Advanced Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to implement advanced trading strategies using time series analysis, machine learning and Bayesian statistics with R and Python.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/advanced-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+    
+
+<footer>
+  <div class="container container-full">
+    <section class="mt-1.5 mb-1">
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">QuantStart</li>
+            <li class="footer-list-link"><a class="link-fade" href="/about/">About</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/articles/">Articles</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/sitemap/">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Products</li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qsalpha/">QSAlpha</a></li>
+            
+            
+            <li class="footer-list-link"><a class="link-fade" href="/quantcademy/">Quantcademy</a></li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qstrader/">QSTrader</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Legal</li>
+            <li class="footer-list-link"><a class="link-fade" href="/privacy-policy/">Privacy Policy</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/terms-and-conditions/">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Social</li>
+            <li class="footer-list-link"><a class="link-fade" href="https://twitter.com/quantstart">Twitter</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="https://www.youtube.com/channel/UCmVnnZ6Y2TrJtY1eQJN6kWA">YouTube</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="row mb-1.5 mt-5">
+      <div class="col-12 col-md-9 col-lg-8 col-xl-6">
+        <div class="footer-copyright">
+          <p>©2012-2023 QuarkGluon Ltd. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+<script src="/static/js/jquery-3.2.1.min.js"></script>
+<script src="/static/js/prism.js.min"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/nav.js"></script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5383959-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+    
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="/static/js/highcharts/highcharts.js"></script>
+<script type="text/javascript">
+  num_colours = 10;
+</script>
+<script src="/static/js/statistics.js"></script>
+
+
+  </body>
+</html>

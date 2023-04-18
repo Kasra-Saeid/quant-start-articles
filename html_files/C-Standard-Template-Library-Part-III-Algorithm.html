@@ -1,0 +1,452 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-site-verification" content="wl3-8ed1QZjI0iYZMv10zoZWYElkMObTfwLlWIj9cpA" />
+    <meta name="description" content="C++ Standard Template Library Part III - Algorithms">
+
+    <link rel="icon" href="/static/images/favicon.png">
+
+    <title>C++ Standard Template Library Part III - Algorithms | QuantStart</title>
+    
+    
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet"> 
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/prism.css" rel="stylesheet">
+<link href="/static/css/qs.css?v=10" rel="stylesheet">
+    
+  </head>
+
+  <body>
+    <header class="header covered-header" style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://quantstartmedia.s3.amazonaws.com/images/article-images/article-backgrounds/cpp.jpg);">
+  
+<nav class="nav">
+  <div class="container nav-container">
+    <div class="nav-row row d-flex justify-content-between align-items-center">
+      <div class="col-2">
+        <ul class="nav-items justify-content-end small-capitals align-items-center">
+          <li class="nav-item">
+            <a class="link-fade" href="/">QuantStart</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-auto col-logo">
+        <ul id="top-nav-menu" class="nav-items justify-content-end align-items-center">
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/qsalpha/">QSAlpha</a>
+          </li>
+          
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/quantcademy/">Quantcademy</a>
+          </li>
+          
+          <li id="menu-link-ebooks" class="nav-item">
+            <a class="link-fade" href="#">Books</a>
+            <div id="menu-pane-ebooks" class="nav-items menu-dropdown-pane">
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/qstrader/">QSTrader</a>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/articles/">Articles</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/members/login/">Login</a>
+          </li>
+          
+        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<nav id="mobile-nav" class="mobile-nav text-left">
+  <div class="container">
+    <ul class="mt-4 ml-3 mobile-nav-menu">
+      <li class="nav-item">
+        <a class="link-fade d-block" href="/">QuantStart</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qsalpha/">QSAlpha</a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/quantcademy/">Quantcademy</a>
+      </li>
+      
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="#">Books</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qstrader/">QSTrader</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/articles/">Articles</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/members/login/">Login</a>
+      </li>
+      
+    </ul>
+    <button class="nav-toggle mobile-nav-close">
+      <svg id="mobile-nav-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M19.77,5.63,13.41,12l6.36,6.37a1,1,0,0,1-1.41,1.41L12,13.41,5.63,19.77a1,1,0,0,1-1.44-1.39l0,0L10.58,12,4.21,5.63a1,1,0,0,1,0-1.42,1,1,0,0,1,1.41,0l0,0L12,10.58l6.37-6.37a1,1,0,0,1,1.41,0A1,1,0,0,1,19.77,5.63Z"></path>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+  <div class="container hero-container">
+    <section class="mt-5 mb-4">
+      <div class="row justify-content-center">
+        <div class="col-12 text-center">
+          <p class="hero">C++ Standard Template Library Part III - Algorithms</p>
+          <p class="hero subhero">C++ Standard Template Library Part III - Algorithms</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</header>
+    
+<section class="container content-container">
+  <div class="row">
+    <div class="col-md-8 order-md-2">
+      <section class="content article-content">
+        
+        
+        <p>This is the third part to a series on the C++ Standard Template Library (STL). We have previously discussed <a href="http://www.quantstart.com/articles/C-Standard-Template-Library-Part-I-Containers">containers</a> and <a href="http://www.quantstart.com/articles/C-Standard-Template-Library-Part-II-Iterators">iterators</a>. This article discusses <strong>C++ STL algorithms</strong>, which are operations that act on the containers via the iterator concept.</p> 
+
+<p>STL algorithms are extremely useful because they reduce or eliminate the need to 'reinvent the wheel' when implementing common algorithmic functionality. In quantitative finance coding they can save a significant amount of time.</p>
+
+<p>Many quant finance applications make use of legacy C++98/C++03 code and cannot make use of the new C++11 standard. Hence, this article will solely concentrate on algorithms included <em>prior</em> to the introduction of C++11. Later articles will discuss algorithms added with the C++11 standard.</p>
+
+<p>While some of the algorithms are designed to modify the individual values within <em>ranges</em> (certain STL containers or arrays of values), they do not modify the containers themselves - i.e. there is no reallocation or size modification to the containers.</p>
+
+<h2>Algorithm Categories</h2>
+
+<p>To use these algorithms it is necessary to include the <code>&lt;algorithm&gt;</code> header file. For the numeric algorithms, it is necessary to include the <code>&lt;numeric&gt;</code> header file. As with containers and iterators, algorithms are categorised according to their behaviour and application:</p>
+
+<ul>
+  <li><strong>Nonmodifying algorithms</strong> - Nonmodifying algorithms do not change the value of any element, nor do they modify the order in which the elements appear. They can be called for all of the standard STL container objects, as they make use of the simpler forward iterators.</li>
+  <li><strong>Modifying algorithms</strong> - Modifying algorithms are designed to alter the value of elements within a container. This can either be done on the container directly or via a copy into another container range. Some algorithms classed as 'modifying' algorithms can change the order of elements (in particular <code>copy_backward()</code>), but most do not.</li>
+  <li><strong>Removal algorithms</strong> - Removal algorithms are, by definition, modifying algorithms, but they are designed to remove elements in a container or when copying into another container.</li>
+  <li><strong>Mutating algorithms</strong> - Once again, mutating algorithms are modifying algorithms, but they are designed specifically to modify the order of elements (e.g. a random shuffle or rotation).</li>
+  <li><strong>Sorting algorithms</strong> - Sorting algorithms are modifying algorithms specifically designed for efficient sorting of elements in a container (or into a range container).</li>
+  <li><strong>Sorted range algorithms</strong> - Sorted range algorithms are special sorting algorithms designed to function on a container which is already sorted according to a particular sorting criterion. This allows for greater efficiency.</li>
+  <li><strong>Numeric algorithms</strong> - Numeric algorithms are designed to work on numerical data in some fashion. The principal algorithm in this category is <code>accumulate()</code>, which allows mathematical operators to be applied to all elements in a container.</li>
+</ul>
+
+<p>We'll now take a look at these categories in depth. If you would like to find out more about each subsequent algorithm, you can click on the name of any algorithm below.</p>
+
+<h2>Nonmodifying Algorithms</h2>
+
+<ul>
+  <li><a href="http://www.cplusplus.com/reference/algorithm/for_each/"><code>for_each()</code></a> - This is possibly the most important algorithm in this section, as it allows any unary function (i.e. a function of one argument) to be applied to each element in a range/container. Note that this function can actually also be modifying (hence why it is included below). It is often better to use a more specific algorithm, if one exists, than to use this, as specialist implementations will be more efficient.</li>
+  <li><a href="http://www.cplusplus.com/reference/algorithm/count/"><code>count()</code></a> - This returns the number of elements in a range or container.</li>
+  <li><a href="http://www.cplusplus.com/reference/algorithm/count_if/"><code>count_if()</code></a> - This counts how many elements in a range or container much a particular criterion.</li>
+  <li><a href="http://www.cplusplus.com/reference/algorithm/min_element/"><code>min_element()</code></a> - Returns the element that has the smallest value, making use of the &lt; relation to perform comparison. It can accept a custom binary function to perform the comparison instead.</li>
+  <li><a href="http://www.cplusplus.com/reference/algorithm/max_element/"><code>max_element()</code></a> - Returns the element that has the largest value, making use of the &gt; relation to perform comparison. It can accept a custom binary function to perform the comparison instead.</li>
+  <li><a href="http://www.cplusplus.com/reference/algorithm/find/"><code>find()</code></a> - Finds the first element in a range or container that equals a passed value.</li>
+  <li><a href="http://www.cplusplus.com/reference/algorithm/find_if/"><code>find_if()</code></a> - Finds the first element in a range or container that matches a particular criterion, rather than a passed value.</li>
+  <li><a href="http://www.cplusplus.com/reference/algorithm/search_n/"><code>search_n()</code></a> - This is like <code>find</code> AND <code>find_if</code> except that it looks for the first $N$ occurances of such a value OR the first $N$ occurances where a relational predicate is met.</li>
+  <li><a href="http://www.cplusplus.com/reference/algorithm/search/"><code>search()</code></a> - This searches for the first occurance of a subrange within a range/container and can do so either by first/last value of the subrange or via a predicate matching all the values of the desired first/last subrange.</li>
+  <li><a href="http://www.cplusplus.com/reference/algorithm/find_end/"><code>find_end()</code></a> - Similar to <code>search</code>, except that it finds the last occurance of such a subrange.</li>
+  <li><a href="http://www.cplusplus.com/reference/algorithm/find_first_of/"><code>find_first_of()</code></a> - Finds the first element in a subrange of a range or container. Can make use of a binary predicate function, otherwise uses direct value.</li>
+  <li><a href="http://www.cplusplus.com/reference/algorithm/adjacent_find/"><code>adjacent_find()</code></a> - Returns the location (an iterator) to the first matching consecutive pair of values in a range/container. Can also match via a binary predicate.</li>
+  <li><a href="http://www.cplusplus.com/reference/algorithm/equal/"><code>equal()</code></a> - Compares two ranges to see if they are equal.</li>
+  <li><a href="http://www.cplusplus.com/reference/algorithm/mismatch/"><code>mismatch()</code></a> - Compares two ranges and returns a pair of iterators containing the points at which the ranges differ.</li>
+  <li><a href="http://www.cplusplus.com/reference/algorithm/lexicographical_compare/"><code>lexicographical_compare()</code></a> - The lexicographical comparison is used to sort elements in a manner similar to how words are ordered in a dictionary. It can either use <code>operator&lt;</code> or make use of a binary predicate function to perform the comparison.</li>
+</ul>
+
+<h2>Modifying Algorithms</h2>
+
+<ul>
+  <li><a href="http://www.cplusplus.com/reference/algorithm/for_each/"><code>for_each()</code></a> - This is the same as the <code>for_each</code> we discussed above, but I have included it in the Modifying section to reinforce that it can be used this way too!</li>
+  <li><a href="http://www.cplusplus.com/reference/algorithm/copy/"><code>copy()</code></a> - Copies a range/container of elements into another range.</li>
+  <li><a href="http://www.cplusplus.com/reference/algorithm/copy_backward/"><code>copy_backward()</code></a> - Copy a range/container of elements into another range, starting from the last element and working backwards.</li>
+  <li><a href="http://www.cplusplus.com/reference/algorithm/transform/"><code>transform()</code></a> - Transform is quite a flexible algorithm. It works in two ways. A unary operation can be applied to the source range, on a per element basis, which ouputs the results in the destination range. A binary operation can be applied to both elements in the source and destination range, subsequently overwriting elements in the destination range.</li>
+  <li><a href="http://www.cplusplus.com/reference/algorithm/merge/"><code>merge()</code></a> - Merge is intended to take two sorted ranges and combine them to produce a merged sorted range. However, it is possible to utilise unsorted ranges as arguments but this then leads to an unsorted merge! For this reason I've decided to include it in the modifying category, rather than the category for sorted ranges, below.</li>
+  <li><a href="http://www.cplusplus.com/reference/algorithm/swap_ranges/"><code>swap_ranges()</code></a> - This swaps the elements of two ranges.</li>
+  <li><a href="http://www.cplusplus.com/reference/algorithm/fill/"><code>fill()</code></a> - This replaces each element in a range with a specific value.</li>
+  <li><a href="http://www.cplusplus.com/reference/algorithm/fill_n/"><code>fill_n()</code></a> - Similar to <code>fill</code>, but replaces the first $N$ elements in a range with a specific value.</li>
+  <li><a href="http://www.cplusplus.com/reference/algorithm/generate/"><code>generate()</code></a> - This replaces each element in a range with the result of an operation of a generator function.</li>
+  <li><a href="http://www.cplusplus.com/reference/algorithm/generate_n/"><code>generate_n()</code></a> - Similar to <code>generate</code>, but replaces the first $N$ elements in a range with the result of an operation of a generator function.</li>
+  <li><a href="http://www.cplusplus.com/reference/algorithm/replace/"><code>replace()</code></a> - This replaces elements matching a specific value with another specific value.</li>
+  <li><a href="http://www.cplusplus.com/reference/algorithm/replace_if/"><code>replace_if()</code></a> - This replaces elements matching a specific criterion with another specific value.</li>
+  <li><a href="http://www.cplusplus.com/reference/algorithm/replace_copy/"><code>replace_copy()</code></a> - Similar to <code>replace</code>, except that the result is copied into another range.</li>
+  <li><a href="http://www.cplusplus.com/reference/algorithm/replace_copy_if/"><code>replace_copy_if()</code></a> - Similar to <code>replace_if</code>, except that the result is copied into another range.</li>
+</ul>
+
+<h2>Removal Algorithms</h2>
+
+<ul>
+  <li><a href="http://www.cplusplus.com/reference/algorithm/remove/"><code>remove()</code></a> - This removes elements from a range that match a specific value.</li>
+  <li><a href="http://www.cplusplus.com/reference/algorithm/remove_if/"><code>remove_if()</code></a> - This removes elements from a range that match a specific criterion, as determined via a unary predicate.</li>
+  <li><a href="http://www.cplusplus.com/reference/algorithm/remove_copy/"><code>remove_copy()</code></a> - Similar to <code>remove</code>, except that elements are copied into another range.</li>
+  <li><a href="http://www.cplusplus.com/reference/algorithm/remove_copy_if/"><code>remove_copy_if()</code></a> - Similar to <code>remove_if</code>, except that elements are copied into another range.</li>
+  <li><a href="http://www.cplusplus.com/reference/algorithm/unique/"><code>unique()</code></a> - This is quite a useful algorithm. It removes adjacent duplicate elements, i.e. consecutive elements with specific values.</li>
+  <li><a href="http://www.cplusplus.com/reference/algorithm/unique_copy/"><code>unique_copy()</code></a> - Similar to <code>unique</code>, except that it copies the elements into another range.</li>
+</ul>
+
+<h2>Mutating Algorithms</h2>
+
+<ul>
+  <li><a href="http://www.cplusplus.com/reference/algorithm/reverse/"><code>reverse()</code></a> - This simply reverses the order of the elements in a range or container.</li>
+  <li><a href="http://www.cplusplus.com/reference/algorithm/reverse_copy/"><code>reverse_copy()</code></a> - Similar to <code>reverse</code>, except that the results of the reversal are copied into another range.</li>
+  <li><a href="http://www.cplusplus.com/reference/algorithm/rotate/"><code>rotate()</code></a> - By choosing a 'middle' element in a range, this algorithm will <em>cyclically rotate</em> the elements such that the middle element becomes the first.</li>
+  <li><a href="http://www.cplusplus.com/reference/algorithm/rotate_copy/"><code>rotate_copy()</code></a> - Similar to <code>rotate</code>, except that the result is copied into another range.</li>
+  <li><a href="http://www.cplusplus.com/reference/algorithm/next_permutation/"><code>next_permutation()</code></a> - This rearranges the elements in a range to produce the next lexicographically higher permutation, using <code>operator&lt;</code>. It is also possible to use a binary predicate comparison function instead of <code>operator&lt;</code>.</li>
+  <li><a href="http://www.cplusplus.com/reference/algorithm/prev_permutation/"><code>prev_permutation()</code></a> - Similar to <code>next_permutation</code>, except that it rearranges to produce the next lexicographically lower permutation.</li>
+  <li><a href="http://www.cplusplus.com/reference/algorithm/random_shuffle/"><code>random_shuffle()</code></a> - Rearranges the list of elements in a range in a random fashion. The source of randomness can be supplied as a random number generator argument.</li>
+  <li><a href="http://www.cplusplus.com/reference/algorithm/partition/"><code>partition()</code></a> - Rearranges a range/container such that the elements matching a predicate are at the front. Does NOT guarantee relative ordering from the original range.</li>
+  <li><a href="http://www.cplusplus.com/reference/algorithm/stable_partition/"><code>stable_partition()</code></a> - Similar to <code>partition</code>, except that it does guarantee relative ordering from the original range.</li>
+</ul>
+
+<h2>Sorting Algorithms</h2>
+
+<ul>
+  <li><a href="http://www.cplusplus.com/reference/algorithm/sort/"><code>sort()</code></a> - Sorts the elements into ascending order, using <code>operator&lt;</code> or another supplied comparison function.</li>
+  <li><a href="http://www.cplusplus.com/reference/algorithm/stable_sort/"><code>stable_sort()</code></a> - This is similar to <code>sort</code>. It is used when you need to ensure that elements remain in the same order when they are "tied" for the same position. This often comes up when dealing with priorities of tasks. Note also that the performance guarantee is different.</li>
+  <li><a href="http://www.cplusplus.com/reference/algorithm/partial_sort/"><code>partial_sort()</code></a> - Similar to <code>sort</code>, except that it only sorts the first $N$ elements and terminates after they're sorted.</li>
+  <li><a href="http://www.cplusplus.com/reference/algorithm/partial_sort_copy/"><code>partial_sort_copy()</code></a> - Similar to <code>partial_sort</code> except that it copies the results into a new range.</li>
+  <li><a href="http://www.cplusplus.com/reference/algorithm/nth_element/"><code>nth_element()</code></a> - This allows you to ensure that an element at position $n$ is in the correct position, were the rest of the list to be sorted. It only guarantees that the elements preceeding $n$ are less than in value (in the sense of <code>operator&lt;</code>) and that proceeding elements are greater than in value.</li>
+  <li><a href="http://www.cplusplus.com/reference/algorithm/partition/"><code>partition()</code></a> - See above for <code>partition</code>.</li>
+  <li><a href="http://www.cplusplus.com/reference/algorithm/stable_partition/"><code>stable_partition()</code></a> - See above for <code>stable_partition</code>.</li>
+  <li><a href="http://www.cplusplus.com/reference/algorithm/make_heap/"><code>make_heap()</code></a> - Rearranges the elements in a range such that they form a <em>heap</em>, i.e. allowing fast retrieval of elements of the highest value and fast insertion of new elements.</li>
+  <li><a href="http://www.cplusplus.com/reference/algorithm/push_heap/"><code>push_heap()</code></a> - This adds an element to a heap.</li>
+  <li><a href="http://www.cplusplus.com/reference/algorithm/pop_heap/"><code>pop_heap()</code></a> - This removes an element from a heap.</li>
+  <li><a href="http://www.cplusplus.com/reference/algorithm/sort_heap/"><code>sort_heap()</code></a> - This sorts the elements in a heap, with the caveat that the range is no longer a heap subsequent to the function call.</li>
+</ul>
+
+<h2>Sorted Range Algorithms</h2>
+
+<ul>
+  <li><a href="http://www.cplusplus.com/reference/algorithm/binary_search/"><code>binary_search()</code></a> - Searches the range for any matches of a specific value.</li>
+  <li><a href="http://www.cplusplus.com/reference/algorithm/includes/"><code>includes()</code></a> - Determines whether each element in one range is also an element in another range.</li>
+  <li><a href="http://www.cplusplus.com/reference/algorithm/lower_bound/"><code>lower_bound()</code></a> - Searches for the first element in a range which does not compare less than a specific value. Can also use a custom comparison function.</li>
+  <li><a href="http://www.cplusplus.com/reference/algorithm/upper_bound/"><code>upper_bound()</code></a> - Searches for the first element in a range which does not compare greater than a specific value. Can also use a custom comparison function.</li>
+  <li><a href="http://www.cplusplus.com/reference/algorithm/equal_range/"><code>equal_range()</code></a> - Finds a subrange within a range which contains values equal to a specific value.</li>
+  <li><a href="http://www.cplusplus.com/reference/algorithm/merge/"><code>merge()</code></a> - See above for <code>merge</code>.</li>
+  <li><a href="http://www.cplusplus.com/reference/algorithm/set_union/"><code>set_union()</code></a> - Creates a set union of two sorted ranges. Thus the destination range will include elements from either or both of the source ranges. Since this is a set operation, duplicates are eliminated.</li>
+  <li><a href="http://www.cplusplus.com/reference/algorithm/set_intersection/"><code>set_intersection()</code></a> - Creates a set intersection of two sorted ranges. Thus the destination range will include elements that exist only in both of the source ranges.</li>
+  <li><a href="http://www.cplusplus.com/reference/algorithm/set_difference/"><code>set_difference()</code></a> - Creates a set difference of two sorted ranges. Thus the destation range will include elements from the first range that are not in the second range.</li>
+  <li><a href="http://www.cplusplus.com/reference/algorithm/set_symmetric_difference/"><code>set_symmetric_difference()</code></a> - This is the symmetric version of <code>set_difference</code>. It creates a set symmetric difference, which is formed by the elements that are found in one of the sets, but not in the other.</li>
+  <li><a href="http://www.cplusplus.com/reference/algorithm/inplace_merge/"><code>inplace_merge()</code></a> - This combines two sorted ranges into a destination range, which is also sorted. It is also <em>stable</em> as it will preserve ordering for subranges.</li>
+</ul>
+
+<h2>Numeric Algorithms</h2>
+
+<ul>
+  <li><a href="http://www.cplusplus.com/reference/numeric/accumulate/"><code>accumulate()</code></a> - This is an extremely useful algorithm. It allows all elements of a container to be combined by a particular operation, such as via a sum, product etc.</li>
+  <li><a href="http://www.cplusplus.com/reference/numeric/inner_product/"><code>inner_product()</code></a> - This combines all elements of two ranges by summing the multiples of each 'component'. It is possible to override both the 'sum' and 'multiply' binary operations.</li>
+  <li><a href="http://www.cplusplus.com/reference/numeric/adjacent_difference/"><code>adjacent_difference()</code></a> - Assigns every element the value of the difference between the current value and the prior value, except in the first instance where the current value is simply used.</li>
+  <li><a href="http://www.cplusplus.com/reference/numeric/partial_sum/"><code>partial_sum()</code></a> - Assigns the result of the partial sum of the current element and its predecessors, i.e. $y_i = \sum^i_{k=1} x_i$, for $y$ the result and $x$ the source.</li>
+</ul>
+
+<p>In later articles we will be making extensive use of these algorithms. Not only do they save us valuable time, but we are able to ascertain their performance characteristics from the <a href="http://en.cppreference.com/w/cpp/algorithm">C++ Reference on Algorithms</a>. Further, they have all been highly optimised via their respective compilers and so our programs will likely run significantly faster than if we construct our own.</p>
+        
+        
+        <script async data-uid="6296c27f4b" src="https://weathered-brook-5281.ck.page/6296c27f4b/index.js"></script>
+      </section>
+    </div>
+    <div class="col-md-4 book-card order-md-1">
+      
+<div class="sidebar-advert-container">
+  <a href="/qsalpha/?ref=art">
+    <img class="card-img-top" src="/static/images/qsalpha-sidebar-advert-small.png" alt="QSAlpha">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/qsalpha/?ref=art">QSAlpha</a></h3>
+      <p class="card-text medium-text mb-3">Join the QSAlpha research platform that helps fill your strategy research pipeline, diversifies your portfolio and improves your risk-adjusted returns for increased profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/qsalpha/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/quantcademy/?ref=art">
+    <img class="card-img-top" src="/static/images/quantcademy-sidebar-advert-small.png" alt="Quantcademy">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/quantcademy/?ref=art">The Quantcademy</a></h3>
+      <p class="card-text medium-text mb-3">Join the Quantcademy membership portal that caters to the rapidly-growing retail quant trader community and learn how to increase your strategy profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/quantcademy/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/successful-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/sat-sidebar-advert-small.png" alt="Successful Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to find new trading strategy ideas and objectively assess them for your portfolio using a Python-based backtesting engine.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/successful-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/advanced-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/aat-sidebar-advert-small.png" alt="Advanced Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to implement advanced trading strategies using time series analysis, machine learning and Bayesian statistics with R and Python.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/advanced-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+    
+
+<footer>
+  <div class="container container-full">
+    <section class="mt-1.5 mb-1">
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">QuantStart</li>
+            <li class="footer-list-link"><a class="link-fade" href="/about/">About</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/articles/">Articles</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/sitemap/">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Products</li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qsalpha/">QSAlpha</a></li>
+            
+            
+            <li class="footer-list-link"><a class="link-fade" href="/quantcademy/">Quantcademy</a></li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qstrader/">QSTrader</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Legal</li>
+            <li class="footer-list-link"><a class="link-fade" href="/privacy-policy/">Privacy Policy</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/terms-and-conditions/">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Social</li>
+            <li class="footer-list-link"><a class="link-fade" href="https://twitter.com/quantstart">Twitter</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="https://www.youtube.com/channel/UCmVnnZ6Y2TrJtY1eQJN6kWA">YouTube</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="row mb-1.5 mt-5">
+      <div class="col-12 col-md-9 col-lg-8 col-xl-6">
+        <div class="footer-copyright">
+          <p>©2012-2023 QuarkGluon Ltd. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+<script src="/static/js/jquery-3.2.1.min.js"></script>
+<script src="/static/js/prism.js.min"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/nav.js"></script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5383959-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+    
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="/static/js/highcharts/highcharts.js"></script>
+<script type="text/javascript">
+  num_colours = 10;
+</script>
+<script src="/static/js/statistics.js"></script>
+
+
+  </body>
+</html>

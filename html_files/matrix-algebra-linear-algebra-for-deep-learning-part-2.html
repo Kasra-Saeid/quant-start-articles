@@ -1,0 +1,598 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-site-verification" content="wl3-8ed1QZjI0iYZMv10zoZWYElkMObTfwLlWIj9cpA" />
+    <meta name="description" content="Matrix Algebra - Linear Algebra for Deep Learning (Part 2)">
+
+    <link rel="icon" href="/static/images/favicon.png">
+
+    <title>Matrix Algebra - Linear Algebra for Deep Learning (Part 2) | QuantStart</title>
+    
+    
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet"> 
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/prism.css" rel="stylesheet">
+<link href="/static/css/qs.css?v=10" rel="stylesheet">
+    
+  </head>
+
+  <body>
+    <header class="header covered-header" style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://quantstartmedia.s3.amazonaws.com/images/article-images/article-backgrounds/linear-algebra-for-deep-learning.jpg);">
+  
+<nav class="nav">
+  <div class="container nav-container">
+    <div class="nav-row row d-flex justify-content-between align-items-center">
+      <div class="col-2">
+        <ul class="nav-items justify-content-end small-capitals align-items-center">
+          <li class="nav-item">
+            <a class="link-fade" href="/">QuantStart</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-auto col-logo">
+        <ul id="top-nav-menu" class="nav-items justify-content-end align-items-center">
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/qsalpha/">QSAlpha</a>
+          </li>
+          
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/quantcademy/">Quantcademy</a>
+          </li>
+          
+          <li id="menu-link-ebooks" class="nav-item">
+            <a class="link-fade" href="#">Books</a>
+            <div id="menu-pane-ebooks" class="nav-items menu-dropdown-pane">
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/qstrader/">QSTrader</a>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/articles/">Articles</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/members/login/">Login</a>
+          </li>
+          
+        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<nav id="mobile-nav" class="mobile-nav text-left">
+  <div class="container">
+    <ul class="mt-4 ml-3 mobile-nav-menu">
+      <li class="nav-item">
+        <a class="link-fade d-block" href="/">QuantStart</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qsalpha/">QSAlpha</a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/quantcademy/">Quantcademy</a>
+      </li>
+      
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="#">Books</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qstrader/">QSTrader</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/articles/">Articles</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/members/login/">Login</a>
+      </li>
+      
+    </ul>
+    <button class="nav-toggle mobile-nav-close">
+      <svg id="mobile-nav-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M19.77,5.63,13.41,12l6.36,6.37a1,1,0,0,1-1.41,1.41L12,13.41,5.63,19.77a1,1,0,0,1-1.44-1.39l0,0L10.58,12,4.21,5.63a1,1,0,0,1,0-1.42,1,1,0,0,1,1.41,0l0,0L12,10.58l6.37-6.37a1,1,0,0,1,1.41,0A1,1,0,0,1,19.77,5.63Z"></path>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+  <div class="container hero-container">
+    <section class="mt-5 mb-4">
+      <div class="row justify-content-center">
+        <div class="col-12 text-center">
+          <p class="hero">Matrix Algebra - Linear Algebra for Deep Learning (Part 2)</p>
+          <p class="hero subhero">Matrix Algebra - Linear Algebra for Deep Learning (Part 2)</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</header>
+    
+<section class="container content-container">
+  <div class="row">
+    <div class="col-md-8 order-md-2">
+      <section class="content article-content">
+        
+        
+        <p>Last week <a href="https://www.quantstart.com/articles/scalars-vectors-matrices-and-tensors-linear-algebra-for-deep-learning-part-1">I posted an article</a>, which formed the first part in a series on <strong>Linear Algebra For Deep Learning</strong>. The response to the article was extremely positive, both in terms of feedback, article views and also more broadly on social media.</p>
+
+<p>Many of you commented that there was "an appetite" for introductory mathematical content and this only confirms the results of the <a href="https://www.quantstart.com/articles/quantstart-upcoming-content-survey-2017">QuantStart 2017 Content Survey</a>. Hence I've decided to write more introductory articles, not only continuing with Linear Algebra, but also on the topics of <strong>Calculus</strong> and <strong>Probability</strong>, which are fundamental topics for machine learning—and quantitative finance more broadly.</p>
+
+<p>In the <a href="https://www.quantstart.com/articles/scalars-vectors-matrices-and-tensors-linear-algebra-for-deep-learning-part-1">previous article</a> we introduced the three basic entities that will be used in linear algebra, namely the <strong>scalar</strong>, <strong>vector</strong> and the <strong>matrix</strong>. We saw that they were all really specific versions of a more general entity known as a <strong>tensor</strong>.</p>
+
+<p>In this article we are going to look at how to form <em>operations</em> between these entities. Such operations include <strong>addition</strong> and <strong>multiplication</strong>. While you will be very familiar with scalar addition and multiplication, the rules differ somewhat when dealing with more general tensor entities. This article will precisely define those operations and provide numeric examples to give you some intuition.</p>
+
+<p>At this stage it is not likely to be clear <em>why</em> these operations will be useful in the context of deep learning. However, in the previous article I stated that linear algebra was the 'language in which machine learning was written'. If we can understand the basics of the language, we'll be in a much better position to grasp the more complex ideas that form the backbone of neural network models in later articles.</p>
+
+<p>We will begin by looking at <strong>matrix addition</strong> and then consider <strong>matrix multiplication</strong>. These operations will eventually allow us to discuss a topic known as <strong>matrix inversion</strong>, which will form the basis of the next article.</p>
+
+<h2>Matrix Addition</h2>
+
+<p>What does it mean to add two matrices together? In this section we will explore such an operation and hopefully see that it is actually quite intuitive.</p>
+
+<p>Matrices can be added to scalars, vectors and other matrices. Each of these operations has a precise definition. These techniques are used frequently in machine learning and deep learning so it is worth familiarising yourself with them.</p>
+
+<h3>Matrix-Matrix Addition</h3>
+
+<p>Given two matrices of size $m \times n$, $\boldsymbol{A}=[a_{ij}]$ and $\boldsymbol{B}=[b_{ij}]$, it is possible to define the matrix $\boldsymbol{C}=[c_{ij}]$ as the <strong>matrix sum</strong> $\boldsymbol{C} = \boldsymbol{A} + \boldsymbol{B}$ where $c_{ij} = a_{ij} + b_{ij}$.</p>
+
+<p>That is, $\boldsymbol{C}$ is constructed by element-wise summing the respective elements of $\boldsymbol{A}$ and $\boldsymbol{B}$. This operation is only defined where the two matrices have equal size, except in the case of <strong>broadcasting</strong> below. The definition implies that $\boldsymbol{C}$ also has size $m \times n$.</p>
+
+<p>Matrix addition is <em>commutative</em>. This means that it doesn't matter which way around the matrices are added:</p>
+
+\begin{equation}
+\boldsymbol{A} + \boldsymbol{B} = \boldsymbol{B} + \boldsymbol{A}
+\end{equation}
+
+<p>It is also <em>associative</em>. This means that you get the same result if you add two matrices together first, and then another, as if you add another two together first and then the other:</p>
+
+\begin{equation}
+\boldsymbol{A} + (\boldsymbol{B} + \boldsymbol{C}) = (\boldsymbol{A} + \boldsymbol{B}) + \boldsymbol{C}
+\end{equation}
+
+<p>Both of these results follow from the fact that normal scalar addition is itself commutative and associative, because we're just adding the elements together.</p>
+
+<p>I'm stressing commutivity and associativity for matrix <em>addition</em> because matrix <em>multiplication</em> (defined below) is certainly not commutative. We'll see why later.</p>
+
+<h4>Example</h4>
+
+<p>Consider two matrices $\boldsymbol{A}$ and $\boldsymbol{B}$. We can create a new matrix $\boldsymbol{C}$ through addition:</p>
+
+\[ \boldsymbol{A} + \boldsymbol{B} = \left[ \begin{array}{ccc}
+1 & 4 & 17 \\
+18 & 3 & 2 \\
+5 & 19 & 1 \\
+\end{array} \right] +
+\left[ \begin{array}{ccc}
+12 & 18 & 6 \\
+4 & 3 & 33 \\
+23 & 5 & 8 \\
+\end{array} \right] = 
+\left[ \begin{array}{ccc}
+13 & 22 & 23 \\
+22 & 6 & 35 \\
+28 & 24 & 9 \\
+\end{array} \right] = 
+\boldsymbol{C}
+\]
+
+<p>It is clear to see that the elements of $\boldsymbol{C}$ are simply the elements added in the corresponding positions from $\boldsymbol{A}$ and $\boldsymbol{B}$.</p>
+
+<h3>Matrix-Scalar Addition</h3>
+
+<p>It is possible to add a scalar value $x$ to a matrix $\boldsymbol{A}=[a_{ij}]$ to produce a new matrix $\boldsymbol{B}=[b_{ij}]$ where $b_{ij} = x + a_{ij}$. This simply means that we're adding the same scalar value to every element of the matrix. It is written as $\boldsymbol{B} = x + \boldsymbol{A}$.</p>
+
+<p>Scalar-matrix addition is once again commutative and associative, because normal scalar addition is both commutative and associative.</p>
+
+<h3>Broadcasting</h3>
+
+<p>For certain applications in machine learning it is possible to define a shorthand notation known as <strong>broadcasting</strong>. Consider $\boldsymbol{A} \in \mathbb{R}^{m \times n}$ an $m \times n$-dimensional real-valued matrix and $\boldsymbol{x} \in \mathbb{R}^m$ an $m$-dimensional vector.</p>
+
+<p>It is possible to define $\boldsymbol{B} = \boldsymbol{A} + \boldsymbol{x}$, despite the fact that the matrices $\boldsymbol{A}$ and $\boldsymbol{x}$ are unequal in size. The definition of the sum takes $b_{ij} = a_{ij} + x_j$.</p>
+
+<p>That is, the elements of $\boldsymbol{x}$ are copied into each row of the matrix $\boldsymbol{A}$. Since the value of $\boldsymbol{x}$ is `broadcast' into each row the process is known as <strong>broadcasting</strong>.</p>
+
+<h2>Matrix Multiplication</h2>
+
+<p>The rules for matrix addition are relatively simple and intuitive. However when it comes to multiplication of matrices the rules become more complex.</p>
+
+<h3>Matrix Transpose</h3>
+
+<p>In order to define certain matrix-matrix multiplication operations such as the <strong>dot-product</strong> (discussed below) it is necessary to define the <strong>transpose</strong> of a matrix. The transpose of a matrix $\boldsymbol{A}=[a_{ij}]_{m \times n}$ of size $m \times n$ is denoted by $\boldsymbol{A}^{T}$ of size $n \times m$ and is given element-wise by the following expression:</p>
+
+\begin{equation}
+\boldsymbol{A}^{T} = [a_{ji}]_{n \times m}
+\end{equation}
+
+<p>That is, the indices $i$ and $j$ are swapped. This has the effect of reflecting the matrix along the line of diagonal elements $a_{ii}$. The operation is defined for non-square matrices, as well as vectors and scalars (which are simply $1 \times 1$ matrices). Note that a scalar is its own transpose: $x = x^T$. In addition the transpose of the transpose of a matrix is simply itself: $\boldsymbol{A}^{TT} = \boldsymbol{A}$.</p>
+
+<h4>Examples</h4>
+
+\[ \boldsymbol{A} = \left[ \begin{array}{ccc}
+a_{11} & a_{12} & a_{13} \\
+a_{21} & a_{22} & a_{23}
+\end{array} \right], \quad
+\boldsymbol{A}^T = \left[ \begin{array}{cc}
+a_{11} & a_{21} \\
+a_{12} & a_{22} \\
+a_{13} & a_{23}
+\end{array} \right]
+\]
+
+\[ \boldsymbol{x} = \left[ \begin{array}{c}
+x_{1} \\
+x_{2} \\
+x_{3}
+\end{array} \right], \quad
+\boldsymbol{x}^T = \left[ \begin{array}{ccc}
+x_{1} & x_{2} & x_3
+\end{array} \right]
+\]
+
+<p>Note here that $\boldsymbol{A}^{T}$ does not represent $\boldsymbol{A}$ multiplied by itself $T$ times. This is an entirely different operation. However, it will usually be clear from the context whether we mean the transpose of a matrix or repeated multiplication by itself.</p>
+
+<h3>Matrix-Matrix Multiplication</h3>
+
+<p>We are now going to consider matrix-matrix multiplication. This is a more complex operation than matrix addition because it does not simply involve multiplying the matrices element-wise. Instead a more complex procedure is utilised, for each element, involving an entire row of one matrix and an entire column of the other.</p>
+
+<p>The operation is only defined for matrices of specific sizes. The first matrix must have as many columns as the second matrix has rows, otherwise the operation is not defined.</p>
+
+<p>The definition below can be a bit tricky to understand initially, so have a look at it first and then try working through the examples to see how specific numeric instances match up to the general formula.</p>
+
+<p>Given a matrix $\boldsymbol{A}=[a_{ij}]_{m \times n}$ and a matrix $\boldsymbol{B}=[b_{ij}]_{n \times p}$ the <strong>matrix product</strong> $\boldsymbol{C}=\boldsymbol{A}\boldsymbol{B}=[c_{ij}]_{m \times p}$ is defined element-wise by:</p>
+
+\begin{equation}
+c_{ij} = \sum^n_{k=1} a_{ik} b_{kj}
+\end{equation}
+
+<p>That is the elements $c_{ij}$ of the matrix $\boldsymbol{C}=\boldsymbol{A}\boldsymbol{B}$ are given by summing the products of the elements of the $i$-th row of $\boldsymbol{A}$ with the elements of the $j$-th column of $\boldsymbol{B}$.
+
+<p>Note that matrix-matrix multiplication is not commutative. That is:</p>
+
+\begin{eqnarray}
+\boldsymbol{A}\boldsymbol{B} \neq \boldsymbol{B}\boldsymbol{A}
+\end{eqnarray}
+
+<h4>Examples</h4>
+
+<p>Given the following two matrices:</p>
+
+\[ \boldsymbol{A} = \left[ \begin{array}{ccc}
+2 & 5 & 1 \\
+7 & 3 & 6
+\end{array} \right], \quad
+\boldsymbol{B} = \left[ \begin{array}{cc}
+1 & 8 \\
+9 & 4 \\
+3 & 5
+\end{array} \right]
+\]
+
+<p>It is possible to construct the product $\boldsymbol{A}\boldsymbol{B}$ of size $2 \times 2$:</p>
+
+\[ \boldsymbol{AB} = \left[ \begin{array}{cc}
+2 \cdot 1 + 5 \cdot 9 + 1 \cdot 3 & 2 \cdot 8 + 5 \cdot 4 + 1 \cdot 5 \\
+7 \cdot 1 + 3 \cdot 9 + 6 \cdot 3 & 7 \cdot 8 + 3 \cdot 4 + 6 \cdot 5
+\end{array} \right] =
+\left[ \begin{array}{cc}
+50 & 41 \\
+52 & 98
+\end{array} \right]
+\]
+
+<p>It is also possible to construct the product $\boldsymbol{B}\boldsymbol{A}$ of size $3 \times 3$:</p>
+
+\[ \boldsymbol{BA} = \left[ \begin{array}{ccc}
+1 \cdot 2 + 8 \cdot 7 & 1 \cdot 5 + 8 \cdot 3 & 1 \cdot 1 + 8 \cdot 6 \\
+9 \cdot 2 + 4 \cdot 7 & 9 \cdot 5 + 4 \cdot 3 & 9 \cdot 1 + 4 \cdot 6 \\
+3 \cdot 2 + 5 \cdot 7 & 3 \cdot 5 + 5 \cdot 3 & 3 \cdot 1 + 5 \cdot 6 \\
+\end{array} \right] =
+\left[ \begin{array}{ccc}
+58 & 29 & 49 \\
+46 & 57 & 33 \\
+41 & 30 & 33
+\end{array} \right]
+\]
+
+<p>The above definition does not initially seem to be motivated in a simple way. Why is matrix-matrix multiplication defined like this? It has to do with a deeper result involving matrices representing <a href="https://en.wikipedia.org/wiki/Linear_map">linear map</a> functions between two vector spaces. We need not worry about these certain deeper aspects of linear maps as they are beyond the scope of this article series.</p>
+
+<p>However, we can briefly provide some intuition through the idea of <em>composing</em> functions together. It is common in mathematics to <em>compose</em> two functions together to produce a new function. That is the function $h$ can be defined as $h = f \circ g$, with the $\circ$ symbol representing function composition. This notation means that $h$ is equivalent to $g$ being carried out first, and then $f$.</p>
+
+<p>If, for example $f=sin(x)$ and $g=x^2$ then $h = sin(x^2)$. Function composition is not commutative and as such $f \circ g \neq g \circ f$. Instead $g \circ f = sin^2 (x)$, which is a completely different function. This is why matrix-matrix multiplication is not commutative and also why it is defined as above.</p>
+
+<p>Note also that this definition does not imply that the elements of the matrix $\boldsymbol{C}$ are defined as the element-wise multiplication of those from $\boldsymbol{A}$ and $\boldsymbol{B}$. That is, the elements in each location cannot simply be multiplied together to get the new product matrix. That is an entirely different operation known as the <strong>Hadamard Product</strong> and will be discussed below.</p>
+
+<p>Since a column vector is in fact a $n \times 1$ matrix it is possible to carry out matrix-vector multiplication. If the left-multiplying matrix has size $m \times n$ then this is a valid operation that will produce another $m \times 1$ matrix (column vector) as output.</p>
+
+<p>Matrix-matrix and matrix-vector multiplication are extremely common operation in the physical sciences, computational graphics and machine learning fields. As such highly optimised software libraries such as <a href="https://en.wikipedia.org/wiki/Basic_Linear_Algebra_Subprograms">BLAS</a> and <a href="https://en.wikipedia.org/wiki/LAPACK">LAPACK</a> have been developed to allow efficient scientific computation--particularly on <a href="https://en.wikipedia.org/wiki/Graphics_processing_unit">GPU</a>s.</p>
+
+<h3>Scalar-Matrix Multiplication</h3>
+
+<p>Scalar-matrix multiplication is simpler than matrix-matrix multiplication. Given a matrix $\boldsymbol{A}=[a_{ij}]_{m \times n}$ and a scalar $\lambda \in \mathbb{R}$ the scalar-matrix product $\lambda \boldsymbol{A}$ is calculated by multiplying every element of $\boldsymbol{A}$ by $\lambda$ such that $\lambda \boldsymbol{A} = [\lambda a_{ij}]_{m \times n}$.</p>
+
+<p>If we take two real-valued scalars $\lambda, \mu \in \mathbb{R}$ the subsequent useful relationships follow from the definition above:</p>
+
+\begin{eqnarray}
+\lambda (\boldsymbol{A} + \boldsymbol{B}) &=& \lambda \boldsymbol{A} + \lambda \boldsymbol{B} \\
+(\lambda + \mu) \boldsymbol{A} &=& \lambda \boldsymbol{A} + \mu \boldsymbol{A} \\
+\lambda (\mu \boldsymbol{A}) &=& (\lambda \mu) \boldsymbol{A}
+\end{eqnarray}
+
+<p>The first result states that you will get the same answer if you add two matrices together, and then multiply them by a scalar, as if you individually multiplied each matrix by the scalar and then added them together.</p>
+
+<p>The second result states that if you add two scalars together and then multiply the result by a matrix it gives the same answer as if you individually multiplied the matrix separately by each scalar and added the result.</p>
+
+<p>The third result states that the order of scalar multiplication does not matter. If you multiply the matrix by one scalar, and then multiply the result by another scalar it gives the same answer as if you first multiplied both scalars together and then by the matrix.</p>
+
+<p>All of these results follow from the simple rules of scalar multiplication and addition.</p>
+
+<h3>Hadamard Product</h3>
+
+<p>It is possible to define element-wise multiplication of matrices, which differs from the definition of matrix-matrix multiplication above. The <strong>Hadamard product</strong> of two matrices $\boldsymbol{A}=[a_{ij}]_{m \times n}$ and $\boldsymbol{B}=[b_{ij}]_{m \times n}$ is denoted by $\boldsymbol{A} \odot \boldsymbol{B}$ and calculated by the following expression:</p>
+
+\begin{equation}
+\boldsymbol{A} \odot \boldsymbol{B} = [a_{ij} b_{ij}]_{m \times n}
+\end{equation}
+
+<p>That is, the elements of the new matrix are simply given as the scalar multiples of each of the elements from the other matrices. Note that since scalar multiplication is commutative so is the Hadamard Product, unlike normal matrix-matrix multiplication.</p>
+
+<p>When might it be necessary to use the Hadamard product? In fact such a process has wide applications, including correcting codes in satellite transmissions and cryptography, signal processing as well as lossy compression algorithms for images in JPEG format.</p>
+
+<h3>Dot Product</h3>
+
+<p>An important special case of matrix-matrix multiplication occurs between two vectors and is known as the <strong>dot product</strong>. It has a deep relationship with geometry and is useful in all areas of the physical and computational sciences.</p>
+
+<p>We have to be extremely careful here in regards to notation. I am being particularly precise about this definition, which may be unusual to some of you who have it seen it written before. In particular the dot product is really only defined as a true matrix-matrix multiplication, where one of the vectors is a row "matrix" and the other a column "matrix". However, you will often see a slight "notational abuse" where it is defined for any two vectors (row or column).</p>
+
+<p>The usual notation for a dot product between two $n$-dimensional vectors $\boldsymbol{x}, \boldsymbol{y} \in \mathbb{R}^n$ is $\boldsymbol{x} \cdot \boldsymbol{y}$, which is where the name of the operation comes from. However in more advanced textbooks (particularly the popular graduate level statistics, machine learning and deep learning texts) you will see it written as $\boldsymbol{x}^T \boldsymbol{y}$, where $T$ represents the transpose of $\boldsymbol{x}$.</p>
+
+<p>This is because $\boldsymbol{x}$ and $\boldsymbol{y}$ are usually considered to both be <em>column</em> vectors. A matrix-matrix multiplication between two column vectors is not defined. Hence, one of the vectors needs to be transposed into a row vector such that the matrix-matrix multiplication is properly defined. Hence you will see the $\boldsymbol{x}^T \boldsymbol{y}$ notation frequently in more advanced textbooks and papers. Now we can proceed with the definition!</p>
+
+<p>Given two <em>column</em> vectors $\boldsymbol{x}, \boldsymbol{y} \in \mathbb{R}^n$ it is possible to define the <strong>dot product</strong> (or <strong>scalar product</strong>) between them by taking the transpose of one to form a product that is defined within the rules of matrix-matrix multiplication. Such a product produces a scalar value and is commutative:</p>
+
+\begin{equation}
+\boldsymbol{x}^T \boldsymbol{y} = \sum^n_{i=1} x_i y_i = \boldsymbol{y}^T \boldsymbol{x}
+\end{equation}
+
+<p>The dot product has an important geometric meaning. It is the product of the <a href="https://en.wikipedia.org/wiki/Euclidean_distance">Euclidean lengths</a> of the two vectors and the cosine of the angle between them. In subsequent articles the concept of <strong>norms</strong> will be introduced, at which point this definition will be formalised.</p>
+
+<p>Another way to think about a dot product is that if we take the dot product of a vector with itself it is the square of the length of the vector:</p>
+
+\begin{equation}
+\boldsymbol{x}^T \boldsymbol{x} = \sum^n_{i=1} x_i x_i = \sum^n_{i=1} x_i^2
+\end{equation}
+
+<p>Hence to find the (Euclidean) length of a vector you can simply take the square root of the dot product of the vector, $\sqrt{\boldsymbol{x}^T \boldsymbol{x}}$.</p>
+
+<p><em>The dot product is a special case of a more general mathematical entity known as an <strong>inner product</strong>. In more abstract vector spaces the inner product allows intuitive concepts such as length and angle of a vector to be made rigourous. However such spaces are beyond the scope of this article series and will not be discussed further.</em></p>
+
+<h2>Next Steps</h2>
+
+<p>This article has all been about operations applied to one or more matrices. We can now add and multiply matrices together. But what does this give us? How can we use it?</p>
+
+<p>In the <a href="https://www.quantstart.com/articles/matrix-inversion-linear-algebra-for-deep-learning-part-3/">next article</a> we are going to look at one of the most fundamental topics in linear algebra—inverting a matrix. Matrix inversion allows us to solve matrix equations, in exactly the same way that scalar algebra allows us to solve scalar equations.</p>
+
+<p>This is a widespread operation in the physical and computational sciences and will be indispensible in our studies of deep learning.</p>
+
+<h2>References</h2>
+
+<ul>
+  <li><a name="ref-blyth2002">[1] Blyth, T.S. and Robertson, E.F. (2002) <em>Basic Linear Algebra, 2nd Ed.</em>, Springer</a></li>
+  <li><a name="ref-strang2016">[2] Strang, G. (2016) <em>Introduction to Linear Algebra, 5th Ed.</em>, Wellesley-Cambridge Press</a></li>
+  <li><a name="ref-goodfellow2016" href="http://www.deeplearningbook.org/">[3] Goodfellow, I.J., Bengio, Y., Courville, A. (2016) <em>Deep Learning</em>, MIT Press</a></li>
+</ul>
+        
+        
+        <h2>Related Articles</h2>
+        <ul>
+        
+        <li><a href="/articles/scalars-vectors-matrices-and-tensors-linear-algebra-for-deep-learning-part-1/">Scalars, Vectors, Matrices and Tensors - Linear Algebra for Deep Learning (Part 1)</a></li>
+        
+        <li><a href="/articles/matrix-inversion-linear-algebra-for-deep-learning-part-3/">Matrix Inversion - Linear Algebra for Deep Learning (Part 3)</a></li>
+        
+        </ul>
+        
+        <script async data-uid="6296c27f4b" src="https://weathered-brook-5281.ck.page/6296c27f4b/index.js"></script>
+      </section>
+    </div>
+    <div class="col-md-4 book-card order-md-1">
+      
+<div class="sidebar-advert-container">
+  <a href="/qsalpha/?ref=art">
+    <img class="card-img-top" src="/static/images/qsalpha-sidebar-advert-small.png" alt="QSAlpha">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/qsalpha/?ref=art">QSAlpha</a></h3>
+      <p class="card-text medium-text mb-3">Join the QSAlpha research platform that helps fill your strategy research pipeline, diversifies your portfolio and improves your risk-adjusted returns for increased profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/qsalpha/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/quantcademy/?ref=art">
+    <img class="card-img-top" src="/static/images/quantcademy-sidebar-advert-small.png" alt="Quantcademy">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/quantcademy/?ref=art">The Quantcademy</a></h3>
+      <p class="card-text medium-text mb-3">Join the Quantcademy membership portal that caters to the rapidly-growing retail quant trader community and learn how to increase your strategy profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/quantcademy/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/successful-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/sat-sidebar-advert-small.png" alt="Successful Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to find new trading strategy ideas and objectively assess them for your portfolio using a Python-based backtesting engine.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/successful-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/advanced-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/aat-sidebar-advert-small.png" alt="Advanced Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to implement advanced trading strategies using time series analysis, machine learning and Bayesian statistics with R and Python.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/advanced-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+    
+
+<footer>
+  <div class="container container-full">
+    <section class="mt-1.5 mb-1">
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">QuantStart</li>
+            <li class="footer-list-link"><a class="link-fade" href="/about/">About</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/articles/">Articles</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/sitemap/">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Products</li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qsalpha/">QSAlpha</a></li>
+            
+            
+            <li class="footer-list-link"><a class="link-fade" href="/quantcademy/">Quantcademy</a></li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qstrader/">QSTrader</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Legal</li>
+            <li class="footer-list-link"><a class="link-fade" href="/privacy-policy/">Privacy Policy</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/terms-and-conditions/">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Social</li>
+            <li class="footer-list-link"><a class="link-fade" href="https://twitter.com/quantstart">Twitter</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="https://www.youtube.com/channel/UCmVnnZ6Y2TrJtY1eQJN6kWA">YouTube</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="row mb-1.5 mt-5">
+      <div class="col-12 col-md-9 col-lg-8 col-xl-6">
+        <div class="footer-copyright">
+          <p>©2012-2023 QuarkGluon Ltd. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+<script src="/static/js/jquery-3.2.1.min.js"></script>
+<script src="/static/js/prism.js.min"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/nav.js"></script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5383959-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+    
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="/static/js/highcharts/highcharts.js"></script>
+<script type="text/javascript">
+  num_colours = 10;
+</script>
+<script src="/static/js/statistics.js"></script>
+
+
+  </body>
+</html>

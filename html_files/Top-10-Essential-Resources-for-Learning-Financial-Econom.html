@@ -1,0 +1,451 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-site-verification" content="wl3-8ed1QZjI0iYZMv10zoZWYElkMObTfwLlWIj9cpA" />
+    <meta name="description" content="Top 10 Essential Resources for Learning Financial Econometrics">
+
+    <link rel="icon" href="/static/images/favicon.png">
+
+    <title>Top 10 Essential Resources for Learning Financial Econometrics | QuantStart</title>
+    
+    
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet"> 
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/prism.css" rel="stylesheet">
+<link href="/static/css/qs.css?v=10" rel="stylesheet">
+    
+  </head>
+
+  <body>
+    <header class="header covered-header" style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://quantstartmedia.s3.amazonaws.com/images/article-images/article-backgrounds/default-bg.jpg);">
+  
+<nav class="nav">
+  <div class="container nav-container">
+    <div class="nav-row row d-flex justify-content-between align-items-center">
+      <div class="col-2">
+        <ul class="nav-items justify-content-end small-capitals align-items-center">
+          <li class="nav-item">
+            <a class="link-fade" href="/">QuantStart</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-auto col-logo">
+        <ul id="top-nav-menu" class="nav-items justify-content-end align-items-center">
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/qsalpha/">QSAlpha</a>
+          </li>
+          
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/quantcademy/">Quantcademy</a>
+          </li>
+          
+          <li id="menu-link-ebooks" class="nav-item">
+            <a class="link-fade" href="#">Books</a>
+            <div id="menu-pane-ebooks" class="nav-items menu-dropdown-pane">
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/qstrader/">QSTrader</a>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/articles/">Articles</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/members/login/">Login</a>
+          </li>
+          
+        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<nav id="mobile-nav" class="mobile-nav text-left">
+  <div class="container">
+    <ul class="mt-4 ml-3 mobile-nav-menu">
+      <li class="nav-item">
+        <a class="link-fade d-block" href="/">QuantStart</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qsalpha/">QSAlpha</a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/quantcademy/">Quantcademy</a>
+      </li>
+      
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="#">Books</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qstrader/">QSTrader</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/articles/">Articles</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/members/login/">Login</a>
+      </li>
+      
+    </ul>
+    <button class="nav-toggle mobile-nav-close">
+      <svg id="mobile-nav-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M19.77,5.63,13.41,12l6.36,6.37a1,1,0,0,1-1.41,1.41L12,13.41,5.63,19.77a1,1,0,0,1-1.44-1.39l0,0L10.58,12,4.21,5.63a1,1,0,0,1,0-1.42,1,1,0,0,1,1.41,0l0,0L12,10.58l6.37-6.37a1,1,0,0,1,1.41,0A1,1,0,0,1,19.77,5.63Z"></path>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+  <div class="container hero-container">
+    <section class="mt-5 mb-4">
+      <div class="row justify-content-center">
+        <div class="col-12 text-center">
+          <p class="hero">Top 10 Essential Resources for Learning Financial Econometrics</p>
+          <p class="hero subhero">Top 10 Essential Resources for Learning Financial Econometrics</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</header>
+    
+<section class="container content-container">
+  <div class="row">
+    <div class="col-md-8 order-md-2">
+      <section class="content article-content">
+        
+        
+        <p>Financial econometrics is an <strong>integral component</strong> of modern quantitative trading. Cutting edge systematic trading algorithms make extensive use of time-series analysis techniques for forecasting purposes. Thus, if you wish someday to become a skilled quantitative trader, it is necessary to have an extensive knowledge of econometrics.</p>
+
+<p style="text-align:center;"><img src="https://s3.amazonaws.com/quantstartmedia/images/qs-econometrics-title.jpg"><br><strong>A subset of my econometrics collection!</strong></p>
+
+<p>In this article I will list my <strong>favourite econometrics resources</strong>, beginning with an elementary statistical basis through to the current research literature. Please be aware that econometrics can be a tricky subject to grasp as it requires a substantial mathematical and statistical prerequisite base of knowledge.</p>
+
+<h2>Probability and Statistics Basics</h2>
+
+<p>The best way to start is to make sure that you are familiar with the essential basic probability and stastical concepts. I'm a big fan of the <strong>Schaum's Outline</strong> series of books, as they always have a huge number of questions to work through. More importantly, these questions actually have worked solutions! I often find it helps to solidify concepts if one is actively practising the theory being described. One of my professors at university would continually remind us that "mathematics is not a spectator sport". I would say the same is true of learning econometrics.</p>
+
+<p>If you have a weak background in probability and statistics, which would be the case if you didn't take these courses in college, then I would highly recommend reading the following Schaum's Outline book on the topic or digging out a copy of <a href="http://www.amazon.com/gp/product/0198572220/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0198572220&linkCode=as2&tag=quant0f-20"><strong>Probability and Random Processes</strong></a> by Grimmett and Stirzaker, which is a classic probability text. If however you've taken some solid probability courses while at college/university, then you may want to skip straight ahead to the Schaum's Outline on stats and econometrics (below). Thus the first set of recommended resources are:</p>
+
+<h3><strong>1) <a href="http://www.amazon.com/gp/product/007179557X/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=007179557X&linkCode=as2&tag=quant0f-20">Schaum's Outline of Probability and Statistics, 4th Edition</a></strong> by Spiegal, Schiller and Srinivasan</h3>
+
+<p>Although I only personally have the 3rd edition of this book, I can confidently say that it is extremely useful in brushing up on your undergraduate probability and statistics.</p> 
+
+<p>The first part of the book begins with basic probability, random variables, probability distributions, expectation, correlation and ends with worked questions on special probability distributions. These distributions pop up everywhere within quant finance (normal, poisson, binomial, gamma, student's t etc), across derivatives pricing, risk management and quantitative trading.</p>
+
+<p>The statistics section is significantly larger containing seven chapters across a wide range of beginner statistical concepts. Sampling and estimation theory are considered first, then hypothesis testing. Regression, ANOVA and finally Bayesian Methods are considered.</p>
+
+<p>While the book is extremely comprehensive (it covers approximately two semesters of material), it does suffer from some typographical errors and is rather high level for a beginning course in statistics. It is a great supplement to a class or lecture series on the topic, however.</p>
+
+<h3><strong>2) <a href="http://www.amazon.com/gp/product/0071755470/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0071755470&linkCode=as2&tag=quant0f-20">Schaum's Outline of Statistics and Econometrics, 2nd Edition</a></strong> by Salvatore and Reagle</h3>
+
+<p>Yet another good book from the Schaum's Outlines stable. Salvatore and Reagle initially cover similar ground to Spiegal above, but spend far less time on pure probability.</p>
+
+<p>The worked examples are excellent and the writing style is particularly engaging. After the first five chapters on statistics, estimation and hypothesis testing, the book gradually veers towards statistical methods as applied to econometrics. This includes simple and multiple regression, an essential tool in the econometricians toolbox.</p>
+
+<p>A brief chapter on time-series methods is provided, discussing Autoregressive Moving Average (ARMA), stationarity and cointegration. These tools form the basis of some of the modern quantitative trading algorithms.</p> 
+
+<p>Note however that this book is not deep enough in econometrics to be read in isolation. It is really designed as a "bridge" between those who have taken an introductory probability/stats course and want to see slightly more challenging material. The main benefit, as with all Schaum's books, is that there are hundreds of worked examples. The book also includes a computational chapter on which the methods can be tested.</p>
+
+<h2>Introductory Econometrics</h2>
+
+<p>At this stage you should have a good grasp of basic probabiltiy, statistical methods and exposure to the time-series concepts used in econometrics models. The next step is to get a grounding in economics modelling and how it can be applied to large data sets such as that arising from financial markets pricing data, which is the main domain of the quantitative trader.</p>
+
+<p>I'm going to list two introductory econometrics texts here. I want to emphasise that I don't suggest reading them both in their entirety as they cover similar ground between them. However, they do vary significantly in their style and the topics they tend to concentrate on. Thus I will describe each in turn and you can make your own mind up as to which one sounds right for you.</p>
+
+<h3><strong>3) <a href="http://www.amazon.com/gp/product/052169468X/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=052169468X&linkCode=as2&tag=quant0f-20">Introductory Econometrics for Finance</a></strong> by Brooks</h3>
+
+<p>I really like Chris Brooks' text and I would highly recommend it for any prospective quant trader. The book begins with an extensive set of chapters on linear regression, peppered with many examples related to financial markets that are highly applicable to quantitative finance work. The chapters progress from simple linear regression to multiple regression and then discuss the importances of the assumptions of such models.</p>
+
+<p>The next set of chapters concentrate on time-series analysis, including ARMA and Vector Autoregressive (VAR) models. Once again, there are plenty of examples related to quantitative finance, such as forecasting time series.</p> 
+
+<p>Chapter 7 discusses long-run relationships and spends time considering cointegration, a useful tool for mean-reversion algorithmic trading strategies. Chapter 8 provides the first glimpse into the world of modelling volatility including an extensive discussion on the famous Generalised Autoregressive Conditional Heteroscedastic (GARCH) model.</p>
+
+<p>The book also has a chapter on Monte Carlo techniques, an area well known to long-term QuantStart readers. The main benefit of the book is that it is geared up towards students of finance, rather than those more interested in purer macroeconomic modelling.</p>
+
+<h3><strong>4) <a href="http://www.amazon.com/gp/product/1405182571/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=1405182571&linkCode=as2&tag=quant0f-20">A Guide to Econometrics, 6th Edition</a></strong> by Kennedy</h3>
+
+<p>This econometrics text by Kennedy takes a slightly different tack from that by Brooks. It concentrates far less on the financial aspect of econometrics than Brooks, instead spending a significant amount of time on discussing when assumptions to certain models can be violated. This is extremely useful as it often quite easy to apply a certain technique to a situation when the assumptions do not actually hold.</p>
+
+<p>The book is not particularly heavy on mathematics (for that have a look at Greene, below) but it is far better at explanation. This is not a theorem-proof text! Its main strength is that it clearly elucidates complex econometric ideas and provides the rationale for why particular models are utilised. Other, more advanced books tend to gloss over these issues.</p>
+
+<p>Although it is not as highly relevant as Brooks' book to quantitative trading, it will certainly help clarify any issues you may have with certain econometric ideas.</p>
+
+<h3>Alternative Econometrics Texts</h3>
+
+<p>Others have also recommended <a href="http://www.amazon.com/gp/product/0073375772/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0073375772&linkCode=as2&tag=quant0f-20"><strong>Basic Econometrics</strong></a> by Gujarati and Porter</a>. Unfortunately, I would like to recommend this book as well but it is currently sitting at $180 on Amazon.com! Despite the extremely high price tag, many people I know have learnt introductory econometrics from this book.</p>
+
+<p>Another text which crops up when discussing more theoretical aspects of econometrics is <a href="http://www.amazon.com/gp/product/0131395386/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0131395386&linkCode=as2&tag=quant0f-20"><strong>Econometric Analysis</strong></a> by Greene. If you would like a more mathematical or graduate level treatment of the subject, Greene is recommended.</p> 
+
+<h2>Econometrics for Financial Engineering</h2>
+
+<p>After having studied a text like Brooks' above, you will be well on your way to being skilled within basic econometric theory and time-series modelling. The next step is to start delving deeper into the statistical basis for the econometric theory, so that you are completely familiar with when to be able to apply a certain technique to a particular financial situation.</p>
+
+<p>We will now start to discuss more advanced material, including time-series modelling and the current state of the art in the econometrics research literature.</p>
+
+<h3><strong>5) <a href="http://www.amazon.com/gp/product/1441977864/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=1441977864&linkCode=as2&tag=quant0f-20">Statistics and Data Analysis for Financial Engineering</a></strong> by Ruppert</h3>
+
+<p>Ruppert's book is extremely comprehensive in its treatment of financial data analysis. The book covers significant financial ground from basic asset returns through to GARCH, CAPM, Factor Models and Risk Management. The book is in fact the main recommended text for the Coursera course described above.</p>
+
+<p>Perhaps the main benefit of the book is that it provides numerous worked examples in the R language, which gives the book an extremely practical edge not seen in many other texts. However, it does not teach R from the ground up. For that you will need another book (such as <a href="http://www.amazon.com/gp/product/0387938362/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0387938362&linkCode=as2&tag=quant0f-20"><strong>A Beginner's Guide to R</strong></a> by Zuur).</p>
+
+<p>While it contains the "usual suspects" in an econometrics text (such as univariate and multivariate modelling, as well as time-series/forecasting), it also has chapters on Fixed Income Securities, Copulas and Resampling. If you have the time and inclination I suggest reading through the book in its entirety and carrying out all of the worked examples in R. This will give you a thorough grounding in modern econometrics and statistics as applied to financial datasets.</p> 
+
+<h2>Time-Series Analysis</h2>
+
+<p>At this stage you will have covered the necessary undergraduate material for financial econometrics. The following two books specialise in time-series analysis, which is the main area of application for a quantitative trader who works on financial pricing data. Both of these books are designed either for graduate students or practitioners.</p>
+
+<h3><strong>6) <a href="http://www.amazon.com/gp/product/0691042896/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0691042896&linkCode=as2&tag=quant0f-20">Time Series Analysis</a></strong> by Hamilton</h3>
+
+<p>Firstly, I want to point out that this is quite an old book (almost 20 years, in fact!). Hence a lot of the current research literature has moved on. However, there is still plenty here which hasn't changed. Hamilton's book is geared up for the graduate level financial econometrician. It concentrates solely on time-series and so does not delve too deeply into simpler econometric theory.</p>
+
+<p>The book begins with ARMA processes and forecasting, then consideres spectral analysis and asymptotic distribution theory. Later chapters include Bayesian methods, Kalman Filters and Cointegration. So why should you pick this book up if you have already mastered the previous content? The main benefit lies in the depth of the book and the fact that it provides the "bridge" to more advanced research literature.</p> 
+
+<p>In terms of audience, I would say that mathematicians will find the book relatively straightforward to progress through, whereas graduate economists might need to brush up on some of the mathematical prerequisites in order to make good progress.</p>
+
+<h3><strong>7) <a href="http://www.amazon.com/gp/product/0470414359/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0470414359&linkCode=as2&tag=quant0f-20">Analysis of Financial Time Series</a></strong> by Tsay</h3>
+
+<p>Tsay's book complements the one by Hamilton rather well. Despite the fact it has extensive converage of time-series methods, it is written primarily for the practitioner. The book also manages to discuss aspects of high-frequency trading (HFT), market microstructure, risk management (VaR) and the continuous-time Black-Scholes framework for derivatives pricing.</p>
+
+<p>The books spends a good deal of time considering non-linear time series and duration models, which is something not often considered in other works. The examples are carried out in the R language as well as S-PLUS, which makes it straightforward to implement some of the theory being discussed.</p>
+
+<p>This book is extremely useful for practising algorithmic traders as it contains the usual group of time-series methods, such as ARIMA and GARCH, but also considers the models from the point of view of the investor trying to build successful models. This is in contrast to Hamilton's book, which is very much designed for the graduate student.</p>
+
+<h2>Current Research in Econometrics</h2>
+
+<p>Once you have mastered the prior statistical and time-series based texts you will be ready to try your hand at the modern research literature. Depending upon your affiliation, you may or may not be able to access some of the top financial and econometric journals. However, that shouldn't stop you as many academics publish their papers directly to their websites and provide <em>pre-print papers</em> on popular research networks such as the <a href="http://ssrn.com/">Social Sciences Research Network</a> or the <a href="http://arxiv.org">arXiv</a>.</p>
+
+<h3>8) Pre-Print Servers - arXiv, SSRN</h3>
+
+<p>Pre-print servers, in my opinion, are one of the greatest uses of the internet to date. Having graduated from university it is tricky for me to obtain some of the latest papers out of journals. I won't digress into the politics of journal subscriptions, but I will say that <a href="http://ssrn.com/">SSRN</a> and the <a href="http://arxiv.org/archive/q-fin">arXiv computational finance section</a> provide a great deal of interesting research material, much of it within financial econometrics.</p>
+
+<p>The drawback of sites such as the arXiv, is that they lack the rigour of peer review (by the very nature of the site!), hence it can sometimes be harder to wade through the junk. This is why it is worth keeping on top of the literature via the journals, making use of the pre-print servers to access papers that you know are likely to be of high quality due to the individuals involved.</p>
+
+<h3>9) Journals - Journal of Econometrics, Journal of Finance</h3>
+
+<p>The traditional academic community will be publishing in high quality journals. They are often a great source of ideas for statistical tools, as well as quantitative trading strategies. The peer review aspect will often ensure you are at least getting a reasonably reputable paper to read before committing the effort to doing so!</p>
+
+<p>If you have attended grad school for finance you will be familiar with some of the top names in finance and econometrics. Here are a few worth considering if you have the ability to access them:</p>
+
+<ul>
+  <li><strong><a href="http://www.journals.elsevier.com/journal-of-econometrics/">Journal of Econometrics</a></strong></li>
+  <li><strong><a href="http://www.jfqa.org/">Journal of Financial and Quantitative Analysis</a></strong></li>
+  <li><strong><a href="https://afajof.org/">Journal of Finance</a></strong></li>
+  <li><strong><a href="http://www.journals.elsevier.com/journal-of-financial-economics/">Journal of Financial Economics</a></strong></li>
+</ul>
+
+<h2>Honourable Mentions and Other Resources</h2>
+
+<p>Despite the length of this article, I have only begun to scratch the surface of the wealth of econometrics resources available. I honestly wish there were more hours in the day to read it all! One of the best ways to find upcoming quant research papers is to look at the following two blog feeds:</p>
+
+<ul>
+  <li><a href="https://twitter.com/quantivity"><strong>Quantivitiy Twitter Feed</strong></a> - This contains a constantly updated set of great quant research papers, many in econometrics.</li>
+  <li><a href="http://www.thewholestreet.com"><strong>The Whole Street</strong></a> - TWS provides a comprehensive "mashup" of various flavours of quant blogs, research papers and trading articles. Dig deep and you will likely find some fantastic articles.</li>
+</ul>
+
+<p>That concludes our foray into financial econometrics. In later articles I will be looking at individual techniques, especially some of the more advanced models used for algorithmic trading purposes.</p>
+        
+        
+        <script async data-uid="6296c27f4b" src="https://weathered-brook-5281.ck.page/6296c27f4b/index.js"></script>
+      </section>
+    </div>
+    <div class="col-md-4 book-card order-md-1">
+      
+<div class="sidebar-advert-container">
+  <a href="/qsalpha/?ref=art">
+    <img class="card-img-top" src="/static/images/qsalpha-sidebar-advert-small.png" alt="QSAlpha">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/qsalpha/?ref=art">QSAlpha</a></h3>
+      <p class="card-text medium-text mb-3">Join the QSAlpha research platform that helps fill your strategy research pipeline, diversifies your portfolio and improves your risk-adjusted returns for increased profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/qsalpha/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/quantcademy/?ref=art">
+    <img class="card-img-top" src="/static/images/quantcademy-sidebar-advert-small.png" alt="Quantcademy">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/quantcademy/?ref=art">The Quantcademy</a></h3>
+      <p class="card-text medium-text mb-3">Join the Quantcademy membership portal that caters to the rapidly-growing retail quant trader community and learn how to increase your strategy profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/quantcademy/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/successful-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/sat-sidebar-advert-small.png" alt="Successful Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to find new trading strategy ideas and objectively assess them for your portfolio using a Python-based backtesting engine.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/successful-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/advanced-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/aat-sidebar-advert-small.png" alt="Advanced Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to implement advanced trading strategies using time series analysis, machine learning and Bayesian statistics with R and Python.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/advanced-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+    
+
+<footer>
+  <div class="container container-full">
+    <section class="mt-1.5 mb-1">
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">QuantStart</li>
+            <li class="footer-list-link"><a class="link-fade" href="/about/">About</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/articles/">Articles</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/sitemap/">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Products</li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qsalpha/">QSAlpha</a></li>
+            
+            
+            <li class="footer-list-link"><a class="link-fade" href="/quantcademy/">Quantcademy</a></li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qstrader/">QSTrader</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Legal</li>
+            <li class="footer-list-link"><a class="link-fade" href="/privacy-policy/">Privacy Policy</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/terms-and-conditions/">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Social</li>
+            <li class="footer-list-link"><a class="link-fade" href="https://twitter.com/quantstart">Twitter</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="https://www.youtube.com/channel/UCmVnnZ6Y2TrJtY1eQJN6kWA">YouTube</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="row mb-1.5 mt-5">
+      <div class="col-12 col-md-9 col-lg-8 col-xl-6">
+        <div class="footer-copyright">
+          <p>©2012-2023 QuarkGluon Ltd. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+<script src="/static/js/jquery-3.2.1.min.js"></script>
+<script src="/static/js/prism.js.min"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/nav.js"></script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5383959-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+    
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="/static/js/highcharts/highcharts.js"></script>
+<script type="text/javascript">
+  num_colours = 10;
+</script>
+<script src="/static/js/statistics.js"></script>
+
+
+  </body>
+</html>

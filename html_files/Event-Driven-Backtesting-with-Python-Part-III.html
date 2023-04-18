@@ -1,0 +1,531 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-site-verification" content="wl3-8ed1QZjI0iYZMv10zoZWYElkMObTfwLlWIj9cpA" />
+    <meta name="description" content="Event-Driven Backtesting with Python - Part III">
+
+    <link rel="icon" href="/static/images/favicon.png">
+
+    <title>Event-Driven Backtesting with Python - Part III | QuantStart</title>
+    
+    
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet"> 
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/prism.css" rel="stylesheet">
+<link href="/static/css/qs.css?v=10" rel="stylesheet">
+    
+  </head>
+
+  <body>
+    <header class="header covered-header" style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://quantstartmedia.s3.amazonaws.com/images/article-images/article-backgrounds/default-bg.jpg);">
+  
+<nav class="nav">
+  <div class="container nav-container">
+    <div class="nav-row row d-flex justify-content-between align-items-center">
+      <div class="col-2">
+        <ul class="nav-items justify-content-end small-capitals align-items-center">
+          <li class="nav-item">
+            <a class="link-fade" href="/">QuantStart</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-auto col-logo">
+        <ul id="top-nav-menu" class="nav-items justify-content-end align-items-center">
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/qsalpha/">QSAlpha</a>
+          </li>
+          
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/quantcademy/">Quantcademy</a>
+          </li>
+          
+          <li id="menu-link-ebooks" class="nav-item">
+            <a class="link-fade" href="#">Books</a>
+            <div id="menu-pane-ebooks" class="nav-items menu-dropdown-pane">
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/qstrader/">QSTrader</a>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/articles/">Articles</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/members/login/">Login</a>
+          </li>
+          
+        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<nav id="mobile-nav" class="mobile-nav text-left">
+  <div class="container">
+    <ul class="mt-4 ml-3 mobile-nav-menu">
+      <li class="nav-item">
+        <a class="link-fade d-block" href="/">QuantStart</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qsalpha/">QSAlpha</a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/quantcademy/">Quantcademy</a>
+      </li>
+      
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="#">Books</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qstrader/">QSTrader</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/articles/">Articles</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/members/login/">Login</a>
+      </li>
+      
+    </ul>
+    <button class="nav-toggle mobile-nav-close">
+      <svg id="mobile-nav-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M19.77,5.63,13.41,12l6.36,6.37a1,1,0,0,1-1.41,1.41L12,13.41,5.63,19.77a1,1,0,0,1-1.44-1.39l0,0L10.58,12,4.21,5.63a1,1,0,0,1,0-1.42,1,1,0,0,1,1.41,0l0,0L12,10.58l6.37-6.37a1,1,0,0,1,1.41,0A1,1,0,0,1,19.77,5.63Z"></path>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+  <div class="container hero-container">
+    <section class="mt-5 mb-4">
+      <div class="row justify-content-center">
+        <div class="col-12 text-center">
+          <p class="hero">Event-Driven Backtesting with Python - Part III</p>
+          <p class="hero subhero">Event-Driven Backtesting with Python - Part III</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</header>
+    
+<section class="container content-container">
+  <div class="row">
+    <div class="col-md-8 order-md-2">
+      <section class="content article-content">
+        
+        
+        <p>In the previous two articles of the series <a href="https://www.quantstart.com/articles/Event-Driven-Backtesting-with-Python-Part-I">we discussed what an event-driven backtesting system is</a> and the <a href="https://www.quantstart.com/articles/Event-Driven-Backtesting-with-Python-Part-II">class hierarchy for the Event object</a>. In this article we are going to consider how market data is utilised, both in a historical backtesting context and for live trade execution.</p>
+
+<p>One of our goals with an event-driven trading system is to minimise duplication of code between the backtesting element and the live execution element. Ideally it would be optimal to utilise the same signal generation methodology and portfolio management components for both historical testing and live trading. In order for this to work the <code>Strategy</code> object which generates the Signals, and the <code>Portfolio</code> object which provides Orders based on them, must utilise an identical interface to a market feed for both historic and live running.</p>
+
+<p>This motivates the concept of a class hierarchy based on a <code>DataHandler</code> object, which gives all subclasses an interface for providing market data 
+to the remaining components within the system. In this way any subclass data handler can be "swapped out", without affecting strategy or portfolio calculation.</p>
+
+<p>Specific example subclasses could include <code>HistoricCSVDataHandler</code>, <code>QuandlDataHandler</code>, <code>SecuritiesMasterDataHandler</code>, <code>InteractiveBrokersMarketFeedDataHandler</code> etc. In this tutorial we are only going to consider the creation of a historic CSV data handler, which will load intraday CSV data for equities in an Open-Low-High-Close-Volume-OpenInterest set of bars. This can then be used to "drip feed" on a bar-by-bar basis the data into the <code>Strategy</code> and <code>Portfolio</code> classes on every heartbeat of the system, thus avoiding lookahead bias.</p>
+
+<p>The first task is to import the necessary libraries. Specifically we are going to import pandas and the <a href="https://en.wikipedia.org/wiki/Class_%28computer_programming%29#Abstract_and_concrete">abstract base class</a> tools. Since the DataHandler generates MarketEvents we also need to import <code>event.py</code> as described in the <a href="https://www.quantstart.com/articles/Event-Driven-Backtesting-with-Python-Part-II">previous tutorial</a>:</p>
+
+<pre>
+<code class="language-python"># data.py
+
+import datetime
+import os, os.path
+import pandas as pd
+
+from abc import ABCMeta, abstractmethod
+
+from event import MarketEvent</code>
+</pre>
+
+<p>The <code>DataHandler</code> is an abstract base class (ABC), which means that it is impossible to instantiate an instance directly. Only subclasses may be instantiated. The rationale for this is that the ABC provides an interface that all subsequent <code>DataHandler</code> subclasses must adhere to thereby ensuring compatibility with other classes that communicate with them.</p>
+
+<p>We make use of the <code>__metaclass__</code> property to let Python know that this is an ABC. In addition we use the <code>@abstractmethod</code> decorator to let Python know that the method will be overridden in subclasses (this is identical to a <a href="https://en.wikipedia.org/wiki/Virtual_function#Abstract_classes_and_pure_virtual_functions">pure virtual method</a> in C++).</p>
+
+<p>The two methods of interest are <code>get_latest_bars</code> and <code>update_bars</code>. The former returns the last $N$ bars from the current heartbeat timestamp, which is useful for rolling calculations needed in <code>Strategy</code> classes. The latter method provides a "drip feed" mechanism for placing bar information on a new data structure that strictly prohibits lookahead bias. Notice that exceptions will be raised if an attempted instantiation of the class occurs:</p>
+
+<pre>
+<code class="language-python"># data.py
+
+class DataHandler(object):
+    """
+    DataHandler is an abstract base class providing an interface for
+    all subsequent (inherited) data handlers (both live and historic).
+
+    The goal of a (derived) DataHandler object is to output a generated
+    set of bars (OLHCVI) for each symbol requested. 
+
+    This will replicate how a live strategy would function as current
+    market data would be sent "down the pipe". Thus a historic and live
+    system will be treated identically by the rest of the backtesting suite.
+    """
+
+    __metaclass__ = ABCMeta
+
+    @abstractmethod
+    def get_latest_bars(self, symbol, N=1):
+        """
+        Returns the last N bars from the latest_symbol list,
+        or fewer if less bars are available.
+        """
+        raise NotImplementedError("Should implement get_latest_bars()")
+
+    @abstractmethod
+    def update_bars(self):
+        """
+        Pushes the latest bar to the latest symbol structure
+        for all symbols in the symbol list.
+        """
+        raise NotImplementedError("Should implement update_bars()")</code>
+</pre>
+
+<p>With the <code>DataHandler</code> ABC specified the next step is to create a handler for historic CSV files. In particular the <code>HistoricCSVDataHandler</code> will take multiple CSV files, one for each symbol, and convert these into a dictionary of pandas DataFrames.</p>
+
+<p>The data handler requires a few parameters, namely an Event Queue on which to push MarketEvent information to, the absolute path of the CSV files and a list of symbols. Here is the initialisation of the class:</p>
+
+<pre>
+<code class="language-python"># data.py
+
+class HistoricCSVDataHandler(DataHandler):
+    """
+    HistoricCSVDataHandler is designed to read CSV files for
+    each requested symbol from disk and provide an interface
+    to obtain the "latest" bar in a manner identical to a live
+    trading interface. 
+    """
+
+    def __init__(self, events, csv_dir, symbol_list):
+        """
+        Initialises the historic data handler by requesting
+        the location of the CSV files and a list of symbols.
+
+        It will be assumed that all files are of the form
+        'symbol.csv', where symbol is a string in the list.
+
+        Parameters:
+        events - The Event Queue.
+        csv_dir - Absolute directory path to the CSV files.
+        symbol_list - A list of symbol strings.
+        """
+        self.events = events
+        self.csv_dir = csv_dir
+        self.symbol_list = symbol_list
+
+        self.symbol_data = {}
+        self.latest_symbol_data = {}
+        self.continue_backtest = True       
+
+        self._open_convert_csv_files()</code>
+</pre>
+
+<p>It will implicitly try to open the files with the format of "SYMBOL.csv" where symbol is the ticker symbol. The format of the files matches that provided by <a href="https://uk.finance.yahoo.com/">Yahoo</a>, but is easily modified to handle additional data formats. The opening of the files is handled by the <code>_open_convert_csv_files</code> method below.</p>
+
+<p>One of the benefits of using pandas as a datastore internally within the <code>HistoricCSVDataHandler</code> is that the indexes of all symbols being tracked can be merged together. This allows missing data points to be padded forward, backward or interpolated within these gaps such that tickers can be compared on a bar-to-bar basis. This is necessary for mean-reverting strategies, for instance. Notice the use of the <code>union</code> and <code>reindex</code> methods when combining the indexes for all symbols:</p>
+
+<pre>
+<code class="language-python"># data.py
+
+    def _open_convert_csv_files(self):
+        """
+        Opens the CSV files from the data directory, converting
+        them into pandas DataFrames within a symbol dictionary.
+
+        For this handler it will be assumed that the data is
+        taken from Yahoo. Thus its format will be respected.
+        """
+        comb_index = None
+        for s in self.symbol_list:
+            # Load the CSV file with no header information, indexed on date
+            self.symbol_data[s] = pd.read_csv(
+                os.path.join(self.csv_dir, '%s.csv' % s),
+                header=0, index_col=0, parse_dates=True,
+                names=[
+                    'datetime', 'open', 'high', 
+                    'low', 'close', 'adj_close', 'volume'
+                ]
+            )
+            self.symbol_data[s].sort_index(inplace=True)
+
+            # Combine the index to pad forward values
+            if comb_index is None:
+                comb_index = self.symbol_data[s].index
+            else:
+                comb_index.union(self.symbol_data[s].index)
+
+            # Set the latest symbol_data to None
+            self.latest_symbol_data[s] = []
+
+        for s in self.symbol_list:
+            self.symbol_data[s] = self.symbol_data[s].reindex(
+                index=comb_index, method='pad'
+            )
+            self.symbol_data[s]["returns"] = self.symbol_data[s]["adj_close"].pct_change().dropna()
+            self.symbol_data[s] = self.symbol_data[s].iterrows()
+
+        # Reindex the dataframes
+        for s in self.symbol_list:
+            self.symbol_data[s] = self.symbol_data[s].reindex(index=comb_index, method='pad').iterrows()</code>
+</pre>
+
+<p>The <code>_get_new_bar</code> method creates a <a href="https://wiki.python.org/moin/Generators">generator</a> to provide a formatted version of the bar data. This means that subsequent calls to the method will <em>yield</em> a new bar until the end of the symbol data is reached:</p>
+
+<pre>
+<code class="language-python"># data.py
+
+    def _get_new_bar(self, symbol):
+        """
+        Returns the latest bar from the data feed as a tuple of 
+        (sybmbol, datetime, open, low, high, close, volume).
+        """
+        for b in self.symbol_data[symbol]:
+            yield tuple([symbol, datetime.datetime.strptime(b[0], '%Y-%m-%d %H:%M:%S'), 
+                        b[1][0], b[1][1], b[1][2], b[1][3], b[1][4]])</code>
+</pre>
+
+<p>The first abstract method from <code>DataHandler</code> to be implemented is <code>get_latest_bars</code>. This method simply provides a list of the last $N$ bars from the <code>latest_symbol_data</code> structure. Setting $N=1$ allows the retrieval of the current bar (wrapped in a list):</p>
+
+<pre>
+<code class="language-python"># data.py
+
+    def get_latest_bars(self, symbol, N=1):
+        """
+        Returns the last N bars from the latest_symbol list,
+        or N-k if less available.
+        """
+        try:
+            bars_list = self.latest_symbol_data[symbol]
+        except KeyError:
+            print "That symbol is not available in the historical data set."
+        else:
+            return bars_list[-N:]</code>            
+</pre>
+
+<p>The final method, <code>update_bars</code>, is the second abstract method from <code>DataHandler</code>. It simply generates a <code>MarketEvent</code> that gets added to the queue as it appends the latest bars to the <code>latest_symbol_data</code>:</p>
+
+<pre>
+<code class="language-python"># data.py
+
+    def update_bars(self):
+        """
+        Pushes the latest bar to the latest_symbol_data structure
+        for all symbols in the symbol list.
+        """
+        for s in self.symbol_list:
+            try:
+                bar = self._get_new_bar(s).next()
+            except StopIteration:
+                self.continue_backtest = False
+            else:
+                if bar is not None:
+                    self.latest_symbol_data[s].append(bar)
+        self.events.put(MarketEvent())</code>
+</pre>
+
+<p>Thus we have a <code>DataHandler</code>-derived object, which is used by the remaining components to keep track of market data. The <code>Strategy</code>, <code>Portfolio</code> and <code>ExecutionHandler</code> objects all require the current market data thus it makes sense to centralise it to avoid duplication of storage.</p>
+
+<p>In the next article we will consider the <code>Strategy</code> class hierarchy and describe how a strategy can be designed to handle multiple symbols, thus generating multiple <code>SignalEvent</code>s for the <code>Portfolio</code> object.</p>
+        
+        
+        <script async data-uid="6296c27f4b" src="https://weathered-brook-5281.ck.page/6296c27f4b/index.js"></script>
+      </section>
+    </div>
+    <div class="col-md-4 book-card order-md-1">
+      
+<div class="sidebar-advert-container">
+  <a href="/qsalpha/?ref=art">
+    <img class="card-img-top" src="/static/images/qsalpha-sidebar-advert-small.png" alt="QSAlpha">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/qsalpha/?ref=art">QSAlpha</a></h3>
+      <p class="card-text medium-text mb-3">Join the QSAlpha research platform that helps fill your strategy research pipeline, diversifies your portfolio and improves your risk-adjusted returns for increased profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/qsalpha/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/quantcademy/?ref=art">
+    <img class="card-img-top" src="/static/images/quantcademy-sidebar-advert-small.png" alt="Quantcademy">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/quantcademy/?ref=art">The Quantcademy</a></h3>
+      <p class="card-text medium-text mb-3">Join the Quantcademy membership portal that caters to the rapidly-growing retail quant trader community and learn how to increase your strategy profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/quantcademy/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/successful-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/sat-sidebar-advert-small.png" alt="Successful Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to find new trading strategy ideas and objectively assess them for your portfolio using a Python-based backtesting engine.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/successful-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/advanced-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/aat-sidebar-advert-small.png" alt="Advanced Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to implement advanced trading strategies using time series analysis, machine learning and Bayesian statistics with R and Python.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/advanced-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+    
+
+<footer>
+  <div class="container container-full">
+    <section class="mt-1.5 mb-1">
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">QuantStart</li>
+            <li class="footer-list-link"><a class="link-fade" href="/about/">About</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/articles/">Articles</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/sitemap/">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Products</li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qsalpha/">QSAlpha</a></li>
+            
+            
+            <li class="footer-list-link"><a class="link-fade" href="/quantcademy/">Quantcademy</a></li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qstrader/">QSTrader</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Legal</li>
+            <li class="footer-list-link"><a class="link-fade" href="/privacy-policy/">Privacy Policy</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/terms-and-conditions/">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Social</li>
+            <li class="footer-list-link"><a class="link-fade" href="https://twitter.com/quantstart">Twitter</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="https://www.youtube.com/channel/UCmVnnZ6Y2TrJtY1eQJN6kWA">YouTube</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="row mb-1.5 mt-5">
+      <div class="col-12 col-md-9 col-lg-8 col-xl-6">
+        <div class="footer-copyright">
+          <p>©2012-2023 QuarkGluon Ltd. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+<script src="/static/js/jquery-3.2.1.min.js"></script>
+<script src="/static/js/prism.js.min"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/nav.js"></script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5383959-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+    
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="/static/js/highcharts/highcharts.js"></script>
+<script type="text/javascript">
+  num_colours = 10;
+</script>
+<script src="/static/js/statistics.js"></script>
+
+
+  </body>
+</html>

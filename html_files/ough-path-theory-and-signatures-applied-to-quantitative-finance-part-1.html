@@ -1,0 +1,608 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-site-verification" content="wl3-8ed1QZjI0iYZMv10zoZWYElkMObTfwLlWIj9cpA" />
+    <meta name="description" content="Rough Path Theory and Signatures Applied To Quantitative Finance - Part 1">
+
+    <link rel="icon" href="/static/images/favicon.png">
+
+    <title>Rough Path Theory and Signatures Applied To Quantitative Finance - Part 1 | QuantStart</title>
+    
+    
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet"> 
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/prism.css" rel="stylesheet">
+<link href="/static/css/qs.css?v=10" rel="stylesheet">
+    
+  </head>
+
+  <body>
+    <header class="header covered-header" style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://quantstartmedia.s3.amazonaws.com/images/article-images/article-backgrounds/rough-path-theory.jpg);">
+  
+<nav class="nav">
+  <div class="container nav-container">
+    <div class="nav-row row d-flex justify-content-between align-items-center">
+      <div class="col-2">
+        <ul class="nav-items justify-content-end small-capitals align-items-center">
+          <li class="nav-item">
+            <a class="link-fade" href="/">QuantStart</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-auto col-logo">
+        <ul id="top-nav-menu" class="nav-items justify-content-end align-items-center">
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/qsalpha/">QSAlpha</a>
+          </li>
+          
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/quantcademy/">Quantcademy</a>
+          </li>
+          
+          <li id="menu-link-ebooks" class="nav-item">
+            <a class="link-fade" href="#">Books</a>
+            <div id="menu-pane-ebooks" class="nav-items menu-dropdown-pane">
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/qstrader/">QSTrader</a>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/articles/">Articles</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/members/login/">Login</a>
+          </li>
+          
+        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<nav id="mobile-nav" class="mobile-nav text-left">
+  <div class="container">
+    <ul class="mt-4 ml-3 mobile-nav-menu">
+      <li class="nav-item">
+        <a class="link-fade d-block" href="/">QuantStart</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qsalpha/">QSAlpha</a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/quantcademy/">Quantcademy</a>
+      </li>
+      
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="#">Books</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qstrader/">QSTrader</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/articles/">Articles</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/members/login/">Login</a>
+      </li>
+      
+    </ul>
+    <button class="nav-toggle mobile-nav-close">
+      <svg id="mobile-nav-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M19.77,5.63,13.41,12l6.36,6.37a1,1,0,0,1-1.41,1.41L12,13.41,5.63,19.77a1,1,0,0,1-1.44-1.39l0,0L10.58,12,4.21,5.63a1,1,0,0,1,0-1.42,1,1,0,0,1,1.41,0l0,0L12,10.58l6.37-6.37a1,1,0,0,1,1.41,0A1,1,0,0,1,19.77,5.63Z"></path>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+  <div class="container hero-container">
+    <section class="mt-5 mb-4">
+      <div class="row justify-content-center">
+        <div class="col-12 text-center">
+          <p class="hero">Rough Path Theory and Signatures Applied To Quantitative Finance - Part 1</p>
+          <p class="hero subhero">Rough Path Theory and Signatures Applied To Quantitative Finance - Part 1</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</header>
+    
+<section class="container content-container">
+  <div class="row">
+    <div class="col-md-8 order-md-2">
+      <section class="content article-content">
+        
+        
+        <p><em>To date QuantStart has generally written on topics that are applicable to the beginner or intermediate quant practitioner. However we have recently begun to receive requests from academics and advanced practitioners asking for more content on research-level topics.</p>
+
+<p>This is the first in a new series of posts written by Imanol Pérez, a PhD researcher in Mathematics at Oxford University, UK, and a new expert guest contributor to QuantStart. In this introductory post Imanol describes the Theory of Rough Paths, applying Python to compute the Lead-Lag and Time-Joined transformations to a stream of IBM pricing data.<br>- Mike.</em></p>
+
+<p>Since the <em>theory of rough paths</em> was introduced in the late 90s<sup><a href="#ref-lyons1998">[5]</a></sup>, the field has evolved considerably and at a very fast pace. Moreover, in the last few years there have been many papers<sup><a href="#ref-levin2016">[3]</a>, <a href="#ref-gyurko2013">[2]</a>, <a href="#ref-chevyrev2016">[1]</a></sup> showing how to apply rough path theory to machine learning and time series analysis.</p>
+
+<p>Rough path theory, as the name suggests, deals with paths (that is, continuous functions $X:[0,T]\rightarrow \mathbb{R}^d$) that are <em>rough</em>, in the sense of being highly oscillatory. In this article, we will introduce the theory of rough paths from a theoretical point of view. This introduction will be followed by several articles that will show, with concrete examples, how some of the results that are stated here can be used in quantitative finance.</p>
+
+<h2>Tensor algebra</h2>
+
+<p>Before defining the signature of a continuous path and introducing its properties, we shall define the tensor algebra space we will be dealing with. The $n$-th tensor power of $\mathbb{R}^d$ is defined as</p>
+
+<p>\begin{equation*}
+(\mathbb{R}^d)^{\otimes n} := \underbrace{\mathbb{R}^d\otimes \mathbb{R}^d\otimes \ldots \otimes \mathbb{R}^d}_n,
+\end{equation*} where $\otimes$ is the tensor product. We define the tensor algebra space as
+</p>
+
+<p>\begin{equation}
+T((\mathbb{R}^d)):=\{(a_0, a_1, a_2, \ldots) : a_n \in (\mathbb{R}^d)^{\otimes n} \mbox{ }\forall n\geq 0\},
+\end{equation} were we take $(\mathbb{R}^d)^{\otimes 0}=\mathbb{R}$ by convention. Moreover, we shall also introduce the <em>truncated</em> tensor algebra space $T^n(E)$, which is defined as</p>
+
+<p>\begin{equation}\label{eq:truncated tensor algebra 1}
+T^n(\mathbb{R}^d):=\bigoplus_{i=0}^n (\mathbb{R}^d)^{\otimes i}.
+\end{equation}</p>
+
+<p>Given two elements $a=(a_0,a_1,\ldots),b=(b_0,b_1,\ldots)\in T((\mathbb{R}^d))$, we may introduce the sum and product of $a$ and $b$ as</p>
+
+<p>\begin{equation*}
+a+b:=(a_0+b_0, a_1+b_1, a_2+b_2,\ldots),
+\end{equation*}\begin{equation*}
+a\otimes b=ab:=\left (\sum_{i=0}^n a_i \otimes b_{n-i} \right )_{n\geq 0}.
+\end{equation*}</p>
+
+<p>Summation and multiplication in the truncated tensor algebra can be defined analogously.
+
+<h2>Signature of a path</h2>
+
+<p>The <em>signature of a path</em> is a key object in the theory of rough paths. For a continuous path $X:[0,T]\rightarrow \mathbb{R}^d$ such that the integrals below make sense, the signature of $X$ is defined as the sequence</p>
+
+<p>$$S(X):=(1,X^1,X^2,\ldots)\in T((\mathbb{R}^d))$$</p>
+
+<p>where</p>
+
+<p>$$X^n := \underset{\substack{0 &lt; u_1 &lt; u_2 &lt; \ldots &lt; u_n &lt; T}}{\int\ldots\int} dX_{u_1} \otimes \ldots \otimes dX_{u_n} \in (\mathbb{R}^d)^{\otimes n}\quad \forall n \geq 1.$$</p>
+
+<p>Sometimes we are only interested in the <em>truncated signature</em>, which is defined as</p>
+
+<p>$$S^n(X):=(1,X^1,X^2,\ldots,X^n).$$</p>
+
+<p>The signature of a path can also be defined as the sequence $(X^I)_{I\in \mathcal{I}}$, where $\mathcal{I}$ is the set of all multi-indices with entries in $\{1,\ldots,d\}$, and $X^I$ is defined, for $I=(i_1,\ldots,i_n)$, as the iterated integral</p>
+
+<p>\begin{equation}\label{eq:alternative signature}
+X^I = \underset{\substack{0 &lt; u_1 &lt; u_2 &lt; \ldots &lt; u_n &lt; T}}{\int\ldots\int} dX_{u_1}^{i_1} \ldots dX_{u_n}^{i_n}.
+\end{equation}</p>
+
+<p>This way of expressing the signature allows to have a better intuition of it, and how it may be calculated in practice. Let us take a closer look to what the iterated integrals look like for the low order terms, for instance. Take the above equation with $I=(i)$, for $i=1,\ldots,d$. Then, $X^{(i)}=X_T^i-X_0^i$, that is, the first order terms of the signature are nothing else than the increments of the path.</p>
+
+<p>For the second order iterated integral, let us consider $I=(i,j)$, with $i,j\in \{1,\ldots,d\}$ not necessarily distinct. Then, we have</p>
+
+<p>
+\begin{equation*}
+\begin{split}
+\left ( \int_{0}^T dX_{u_1}^{i}\right ) \left ( \int_{0}^T dX_{u_2}^{j} \right )=\underset{\substack{u_1, u_2 \in [0,T]}}{\int} dX_{u_1}^{i}dX_{u_2}^{j} = \\
+=\underset{\substack{0 &lt; u_1  &lt; u_2 &lt; T}}{\int} dX_{u_1}^{i}dX_{u_2}^{j}+\underset{\substack{0 &lt; u_2 &lt; u_1 &lt; T}}{\int} dX_{u_1}^{i}dX_{u_2}^{j}.
+\end{split}
+\end{equation*}
+</p>
+
+<p>That is, we have the following identity:</p>
+
+<p>\begin{equation}\label{eq:identity second order signature}
+X^{(i,j)}+X^{(j,i)}=X^{(i)}X^{(j)}\quad \forall i,j\in \{1,\ldots,d\},
+\end{equation} and in particular, letting $i=j$,</p>
+
+<p>\begin{equation}
+X^{(i,i)}=\dfrac{\left (X^{(i)}\right )^2}{2} \quad \forall i=1,\ldots,d.
+\end{equation}</p>
+
+<p>The equation shows how the first and second order terms are related in the signature.</p>
+
+<h2>Signature of a stream of data</h2>
+
+<p>In the previous section we defined the signature of a continuous path. However, in real life we cannot observe a full continuous path, we can only expect to observe a stream of data that consists of a sampling of the path we are interested in. In financial securities, for instance, the market only shows the prices of the securities at specific times. Therefore, in order to apply techniques from rough path theory to financial securities, we need to define what we mean by the <em>signature of a stream of data</em>.</p>
+
+<p>Mathematically, a stream of data (which for now will be assumed to be one dimensional) is denoted by $\{(t, S_t)\}_{t\in \mathcal{D}}$, where $\mathcal{D}\subset [0,T]$ is the times at which information about the path is available, and $S_t$ denotes the value of the path at time $t$. In financial terms, $\mathcal{D}$ denotes the times at which we have information about the price of a security, and $S_t$ denotes the price of the security at time $t$.</p>
+
+<p>The way to proceed in this case is quite simple: we first transform the stream of data into a continuous path, and then calculate the signature of this new path. We will show two approaches for this task: the <em>lead-lag</em> transformation, and the <em>time-joined</em> transformation. In both cases the resulting continuous path is piecewise linear, which makes the calculation of the signature easier and computationally fast<sup><a href="#ref-levin2016">[3]</a></sup>.</p>
+
+<h2>Lead-lag transformation</h2>
+
+<p>As mentioned, we want to transform the stream of data $\{(t, S_t)\}_{t\in \mathcal{D}}$ into a continuous path. If $\mathcal{D}$ is given by the times $0\leq t_0 &lt; t_1 &lt; \ldots &lt; t_N \leq T$, we may then write the stream of data as</p>
+
+<p>$$\{(t_i, S_{t_i})\}_{i=0}^N.$$</p>
+
+<p>Then, the <em>lead-lag transformation</em> of the stream of data is defined as</p>
+
+<p>\begin{align*}
+\widehat{S}_t^\mathcal{D}:= \begin{cases}
+(S_{t_i}, S_{t_{i+1}})&\mbox{for }t\in [2i, 2i+1)\\
+(S_{t_i}, S_{t_{i+1}}+2(t-(2i+1))(S_{t_{i+2}}-S_{t_{i+1}})&\mbox{for }t\in \left [2i+1, 2i+\frac{3}{2}\right )\\
+(S_{t_i}+2\left (t-\left (2i+\frac{3}{2}\right )\right )(S_{t_{i+1}}-S_{t_i}), S_{t_{i+2}})&\mbox{for }t\in \left [2i+\frac{3}{2}, 2i+2\right ).
+\end{cases},
+\end{align*} for $t\in [0, 2N]$. As we see, this path is $2$-dimensional, and we often write it as $\widehat{S}^\mathcal{D}=(\widehat{S}^{\mathcal{D},b}, \widehat{S}^{\mathcal{D},f})$. The first term, $\widehat{X}^{\mathcal{D}, b}$, corresponds to the <em>lead</em> component and the second term, $\widehat{X}^{\mathcal{D}, f}$, corresponds to the lag component.</p>
+
+<p>The following code, implemented in Python, computes and plots the lead-lag transformation of a stream of data:</p>
+
+<pre>
+<code class="language-python">import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
+import matplotlib.patches as patches
+
+def leadlag(X):
+    '''
+    Returns lead-lag-transformed stream of X
+
+    Arguments:
+        X: list, whose elements are tuples of the form
+        (time, value).
+
+    Returns:
+        list of points on the plane, the lead-lag
+        transformed stream of X
+    '''
+
+    l=[]
+
+    for j in range(2*(len(X))-1):
+        i1=j//2
+        i2=j//2
+        if j%2!=0:
+            i1+=1
+        l.append((X[i1][1], X[i2][1]))
+
+    return l
+
+def plotLeadLag(X, diagonal=True):
+    '''
+    Plots the lead-laged transformed path X. If diagonal
+    is True, a line joining the start and ending points
+    is displayed.
+
+    Arguments:
+        X: list, whose elements are tuples of the form
+        (X^lead, X^lag) diagonal: boolean, default is
+        True. If True, a line joining the start and
+        ending points is displayed.
+    '''
+    for i in range(len(X)-1):
+        plt.plot([X[i][1], X[i+1][1]], [X[i][0], X[i+1][0]],
+                    color='k', linestyle='-', linewidth=2)
+
+
+    # Show the diagonal, if diagonal is true
+    if diagonal:
+        plt.plot([min(min([p[0] for p in X]), min([p[1]
+                for p in X])), max(max([p[0] for p in X]),
+                max([p[1] for p in X]))], [min(min([p[0]
+                for p in X]), min([p[1] for p in X])),
+                max(max([p[0] for p in X]), max([p[1] for
+                p in X]))], color='#BDBDBD', linestyle='-',
+                linewidth=1)
+
+    axes=plt.gca()
+    axes.set_xlim([min([p[1] for p in X])-1, max([p[1] for
+                  p in X])+1])
+    axes.set_ylim([min([p[0] for p in X])-1, max([p[0] for
+                  p in X])+1])
+    axes.get_yaxis().get_major_formatter().set_useOffset(False)
+    axes.get_xaxis().get_major_formatter().set_useOffset(False)
+    axes.set_aspect('equal', 'datalim')
+    plt.show()</code>
+</pre>
+
+<p style="text-align:center;">
+<img width="80%" src="https://s3.amazonaws.com/quantstartmedia/images/qs-imanol-rough-path-1-ibm.png"><br>
+<strong>Fig 1 - Path of IBM stock</strong>
+</p>
+
+<p style="text-align:center;">
+<img width="80%" src="https://s3.amazonaws.com/quantstartmedia/images/qs-imanol-rough-path-1-ibm-leadlag.png"><br>
+<strong>Fig 2 - Lead-lag transformation of IBM stock</strong>
+</p>
+
+<p>Figures 1 and 2 show the price of IBM's stock from October 2016 to November 2016, and its lead-lag transformation, which was computed using the code above.</p>
+
+<h2>Time-joined transformation</h2>
+
+<p>An alternative way of transforming the stream of data $\{(t_i, S_{t_i}\}_{i=0}^N$ into a continuous path is using the <em>time-joined transformation</em>, which is defined as</p>
+<p>
+\begin{align*}
+Y_t:=\begin{cases}
+(t_0, S_{t_0}t)&\mbox{for }t\in [0, 1)\\
+(t_i+(t_{i+1}-t_i)(t-2i-1), S_{t_i})&\mbox{for }t\in [2i+1,2i+2)\\
+(t_{i+1}, S_{t_i}+(X_{i+1}-X_{t_i})(t-2i-2))&\mbox{for }t\in [2i+2, 2i+3)
+\end{cases},
+\end{align*} for $0\leq i\leq N-1$ and $t\in [0, 2N+1]$. The following piece of code computes this transformation, for a given stream of data:</p>
+
+<pre>
+<code class="language-python">import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
+import matplotlib.patches as patches
+
+def timejoined(X):
+    '''
+    Returns time-joined transformation of the stream of
+    data X
+
+    Arguments:
+        X: list, whose elements are tuples of the form
+        (time, value).
+
+    Returns:
+        list of points on the plane, the time-joined
+        transformed stream of X
+    '''
+        X.append(X[-1])
+        l=[]
+
+        for j in range(2*(len(X))+1+2):
+                if j==0:
+                        l.append((X[j][0], 0))
+                        continue
+                for i in range(len(X)-1):
+                        if j==2*i+1:
+                                l.append((X[i][0], X[i][1]))
+                                break
+                        if j==2*i+2:
+                                l.append((X[i+1][0], X[i][1]))
+                                break
+        return l
+
+def plottimejoined(X):
+    '''
+    Plots the time-joined transfomed path X.
+
+    Arguments:
+        X: list, whose elements are tuples of the form (t, X)
+    '''
+
+    for i in range(len(X)-1):
+        plt.plot([X[i][0], X[i+1][0]], [X[i][1], X[i+1][1]],
+                color='k', linestyle='-', linewidth=2)
+
+    axes=plt.gca()
+    axes.set_xlim([min([p[0] for p in X]), max([p[0] for p
+                  in X])+1])
+    axes.set_ylim([min([p[1] for p in X]), max([p[1] for p
+                  in X])+1])
+    axes.get_yaxis().get_major_formatter().set_useOffset(False)
+    axes.get_xaxis().get_major_formatter().set_useOffset(False)
+    axes.set_aspect('equal', 'datalim')
+    plt.show()</code>
+</pre>
+
+<p style="text-align:center;">
+<img width="80%" src="https://s3.amazonaws.com/quantstartmedia/images/qs-imanol-rough-path-1-ibm.png"><br>
+<strong>Fig 3 - Path of IBM stock (repeated from above)</strong>
+</p>
+
+<p style="text-align:center;">
+<img width="80%" src="https://s3.amazonaws.com/quantstartmedia/images/qs-imanol-rough-path-1-ibm-timejoined.png"><br>
+<strong>Fig 4 - Time-joined transformation of IBM stock</strong>
+</p>
+
+<p>Figures 3 and 4 show the price path of IBM and its time-joined transformation, using the code above.</p>
+
+<p>In this article, we have introduced the signature of a continuous path, as well as the signature of a stream of data. As we will see in the following articles, this object will prove to have very interesting applications to machine learning and time series analysis. After showing how to apply signatures to these fields, we will analyse concrete examples of how to use signatures in quantitative finance.</p>
+
+<h2>Article Series</h2>
+
+<ul>
+  <li><a href="https://www.quantstart.com/articles/rough-path-theory-and-signatures-applied-to-quantitative-finance-part-1">Rough Path Theory and Signatures Applied To Quantitative Finance - Part 1</a></li>
+  <li><a href="https://www.quantstart.com/articles/rough-path-theory-and-signatures-applied-to-quantitative-finance-part-2">Rough Path Theory and Signatures Applied To Quantitative Finance - Part 2</a></li>
+  <li><a href="https://www.quantstart.com/articles/rough-path-theory-and-signatures-applied-to-quantitative-finance-part-3">Rough Path Theory and Signatures Applied To Quantitative Finance - Part 3</a></li>
+  <li><a href="https://www.quantstart.com/articles/rough-path-theory-and-signatures-applied-to-quantitative-finance-part-4">Rough Path Theory and Signatures Applied To Quantitative Finance - Part 4</a></li>
+</ul>
+
+<h2>References</h2>
+
+<ul>
+  <li><a name="ref-chevyrev2016" href="https://arxiv.org/abs/1603.03788">[1] Chevyrev, I., Kormilitzin, A. (2016) "A Primer on the Signature Method in Machine Learning, <em>arXiv:1603.03788v1</em>"</a></li>
+  <li><a name="ref-gyurko2013" href="https://arxiv.org/abs/1307.7244">[2] Gyurkó, G., Lyons, T., Kontkowski, M., Field J. (2013) "Extracting information from the signature of a financial data stream, <em>arXiv:1307.7244</em>"</a></li>
+  <li><a name="ref-levin2016" href="https://arxiv.org/abs/1309.0260">[3] Levin, D., Lyons, T., Ni, H. (2016) "Learning from the past, predicting the statistics for the future, learning an evolving system, <em>1309.0260</em>"</a></li>
+  <li><a name="ref-lyons2014" href="http://dl.acm.org/citation.cfm?id=2644157">[4] Lyons, T., Ni, H., Oberhauser, H. (2014) "A feature set for streams and an application to high-frequency financial tick data.", <em>Proceedings of the 2014 International Conference on Big Data Science and Computing</em>, pg. 5</a></li>
+  <li><a name="ref-lyons1998" href="http://www.ems-ph.org/journals/show_abstract.php?issn=0213-2230&vol=14&iss=2&rank=1">[5] Lyons, T. (1998) "Differential equations driven by rough signals", <em>Revista Matemática Iberoamericana</em> <strong>14</strong> (2): 215-310</a></li>
+</ul>
+        
+        
+        <script async data-uid="6296c27f4b" src="https://weathered-brook-5281.ck.page/6296c27f4b/index.js"></script>
+      </section>
+    </div>
+    <div class="col-md-4 book-card order-md-1">
+      
+<div class="sidebar-advert-container">
+  <a href="/qsalpha/?ref=art">
+    <img class="card-img-top" src="/static/images/qsalpha-sidebar-advert-small.png" alt="QSAlpha">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/qsalpha/?ref=art">QSAlpha</a></h3>
+      <p class="card-text medium-text mb-3">Join the QSAlpha research platform that helps fill your strategy research pipeline, diversifies your portfolio and improves your risk-adjusted returns for increased profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/qsalpha/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/quantcademy/?ref=art">
+    <img class="card-img-top" src="/static/images/quantcademy-sidebar-advert-small.png" alt="Quantcademy">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/quantcademy/?ref=art">The Quantcademy</a></h3>
+      <p class="card-text medium-text mb-3">Join the Quantcademy membership portal that caters to the rapidly-growing retail quant trader community and learn how to increase your strategy profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/quantcademy/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/successful-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/sat-sidebar-advert-small.png" alt="Successful Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to find new trading strategy ideas and objectively assess them for your portfolio using a Python-based backtesting engine.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/successful-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/advanced-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/aat-sidebar-advert-small.png" alt="Advanced Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to implement advanced trading strategies using time series analysis, machine learning and Bayesian statistics with R and Python.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/advanced-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+    
+
+<footer>
+  <div class="container container-full">
+    <section class="mt-1.5 mb-1">
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">QuantStart</li>
+            <li class="footer-list-link"><a class="link-fade" href="/about/">About</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/articles/">Articles</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/sitemap/">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Products</li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qsalpha/">QSAlpha</a></li>
+            
+            
+            <li class="footer-list-link"><a class="link-fade" href="/quantcademy/">Quantcademy</a></li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qstrader/">QSTrader</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Legal</li>
+            <li class="footer-list-link"><a class="link-fade" href="/privacy-policy/">Privacy Policy</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/terms-and-conditions/">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Social</li>
+            <li class="footer-list-link"><a class="link-fade" href="https://twitter.com/quantstart">Twitter</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="https://www.youtube.com/channel/UCmVnnZ6Y2TrJtY1eQJN6kWA">YouTube</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="row mb-1.5 mt-5">
+      <div class="col-12 col-md-9 col-lg-8 col-xl-6">
+        <div class="footer-copyright">
+          <p>©2012-2023 QuarkGluon Ltd. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+<script src="/static/js/jquery-3.2.1.min.js"></script>
+<script src="/static/js/prism.js.min"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/nav.js"></script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5383959-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+    
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="/static/js/highcharts/highcharts.js"></script>
+<script type="text/javascript">
+  num_colours = 10;
+</script>
+<script src="/static/js/statistics.js"></script>
+
+
+  </body>
+</html>

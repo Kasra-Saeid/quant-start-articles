@@ -1,0 +1,516 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-site-verification" content="wl3-8ed1QZjI0iYZMv10zoZWYElkMObTfwLlWIj9cpA" />
+    <meta name="description" content="Hidden Markov Models - An Introduction">
+
+    <link rel="icon" href="/static/images/favicon.png">
+
+    <title>Hidden Markov Models - An Introduction | QuantStart</title>
+    
+    
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet"> 
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/prism.css" rel="stylesheet">
+<link href="/static/css/qs.css?v=10" rel="stylesheet">
+    
+  </head>
+
+  <body>
+    <header class="header covered-header" style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://s3.amazonaws.com/quantstartmedia/images/article-images/Hidden-Markov-Models-An-Introduction.png);">
+  
+<nav class="nav">
+  <div class="container nav-container">
+    <div class="nav-row row d-flex justify-content-between align-items-center">
+      <div class="col-2">
+        <ul class="nav-items justify-content-end small-capitals align-items-center">
+          <li class="nav-item">
+            <a class="link-fade" href="/">QuantStart</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-auto col-logo">
+        <ul id="top-nav-menu" class="nav-items justify-content-end align-items-center">
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/qsalpha/">QSAlpha</a>
+          </li>
+          
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/quantcademy/">Quantcademy</a>
+          </li>
+          
+          <li id="menu-link-ebooks" class="nav-item">
+            <a class="link-fade" href="#">Books</a>
+            <div id="menu-pane-ebooks" class="nav-items menu-dropdown-pane">
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/qstrader/">QSTrader</a>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/articles/">Articles</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/members/login/">Login</a>
+          </li>
+          
+        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<nav id="mobile-nav" class="mobile-nav text-left">
+  <div class="container">
+    <ul class="mt-4 ml-3 mobile-nav-menu">
+      <li class="nav-item">
+        <a class="link-fade d-block" href="/">QuantStart</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qsalpha/">QSAlpha</a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/quantcademy/">Quantcademy</a>
+      </li>
+      
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="#">Books</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qstrader/">QSTrader</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/articles/">Articles</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/members/login/">Login</a>
+      </li>
+      
+    </ul>
+    <button class="nav-toggle mobile-nav-close">
+      <svg id="mobile-nav-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M19.77,5.63,13.41,12l6.36,6.37a1,1,0,0,1-1.41,1.41L12,13.41,5.63,19.77a1,1,0,0,1-1.44-1.39l0,0L10.58,12,4.21,5.63a1,1,0,0,1,0-1.42,1,1,0,0,1,1.41,0l0,0L12,10.58l6.37-6.37a1,1,0,0,1,1.41,0A1,1,0,0,1,19.77,5.63Z"></path>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+  <div class="container hero-container">
+    <section class="mt-5 mb-4">
+      <div class="row justify-content-center">
+        <div class="col-12 text-center">
+          <p class="hero">Hidden Markov Models - An Introduction</p>
+          <p class="hero subhero">Hidden Markov Models - An Introduction</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</header>
+    
+<section class="container content-container">
+  <div class="row">
+    <div class="col-md-8 order-md-2">
+      <section class="content article-content">
+        
+        
+        <p>A consistent challenge for quantitative traders is the frequent behaviour modification of financial markets, often abruptly, due to changing periods of government policy, regulatory environment and other macroeconomic effects. Such periods are known colloquially as "market regimes" and detecting such changes is a common, albeit difficult process undertaken by quantitative market participants.</p>
+
+<p>These various regimes lead to adjustments of asset returns via shifts in their means, variances/volatilities, serial correlation and covariances, which impact the effectiveness of time series methods that rely on stationarity. In particular it can lead to dynamically-varying correlation, excess kurtosis ("fat tails"), heteroskedasticity (clustering of serial correlation) as well as skewed returns.</p>
+
+<p>This motivates a need to effectively detect and categorise these regimes in order to optimally select deployments of quantitative trading strategies and optimise the parameters within them. The modeling task then becomes an attempt to identify when a new regime has occurred and adjust strategy deployment, risk management and position sizing criteria accordingly.</p>
+
+<p>A principal method for carrying out regime detection is to use a statistical time series technique known as a Hidden Markov Model<sup><a href="#ref-wiki-hidden-markov-model">[2]</a></sup>. These models are well suited to the task as they involve inference on "hidden" generative processes via "noisy" indirect observations correlated to these processes. In this instance the hidden, or latent process is the underlying regime state, while the asset returns are the indirect noisy observations that are influenced by these states.</p>
+
+<blockquote>
+<p>This article series will discuss the mathematical theory behind Hidden Markov Models (HMM) and how they can be applied to the problem of regime detection for quantitative trading purposes.</p>
+</blockquote>
+
+<p>The discussion will begin by introducing the concept of a Markov Model<sup><a href="#ref-wiki-markov-model">[1]</a></sup> and their associated categorisation, which depends upon the level of autonomy in the system as well as how much information about the system is observed. The discussion will then focus specifically on the architecture of HMM as an autonomous process, with partially observable information.</p>
+
+<p>As with <a href="https://www.quantstart.com/articles/State-Space-Models-and-the-Kalman-Filter">previous discussions on other state space models and the Kalman Filter</a>, the inferential concepts of filtering, smoothing and prediction will be outlined. Specific algorithms such as the Forward Algorithm<sup><a href="#ref-wiki-forward-algo">[6]</a></sup> and Viterbi Algorithm<sup><a href="#ref-wiki-forward-algo">[7]</a></sup> that carry out these tasks will not be presented as the focus of the discussion rests firmly in applications of HMM to quant finance, rather than algorithm derivation.</p>
+
+<p>In subsequent articles the HMM will be applied to various assets to detect regimes. These detection overlays will then be added to a set of quantitative trading strategies via a "risk manager". This will be used to assess how algorithmic trading performance varies with and without regime detection.</p>
+
+<h2>Markov Models</h2>
+
+<p>Prior to the discussion on <em>Hidden</em> Markov Models it is necessary to consider the broader concept of a Markov Model. A Markov Model is a stochastic state space model involving random transitions between states where the probability of the jump is only dependent upon the current state, rather than any of the previous states. The model is said to possess the <a href="https://www.quantstart.com/articles/The-Markov-and-Martingale-Properties">Markov Property</a> and is "memoryless". <a href="https://www.quantstart.com/articles/White-Noise-and-Random-Walks-in-Time-Series-Analysis">Random Walk</a> models are another familiar example of a Markov Model.</p>
+
+<p>Markov Models can be categorised into four broad classes of models depending upon the autonomy of the system and whether all or part of the information about the system can be observed at each state. The Markov Model page at Wikipedia<sup><a href="#ref-wiki-markov-model">[1]</a></sup> provides a useful matrix that outlines these differences, which will be repeated here:</p>
+
+<table class="table">
+  <tr>
+    <th></th>
+    <th>Fully Observable</th>
+    <th>Partially Observable</th>
+  </tr>
+  <tr>
+    <td><strong>Autonomous</strong></td>
+    <td>Markov Chain<sup><a href="#ref-wiki-markov-chain">[5]</a></sup></td>
+    <td>Hidden Markov Model<sup><a href="#ref-wiki-hidden-markov-model">[2]</a></sup></td>
+  </tr>
+  <tr>
+    <td><strong>Controlled</strong></td>
+    <td>Markov Decision Process<sup><a href="#ref-wiki-markov-decision-process">[3]</a></sup></td>
+    <td>Partially Observable Markov Decision Process<sup><a href="#ref-wiki-partially-observable-markov-decision-process">[4]</a></sup></td>
+  </tr>
+</table>
+
+<p>The simplest model, the Markov Chain, is both autonomous and fully observable. It cannot be modified by actions of an "agent" as in the controlled processes and all information is available from the model at any state. A good example of a Markov Chain is the <a href="https://www.quantstart.com/articles/Markov-Chain-Monte-Carlo-for-Bayesian-Inference-The-Metropolis-Algorithm">Markov Chain Monte Carlo (MCMC) algorithm</a> used heavily in computational Bayesian inference.</p>
+
+<p>If the model is still fully autonomous but only partially observable then it is known as a Hidden Markov Model. In such a model there are underlying latent states (and probability transitions between them) but they are not directly observable and instead influence the "observations". An important point is that while the latent states do possess the Markov Property there is no need for the observation states to do so. The most common use of HMM outside of quantitative finance is in the field of speech recognition.</p>
+
+<p>Once the system is allowed to be "controlled" by an agent(s) then such processes come under the heading of Reinforcement Learning (RL), often considered to be the third "pillar" of machine learning along with Supervised Learning and Unsupervised Learning. If the system is fully observable, but controlled, then the model is called a Markov Decision Process (MDP). A related technique is known as Q-Learning<sup><a href="#ref-wiki-q-learning">[11]</a></sup>, which is used to optimise the action-selection policy for an agent under a Markov Decision Process model. In 2015 Google DeepMind pioneered the use of Deep Reinforcement Networks, or Deep Q Networks, to create an optimal agent for playing Atari 2600 video games solely from the screen buffer<sup><a href="#ref-deepmindatari2015">[12]</a></sup>.</p>
+
+<p>If the system is both controlled and only partially observable then such Reinforcement Learning models are termed Partially Observable Markov Decision Processes (POMDP). Techniques to solve high-dimensional POMDP are the subject of much current academic research. The non-profit team at OpenAI spend significant time looking at such problems and have released an open-source toolkit, or "gym", to allow straightforward testing of new RL agents known as the OpenAI Gym<sup><a href="#ref-openaigym2016">[13]</a></sup>.</p>
+
+<p>Unfortunately Reinforcement Learning, along with MDP and POMDP, are not within the scope of this article. However they will be the subject of later articles, particularly as the <a href="https://www.quantstart.com/articles#deep-learning">article series on Deep Learning</a> is further developed.</p>
+
+<p><em>Note that in this article continuous-time Markov processes are not considered. In quantitative trading the time unit is often given via ticks or bars of historical asset data. However, if the objective is to price derivatives contracts then the continuous-time machinery of stochastic calculus would be utilised.</em></p>
+
+<h3>Markov Model Mathematical Specification</h3>
+
+<p><em>This section as well as that on the Hidden Markov Model Mathematical Specification will closely follow the notation and model specification of Murphy (2012)<sup><a href="#ref-murphy">[8]</a></sup>.</em></p>
+
+<p>In quantitative finance the analysis of a time series is often of primary interest. Such a time series generally consists of a sequence of $T$ discrete observations $X_1, \ldots, X_T$. An important assumption about Markov Chain models is that at any time $t$, the observation $X_t$ captures all of the necessary information required to make predictions about future states. This assumption will be utilised in the following specification.</p>
+
+<p>Formulating the Markov Chain into a probabilistic framework allows the joint density function for the probability of seeing the observations to be written as:</p>
+
+<p>
+\begin{eqnarray}
+p(X_{1:T}) &=& p(X_1)p(X_2 \mid X_1)p(X_3 \mid X_2)\ldots \\
+           &=& p(X_1) \prod^{T}_{t=2} p(X_t \mid X_{t-1})
+\end{eqnarray}
+</p>
+
+<p>This states that the probability of seeing sequences of observations is given by the probability of the initial observation multiplied $T-1$ times by the conditional probability of seeing the subsequent observation, given the previous observation has occurred. It will be assumed in this article that the latter term, known as the <em>transition function</em>, $p(X_t \mid X_{t-1})$ will itself be time-independent.</p>
+
+<p>In addition, since the market regime models considered in this article series will consist of a small, discrete number of regimes (or "states"), say $K$, the type of model under consideration is known as a Discrete-State Markov Chain (DSMC).</p>
+
+<p>Thus if there are $K$ separate possible states, or regimes, for the model to be in at any time $t$ then the transition function can be written as a <em>transition matrix</em> that describes the probability of transitioning from state $j$ to state $i$ at any time-step $t$. Mathematically, the elements of the transition matrix $A$ are given by:</p>
+
+<p>
+\begin{eqnarray}
+A_{ij} = p(X_t = j \mid X_{t-1} = i)
+\end{eqnarray}
+</p>
+
+<p>As an example it is possible to consider a simple two-state Markov Chain Model. The following diagram represents the numbered states as circles while the arcs represent the probability of jumping from state to state:</p>
+
+<p style="text-align:center;width:100%;">
+  <img src="https://s3.amazonaws.com/quantstartmedia/images/qs-hmm-two-state.png" width="50%" alt="Two-state Markov Chain Model" /><br>
+  <strong>Two-state Markov Chain Model</strong>
+</p>
+
+<p>Notice that the probabilities sum to unity for each state, i.e. $\alpha + (1 - \alpha) = 1$. The transition matrix $A$ for this system is a $2 \times 2$ matrix given by:</p>
+
+<p>
+\begin{eqnarray}
+A = \left( \begin{array}{cc}
+1-\alpha & \alpha  \\
+\beta & 1-\beta \end{array} \right)
+\end{eqnarray}
+</p>
+
+<p>In order to simulate $n$ steps of a general DSMC model it is possible to define the $n$-step transition matrix $A(n)$ as:</p>
+
+<p>
+\begin{eqnarray}
+A_{ij}(n) := p(X_{t+n} = j \mid X_t = i)
+\end{eqnarray}
+</p>
+
+<p>It can be easily shown that $A(m+n)=A(m)A(n)$ and thus that $A(n)=A(1)^n$. This means that $n$ steps of a DSMC model can be simulated simply by repeated multiplication of the transition matrix with itself.</p>
+
+<h2>Hidden Markov Models</h2>
+
+<p>Hidden Markov Models are Markov Models where the states are now "hidden" from view, rather than being directly observable. Instead there are a set of output <em>observations</em>, related to the states, which are directly visible. To make this concrete for a quantitative finance example it is possible to think of the states as hidden "regimes" under which a market might be acting while the observations are the asset returns that are directly visible.</p>
+
+<p>In a Markov Model it is only necessary to create a joint density function for the observations. A time-invariant transition matrix was specified allowing full simulation of the model. For Hidden Markov Models it is necessary to create a set of discrete states $z_t \in \{1,\ldots, K \}$ (although for purposes of regime detection it is often only necessary to have $K \leq 3$) and to model the observations with an additional probability model, $p({\bf x}_t \mid z_t)$. That is, the conditional probability of seeing a particular observation (asset return) given that the state (market regime) is currently equal to $z_t$.</p>
+
+<p>Depending upon the specified state and observation transition probabilities a Hidden Markov Model will tend to stay in a particular state and then suddenly jump to a new state and remain in that state for some time. This is precisely the behaviour that is desired from such a model when trying to apply it to market regimes. The regimes themselves are not expected to change too quickly (consider regulatory changes and other slow-moving macroeconomic effects). However, when they do change they are expected to persist for some time.</p>
+
+<h3>Hidden Markov Model Mathematical Specification</h3>
+
+<p>The corresponding joint density function for the HMM is given by (again using notation from Murphy (2012)<sup><a href="#ref-murphy">[8]</a></sup>):</p>
+
+<p>
+\begin{eqnarray}
+p({\bf z}_{1:T} \mid {\bf x}_{1:T}) &=& p({\bf z}_{1:T}) p ({\bf x}_{1:T} \mid {\bf z}_{1:T}) \\
+&=& \left[ p(z_1) \prod_{t=2}^{T} p(z_t \mid z_{t-1}) \right] \left[ \prod_{t=1}^T p({\bf x}_t \mid z_t) \right]
+\end{eqnarray}
+</p>
+
+<p>In the first line this states that the joint probability of seeing the full set of hidden states and observations is equal to the probability of simply seeing the hidden states multiplied by the probability of seeing the observations, conditional on the states. This makes sense as the observations cannot affect the states, but the hidden states do indirectly affect the observations.</p>
+
+<p>The second line splits these two distributions into transition functions. The transition function for the states is given by $p(z_t \mid z_{t-1})$ while that for the observations (which depend upon the states) is given by $p({\bf x}_t \mid z_t)$.</p>
+
+<p>As with the Markov Model description above it will be assumed for the purposes of this article that both the state and observation transition functions are time-invariant. This means that it is possible to utilise the $K \times K$ state transition matrix $A$ as before with the Markov Model for that component of the model.</p>
+
+<p>However, for the application considered here, namely observations of asset returns, the values are in fact continuous. This means the model choice for the observation transition function is more complex. The common choice is to make use of a conditional multivariate Gaussian distribution with mean ${\bf \mu}_k$ and covariance ${\bf \sigma}_k$. This is formalised below:</p>
+
+<p>
+\begin{eqnarray}
+p({\bf x}_t \mid z_t = k, {\bf \theta}) = \mathcal{N}({\bf x}_t \mid {\bf \mu}_k, {\bf \sigma}_k)
+\end{eqnarray}
+</p>
+
+<p>That is, if the state $z_t$ is currently equal to $k$, then the probability of seeing observation ${\bf x}_t$, given the parameters of the model $\theta$, is distributed as a multivariate Guassian.</p>
+
+<p>In order to make this a little clearer the following diagram shows the evolution of the states $z_t$ and how they lead indirectly to the evolution of the observations, ${\bf x}_t$:</p>
+
+<p style="text-align:center;width:100%;">
+  <img src="https://s3.amazonaws.com/quantstartmedia/images/qs-hmm-state-model.png" width="75%" alt="Hidden Markov Model: States and Observations" /><br><br>
+  <strong>Hidden Markov Model: States and Observations</strong>
+</p>
+
+<h3>Filtering of Hidden Markov Models</h3>
+
+<p>With the joint density function specified it remains to consider the how the model will be utilised. In general state-space modelling there are often three main tasks of interest: Filtering, Smoothing and Prediction. The <a href="https://www.quantstart.com/articles/State-Space-Models-and-the-Kalman-Filter">previous article on state-space models and the Kalman Filter</a> describe these briefly. They will be repeated here for completeness:</p>
+
+<ul>
+  <li><strong>Prediction</strong> - Forecasting subsequent values of the state</li>
+  <li><strong>Filtering</strong> - Estimating the <em>current</em> values of the state from past and current observations</li>
+  <li><strong>Smoothing</strong> - Estimating the <em>past</em> values of the state given the observations</li>
+</ul>
+
+<p>Filtering and smoothing are similar, but not identical. Smoothing is concerned with wanting to understand what has happened to states in the <em>past</em> given current knowledge, whereas filtering is concerned with what is happening with the state <em>right now</em>.</p>
+
+<p>It is beyond the scope of this article to describe in detail the algorithms developed for filtering, smoothing and prediction. The main goal of this article series is to apply Hidden Markov Models to Regime Detection. Hence the task at hand becomes determining what the current "market regime state" the world is in utilising the asset returns available to date. Thus this is a filtering problem.</p>
+
+<p>Mathematically the conditional probability of the state at time $t$ given the sequence of observations up to time $t$ is the object of interest. This involves determining $p(z_t \mid {\bf x}_{1:T})$. As with the <a href="https://www.quantstart.com/articles/State-Space-Models-and-the-Kalman-Filter">Kalman Filter</a> it is possible to recursively apply Bayes rule in order to achieve filtering on an HMM.</p>
+
+<h2>Next Steps</h2>
+
+<p>In the second article of the series regime detection for financial assets will be discussed in greater depth. In addition libraries from the Python language will be applied to historical asset returns in order to produce a regime detection tool that will ultimately be used as a risk management tool for quantitative trading.</p>
+
+<h2>Bibliographic Note</h2>
+
+<p>An overview of Markov Models (as well as their various categorisations), including Hidden Markov Models (and algorithms to solve them), can be found in the introductory articles on Wikipedia<sup><a href="#ref-wiki-markov-model">[1]</a>, <a href="#ref-wiki-hidden-markov-model">[2]</a>, <a href="#ref-wiki-markov-decision-process">[3]</a>, <a href="#ref-wiki-partially-observable-markov-decision-process">[4]</a>, <a href="#ref-wiki-markov-chain">[5]</a>, <a href="#ref-wiki-forward-algo">[6]</a>, <a href="#ref-wiki-viterbi-algo">[7]</a></sup>.</p>
+
+<p>A highly detailed textbook mathematical overview of Hidden Markov Models, with applications to speech recognition problems and the Google PageRank algorithm, can be found in Murphy (2012)<sup><a href="#ref-murphy">[8]</a></sup>. Bishop (2007)<sup><a href="#ref-bishop2007">[8]</a></sup> covers similar ground to Murphy (2012), including the derivation of the Maximum Likelihood Estimate (MLE) for the HMM as well as the Forward-Backward and Viterbi Algorithms. The discussion concludes with Linear Dynamical Systems and Particle Filters.</p>
+
+<h2>References</h2>
+
+<ul>
+  <li><a name="ref-wiki-markov-model" href="https://en.wikipedia.org/wiki/Markov_model">[1] (2016). <em>Markov Model</em>, Wikipedia</a></li>
+  <li><a name="ref-wiki-hidden-markov-model" href="https://en.wikipedia.org/wiki/Hidden_Markov_model">[2] (2016). <em>Hidden Markov Model</em>, Wikipedia</a></li>
+  <li><a name="ref-wiki-markov-decision-process" href="https://en.wikipedia.org/wiki/Markov_decision_process">[3] (2016). <em>Markov Decision Process</em>, Wikipedia</a></li>
+  <li><a name="ref-wiki-partially-observable-markov-decision-process" href="https://en.wikipedia.org/wiki/Partially_observable_Markov_decision_process">[4] (2016). <em>Partially observable Markov decision process</em>, Wikipedia</a></li>
+  <li><a name="ref-wiki-markov-chain" href="https://en.wikipedia.org/wiki/Markov_chain">[5] (2016). <em>Markov Chain</em>, Wikipedia</a></li>
+  <li><a name="ref-wiki-forward-algo" href="https://en.wikipedia.org/wiki/Forward_algorithm">[6] (2016). <em>Forward Algorithm</em>, Wikipedia</a></li>
+  <li><a name="ref-wiki-viterbi-algo" href="https://en.wikipedia.org/wiki/Viterbi_algorithm">[7] (2016). <em>Viterbi Algorithm</em>, Wikipedia</a></li>
+  <li><a name="ref-murphy" href="https://www.cs.ubc.ca/~murphyk/MLbook/">[8] Murphy, K.P. (2012) <em>Machine Learning - A Probabilistic Perspective</em>, MIT Press</a></li>
+  <li><a name="ref-barber" href="http://www.cs.ucl.ac.uk/staff/d.barber/brml/">[9] Barber, D. (2012) <em>Bayesian Reasoning and Machine Learning</em>, Cambridge University Press</a></li>
+  <li><a name="ref-kuhn2013" href="http://appliedpredictivemodeling.com/">[10] Kuhn, M., Johnson, K. (2013) <em>Applied Predictive Modeling</em>, Springer</a></li>
+  <li><a name="ref-wiki-q-learning" href="https://en.wikipedia.org/wiki/Q-learning">[11] (2016). <em>Q-Learning</em>, Wikipedia</a></li>
+  <li><a name="ref-deepmindatari2015" href="http://www.nature.com/nature/journal/v518/n7540/pdf/nature14236.pdf">[12] Mnih, V. et al (2015) "Human-level control through deep reinforcement learning", <em>Nature</em> <strong>518</strong>: 529–533</a></li>
+  <li><a name="ref-openaigym2016" href="https://arxiv.org/pdf/1606.01540.pdf">[13] Brockman, G., Cheung, V., Pettersson, L., Schneider, J., Schulman, J., Tang, J., Zaremba, W. (2016) "OpenAI Gym, <em>arXiv:1606.01540v1 [cs.LG]</em>"</a></li>
+  <li><a name="ref-bishop2007" href="http://amzn.to/2crPMo9">[14] Bishop, C. (2007) <em>Pattern Recognition and Machine Learning</em>, Springer</a></li>
+</ul>
+        
+        
+        <script async data-uid="6296c27f4b" src="https://weathered-brook-5281.ck.page/6296c27f4b/index.js"></script>
+      </section>
+    </div>
+    <div class="col-md-4 book-card order-md-1">
+      
+<div class="sidebar-advert-container">
+  <a href="/qsalpha/?ref=art">
+    <img class="card-img-top" src="/static/images/qsalpha-sidebar-advert-small.png" alt="QSAlpha">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/qsalpha/?ref=art">QSAlpha</a></h3>
+      <p class="card-text medium-text mb-3">Join the QSAlpha research platform that helps fill your strategy research pipeline, diversifies your portfolio and improves your risk-adjusted returns for increased profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/qsalpha/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/quantcademy/?ref=art">
+    <img class="card-img-top" src="/static/images/quantcademy-sidebar-advert-small.png" alt="Quantcademy">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/quantcademy/?ref=art">The Quantcademy</a></h3>
+      <p class="card-text medium-text mb-3">Join the Quantcademy membership portal that caters to the rapidly-growing retail quant trader community and learn how to increase your strategy profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/quantcademy/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/successful-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/sat-sidebar-advert-small.png" alt="Successful Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to find new trading strategy ideas and objectively assess them for your portfolio using a Python-based backtesting engine.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/successful-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/advanced-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/aat-sidebar-advert-small.png" alt="Advanced Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to implement advanced trading strategies using time series analysis, machine learning and Bayesian statistics with R and Python.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/advanced-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+    
+
+<footer>
+  <div class="container container-full">
+    <section class="mt-1.5 mb-1">
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">QuantStart</li>
+            <li class="footer-list-link"><a class="link-fade" href="/about/">About</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/articles/">Articles</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/sitemap/">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Products</li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qsalpha/">QSAlpha</a></li>
+            
+            
+            <li class="footer-list-link"><a class="link-fade" href="/quantcademy/">Quantcademy</a></li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qstrader/">QSTrader</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Legal</li>
+            <li class="footer-list-link"><a class="link-fade" href="/privacy-policy/">Privacy Policy</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/terms-and-conditions/">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Social</li>
+            <li class="footer-list-link"><a class="link-fade" href="https://twitter.com/quantstart">Twitter</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="https://www.youtube.com/channel/UCmVnnZ6Y2TrJtY1eQJN6kWA">YouTube</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="row mb-1.5 mt-5">
+      <div class="col-12 col-md-9 col-lg-8 col-xl-6">
+        <div class="footer-copyright">
+          <p>©2012-2023 QuarkGluon Ltd. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+<script src="/static/js/jquery-3.2.1.min.js"></script>
+<script src="/static/js/prism.js.min"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/nav.js"></script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5383959-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+    
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="/static/js/highcharts/highcharts.js"></script>
+<script type="text/javascript">
+  num_colours = 10;
+</script>
+<script src="/static/js/statistics.js"></script>
+
+
+  </body>
+</html>

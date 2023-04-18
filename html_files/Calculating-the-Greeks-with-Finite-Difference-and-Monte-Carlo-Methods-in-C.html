@@ -1,0 +1,819 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-site-verification" content="wl3-8ed1QZjI0iYZMv10zoZWYElkMObTfwLlWIj9cpA" />
+    <meta name="description" content="Calculating the Greeks with Finite Difference and Monte Carlo Methods in C++">
+
+    <link rel="icon" href="/static/images/favicon.png">
+
+    <title>Calculating the Greeks with Finite Difference and Monte Carlo Methods in C++ | QuantStart</title>
+    
+    
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet"> 
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/prism.css" rel="stylesheet">
+<link href="/static/css/qs.css?v=10" rel="stylesheet">
+    
+  </head>
+
+  <body>
+    <header class="header covered-header" style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://quantstartmedia.s3.amazonaws.com/images/article-images/article-backgrounds/cpp.jpg);">
+  
+<nav class="nav">
+  <div class="container nav-container">
+    <div class="nav-row row d-flex justify-content-between align-items-center">
+      <div class="col-2">
+        <ul class="nav-items justify-content-end small-capitals align-items-center">
+          <li class="nav-item">
+            <a class="link-fade" href="/">QuantStart</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-auto col-logo">
+        <ul id="top-nav-menu" class="nav-items justify-content-end align-items-center">
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/qsalpha/">QSAlpha</a>
+          </li>
+          
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/quantcademy/">Quantcademy</a>
+          </li>
+          
+          <li id="menu-link-ebooks" class="nav-item">
+            <a class="link-fade" href="#">Books</a>
+            <div id="menu-pane-ebooks" class="nav-items menu-dropdown-pane">
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/qstrader/">QSTrader</a>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/articles/">Articles</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/members/login/">Login</a>
+          </li>
+          
+        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<nav id="mobile-nav" class="mobile-nav text-left">
+  <div class="container">
+    <ul class="mt-4 ml-3 mobile-nav-menu">
+      <li class="nav-item">
+        <a class="link-fade d-block" href="/">QuantStart</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qsalpha/">QSAlpha</a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/quantcademy/">Quantcademy</a>
+      </li>
+      
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="#">Books</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qstrader/">QSTrader</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/articles/">Articles</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/members/login/">Login</a>
+      </li>
+      
+    </ul>
+    <button class="nav-toggle mobile-nav-close">
+      <svg id="mobile-nav-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M19.77,5.63,13.41,12l6.36,6.37a1,1,0,0,1-1.41,1.41L12,13.41,5.63,19.77a1,1,0,0,1-1.44-1.39l0,0L10.58,12,4.21,5.63a1,1,0,0,1,0-1.42,1,1,0,0,1,1.41,0l0,0L12,10.58l6.37-6.37a1,1,0,0,1,1.41,0A1,1,0,0,1,19.77,5.63Z"></path>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+  <div class="container hero-container">
+    <section class="mt-5 mb-4">
+      <div class="row justify-content-center">
+        <div class="col-12 text-center">
+          <p class="hero">Calculating the Greeks with Finite Difference and Monte Carlo Methods in C++</p>
+          <p class="hero subhero">Calculating the Greeks with Finite Difference and Monte Carlo Methods in C++</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</header>
+    
+<section class="container content-container">
+  <div class="row">
+    <div class="col-md-8 order-md-2">
+      <section class="content article-content">
+        
+        
+        <p>One of the core financial applications of derivatives pricing theory is to be able to <em>manage risk</em> via a liquid options market. Such a market provides the capability for firms and individuals to tailor their risk exposure depending upon their hedging or speculation requirements. In order to effectively assess such risks, it is necessary to calculate the <em>sensitivity</em> of an options price to the factors that affect it, such as the underlying asset price, volatility and time to option expiry.</p>
+
+<p>If we assume the existence of an analytical formula for an option price (such as in the case of European vanilla call/put options on a single asset) then it is possible to differentiate the call price with respect to its parameters in order to generate these sensitivities. The common sensitivities of interest include:</p>
+
+<ul>
+  <li><strong>Delta</strong> - Derivative of an option with respect to (w.r.t.) the spot price, $\frac{\partial C}{\partial S}$</li>
+  <li><strong>Gamma</strong> - Second derivative of an option w.r.t. the spot price, $\frac{\partial^2 C}{\partial S^2}$</li>
+  <li><strong>Vega</strong> - Derivative of an option w.r.t. the underlying volatility, $\frac{\partial C}{\partial \sigma}$</li>
+  <li><strong>Theta</strong> - (Negative) derivative of an option w.r.t. the time to expiry, $\frac{\partial C}{\partial t}$</li>
+  <li><strong>Rho</strong> - Derivative of an option w.r.t. the interest rate, $\frac{\partial C}{\partial \rho}$</li>
+</ul>
+
+<p>Since all of the sensitivities are commonly denoted by letters of the Greek alphabet (except Vega!) they have come to be known colloquially as "the Greeks".</p>
+
+<p>In this chapter we will calculate the Greeks using three separate methods. In the first instance we will utilise formula derived directly from the analytic formulae for European vanilla call and put options on a single asset. This will provide us with a baseline to determine the accuracy of subsequent numerical methods.</p>
+
+<p>The first numerical approach utilised will be based on a Finite Difference Method (FDM) and the original analytical formulae. The second numerical method will use a combination of the FDM technique and Monte Carlo for pricing. The latter approach is readily applicable to a wider range of contingent claims as it is not dependent upon the existence of an analytic solution.</p>
+
+<h2>Analytic Formulae</h2>
+
+<p>The formulae of the Greeks for a European vanilla call and put option on a single asset are tabulated below:</p>
+
+<table class="table">
+  <tr>
+    <th></th>
+    <th>Calls</th>
+    <th>Puts</th>
+  </tr>
+  <tr>
+    <td><strong>Delta</strong>, $\frac{\partial C}{\partial S}$</td>
+    <td>$N(d_1)$</td>
+    <td>$N(d_1) - 1$</td>
+  </tr>
+  <tr>
+    <td><strong>Gamma</strong>, $\frac{\partial^{2} C}{\partial S^{2}}$</td>
+    <td colspan="2">$\frac{N'(d_1)}{S\sigma\sqrt{T - t}}\,$</td>
+  </tr>
+  <tr>
+    <td><strong>Vega</strong>, $\frac{\partial C}{\partial \sigma}$</td>
+    <td colspan="2">$S N'(d_1) \sqrt{T-t}$</td>
+  </tr>
+  <tr>
+    <td><strong>Theta</strong>, $\frac{\partial C}{\partial t}$</td>
+    <td>$-\frac{S N'(d_1) \sigma}{2 \sqrt{T - t}} - rKe^{-r(T - t)}N(d_2)$</td>
+    <td>$-\frac{S N'(d_1) \sigma}{2 \sqrt{T - t}} + rKe^{-r(T - t)}N(-d_2)$</td>
+  </tr>
+  <tr>
+    <td><strong>Rho</strong>, $\frac{\partial C}{\partial r}$</td>
+    <td>$K(T - t)e^{-r(T - t)}N( d_2)$</td>
+    <td>$-K(T - t)e^{-r(T - t)}N(-d_2)$</td>
+  </tr>
+</table>
+
+<p>Where $N$ is the <a href="http://en.wikipedia.org/wiki/Normal_distribution#Cumulative_distribution_function">cumulative distribution function of the standard normal distribution</a>, $N'$ is the <a href="http://en.wikipedia.org/wiki/Normal_distribution#Probability_density_function">probability density function of the standard normal distribution</a>, $d_1 = (log(S/K)+(r+\frac{\sigma^2}{2})T)/(\sigma \sqrt{T})$ and $d_2 = d_1 ? \sigma \sqrt{T}$.</p>
+
+<p>The following listing implements these methods in C++ making use of the formulae for the probability functions given in the <a href="http://quantstart.com/articles/European-vanilla-option-pricing-with-C-and-analytic-formulae">article on European Option Pricing</a>. It also includes a basic Monte Carlo pricer, which is taken from <a href="http://quantstart.com/articles/European-vanilla-option-pricing-with-C-via-Monte-Carlo-methods">this article</a>. Here is the listing for <code>black_scholes.h</code></p>
+
+<pre>
+<code class="language-cpp">#define _USE_MATH_DEFINES
+
+#include &lt;iostream&gt;
+#include &lt;cmath&gt;
+#include &lt;algorithm&gt;    // Needed for the "max" function
+
+// =================
+// ANALYTIC FORMULAE
+// =================
+
+// Standard normal probability density function
+double norm_pdf(const double x) {
+  return (1.0/(pow(2*M_PI,0.5)))*exp(-0.5*x*x);
+}
+
+// An approximation to the cumulative distribution function
+// for the standard normal distribution
+// Note: This is a recursive function
+double norm_cdf(const double x) {
+  double k = 1.0/(1.0 + 0.2316419*x);
+  double k_sum = k*(0.319381530 + k*(-0.356563782 + k*(1.781477937 + k*(-1.821255978 + 1.330274429*k))));
+
+  if (x &gt;= 0.0) {
+    return (1.0 - (1.0/(pow(2*M_PI,0.5)))*exp(-0.5*x*x) * k_sum);
+  } else {
+    return 1.0 - norm_cdf(-x);
+  }
+}
+
+// This calculates d_j, for j in {1,2}. This term appears in the closed
+// form solution for the European call or put price
+double d_j(const int j, const double S, const double K, const double r, const double v, const double T) {
+  return (log(S/K) + (r + (pow(-1,j-1))*0.5*v*v)*T)/(v*(pow(T,0.5)));
+}
+
+// Calculate the European vanilla call price based on
+// underlying S, strike K, risk-free rate r, volatility of
+// underlying sigma and time to maturity T
+double call_price(const double S, const double K, const double r, const double v, const double T) {
+  return S * norm_cdf(d_j(1, S, K, r, v, T))-K*exp(-r*T) * norm_cdf(d_j(2, S, K, r, v, T));
+}
+
+// Calculate the European vanilla call Delta
+double call_delta(const double S, const double K, const double r, const double v, const double T) {
+  return norm_cdf(d_j(1, S, K, r, v, T));
+}
+
+// Calculate the European vanilla call Gamma
+double call_gamma(const double S, const double K, const double r, const double v, const double T) {
+  return norm_pdf(d_j(1, S, K, r, v, T))/(S*v*sqrt(T));
+}
+
+// Calculate the European vanilla call Vega
+double call_vega(const double S, const double K, const double r, const double v, const double T) {
+  return S*norm_pdf(d_j(1, S, K, r, v, T))*sqrt(T);
+}
+
+// Calculate the European vanilla call Theta
+double call_theta(const double S, const double K, const double r, const double v, const double T) {
+  return -(S*norm_pdf(d_j(1, S, K, r, v, T))*v)/(2*sqrt(T)) 
+    - r*K*exp(-r*T)*norm_cdf(d_j(2, S, K, r, v, T));
+}
+
+// Calculate the European vanilla call Rho
+double call_rho(const double S, const double K, const double r, const double v, const double T) {
+  return K*T*exp(-r*T)*norm_cdf(d_j(2, S, K, r, v, T));
+}
+
+// Calculate the European vanilla put price based on
+// underlying S, strike K, risk-free rate r, volatility of
+// underlying sigma and time to maturity T
+double put_price(const double S, const double K, const double r, const double v, const double T) {
+  return -S*norm_cdf(-d_j(1, S, K, r, v, T))+K*exp(-r*T) * norm_cdf(-d_j(2, S, K, r, v, T));
+}
+
+// Calculate the European vanilla put Delta
+double put_delta(const double S, const double K, const double r, const double v, const double T) {
+  return norm_cdf(d_j(1, S, K, r, v, T)) - 1;
+}
+
+// Calculate the European vanilla put Gamma
+double put_gamma(const double S, const double K, const double r, const double v, const double T) {
+  return call_gamma(S, K, r, v, T); // Identical to call by put-call parity
+}
+
+// Calculate the European vanilla put Vega
+double put_vega(const double S, const double K, const double r, const double v, const double T) {
+  return call_vega(S, K, r, v, T); // Identical to call by put-call parity
+}
+
+// Calculate the European vanilla put Theta
+double put_theta(const double S, const double K, const double r, const double v, const double T) {
+  return -(S*norm_pdf(d_j(1, S, K, r, v, T))*v)/(2*sqrt(T)) 
+    + r*K*exp(-r*T)*norm_cdf(-d_j(2, S, K, r, v, T));
+}
+
+// Calculate the European vanilla put Rho
+double put_rho(const double S, const double K, const double r, const double v, const double T) {
+  return -T*K*exp(-r*T)*norm_cdf(-d_j(2, S, K, r, v, T));
+}
+
+// ===========
+// MONTE CARLO
+// ===========
+
+// A simple implementation of the Box-Muller algorithm, used to generate
+// gaussian random numbers - necessary for the Monte Carlo method below
+// Note that C++11 actually provides std::normal_distribution&lt;&gt; in 
+// the &lt;random&gt; library, which can be used instead of this function
+double gaussian_box_muller() {
+  double x = 0.0;
+  double y = 0.0;
+  double euclid_sq = 0.0;
+
+  // Continue generating two uniform random variables
+  // until the square of their "euclidean distance" 
+  // is less than unity
+  do {
+    x = 2.0 * rand() / static_cast&lt;double&gt;(RAND_MAX)-1;
+    y = 2.0 * rand() / static_cast&lt;double&gt;(RAND_MAX)-1;
+    euclid_sq = x*x + y*y;
+  } while (euclid_sq &gt;= 1.0);
+
+  return x*sqrt(-2*log(euclid_sq)/euclid_sq);
+}</code>
+</pre>
+
+<p>Here is the listing for the <code>main.cpp</code> file making use of the above header:</p>
+
+<pre>
+<code class="language-cpp">#include "black_scholes.h"
+
+int main(int argc, char **argv) {
+  // First we create the parameter list
+  double S = 100.0;  // Option price
+  double K = 100.0;  // Strike price
+  double r = 0.05;   // Risk-free rate (5%)
+  double v = 0.2;    // Volatility of the underlying (20%)
+  double T = 1.0;    // One year until expiry
+
+  // Then we calculate the call/put values and the Greeks
+  double call = call_price(S, K, r, v, T);
+  double call_delta_v = call_delta(S, K, r, v, T);
+  double call_gamma_v = call_gamma(S, K, r, v, T);
+  double call_vega_v = call_vega(S, K, r, v, T);
+  double call_theta_v = call_theta(S, K, r, v, T);
+  double call_rho_v = call_rho(S, K, r, v, T);
+
+  double put = put_price(S, K, r, v, T);
+  double put_delta_v = put_delta(S, K, r, v, T);
+  double put_gamma_v = put_gamma(S, K, r, v, T);
+  double put_vega_v = put_vega(S, K, r, v, T);
+  double put_theta_v = put_theta(S, K, r, v, T);
+  double put_rho_v = put_rho(S, K, r, v, T);
+
+  // Finally we output the parameters and prices
+  std::cout &lt;&lt; "Underlying:      " &lt;&lt; S &lt;&lt; std::endl;
+  std::cout &lt;&lt; "Strike:          " &lt;&lt; K &lt;&lt; std::endl;
+  std::cout &lt;&lt; "Risk-Free Rate:  " &lt;&lt; r &lt;&lt; std::endl;
+  std::cout &lt;&lt; "Volatility:      " &lt;&lt; v &lt;&lt; std::endl;
+  std::cout &lt;&lt; "Maturity:        " &lt;&lt; T &lt;&lt; std::endl &lt;&lt; std::endl;
+
+  std::cout &lt;&lt; "Call Price:      " &lt;&lt; call &lt;&lt; std::endl;
+  std::cout &lt;&lt; "Call Delta:      " &lt;&lt; call_delta_v &lt;&lt; std::endl;
+  std::cout &lt;&lt; "Call Gamma:      " &lt;&lt; call_gamma_v &lt;&lt; std::endl;
+  std::cout &lt;&lt; "Call Vega:       " &lt;&lt; call_vega_v &lt;&lt; std::endl;
+  std::cout &lt;&lt; "Call Theta:      " &lt;&lt; call_theta_v &lt;&lt; std::endl;
+  std::cout &lt;&lt; "Call Rho:        " &lt;&lt; call_rho_v &lt;&lt; std::endl &lt;&lt; std::endl;
+
+  std::cout &lt;&lt; "Put Price:       " &lt;&lt; put &lt;&lt; std::endl;
+  std::cout &lt;&lt; "Put Delta:       " &lt;&lt; put_delta_v &lt;&lt; std::endl;
+  std::cout &lt;&lt; "Put Gamma:       " &lt;&lt; put_gamma_v &lt;&lt; std::endl;
+  std::cout &lt;&lt; "Put Vega:        " &lt;&lt; put_vega_v &lt;&lt; std::endl;
+  std::cout &lt;&lt; "Put Theta:       " &lt;&lt; put_theta_v &lt;&lt; std::endl;
+  std::cout &lt;&lt; "Put Rho:         " &lt;&lt; put_rho_v &lt;&lt; std::endl;
+
+  return 0;
+}</code>
+</pre>
+
+<p>The output of this program is as follows:</p>
+
+<pre>
+<code class="language-none">Underlying:      100
+Strike:          100
+Risk-Free Rate:  0.05
+Volatility:      0.2
+Maturity:        1
+
+Call Price:      10.4506
+Call Delta:      0.636831
+Call Gamma:      0.018762
+Call Vega:       37.524
+Call Theta:      -6.41403
+Call Rho:        53.2325
+
+Put Price:       5.57352
+Put Delta:       -0.363169
+Put Gamma:       0.018762
+Put Vega:        37.524
+Put Theta:       -1.65788
+Put Rho:         -41.8905</code>
+</pre>
+
+<p>We are now going to compare the analytical prices with those derived from a Finite Difference Method.</p>
+
+<h2>Finite Difference Method</h2>
+
+<p>FDM is widely used in derivatives pricing (as well as engineering/physics in general) to solve partial differential equations (PDE). I have <a href="http://quantstart.com/articles/C-Explicit-Euler-Finite-Difference-Method-for-Black-Scholes">written before</a> about using FDM to solve the Black-Scholes equation via the Explicit Euler Method. In this section we are going to apply the same technique, namely the discretisation of the partial derivatives, to create a simple approximation to the Greek sensitivities with which we can compare to the analytical solution.</p>
+
+<p>The essence of the method is that we will approximate the partial derivative representing the particular sensitivity of interest. To do this we make use of the analytical formulae for the Black-Scholes prices of the call and puts. These formulae are covered in <a href="http://quantstart.com/articles/European-vanilla-option-pricing-with-C-and-analytic-formulae">this article</a>.</p>
+
+<p>As an example, let's assume we want to calculate the Delta of a call option. The Delta is given by $\frac{\partial C}{\partial S} (S, T, \sigma, r, K)$. If we calculate two call prices, one at spot $S$ and the other at spot $S+\Delta S$, subtract the prices and divide by $\Delta S$, we have a <em>forward difference approximation</em> to the derivative:</p>
+
+\begin{eqnarray}
+\frac{\partial C}{\partial S} \approx \frac{C(S+\Delta S, T, \sigma, r, K) - C(S,T,\sigma,r,K)}{\Delta S}
+\end{eqnarray}
+
+<p>Each of the additional first order sensitivities (Vega, Rho and Theta) can be calculated in this manner by simply incrementing the correct parameter dimension. Gamma on the other hand is a second order derivative and so must be approximated in a different way. The usual approach in FDM is to use a <em>central difference approximation</em> to produce the following formula:</p>
+
+\begin{eqnarray}
+\frac{\partial^2 C}{\partial S^2} \approx \frac{C(S+\Delta S, T, \sigma, r, K) - 2 C(S,T,\sigma,r,K) + C(S-\Delta S, T, \sigma, r, K)}{(\Delta S)^2}
+\end{eqnarray}
+
+<p>At this stage we will keep the code procedural as we wish to emphasise the mathematical formulae. We are now able to implement the FDM numerical approximations in C++. For the sake of brevity we will restrict ourselves to the calculation of the call Delta and Gamma, as the remaining sensitivities are similar:</p>
+
+<pre>
+<code class="language-cpp">#include "black_scholes.h"
+
+// This uses the forward difference approximation to calculate the Delta of a call option
+double call_delta_fdm(const double S, const double K, const double r, const double v, const double T, const double delta_S) {
+  return (call_price(S + delta_S, K, r, v, T) - call_price(S, K, r, v, T))/delta_S;
+}
+
+// This uses the centred difference approximation to calculate the Gamma of a call option
+double call_gamma_fdm(const double S, const double K, const double r, const double v, const double T, const double delta_S) {
+  return (call_price(S + delta_S, K, r, v, T) - 2*call_price(S, K, r, v, T) + call_price(S - delta_S, K, r, v, T))/(delta_S*delta_S);
+}
+
+int main(int argc, char **argv) {
+  // First we create the parameter list
+  double S = 100.0;        // Option price
+  double delta_S = 0.001;  // Option price increment
+  double K = 100.0;        // Strike price
+  double r = 0.05;         // Risk-free rate (5%)
+  double v = 0.2;          // Volatility of the underlying (20%)
+  double T = 1.0;          // One year until expiry
+    
+  // Then we calculate the Delta and the Gamma for the call
+  double call_delta_f = call_delta_fdm(S, K, r, v, T, delta_S);
+  double call_gamma_f = call_gamma_fdm(S, K, r, v, T, delta_S);
+
+  // Finally we output the parameters and greeks
+  std::cout &lt;&lt; "Underlying:        " &lt;&lt; S &lt;&lt; std::endl;
+  std::cout &lt;&lt; "Delta underlying:  " &lt;&lt; delta_S &lt;&lt; std::endl;
+  std::cout &lt;&lt; "Strike:            " &lt;&lt; K &lt;&lt; std::endl;
+  std::cout &lt;&lt; "Risk-Free Rate:    " &lt;&lt; r &lt;&lt; std::endl;
+  std::cout &lt;&lt; "Volatility:        " &lt;&lt; v &lt;&lt; std::endl;
+  std::cout &lt;&lt; "Maturity:          " &lt;&lt; T &lt;&lt; std::endl &lt;&lt; std::endl;
+
+  std::cout &lt;&lt; "Call Delta:        " &lt;&lt; call_delta_f &lt;&lt; std::endl;
+  std::cout &lt;&lt; "Call Gamma:        " &lt;&lt; call_gamma_f &lt;&lt; std::endl;
+}</code>
+</pre>
+
+<p>The output of this program is as follows:</p>
+
+<pre>
+<code class="language-none">Underlying:        100
+Delta underlying:  0.001
+Strike:            100
+Risk-Free Rate:    0.05
+Volatility:        0.2
+Maturity:          1
+
+Call Delta:        0.636845
+Call Gamma:        0.0187633</code>
+</pre>
+
+<h2>Monte Carlo Method</h2>
+
+<p>The final method of calculating the Greeks is to use a combination of the FDM and Monte Carlo. The overall method is the same as above, with the exception that we will replace the analytical prices of the call/puts in the Finite Difference approximation and use a Monte Carlo engine instead to calculate the prices. This method is significantly more versatile as it can be extended to many differing types of contingent claim prices.</p>
+
+<p>It is extremely important to re-use the random draws from the initial Monte Carlo simulation in calculating the incremented/decremented parameter paths. Thus, when calculating $C(S,K,r,v,T)$ and $C(S+\Delta S,K,r,v,T)$ it is necessary to use the same random draws. Further, it is significantly more optimal as there is no need to calculate additional asset paths for each incremented parameter instance.</p>
+
+<p>The following code calculates the Monte Carlo price for the Delta and the Gamma, making use of separate Monte Carlo prices for each instance. The essence of the Monte Carlo method is to calculate three separate stock paths, all based on the same Gaussian draws. Each of these draws will represent an increment (or not) to the asset path parameter, $S$. Once those paths have been generated a price for each can be calculated. This price is then substituted into the FDM derivative approximations, in exactly the same way as with the analytical formulae.</p>
+
+<p>The final prices are passed to the <code>monte_carlo_call_price</code> function by reference and the function itself is <code>void</code>. This provides a simple mechanism for returning multiple <code>double</code>s from the function. An alternative would be to pass a vector of values by reference, to be set.</p>
+
+<p> It is straightforward to modify the code to calculate the Vega, Rho or Theta (based on the Delta). A more 'production ready' implementation would utilise an object-oriented framework. However, for the purposes of this article an OOP-based implementation would likely obscure the algorithm:</p>
+
+<pre>
+<code class="language-cpp">#include "black_scholes.h"
+
+// Pricing a European vanilla call option with a Monte Carlo method
+// Create three separate paths, each with either an increment, non-
+// increment or decrement based on delta_S, the stock path parameter
+void monte_carlo_call_price(const int num_sims, 
+                              const double S, const double K, const double r, 
+                              const double v, const double T, const double delta_S, 
+                              double& price_Sp, double& price_S, double& price_Sm) {
+
+  // Since we wish to use the same Gaussian random draws for each path, it is
+  // necessary to create three separated adjusted stock paths for each 
+  // increment/decrement of the asset
+  double Sp_adjust = (S+delta_S) * exp(T*(r-0.5*v*v));
+  double S_adjust = S * exp(T*(r-0.5*v*v));
+  double Sm_adjust = (S-delta_S) * exp(T*(r-0.5*v*v));
+
+  // These will store all three 'current' prices as the Monte Carlo
+  // algorithm is carried out
+  double Sp_cur = 0.0;
+  double S_cur = 0.0;
+  double Sm_cur = 0.0;
+
+  // There are three separate pay-off sums for the final price
+  double payoff_sum_p = 0.0;
+  double payoff_sum = 0.0;
+  double payoff_sum_m = 0.0;
+
+  // Loop over the number of simulations
+  for (int i=0; i&lt;num_sims; i++) {
+    double gauss_bm = gaussian_box_muller(); // Random gaussian draw
+
+    // Adjust three stock paths 
+    double expgauss = exp(sqrt(v*v*T)*gauss_bm);  // Precalculate
+    Sp_cur = Sp_adjust * expgauss;
+    S_cur = S_adjust * expgauss;
+    Sm_cur = Sm_adjust * expgauss;
+
+    // Calculate the continual pay-off sum for each increment/decrement
+    payoff_sum_p += std::max(Sp_cur - K, 0.0);
+    payoff_sum += std::max(S_cur - K, 0.0);
+    payoff_sum_m += std::max(Sm_cur - K, 0.0);
+  }
+
+  // There are three separate prices
+  price_Sp = (payoff_sum_p / static_cast&lt;double&gt;(num_sims)) * exp(-r*T);
+  price_S = (payoff_sum / static_cast&lt;double&gt;(num_sims)) * exp(-r*T);
+  price_Sm = (payoff_sum_m / static_cast&lt;double&gt;(num_sims)) * exp(-r*T);
+}
+
+double call_delta_mc(const int num_sims, const double S, const double K, const double r, const double v, const double T, const double delta_S) {
+  // These values will be populated via the monte_carlo_call_price function.
+  // They represent the incremented Sp (S+delta_S), non-incremented S (S) and
+  // decremented Sm (S-delta_S) prices.
+  double price_Sp = 0.0;
+  double price_S = 0.0;
+  double price_Sm = 0.0;
+  
+  // Call the Monte Carlo pricer for each of the three stock paths
+  // (We only need two for the Delta)
+  monte_carlo_call_price(num_sims, S, K, r, v, T, delta_S, price_Sp, price_S, price_Sm);
+  return (price_Sp - price_S)/delta_S;
+}
+
+double call_gamma_mc(const int num_sims, const double S, const double K, const double r, const double v, const double T, const double delta_S) {
+  // These values will be populated via the monte_carlo_call_price function.
+  // They represent the incremented Sp (S+delta_S), non-incremented S (S) and
+  // decremented Sm (S-delta_S) prices.
+  double price_Sp = 0.0;
+  double price_S = 0.0;
+  double price_Sm = 0.0;
+
+  // Call the Monte Carlo pricer for each of the three stock paths
+  // (We need all three for the Gamma) 
+  monte_carlo_call_price(num_sims, S, K, r, v, T, delta_S, price_Sp, price_S, price_Sm);
+  return (price_Sp - 2*price_S + price_Sm)/(delta_S*delta_S);
+}
+
+int main(int argc, char **argv) {
+  // First we create the parameter list
+  double S = 100.0;            // Option price
+  double delta_S = 0.001;      // Option price increment
+  double K = 100.0;            // Strike price
+  double r = 0.05;             // Risk-free rate (5%)
+  double v = 0.2;              // Volatility of the underlying (20%)
+  double T = 1.0;              // One year until expiry
+  int num_sims = 100000000;    // Number of simulations to carry out for Monte Carlo    
+
+  // Then we calculate the Delta and the Gamma for the call
+  double call_delta_m = call_delta_mc(num_sims, S, K, r, v, T, delta_S);
+  double call_gamma_m = call_gamma_mc(num_sims, S, K, r, v, T, delta_S);
+
+  // Finally we output the parameters and greeks
+  std::cout &lt;&lt; "Number of sims:    " &lt;&lt; num_sims &lt;&lt; std::endl;
+  std::cout &lt;&lt; "Underlying:        " &lt;&lt; S &lt;&lt; std::endl;
+  std::cout &lt;&lt; "Delta underlying:  " &lt;&lt; delta_S &lt;&lt; std::endl;
+  std::cout &lt;&lt; "Strike:            " &lt;&lt; K &lt;&lt; std::endl;
+  std::cout &lt;&lt; "Risk-Free Rate:    " &lt;&lt; r &lt;&lt; std::endl;
+  std::cout &lt;&lt; "Volatility:        " &lt;&lt; v &lt;&lt; std::endl;
+  std::cout &lt;&lt; "Maturity:          " &lt;&lt; T &lt;&lt; std::endl &lt;&lt; std::endl;
+
+  std::cout &lt;&lt; "Call Delta:        " &lt;&lt; call_delta_m &lt;&lt; std::endl;
+  std::cout &lt;&lt; "Call Gamma:        " &lt;&lt; call_gamma_m &lt;&lt; std::endl;
+}</code>
+</pre>
+
+<p>Here is the output of the program:</p>
+
+<pre>
+<code class="language-none">Number of sims:    100000000
+Underlying:        100
+Delta underlying:  0.001
+Strike:            100
+Risk-Free Rate:    0.05
+Volatility:        0.2
+Maturity:          1
+
+Call Delta:        0.636894
+Call Gamma:        0.0188733</code>
+</pre>
+
+<p>Here is a summary table with the calculation of the Delta and Gamma for a European vanilla call option across all of the methods listed above:</p>
+
+<table class="table">
+  <tr>
+    <th></th>
+    <th>Delta</th>
+    <th>Gamma</th>
+  </tr> 
+  <tr>
+    <td>Analytic</td>
+    <td>0.636831</td>
+    <td>0.018762</td>
+  </tr>
+  <tr>
+    <td>FDM/Analytic</td>
+    <td>0.636845</td>
+    <td>0.0187633</td>
+  </tr>
+  <tr>
+    <td>FDM/MC</td>
+    <td>0.636894</td>
+    <td>0.0188733</td>
+  </tr>
+</table>
+
+<p>The values are extremely similar, even for the Monte Carlo based approach, albeit at the computational expense of generating the random draws. In later articles it will be shown how the FDM/MC approach can be applied to other contingent claims where an analytical solution is not forthcoming.</p>
+        
+        
+        <script async data-uid="6296c27f4b" src="https://weathered-brook-5281.ck.page/6296c27f4b/index.js"></script>
+      </section>
+    </div>
+    <div class="col-md-4 book-card order-md-1">
+      
+<div class="sidebar-advert-container">
+  <a href="/qsalpha/?ref=art">
+    <img class="card-img-top" src="/static/images/qsalpha-sidebar-advert-small.png" alt="QSAlpha">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/qsalpha/?ref=art">QSAlpha</a></h3>
+      <p class="card-text medium-text mb-3">Join the QSAlpha research platform that helps fill your strategy research pipeline, diversifies your portfolio and improves your risk-adjusted returns for increased profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/qsalpha/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/quantcademy/?ref=art">
+    <img class="card-img-top" src="/static/images/quantcademy-sidebar-advert-small.png" alt="Quantcademy">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/quantcademy/?ref=art">The Quantcademy</a></h3>
+      <p class="card-text medium-text mb-3">Join the Quantcademy membership portal that caters to the rapidly-growing retail quant trader community and learn how to increase your strategy profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/quantcademy/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/successful-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/sat-sidebar-advert-small.png" alt="Successful Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to find new trading strategy ideas and objectively assess them for your portfolio using a Python-based backtesting engine.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/successful-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/advanced-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/aat-sidebar-advert-small.png" alt="Advanced Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to implement advanced trading strategies using time series analysis, machine learning and Bayesian statistics with R and Python.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/advanced-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+    
+
+<footer>
+  <div class="container container-full">
+    <section class="mt-1.5 mb-1">
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">QuantStart</li>
+            <li class="footer-list-link"><a class="link-fade" href="/about/">About</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/articles/">Articles</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/sitemap/">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Products</li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qsalpha/">QSAlpha</a></li>
+            
+            
+            <li class="footer-list-link"><a class="link-fade" href="/quantcademy/">Quantcademy</a></li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qstrader/">QSTrader</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Legal</li>
+            <li class="footer-list-link"><a class="link-fade" href="/privacy-policy/">Privacy Policy</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/terms-and-conditions/">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Social</li>
+            <li class="footer-list-link"><a class="link-fade" href="https://twitter.com/quantstart">Twitter</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="https://www.youtube.com/channel/UCmVnnZ6Y2TrJtY1eQJN6kWA">YouTube</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="row mb-1.5 mt-5">
+      <div class="col-12 col-md-9 col-lg-8 col-xl-6">
+        <div class="footer-copyright">
+          <p>©2012-2023 QuarkGluon Ltd. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+<script src="/static/js/jquery-3.2.1.min.js"></script>
+<script src="/static/js/prism.js.min"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/nav.js"></script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5383959-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+    
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="/static/js/highcharts/highcharts.js"></script>
+<script type="text/javascript">
+  num_colours = 10;
+</script>
+<script src="/static/js/statistics.js"></script>
+
+
+  </body>
+</html>

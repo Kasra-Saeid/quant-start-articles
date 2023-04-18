@@ -1,0 +1,927 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-site-verification" content="wl3-8ed1QZjI0iYZMv10zoZWYElkMObTfwLlWIj9cpA" />
+    <meta name="description" content="Advanced Trading Infrastructure - Portfolio Class">
+
+    <link rel="icon" href="/static/images/favicon.png">
+
+    <title>Advanced Trading Infrastructure - Portfolio Class | QuantStart</title>
+    
+    
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet"> 
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/prism.css" rel="stylesheet">
+<link href="/static/css/qs.css?v=10" rel="stylesheet">
+    
+  </head>
+
+  <body>
+    <header class="header covered-header" style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://quantstartmedia.s3.amazonaws.com/images/article-images/article-backgrounds/default-bg.jpg);">
+  
+<nav class="nav">
+  <div class="container nav-container">
+    <div class="nav-row row d-flex justify-content-between align-items-center">
+      <div class="col-2">
+        <ul class="nav-items justify-content-end small-capitals align-items-center">
+          <li class="nav-item">
+            <a class="link-fade" href="/">QuantStart</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-auto col-logo">
+        <ul id="top-nav-menu" class="nav-items justify-content-end align-items-center">
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/qsalpha/">QSAlpha</a>
+          </li>
+          
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/quantcademy/">Quantcademy</a>
+          </li>
+          
+          <li id="menu-link-ebooks" class="nav-item">
+            <a class="link-fade" href="#">Books</a>
+            <div id="menu-pane-ebooks" class="nav-items menu-dropdown-pane">
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/qstrader/">QSTrader</a>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/articles/">Articles</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/members/login/">Login</a>
+          </li>
+          
+        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<nav id="mobile-nav" class="mobile-nav text-left">
+  <div class="container">
+    <ul class="mt-4 ml-3 mobile-nav-menu">
+      <li class="nav-item">
+        <a class="link-fade d-block" href="/">QuantStart</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qsalpha/">QSAlpha</a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/quantcademy/">Quantcademy</a>
+      </li>
+      
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="#">Books</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qstrader/">QSTrader</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/articles/">Articles</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/members/login/">Login</a>
+      </li>
+      
+    </ul>
+    <button class="nav-toggle mobile-nav-close">
+      <svg id="mobile-nav-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M19.77,5.63,13.41,12l6.36,6.37a1,1,0,0,1-1.41,1.41L12,13.41,5.63,19.77a1,1,0,0,1-1.44-1.39l0,0L10.58,12,4.21,5.63a1,1,0,0,1,0-1.42,1,1,0,0,1,1.41,0l0,0L12,10.58l6.37-6.37a1,1,0,0,1,1.41,0A1,1,0,0,1,19.77,5.63Z"></path>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+  <div class="container hero-container">
+    <section class="mt-5 mb-4">
+      <div class="row justify-content-center">
+        <div class="col-12 text-center">
+          <p class="hero">Advanced Trading Infrastructure - Portfolio Class</p>
+          <p class="hero subhero">Advanced Trading Infrastructure - Portfolio Class</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</header>
+    
+<section class="container content-container">
+  <div class="row">
+    <div class="col-md-8 order-md-2">
+      <section class="content article-content">
+        
+        
+        <p>In the <a href="https://www.quantstart.com/articles/Advanced-Trading-Infrastructure-Position-Class">previous article</a> in the <strong>Advanced Trading Infrastructure</strong> series I discussed and presented both the code and initial unit tests for the <code>Position</code> class that stores positional information about a trade. In this article we will consider the <code>Portfolio</code> class, used to store a list of <code>Position</code> classes, as well as a cash balance.</p>
+
+<p>In the last month I've made a lot of progress on <a href="https://github.com/mhallsmoore/qstrader">QSTrader</a>, the open-source backtesting and live-trading engine that is the culmination of these articles. In fact, I've actually finalised an entire end-to-end "first draft" of the code, which makes use of a simplistic (but highly unprofitable!) test strategy, to ensure the code works as it should. However, I still wish to write these articles sequentially by explaining each module and how it works.</p>
+
+<p>I'm hopeful that by doing so it will make it much easier for many of you to contribute to the project by adding various new components, such as risk handlers or portfolio sizers that others in the QuantStart community can make use of.</p>
+
+<p>At this stage there is little-to-no documentation beyond these articles and a big part of making QSTrader a viable backtesting library is to have it extremely well documented. Once the code is further along I will start to produce some in-depth documentation and tutorials that should help you get backtesting very quickly, irrespective of your choice of operating system or trading frequency.</p>
+
+<p>To reiterate, the project can always be found at <a href="https://github.com/mhallsmoore/qstrader">https://www.github.com/mhallsmoore/qstrader</a> under a liberal open-source MIT license.</p>
+
+<h2>Component Design Reminder</h2>
+
+<p>In the <a href="https://www.quantstart.com/articles/Advanced-Trading-Infrastructure-Position-Class">previous article</a> we talked briefly about the components that make up QSTrader. I have now extended this list to include the "full" set of components necessary for a backtest.</p>
+
+<p>Many of these modules will be familiar to users of <a href="https://github.com/mhallsmoore/qsforex">QSForex</a> and my previous event-driven backtester used in <a href="https://www.quantstart.com/successful-algorithmic-trading-ebook">Successful Algorithmic Trading</a>. The primary difference here is that each of these classes is unit tested and will be much more feature-rich than those in previous versions.</p>
+
+<p>The current design is as follows:</p>
+
+<ul>
+  <li><strong>Position</strong> - The <code>Position</code> class encapsulates all data associated with an open position in an asset. That is, it tracks the realised and unrealised profit and loss (PnL) by averaging the multiple "legs" of the transaction, inclusive of transaction costs.</li>
+  <li><strong>Portfolio</strong> - The <code>Portfolio</code> class that encapsulates a list of <code>Position</code>s, as well as a cash balance, equity and PnL.</li>
+  <li><strong>PositionSizer</strong> - The <code>PositionSizer</code> class provides the <code>PortfolioHandler</code> (see below) with guidance on how to size positions once a strategy signal is received. For instance, the <code>PositionSizer</code> could incorporate a <a href="https://www.quantstart.com/articles/Money-Management-via-the-Kelly-Criterion">Kelly Criterion</a> approach.</li>
+  <li><strong>RiskManager</strong> - The <code>RiskManager</code> is used by the <code>PortfolioHandler</code> to verify, modify or veto any suggested trades that pass through from the <code>PositionSizer</code>, based on the current composition of the portfolio and external risk considerations (such as correlation to indices or volatility).</li>
+  <li><strong>PortfolioHandler</strong> - The <code>PortfolioHandler</code> class is responsible for the management of the current <code>Portfolio</code>, interacting with the <code>RiskManager</code> and <code>PositionSizer</code> as well as submitting orders to be executed by an <code>ExecutionHandler</code>.</li>
+  <li><strong>Event</strong> - The <code>Event</code> class and its inherited subclass are used to pass around event messages to each component of the system. They are always sent to a Python event <a href="https://docs.python.org/3.5/library/queue.html">queue</a> to be read by these components. Event subclasses include <code>TickEvent</code>, <code>OrderEvent</code>, <code>SignalEvent</code> and <code>FillEvent</code>.</li>
+  <li><strong>Strategy</strong> - The <code>Strategy</code> class handles the logic of generating trading signals based on the pricing information. It sends these signals to the <code>PortfolioHandler</code>.</li>
+  <li><strong>ExecutionHandler</strong> - The <code>ExecutionHandler</code> reads in <code>OrderEvent</code>s and produces <code>FillEvent</code>s, based either on a simulated fill scenario or the actual fill information from a brokerage, such as Interactive Brokers.</li>
+  <li><strong>PriceHandler</strong> - This class is designed to be subclassed to allow connection to multiple data sources such as CSV, HDF5, RDBMS (MySQL, SQLServer, PostgreSQL), MongoDB or a brokerage live-streaming API, for instance.</li>
+  <li><strong>Backtest</strong> - The <code>Backtest</code> class ties together all of the previous components to produce a simulated backtest. It is "swapped out" with a live trading engine class (to be developed), along with a <code>PriceHandler</code> and <code>ExecutionHandler</code>, once live trading is to be carried out.</li>
+</ul>
+
+<p>What's missing from this list so far? Perhaps the most important missing piece is any mechanism for calculating trade strategy statistics and viewing the results. This includes performance metrics like Sharpe Ratio and Maximum Drawdown, as well as an equity curve, returns profile and drawdown curve.</p>
+
+<p>Rather than <a href="https://en.wikipedia.org/wiki/Coupling_%28computer_programming%29">strongly-coupling</a> the results to the <code>PortfolioHandler</code> class, as in the previous QSForex and the event-driven backtester codes, we are going to generate a <code>Result</code>s or <code>Statistic</code>s class that will calculate and store the necessary performance metrics based on the results of a backtest. We can then use these classes to produce further "client" utilities, such as a web interface or GUI tool, to view the results of a backtest.</p>
+
+<p>In addition, there is no mention of robustness, logging or monitoring within the above list. These are crucial components in a production-ready backtesting and live trading engine and will be added as the project develops. These components will likely make use of some form of server/cloud infrastructure, such as <a href="http://aws.amazon.com/">Amazon Web Services</a> (or other cloud vendor).</p>
+
+<p>Let's now turn our attention to the <code>Portfolio</code> class. In later articles we will consider the <code>PortfolioHandler</code> and how it interacts with the <code>PositionSizer</code> and <code>RiskManager</code>.</p>
+
+<h2>Portfolio</h2>
+
+<p>I want to emphasise again at this stage that the <code>Portfolio</code> class found in QSTrader is very different from that used in QSForex or the event-driven backtester. I have split the previous designs of the portfolio into two classes now, one called <code>Portfolio</code> and the other called <code>PortfolioHandler</code>.</p>
+
+<p>What is the reason for this change? Primarily, I wanted to create a lean <code>Portfolio</code> class that did very little except store the current cash value and a list of <code>Position</code> objects. The only method that is called <a href="https://en.wikipedia.org/wiki/C%2B%2B_classes#Declaration_and_usage">publicly</a> (to borrow a C++ term!) is <code>transact_position</code>, which simply tells the <code>Portfolio</code> to update its position in a particular equity. It handles all of the necessary profit and loss (PnL) calculations, leading to both <em>realised</em> and <em>unrealised</em> PnL.</p>
+
+<p>This means that the <code>PortfolioHandler</code> class can concentrate on other tasks, such as interacting with the <code>RiskManager</code> and <code>PositionSizer</code> classes, leaving all of the necessary financial calculations to the <code>Portfolio</code>. It also makes it more straightforward to test each class individually, as one is heavy on financial calculation, while the other is used more for interacting with other components.</p>
+
+<p>I'll output the code listings for both <code>position.py</code> and <code>position_test.py</code> in full and then run through how each of them works.</p>
+
+<p><em>Note that any of these listings are subject to change, since I will be continually making changes to this project. Eventually I hope others will collaborate by providing <a href="https://en.wikipedia.org/wiki/Pull_request">Pull Requests</a> to the codebase.</em></p>
+
+<h3>portfolio.py</h3>
+
+<pre class>
+<code class="language-python">from decimal import Decimal
+from qstrader.position.position import Position
+
+
+class Portfolio(object):
+    def __init__(self, price_handler, cash):
+        """
+        On creation, the Portfolio object contains no
+        positions and all values are "reset" to the initial
+        cash, with no PnL - realised or unrealised.
+        """
+        self.price_handler = price_handler
+        self.init_cash = cash
+        self.cur_cash = cash
+        self.positions = {}
+        self._reset_values()
+
+    def _reset_values(self):
+        """
+        This is called after every position addition or
+        modification. It allows the calculations to be
+        carried out "from scratch" in order to minimise
+        errors.
+
+        All cash is reset to the initial values and the
+        PnL is set to zero.
+        """
+        self.cur_cash = self.init_cash
+        self.equity = self.cur_cash
+        self.unrealised_pnl = Decimal('0.00')
+        self.realised_pnl = Decimal('0.00')
+
+    def _update_portfolio(self):
+        """
+        Updates the Portfolio total values (cash, equity,
+        unrealised PnL, realised PnL, cost basis etc.) based
+        on all of the current ticker values.
+
+        This method is called after every Position modification.
+        """
+        for ticker in self.positions:
+            pt = self.positions[ticker]
+            self.unrealised_pnl += pt.unrealised_pnl
+            self.realised_pnl += pt.realised_pnl
+            self.cur_cash -= pt.cost_basis
+            pnl_diff = pt.realised_pnl - pt.unrealised_pnl
+            self.cur_cash += pnl_diff
+            self.equity += (
+                pt.market_value - pt.cost_basis + pnl_diff
+            )
+
+    def _add_position(
+        self, action, ticker,
+        quantity, price, commission
+    ):
+        """
+        Adds a new Position object to the Portfolio. This
+        requires getting the best bid/ask price from the
+        price handler in order to calculate a reasonable
+        "market value".
+
+        Once the Position is added, the Portfolio values
+        are updated.
+        """
+        self._reset_values()
+        if ticker not in self.positions:
+            bid, ask = self.price_handler.get_best_bid_ask(ticker)
+            position = Position(
+                action, ticker, quantity,
+                price, commission, bid, ask
+            )
+            self.positions[ticker] = position
+            self._update_portfolio()
+        else:
+            print(
+                "Ticker %s is already in the positions list. " \
+                "Could not add a new position." % ticker
+            )
+
+    def _modify_position(
+        self, action, ticker, 
+        quantity, price, commission
+    ):
+        """
+        Modifies a current Position object to the Portfolio.
+        This requires getting the best bid/ask price from the
+        price handler in order to calculate a reasonable
+        "market value".
+
+        Once the Position is modified, the Portfolio values
+        are updated.
+        """
+        self._reset_values()
+        if ticker in self.positions:
+            self.positions[ticker].transact_shares(
+                action, quantity, price, commission
+            )
+            bid, ask = self.price_handler.get_best_bid_ask(ticker)
+            self.positions[ticker].update_market_value(bid, ask)
+            self._update_portfolio()
+        else:
+            print(
+                "Ticker %s not in the current position list. " \
+                "Could not modify a current position." % ticker
+            )
+
+    def transact_position(
+        self, action, ticker, 
+        quantity, price, commission
+    ):
+        """
+        Handles any new position or modification to 
+        a current position, by calling the respective
+        _add_position and _modify_position methods. 
+
+        Hence, this single method will be called by the 
+        PortfolioHandler to update the Portfolio itself.
+        """
+        if ticker not in self.positions:
+            self._add_position(
+                action, ticker, quantity, 
+                price, commission
+            )
+        else:
+            self._modify_position(
+                action, ticker, quantity, 
+                price, commission
+            )</code>
+</pre>
+
+<p>As with the <code>position.py</code> listing in the previous article we make extensive use of the Python <a href="https://docs.python.org/3.5/library/decimal.html">decimal</a> module. As I've mentioned before this is an absolute necessity in financial calculations as otherwise you will receive rounding errors due to the <a href="http://floating-point-gui.de/">mathematics of floating point operations</a>.</p>
+
+<p>In the initialisation method of the <code>Portfolio</code> class we take a <code>PriceHandler</code> parameter as well as an initial cash balance (which is a Decimal datatype, not a floating point value). This is all we need to create a <code>Portfolio</code> instance.</p>
+
+<p>In the method itself we create an initial cash and current cash value. We then create a dictionary of positions and finally call the <code>_reset_values</code> method, that resets all cash calculations and sets all PnL values to zero:</p>
+
+<pre class>
+<code class="language-python">class Portfolio(object):
+    def __init__(self, price_handler, cash):
+        """
+        On creation, the Portfolio object contains no
+        positions and all values are "reset" to the initial
+        cash, with no PnL - realised or unrealised.
+        """
+        self.price_handler = price_handler
+        self.init_cash = cash
+        self.cur_cash = cash
+        self.positions = {}
+        self._reset_values()</code>
+</pre>
+
+<p>As mentioned above, <code>_reset_values</code> is called upon initialisation, but it is also called upon every position modification. This may seem unwieldy, but it heavily reduces errors in the calculation process. It simply resets the current cash and equity values to the initial cash value and then zeroes the PnL values:</p>
+
+<pre class>
+<code class="language-python"># portfolio.py
+
+    def _reset_values(self):
+        """
+        This is called after every position addition or
+        modification. It allows the calculations to be
+        carried out "from scratch" in order to minimise
+        errors.
+
+        All cash is reset to the initial values and the
+        PnL is set to zero.
+        """
+        self.cur_cash = self.init_cash
+        self.equity = self.cur_cash
+        self.unrealised_pnl = Decimal('0.00')
+        self.realised_pnl = Decimal('0.00')</code>
+</pre>
+
+<p>The next method is <code>_update_portfolio</code>. This method is also called after every position modification (i.e. transaction). For every ticker in the <code>Portfolio</code>, the unrealised and realised PnL of the whole <em>portfolio</em> are increased by each <em>positions</em> PnL, while the current available cash is reduced by the positions <a href="http://www.investopedia.com/terms/c/costbasis.asp">cost basis</a>. Finally, the difference in realised and unrealised PnL is applied to the current cash and the total portfolio equity is adjusted:</p>
+
+<pre class>
+<code class="language-python"># portfolio.py
+
+    def _update_portfolio(self):
+        """
+        Updates the Portfolio total values (cash, equity,
+        unrealised PnL, realised PnL, cost basis etc.) based
+        on all of the current ticker values.
+        This method is called after every Position modification.
+        """
+        for ticker in self.positions:
+            pt = self.positions[ticker]
+            self.unrealised_pnl += pt.unrealised_pnl
+            self.realised_pnl += pt.realised_pnl
+            self.cur_cash -= pt.cost_basis
+            pnl_diff = pt.realised_pnl - pt.unrealised_pnl
+            self.cur_cash += pnl_diff
+            self.equity += (
+                pt.market_value - pt.cost_basis + pnl_diff
+            )</code>
+</pre>
+
+<p>While this may seem a little complex, I have carried these calculations out primarily so that they reflect how portfolios are adjusted in major brokerages, particular <a href="http://www.interactivebrokers.com/">Interactive Brokers</a>. It means that the backtesting engine should produce values close to that of live trading, under the assumption of slippage and transaction costs.</p>
+
+<p>The next two methods are <code>_add_position</code> and <code>_modify_position</code>. Originally, I had these two methods as the "publicly" callable methods for creating new positions and then subsequently modifying them. I later felt that it wasn't necessary for the user to keep track of whether to add or modify a position, and so I introduced a wrapper method, called <code>transact_position</code> that now correctly utilises the necessary method depending upon the existence of a ticker in the positions dictionary.</p>
+
+<p><code>_add_position</code> takes an action (buy or sell), a ticker symbol, a quantity of shares, the fill price and the cost of commission, as parameters. Firstly we reset the entire portfolio values and then get the best bid and ask price of the ticker from the price handler object. Then we create the new <code>Position</code>, utilising these bid and ask prices to get an up to date "market value". Finally we add the <code>Position</code> instance to the positions dictionary, using the ticker symbol as a key<sup>*</sup>.</p>
+
+<p>Notice that we call <code>_update_portfolio</code> to update all market values at this stage. The method also handles the case where the position already exists, printing some information to the console. In the future we will replace all instances of console output such as this with more robust logging mechanisms.</p>
+
+<p><em><sup>*</sup>This will have design implications later when we come to handle renaming of ticker symbols, multiple share classes and other corporate actions. However, for simplicity at this stage we will make use of the ticker symbol as it is unique for our purposes.</em></p>
+
+<pre class>
+<code class="language-python"># portfolio.py
+
+    def _add_position(
+        self, action, ticker,
+        quantity, price, commission
+    ):
+        """
+        Adds a new Position object to the Portfolio. This
+        requires getting the best bid/ask price from the
+        price handler in order to calculate a reasonable
+        "market value".
+        Once the Position is added, the Portfolio values
+        are updated.
+        """
+        self._reset_values()
+        if ticker not in self.positions:
+            bid, ask = self.price_handler.get_best_bid_ask(ticker)
+            position = Position(
+                action, ticker, quantity,
+                price, commission, bid, ask
+            )
+            self.positions[ticker] = position
+            self._update_portfolio()
+        else:
+            print(
+                "Ticker %s is already in the positions list. " \
+                "Could not add a new position." % ticker
+            )</code>
+</pre>
+
+<p><code>_modify_position</code> is similar to add position except that we call <code>transact_shares</code> of the <code>Position</code> class instead of creating a new position:</p>
+
+<pre class>
+<code class="language-python"># portfolio.py
+
+    def _modify_position(
+        self, action, ticker, 
+        quantity, price, commission
+    ):
+        """
+        Modifies a current Position object to the Portfolio.
+        This requires getting the best bid/ask price from the
+        price handler in order to calculate a reasonable
+        "market value".
+        Once the Position is modified, the Portfolio values
+        are updated.
+        """
+        self._reset_values()
+        if ticker in self.positions:
+            self.positions[ticker].transact_shares(
+                action, quantity, price, commission
+            )
+            bid, ask = self.price_handler.get_best_bid_ask(ticker)
+            self.positions[ticker].update_market_value(bid, ask)
+            self._update_portfolio()
+        else:
+            print(
+                "Ticker %s not in the current position list. " \
+                "Could not modify a current position." % ticker
+            )</code>
+</pre>
+
+<p>The method that is actually externally called is <code>transact_position</code>. It encompasses both creation and modification to a <code>Position</code> object. It simply chooses the correct method out of <code>_add_position</code> and <code>_modify_position</code> when making a new share transaction:</p>
+
+<pre class>
+<code class="language-python"># portfolio.py
+
+    def transact_position(
+        self, action, ticker, 
+        quantity, price, commission
+    ):
+        """
+        Handles any new position or modification to 
+        a current position, by calling the respective
+        _add_position and _modify_position methods. 
+        Hence, this single method will be called by the 
+        PortfolioHandler to update the Portfolio itself.
+        """
+        if ticker not in self.positions:
+            self._add_position(
+                action, ticker, quantity, 
+                price, commission
+            )
+        else:
+            self._modify_position(
+                action, ticker, quantity, 
+                price, commission
+            )</code>
+</pre>
+
+<p>That concludes the <code>Portfolio</code> class. It provides a robust self-contained mechanism for grouping <code>Position</code> classes with a cash balance.</p>
+
+<p>For completeness you can find the full code for the <code>Portfolio</code> class on Github at <a href="https://github.com/mhallsmoore/qstrader/blob/master/portfolio/portfolio.py">portfolio.py</a>.</p>
+
+<h3>portfolio_test.py</h3>
+
+<p>As with <a href="https://github.com/mhallsmoore/qstrader/blob/master/position/position_test.py">position_test.py</a>, I've created <a href="https://github.com/mhallsmoore/qstrader/blob/master/portfolio/portfolio_test.py">portfolio_test.py</a>, which includes a basic sanity check unit test for multiple transactions of AMZN and GOOG shares. There is certainly more work to be done here to check larger, more diverse portfolios, but this at least ensures that the system is calculating values as it should.</p>
+
+<p>As with the tests for the <code>Position</code> class these have been checked against the values produced by Interactive Brokers using the demo account of Trader Workstation. As before, I do fully anticipate finding new edge cases, and possibly bugs, but hopefully the current sanity check and calculation test should provide confidence in the <code>Portfolio</code> results.</p>
+
+<p>The full listing of <code>position_test.py</code> is as follows:</p>
+
+<pre class>
+<code class="language-python">from decimal import Decimal
+import unittest
+
+from qstrader.portfolio.portfolio import Portfolio
+
+
+class PriceHandlerMock(object):
+    def __init__(self):
+        pass
+
+    def get_best_bid_ask(self, ticker):
+        prices = {
+            "GOOG": (Decimal("705.46"), Decimal("705.46")),
+            "AMZN": (Decimal("564.14"), Decimal("565.14")),
+        }
+        return prices[ticker]
+
+
+class TestAmazonGooglePortfolio(unittest.TestCase):
+    """
+    Test a portfolio consisting of Amazon and 
+    Google/Alphabet with various orders to create 
+    round-trips for both.
+
+    These orders were carried out in the Interactive Brokers
+    demo account and checked for cash, equity and PnL
+    equality.
+    """
+    def setUp(self):
+        """
+        Set up the Portfolio object that will store the 
+        collection of Position objects, supplying it with
+        $500,000.00 USD in initial cash.
+        """
+        ph = PriceHandlerMock()
+        cash = Decimal("500000.00")
+        self.portfolio = Portfolio(ph, cash)
+
+    def test_calculate_round_trip(self):
+        """
+        Purchase/sell multiple lots of AMZN and GOOG
+        at various prices/commissions to check the 
+        arithmetic and cost handling.
+        """
+        # Buy 300 of AMZN over two transactions
+        self.portfolio.transact_position(
+            "BOT", "AMZN", 100, 
+            Decimal("566.56"), Decimal("1.00")
+        )
+        self.portfolio.transact_position(
+            "BOT", "AMZN", 200, 
+            Decimal("566.395"), Decimal("1.00")
+        )
+        # Buy 200 GOOG over one transaction
+        self.portfolio.transact_position(
+            "BOT", "GOOG", 200, 
+            Decimal("707.50"), Decimal("1.00")
+        )
+        # Add to the AMZN position by 100 shares
+        self.portfolio.transact_position(
+            "SLD", "AMZN", 100, 
+            Decimal("565.83"), Decimal("1.00")
+        )
+        # Add to the GOOG position by 200 shares
+        self.portfolio.transact_position(
+            "BOT", "GOOG", 200, 
+            Decimal("705.545"), Decimal("1.00")
+        )
+        # Sell 200 of the AMZN shares
+        self.portfolio.transact_position(
+            "SLD", "AMZN", 200, 
+            Decimal("565.59"), Decimal("1.00")
+        )
+        # Multiple transactions bundled into one (in IB)
+        # Sell 300 GOOG from the portfolio
+        self.portfolio.transact_position(
+            "SLD", "GOOG", 100, 
+            Decimal("704.92"), Decimal("1.00")
+        )
+        self.portfolio.transact_position(
+            "SLD", "GOOG", 100, 
+            Decimal("704.90"), Decimal("0.00")
+        )
+        self.portfolio.transact_position(
+            "SLD", "GOOG", 100, 
+            Decimal("704.92"), Decimal("0.50")
+        )
+        # Finally, sell the remaining GOOG 100 shares
+        self.portfolio.transact_position(
+            "SLD", "GOOG", 100, 
+            Decimal("704.78"), Decimal("1.00")
+        )
+
+        # The figures below are derived from Interactive Brokers
+        # demo account using the above trades with prices provided
+        # by their demo feed. 
+        self.assertEqual(self.portfolio.cur_cash, Decimal("499100.50"))
+        self.assertEqual(self.portfolio.equity, Decimal("499100.50"))
+        self.assertEqual(self.portfolio.unrealised_pnl, Decimal("0.00"))
+        self.assertEqual(self.portfolio.realised_pnl, Decimal("-899.50"))
+
+
+if __name__ == "__main__":
+    unittest.main()</code>
+</pre>
+
+<p>The first task is to carry out the correct imports. We import the <a href="https://docs.python.org/3/library/unittest.html">unittest</a> module as well as the <code>Portfolio</code> object itself:</p>
+
+<pre class>
+<code class="language-python">from decimal import Decimal
+import unittest
+
+from qstrader.portfolio.portfolio import Portfolio</code>
+</pre>
+
+<p>In order to create a functioning <code>Portfolio</code> class we need a <code>PriceHandler</code> class to provide bid and ask values for each ticker. However, we have not coded up any price handler objects yet - so what are we to do?</p>
+
+<p>As it turns out, this is a common pattern in unit testing. To overcome this difficulty, we can create a <a href="https://en.wikipedia.org/wiki/Mock_object">mock object</a>. Essentially, a mock object is a class that <em>simulates</em> the behaviour of its real counterpart, thus allowing functionality to be tested on other classes that make use of it. Hence we need to create a <code>PriceHandlerMock</code> class that provides the same interface as a <code>PriceHandler</code>, but ultimately just returns preset values, rather than carrying out any "real" price calculations.</p>
+
+<p>The <code>PriceHandlerMock</code> object has an empty initialisation method, but exposes the <code>get_best_bid_ask</code> method that is found on the real <code>PriceHandler</code>. It simply returns preset bid/ask values for GOOG and AMZN shares that we will be transacting in the further unit tests below:</p>
+
+<pre class>
+<code class="language-python">class PriceHandlerMock(object):
+    def __init__(self):
+        pass
+
+    def get_best_bid_ask(self, ticker):
+        prices = {
+            "GOOG": (Decimal("705.46"), Decimal("705.46")),
+            "AMZN": (Decimal("564.14"), Decimal("565.14")),
+        }
+        return prices[ticker]</code>
+</pre>
+
+<p>The actual unit tests consist of creating a new, rather verbosely named, class called <code>TestAmazonGooglePortfolio</code>. As with all unit tests in Python it is derived from the <code>unittest.TestCase</code> class.</p>
+
+<p>In the <code>setUp</code> method we set the price handler mock object, the initial cash and create the <code>Portfolio</code>:</p>
+
+<pre class>
+<code class="language-python">class TestAmazonGooglePortfolio(unittest.TestCase):
+    """
+    Test a portfolio consisting of Amazon and 
+    Google/Alphabet with various orders to create 
+    round-trips for both.
+    These orders were carried out in the Interactive Brokers
+    demo account and checked for cash, equity and PnL
+    equality.
+    """
+    def setUp(self):
+        """
+        Set up the Portfolio object that will store the 
+        collection of Position objects, supplying it with
+        $500,000.00 USD in initial cash.
+        """
+        ph = PriceHandlerMock()
+        cash = Decimal("500000.00")
+        self.portfolio = Portfolio(ph, cash)</code>
+</pre>
+
+<p>The only unit test method we create is called <code>test_calculate_round_trip</code>. Its goal is to calculate full round-trip trades of AMZN and GOOG, making sure that the financial calculations of the <code>Position</code> and <code>Portfolio</code> classes are correct. "Correct" in this instance means that they match the values calculated by Interactive Brokers when I carried out this situation in Trader Workstation. I've hardcoded these values into the unit test.</p>
+
+<p>The first part of the method carries out multiple transactions in both GOOG and AMZN at various prices and commission costs. I took these prices directly from those calculated by Interactive Brokers (IB) when I carried out these actual trades in the demo account. "BOT" is IB terminology for buying a share, while "SLD" is terminology for selling a share.</p>
+
+<p>Once the full set of transactions have been completed, the positions are both netted out to zero in quantity. They will have no unrealised PnL, but will have a finite realised PnL, as well as modifications to current cash and the total equity value:</p>
+
+<pre class>
+<code class="language-python"># portfolio_test.py
+
+    def test_calculate_round_trip(self):
+        """
+        Purchase/sell multiple lots of AMZN and GOOG
+        at various prices/commissions to check the 
+        arithmetic and cost handling.
+        """
+        # Buy 300 of AMZN over two transactions
+        self.portfolio.transact_position(
+            "BOT", "AMZN", 100, 
+            Decimal("566.56"), Decimal("1.00")
+        )
+        self.portfolio.transact_position(
+            "BOT", "AMZN", 200, 
+            Decimal("566.395"), Decimal("1.00")
+        )
+        # Buy 200 GOOG over one transaction
+        self.portfolio.transact_position(
+            "BOT", "GOOG", 200, 
+            Decimal("707.50"), Decimal("1.00")
+        )
+        # Add to the AMZN position by 100 shares
+        self.portfolio.transact_position(
+            "SLD", "AMZN", 100, 
+            Decimal("565.83"), Decimal("1.00")
+        )
+        # Add to the GOOG position by 200 shares
+        self.portfolio.transact_position(
+            "BOT", "GOOG", 200, 
+            Decimal("705.545"), Decimal("1.00")
+        )
+        # Sell 200 of the AMZN shares
+        self.portfolio.transact_position(
+            "SLD", "AMZN", 200, 
+            Decimal("565.59"), Decimal("1.00")
+        )
+        # Multiple transactions bundled into one (in IB)
+        # Sell 300 GOOG from the portfolio
+        self.portfolio.transact_position(
+            "SLD", "GOOG", 100, 
+            Decimal("704.92"), Decimal("1.00")
+        )
+        self.portfolio.transact_position(
+            "SLD", "GOOG", 100, 
+            Decimal("704.90"), Decimal("0.00")
+        )
+        self.portfolio.transact_position(
+            "SLD", "GOOG", 100, 
+            Decimal("704.92"), Decimal("0.50")
+        )
+        # Finally, sell the remaining GOOG 100 shares
+        self.portfolio.transact_position(
+            "SLD", "GOOG", 100, 
+            Decimal("704.78"), Decimal("1.00")
+        )
+
+        # The figures below are derived from Interactive Brokers
+        # demo account using the above trades with prices provided
+        # by their demo feed. 
+        self.assertEqual(self.portfolio.cur_cash, Decimal("499100.50"))
+        self.assertEqual(self.portfolio.equity, Decimal("499100.50"))
+        self.assertEqual(self.portfolio.unrealised_pnl, Decimal("0.00"))
+        self.assertEqual(self.portfolio.realised_pnl, Decimal("-899.50"))</code>
+</pre>
+
+<p>Clearly there is scope for producing far more unit tests of this situation, especially when more exotic positions are used, such as those with forex, futures or options. However, at this stage we are simply supporting equities and ETFs, which means more straightforward position handling.</p>
+
+<p>The full listing can be found on Github at <a href="https://github.com/mhallsmoore/qstrader/blob/master/portfolio/portfolio_test.py">portfolio_test.py</a>.</p>
+
+<h2>Next Steps</h2>
+
+<p>Now that we've discussed both the <code>Position</code> and <code>Portfolio</code> classes we need to consider the <code>PortfolioHandler</code>. This is the class that interacts with the <code>PositionSizer</code> and <code>RiskManager</code> to produce orders and receive fills that ultimately determine our equity portfolio (and thus profitability!).</p>
+
+<p>Since I am much further ahead with the actual software development of <a href="https://github.com/mhallsmoore/qstrader">QSTrader</a> than I am with the articles explaining how it works, I'll be presenting some more advanced trading strategies using the software soon, rather than waiting until all of the articles have been completed.</p>
+        
+        
+        <script async data-uid="6296c27f4b" src="https://weathered-brook-5281.ck.page/6296c27f4b/index.js"></script>
+      </section>
+    </div>
+    <div class="col-md-4 book-card order-md-1">
+      
+<div class="sidebar-advert-container">
+  <a href="/qsalpha/?ref=art">
+    <img class="card-img-top" src="/static/images/qsalpha-sidebar-advert-small.png" alt="QSAlpha">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/qsalpha/?ref=art">QSAlpha</a></h3>
+      <p class="card-text medium-text mb-3">Join the QSAlpha research platform that helps fill your strategy research pipeline, diversifies your portfolio and improves your risk-adjusted returns for increased profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/qsalpha/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/quantcademy/?ref=art">
+    <img class="card-img-top" src="/static/images/quantcademy-sidebar-advert-small.png" alt="Quantcademy">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/quantcademy/?ref=art">The Quantcademy</a></h3>
+      <p class="card-text medium-text mb-3">Join the Quantcademy membership portal that caters to the rapidly-growing retail quant trader community and learn how to increase your strategy profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/quantcademy/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/successful-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/sat-sidebar-advert-small.png" alt="Successful Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to find new trading strategy ideas and objectively assess them for your portfolio using a Python-based backtesting engine.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/successful-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/advanced-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/aat-sidebar-advert-small.png" alt="Advanced Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to implement advanced trading strategies using time series analysis, machine learning and Bayesian statistics with R and Python.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/advanced-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+    
+
+<footer>
+  <div class="container container-full">
+    <section class="mt-1.5 mb-1">
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">QuantStart</li>
+            <li class="footer-list-link"><a class="link-fade" href="/about/">About</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/articles/">Articles</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/sitemap/">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Products</li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qsalpha/">QSAlpha</a></li>
+            
+            
+            <li class="footer-list-link"><a class="link-fade" href="/quantcademy/">Quantcademy</a></li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qstrader/">QSTrader</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Legal</li>
+            <li class="footer-list-link"><a class="link-fade" href="/privacy-policy/">Privacy Policy</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/terms-and-conditions/">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Social</li>
+            <li class="footer-list-link"><a class="link-fade" href="https://twitter.com/quantstart">Twitter</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="https://www.youtube.com/channel/UCmVnnZ6Y2TrJtY1eQJN6kWA">YouTube</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="row mb-1.5 mt-5">
+      <div class="col-12 col-md-9 col-lg-8 col-xl-6">
+        <div class="footer-copyright">
+          <p>©2012-2023 QuarkGluon Ltd. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+<script src="/static/js/jquery-3.2.1.min.js"></script>
+<script src="/static/js/prism.js.min"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/nav.js"></script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5383959-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+    
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="/static/js/highcharts/highcharts.js"></script>
+<script type="text/javascript">
+  num_colours = 10;
+</script>
+<script src="/static/js/statistics.js"></script>
+
+
+  </body>
+</html>

@@ -1,0 +1,401 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-site-verification" content="wl3-8ed1QZjI0iYZMv10zoZWYElkMObTfwLlWIj9cpA" />
+    <meta name="description" content="When looking to hire a software developer to implement your systematic trading strategy it can be difficult knowing where to start. In this article we look at the factors that need to be considered prior to, and during the hiring process, to help ensure a positive outcome.">
+
+    <link rel="icon" href="/static/images/favicon.png">
+
+    <title>Hiring a Software Developer to Code Up a Trading Strategy | QuantStart</title>
+    
+    
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet"> 
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/prism.css" rel="stylesheet">
+<link href="/static/css/qs.css?v=10" rel="stylesheet">
+    
+  </head>
+
+  <body>
+    <header class="header covered-header" style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://quantstartmedia.s3.amazonaws.com/images/article-images/article-backgrounds/hiring-a-software-developer-to-code-up-a-trading-strategy.jpg);">
+  
+<nav class="nav">
+  <div class="container nav-container">
+    <div class="nav-row row d-flex justify-content-between align-items-center">
+      <div class="col-2">
+        <ul class="nav-items justify-content-end small-capitals align-items-center">
+          <li class="nav-item">
+            <a class="link-fade" href="/">QuantStart</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-auto col-logo">
+        <ul id="top-nav-menu" class="nav-items justify-content-end align-items-center">
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/qsalpha/">QSAlpha</a>
+          </li>
+          
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/quantcademy/">Quantcademy</a>
+          </li>
+          
+          <li id="menu-link-ebooks" class="nav-item">
+            <a class="link-fade" href="#">Books</a>
+            <div id="menu-pane-ebooks" class="nav-items menu-dropdown-pane">
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/qstrader/">QSTrader</a>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/articles/">Articles</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/members/login/">Login</a>
+          </li>
+          
+        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<nav id="mobile-nav" class="mobile-nav text-left">
+  <div class="container">
+    <ul class="mt-4 ml-3 mobile-nav-menu">
+      <li class="nav-item">
+        <a class="link-fade d-block" href="/">QuantStart</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qsalpha/">QSAlpha</a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/quantcademy/">Quantcademy</a>
+      </li>
+      
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="#">Books</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qstrader/">QSTrader</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/articles/">Articles</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/members/login/">Login</a>
+      </li>
+      
+    </ul>
+    <button class="nav-toggle mobile-nav-close">
+      <svg id="mobile-nav-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M19.77,5.63,13.41,12l6.36,6.37a1,1,0,0,1-1.41,1.41L12,13.41,5.63,19.77a1,1,0,0,1-1.44-1.39l0,0L10.58,12,4.21,5.63a1,1,0,0,1,0-1.42,1,1,0,0,1,1.41,0l0,0L12,10.58l6.37-6.37a1,1,0,0,1,1.41,0A1,1,0,0,1,19.77,5.63Z"></path>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+  <div class="container hero-container">
+    <section class="mt-5 mb-4">
+      <div class="row justify-content-center">
+        <div class="col-12 text-center">
+          <p class="hero">Hiring a Software Developer to Code Up a Trading Strategy</p>
+          <p class="hero subhero">When looking to hire a software developer to implement your systematic trading strategy it can be difficult knowing where to start. In this article we look at the factors that need to be considered prior to, and during the hiring process, to help ensure a positive outcome.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</header>
+    
+<section class="container content-container">
+  <div class="row">
+    <div class="col-md-8 order-md-2">
+      <section class="content article-content">
+        
+        
+        <p>At QuantStart we place an emphasis on fully automated systematic trading and the processes that surround it. However we should be careful to distinguish between the separate concepts of <em>systemisation</em> and <em>automation</em>. The former involves a trading strategy that can be codified into a set of rules, which can—and often is—calculated and traded in a manual fashion. The latter encompasses the case where the calculation and execution is fully automated in code.</p>
+
+<p>Many experienced traders are well aware of the benefits of systemisation and have refined their trading rules over a long period of time. They may make use of systematic signal generation, portfolio construction and risk management techniques. They may even wish to fully automate their strategy, freeing up more time to carry out research and further refine their systematic process. However, for those with no experience of coding it can be a daunting prospect.</p>
+
+<p>While a plethora of resources now exist to get started with coding, there is still a reasonable learning curve before a trading strategy can be fully automated from signal generation to automated execution. Hence experienced traders often consider turning to experienced software developers to code up their strategy, mitigating the need to learn how to code themselves.</p>
+
+<p>In fact this is a common query on both the <a href="https://www.quantstart.com/quantcademy">Quantcademy forums</a> and via the <a href="mailto:support@quantstart.com">QuantStart support mailbox</a>. Hence we decided to put together a guide for those traders who wish to hire a software developer or larger firm to code up their strategy, which provides some insight into the various factors that need to be considered throughout the hiring process.</p>
+
+<h2>Initial Considerations</h2>
+
+<p>Prior to the hiring process it will be necessary to consider the frequency of trading, the asset classes being traded as well as which brokerage will be utilised.</p>
+
+<p>Higher frequency strategies generally require more software and hardware infrastructure than lower frequency strategies. Hence the cost of implementing an intraday code will likely be higher than that of a low frequency codde. If the strategy is traded daily or less frequently then this is less of a concern. However if the strategy is traded multiple times per day this will likely require more work. This is because there will need to be more automation involved (see the next section below).</p>
+
+<p>The asset classes and traded instruments involved will dictate whether it is necessary to handle specific operational issues. Correctly handling equities, for instance requires keeping track of corporate actions and distributions. Futures contracts may need automated rolling. Hence if the strategy is multi-asset, multi-instrument then there is likely to be more work (and a higher cost) associated with development.</p>
+
+<p>If there is a need for full automation then it will be necessary to utilise a broker that supports an <a href="https://en.wikipedia.org/wiki/Application_programming_interface">Application Programming Interface</a> (API). This allows the coded software to communicate with the broker without the need for a graphical user interface (GUI). Any generated orders and requested market data can be dealt with in an automated fashion rather than carried out on a manual basis. Examples of brokers with APIs include Interactive Brokers, OANDA and IG.</p>
+
+<h2>Level of Automation Required</h2>
+
+<p>Another important aspect to consider is the overall level of automation that is desired for the strategy. This needs to be thought out prior to hiring a coder as it will determine the level of necessary computational infrastucture—and the cost—of the overall implementation project.</p>
+
+<p>Many systematic traders are content with a system that automates the process of market data download, signal generation, portfolio construction and target order generation. The trader will then carry out order execution in a manual fashion. Retail traders who trade weekly or monthly, with <a href="https://en.wikipedia.org/wiki/Tactical_asset_allocation">tactical asset allocation</a> style rebalances can often be found in this group. Since the manual aspect is not too time consuming there is very little need to fully automate the execution.</p>
+
+<p>Such a setup is relatively simple from the point of view of infrastructure. A script can be run at the desired trading frequency that outputs a list of rebalance trades. These can then be manually executed at the desired broker. It is likely that only a laptop or desktop workstation will be required for this sort of trading setup.</p>
+
+<p>The next level up from systematic order generation is to carry out fully automated execution. However the scheduling of the trading logic is still carried out manually. That is, a script or codebase will be run that generates all signals, desired portfolios and connects to a brokerage to submit rebalancing orders. The key difference between this and full automation is the trader decides <em>when</em> this script is run. It is not scheduled by an automated process. It allows the behaviour of the orders to be manually monitored, but without the time-consuming aspect of manual execution if there are a large number of rebalancing trades to carry out.</p>
+
+<p>The fully-automated approach carries out all of the above but makes use of an automated scheduling tool such as Windows Task Scheduler or <a href="https://en.wikipedia.org/wiki/Cron">cron</a> on Mac/Linux to execute the trading logic and order submission. They difference between this level of automation and the previous two is that this system will often be run in a remote cloud-based server and will have some monitoring software and infrastructure built around it.</p>
+
+<p>This infrastructure will need maintenance since many aspects of the system can fail (often at the worst possible time). Erroneous market data, counterparty/brokerage systems failure and hosting provider failure are all possible reasons why the strategy may not execute correctly.</p>
+
+<p>Once full automation is considered it is clear that the costs of the project will increase significantly. It will be necessary to rent a cloud server, administer it and keep it maintained throughout the lifetime of the strategy. This is to say nothing of data retrieval or storage, which can add another layer of complexity.</p>
+
+<h2>Specification</h2>
+
+<p>As with computers themselves, a software development project will be more likely to succeed if the desired outcome is specified in as much detail as possible. It should be clear what the system will take as input (up-to-date market data, the current portfolio) as well as output (a set of rebalance orders).</p>
+
+<p>The strategy rules, portfolio construction process and risk management approach will often be proprietary to the trader. However it will be necessary to provide the software developer(s) with as much detail as possible about how these aspects work. Otherwise the developer will have to make discretionary decisions about implementation, which can lead to divergence in the trader's original understanding of the methodology. The more detail that can be provided here, particularly around 'edge cases', the more a software developer will be able to produce an implementation that matches what was initially desired.</p>
+
+<p>The software developer will ultimately be producing a <em>script</em> or a <em>codebase</em>, along with any necessary server infrastructure to be run manually or in an automated fashion. While a good software developer will endeavour to ensure that the code remains bug free, extensive testing can be time-consuming (and thus costly). Hence it is imperative to discuss with the software developer upfront how the code will be tested. These tests will often form part of the spec itself and will help provide confidence that the code is doing what it is supposed to do.</p>
+
+<h2>Intellectual Property</h2>
+
+<p><em>Disclaimer: Nothing in this article constitutes legal advice. It will be necessary to consult with a qualified attorney or solicitor for further information on intellectual property and the formation of non-disclosure agreements.</em></p>
+
+<p>A key issue surrounding hiring a software developer (or larger firm) to implement a trading strategy is sensitivity to proprietary details. Theft of intellectual property is always a concern. However there are possibilities to mitigate this problem. One is to have a <a href="https://en.wikipedia.org/wiki/Non-disclosure_agreement">Non-Disclosure Agreement</a> (NDA) drawn up prior to the point at which strategy details will need to be disclosed with the software developer.</p>
+
+<p>Larger firms will be well-used to handling sensitive client details and so the possibility of 'pushback' from signing such a document is reduced. On the other hand, an individual software developer may not be as familiar with such documents and may be hesitant to sign.</p>
+
+<p>In general however most software developers with no familiarity of systematic trading practices will not be in a position to 'copy and paste' a strategy in order to benefit from it. Instead they will be far more concerned with receiving their fee from the development.</p>
+
+<h2>Ongoing Support and Maintenance</h2>
+
+<p>It should be noted that developing a trading strategy implementation in code is rarely a one-off project. It may be necessary to modify strategy parameters, add a new portfolio construction technique or an extra risk management mechanism as market behaviour changes. Hence it will be necessary to consider how the project evolves through time.</p>
+
+<p>Software developers utilise many tools to ensure ongoing development with code preserves old functionality as new features are added. It will be necessary to discuss with the developer how this is to be carried out. <a href="https://en.wikipedia.org/wiki/Version_control">Version control</a> software is popular for this purpose. Respected products include <a href="https://github.com/">GitHub</a>, <a href="https://about.gitlab.com/">GitLab</a> and <a href="https://bitbucket.org/">BitBucket</a>. Infrastructure requirements will need to be decided and budgeted for.</p>
+
+<p>Software can eventually become out of date. New versions of programming languages, along with their code libraries are constantly updated leading to <em>deprecation</em> of functionality. Brokerages continually update their APIs and might replace their connectivity mechanisms. It will be necessary to periodically refresh functionality within the script or codebase to ensure the strategy is still behaving as expected. Once again, such maintenance will need to be budgeted for.</p>
+
+<p>Ultimately the costs of server infrastructure, ongoing maintenance and market vendor data will need to be balanced against trading revenue.</p>
+
+<h2>Where To Find Coders</h2>
+
+<p>As with any vendor the quality of the work will likely be correlated significantly with cost. Trying to have a trading strategy coded up 'on the cheap' will almost certainly lead to problems later down the line. It will be necessary to factor in the initial development, as well as 'surprise details' that crop up and any ongoing maintenance required. Hence the software development should be considered more of an ongoing partnership rather than a one-off project.</p>
+
+<p>If the budget for software development is small then it is possible to find freelance developers on marketplace sites such as <a href="https://www.upwork.com/">Upwork</a> and <a href="https://www.freelancer.com/">Freelancer</a>. It is essential to consider their prior work history as well as client feedback. Contact the individual to gauge how rapidly they reply as this will be indicative of their likely future responsiveness. Ask them how they prefer to work and what they will require in order to produce a strong implementation. Since these sites charge on an hourly rate basis it will be necessary to estimate total project cost upfront. However be aware that cost overruns are common and should be budgeted for.</p>
+
+<p>An alternative is to approach a larger software development agency to carry out the work. The advantages of doing so will likely include significantly more experience, a wider range of skills due to a larger team, as well as a potentially more professional client relationship. Perhaps most importantly they are likely to provide guidance throughout the entire project in order to ensure the project is delivered as intended. The obvious downside is cost. Agencies will charge substantially more than individuals. They will also potentially deprioritise the project if it is unlikely to provide revenue commensurate with the time spent on it, which could lead to delays. Software development agencies are generally best found through a search engine query or recommendations from individuals within your network.</p>
+
+<h2>Summary</h2>
+
+<p>When deciding to hire a coder it will be necessary to determine how much of the trading process is going to be automated. A high frequency, fully automated strategy will require infrastructure in excess of a standard laptop or desktop and hence will have an ongoing cost associated with it. The upfront consideration of a tight specification is also extremely important.</p>
+
+<p>Intellectual property sensitivity is an issue but can be mitigated somewhat by the creation of NDAs and intellectual property agreements. Ensure any developer hired is well aware of this aspect prior to engaging them to develop a strategy.</p>
+
+<p>Ultimately the quality of the project will be correlated with budget. Agencies will charge more, but will likely deliver a better product and will have a more professional approach.</p>
+
+<p>For those with any questions that have not been sufficiently answered by this article, please feel free to contact us at <a href="mailto:support@quantstart.com">support@quantstart.com</a> and we will do our best to provide guidance.</p>
+        
+        
+        <script async data-uid="6296c27f4b" src="https://weathered-brook-5281.ck.page/6296c27f4b/index.js"></script>
+      </section>
+    </div>
+    <div class="col-md-4 book-card order-md-1">
+      
+<div class="sidebar-advert-container">
+  <a href="/qsalpha/?ref=art">
+    <img class="card-img-top" src="/static/images/qsalpha-sidebar-advert-small.png" alt="QSAlpha">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/qsalpha/?ref=art">QSAlpha</a></h3>
+      <p class="card-text medium-text mb-3">Join the QSAlpha research platform that helps fill your strategy research pipeline, diversifies your portfolio and improves your risk-adjusted returns for increased profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/qsalpha/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/quantcademy/?ref=art">
+    <img class="card-img-top" src="/static/images/quantcademy-sidebar-advert-small.png" alt="Quantcademy">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/quantcademy/?ref=art">The Quantcademy</a></h3>
+      <p class="card-text medium-text mb-3">Join the Quantcademy membership portal that caters to the rapidly-growing retail quant trader community and learn how to increase your strategy profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/quantcademy/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/successful-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/sat-sidebar-advert-small.png" alt="Successful Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to find new trading strategy ideas and objectively assess them for your portfolio using a Python-based backtesting engine.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/successful-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/advanced-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/aat-sidebar-advert-small.png" alt="Advanced Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to implement advanced trading strategies using time series analysis, machine learning and Bayesian statistics with R and Python.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/advanced-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+    
+
+<footer>
+  <div class="container container-full">
+    <section class="mt-1.5 mb-1">
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">QuantStart</li>
+            <li class="footer-list-link"><a class="link-fade" href="/about/">About</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/articles/">Articles</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/sitemap/">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Products</li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qsalpha/">QSAlpha</a></li>
+            
+            
+            <li class="footer-list-link"><a class="link-fade" href="/quantcademy/">Quantcademy</a></li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qstrader/">QSTrader</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Legal</li>
+            <li class="footer-list-link"><a class="link-fade" href="/privacy-policy/">Privacy Policy</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/terms-and-conditions/">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Social</li>
+            <li class="footer-list-link"><a class="link-fade" href="https://twitter.com/quantstart">Twitter</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="https://www.youtube.com/channel/UCmVnnZ6Y2TrJtY1eQJN6kWA">YouTube</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="row mb-1.5 mt-5">
+      <div class="col-12 col-md-9 col-lg-8 col-xl-6">
+        <div class="footer-copyright">
+          <p>©2012-2023 QuarkGluon Ltd. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+<script src="/static/js/jquery-3.2.1.min.js"></script>
+<script src="/static/js/prism.js.min"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/nav.js"></script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5383959-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+    
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="/static/js/highcharts/highcharts.js"></script>
+<script type="text/javascript">
+  num_colours = 10;
+</script>
+<script src="/static/js/statistics.js"></script>
+
+
+  </body>
+</html>

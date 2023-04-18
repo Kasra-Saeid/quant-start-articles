@@ -1,0 +1,687 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-site-verification" content="wl3-8ed1QZjI0iYZMv10zoZWYElkMObTfwLlWIj9cpA" />
+    <meta name="description" content="Generalised Autoregressive Conditional Heteroskedasticity GARCH(p, q) Models for Time Series Analysis">
+
+    <link rel="icon" href="/static/images/favicon.png">
+
+    <title>Generalised Autoregressive Conditional Heteroskedasticity GARCH(p, q) Models for Time Series Analysis | QuantStart</title>
+    
+    
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet"> 
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/prism.css" rel="stylesheet">
+<link href="/static/css/qs.css?v=10" rel="stylesheet">
+    
+  </head>
+
+  <body>
+    <header class="header covered-header" style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://quantstartmedia.s3.amazonaws.com/images/article-images/article-backgrounds/default-bg.jpg);">
+  
+<nav class="nav">
+  <div class="container nav-container">
+    <div class="nav-row row d-flex justify-content-between align-items-center">
+      <div class="col-2">
+        <ul class="nav-items justify-content-end small-capitals align-items-center">
+          <li class="nav-item">
+            <a class="link-fade" href="/">QuantStart</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-auto col-logo">
+        <ul id="top-nav-menu" class="nav-items justify-content-end align-items-center">
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/qsalpha/">QSAlpha</a>
+          </li>
+          
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/quantcademy/">Quantcademy</a>
+          </li>
+          
+          <li id="menu-link-ebooks" class="nav-item">
+            <a class="link-fade" href="#">Books</a>
+            <div id="menu-pane-ebooks" class="nav-items menu-dropdown-pane">
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/qstrader/">QSTrader</a>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/articles/">Articles</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/members/login/">Login</a>
+          </li>
+          
+        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<nav id="mobile-nav" class="mobile-nav text-left">
+  <div class="container">
+    <ul class="mt-4 ml-3 mobile-nav-menu">
+      <li class="nav-item">
+        <a class="link-fade d-block" href="/">QuantStart</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qsalpha/">QSAlpha</a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/quantcademy/">Quantcademy</a>
+      </li>
+      
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="#">Books</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qstrader/">QSTrader</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/articles/">Articles</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/members/login/">Login</a>
+      </li>
+      
+    </ul>
+    <button class="nav-toggle mobile-nav-close">
+      <svg id="mobile-nav-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M19.77,5.63,13.41,12l6.36,6.37a1,1,0,0,1-1.41,1.41L12,13.41,5.63,19.77a1,1,0,0,1-1.44-1.39l0,0L10.58,12,4.21,5.63a1,1,0,0,1,0-1.42,1,1,0,0,1,1.41,0l0,0L12,10.58l6.37-6.37a1,1,0,0,1,1.41,0A1,1,0,0,1,19.77,5.63Z"></path>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+  <div class="container hero-container">
+    <section class="mt-5 mb-4">
+      <div class="row justify-content-center">
+        <div class="col-12 text-center">
+          <p class="hero">Generalised Autoregressive Conditional Heteroskedasticity GARCH(p, q) Models for Time Series Analysis</p>
+          <p class="hero subhero">Generalised Autoregressive Conditional Heteroskedasticity GARCH(p, q) Models for Time Series Analysis</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</header>
+    
+<section class="container content-container">
+  <div class="row">
+    <div class="col-md-8 order-md-2">
+      <section class="content article-content">
+        
+        
+        <p>In this article we are going to consider the famous <strong>Generalised Autoregressive Conditional Heteroskedasticity</strong> model of order p,q, also known as <strong>GARCH(p,q)</strong>. GARCH is used extensively within the financial industry as many asset prices are <em>conditional heteroskedastic</em>.</p>
+
+<p>We will be discussing conditional heteroskedasticity at length in this article, leading us to our first conditional heteroskedastic model, known as ARCH. Then we will discuss extensions to ARCH, leading us to the GARCH model. We will then apply GARCH to some financial series that exhibit volatility clustering.</p>
+
+<h2>Quick Recap and Next Steps</h2>
+
+<p>To date we have considered the following models. The links will take you to the appropriate articles. I highly recommend reading the series in order if you have not done so already:</p>
+
+<ul>
+  <li><a href="https://www.quantstart.com/articles/White-Noise-and-Random-Walks-in-Time-Series-Analysis">Discrete White Noise and Random Walks</a></li>
+  <li><a href="https://www.quantstart.com/articles/Autoregressive-Moving-Average-ARMA-p-q-Models-for-Time-Series-Analysis-Part-1">AR(p)</a></li>
+  <li><a href="https://www.quantstart.com/articles/Autoregressive-Moving-Average-ARMA-p-q-Models-for-Time-Series-Analysis-Part-2">MA(q)</a></li>
+  <li><a href="https://www.quantstart.com/articles/Autoregressive-Moving-Average-ARMA-p-q-Models-for-Time-Series-Analysis-Part-3">ARMA(p,q)</a></li>
+  <li><a href="https://www.quantstart.com/articles/Autoregressive-Integrated-Moving-Average-ARIMA-p-d-q-Models-for-Time-Series-Analysis">ARIMA(p,d,q)</a></li>
+</ul>
+
+<p>In the <a href="https://www.quantstart.com/articles/Autoregressive-Integrated-Moving-Average-ARIMA-p-d-q-Models-for-Time-Series-Analysis">previous article on ARIMA</a> we actually carried out some basic forecasting. We mentioned that once we had studied ARIMA and GARCH we would be in a position to make a simple trading strategy. Thus the final piece to the puzzle is to examine conditional heteroskedasticity in detail and then use that to improve our forecasted results.</p>
+
+<h2>Volatility</h2>
+
+<p>The main motivation for studying conditional heteroskedasticity in finance is that of <strong>volatility of asset returns</strong>. Volatility is an incredibly important concept in finance because it is highly synonymous with <em>risk</em>.</p>
+
+<p>Volatility has a wide range of applications in finance:</p>
+
+<ul>
+  <li><strong>Options Pricing</strong> - The Black-Scholes model for options prices is dependent upon the volatility of the underlying instrument</li>
+  <li><strong>Risk Management</strong> - Volatility plays a role in calculating the <a href="https://www.quantstart.com/articles/Value-at-Risk-VaR-for-Algorithmic-Trading-Risk-Management-Part-I">VaR</a> of a portfolio, the <a href="https://www.quantstart.com/articles/Sharpe-Ratio-for-Algorithmic-Trading-Performance-Measurement">Sharpe Ratio</a> for a trading strategy and in determination of leverage</li>
+  <li><strong>Tradeable Securities</strong> - Volatility can now be traded directly by the introduction of the CBOE Volatility Index (VIX), and subsequent futures contracts and ETFs</li>
+</ul>
+
+<p>Hence, if we can effectively forecast volatility then we will be able to price options more accurately, create more sophisticated risk management tools for our algorithmic trading portfolios and even come up with new strategies that trade volatility directly.</p>
+
+<p>We're now going to turn our attention to conditional heteroskedasticity and discuss what it means.</p>
+
+<h2>Conditional Heteroskedasticity</h2>
+
+<p>Let's first discuss the concept of <strong>heteroskedasticity</strong> and then examine the "conditional" part.</p>
+
+<p>If we have a collection of random variables, such as elements in a time series model, we say that the collection is <em>heteroskedastic</em> if there are certain groups, or subsets, of variables within the larger set that have a different <em>variance</em> from the remaining variables.</p>
+
+<p>For instance, in a non-stationary time series that exhibits seasonality or trending effects, we may find that the variance of the series increases with the seasonality or the trend. This form of <em>regular</em> variability is known as <em>heteroskedasticity</em>.</p>
+
+<p>However, in finance there are many reasons why an increase in variance is correlated to a further increase in variance.</p>
+
+<p>For instance, consider the prevalence of downside portfolio protection insurance employed by long-only fund managers. If the equities markets were to have a particularly challenging day (i.e. a substantial drop!) it could trigger automated risk management sell orders, which would further depress the price of equities within these portfolios. Since the larger portfolios are generally highly correlated anyway, this could trigger significant downward volatility.</p>
+
+<p>These "sell-off" periods, as well as many other forms of volatility that occur in finance, lead to heteroskedasticity that is <em>serially correlated</em> and hence <em>conditional</em> on periods of increased variance. Thus we say that such series are <strong>conditional heteroskedastic</strong>.</p>
+
+<p>One of the challenging aspects of conditional heteroskedastic series is that if we were to plot the correlogram of a series with volatility we might still see what appears to be a realisation of <em>stationary</em> discrete white noise. That is, the volatility itself is hard to detect purely from the correlogram. This is despite the fact that the series is most definitely <em>non-stationary</em> as its variance is not constant in time.</p>
+
+<p>We are going to describe a mechanism for detecting conditional heteroskedastic series in this article and then use the ARCH and GARCH models to account for it, ultimately leading to more realistic forecasting performance, and thus more profitable trading strategies.</p>
+
+<h2>Autoregressive Conditional Heteroskedastic Models</h2>
+
+<p>We've now discussed conditional heteroskedasticity (CH) and its importance within financial series. We now want a model that can incorporate CH in a natural way. We know that the ARIMA class of models does not account for CH, so how can we proceed?</p>
+
+<p>Well, how about a model that utilises an autoregressive process for the variance itself? That is, a model that actually accounts for the changes in the variance over time using past values of the variance.</p>
+
+<p>This is the basis of the Autoregressive Conditional Heteroskedastic (ARCH) model. We'll begin with the simplest possible case, namely an ARCH model that depends solely on the previous variance value in the series.</p>
+
+<h3>Definition</h3>
+
+<div class="bs-callout bs-callout-info">
+<h4>Autoregressive Conditional Heteroskedastic Model of Order Unity</h4>
+
+<p>A time series $\{ \epsilon_t \}$ is given at each instance by:
+
+\begin{eqnarray}
+\epsilon_t = \sigma_t w_t
+\end{eqnarray}
+
+<p>Where $\{ w_t \}$ is discrete white noise, with zero mean and unit variance, and $\sigma^2_t$ is given by:</p>
+
+\begin{eqnarray}
+\sigma^2_t = \alpha_0 + \alpha_1 \epsilon^2_{t-1}
+\end{eqnarray}
+
+<p>Where $\alpha_0$ and $\alpha_1$ are parameters of the model.</p>
+
+<p>We say that $\{ \epsilon_t \}$ is an <em>autoregressive conditional heteroskedastic model of order unity</em>, denoted by ARCH(1). Substituting for $\sigma^2_t$, we receive:</p>
+
+\begin{eqnarray}
+\epsilon_t = w_t \sqrt{\alpha_0 + \alpha_1 \epsilon_{t-1}^2}
+\end{eqnarray}
+</div>
+
+<h3>Why Does This Model Volatility?</h3>
+
+<p>I personally find the above "formal" definition lacking in motivation as to how it introduces volatility. However, you can see how it is introduced by squaring both sides of the previous equation:</p>
+
+\begin{eqnarray}
+\operatorname{Var}(\epsilon_t) &=& \operatorname{E}[\epsilon^2_t ] - (\operatorname{E}[\epsilon_t ])^2 \\
+&=& \operatorname{E}[\epsilon^2_t ] \\
+&=& \operatorname{E}[w^2_t ] \operatorname{E}[\alpha_0 + \alpha_1 \epsilon^2_{t-1} ] \\
+&=& \operatorname{E}[\alpha_0 + \alpha_1 \epsilon^2_{t-1} ] \\
+&=& \alpha_0 + \alpha_1 \operatorname{Var}(\epsilon_{t-1})
+\end{eqnarray}
+
+<p>Where I have used the definitions of the variance $\operatorname{Var}(x) = \operatorname{E}[x^2] - (\operatorname{E}[x])^2$ and the linearity of the expectation operator $\operatorname{E}$, along with the fact that $\{w_t \}$ has zero mean and unit variance.</p>
+
+<p>Thus we can see that the variance of the series is simply a linear combination of the variance of the prior element of the series. Simply put, <em>the variance of an ARCH(1) process follows an AR(1) process</em>.</p>
+
+<p>It is interesting to compare the ARCH(1) model with an AR(1) model. Recall that the latter is given by:</p>
+
+\begin{eqnarray}
+x_t = \alpha_0 + \alpha_1 x_{t-1} + w_t
+\end{eqnarray}
+
+<p>You can see that the models are similar in form (with the exception of the white noise term).</p>
+
+<h3>When Is It Appropriate To Apply ARCH(1)?</h3>
+
+<p>So what approach can we take in order to determine whether an ARCH(1) model is appropriate to apply to a series?</p>
+
+<p>Consider that when we were attempting to fit an AR(1) model we were concerned with the decay of the first lag on a correlogram of the series.</p>
+
+<p>However, if we apply the same logic to the <em>square</em> of the residuals, and see whether we can apply an AR(1) to these square residuals then we have an indication that an ARCH(1) process may be appropriate.</p>
+
+<p>Note that ARCH(1) should only ever be applied to a series that has already had an appropriate model fitted sufficient to leave the residuals looking like discrete white noise. Since we can only tell whether ARCH is appropriate or not by <em>squaring</em> the residuals and examining the correlogram, we also need to ensure that the mean of the residuals is zero.</p>
+
+<p>Crucially, ARCH should only ever be <em>applied to series that do not have any trends or seasonal effects</em>, i.e. that has no (evident) serially correlation. ARIMA is often applied to such a series (or even Seasonal ARIMA), at which point ARCH may be a good fit.</p>
+
+<h3>ARCH(p) Models</h3>
+
+<p>It is straightforward to extend ARCH to higher order lags. An ARCH(p) process is given by:</p>
+
+\begin{eqnarray}
+\epsilon_t = w_t \sqrt{\alpha_0 + \sum^p_{i=1} \alpha_p \epsilon^2_{t-i}}
+\end{eqnarray}
+
+<p>You can think of ARCH(p) as applying an AR(p) model to the variance of the series.</p>
+
+<p>An obvious question to ask at this stage is if we are going to apply an AR(p) process to the variance, why not a Moving Average MA(q) model as well? Or a mixed model such as ARMA(p,q)?</p>
+
+<p>This is actually the motivation for the <em>Generalised</em> ARCH model, known as GARCH, which we will now define and discuss.</p>
+
+<h2>Generalised Autoregressive Conditional Heteroskedastic Models</h2>
+
+<h3>Definition</h3>
+
+<div class="bs-callout bs-callout-info">
+<h4>Generalised Autoregressive Conditional Heteroskedastic Model of Order p, q</h4>
+
+<p>A time series $\{ \epsilon_t \}$ is given at each instance by:
+
+\begin{eqnarray}
+\epsilon_t = \sigma_t w_t
+\end{eqnarray}
+
+<p>Where $\{ w_t \}$ is discrete white noise, with zero mean and unit variance, and $\sigma^2_t$ is given by:</p>
+
+\begin{eqnarray}
+\sigma^2_t = \alpha_0 + \sum^{q}_{i=1} \alpha_i \epsilon^2_{t-i} + \sum^{p}_{j=1} \beta_j \sigma^2_{t-j}
+\end{eqnarray}
+
+<p>Where $\alpha_i$ and $\beta_j$ are parameters of the model.</p>
+
+<p>We say that $\{ \epsilon_t \}$ is a <em>generalised autoregressive conditional heteroskedastic model of order p,q</em>, denoted by GARCH(p,q).
+</div>
+
+<p>Hence this definition is similar to that of ARCH(p), with the exception that we are adding moving average terms, that is the value of $\sigma^2$ at $t$, $\sigma^2_t$, is dependent upon previous $\sigma^2_{t-j}$ values.</p>
+
+<p>Thus GARCH is the "ARMA equivalent" of ARCH, which only has an autoregressive component.</p>
+
+<h3>Simulations, Correlograms and Model Fittings</h3>
+
+<p>As always we're going to begin with the simplest possible case of the model, namely GARCH(1,1). This means we are going to consider a single autoregressive lag and a single "moving average" lag. The model is given by the following:</p>
+
+\begin{eqnarray}
+\epsilon_t &=& \sigma_t w_t \\
+\sigma^2_t &=& \alpha_0 + \alpha_1 \epsilon^2_{t-1} + \beta_1 \sigma^2_{t-1}
+\end{eqnarray}
+
+<p><em>Note that it is necessary for $\alpha_1 + \beta_1 &lt; 1$ otherwise the series will become unstable.</em></p>
+
+<p>We can see that the model has three parameters, namely $\alpha_0$, $\alpha_1$ and $\beta_1$. Let's set $\alpha_0 = 0.2$, $\alpha_1=0.5$ and $\beta_1=0.3$.</p>
+
+<p>To create the GARCH(1,1) model in R we need to perform a similar procedure as for our original random walk simulations. That is, we need to create a vector <code>w</code> to store our random white noise values, then a separate vector <code>eps</code> to store our time series values and finally a vector <code>sigsq</code> to store the ARMA variances.</p>
+
+<p>We can use the R <code>rep</code> command to create a vector of zeros that we will populate with our GARCH values:</p>
+
+<pre>
+<code class='language-r'>> set.seed(2)
+> a0 <- 0.2
+> a1 <- 0.5
+> b1 <- 0.3
+> w <- rnorm(10000)
+> eps <- rep(0, 10000)
+> sigsq <- rep(0, 10000)
+> for (i in 2:10000) {
+>   sigsq[i] <- a0 + a1 * (eps[i-1]^2) + b1 * sigsq[i-1]
+>   eps[i] <- w[i]*sqrt(sigsq[i])
+> }</code>
+</pre>
+
+<p>At this stage we have generated our GARCH model using the aforementioned parameters over 10,000 samples. We are now in a position to plot the correlogram:</p>
+
+<pre>
+<code class='language-r'>> acf(eps)</code>
+</pre>
+
+<p>Notice that the series look like a realisation of a discrete white noise process:</p>
+
+<p style="text-align:center">
+  <img src="https://s3.amazonaws.com/quantstartmedia/images/qs-tsa-garch-253-cor.png" width="100%" />
+  <strong>Correlogram of a simulated GARCH(1,1) model with $\alpha_0=0.2$, $\alpha_1=0.5$ and $\beta_1=0.3$</strong>
+</p>
+
+<p>However, if we plot correlogram of the square of the series:</p>
+
+<pre>
+<code class='language-r'>> acf(eps^2)</code>
+</pre>
+
+<p>We see substantial evidence of a conditionally heteroskedastic process via the decay of successive lags:</p>
+
+<p style="text-align:center">
+  <img src="https://s3.amazonaws.com/quantstartmedia/images/qs-tsa-garch-253-cor-sq.png" width="100%" />
+  <strong>Correlogram of a simulated GARCH(1,1) models squared values with $\alpha_0=0.2$, $\alpha_1=0.5$ and $\beta_1=0.3$</strong>
+</p>
+
+<p>As in the previous articles we now want to try and fit a GARCH model to this simulated series to see if we can recover the parameters. Thankfully, a helpful library called <code>tseries</code> provides the <code>garch</code> command to carry this procedure out:</p>
+
+<pre>
+<code class='language-r'>> require(tseries)</code>
+</pre>
+
+<p>We can then use the <code>confint</code> command to produce confidence intervals at the 97.5% level for the parameters:</p>
+
+<pre>
+<code class='language-r'>> eps.garch <- garch(eps, trace=FALSE)
+> confint(eps.garch)
+       2.5 %    97.5 %
+a0 0.1786255 0.2172683
+a1 0.4271900 0.5044903
+b1 0.2861566 0.3602687</code>
+</pre>
+
+<p>We can see that the true parameters all fall within the respective confidence intervals.</p>
+
+<h3>Financial Data</h3>
+
+<p>Now that we know how to simulate and fit a GARCH model, we want to apply the procedure to some financial series. In particular, let's try fitting ARIMA and GARCH to the FTSE 100 index of the largest UK companies by market capitalisation. Yahoo Finance uses the symbol "^FTSE" for the index. We can use <a href="http://www.quantmod.com/">quantmod</a> to obtain the data:</p>
+
+<pre>
+<code class='language-r'>> require(quantmod)
+> getSymbols("^FTSE")</code>
+</pre>
+
+<p>We can then calculate the differences of the log returns of the closing price:</p>
+
+<pre>
+<code class='language-r'>> ftrt = diff(log(Cl(FTSE)))</code>
+</pre>
+
+<p>Let's plot the values:</p>
+
+<pre>
+<code class='language-r'>> plot(ftrt)</code>
+</pre>
+
+<p>It is very clear that there are periods of significant increases in volatility, particularly around 2008-2009, late 2011 and more recently in mid 2015:</p>
+
+<p style="text-align:center">
+  <img src="https://s3.amazonaws.com/quantstartmedia/images/qs-tsa-garch-ftse-rets.png" width="100%" />
+  <strong>Differenced log returns of the daily closing price of the FTSE 100 UK stock index</strong>
+</p>
+
+<p>We also need to remove the <code>NA</code> value generated by the differencing procedure:</p>
+
+<pre>
+<code class='language-r'>> ft <- as.numeric(ftrt)
+> ft <- ft[!is.na(ft)]</code>
+</pre>
+
+<p>The next task is to fit a suitable ARIMA(p,d,q) model. We saw how to do that in the <a href="https://www.quantstart.com/articles/Autoregressive-Integrated-Moving-Average-ARIMA-p-d-q-Models-for-Time-Series-Analysis">previous article</a>, so I won't repeat the procedure here, I will simply provide the code:</p>
+
+<pre>
+<code class='language-r'>> ftfinal.aic <- Inf
+> ftfinal.order <- c(0,0,0)
+> for (p in 1:4) for (d in 0:1) for (q in 1:4) {
+>   ftcurrent.aic <- AIC(arima(ft, order=c(p, d, q)))
+>   if (ftcurrent.aic < ftfinal.aic) {
+>     ftfinal.aic <- ftcurrent.aic
+>     ftfinal.order <- c(p, d, q)
+>     ftfinal.arima <- arima(ft, order=ftfinal.order)
+>   }
+> }</code>
+</pre>
+
+<p>Since we've already differenced the FTSE returns once, we should expect our integrated component $d$ to equal zero, which it does:</p>
+
+<pre>
+<code class='language-r'>> ftfinal.order
+[1] 4 0 4</code>
+</pre>
+
+<p>Thus we receive an ARIMA(4,0,4) model, that is four autoregressive parameters and four moving average parameters.</p>
+
+<p>We are now in a position to decide whether the <em>residuals</em> of this model fit possess evidence of conditional heteroskedastic behaviour. To test this we need to plot the correlogram of the residuals:</p>
+
+<pre>
+<code class='language-r'>> acf(resid(ftfinal.arima))</code>
+</pre>
+
+<p style="text-align:center">
+  <img src="https://s3.amazonaws.com/quantstartmedia/images/qs-tsa-garch-ftse-arima-resids.png" width="100%" />
+  <strong>Residuals of an ARIMA(4,0,4) fit to the FTSE100 diff log returns</strong>
+</p>
+
+<p>This looks like a realisation of a discrete white noise process indicating that we have achieved a good fit with the ARIMA(4,0,4) model.</p>
+
+<p>To test for conditional heteroskedastic behaviour we need to square the residuals and plot the corresponding correlogram:</p>
+
+<pre>
+<code class='language-r'>> acf(resid(ftfinal.arima)^2)</code>
+</pre>
+
+<p style="text-align:center">
+  <img src="https://s3.amazonaws.com/quantstartmedia/images/qs-tsa-garch-ftse-arima-resids-sq.png" width="100%" />
+  <strong>Squared residuals of an ARIMA(4,0,4) fit to the FTSE100 diff log returns</strong>
+</p>
+
+<p>We can see clear evidence of serial correlation in the squared residuals, leading us to the conclusion that conditional heteroskedastic behaviour is present in the diff log return series of the FTSE100.</p>
+
+<p>We are <em>now</em> in a position to fit a GARCH model using the <code>tseries</code> library.</p>
+
+<p>The first command actually fits an appropriate GARCH model, with the <code>trace=F</code> parameter telling R to suppress excessive output.</p>
+
+<p>The second command removes the first element of the residuals, since it is NA:</p>
+
+<pre>
+<code class='language-r'>> ft.garch <- garch(ft, trace=F)
+> ft.res <- ft.garch$res[-1]</code>
+</pre>
+
+<p>Finally, to test for a good fit we can plot the correlogram of the GARCH residuals and the square GARCH residuals:</p>
+
+<pre>
+<code class='language-r'>> acf(ft.res)</code>
+</pre>
+
+<p style="text-align:center">
+  <img src="https://s3.amazonaws.com/quantstartmedia/images/qs-tsa-garch-ftse-garch-resids.png" width="100%" />
+  <strong>Residuals of a GARCH(p,q) fit to the ARIMA(4,0,4) fit of the FTSE100 diff log returns</strong>
+</p>
+
+<p>The correlogram looks like a realisation of a discrete white noise process, indicating a good fit. Let's now try the squared residuals:</p>
+
+<pre>
+<code class='language-r'>> acf(ft.res^2)</code>
+</pre>
+
+<p style="text-align:center">
+  <img src="https://s3.amazonaws.com/quantstartmedia/images/qs-tsa-garch-ftse-garch-resids-sq.png" width="100%" />
+  <strong>Squared residuals of a GARCH(p,q) fit to the ARIMA(4,0,4) fit of the FTSE100 diff log returns</strong>
+</p>
+
+<p>Once again, we have what looks like a realisation of a discrete white noise process, indicating that we have "explained" the serial correlation present in the squared residuals with an appropriate mixture of ARIMA(p,d,q) and GARCH(p,q).</p>
+
+<h2>Next Steps</h2>
+
+<p>We are now at the point in our time series education where we have studied ARIMA and GARCH, allowing us to fit a combination of these models to a stock market index, and to determine if we have achieved a good fit or not.</p>
+
+<p>The next step is to actually produce forecasts of future daily returns values from this combination and use it to create a basic trading strategy. That will be the subject of the next article.</p>
+        
+        
+        <script async data-uid="6296c27f4b" src="https://weathered-brook-5281.ck.page/6296c27f4b/index.js"></script>
+      </section>
+    </div>
+    <div class="col-md-4 book-card order-md-1">
+      
+<div class="sidebar-advert-container">
+  <a href="/qsalpha/?ref=art">
+    <img class="card-img-top" src="/static/images/qsalpha-sidebar-advert-small.png" alt="QSAlpha">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/qsalpha/?ref=art">QSAlpha</a></h3>
+      <p class="card-text medium-text mb-3">Join the QSAlpha research platform that helps fill your strategy research pipeline, diversifies your portfolio and improves your risk-adjusted returns for increased profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/qsalpha/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/quantcademy/?ref=art">
+    <img class="card-img-top" src="/static/images/quantcademy-sidebar-advert-small.png" alt="Quantcademy">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/quantcademy/?ref=art">The Quantcademy</a></h3>
+      <p class="card-text medium-text mb-3">Join the Quantcademy membership portal that caters to the rapidly-growing retail quant trader community and learn how to increase your strategy profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/quantcademy/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/successful-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/sat-sidebar-advert-small.png" alt="Successful Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to find new trading strategy ideas and objectively assess them for your portfolio using a Python-based backtesting engine.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/successful-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/advanced-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/aat-sidebar-advert-small.png" alt="Advanced Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to implement advanced trading strategies using time series analysis, machine learning and Bayesian statistics with R and Python.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/advanced-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+    
+
+<footer>
+  <div class="container container-full">
+    <section class="mt-1.5 mb-1">
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">QuantStart</li>
+            <li class="footer-list-link"><a class="link-fade" href="/about/">About</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/articles/">Articles</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/sitemap/">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Products</li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qsalpha/">QSAlpha</a></li>
+            
+            
+            <li class="footer-list-link"><a class="link-fade" href="/quantcademy/">Quantcademy</a></li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qstrader/">QSTrader</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Legal</li>
+            <li class="footer-list-link"><a class="link-fade" href="/privacy-policy/">Privacy Policy</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/terms-and-conditions/">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Social</li>
+            <li class="footer-list-link"><a class="link-fade" href="https://twitter.com/quantstart">Twitter</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="https://www.youtube.com/channel/UCmVnnZ6Y2TrJtY1eQJN6kWA">YouTube</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="row mb-1.5 mt-5">
+      <div class="col-12 col-md-9 col-lg-8 col-xl-6">
+        <div class="footer-copyright">
+          <p>©2012-2023 QuarkGluon Ltd. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+<script src="/static/js/jquery-3.2.1.min.js"></script>
+<script src="/static/js/prism.js.min"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/nav.js"></script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5383959-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+    
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="/static/js/highcharts/highcharts.js"></script>
+<script type="text/javascript">
+  num_colours = 10;
+</script>
+<script src="/static/js/statistics.js"></script>
+
+
+  </body>
+</html>

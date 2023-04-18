@@ -1,0 +1,572 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-site-verification" content="wl3-8ed1QZjI0iYZMv10zoZWYElkMObTfwLlWIj9cpA" />
+    <meta name="description" content="Annualised Rolling Sharpe Ratio in QSTrader">
+
+    <link rel="icon" href="/static/images/favicon.png">
+
+    <title>Annualised Rolling Sharpe Ratio in QSTrader | QuantStart</title>
+    
+    
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet"> 
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/prism.css" rel="stylesheet">
+<link href="/static/css/qs.css?v=10" rel="stylesheet">
+    
+  </head>
+
+  <body>
+    <header class="header covered-header" style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://quantstartmedia.s3.amazonaws.com/images/article-images/article-backgrounds/default-bg.jpg);">
+  
+<nav class="nav">
+  <div class="container nav-container">
+    <div class="nav-row row d-flex justify-content-between align-items-center">
+      <div class="col-2">
+        <ul class="nav-items justify-content-end small-capitals align-items-center">
+          <li class="nav-item">
+            <a class="link-fade" href="/">QuantStart</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-auto col-logo">
+        <ul id="top-nav-menu" class="nav-items justify-content-end align-items-center">
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/qsalpha/">QSAlpha</a>
+          </li>
+          
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/quantcademy/">Quantcademy</a>
+          </li>
+          
+          <li id="menu-link-ebooks" class="nav-item">
+            <a class="link-fade" href="#">Books</a>
+            <div id="menu-pane-ebooks" class="nav-items menu-dropdown-pane">
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/qstrader/">QSTrader</a>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/articles/">Articles</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/members/login/">Login</a>
+          </li>
+          
+        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<nav id="mobile-nav" class="mobile-nav text-left">
+  <div class="container">
+    <ul class="mt-4 ml-3 mobile-nav-menu">
+      <li class="nav-item">
+        <a class="link-fade d-block" href="/">QuantStart</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qsalpha/">QSAlpha</a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/quantcademy/">Quantcademy</a>
+      </li>
+      
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="#">Books</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qstrader/">QSTrader</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/articles/">Articles</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/members/login/">Login</a>
+      </li>
+      
+    </ul>
+    <button class="nav-toggle mobile-nav-close">
+      <svg id="mobile-nav-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M19.77,5.63,13.41,12l6.36,6.37a1,1,0,0,1-1.41,1.41L12,13.41,5.63,19.77a1,1,0,0,1-1.44-1.39l0,0L10.58,12,4.21,5.63a1,1,0,0,1,0-1.42,1,1,0,0,1,1.41,0l0,0L12,10.58l6.37-6.37a1,1,0,0,1,1.41,0A1,1,0,0,1,19.77,5.63Z"></path>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+  <div class="container hero-container">
+    <section class="mt-5 mb-4">
+      <div class="row justify-content-center">
+        <div class="col-12 text-center">
+          <p class="hero">Annualised Rolling Sharpe Ratio in QSTrader</p>
+          <p class="hero subhero">Annualised Rolling Sharpe Ratio in QSTrader</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</header>
+    
+<section class="container content-container">
+  <div class="row">
+    <div class="col-md-8 order-md-2">
+      <section class="content article-content">
+        
+        
+        <p>In this article the issue of when to retire a trading strategy will be considered. It will present brief reasons why strategies eventually end up underperforming. It will discuss how this can be measured over time and then describe an implementation in QSTrader that provides this functionality. The methodology will then be applied to some of the previous strategies presented on the site in order to gauge their recent effectiveness.</p>
+
+<p><strong>Strategy decay</strong> is one of the trickiest aspects to manage within the realm of quantitative trading. It involves previously performing strategies that gradually, and sometimes rapidly, lose their performance characteristics and end up becoming unprofitable.</p>
+
+<p>Quantitative trading strategies almost unilaterally rely on the concept of forecasting and/or statistical mispricing. As more and more trading entities–retail or institutional–implement similar systematic strategies the mispricings give way to price efficiency. The gain derived from such strategies is eroded and then usually falls to the level of transaction costs required to carry it out, making them unprofitable.</p>
+
+<p>This means that quantitative trading is not a "set and forget" activity. In reality quant traders need to have a portfolio of strategies that are slowly "rotated out" over time once any arbitrage opportunities begin to erode. Thus constant research is required to continually develop new profitable "edges" that replace those that have been "arbed away".</p>
+
+<p>However some systematic strategies often have large periods of mediocre returns and extensive drawdown. This is particularly prevalent in strategies based on daily data since they tend to have far fewer positively-expected trading "bets". Thus a major challenge lies in identifying when a strategy is truly underperforming due to erosion of edge or whether it is a "temporary" period of poorer performance.</p>
+
+<p>This motivates the need for an effective <em>trailing</em> metric that captures current performance of the strategy in relation to its previous performance. One of the most widely used measures–at least in the institutional quant world–is an annualised rolling <a href="https://www.quantstart.com/articles/Sharpe-Ratio-for-Algorithmic-Trading-Performance-Measurement">Sharpe ratio</a>.</p> 
+
+<p>The Sharpe ratio of a strategy is designed to provide a measure of mean excess returns of a strategy as a ratio of the volatility "endured" to achieve those returns. It is a broad brush measure of the reward-to-risk ratio of a strategy. The annualised rolling Sharpe ratio simply calculates this value on the previous year's worth of trading data. It provides a continually-updated, albeit rearward-looking, view of current reward-to-risk.</p>
+
+<p>A low Sharpe ratio (below 1.0) implies that substantial returns volatility is being endured for minimal mean return. A negative Sharpe ratio implies that one would have been better off holding an instrument representing the risk-free rate used in the calculation (often US treasury bills). Not only are the mean returns of the strategy below those achieved by the risk-free rate in this case, but volatility in those underperforming returns is being endured as well!</p>
+
+<p>Hence one way of determining whether a strategy should be considered for retirement is to track its annualised rolling Sharpe and see whether this value trends towards zero, or even into negative territory.</p>
+
+<p>Clearly this does not cover the whole story of risk management. The Sharpe ratio only captures one aspect of risk (its ratio to excess returns) and is a rearward-looking indicator. For instance the Sharpe ratio would provide absolutely no information about unexpected regulatory change, or a data-centre crash in a few week's time.</p>
+
+<p>Despite these shortcomings it is a useful indicator of whether a strategy is likely to underperform in the future. It is also a good measure to include on an external capital investment prospectus, since a relatively constant trailing Sharpe implies strategy reward-to-risk consistency.</p>
+
+<h2>Calculating the Annualised Rolling Sharpe Ratio</h2>
+
+<p>The standard Sharpe ratio for strategy returns is given by the following formula:</p>
+
+<p>
+\begin{eqnarray}
+S = \frac{\mathbb{E}(r_s - r_b)}{\sqrt{\text{Var} (r_s - r_b)}}
+\end{eqnarray}
+</p>
+
+<p>It is the ratio of the expectation of the excess returns of the strategy to the standard deviation of those excess returns. In essence it captures the ratio of reward-to-risk, where risk is defined as returns volatility.</p>
+
+<p>In order to calculate an annualised rolling Sharpe ratio it is necessary to make two modifications to this formula. The first is to reduce the set of returns to the last trailing number of annualised trading periods (e.g. for daily data this means take the last 252 close-to-close returns). The second is to multiply the value by the square root of the number of annual trading periods. For strategies trading on a daily timeframe the number of periods is equal to 252, the (approximate) number of trading days in the US:</p>
+
+<p>
+\begin{eqnarray}
+S_t = \sqrt{k} \frac{\mathbb{E}(r_{s,t-k} - r_{b,t-k})}{\sqrt{\text{Var} (r_{s,t-k} - r_{b,t-k})}}
+\end{eqnarray}
+</p>
+
+<p>Where $r_{s,t-k}$ refers to the previous $k$ truncated strategy returns rather than the entire history of returns over the strategy lifetime.</p>
+
+<p>This value is calculated every trading period once $k$ results have been generated. The annualised rolling Sharpe is not suitable for calculation unless a year's worth of trading periods have been accumulated. This is because the ratio can be extremely large in the first few periods due to high returns and low variance, thus leading to inflated and unrealistic Sharpe ratios.</p>
+
+<p>It should be noted that the Sharpe ratio is an imperfect measure of "risk", not only for the reasons outlined above, but also because it also penalises upward volatility of returns. That is if the variance of the returns rise strongly in the upward direction the Sharpe ratio will be reduced due to the large denominator.</p>
+
+<p>It should be well remembered that large unexpected upward moves are just as dangerous as large downward moves since they reflect unanticipated behaviour of the strategy. For instance, a large upward performance jump could imply a new regulatory regime that has benefited the strategy. This must now be taken into account in any subsequent strategy development in order to maintain consistency of performance.</p>
+
+<h2>Python QSTrader Implementation</h2>
+
+<p>The implementation of the annualised rolling Sharpe ratio is now part of the <a href="https://www.quantstart.com/qstrader">QSTrader</a> codebase. It lives in the <code>TearsheetStatistics</code> class, which can be found <a href="https://github.com/mhallsmoore/qstrader/blob/master/qstrader/statistics/tearsheet.py">here</a>. The development of this class, which provides the visual output of a strategy upon backtest completion was originally carried out by <a href="https://github.com/nwillemse">@nwillemse</a>.</p>
+
+<p>The addition of the annualised rolling Sharpe ratio required an update to the minimum version of the Pandas library used by QSTrader. Originally <a href="http://pandas.pydata.org/pandas-docs/version/0.17.1/">0.17.1</a> was sufficient, but the rolling ratio requires use of the <code>rolling</code> object from Pandas, which is a feature introduced in version <a href="http://pandas.pydata.org/pandas-docs/version/0.18.0/">0.18.0</a>. Hence if you wish to use this feature you may need to update your Pandas version.</p>
+
+<p>The annualised rolling Sharpe feature is provided as a chart that sits underneath the equity curve in the tearsheet visual output. It is optional and can be activated by setting <code>rolling_sharpe=True</code> in the instantiation of the <code>TearsheetStatistics</code> class in the backtest. In the class itself it can be seen that it is simply implemented as a member flag:</p>
+
+<pre>
+<code class="language-python">class TearsheetStatistics(AbstractStatistics):
+    def __init__(
+        self, config, portfolio_handler,
+        title=None, benchmark=None, periods=252,
+        rolling_sharpe=False
+    ):
+        ..
+        ..
+        self.rolling_sharpe = rolling_sharpe
+        ..
+        ..</code>
+</pre>
+
+<p>To calculate the annualised rolling Sharpe, it is necessary to obtain the <code>rolling</code> object by using the <code>rolling</code> method on the strategy returns series, with a lookback window equal to the number of trading periods (<code>self.periods</code>).</p>
+
+<p>The calculation simply multiplies the square root of trading periods by the ratio of the rolling mean and rolling standard deviation. Note that there is no risk-free rate included here. Zero returns are considered the risk-free alternative. The same is carried out for the benchmark. All of this occurs in the <code>get_results</code> method of the <code>TearsheetStatistics</code> class:</p>
+
+<pre>
+<code class="language-python">def get_results(self):
+    # Equity
+    equity_s = pd.Series(self.equity).sort_index()
+
+    # Returns
+    returns_s = equity_s.pct_change().fillna(0.0)
+
+    # Rolling Annualised Sharpe
+    rolling = returns_s.rolling(window=self.periods)
+    rolling_sharpe_s = np.sqrt(self.periods) * (
+        rolling.mean() / rolling.std()
+    )
+
+    ..
+    ..
+    
+    statistics["rolling_sharpe"] = rolling_sharpe_s
+
+    # Benchmark statistics if benchmark ticker specified
+    if self.benchmark is not None:
+        equity_b = pd.Series(self.equity_benchmark).sort_index()
+        returns_b = equity_b.pct_change().fillna(0.0)
+        rolling_b = returns_b.rolling(window=self.periods)
+        rolling_sharpe_b = np.sqrt(self.periods) * (
+            rolling_b.mean() / rolling_b.std()
+        )
+        ..
+        ..
+        statistics["rolling_sharpe_b"] = rolling_sharpe_b
+        ..
+        ..
+    return statistics</code>
+</pre>
+
+<p>To plot the annualised rolling Sharpe a new method <code>_plot_rolling_sharpe</code> has been created. It is very similar to the <code>_plot_equity</code> method. It creates a similar plot to the equity curve, using identical colours to help distinguish the strategy performance to the benchmark performance. The only minor additiom is a dashed vertical line placed at $k$ periods into the strategy simulation to represent the first point at which the trailing ratio is calculated:</p>
+
+<pre>
+<code class="language-python">def _plot_rolling_sharpe(self, stats, ax=None, **kwargs):
+    ..
+    ..
+    sharpe = stats['rolling_sharpe']
+    ..
+    ..
+    
+    if self.benchmark is not None:
+        benchmark = stats['rolling_sharpe_b']
+        benchmark.plot(
+            lw=2, color='gray', label=self.benchmark, 
+            alpha=0.60, ax=ax, **kwargs
+        )
+
+    sharpe.plot(
+        lw=2, color='green', alpha=0.6, x_compat=False,
+        label='Backtest', ax=ax, **kwargs
+    )
+
+    ax.axvline(sharpe.index[self.periods], linestyle="dashed", c="gray", lw=2)
+    ax.set_ylabel('Rolling Annualised Sharpe')
+    ..
+    ..</code>
+</pre>
+
+<p>The <code>plot_results</code> code is modified to include the rolling Sharpe graph if the <code>self.rolling_sharpe</code> flag is set to True. This is carried out using an <code>offset_index</code>. The index is used to let matplotlib know if there are five or six vertical sections in the chart, and if so, to adjust the plot placement:</p>
+
+<pre>
+<code class="language-python">def plot_results(self, filename=None):
+    ..
+    ..
+
+    if self.rolling_sharpe:
+        offset_index = 1
+    else:
+        offset_index = 0
+    vertical_sections = 5 + offset_index
+    fig = plt.figure(figsize=(10, vertical_sections * 3.5))
+    fig.suptitle(self.title, y=0.94, weight='bold')
+    gs = gridspec.GridSpec(vertical_sections, 3, wspace=0.25, hspace=0.5)
+
+    stats = self.get_results()
+    ax_equity = plt.subplot(gs[:2, :])
+    if self.rolling_sharpe:
+        ax_sharpe = plt.subplot(gs[2, :])
+    ax_drawdown = plt.subplot(gs[2 + offset_index, :])
+    ax_monthly_returns = plt.subplot(gs[3 + offset_index, :2])
+    ax_yearly_returns = plt.subplot(gs[3 + offset_index, 2])
+    ax_txt_curve = plt.subplot(gs[4 + offset_index, 0])
+    ax_txt_trade = plt.subplot(gs[4 + offset_index, 1])
+    ax_txt_time = plt.subplot(gs[4 + offset_index, 2])
+
+    self._plot_equity(stats, ax=ax_equity)
+    if self.rolling_sharpe:
+        self._plot_rolling_sharpe(stats, ax=ax_sharpe)
+    self._plot_drawdown(stats, ax=ax_drawdown)
+    ..
+    ..</code>
+</pre>
+
+<p>In order to use the annualised rolling Sharpe in a strategy backtest it remains to turn on the flag in a strategy backtest file where the tearsheet is instiated:</p>
+
+<pre>
+<code class="language-python">..
+..
+# Use the Tearsheet Statistics
+title = ["Example Systematic Trading Strategy"]
+statistics = TearsheetStatistics(
+    config, portfolio_handler, title,
+    benchmark="SPY", rolling_sharpe=True
+)
+..
+..</code>
+</pre>
+
+<p>In the next section a selection of updated tearsheets will be generated for various strategies that have been presented on the site to date.</p>
+
+<h2>Strategy Results</h2>
+
+<p>All of the strategies displayed here can be recreated by visiting the appropriate article links provided below. The results will simply be redisplayed with the addition of the annualised rolling Sharpe ratio tearsheet visualisation.</p>
+
+<h3>Kalman Filter Pairs Trade</h3>
+
+<p><em>The original article for the Kalman Filter Pairs Trade can be found <a href="https://www.quantstart.com/articles/kalman-filter-based-pairs-trading-strategy-in-qstrader">here</a>. Please visit the article to gain the full details of the strategy.</em></p>
+
+<p style="text-align:center;">
+  <a href="https://s3.amazonaws.com/quantstartmedia/images/qs-qstrader-rolling-sharpe-kalman-tearsheet.png">
+    <img width="100%" src="https://s3.amazonaws.com/quantstartmedia/images/qs-qstrader-rolling-sharpe-kalman-tearsheet.png">
+  </a>
+</p>
+
+<p><em>Click the image for a larger view.</em></p>
+
+<p>The rolling annualised Sharpe ratio calculation for the strategy begins just over midway into 2010, after 252 trading periods. The Sharpe ratio initially trends up in excess of 2.0 through mid-2011 but a period of large returns volatility, culminating in flat and subsequently dwindling performance through 2012-2014 reduces the Sharpe ratio heavily in this period to negative territory.</p>
+
+<p>After the strategy picks up again in 2013 the annualised Sharpe slowly recovers back towards 2.0. Although by the end of 2016 it is unclear if the strategy is beginning to decay once again.</p>
+
+<p>Note how difficult it would have been at the end of 2013, in a live implementation, to determine if the strategy would need retiring due to the long downward trend in annualised Sharpe. This highlights how important it is to have a solid understanding of the <em>statistical</em> behaviour of the returns distribution in a backtest.</p>
+
+<h3>Aluminum Smelting Cointegration Strategy</h3>
+
+<p><em>The original article for the Aluminum Smelting Cointegration strategy can be found <a href="https://www.quantstart.com/articles/aluminum-smelting-cointegration-strategy-in-qstrader">here</a>. Please visit the article to gain the full details of the strategy.</em></p>
+
+<p style="text-align:center;">
+  <a href="https://s3.amazonaws.com/quantstartmedia/images/qs-qstrader-rolling-sharpe-aluminum-tearsheet.png">
+    <img width="100%" src="https://s3.amazonaws.com/quantstartmedia/images/qs-qstrader-rolling-sharpe-aluminum-tearsheet.png">
+  </a>
+</p>
+
+<p><em>Click the image for a larger view.</em></p>
+
+<p>Since this strategy is carried out over a relatively short time frame (just under two years) the rolling annualised Sharpe is only calculated for a short period.</p>
+
+<p>Initially the Sharpe ratio is high at approximately 2.25. This is a consequence of the rapid increase in performance in early 2015, which soon flattens out. Once these high return periods have "fallen out" of the rolling calculation the Sharpe ratio rapidly decreases to -0.5 during the early half of 2016, which it remains at through to the end of 2016.</p>
+
+<p>Such a substantial drop in risk-adjusted performance would be a clear indicator that the strategy should be considered for retirement. Either any particular alpha/edge previously associated with its predictions has now been arbitraged away, or the underlying structural relationship has changed.</p>
+
+<p>In this example, as mentioned in a Disqus comment in the <a href="https://www.quantstart.com/articles/aluminum-smelting-cointegration-strategy-in-qstrader">previous article</a>, it could be that the aluminum refining firm introduced its own aluminum smelting hedging strategy by trading natural gas prices on its own account. This would have the effect of diminishing the impact of natural gas prices on its own profitability, thus rendering this strategy difficult, if not impossible, to implement profitably.</p>
+
+<h3>Sentiment Analysis Strategy</h3>
+
+<p><em>The original article for the Sentiment Analysis strategy can be found <a href="https://www.quantstart.com/articles/sentiment-analysis-trading-strategy-via-sentdex-data-in-qstrader">here</a>. Please visit the article to gain the full details of the strategy.</em></p>
+
+<p style="text-align:center;">
+  <a href="https://s3.amazonaws.com/quantstartmedia/images/qs-qstrader-rolling-sharpe-sentiment-tearsheet.png">
+    <img width="100%" src="https://s3.amazonaws.com/quantstartmedia/images/qs-qstrader-rolling-sharpe-sentiment-tearsheet.png">
+  </a>
+</p>
+
+<p><em>Click the image for a larger view.</em></p>
+
+<p>In the strategy article three separate simulations were carried out, one for tech stocks, one for energy and one for defence. This particular example uses the set of defence stocks, which include BA, GD, LMT, RTN and NOC–all components of the S&amp;P500.</p>
+
+<p>It can be seen that the strategy had a significant upward period in 2013 which gives rise to a high trailing annualised Sharpe of 2.5, exceeding 3.5 by the start of 2014. However the strategy performance remained flat through 2014, which caused a gradual reduction in the annualised rolling Sharpe since the volatility of returns was largely similar. By the start of 2015 the Sharpe was between 0.5 and 1.0, meaning more risk was being taken per unit of return at this stage. By the end of 2015 the Sharpe had risen slightly to around 1.5, largely due to some consistent upward gains in the latter half of 2015.</p>
+
+<p>Note that the Sharpe ratio of both the benchmark and the strategy were broadly similar from mid-2014 onwards, suggesting that there was little to be gained (from a reward-to-risk point of view) by investing in the strategy as opposed to buying and holding SPY. Although this of course ignores the initial gains made by the strategy in 2013.</p>
+        
+        
+        <script async data-uid="6296c27f4b" src="https://weathered-brook-5281.ck.page/6296c27f4b/index.js"></script>
+      </section>
+    </div>
+    <div class="col-md-4 book-card order-md-1">
+      
+<div class="sidebar-advert-container">
+  <a href="/qsalpha/?ref=art">
+    <img class="card-img-top" src="/static/images/qsalpha-sidebar-advert-small.png" alt="QSAlpha">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/qsalpha/?ref=art">QSAlpha</a></h3>
+      <p class="card-text medium-text mb-3">Join the QSAlpha research platform that helps fill your strategy research pipeline, diversifies your portfolio and improves your risk-adjusted returns for increased profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/qsalpha/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/quantcademy/?ref=art">
+    <img class="card-img-top" src="/static/images/quantcademy-sidebar-advert-small.png" alt="Quantcademy">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/quantcademy/?ref=art">The Quantcademy</a></h3>
+      <p class="card-text medium-text mb-3">Join the Quantcademy membership portal that caters to the rapidly-growing retail quant trader community and learn how to increase your strategy profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/quantcademy/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/successful-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/sat-sidebar-advert-small.png" alt="Successful Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to find new trading strategy ideas and objectively assess them for your portfolio using a Python-based backtesting engine.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/successful-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/advanced-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/aat-sidebar-advert-small.png" alt="Advanced Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to implement advanced trading strategies using time series analysis, machine learning and Bayesian statistics with R and Python.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/advanced-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+    
+
+<footer>
+  <div class="container container-full">
+    <section class="mt-1.5 mb-1">
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">QuantStart</li>
+            <li class="footer-list-link"><a class="link-fade" href="/about/">About</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/articles/">Articles</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/sitemap/">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Products</li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qsalpha/">QSAlpha</a></li>
+            
+            
+            <li class="footer-list-link"><a class="link-fade" href="/quantcademy/">Quantcademy</a></li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qstrader/">QSTrader</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Legal</li>
+            <li class="footer-list-link"><a class="link-fade" href="/privacy-policy/">Privacy Policy</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/terms-and-conditions/">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Social</li>
+            <li class="footer-list-link"><a class="link-fade" href="https://twitter.com/quantstart">Twitter</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="https://www.youtube.com/channel/UCmVnnZ6Y2TrJtY1eQJN6kWA">YouTube</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="row mb-1.5 mt-5">
+      <div class="col-12 col-md-9 col-lg-8 col-xl-6">
+        <div class="footer-copyright">
+          <p>©2012-2023 QuarkGluon Ltd. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+<script src="/static/js/jquery-3.2.1.min.js"></script>
+<script src="/static/js/prism.js.min"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/nav.js"></script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5383959-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+    
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="/static/js/highcharts/highcharts.js"></script>
+<script type="text/javascript">
+  num_colours = 10;
+</script>
+<script src="/static/js/statistics.js"></script>
+
+
+  </body>
+</html>

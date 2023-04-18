@@ -1,0 +1,888 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-site-verification" content="wl3-8ed1QZjI0iYZMv10zoZWYElkMObTfwLlWIj9cpA" />
+    <meta name="description" content="Monte Carlo Simulations In CUDA - Barrier Option Pricing">
+
+    <link rel="icon" href="/static/images/favicon.png">
+
+    <title>Monte Carlo Simulations In CUDA - Barrier Option Pricing | QuantStart</title>
+    
+    
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet"> 
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/prism.css" rel="stylesheet">
+<link href="/static/css/qs.css?v=10" rel="stylesheet">
+    
+  </head>
+
+  <body>
+    <header class="header covered-header" style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://quantstartmedia.s3.amazonaws.com/images/article-images/article-backgrounds/default-bg.jpg);">
+  
+<nav class="nav">
+  <div class="container nav-container">
+    <div class="nav-row row d-flex justify-content-between align-items-center">
+      <div class="col-2">
+        <ul class="nav-items justify-content-end small-capitals align-items-center">
+          <li class="nav-item">
+            <a class="link-fade" href="/">QuantStart</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-auto col-logo">
+        <ul id="top-nav-menu" class="nav-items justify-content-end align-items-center">
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/qsalpha/">QSAlpha</a>
+          </li>
+          
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/quantcademy/">Quantcademy</a>
+          </li>
+          
+          <li id="menu-link-ebooks" class="nav-item">
+            <a class="link-fade" href="#">Books</a>
+            <div id="menu-pane-ebooks" class="nav-items menu-dropdown-pane">
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/qstrader/">QSTrader</a>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/articles/">Articles</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/members/login/">Login</a>
+          </li>
+          
+        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<nav id="mobile-nav" class="mobile-nav text-left">
+  <div class="container">
+    <ul class="mt-4 ml-3 mobile-nav-menu">
+      <li class="nav-item">
+        <a class="link-fade d-block" href="/">QuantStart</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qsalpha/">QSAlpha</a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/quantcademy/">Quantcademy</a>
+      </li>
+      
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="#">Books</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qstrader/">QSTrader</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/articles/">Articles</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/members/login/">Login</a>
+      </li>
+      
+    </ul>
+    <button class="nav-toggle mobile-nav-close">
+      <svg id="mobile-nav-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M19.77,5.63,13.41,12l6.36,6.37a1,1,0,0,1-1.41,1.41L12,13.41,5.63,19.77a1,1,0,0,1-1.44-1.39l0,0L10.58,12,4.21,5.63a1,1,0,0,1,0-1.42,1,1,0,0,1,1.41,0l0,0L12,10.58l6.37-6.37a1,1,0,0,1,1.41,0A1,1,0,0,1,19.77,5.63Z"></path>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+  <div class="container hero-container">
+    <section class="mt-5 mb-4">
+      <div class="row justify-content-center">
+        <div class="col-12 text-center">
+          <p class="hero">Monte Carlo Simulations In CUDA - Barrier Option Pricing</p>
+          <p class="hero subhero">Monte Carlo Simulations In CUDA - Barrier Option Pricing</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</header>
+    
+<section class="container content-container">
+  <div class="row">
+    <div class="col-md-8 order-md-2">
+      <section class="content article-content">
+        
+        
+        <p>In this article, I will talk about how to write Monte Carlo simulations in CUDA. More specifically, I will explain how to carry it out step-by -step while writing the code for pricing a down-and-out barrier option, as its path dependency will make it a perfect example for us to learn Monte Carlo in CUDA. Also, I will show you how to efficiently generate random numbers with CUDA and how to measure performance with just a few lines of code.</p>
+
+<p>First, I will start with a brief theoretical introduction so if you already know how Monte Carlo methods and barrier options work, you can skip the following sections.</p>
+
+<h2>Barrier Options</h2>
+
+<p>A barrier option is an exotic derivative, part of the set of path-dependent options, whose payoff depends not only on the underlying price at maturity but also on whether the price line hit a pre-determined level.</p> 
+
+<p>There are different ways to determine this level and how the price can or cannot reach it. The first is the barrier level position in relation to the current underlying price (spot), so we have a first categorization "up" or "down". The second criterion can be "in" or "out", and it refers to what happens when the event "hit the level" is triggered.</p>
+
+<p>"In" means that the option starts to be active <strong>after</strong> having touched the barrier level. "Out" is the opposite, meaning that after triggering the event the option is no longer valid. Also, it could be "paired" with any kind of option. We could have a European option with barrier, as well as an American or an Asian one. Let's consider an example now.</p>
+
+<p>Suppose that we have a European option with a barrier. We can have any combination between <strong>call</strong> and <strong>put</strong>, <strong>in</strong> and <strong>out</strong>, <strong>up</strong> and <strong>down</strong>, which give us a total of $2^3 = 8$ different possible combinations, as we can see in the following table:</p>
+
+<p style="text-align:center;">
+  <img width="80%" alt="Possible combinations for a barrier option" src="https://s3.amazonaws.com/quantstartmedia/images/qs_cuda_MCbarrier_002.png">  
+</p>
+
+<p>Let's choose now a <strong>down-and-out call</strong>. That means that the barrier is currently <strong>lower</strong> than the spot price and our option is already active. As we can see in the following chart:</p>
+
+<p style="text-align:center;">    
+  <img width="80%" alt="Barrier example" src="https://s3.amazonaws.com/quantstartmedia/images/qs_cuda_MCbarrier_001.png">
+</p>
+        
+<p>The underlying price hits the barrier <strong>before</strong> the maturity making it invalid. Sometimes, as a kind of insurance, we can have a <strong>rebate</strong> price, which is a fixed amount of money, usually less than the option value, which we will receive in case our option expires due to hitting the barrier. Of course, this will also change the price of the option itself.</p>
+
+<p>In this article we will consider down-and-out barrier options <strong>without</strong> rebate, so that the payoff is given by:</p>
+
+\begin{eqnarray}
+(S_T - K)_{+},\;\; \text{if}\; S_t > B \;\; \forall t \leq T \\
+R = 0, \;\; \text{if}\; S_t \leq B \;\;\ \text{for at least one}\; t &lt; T
+\end{eqnarray}
+
+<p>where $R$ is the rebate price and $B$ the barrier level.</p>
+
+<h2>Monte Carlo Method</h2>
+
+<p>The Monte Carlo method is a well-known method in finance, as it lets us compute difficult, if not impossible, expected values of complex stochastic functions. Mike has already discussed the method in several articles regarding option pricing, but a few recap lines can be helpful for those that are new to it.</p>
+
+<p>The Monte Carlo method was first introduced in the field of physics, for complex simulations, very likely by <a href="http://en.wikipedia.org/wiki/Enrico_Fermi">Enrico Fermi</a> in the 1930s for studying neutron diffusion. It then became popular in the 1940s among physicists and mathematicians involved in creating bombs for the U.S. Army. The projects needed a code name, so <a href="http://en.wikipedia.org/wiki/John_von_Neumann">John Von Neumann</a> chose "Monte Carlo", referring to the famous Monte Carlo Casino. Since then, technology and especially computational power have increased dramatically, letting us use these methods for a large variety of problems.</p>
+
+<p>In finance the Monte Carlo method is mainly used for option pricing as, especially with exotic options, the payoff is sometimes too complex, if not impossible, to compute. The main idea behind it is quite simple: simulate the stochastic components in a formula and then average the results, leading to the expected value. Of course, the more simulations (paths) you make, the more accurate the result will be. A commonly accepted value for the minimum number of paths is $10^6$. That should give good results for most of the simulations. Otherwise, there are techniques that can reduce variance in order to make even more accurate predictions.</p>
+
+<p>Given the random nature of this process, variance reduction is not the only problem we can encounter. Another one, probably the most important, is how the random numbers are generated. There is an entire branch of mathematics talking about this and a detailed explanation is well beyond the purpose of this article, but we will see that CUDA can provide different efficient methods for generating random numbers by including the useful library <strong>curand</strong>.</p>
+
+<h2>Monte Carlo and the GPU</h2>
+
+<p>As the Monte Carlo method is basically a way to compute expected values by generating random scenarios and then averaging them, it is actually very efficient to parallelise. Moreover, with consumer CPUs on standard computers it is just not possible to reach the accuracy needed, as simulating over one million paths is usually very time consuming. With the GPU we can reduce this problem by parallelising the paths. That is, we can assign each path to a single thread, simulating thousands of them in parallel, with massive savings in computational power and time. At the end of this article I will show you the numerical results, making it quite obvious why it's better to run a Monte Carlo on a GPU.</p>
+    
+<p>
+  <img width="100%" alt="General Monte Carlo flow chart" src="https://s3.amazonaws.com/quantstartmedia/images/qs_cuda_MCbarrier_003.png">
+</p>
+       
+<h2>Monte Carlo and Path Dependency</h2>
+
+<p>First, let's see what and how to parallelise. In option pricing, usually the only variable that can assume random values is the underlying, so we only have to write a kernel that can generate a simulated value for the underlying and then calculate the option price. That's it. Sounds easy, but actually we have to cope with a couple of issues that we could have avoided for the pricing of a path-independent option.</p>
+
+<p>That is, as the barrier can be hit <strong>at any point in time</strong> we have to simulate step by step the changes in the underlying price, significantly reducing the code speed. Why? Let's say that we want to run an accurate Monte Carlo, which means more than one million paths. And let's say that we also want to use a reasonable proxy for price changes, i.e. only simulate daily changes. This means that we will have to generate 365*10^6 random numbers as well as perform 365 price computations one million times! Also, for more complex derivatives or for purposes other than learning, daily changes will likely not have sufficient granularity.</p>
+
+<h2>Underlying Price Simulation</h2>
+
+<p>Before having a look at the code, let me give you the last theoretical basis you need (if you don't know it already) to fully understand this method.</p>
+
+<p>For simulating the underlying price, we must discretise the underlying's changes. In this article, I will make use of the Euler method, as it's very easy to understand (and code up) and, despite the fact that it isn't the best method, it's still a good approximation for our needs.</p>
+
+\begin{eqnarray}
+dS_t = \mu S_t dt + \sigma S_t dW_t
+\end{eqnarray}
+
+<p>Now, if we see this as a finite difference, we can rewrite everything in the following way:</p>
+
+\begin{eqnarray}
+Y^{n+1} - Y^{n} = \mu Y^{n} \Delta t + \sigma Y^{n} \Delta W_t
+\end{eqnarray}
+
+<p>where:</p>
+
+<ul>
+  <li>$\mu$ is the expected return per year</li>
+  <li>$\sigma$ is the expected volatility per year</li>
+  <li>$T$ is the time to maturity</li>
+  <li>$dt$ is the amount of time elapsing at each step</li>
+  <li>$S_t$ and $S_{t-1}$ are the current and the previous prices</li>
+  <li>$dW$ is a random number distributed according to a normal distribution with mean 0 and variance $dt$ (i.e. the brownian motion component)</li>
+  <li>$Y$ is the price at the time step $n$, where $Y_0 = S_0$.</li>
+</ul>
+
+<p>Now we have to compute the changes. As you can see from the list above, the only random variable is $dW$. This variable is the only reason why we need to run a Monte Carlo simulation.</p>
+
+<p>Now we are ready to have a look at the code.</p>
+
+<h2>Time Measurement</h2>
+
+<p>First, in order to minimise the interruption of explaining the code, I would like to introduce this simple, yet effective, performance measurement tool. By typing:</p>
+
+<pre>
+<code class="language-cpp">clock()</code>
+</pre>
+
+<p>You can get the number of clock ticks elapsed since the program started. This is a C function and, as it can be affected by many factors, it's better to never use it alone. Instead you can compute the difference between two times and then get the time (in seconds) of a given task or code portion.</p>
+
+<p>For receiving the time and not just the clock ticks, you can divide that number by the number of clocks per second that your CPU is able to perform. Again, you can use a C instruction called <code>CLOCKS_PER_SEC</code> and store the result in a variable, as in the following:</p>
+
+<pre>
+<code class="language-cpp">double start_time = clock()/CLOCKS_PER_SEC;
+// routine
+double end_time = clock()/CLOCKS_PER_SEC;
+printf("Time elapsed: %d\n",end_time-start_time);</code>
+</pre>
+
+<p>This simple code will give you the exact time elapsed for the <code>// routine</code> part of the code. CUDA also provides a library for this purpose, but for now the C one is more than sufficient for us.</p>
+
+<h2>Random Number Generation in CUDA</h2>
+
+<p>CUDA provides efficient random number generators for a lot of different distributions via the library <code>curand.h</code>. In this case, as the Brownian motion evolves with normally distributed random steps, we will use the normal generator.</p>
+
+<p>The set of instructions is composed of at least four line of code, let's see them in detail:</p>
+
+<pre>
+<code class="language-cpp">curandGenerator_t curandGenerator;</code>
+</pre>
+
+<p>This first one is just a variable declaration, in which we are creating the new generator as a variable of type <code>curandGenerator_t</code>, called <code>curandGenerator</code>.</p>
+
+<p>Then we have to decide what kind of generator we would like to use, calling the function <code>curandCreateGenerator</code> by passing as first argument our generator variable and the name of the generator method. In this case I used the <a href="http://en.wikipedia.org/wiki/Mersenne_twister">Mersenne Twister</a> algorithm, which you can choose by typing <code>CURAND_RNG_PSEUDO_MTGP32</code> as the second argument, as in the following:</p>
+
+<pre>
+<code class="language-cpp">curandCreateGenerator(&amp;curandGenerator, CURAND_RNG_PSEUDO_MTGP32);</code>
+</pre>
+
+<p>Now we have to set the seed. Seeds are the "base" upon which the random series will be built, so depending on the seed you will have a different random number series. In this case I choose <code>1234ULL</code>, which means that a very long unsigned integer number will be used as a seed:</p>
+
+<pre>
+<code class="language-cpp">curandSetPseudoRandomGeneratorSeed(curandGenerator, 1234ULL);</code>
+</pre>
+
+<p>Now it's time to finally generate our normally distributed random numbers. We can do this by using the <code>curand</code> function <code>curandGenerateNormal</code>, which takes as inputs the curand generator, the output array (in which we want to store the numbers), the amount of numbers to generate, the mean of the distribution and its standard deviation. In this case, as we are talking about Brownian motion, we will need a normal distribution with mean 0 and variance $dt$.</p>
+
+<pre>
+<code class="language-cpp">curandGenerateNormal(curandGenerator, d_normals.getData(), N_NORMALS, 0.0f, sqrdt);</code>
+</pre>
+
+<p>Finally, you can destroy the generator using the function:</p>
+
+<pre>
+<code class="language-cpp">curandDestroyGenerator(curandGenerator);</code>
+</pre>
+
+<h2>Down-And-Out Call Pricing via the Monte Carlo Method</h2>
+
+<h3>Variable declaration</h3>
+
+<p>Now let's talk about the <code>main</code> part, looking at the code. At the end of this article you will find the complete code, so now I will explain it step by step.</p>
+
+<pre>
+<code class="language-cpp">#include &lt;stdio.h&gt;
+#include &lt;vector&gt;
+#include &lt;time.h&gt;
+#include &lt;math.h&gt;
+#include &lt;iostream&gt;
+#include &lt;time.h&gt;
+#include &lt;cuda_runtime.h&gt;
+#include "kernel.h"
+#include "dev_array.h"
+#include &lt;curand.h&gt;
+
+using namespace std;
+
+int main() {
+  try {
+    // declare variables and constants
+    const size_t N_PATHS = 5000000;
+    const size_t N_STEPS = 365;
+    const size_t N_NORMALS = N_PATHS*N_STEPS;
+
+    const float T = 1.0f;
+    const float K = 100.0f;
+    const float B = 95.0f;
+    const float S0 = 100.0f;
+    const float sigma = 0.2f;
+    const float mu = 0.1f;
+    const float r = 0.05f;
+
+    float dt = float(T)/float(N_STEPS);
+    float sqrdt = sqrt(dt);
+
+    // generate arrays
+    vector&lt;float&gt; s(N_PATHS);
+    dev_array&lt;float&gt; d_s(N_PATHS);
+    dev_array&lt;float&gt; d_normals(N_NORMALS);</code>
+</pre>
+
+<p>This first part consists of including libraries and variable declaration, but it is useful to notice a few choices I made. First, the <code>try</code> instruction: this is an additional error checking line, as if we have any problem, the program won't crash but will return the error information (using the instruction <code>catch</code> at the end of the code). This is good practice for longer programs and therefore a good habit to develop.</p>
+
+<p>Regarding the parameters, you can see that I divided them into different blocks, reflecting their differing nature. In the <strong>first</strong> one we can find the "dimensional constants", or rather the lengths of our arrays and loops. <code>N_PATHS</code> specifies the number of paths (or runs) that the Monte Carlo method will perform. In this case we have $5.0 \times 10^6$, which is a reasonable number for having a good precision in the estimation. Then, as aforementioned, I decided to compute daily changes, setting <code>N_STEPS = 365</code>. Therefore the number of normals we will need is <code>N_PATHS * N_STEPS</code>, as we will need 365 random changes for $5.0 \times 10^6$ simulations.</p>
+
+<p>That is a huge constraint for our precision, as this big array will have to be allocated in the GPU memory. So, we can choose to increase the precision of a single run (by increasing <code>N_STEPS</code>) or the overall accuracy (by increasing <code>N_PATHS</code>), until reaching the size limit for device allocation, which depends solely on your GPU. In this case I decided that 365 was a reasonable approximation, then I maximized <code>N_PATHS</code>, but feel free to experiment, as usually is the best way to learn!</p>
+
+<p>The second and the third blocks represent our input parameters. More specifically, the <strong>second</strong> is for constant declaration, in which constants are "market parameters" necessary for computing the option price, while the <strong>third</strong> block is for derived variables.</p>
+
+<p>The <strong>fourth</strong> is for array declarations. <code>s</code> is the host array that receives the final prices after they will be computed by the GPU, <code>d_s</code> is exactly the same array but for the device (GPU), and the last one is the array that contains the random numbers. <code>d_s</code> and <code>d_normals</code> are declared using the class <code>dev_array.h</code> that I showed in my <a href="http://www.quantstart.com/articles/dev_array_A_Useful_Array_Class_for_CUDA">previous article</a>. So, if you haven't read it already, it might be worth having a look at it, as it will be used several times for this script.</p>
+
+<h3>Calling the Kernel</h3>
+
+<pre>
+<code class="language-cpp">mc_dao_call(d_s.getData(), T, K, B, S0, sigma, mu, r, dt, d_normals.getData(), N_STEPS, N_PATHS);</code>
+</pre>
+
+<p>After having declared our variables and constants, and having generated the random numbers (see above), we can now call the kernel function. As usual (see the <a href="http://www.quantstart.com/articles/Vector-Addition-Hello-World-Example-with-CUDA-on-Mac-OSX">vector addition article</a>), I prefer to separate the .cu file with the kernel from the main. In this way, we can call this function, <code>mc_dao_call</code>, which will call the kernel in turn, after having specified its parameter, as we can see:</p>
+
+<pre>
+<code class="language-cpp">void mc_dao_call(
+    float * d_s,
+    float T,
+    float K,
+    float B,
+    float S0,
+    float sigma,
+    float mu,
+    float r,
+    float dt,
+    float * d_normals,
+    unsigned N_STEPS,
+    unsigned N_PATHS)
+    {
+        const unsigned BLOCK_SIZE = 1024;
+        const unsigned GRID_SIZE = ceil(float(N_PATHS) / float(BLOCK_SIZE));
+        mc_kernel&lt;&lt;&lt;GRID_SIZE, BLOCK_SIZE&gt;&gt;&gt;(
+            d_s, T, K, B, S0, sigma, mu, r, dt, d_normals, N_STEPS, N_PATHS
+        );
+    }</code>
+</pre>
+
+<p>I decided to use 1024 threads per block, even if I didn't notice significant changes in the performance between setting BLOCK_SIZE=1024 and BLOCK_SIZE=256 but, as we will have a lot of threads working (one for each path!), 1024 is a reasonable choice.</p>
+
+<p>As you can see, this function, included in the script <strong>kernel.cu</strong>, only sets the grid parameters and then calls the actual kernel. As it's a different script, we need to create a header file <strong>kernel.h</strong> in which we specify the function's parameters as follows:</p>
+
+<pre>
+<code class="language-cpp">#ifndef _KERNEL_CUH_
+#define _KERNEL_CUH_
+
+void mc_dao_call(float * d_s, float T, float K, float B, float S0, float sigma, float mu, float r, float dt, float* d_normals, unsigned N_STEPS, unsigned N_PATHS);
+#endif</code>
+</pre>
+
+<h3>Kernel</h3>
+
+<p>Now let's have a look at the most important part, the kernel. Here is the code that the GPU processes, so it's fundamental to understand how it works. This first part includes the header of the kernel function and the constant declaration regarding the positioning parameters:</p>
+
+<pre>
+<code class="language-cpp">__global__ void mc_kernel(
+    float * d_s,
+    float T,
+    float K,
+    float B,
+    float S0,
+    float sigma,
+    float mu,
+    float r,
+    float dt,
+    float * d_normals,
+    unsigned N_STEPS,
+    unsigned N_PATHS) {
+        const unsigned tid = threadIdx.x;
+        const unsigned bid = blockIdx.x;
+        const unsigned bsz = blockDim.x;</code>
+</pre>
+
+<p>Then we initialise the indexes, one for getting the normally distributed numbers and one for our price array. For the latter it's quite easy as it can be immediately seen that having a single thread working on each path we will have exactly <code>N_PATHS</code> threads, so we only have to get the thread index for indexing our price vector <code>d_s</code>. For <code>d_normals</code>, we start indexing them in the same way, but we will upgrade its index later in the code. So now we have our indexes:</p>
+
+<pre>
+<code class="language-cpp">int s_idx = tid + bid * bsz;
+int n_idx = tid + bid * bsz;</code>
+</pre>
+
+<p>Then we initialise the current price of the underlying at the spot price:</p>
+
+<pre>
+<code class="language-cpp">float s_curr = S0;</code>
+</pre>
+
+<p>So that now we are ready to start with the actual Monte Carlo loop.</p>
+
+<p>First, we need to be sure that no undesired thread will access our price array. Before the loop we have to check that the array index is lower than the maximum number of threads by wrapping the loop in this <code>if</code> statement:</p>
+
+<pre>
+<code class="language-cpp">if (s_idx&lt;N_PATHS){
+  ..
+}</code>
+</pre>
+
+<p>Second, we have to write a <strong>do/while loop</strong>. That's a bit different from the usual Monte Carlo methods, which make use of a normal <strong>for loop</strong> but it reflects the path-dependent nature of the barrier option. In fact if we hit the barrier our <strong>down-and-out</strong> option will no longer be active, so continuing to simulate that path to maturity wouldn't make sense anymore.</p>
+
+<pre>
+<code class="language-cpp">int n=0;
+do {
+    s_curr = s_curr + mu*s_curr*dt + sigma*s_curr*d_normals[n_idx];
+    n_idx ++;
+    n++;
+}
+while (n&lt;N_STEPS &amp;&amp; s_curr&gt;B);</code>
+</pre>
+
+<p>You can see here there are two conditions for staying in the loop: the first one is that the number of steps already made is lower than the maximum number of steps (365 in this case) allowed, while the second one is that the current price is still higher than the barrier.</p>
+
+<p>We then update the price making use of the Euler discretisation and after that we update our indexes. That is, we first update the normal array index <code>n_idx</code> and then the loop index <code>n</code>, that states which "day" the loop is computing.</p>
+
+<p>Using only 365 steps we are missing the cases in which the price fell under the barrier during a certain day and then closed higher than the barrier at the end of the day: this reduces the accuracy of the price but, as I already said, it's part of the trade-off between the accuracy of the expected value and the simulated price path, with your GPU capability acting as your only constraint.</p>
+
+<p>When we finally have our final path price (either at maturity or at the barrier level) we can compute the option payoff in the following way:</p>
+
+<pre>
+<code class="language-cpp">double payoff = (s_curr&gt;K ? s_curr-K : 0.0);
+__syncthreads();
+d_s[s_idx] = exp(-r*T) * payoff;</code>
+</pre>
+
+<p>Which is exactly the payoff of a plain vanilla call.</p>
+
+<h3>Expected Value Computation</h3>
+
+<p>Now we have to compute the expected value, averaging all the prices that we got from the kernel.</p>
+
+<p>First, we need to synchronize the device and to copy the prices from the device to the array.</p>
+
+<pre>
+<code class="language-cpp">cudaDeviceSynchronize();
+// copy results from device to host
+d_s.get(&amp;s[0], N_PATHS);</code>
+</pre>
+
+<p>The first is the usual CUDA standard method for synchronizing, while <code>d_s.get()</code> is the <a href="http://www.quantstart.com/articles/dev_array_A_Useful_Array_Class_for_CUDA">dev_array</a> function for copying data from device to host.</p>
+
+<p>What follows is the for loop for computing the price sum and, thus, our expected price value.</p>
+
+<pre>
+<code class="language-cpp">double temp_sum=0.0;
+for(size_t i=0; i&lt;N_PATHS; i++) {
+    temp_sum +=s[i];
+}
+temp_sum/=N_PATHS;</code>
+</pre>
+
+<p>Now we have the price of a down-and-out barrier option in CUDA computed via the Monte Carlo method. Notice that it can also compute a European call just by setting the barrier value to <strong>0.0f</strong>!</p>
+
+<p>The script also has two further blocks of code, one for computing the price with the CPU (for comparison) and the last one for displaying the results. The CPU Monte Carlo simulation is exactly the same as the kernel one, as you can see:</p>
+
+<pre>
+<code class="language-cpp">// init variables for CPU Monte Carlo
+vector&lt;float&gt; normals(N_NORMALS);
+d_normals.get(&amp;normals[0],N_NORMALS);
+double sum=0.0;
+float s_curr=0.0;
+
+// CPU Monte Carlo Simulation
+for (size_t i=0; i&lt;N_PATHS; i++){
+    int n_idx = i*N_STEPS;
+    s_curr=S0;
+    int n=0;
+    do {
+        s_curr = s_curr + mu*s_curr*dt + sigma*s_curr*normals[n_idx];
+        n_idx ++;
+        n++;
+    }
+    while (n&lt;N_STEPS &amp;&amp; s_curr&gt;B);
+    double payoff = (s_curr&gt;K ? s_curr-K : 0.0);
+    sum += exp(-r*T) * payoff;
+}
+sum/=N_PATHS;</code>
+</pre>
+
+<p>You can find the complete code, with the last part and the lines for displaying the output, at the end of this article. With these settings, and on my hardware, this is what I get:</p>
+
+<pre>
+<code class="language-none">****************** INFO ******************
+Number of Paths: 5000000
+Underlying Initial Price: 100
+Strike: 100
+Barrier: 95
+Time to Maturity: 1 years
+Risk-free Interest Rate: 0.05%
+Annual drift: 0.1%
+Volatility: 0.2%
+****************** PRICE ******************
+Option Price (GPU): 8.52652
+Option Price (CPU): 8.51663
+******************* TIME *****************
+GPU Monte Carlo Computation: 25.1978ms
+CPU Monte Carlo Computation: 13530 ms
+******************* END *****************</code>
+</pre>
+
+<p>We can see that the GPU implementation was roughly <strong>537x faster</strong> than the CPU one, including the memory allocation host to device.</p>
+
+<p>In future articles we will also talk about exploiting CUDA using different pricing methods, including multidimensional finite differences methods.</p>
+
+<h3>main.cpp</h3>
+
+<pre>
+<code class="language-cpp">#include &lt;stdio.h&gt;
+#include &lt;vector&gt;
+#include &lt;time.h&gt;
+#include &lt;math.h&gt;
+#include &lt;iostream&gt;
+#include &lt;time.h&gt;
+#include &lt;cuda_runtime.h&gt;
+#include "kernel.h"
+#include "dev_array.h"
+#include &lt;curand.h&gt;
+
+using namespace std;
+
+int main() {
+    try {
+        // declare variables and constants
+        const size_t N_PATHS = 100000;
+        const size_t N_STEPS = 365;
+        const size_t N_NORMALS = N_PATHS*N_STEPS;
+        const float T = 1.0f;
+        const float K = 100.0f;
+        const float B = 95.0f;
+        const float S0 = 100.0f;
+        const float sigma = 0.2f;
+        const float mu = 0.1f;
+        const float r = 0.05f;
+        float dt = float(T)/float(N_STEPS);
+        float sqrdt = sqrt(dt);
+
+        // generate arrays
+        vector&lt;float&gt; s(N_PATHS);
+        dev_array&lt;float&gt; d_s(N_PATHS);
+        dev_array&lt;float&gt; d_normals(N_NORMALS);
+        
+        // generate random numbers
+        curandGenerator_t curandGenerator;
+        curandCreateGenerator(&amp;curandGenerator, CURAND_RNG_PSEUDO_MTGP32);
+        curandSetPseudoRandomGeneratorSeed(curandGenerator, 1234ULL) ;
+        curandGenerateNormal(curandGenerator, d_normals.getData(), N_NORMALS, 0.0f, sqrdt);
+        double t2=double(clock())/CLOCKS_PER_SEC;
+
+        // call the kernel
+        mc_dao_call(d_s.getData(), T, K, B, S0, sigma, mu, r, dt, d_normals.getData(), N_STEPS, N_PATHS);
+        cudaDeviceSynchronize();
+
+        // copy results from device to host
+        d_s.get(&amp;s[0], N_PATHS);
+
+        // compute the payoff average
+        double temp_sum=0.0;
+        for(size_t i=0; i&lt;N_PATHS; i++) {
+            temp_sum +=s[i];
+        }
+        temp_sum/=N_PATHS;
+        double t4=double(clock())/CLOCKS_PER_SEC;
+
+        // init variables for CPU Monte Carlo
+        vector&lt;float&gt; normals(N_NORMALS);
+        d_normals.get(&amp;normals[0],N_NORMALS);
+        double sum=0.0;
+        float s_curr=0.0;
+
+        // CPU Monte Carlo Simulation
+        for (size_t i=0; i&lt;N_PATHS; i++) {
+            int n_idx = i*N_STEPS;
+
+            s_curr=S0;
+            int n=0;
+
+            do {
+                s_curr = s_curr + mu*s_curr*dt + sigma*s_curr*normals[n_idx];
+                n_idx ++;
+                n++;
+            }
+            while (n&lt;N_STEPS &amp;&amp; s_curr&gt;B);
+            
+            double payoff = (s_curr&gt;K ? s_curr-K : 0.0);
+            sum += exp(-r*T) * payoff;
+        }
+
+        sum/=N_PATHS;
+        double t5=double(clock())/CLOCKS_PER_SEC;
+
+        cout&lt;&lt;"****************** INFO ******************\n";
+        cout&lt;&lt;"Number of Paths: " &lt;&lt; N_PATHS &lt;&lt; "\n";
+        cout&lt;&lt;"Underlying Initial Price: " &lt;&lt; S0 &lt;&lt; "\n";
+        cout&lt;&lt;"Strike: " &lt;&lt; K &lt;&lt; "\n";
+        cout&lt;&lt;"Barrier: " &lt;&lt; B &lt;&lt; "\n";
+        cout&lt;&lt;"Time to Maturity: " &lt;&lt; T &lt;&lt; " years\n";
+        cout&lt;&lt;"Risk-free Interest Rate: " &lt;&lt; r &lt;&lt; "%\n";
+        cout&lt;&lt;"Annual drift: " &lt;&lt; mu &lt;&lt; "%\n";
+        cout&lt;&lt;"Volatility: " &lt;&lt; sigma &lt;&lt; "%\n";
+        cout&lt;&lt;"****************** PRICE ******************\n";
+        cout&lt;&lt;"Option Price (GPU): " &lt;&lt; temp_sum &lt;&lt; "\n";
+        cout&lt;&lt;"Option Price (CPU): " &lt;&lt; sum &lt;&lt; "\n";
+        cout&lt;&lt;"******************* TIME *****************\n";
+        cout&lt;&lt;"GPU Monte Carlo Computation: " &lt;&lt; (t3-t2)*1e3 &lt;&lt; " ms\n";
+        cout&lt;&lt;"CPU Monte Carlo Computation: " &lt;&lt; (t5-t4)*1e3 &lt;&lt; " ms\n";
+        cout&lt;&lt;"******************* END *****************\n";
+
+        // destroy generator
+        curandDestroyGenerator( curandGenerator ) ;
+    }
+    catch(exception&amp; e) {
+        cout&lt;&lt; "exception: " &lt;&lt; e.what() &lt;&lt; "\n";
+    }
+}</code>
+</pre>
+
+<h3>kernel.cu</h3>
+
+<pre>
+<code class="language-cpp">#include "kernel.h"
+
+__global__ void mc_kernel(
+    float * d_s,
+    float T,
+    float K,
+    float B,
+    float S0,
+    float sigma,
+    float mu,
+    float r,
+    float dt,
+    float * d_normals,
+    unsigned N_STEPS,
+    unsigned N_PATHS)
+    {
+        const unsigned tid = threadIdx.x;
+        const unsigned bid = blockIdx.x;
+        const unsigned bsz = blockDim.x;
+        int s_idx = tid + bid * bsz;
+        int n_idx = tid + bid * bsz;
+        float s_curr = S0;
+        if (s_idx&lt;N_PATHS) {
+            int n=0;
+            do {
+                s_curr = s_curr + mu*s_curr*dt + sigma*s_curr*d_normals[n_idx];
+                n_idx ++;
+                n++;
+            }
+            while (n&lt;N_STEPS &amp;&amp; s_curr&gt;B);
+            double payoff = (s_curr&gt;K ? s_curr-K : 0.0);
+            __syncthreads();
+            d_s[s_idx] = exp(-r*T) * payoff;
+        }
+    }
+
+    void mc_dao_call(
+        float * d_s,
+        float T,
+        float K,
+        float B,
+        float S0,
+        float sigma,
+        float mu,
+        float r,
+        float dt,
+        float * d_normals,
+        unsigned N_STEPS,
+        unsigned N_PATHS) {
+            const unsigned BLOCK_SIZE = 1024;
+            const unsigned GRID_SIZE = ceil(float(N_PATHS) / float(BLOCK_SIZE));
+            mc_kernel&lt;&lt;&lt;GRID_SIZE, BLOCK_SIZE&gt;&gt;&gt;(
+            d_s, T, K, B, S0, sigma, mu, r, dt, d_normals, N_STEPS, N_PATHS);
+        }</code>
+</pre>
+        
+        
+        <script async data-uid="6296c27f4b" src="https://weathered-brook-5281.ck.page/6296c27f4b/index.js"></script>
+      </section>
+    </div>
+    <div class="col-md-4 book-card order-md-1">
+      
+<div class="sidebar-advert-container">
+  <a href="/qsalpha/?ref=art">
+    <img class="card-img-top" src="/static/images/qsalpha-sidebar-advert-small.png" alt="QSAlpha">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/qsalpha/?ref=art">QSAlpha</a></h3>
+      <p class="card-text medium-text mb-3">Join the QSAlpha research platform that helps fill your strategy research pipeline, diversifies your portfolio and improves your risk-adjusted returns for increased profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/qsalpha/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/quantcademy/?ref=art">
+    <img class="card-img-top" src="/static/images/quantcademy-sidebar-advert-small.png" alt="Quantcademy">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/quantcademy/?ref=art">The Quantcademy</a></h3>
+      <p class="card-text medium-text mb-3">Join the Quantcademy membership portal that caters to the rapidly-growing retail quant trader community and learn how to increase your strategy profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/quantcademy/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/successful-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/sat-sidebar-advert-small.png" alt="Successful Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to find new trading strategy ideas and objectively assess them for your portfolio using a Python-based backtesting engine.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/successful-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/advanced-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/aat-sidebar-advert-small.png" alt="Advanced Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to implement advanced trading strategies using time series analysis, machine learning and Bayesian statistics with R and Python.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/advanced-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+    
+
+<footer>
+  <div class="container container-full">
+    <section class="mt-1.5 mb-1">
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">QuantStart</li>
+            <li class="footer-list-link"><a class="link-fade" href="/about/">About</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/articles/">Articles</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/sitemap/">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Products</li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qsalpha/">QSAlpha</a></li>
+            
+            
+            <li class="footer-list-link"><a class="link-fade" href="/quantcademy/">Quantcademy</a></li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qstrader/">QSTrader</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Legal</li>
+            <li class="footer-list-link"><a class="link-fade" href="/privacy-policy/">Privacy Policy</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/terms-and-conditions/">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Social</li>
+            <li class="footer-list-link"><a class="link-fade" href="https://twitter.com/quantstart">Twitter</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="https://www.youtube.com/channel/UCmVnnZ6Y2TrJtY1eQJN6kWA">YouTube</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="row mb-1.5 mt-5">
+      <div class="col-12 col-md-9 col-lg-8 col-xl-6">
+        <div class="footer-copyright">
+          <p>©2012-2023 QuarkGluon Ltd. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+<script src="/static/js/jquery-3.2.1.min.js"></script>
+<script src="/static/js/prism.js.min"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/nav.js"></script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5383959-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+    
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="/static/js/highcharts/highcharts.js"></script>
+<script type="text/javascript">
+  num_colours = 10;
+</script>
+<script src="/static/js/statistics.js"></script>
+
+
+  </body>
+</html>

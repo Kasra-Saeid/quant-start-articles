@@ -1,0 +1,658 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-site-verification" content="wl3-8ed1QZjI0iYZMv10zoZWYElkMObTfwLlWIj9cpA" />
+    <meta name="description" content="Dynamic Hedge Ratio Between ETF Pairs Using the Kalman Filter">
+
+    <link rel="icon" href="/static/images/favicon.png">
+
+    <title>Dynamic Hedge Ratio Between ETF Pairs Using the Kalman Filter | QuantStart</title>
+    
+    
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet"> 
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/prism.css" rel="stylesheet">
+<link href="/static/css/qs.css?v=10" rel="stylesheet">
+    
+  </head>
+
+  <body>
+    <header class="header covered-header" style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://quantstartmedia.s3.amazonaws.com/images/article-images/article-backgrounds/default-bg.jpg);">
+  
+<nav class="nav">
+  <div class="container nav-container">
+    <div class="nav-row row d-flex justify-content-between align-items-center">
+      <div class="col-2">
+        <ul class="nav-items justify-content-end small-capitals align-items-center">
+          <li class="nav-item">
+            <a class="link-fade" href="/">QuantStart</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-auto col-logo">
+        <ul id="top-nav-menu" class="nav-items justify-content-end align-items-center">
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/qsalpha/">QSAlpha</a>
+          </li>
+          
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/quantcademy/">Quantcademy</a>
+          </li>
+          
+          <li id="menu-link-ebooks" class="nav-item">
+            <a class="link-fade" href="#">Books</a>
+            <div id="menu-pane-ebooks" class="nav-items menu-dropdown-pane">
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/qstrader/">QSTrader</a>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/articles/">Articles</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/members/login/">Login</a>
+          </li>
+          
+        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<nav id="mobile-nav" class="mobile-nav text-left">
+  <div class="container">
+    <ul class="mt-4 ml-3 mobile-nav-menu">
+      <li class="nav-item">
+        <a class="link-fade d-block" href="/">QuantStart</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qsalpha/">QSAlpha</a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/quantcademy/">Quantcademy</a>
+      </li>
+      
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="#">Books</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qstrader/">QSTrader</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/articles/">Articles</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/members/login/">Login</a>
+      </li>
+      
+    </ul>
+    <button class="nav-toggle mobile-nav-close">
+      <svg id="mobile-nav-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M19.77,5.63,13.41,12l6.36,6.37a1,1,0,0,1-1.41,1.41L12,13.41,5.63,19.77a1,1,0,0,1-1.44-1.39l0,0L10.58,12,4.21,5.63a1,1,0,0,1,0-1.42,1,1,0,0,1,1.41,0l0,0L12,10.58l6.37-6.37a1,1,0,0,1,1.41,0A1,1,0,0,1,19.77,5.63Z"></path>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+  <div class="container hero-container">
+    <section class="mt-5 mb-4">
+      <div class="row justify-content-center">
+        <div class="col-12 text-center">
+          <p class="hero">Dynamic Hedge Ratio Between ETF Pairs Using the Kalman Filter</p>
+          <p class="hero subhero">Dynamic Hedge Ratio Between ETF Pairs Using the Kalman Filter</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</header>
+    
+<section class="container content-container">
+  <div class="row">
+    <div class="col-md-8 order-md-2">
+      <section class="content article-content">
+        
+        
+        <p>A common quant trading technique involves taking two assets that form a cointegrating relationship and utilising a mean-reverting approach to construct a trading strategy. This can be carried out by performing a linear regression between the two assets (such as a pair of ETFs) and using this to determine how much of each asset to long and short at particular thresholds.</p>
+
+<p>One of the major concerns with such a strategy is that any parameters introduced via this structural relationship, such as the hedging ratio between the two assets, are likely to be time-varying. That is, they are not fixed throughout the period of the strategy. In order to improve profitability it would be useful if we could determine a mechanism for adjusting the hedging ratio over time.</p>
+
+<p>One approach to this problem is to utilise a rolling linear regression with a lookback window. This involves updating the linear regression on every bar so that the slope and intercept terms "follow" the latest behaviour of the cointegration relationship. However it also introduces another free parameter into the strategy, namely the lookback window length. This must be optimised, often via <a href="https://www.quantstart.com/articles/Using-Cross-Validation-to-Optimise-a-Machine-Learning-Method-The-Regression-Setting">cross-validation</a>.</p>
+
+<p>A more sophisticated approach is to utilise a <a href="https://www.quantstart.com/articles/State-Space-Models-and-the-Kalman-Filter">state space model</a> that treats the "true" hedge ratio as an unobserved hidden variable and attempts to estimate it with "noisy" observations. In our case this means the pricing data of each asset.</p>
+
+<p>The Kalman Filter performs exactly this task. In a <a href="https://www.quantstart.com/articles/State-Space-Models-and-the-Kalman-Filter">previous article</a> we had an in-depth look at the Kalman Filter and how it could be viewed as a Bayesian updating process.</p>
+
+<p>In this article we are going to make use of the Kalman Filter, via the <a href="https://pykalman.github.io/">pykalman</a> Python library, to help us dynamically estimate the slope and intercept (and hence hedging ratio) between a pair of ETFs.</p>
+
+<p>This technique will ultimately be backtested with the new <a href="https://github.com/mhallsmoore/qstrader">QSTrader open-source trading system</a>, which will enable us to see how performance of such a strategy has changed in the last few years.</p>
+
+<p><em>The plots in this post were largely inspired by, and extended from a <a href="http://www.thealgoengineer.com/2014/online_linear_regression_kalman_filter/">post</a> written by Aidan O'Mahoney, who runs <a href="http://www.thealgoengineer.com/">The Algo Engineer</a> blog.</em></p>
+
+<h2>Brief Recap of the Kalman Filter</h2>
+
+<p>If you want to read a more mathematically in-depth article about the Kalman Filter, please take a look at the <a href="https://www.quantstart.com/articles/State-Space-Models-and-the-Kalman-Filter">previous article</a>. I'll briefly recap the key points here.</p>
+
+<p>The state space model we are going to use consists of two matrix equations. The first is known as the <em>state</em> or <em>transition</em> equation and describes how a set of state variables, $\theta_t$ are changed from one time period to the next. There is a linear dependence on the previous state given by the transition matrix $G_t$ as well as a normally-distributed <em>system noise</em> $w_t$. Note that $G=G_t$, which in the general sense means that the transition matrix is itself time dependent:</p>
+
+<p>
+\begin{eqnarray}
+\theta_t = G_t \theta_{t-1} + w_t
+\end{eqnarray}
+</p>
+
+<p>However, these states are often unobservable and we might only get access to <em>observations</em> at each time index, which are given by $y_t$. The observations also have an associated observation equation which includes a linear component via the observation matrix $F_t$, as well as a <em>measurement noise</em>, also normally distributed, given by $v_t$:</p>
+
+<p>
+\begin{eqnarray}
+y_t = F_t \theta_t + v_t
+\end{eqnarray}
+</p>
+
+<p>For more details on the state space model and the Kalman Filter please refer to my <a href="https://www.quantstart.com/articles/State-Space-Models-and-the-Kalman-Filter">previous article</a>.</p>
+
+<h2>Incorporating Linear Regression into a Kalman Filter</h2>
+
+<p>The main question at this stage is how do we utilise this state space model to incorporate the information in a linear regression?</p>
+
+<p>If we recall from the <a href="https://www.quantstart.com/articles/Maximum-Likelihood-Estimation-for-Linear-Regression">previous article on the MLE for linear regression</a> we know that a multiple linear regression states that a response value $y$ is a linear function of its feature inputs ${\bf x}$:</p>
+
+<p>
+\begin{eqnarray}
+y({\bf x}) = \beta^T {\bf x} + \epsilon
+\end{eqnarray}
+</p>
+
+<p>Where $\beta^T = (\beta_0, \beta_1, \ldots, \beta_p)$ represents the transpose vector of the intercept $\beta_0$ and slopes $\beta_i$, with $\epsilon \sim \mathcal{N}(\mu, \sigma^2)$ represents the error term.</p>
+
+<p>Since we are in a one-dimensional setting we can simply write $\beta^T = (\beta_0, \beta_1)$ and ${\bf x} = \begin{pmatrix} 1 \\ x \end{pmatrix}$.</p>
+
+<p>We set the (hidden) states of our system to be given by the vector $\beta^T$, that is the intercept and slope of our linear regression. The next step is to assume that tomorrow's intercept and slope are equal to today's intercept and slope with the addition of some random system noise. This gives it the nature of a random walk, the behaviour of which is discussed at length in the <a href="https://www.quantstart.com/articles/White-Noise-and-Random-Walks-in-Time-Series-Analysis">previous article on white noise and random walks</a>:</p>
+
+<p>
+\begin{eqnarray}
+\beta_{t+1} ={\bf I} \beta_{t} + w_t
+\end{eqnarray}
+</p>
+
+<p>Where the transition matrix is set to the two-dimensional indentify matrix, $G_t = {\bf I}$. This is one half of the state space model. The next step is to actually use one of the ETFs in the pair as the "observations".</p>
+
+<h2>Applying the Kalman Filter to a Pair of ETFs</h2>
+
+<p>To form the observation equation it is necessary to choose one of the ETF pricing series to be the "observed" variables, $y_t$, and the other to be given by $x_t$, which provides the linear regression formulation as above:</p>
+
+<p>
+\begin{eqnarray}
+y_t &=& F_t {\bf x}_t + v_t \\
+    &=& (\beta_0, \beta_1 ) \begin{pmatrix} 1 \\ x_t \end{pmatrix} + v_t
+\end{eqnarray}
+</p>
+
+<p>Thus we have the linear regression reformulated as a state space model, which allows us to estimate the intercept and slope as new price points arrive via the Kalman Filter.</p>
+
+<h3>TLT and ETF</h3>
+
+<p>We are going to consider two fixed income ETFs, namely the <a href="https://www.ishares.com/us/products/239454/ishares-20-year-treasury-bond-etf">iShares 20+ Year Treasury Bond ETF (TLT)</a> and the <a href="https://www.ishares.com/us/products/239455/ishares-37-year-treasury-bond-etf">iShares 3-7 Year Treasury Bond ETF (IEI)</a>. Both of these ETFs track the performance of varying duration US Treasury bonds and as such are both exposed to similar market factors. We will analyse their regression behaviour over the last five years or so.</p>
+
+<h3>Scatterplot of ETF Prices</h3>
+
+<p>We are now going to use a variety of Python libraries, including numpy, matplotlib, pandas and pykalman to to analyse the behaviour of a dynamic linear regression between these two securities. As with all Python programs the first task is to import the necessary libraries:</p>
+
+<pre>
+<code class="language-python">from __future__ import print_function
+
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+from pandas.io.data import DataReader
+from pykalman import KalmanFilter</code>
+</pre>
+
+<p><em>Note: You will likely need to run <code>pip install pykalman</code> to install the PyKalman library.</em></p>
+
+<p>The next step is write the function <code>draw_date_coloured_scatterplot</code> to produce a scatterplot of the asset adjusted closing prices (such a scatterplot is inspired by that produced by <a href="http://www.thealgoengineer.com/2014/online_linear_regression_kalman_filter/">Aidan O'Mahony</a>). The scatterplot will be coloured using a matplotlib colour map, specifically "Yellow To Red", where yellow represents price pairs closer to 2010, while red represents price pairs closer to 2016:</p>
+
+<pre>
+<code class="language-python">def draw_date_coloured_scatterplot(etfs, prices):
+    """
+    Create a scatterplot of the two ETF prices, which is
+    coloured by the date of the price to indicate the 
+    changing relationship between the sets of prices    
+    """
+    # Create a yellow-to-red colourmap where yellow indicates
+    # early dates and red indicates later dates
+    plen = len(prices)
+    colour_map = plt.cm.get_cmap('YlOrRd')    
+    colours = np.linspace(0.1, 1, plen)
+    
+    # Create the scatterplot object
+    scatterplot = plt.scatter(
+        prices[etfs[0]], prices[etfs[1]], 
+        s=30, c=colours, cmap=colour_map, 
+        edgecolor='k', alpha=0.8
+    )
+    
+    # Add a colour bar for the date colouring and set the 
+    # corresponding axis tick labels to equal string-formatted dates
+    colourbar = plt.colorbar(scatterplot)
+    colourbar.ax.set_yticklabels(
+        [str(p.date()) for p in prices[::plen//9].index]
+    )
+    plt.xlabel(prices.columns[0])
+    plt.ylabel(prices.columns[1])
+    plt.show()</code>
+</pre>
+
+<p>I've commented the code so it should be fairly straightforward to see what all of the commands are doing. The main work is being done within the <code>colour_map</code>, <code>colours</code> and <code>scatterplot</code> variables. It produces the following plot:</p>
+
+<p style="text-align:center">
+  <img src="https://s3.amazonaws.com/quantstartmedia/images/qs-kalman-scatterplot.png" width="100%" />
+  <strong>Scatterplot of the fixed income ETFs, TFT vs IEI</strong>
+</p>
+
+<h3>Time-Varying Slope and Intercept</h3>
+
+<p>The next step is to actually use pykalman to dynamically adjust the intercept and slope between TFT and IEI. This function is more complex and requires some explanation.</p>
+
+<p>Firstly we define a variable called <code>delta</code>, which is used to control the transition covariance for the system noise. In my <a href="https://www.quantstart.com/articles/State-Space-Models-and-the-Kalman-Filter">original article on the Kalman Filter</a> this was denoted by $W_t$. We simply multiply such a value by the two-dimensional identity matrix.</p>
+
+<p>The next step is to create the observation matrix. As we previously described this matrix is a row vector consisting of the prices of TFT and a sequence of unity values. To construct this we utilise the numpy <code>vstack</code> method to vertically stack these two price series into a single column vector, which we then transpose.</p>
+
+<p>At this point we use the <code>KalmanFilter</code> class from pykalman to create the Kalman Filter instance. We supply it with the dimensionality of the observations (unity in this case), the dimensionality of the states (two in this case as we are looking at the intercept and slope in the linear regression).</p>
+
+<p>We also need to supply the mean and covariance of the initial state. In this instance we set the initial state mean to be zero for both intercept and slope, while we take the two-dimensional identity matrix for the initial state covariance. The transition matrices are also given by the two-dimensional identity matrix.</p>
+
+<p>The last terms to specify are the observation matrices as above in <code>obs_mat</code>, with its covariance equal to unity. Finally the transition covariance matrix (controlled by <code>delta</code>) is given by <code>trans_cov</code>, described above.</p>
+
+<p>Now that we have the <code>kf</code> Kalman Filter instance we can use it to filter based on the adjusted prices from IEI. This provides us with the state means of the intercept and slope, which is what we're after. In addition we also receive the covariances of the states.</p>
+
+<p>This is all wrapped up in the <code>calc_slope_intercept_kalman</code> function:</p>
+
+<pre>
+<code class="language-python">def calc_slope_intercept_kalman(etfs, prices):
+    """
+    Utilise the Kalman Filter from the pyKalman package
+    to calculate the slope and intercept of the regressed
+    ETF prices.
+    """
+    delta = 1e-5
+    trans_cov = delta / (1 - delta) * np.eye(2)
+    obs_mat = np.vstack(
+        [prices[etfs[0]], np.ones(prices[etfs[0]].shape)]
+    ).T[:, np.newaxis]
+    
+    kf = KalmanFilter(
+        n_dim_obs=1, 
+        n_dim_state=2,
+        initial_state_mean=np.zeros(2),
+        initial_state_covariance=np.ones((2, 2)),
+        transition_matrices=np.eye(2),
+        observation_matrices=obs_mat,
+        observation_covariance=1.0,
+        transition_covariance=trans_cov
+    )
+    
+    state_means, state_covs = kf.filter(prices[etfs[1]].values)
+    return state_means, state_covs</code>
+</pre>
+
+<p>Finally we plot these values as returned from the previous function. To achieve this we simply create a pandas DataFrame of the slopes and intercepts at time values $t$, using the index from the <code>prices</code> DataFrame, and plot each column as a subplot:</p>
+
+<pre>
+<code class="language-python">def draw_slope_intercept_changes(prices, state_means):
+    """
+    Plot the slope and intercept changes from the 
+    Kalman Filte calculated values.
+    """
+    pd.DataFrame(
+        dict(
+            slope=state_means[:, 0], 
+            intercept=state_means[:, 1]
+        ), index=prices.index
+    ).plot(subplots=True)
+    plt.show()</code>
+</pre>
+
+<p>The output is given as follows:</p>
+
+<p style="text-align:center">
+  <img src="https://s3.amazonaws.com/quantstartmedia/images/qs-kalman-dynamic-lin-reg.png" width="100%" />
+  <strong>Time-varying slope and intercept of a linear regression between ETFs TFT and IEI</strong>
+</p>
+
+<p>Clearly the time-varying slope changes dramatically over the 2011 to 2016 period, dropping from around 1.38 in 2011 to around 0.9 in 2016. It is not difficult to see that utilising a fixed hedge ratio in a pairs trading strategy would be far too rigid.</p>
+
+<p>In addition the estimate of the slope is relatively noisy. This can be controlled by the <code>delta</code> variable given in the code above but has the effect of also reducing the responsiveness of the filter to changes in the "true" unobserved hedge ratio between the two ETFs.</p>
+
+<p>When we come to develop a trading strategy it will be necessary to optimise this parameter <code>delta</code> across baskets of pairs of ETFs utilising cross-validation once again.</p>
+
+<h2>Next Steps</h2>
+
+<p>Now that we've been able to construct a dynamic hedging ratio between the two ETFs, we need a way to actually carry out a trading strategy based off of this information. The next article in the series will make use of <a href="https://github.com/mhallsmoore/qstrader">QSTrader</a> to perform a backtest on various pairs in order to see how performance changes when parameters and time periods are varied.</p>
+
+<h2>Bibliographic Note</h2>
+
+<p>Utilising the Kalman Filter for "online linear regression" has been carried out by many quant trading individuals. Ernie Chan utilises the technique in his book<sup><a href="#ref-chan">[1]</a></sup> to estimate the dynamic linear regression coefficients between the two ETFs: EWA and EWC.</p>
+
+<p>Aidan O'Mahony used matplotlib and pykalman to also estimate the regression coefficients in his post<sup><a href="#ref-omahony">[2]</a></sup>, which inspired the diagrams for this current article.</p>
+
+<p>Jonathan Kinlay discusses the application of the Kalman Filter to simulated financial data<sup><a href="#ref-kinlay">[3]</a></sup> and suggests that it might be advisable to use the KF to suppress trade signals generated at in periods of high noise, or increase allocations to pairs where the noise is low.</p>
+
+<p>An introductory discussion about the Kalman Filter, using the R programming language, can be found in Cowpertwait and Metcalfe<sup><a href="#ref-cowpertwait">[4]</a></sup>.</p>
+
+<h2>References</h2>
+
+<ul>
+  <li><a name="ref-chan" href="http://amzn.to/2bbQW5p">[1] Chan, E.P. (2013). <em>Algorithmic Trading: Winning Strategies and Their Rationale.</em></a></li>
+  <li><a name="ref-omahony" href="http://www.thealgoengineer.com/2014/online_linear_regression_kalman_filter/">[2] O'Mahony, A. (2014). <em>Online Linear Regression using a Kalman Filter</em></a></li>
+  <li><a name="ref-kinlay" href="http://jonathankinlay.com/2015/02/statistical-arbitrage-using-kalman-filter/">[3] Kinlay, J. (2015). <em>Statistical Arbitrage Using the Kalman Filter</em></a></li>
+  <li><a name="ref-cowpertwait" href="http://amzn.to/2aUCBJF">[4] Cowpertwait, P.S.P. and Metcalfe, A.V. (2009). <em>Introductory Time Series with R.</em></a></li>
+  <li><a name="ref-pole" href="http://amzn.to/2aUBxWC">[5] Pole, A., West, M., and Harrison, J. (1994). <em>Applied Bayesian Forecasting.</em></a></li>
+</ul>
+
+<h2>Full Code</h2>
+
+<pre>
+<code class="language-python">from __future__ import print_function
+
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+from pandas.io.data import DataReader
+from pykalman import KalmanFilter
+
+
+def draw_date_coloured_scatterplot(etfs, prices):
+    """
+    Create a scatterplot of the two ETF prices, which is
+    coloured by the date of the price to indicate the 
+    changing relationship between the sets of prices    
+    """
+    # Create a yellow-to-red colourmap where yellow indicates
+    # early dates and red indicates later dates
+    plen = len(prices)
+    colour_map = plt.cm.get_cmap('YlOrRd')    
+    colours = np.linspace(0.1, 1, plen)
+    
+    # Create the scatterplot object
+    scatterplot = plt.scatter(
+        prices[etfs[0]], prices[etfs[1]], 
+        s=30, c=colours, cmap=colour_map, 
+        edgecolor='k', alpha=0.8
+    )
+    
+    # Add a colour bar for the date colouring and set the 
+    # corresponding axis tick labels to equal string-formatted dates
+    colourbar = plt.colorbar(scatterplot)
+    colourbar.ax.set_yticklabels(
+        [str(p.date()) for p in prices[::plen//9].index]
+    )
+    plt.xlabel(prices.columns[0])
+    plt.ylabel(prices.columns[1])
+    plt.show()
+
+
+def calc_slope_intercept_kalman(etfs, prices):
+    """
+    Utilise the Kalman Filter from the pyKalman package
+    to calculate the slope and intercept of the regressed
+    ETF prices.
+    """
+    delta = 1e-5
+    trans_cov = delta / (1 - delta) * np.eye(2)
+    obs_mat = np.vstack(
+        [prices[etfs[0]], np.ones(prices[etfs[0]].shape)]
+    ).T[:, np.newaxis]
+    
+    kf = KalmanFilter(
+        n_dim_obs=1, 
+        n_dim_state=2,
+        initial_state_mean=np.zeros(2),
+        initial_state_covariance=np.ones((2, 2)),
+        transition_matrices=np.eye(2),
+        observation_matrices=obs_mat,
+        observation_covariance=1.0,
+        transition_covariance=trans_cov
+    )
+    
+    state_means, state_covs = kf.filter(prices[etfs[1]].values)
+    return state_means, state_covs    
+    
+
+def draw_slope_intercept_changes(prices, state_means):
+    """
+    Plot the slope and intercept changes from the 
+    Kalman Filte calculated values.
+    """
+    pd.DataFrame(
+        dict(
+            slope=state_means[:, 0], 
+            intercept=state_means[:, 1]
+        ), index=prices.index
+    ).plot(subplots=True)
+    plt.show()
+
+
+if __name__ == "__main__":
+    # Choose the ETF symbols to work with along with 
+    # start and end dates for the price histories
+    etfs = ['TLT', 'IEI']
+    start_date = "2010-8-01"
+    end_date = "2016-08-01"    
+    
+    # Obtain the adjusted closin prices from Yahoo finance
+    prices = DataReader(
+        etfs, 'yahoo', start_date, end_date
+    )['Adj Close']
+
+    draw_date_coloured_scatterplot(etfs, prices)
+    state_means, state_covs = calc_slope_intercept_kalman(etfs, prices)
+    draw_slope_intercept_changes(prices, state_means)</code>
+</pre>
+        
+        
+        <script async data-uid="6296c27f4b" src="https://weathered-brook-5281.ck.page/6296c27f4b/index.js"></script>
+      </section>
+    </div>
+    <div class="col-md-4 book-card order-md-1">
+      
+<div class="sidebar-advert-container">
+  <a href="/qsalpha/?ref=art">
+    <img class="card-img-top" src="/static/images/qsalpha-sidebar-advert-small.png" alt="QSAlpha">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/qsalpha/?ref=art">QSAlpha</a></h3>
+      <p class="card-text medium-text mb-3">Join the QSAlpha research platform that helps fill your strategy research pipeline, diversifies your portfolio and improves your risk-adjusted returns for increased profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/qsalpha/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/quantcademy/?ref=art">
+    <img class="card-img-top" src="/static/images/quantcademy-sidebar-advert-small.png" alt="Quantcademy">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/quantcademy/?ref=art">The Quantcademy</a></h3>
+      <p class="card-text medium-text mb-3">Join the Quantcademy membership portal that caters to the rapidly-growing retail quant trader community and learn how to increase your strategy profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/quantcademy/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/successful-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/sat-sidebar-advert-small.png" alt="Successful Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to find new trading strategy ideas and objectively assess them for your portfolio using a Python-based backtesting engine.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/successful-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/advanced-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/aat-sidebar-advert-small.png" alt="Advanced Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to implement advanced trading strategies using time series analysis, machine learning and Bayesian statistics with R and Python.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/advanced-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+    
+
+<footer>
+  <div class="container container-full">
+    <section class="mt-1.5 mb-1">
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">QuantStart</li>
+            <li class="footer-list-link"><a class="link-fade" href="/about/">About</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/articles/">Articles</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/sitemap/">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Products</li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qsalpha/">QSAlpha</a></li>
+            
+            
+            <li class="footer-list-link"><a class="link-fade" href="/quantcademy/">Quantcademy</a></li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qstrader/">QSTrader</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Legal</li>
+            <li class="footer-list-link"><a class="link-fade" href="/privacy-policy/">Privacy Policy</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/terms-and-conditions/">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Social</li>
+            <li class="footer-list-link"><a class="link-fade" href="https://twitter.com/quantstart">Twitter</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="https://www.youtube.com/channel/UCmVnnZ6Y2TrJtY1eQJN6kWA">YouTube</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="row mb-1.5 mt-5">
+      <div class="col-12 col-md-9 col-lg-8 col-xl-6">
+        <div class="footer-copyright">
+          <p>©2012-2023 QuarkGluon Ltd. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+<script src="/static/js/jquery-3.2.1.min.js"></script>
+<script src="/static/js/prism.js.min"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/nav.js"></script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5383959-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+    
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="/static/js/highcharts/highcharts.js"></script>
+<script type="text/javascript">
+  num_colours = 10;
+</script>
+<script src="/static/js/statistics.js"></script>
+
+
+  </body>
+</html>

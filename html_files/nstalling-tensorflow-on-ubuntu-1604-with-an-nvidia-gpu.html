@@ -1,0 +1,620 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-site-verification" content="wl3-8ed1QZjI0iYZMv10zoZWYElkMObTfwLlWIj9cpA" />
+    <meta name="description" content="Installing TensorFlow on Ubuntu 16.04 with an Nvidia GPU">
+
+    <link rel="icon" href="/static/images/favicon.png">
+
+    <title>Installing TensorFlow on Ubuntu 16.04 with an Nvidia GPU | QuantStart</title>
+    
+    
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet"> 
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/prism.css" rel="stylesheet">
+<link href="/static/css/qs.css?v=10" rel="stylesheet">
+    
+  </head>
+
+  <body>
+    <header class="header covered-header" style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://quantstartmedia.s3.amazonaws.com/images/article-images/installing-tensorflow-on-ubuntu-1604-with-an-nvidia-gpu.jpg);">
+  
+<nav class="nav">
+  <div class="container nav-container">
+    <div class="nav-row row d-flex justify-content-between align-items-center">
+      <div class="col-2">
+        <ul class="nav-items justify-content-end small-capitals align-items-center">
+          <li class="nav-item">
+            <a class="link-fade" href="/">QuantStart</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-auto col-logo">
+        <ul id="top-nav-menu" class="nav-items justify-content-end align-items-center">
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/qsalpha/">QSAlpha</a>
+          </li>
+          
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/quantcademy/">Quantcademy</a>
+          </li>
+          
+          <li id="menu-link-ebooks" class="nav-item">
+            <a class="link-fade" href="#">Books</a>
+            <div id="menu-pane-ebooks" class="nav-items menu-dropdown-pane">
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/qstrader/">QSTrader</a>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/articles/">Articles</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/members/login/">Login</a>
+          </li>
+          
+        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<nav id="mobile-nav" class="mobile-nav text-left">
+  <div class="container">
+    <ul class="mt-4 ml-3 mobile-nav-menu">
+      <li class="nav-item">
+        <a class="link-fade d-block" href="/">QuantStart</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qsalpha/">QSAlpha</a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/quantcademy/">Quantcademy</a>
+      </li>
+      
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="#">Books</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qstrader/">QSTrader</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/articles/">Articles</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/members/login/">Login</a>
+      </li>
+      
+    </ul>
+    <button class="nav-toggle mobile-nav-close">
+      <svg id="mobile-nav-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M19.77,5.63,13.41,12l6.36,6.37a1,1,0,0,1-1.41,1.41L12,13.41,5.63,19.77a1,1,0,0,1-1.44-1.39l0,0L10.58,12,4.21,5.63a1,1,0,0,1,0-1.42,1,1,0,0,1,1.41,0l0,0L12,10.58l6.37-6.37a1,1,0,0,1,1.41,0A1,1,0,0,1,19.77,5.63Z"></path>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+  <div class="container hero-container">
+    <section class="mt-5 mb-4">
+      <div class="row justify-content-center">
+        <div class="col-12 text-center">
+          <p class="hero">Installing TensorFlow on Ubuntu 16.04 with an Nvidia GPU</p>
+          <p class="hero subhero">Installing TensorFlow on Ubuntu 16.04 with an Nvidia GPU</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</header>
+    
+<section class="container content-container">
+  <div class="row">
+    <div class="col-md-8 order-md-2">
+      <section class="content article-content">
+        
+        
+        <p>Any serious quant trading research with machine learning models necessitates the use of a framework that abstracts away the model implementation from the model specification.</p>
+
+<p>This is particularly crucial for deep learning techniques as production-grade models require training on GPUs to make them computationally tractable. However, direct programming of GPUs requires knowledge of proprietary languages like Nvidia <a href="https://developer.nvidia.com/cuda-zone">CUDA</a> or abstraction layers such as <a href="https://www.khronos.org/opencl/">OpenCL</a>. Either way, experience with C, C++ or Fortran is a must.</p>
+
+<p>Hence a framework that removes the low-level implementation details of execution, while providing a high-level API for straightforward model specification—without sacrificing execution accuracy or the ability to scale computation—is very attractive to quant researchers. <a href="https://www.tensorflow.org/">TensorFlow</a> is such a framework.</p>
+
+<p>However it has a reputation for being difficult to install. Up until recently this reputation was warranted. Indeed it can still be challenging to get working on certain systems.</p>
+
+<p>There are many ways to install TensorFlow, such as making use of a ready-made machine image for a cloud server. An example is Amazon's Deep Learning AMI, which comes preinstalled with all necessary dependencies and deep learning software. It can be accessed remotely at a competitive hourly rate. 
+
+<p>However, this article describes the installation procedure for TensorFlow on a modern Linux desktop system with an affordable, up-to-date consumer-grade GPU, such as those found within Nvidia's <a href="https://www.geforce.com/hardware">GeForce</a> series.</p>
+
+<p>We will begin by outlining the advantages of the TensorFlow library along with a few words of caution on the potential difficulty of its intallation. We will then consider an optimal choice for operating system and install the necessary Python research environment. The discussion will then turn towards installing TensorFlow against both a CPU and a GPU. We will also take a look at the common problems that can occur and how to troubleshoot them.</p>
+
+<p><em>Recently I <a href="https://www.quantstart.com/articles/should-you-buy-or-rent-a-gpu-based-deep-learning-machine-for-quant-trading-research">discussed</a> the advantages and disadvantages of using a desktop deep learning research system versus renting one in the cloud.</em></p>
+
+<h2>Why TensorFlow?</h2>
+
+<p>The focus of this article is not on why framework X is superior to framework Y. The intent is simply to describe the installation of <a href="https://www.tensorflow.org/">TensorFlow</a>, which is emerging as one of the strongest contenders for deep learning model implementation.</p>
+
+<p>It has been chosen for all subsequent deep learning articles on QuantStart for the following pragmatic reasons:</p>
+
+<ul>
+  <li><strong>Popularity</strong> - With popularity comes a large community and thus more likelihood of solving errors when they crop up, as well as a larger base of tutorials and textbooks from which to learn.</li>
+  <li><strong>Python</strong> - TensorFlow is a Python library and so it can easily talk to all of the other quantitative finance libraries discussed on QuantStart such as NumPy, Pandas and Scikit-Learn.</li>
+  <li><strong>Google</strong> - TensorFlow is a Google product, albeit an open-source one. It is used in their production systems and for leading AI research, as carried out by some of their sub-teams including <a href="https://deepmind.com/">DeepMind</a>. Hence it has a strong pedigree. It also means that they will be strongly motivated to continually improve the software as they are <a href="https://en.wikipedia.org/wiki/Eating_your_own_dog_food">"eating their own dog food"</a>.</li>
+  <li><strong>Ease of Use</strong> - Despite the initial learning curve TensorFlow is actually quite straightforward to use, particularly with the newer releases. Hence more time can be spent developing quant models rather than fighting with a framework.</li>
+</ul>
+
+<p>It will become clear in subsequent articles why TensorFlow is such a useful library for quant trading research so please bear with me!</p>
+
+<h2>A Few Words Of Caution</h2>
+
+<p>Deep learning is a rapidly moving field on the cusp of the research frontier. It has significant potential for quantitative trading models, much of which we will be exploring in subsequent artices.</p>
+
+<p>However it also exists on the bleeding edge. Much of the research carried out is <em>heuristic</em> and <em>experimental</em> in nature with limited theoretical guarantees. It takes advantage of the latest computational technology and open-source frameworks to produce state-of-the-art results.</p>
+
+<p>Accordingly, this can make it extremely challenging to know what the "best" community, framework, programming language or operating system is to use with it. It also admits many implementation details that can significantly interfere with research time.</p>
+
+<p>Hence I would like to issue a warning that while deep learning research is very exciting it can also be extremely frustrating. As quant traders we wish to spend as much time as possible researching new strategies, risk layers or portfolio construction methodologies. We do not wish to be fighting with graphics card drivers or package dependency issues. However, this is the reality of deep learning. Be warned that sophisticated techniques like deep learning require us to "get our hands dirty" with these implementation details.</p>
+
+<p>I would also like to add that due to the speed of iteration in the field much of the advice I give below is likely to be out of date in six months time! Of course I will try my best to keep these articles up to date, but please be aware that as the field consolidates new best practices will emerge and they will supersede the techniques mentioned here.</p>
+
+<h2>Operating System</h2>
+
+<p>Recently I <a href="https://www.quantstart.com/articles/best-operating-system-for-quant-trading">made the case</a> that if you want to carry out serious deep learning work it will be necessary to use Linux (and, more specifically, <a href="https://www.ubuntu.com/download/desktop">Ubuntu Linux</a>) as your research environment operating system.</p>
+
+<p>While Windows and Mac OS X are perfectly acceptable systems for carrying out TensorFlow work on a CPU, they fall down significantly when it comes to using a GPU.</p>
+
+<p>Unfortunately as of the date of writing this article the deep learning research ecosystem is insufficiently mature to recommend heavy TensorFlow development and deep learning training on Windows (and to some extent Mac OS X).</p>
+
+<p>Hence the rest of this article will assume that you have the latest stable release of Ubuntu Linux installed—namely 16.04—and want to install TensorFlow for an <a href="https://developer.nvidia.com/cuda-gpus">Nvidia CUDA-compatible GPU</a>.</p>
+
+<p><em>Note: With virtualisation and containerisation technologies like <a href="https://www.virtualbox.org/wiki/Downloads">VirtualBox</a>, <a href="https://www.vagrantup.com/">Vagrant</a> and <a href="https://www.docker.com/">Docker</a>, as well as the prevalence of vendor-specific cloud-based deep learning instances, this is less of a concern than it used to be.</em></p>
+
+<h2>Python Prerequisites</h2>
+
+<p>Before installing TensorFlow—CPU or GPU—you will need to have a functioning Python virtual environment in which to run TensorFlow. My consistent recommendation for newcomers is to <a href="https://www.anaconda.com/download/">download the latest Anaconda distribution</a>, which as of the writing date of this article is for Python 3.6.</p>
+
+<p>Once you've downloaded and installed Anaconda it will be necessary to create a separate virtual environment to isolate your TensorFlow install, which in this instance I have named <code>tensorflow</code>. To do this simply type:</p>
+
+<pre>
+<code class="language-bash">$ conda create -n tensorflow python=3.6</code>
+</pre>
+
+<p>Of course you can also set up a dedicated non-Anaconda Python virtual environment, although if you're considering this then I am going to assume you know your way around <code>virtualenv</code> and thus won't go into any more details here.</p>
+
+<h2>Installing TensorFlow for CPU Use</h2>
+
+<p>Prior to outlining the details for the GPU-specific installation it is worth noting that it is possible to install TensorFlow to work solely against the CPU. While training will be far slower than on a GPU, it will still be possible. Such an installation is useful for self-teaching and trying out simpler models with fewer data.</p>
+
+<p>To begin the installation of TensorFlow simply activate your Anaconda virtual environment:</p>
+
+<pre>
+<code class="language-bash">$ source activate tensorflow</code>
+</pre>
+
+<p>Your terminal prompt will now change to the following:</p>
+
+<pre>
+<code class="language-bash">(tensorflow)$</code>
+</pre>
+
+<p>Assuming that you created the Anaconda environment for Python 3.6 as above, and have a 64-bit operating system (which Ubuntu 16.04 is an example of) then the following <code>pip</code> command will install the correct CPU binary TensorFlow 1.4 package into your virtual environment:</p>
+
+<pre>
+<code class="language-bash">(tensorflow)$ pip install --ignore-installed --upgrade \
+ https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-1.4.0-cp36-cp36m-linux_x86_64.whl</code>
+</pre>
+
+<p>This will install TensorFlow and the necessary dependencies. Once this has finished you can skip ahead to the <strong>TensorFlow Installation Validation</strong> section below.</p>
+
+<h2>Installing TensorFlow for GPU Use</h2>
+
+<p>Installing TensorFlow against an Nvidia GPU on Linux can be challenging. I have personally carried out this procedure multiple times with many different Nvidia GPUs, ranging from a pair of older GeForce GTX 780 Ti cards through to a modern GeForce GTX 1080 Ti.</p>
+
+<p>In each instance obscure problems occurred and had to be dealt with. I'll mention a few of these in the <strong>Troubleshooting</strong> section below.</p>
+
+<p>The outline of the process is as follows:</p>
+
+<ol>
+  <li>Install necessary operating system dependency packages to obtain a functional Python virtual environment (or use Anaconda)</li>
+  <li>Install the appropriate Nvidia driver for your particular GPU</li>
+  <li>Install the latest <a href="https://developer.nvidia.com/cuda-zone">Nvidia CUDA</a> library supported by your card and planned TensorFlow version</li>
+  <li>Install the <a href="https://developer.nvidia.com/cudnn">cuDNN</a> library appropriate for your version of CUDA and planned TensorFlow version</li>
+  <li>Install the correct binary GPU TensorFlow package that is compiled against your specific CUDA version and cuDNN version</li>
+</ol>
+
+<h3>Secure UEFI Boot</h3>
+
+<p>A consistent issue that I've come across when helping anybody install the Nvidia drivers occurs with a motherboard setting known as <a href="https://en.wikipedia.org/wiki/Unified_Extensible_Firmware_Interface#Secure_boot_2">Secure UEFI Boot</a>. This needs to be be disabled on most motherboards in order to allow the Nvidia drivers to be installed without problems.</p>
+
+<p>Unfortunately the process is very motherboard specific, but broadly it will be necessary to enter the BIOS on boot-up of your machine, usually via the Del or F10 key, and then navigate to the section that determines boot settings. Sometimes this can involve backing up and removing certain keys while in other instances it is simply a boolean setting that is easily modified.</p>
+
+<p>If you don't disable this feature then you are likely to run into trouble at the point when you log in to Ubuntu, as the Nvidia graphics drivers will probably load incorrectly.</p>
+
+<h3>The Procedure</h3>
+
+<p><em>Before proceeding with the installation make sure to disable Secure UEFI Boot as described above. Please be aware that this is an advanced setting on your motherboard and if you're not sure what you're doing, please ask an individual with more experience. Also, make sure to back up any files on your system before carrying out this procedure!</em></p>
+
+<p>The first step is to add the package repository for the Nvidia graphics drivers that we're going to install, so that they can be picked up by Ubuntu. Open up a Terminal window and type the following:</p>
+
+<pre>
+<code class="language-bash">$ sudo add-apt-repository ppa:graphics-drivers/ppa</code>
+</pre>
+
+<p>The next step is to install some essential compilation tools such as the GNU Compiler Collection (GCC), which allows us to compile other necessary libraries from source:</p>
+
+<pre>
+<code class="language-bash">$ sudo apt-get update
+$ sudo apt-get install build-essential</code>
+</pre>
+
+<p>If you are not intending to make use of the Anaconda distribution you will need to install the Python 3 packages as well:</p>
+
+<pre>
+<code class="language-bash">$ sudo apt-get install python-dev python3-dev python-virtualenv</code>
+</pre>
+
+<p>At this stage it is necessary to download and install the appropriate Nvidia driver. The procedure is largely the same for all GeForce cards up to the 1080 Ti, which is one of the most popular consumer-grade video cards for deep learning.</p>
+
+<p>My recommendation—as of the writing date of this article—is to use the 387.34 version of the drivers, which are packaged into the <code>nvidia-387</code> binary. To install this package along with a few other necessary libraries please type the following:</p>
+
+<pre>
+<code class="language-bash">$ sudo apt-get install nvidia-387
+$ sudo apt-get install mesa-common-dev
+$ sudo apt-get install freeglut3-dev</code>
+</pre>
+
+<p><em>Note: If you wish to read about the various other drivers for older, or non consumer-grade cards then take a look at <a href="https://launchpad.net/~graphics-drivers/+archive/ubuntu/ppa">this link</a>.</em></p>
+
+<p>Once this is complete you need to reboot your machine and log back in to your Ubuntu instance. Assuming all went well you should see your Unity desktop as before.</p>
+
+<p>The next step is to install Nvidia CUDA. The current version <em>built against TensorFlow 1.4</em> is version 8.0. In particular, the current version of CUDA is actually version 9.0, but TensorFlow currently only supports 8.0! To obtain older versions visit the <a href="https://developer.nvidia.com/cuda-toolkit-archive">Cuda Toolkit Archive</a> (you may be asked to sign-up for an Nvidia CUDA account) and download the CUDA 8.0 GA2 (Feb 2017) runfile. The correct link for the necessary runfile is found here (be warned it is 1.4Gb in size!):</p>
+
+<ul>
+  <li><a href="https://developer.nvidia.com/compute/cuda/8.0/Prod2/local_installers/cuda_8.0.61_375.26_linux-run">CUDA 8.0 GA2 x86_64 Ubuntu 16.04 runfile</a></li>
+</ul>
+
+<p>Once the file is downloaded, change to the directory where it is located and execute it with the following command:</p>
+
+<pre>
+<code class="language-bash">$ cd ~/Downloads
+$ sudo sh cuda_8.0.61_375.26_linux-run</code>
+</pre>
+
+<p>You will be asked a series of y/n questions. It is crucial that you do NOT install the CUDA driver when asked, otherwise it will overwrite the 387 driver we installed above. So select <code>n</code> when this question arises:</p>
+
+<pre>
+<code class="language-none">Install NVIDIA Accelerated Graphics Driver for Linux-x86_64 ...?
+(y)es/(n)o/(q)uit: n</code>
+</pre>
+
+<p>The remainder of the questions ask whether you want to install the CUDA 8.0 Toolkit (yes), the Toolkit Location (keep the default), a symbolic link (yes) and whether to install the Samples (yes - it helps for testing, put them in the default location asked).</p>
+
+<p>You will also see a warning similar to the following:</p>
+
+<pre>
+<code class="language-none">***WARNING: Incomplete installation! This installation did not install the CUDA Driver...</code>
+</pre>
+
+<p>Do not be alarmed as that is simply the script telling us that no driver was installed <em>by the script</em>. We have already installed the necessary Nvidia driver above.</p>
+
+<p>In order for the CUDA commands to be added to the system path it is necessary to modify some environment variables. The simplest way to achieve this is to open up the hidden <code>.bashrc</code> file found in your home directory using your favourite text editor. I prefer <a href="https://www.gnu.org/software/emacs/">emacs</a> when working in the terminal, but you can also use vi/vim, nano, gedit or SublimeText. Edit the file <code>~/.bashrc</code> and add the following two lines to the <em>end</em> of the file:</p>
+
+<pre>
+<code class="language-bash">export PATH=/usr/local/cuda-8.0/bin${PATH:+:${PATH}}
+export LD_LIBRARY_PATH=/usr/local/cuda-8.0/lib64${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}</code>
+</pre>
+
+<p>You will then need to re-source this file or close and re-open the terminal in order for the environment variables to be set. To check that the installation was successful we can run the <code>nvidia-smi</code> tool. As an example, on the system I am writing this article on I have two older GeForce GTX 780 Ti cards installed against the Nvidia 384 driver:</p>
+
+<pre>
+<code class="language-none">$ nvidia-smi
+
+Thu Nov 30 14:48:03 2017       
++-----------------------------------------------------------------------------+
+| NVIDIA-SMI 384.98                 Driver Version: 384.98                    |
+|-------------------------------+----------------------+----------------------+
+| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+|===============================+======================+======================|
+|   0  GeForce GTX 780 Ti  Off  | 00000000:01:00.0 N/A |                  N/A |
+| 17%   36C    P8    N/A /  N/A |    486MiB /  3017MiB |     N/A      Default |
++-------------------------------+----------------------+----------------------+
+|   1  GeForce GTX 780 Ti  Off  | 00000000:02:00.0 N/A |                  N/A |
+| 17%   32C    P8    N/A /  N/A |      1MiB /  3020MiB |     N/A      Default |
++-------------------------------+----------------------+----------------------+
+                                                                               
++-----------------------------------------------------------------------------+
+| Processes:                                                       GPU Memory |
+|  GPU       PID   Type   Process name                             Usage      |
+|=============================================================================|
+|    0                    Not Supported                                       |
+|    1                    Not Supported                                       |
++-----------------------------------------------------------------------------+</code>
+</pre>
+
+<p>If you have a similar output appropriate for your card then you have successfully installed CUDA 8.0 on your system.</p>
+
+<p>The next stage is to install the CUDA Deep Neural Network library, known as cuDNN. You can download various versions of cuDNN at <a href="https://developer.nvidia.com/rdp/cudnn-download">this location</a>. You will need to select <strong>cuDNN v6.0 (April 27, 2017), for CUDA 8.0</strong>. The particular tar-gzipped file you need is linked to below:</p>
+
+<ul>
+  <li><a href="https://developer.nvidia.com/compute/machine-learning/cudnn/secure/v6/prod/8.0_20170307/cudnn-8.0-linux-x64-v6.0-tgz">cudnn-8.0-linux-x64-v6.0-tgz</a></li>
+</ul>
+
+<p>Once you have downloaded the file you need to unzip it, untar it, copy the library files to the appropriate CUDA directory and then grant them access permissions. To do this type the following commands (assuming that you've placed your file in the <code>~/Downloads</code> directory):</p>
+
+<pre>
+<code class="language-bash">$ cd ~/Downloads
+$ tar -zxvf cudnn-8.0-linux-x64-v6.0-ga.tgz
+$ sudo cp cuda/include/cudnn.h /usr/local/cuda/include/
+$ sudo cp cuda/lib64/libcudnn* /usr/local/cuda/lib64/
+$ sudo chmod a+r /usr/local/cuda/include/cudnn.h
+$ sudo chmod a+r /usr/local/cuda/lib64/libcudnn*</code>
+</pre>
+
+<p>CUDA 8.0 and cuDNN 6.0 are now installed. All that remains is to install TensorFlow 1.4.</p>
+
+<p>If you are using Anaconda make sure to activate your virtual environment as described above. Then type the following to install TensorFlow for the appropriate Python version, which should be 3.6 if you've selected the latest version:</p>
+
+<pre>
+<code class="language-bash">(tensorflow)$ pip install --ignore-installed --upgrade https://storage.googleapis.com/tensorflow/linux/gpu/tensorflow_gpu-1.4.0-cp36-cp36m-linux_x86_64.whl</code>
+</pre>
+
+<p>At this stage TensorFlow should be installed! The final step is to validate that the install works as expected.</p>
+
+<h2>TensorFlow Installation Validation</h2>
+
+<p>Whether you've installed TensorFlow against your CPU or GPU(s) you can follow these steps to check that your installation is functional. Firstly open up an interactive Python console:</p>
+
+<pre>
+<code class="language-bash">(tensorflow)$ python</code>
+</pre>
+
+<p>Then import TensorFlow and try to run a <code>Session</code> (we won't explain what a session is in this article, but we will in the next one):</p>
+
+<pre>
+<code class="language-python">>>> import tensorflow as tf
+>>> hello = tf.constant('Hello, World!')
+>>> sess = tf.Session()
+>>> print(sess.run(hello))</code>
+</pre>
+
+<p>You should see the following output if all goes well. Note also that it is common for TensorFlow to include a lot of diagnostic/warning information upon import. This is usually to let you know that TensorFlow was not compiled against certain processor instructions that can allow it to be sped up. As long as you receive the following output at the end of these diagnostic messages your installation should be okay:</p>
+
+<pre>
+<code class="language-python">Hello, World!</code>
+</pre>
+
+<p>Of course it is common to experience errors along the way as every user's system is different. In addition you may be using a different GeForce (or other) GPU and possibly an older version of Ubuntu. Hence there is a lot that can go wrong. For that reason I've created a <strong>Troubleshooting</strong> section below.</p>
+
+<h2>Troubleshooting</h2>
+
+<p>Here are some common issues:</p>
+
+<ul>
+  <li><em>Linux won't boot into desktop once graphics drivers are installed</em> - Almost certainly this is due to the fact you didn't disable Secure UEFI Boot in your motherboard. You will need to disable this setting, uninstall the Nvidia drivers and then reinstall them. This will require you to use the built-in terminals which can be accessed by pressing Ctrl+Alt+F1 at the login screen. You will need to run the commands to uninstall the Nvidia drivers and reinstall the native drivers that come with Ubuntu first.</li>
+  <li><em>Nvidia-smi cannot be found</em> - It is likely you didn't add the environment variables to your <code>.bashrc</code> file—or you didn't re-source the file or re-open the Terminal.</li>
+</ul>
+
+<p>Other errors can occur because you possibly downloaded the incorrect version of the Nvidia drivers (make sure to use 387 or 384), CUDA version (make sure to use 8.0) or cuDNN version (make sure to use 6.0) or TensorFlow GPU version (make sure to use the TensorFlow 1.4 binary, built against Python 3.6, CUDA 8.0 and cuDNN 6.0).</p>
+
+<p>If you have any other issues please add them to the Disqus comments below. Another way to solve any issues that come up is to search for a <a href="https://stackoverflow.com/">Stack Overflow</a> post related to your problem, as it is likely many others have had the issue before! Simply type your error message into Google and you will likely find many instances of the same problem (and hopefully a solution!).</p>
+
+<h2>Next Steps</h2>
+
+<p>This article has only briefly provided answers to <em>why</em> we want to use TensorFlow and in fact <em>what it is</em>. In the next article I will describe how TensorFlow works and provide a tutorial on how to begin using it.</p>
+
+<p>In subsequent articles we will actually begin developing some deep neural network architectures with various training mechanisms utilising the high-level TensorFlow API.</p>
+
+<h2>Useful Links</h2>
+
+<ul>
+  <li><a href="https://www.tensorflow.org/install/install_linux">TensorFlow official Ubuntu installation guide</a></li>
+  <li><a href="https://developer.nvidia.com/cuda-toolkit-archive">CUDA legacy download page</a></li>
+  <li><a href="https://developer.nvidia.com/rdp/cudnn-download">cuDNN download page</a></li>
+</ul>
+        
+        
+        <script async data-uid="6296c27f4b" src="https://weathered-brook-5281.ck.page/6296c27f4b/index.js"></script>
+      </section>
+    </div>
+    <div class="col-md-4 book-card order-md-1">
+      
+<div class="sidebar-advert-container">
+  <a href="/qsalpha/?ref=art">
+    <img class="card-img-top" src="/static/images/qsalpha-sidebar-advert-small.png" alt="QSAlpha">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/qsalpha/?ref=art">QSAlpha</a></h3>
+      <p class="card-text medium-text mb-3">Join the QSAlpha research platform that helps fill your strategy research pipeline, diversifies your portfolio and improves your risk-adjusted returns for increased profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/qsalpha/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/quantcademy/?ref=art">
+    <img class="card-img-top" src="/static/images/quantcademy-sidebar-advert-small.png" alt="Quantcademy">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/quantcademy/?ref=art">The Quantcademy</a></h3>
+      <p class="card-text medium-text mb-3">Join the Quantcademy membership portal that caters to the rapidly-growing retail quant trader community and learn how to increase your strategy profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/quantcademy/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/successful-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/sat-sidebar-advert-small.png" alt="Successful Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to find new trading strategy ideas and objectively assess them for your portfolio using a Python-based backtesting engine.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/successful-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/advanced-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/aat-sidebar-advert-small.png" alt="Advanced Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to implement advanced trading strategies using time series analysis, machine learning and Bayesian statistics with R and Python.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/advanced-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+    
+
+<footer>
+  <div class="container container-full">
+    <section class="mt-1.5 mb-1">
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">QuantStart</li>
+            <li class="footer-list-link"><a class="link-fade" href="/about/">About</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/articles/">Articles</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/sitemap/">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Products</li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qsalpha/">QSAlpha</a></li>
+            
+            
+            <li class="footer-list-link"><a class="link-fade" href="/quantcademy/">Quantcademy</a></li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qstrader/">QSTrader</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Legal</li>
+            <li class="footer-list-link"><a class="link-fade" href="/privacy-policy/">Privacy Policy</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/terms-and-conditions/">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Social</li>
+            <li class="footer-list-link"><a class="link-fade" href="https://twitter.com/quantstart">Twitter</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="https://www.youtube.com/channel/UCmVnnZ6Y2TrJtY1eQJN6kWA">YouTube</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="row mb-1.5 mt-5">
+      <div class="col-12 col-md-9 col-lg-8 col-xl-6">
+        <div class="footer-copyright">
+          <p>©2012-2023 QuarkGluon Ltd. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+<script src="/static/js/jquery-3.2.1.min.js"></script>
+<script src="/static/js/prism.js.min"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/nav.js"></script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5383959-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+    
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="/static/js/highcharts/highcharts.js"></script>
+<script type="text/javascript">
+  num_colours = 10;
+</script>
+<script src="/static/js/statistics.js"></script>
+
+
+  </body>
+</html>

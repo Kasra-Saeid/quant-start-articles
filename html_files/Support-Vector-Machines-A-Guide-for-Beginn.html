@@ -1,0 +1,671 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-site-verification" content="wl3-8ed1QZjI0iYZMv10zoZWYElkMObTfwLlWIj9cpA" />
+    <meta name="description" content="Support Vector Machines: A Guide for Beginners">
+
+    <link rel="icon" href="/static/images/favicon.png">
+
+    <title>Support Vector Machines: A Guide for Beginners | QuantStart</title>
+    
+    
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet"> 
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/prism.css" rel="stylesheet">
+<link href="/static/css/qs.css?v=10" rel="stylesheet">
+    
+  </head>
+
+  <body>
+    <header class="header covered-header" style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://quantstartmedia.s3.amazonaws.com/images/article-images/article-backgrounds/default-bg.jpg);">
+  
+<nav class="nav">
+  <div class="container nav-container">
+    <div class="nav-row row d-flex justify-content-between align-items-center">
+      <div class="col-2">
+        <ul class="nav-items justify-content-end small-capitals align-items-center">
+          <li class="nav-item">
+            <a class="link-fade" href="/">QuantStart</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-auto col-logo">
+        <ul id="top-nav-menu" class="nav-items justify-content-end align-items-center">
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/qsalpha/">QSAlpha</a>
+          </li>
+          
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/quantcademy/">Quantcademy</a>
+          </li>
+          
+          <li id="menu-link-ebooks" class="nav-item">
+            <a class="link-fade" href="#">Books</a>
+            <div id="menu-pane-ebooks" class="nav-items menu-dropdown-pane">
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/qstrader/">QSTrader</a>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/articles/">Articles</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/members/login/">Login</a>
+          </li>
+          
+        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<nav id="mobile-nav" class="mobile-nav text-left">
+  <div class="container">
+    <ul class="mt-4 ml-3 mobile-nav-menu">
+      <li class="nav-item">
+        <a class="link-fade d-block" href="/">QuantStart</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qsalpha/">QSAlpha</a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/quantcademy/">Quantcademy</a>
+      </li>
+      
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="#">Books</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qstrader/">QSTrader</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/articles/">Articles</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/members/login/">Login</a>
+      </li>
+      
+    </ul>
+    <button class="nav-toggle mobile-nav-close">
+      <svg id="mobile-nav-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M19.77,5.63,13.41,12l6.36,6.37a1,1,0,0,1-1.41,1.41L12,13.41,5.63,19.77a1,1,0,0,1-1.44-1.39l0,0L10.58,12,4.21,5.63a1,1,0,0,1,0-1.42,1,1,0,0,1,1.41,0l0,0L12,10.58l6.37-6.37a1,1,0,0,1,1.41,0A1,1,0,0,1,19.77,5.63Z"></path>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+  <div class="container hero-container">
+    <section class="mt-5 mb-4">
+      <div class="row justify-content-center">
+        <div class="col-12 text-center">
+          <p class="hero">Support Vector Machines: A Guide for Beginners</p>
+          <p class="hero subhero">Support Vector Machines: A Guide for Beginners</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</header>
+    
+<section class="container content-container">
+  <div class="row">
+    <div class="col-md-8 order-md-2">
+      <section class="content article-content">
+        
+        
+        <p>In this guide I want to introduce you to an extremely powerful machine learning technique known as the <strong>Support Vector Machine</strong> (SVM). It is one of the best "out of the box" supervised classification techniques. As such, it is an important tool for both the quantitative trading researcher and data scientist.</p>
+
+<p>I feel it is important for a quant researcher or data scientist to be comfortable with both the theoretical aspects and practical usage of the techniques in their toolkit. Hence this article will form the first part in a series of articles that discuss support vector machines. This article specifically will cover the theory of <strong>maximal margin classifiers</strong>, <strong>support vector classifiers</strong> and <strong>support vector machines</strong>. Subsequent articles will make use of the Python <a href="http://scikit-learn.org/stable/">scikit-learn</a> library to demonstrate some examples of the aforementioned theoretical techniques on actual data.</p>
+
+<h2>Motivation for Support Vector Machines</h2>
+
+<p>The problem to be solved in this article is one of <strong>supervised binary classification</strong>. That is, we wish to categorise new unseen objects into two separate groups based on their properties and a set of known examples, which are already categorised. A good example of such a system is classifying a set of new <em>documents</em> into positive or negative sentiment groups, based on other documents which have already been classified as positive or negative. Similarly, we could classify new emails into spam or non-spam, based on a large corpus of documents that have already been marked as spam or non-spam by humans. SVMs are highly applicable to such situations.</p>
+
+<p>A Support Vector Machine models the situation by creating a <em>feature space</em>, which is a finite-dimensional <a href="https://en.wikipedia.org/wiki/Vector_space">vector space</a>, each dimension of which represents a "feature" of a particular object. In the context of spam or document classification, each "feature" is the prevalence or importance of a particular word.</p>
+
+<p>The goal of the SVM is to train a model that assigns new unseen objects into a particular category. It achieves this by creating a linear partition of the feature space into two categories. Based on the features in the new unseen objects (e.g. documents/emails), it places an object "above" or "below" the separation plane, leading to a categorisation (e.g. spam or non-spam). This makes it an example of a non-probabilistic linear classifier. It is non-probabilistic, because the features in the new objects fully determine its location in feature space and there is no stochastic element involved.</p>
+
+<p>However, much of the benefit of SVMs comes from the fact that they are not restricted to being linear classifiers. Utilising a technique known as the <strong>kernel trick</strong> they can become much more flexible by introducing various types of non-linear decision boundaries.</p>
+
+<p>Formally, in mathematical language, SVMs construct <em>linear separating hyperplanes</em> in high-dimensional vector spaces. Data points are viewed as $(\vec{x}, y)$ tuples, $\vec{x} = (x_1, \ldots, x_p)$ where the $x_j$ are the feature values and $y$ is the classification (usually given as $+1$ or $-1$). Optimal classification occurs when such hyperplanes provide maximal distance to the nearest <em>training data</em> points. Intuitively, this makes sense, as if the points are well separated, the classification between two groups is much clearer.</p>
+
+<p>However, if in a feature space some of the sets are not linearly separable (i.e. they overlap!), then it is necessary to perform a <a href="https://en.wikipedia.org/wiki/Map_%28mathematics%29">mapping</a> of the original feature space to a higher-dimensional space, in which the separation between the groups is clear, or at least clearer. However, this has the consequence of making the separation boundary in the original space potentially non-linear.</p>
+
+<p>In this article we will proceed by considering the advantages and disadvantages of SVMs as a classification technique, then defining the concept of an <strong>optimal linear separating hyperplane</strong>, which motivates a simple type of linear classifier known as a <em>maximal margin classifier</em> (MMC). We will then show that maximal margin classifiers are not often applicable to many "real world" situations and as such need modification, in the form of a <em>support vector classifier</em> (SVC). We will then relax the restriction of linearity and consider non-linear classifiers, namely <em>support vector machines</em>, which use <strong>kernel functions</strong> to improve computational efficiency.</p>
+
+<h3>Advantages and Disadvantages of SVMs</h3>
+
+<p>As a classification technique, the SVM has many advantages, many of which are due to its computational efficiency on large datasets. The Scikit-Learn team have summarised the main advantages and disadvantages <a href="http://scikit-learn.org/stable/modules/svm.html">here</a> but I have repeated and elaborated on them for completeness:</p>
+
+<h4>Advantages</h4>
+
+<ul>
+  <li><strong>High-Dimensionality</strong> - The SVM is an effective tool in high-dimensional spaces, which is particularly applicable to document classification and sentiment analysis where the dimensionality can be extremely large ($\geq 10^6$).</li>
+  <li><strong>Memory Efficiency</strong> - Since only a subset of the training points are used in the actual decision process of assigning new members, only these points need to be stored in memory (and calculated upon) when making decisions.</li>
+  <li><strong>Versatility</strong> - Class separation is often highly non-linear. The ability to apply new kernels allows substantial flexibility for the decision boundaries, leading to greater classification performance.</li>
+</ul>
+
+<h4>Disadvantages</h4>
+
+<ul>
+  <li><strong>$p &gt; n$</strong> - In situations where the number of features for each object ($p$) exceeds the number of training data samples ($n$), SVMs can perform poorly. This can be seen intuitively, as if the high-dimensional feature space is much larger than the samples, then there are less effective <em>support vectors</em> on which to support the optimal linear hyperplanes, leading to poorer classification performance as new unseen samples are added.</li>
+  <li><strong>Non-Probabilistic</strong> - Since the classifier works by placing objects above and below a classifying hyperplane, there is no direct probabilistic interpretation for group membership. However, one potential metric to determine "effectiveness" of the classification is how far from the decision boundary the new point is.</li>
+</ul>
+
+<p>Now that we've outlined the advantages and disadvantages, we're going to discuss the geometric objects and mathematical entities that will ultimately allow us to define the SVMs and how they work.</p>
+
+<p>There are some fantastic references (both links and textbooks) that derive much of the mathematical detail of how SVMs work. In the following derivation I didn't want to "reinvent the wheel" too much, especially with regards notation and pedagogy, so I've formulated the following treatment based on the references provided at the end of the article, making strong use of <a href="#ref-isl">James et al (2013)</a>, <a href="#ref-esl">Hastie et al (2009)</a> and the <a href="https://en.wikibooks.org/wiki/Support_Vector_Machines">Wikibooks article on SVMs</a>. I have made changes to the notation where appropriate and have adjusted the narrative to suit individuals interested in quantitative finance.</p>
+
+<h2>Linear Separating Hyperplanes</h2>
+
+<p>The linear separating hyperplane is the key geometric entity that is at the heart of the SVM. Informally, if we have a high-dimensional feature space, then the linear hyperplane is an object one dimension lower than this space that divides the feature space into two regions.</p>
+
+<p>This linear separating plane need not pass through the origin of our feature space, i.e. it does not need to include the zero vector as an entity within the plane. Such hyperplanes are known as <strong>affine</strong>.</p>
+
+<p>If we consider a real-valued $p$-dimensional feature space, known mathematically as $\mathbb{R}^p$, then our linear separating hyperplane is an affine $p-1$ dimensional space embedded within it.</p>
+
+<p>For the case of $p=2$ this hyperplane is simply a one-dimensional straight line, which lives in the larger two-dimensional plane, whereas for $p=3$ the hyerplane is a two-dimensional plane that lives in the larger three-dimensional feature space (see Fig 1 and Fig 2):</p>
+
+<p style="text-align:center;">
+  <img width="550px" alt="One- and two-dimensional hyperplanes" src="https://s3.amazonaws.com/quantstartmedia/images/qs-svm-0001.png"><br>
+  <strong>Figs 1 and 2: One- and two-dimensional hyperplanes</strong>
+</p>
+
+<p>If we consider an element of our $p$-dimensional feature space, i.e. $\vec{x}=(x_1,...,x_p) \in \mathbb{R}^p$, then we can mathematically define an affine hyperplane by the following equation:</p>
+
+\begin{eqnarray}
+b_0 + b_1 x_1 + ... + b_p x_p = 0
+\end{eqnarray}
+
+<p>$b_0 \neq 0$ gives us an affine plane (i.e. it does not pass through the origin). We can use a more succinct notation for this equation by introducing the summation sign:</p>
+
+\begin{eqnarray}
+b_0 + \sum^{p}_{j=1} b_j x_j = 0
+\end{eqnarray}
+
+<p>Notice however that this is nothing more than a multi-dimensional <a href="https://en.wikipedia.org/wiki/Dot_product">dot product</a> (or, more generally, an <a href="https://en.wikipedia.org/wiki/Inner_product_space">inner product</a>), and as such can be written even more succinctly as:</p>
+
+\begin{eqnarray}
+\vec{b} \cdot \vec{x} + b_0 = 0
+\end{eqnarray}
+
+<p>If an element $\vec{x} \in \mathbb{R}^p$ satisfies this relation then it lives on the $p-1$-dimensional hyperplane. This hyperplane splits the $p$-dimensional feature space into two classification regions (see Fig 3):</p>
+
+<p style="text-align:center;">
+  <img width="275px" alt="Separation of p-dimensional space by a hyperplane" src="https://s3.amazonaws.com/quantstartmedia/images/qs-svm-0002.png"><br>
+  <strong>Fig 3: Separation of $p$-dimensional space by a hyperplane</strong>
+</p>
+
+<p>Elements $\vec{x}$ above the plane satisfy:</p>
+
+\begin{eqnarray}
+\vec{b} \cdot \vec{x} + b_0 &gt; 0
+\end{eqnarray}
+
+<p>While those below it satisfy:</p>
+
+\begin{eqnarray}
+\vec{b} \cdot \vec{x} + b_0 &lt; 0
+\end{eqnarray}
+
+<p>The key point here is that it is possible for us to determine which side of the plane any element $\vec{x}$ will fall on by calculating the <a href="https://en.wikipedia.org/wiki/Sign_%28mathematics%29">sign</a> of the expression $\vec{b} \cdot \vec{x} + b_0$. This concept will form the basis of a supervised classification technique.</p>
+
+<h2>Classification</h2>
+
+<p>Continuing with our example of email spam filtering, we can think of our classification problem (say) as being provided with a thousand emails ($n=1000$), each of which is marked spam ($+1$) or non-spam ($-1$). In addition, each email has an associated set of keywords (i.e. separating the words on spacing) that provide <em>features</em>. Hence if we take the set of all possible keywords from all of the emails (and remove duplicates), we will be left with $p$ keywords in total.</p>
+
+<p>If we translate this into a mathematical problem, the standard setup for a supervised classification procedure is to consider a set of $n$ <em>training observations</em>, $\vec{x}_i$, each of which is a $p$-dimensional vector of features. Each training observation has an associated <em>class label</em>, $y_i \in \{ -1,1 \}$. Hence we can think of $n$ pairs of training observations $(\vec{x}_i, y_i)$ representing the features and class labels (keyword lists and spam/non-spam). In addition to the training observations we can provide <em>test observations</em>, $\vec{x}^{*} = (x^{*}_1, ... , x^{*}_p)$ that are later used to test the performance of the classifiers. In our spam example, these test observations would be new emails that have not yet been seen.</p>
+
+<p>Our goal is to develop a classifier based on provided training observations that will correctly classify subsequent test observations using only their feature values. This translates into being able to classify an email as spam or non-spam solely based on the keywords contained within it.</p>
+
+<p>We will initially suppose that it is possible, via a means yet to be determined, to construct a hyperplane that separates training data <em>perfectly</em> according to their class labels (see Figs 4 and 5). This would mean cleanly separating spam emails from non-spam emails solely by using specific keywords. The following diagram is only showing $p=2$, while for keyword lists we may have $p&gt;10^6$. Hence Figs 4 and 5 are only <em>representative</em> of the problem.</p>
+
+<p style="text-align:center;">
+  <img width="550px" alt="Multiple separating hyperplanes and perfect separation of class data" src="https://s3.amazonaws.com/quantstartmedia/images/qs-svm-0003.png"><br>
+  <strong>Fig 4: Multiple separating hyperplanes; Fig 5: Perfect separation of class data</strong>
+</p>
+
+<p>This translates into a mathematical separating property of:</p>
+
+\begin{eqnarray}
+\vec{b} \cdot \vec{x}_i + b_0 &gt; 0,\enspace\text{if}\enspace y_i = 1
+\end{eqnarray}
+
+<p>and</p>
+
+\begin{eqnarray}
+\vec{b} \cdot \vec{x}_i + b_0 &lt; 0,\enspace\text{if}\enspace y_i = -1
+\end{eqnarray}
+
+<p>This basically states that if each training observation is above or below the separating hyperplane, according to the geometric equation which defines the plane, then its associated class label will be $+1$ or $-1$. Thus we have developed a simple classification process. We assign a test observation to a class depending upon which side of the hyperplane it is located on.</p>
+
+<p>This can be formalised by considering the following function $f(\vec{x})$, with a test observation $\vec{x}^{*}=(x^{*}_1,...,x^{*}_p)$:</p>
+
+\begin{eqnarray}
+f(\vec{x}^{*}) = \vec{b} \cdot \vec{x}^{*} + b_0
+\end{eqnarray}
+
+<p>If $f(\vec{x}^{*}) &gt; 0$ then $y^{*} = +1$, whereas if $f(\vec{x}^{*}) &lt; 0$ then $y^{*} = -1$.</p>
+
+<p>However, this tells us nothing about <em>how</em> we go about finding the $b_j$ components of $\vec{b}$, as well as $b_0$, which are crucial in helping us determine the equation of the hyperplane separating the two regions. The next section discusses an approach for carrying this out, as well as introducing the concept of the <strong>maximal margin hyperplane</strong> and a classifier built on it, known as the <strong>maximal margin classifier</strong>.</p>
+
+<h2>Deriving the Classifier</h2>
+
+<p>At this stage it is worth pointing out that separating hyperplanes are not unique, since it is possible to slightly translate or rotate such a plane without touching any training observations (see Fig 4).</p>
+
+<p>So, not only do we need to know <em>how</em> to construct such a plane, but we also need to determine the most <em>optimal</em>. This motivates the concept of the <strong>maximal margin hyperplane</strong> (MMH), which is the separating hyperplane that is farthest from any training observations, and is thus "optimal".</p>
+
+<p>How do we find the maximal margin hyperplane? Firstly, we compute the perpendicular distance from each training observation $\vec{x}_i$ for a <em>given</em> separating hyperplane. The smallest perpendicular distance to a training observation from the hyperplane is known as the <strong>margin</strong>. The MMH is the separating hyperplane where the margin is the largest. This guarantees that it is the farthest minimum distance to a training observation.</p>
+
+<p>The classification procedure is then just simply a case of determining which side a test observation falls on. This can be carried out using the above formula for $f(\vec{x}^{*})$. Such a classifier is known as a <strong>maximimal margin classifier</strong> (MMC). Note however that finding the particular values that lead to the MMH is purely based on the <em>training observations</em>. That is, we still need to be aware of how the MMC performs on the <em>test observations</em>. We are implicitly making the assumption that a large margin in the training observations will provide a large margin on the test observations, but this may not be the case.</p>
+
+<p>As always, we must be careful to avoid <em>overfitting</em> when the number of feature dimensions is large (e.g. in Natural Language Processing applications such as email spam classification). Overfitting here means that the MMH is a very good fit for the <em>training data</em> but can perform quite poorly when exposed to <em>testing data</em>. I discuss this issue in depth in the <a href="https://www.quantstart.com/articles/The-Bias-Variance-Tradeoff-in-Statistical-Machine-Learning-The-Regression-Setting">article on the bias-variance trade-off</a>.</p>
+
+<p>To reiterate, our goal now becomes finding an algorithm that can produce the $b_j$ values, which will fix the geometry of the hyperplane and hence allow determination of $f(\vec{x}^{*})$ for any test observation.</p>
+
+<p>If we consider Fig 6, we can see that the MMH is the mid-line of the widest "block" that we can insert between the two classes such that they are perfectly separated.</p>
+
+<p style="text-align:center;">
+  <img width="275px" alt="Maximal margin hyperplane with support vectors" src="https://s3.amazonaws.com/quantstartmedia/images/qs-svm-0004.png"><br>
+  <strong>Fig 6: Maximal margin hyperplane with support vectors (A, B and C)</strong>
+</p>
+
+<p>One of the key features of the MMC (and subsequently SVC and SVM) is that the location of the MMH only depends on the <strong>support vectors</strong>, which are the training observations that lie directly on the margin (but not hyperplane) boundary (see points A, B and C in Fig 6). This means that the location of the MMH is NOT dependent upon any <em>other</em> training observations.</p>
+
+<p>Thus it can be immediately seen that a potential drawback of the MMC is that its MMH (and thus its classification performance) can be extremely sensitive to the support vector locations. However, it is also partially this feature that makes the SVM an attractive computational tool, as we only need to store the support vectors in memory once it has been "trained" (i.e. the $b_j$ values are fixed).</p>
+
+<h2>Constructing the Maximal Margin Classifier</h2>
+
+<p>I feel it is instructive to fully outline the optimisation problem that needs to be solved in order to create the MMH (and thus the MMC itself). While I will outline the constraints of the optimisation problem, the algorithmic solution to this problem is beyond the scope of the article. Thankfully these optimisation routines are implemented in scikit-learn (actually, via the <a href="https://www.csie.ntu.edu.tw/~cjlin/libsvm/">LIBSVM library</a>). <em>If you wish to read more about the solution to these algorithmic problems, take a look at <a href="#ref-esl">Hastie et al (2009)</a> and the <a href="http://scikit-learn.org/stable/modules/svm.html">Scikit-Learn page on Support Vector Machines</a>.</em></p>
+
+<p>The procedure for determining a maximal margin hyperplane for a maximal margin classifier is as follows. Given $n$ training observations $\vec{x}_1, ..., \vec{x}_n \in \mathbb{R}^p$ and $n$ class labels $y_1,...,y_n \in \{-1,1\}$, the MMH is the solution to the following optimisation procedure:</p>
+
+<p>Maximise $M \in \mathbb{R}$, by varying $b_1, ..., b_p$ such that:</p>
+
+\begin{eqnarray}
+\sum^{p}_{j=1} b^2_j = 1
+\end{eqnarray}
+
+<p>and</p>
+
+\begin{eqnarray}
+y_i \left( \vec{b} \cdot \vec{x} + b_0 \right) \geq M, \quad \forall i = 1,...,n
+\end{eqnarray}
+
+<p>Despite the complex looking constraints, they actually state that each observation must be on the correct side of the hyperplane and at least a distance $M$ from it. Since the goal of the procedure is to maximise $M$, this is precisely the condition we need to create the MMC!</p>
+
+<p>Clearly, the case of perfect separability is an ideal one. Most "real world" datasets will not have such perfect separability via a linear hyperplane (see Fig 7). However, if there is no separability then we are unable to construct a MMC by the optimisation procedure above. So, how do we create a form of separating hyperplane?</p>
+
+<p style="text-align:center;">
+  <img width="275px" alt="No possibility of a true separating hyperplane" src="https://s3.amazonaws.com/quantstartmedia/images/qs-svm-0005.png"><br>
+  <strong>Fig 7: No possibility of a true separating hyperplane</strong>
+</p>
+
+<p>Essentially we have to relax the requirement that a separating hyperplane will perfectly separate every training observation on the correct side of the line (i.e. guarantee that it is associated with its true class label), using what is called a <strong>soft margin</strong>. This motivates the concept of a <strong>support vector classifier</strong> (SVC).</p>
+
+<h2>Support Vector Classifiers</h2>
+
+<p>As we alluded to above, one of the problems with MMC is that they can be extremely sensitive to the addition of new training observations. Consider Figs 8 and 9. In Fig 8 it can be seen that there exists a MMH perfectly separating the two classes. However, in Fig 9 if we add one point to the $+1$ class we see that the location of the MMH changes substantially. Hence in this situation the MMH has clearly been <em>over-fit</em>:</p>
+
+<p style="text-align:center;">
+  <img width="550px" alt="Addition of a single point dramatically changes the MMH line" src="https://s3.amazonaws.com/quantstartmedia/images/qs-svm-0006.png"><br>
+  <strong>Figs 8 and 9: Addition of a single point dramatically changes the MMH line</strong>
+</p>
+
+<p>As we mentioned above also, we could consider a classifier based on a separating hyperplane that doesn't perfectly separate the two classes, but does have a greater robustness to the addition of <em>new</em> invididual observations and has a better classification on <em>most</em> of the training observations. This comes at the expense of some misclassification of a few training observations.</p>
+
+<p>This is how a support vector classifier or <em>soft margin classifier</em> works. A SVC allows some observations to be on the incorrect side of the margin (or hyperplane), hence it provides a "soft" separation. The following figures 10 and 11 demonstrate observations being on the wrong side of the margin and the wrong side of the hyperplane respectively:</p>
+
+<p style="text-align:center;">
+  <img width="550px" alt="Observations on the wrong side of the margin and hyperplane" src="https://s3.amazonaws.com/quantstartmedia/images/qs-svm-0007.png"><br>
+  <strong>Figs 10 and 11: Observations on the wrong side of the margin and hyperplane, respectively</strong>
+</p>
+
+<p>As before, an observation is classified depending upon which side of the separating hyperplane it lies on, but some points may be misclassified.</p>
+
+<p>It is instructive to see how the optimisation procedure differs from that described above for the MMC. We need to introduce new parameters, namely $n$ $\epsilon_i$ values (known as the <em>slack values</em>) and a parameter $C$, known as the <em>budget</em>. We wish to maximise $M$, across $b_1, ..., b_p,\epsilon_1,..,\epsilon_n$ such that:</p>
+
+\begin{eqnarray}
+\sum^{p}_{j=1} b^2_j = 1
+\end{eqnarray}
+
+<p>and</p>
+
+\begin{eqnarray}
+y_i \left( \vec{b} \cdot \vec{x} + b_0 \right) \geq M (1 - \epsilon_i), \quad \forall i = 1,...,n
+\end{eqnarray}
+
+<p>and</p>
+
+\begin{eqnarray}
+\epsilon_i \geq 0, \quad \sum^{n}_{i=1} \epsilon_i \leq C
+\end{eqnarray}
+
+<p>Where $C$, the budget, is a non-negative "tuning" parameter. $M$ still represents the margin and the slack variables $\epsilon_i$ allow the individual observations to be on the wrong side of the margin or hyperplane.</p>
+
+<p>In essence the $\epsilon_i$ tell us where the $i$th observation is located relative to the margin and hyperplane. For $\epsilon_i=0$ it states that the $x_i$ training observation is on the correct side of the margin. For $\epsilon_i>0$ we have that $x_i$ is on the wrong side of the margin, while for $\epsilon_i>1$ we have that $x_i$ is on the wrong side of the hyperplane.</p>
+
+<p>$C$ collectively controls how much the individual $\epsilon_i$ can be modified to <em>violate</em> the margin. $C=0$ implies that $\epsilon_i=0, \forall i$ and thus no violation of the margin is possible, in which case (for separable classes) we have the MMC situation.</p>
+
+<p>For $C>0$ it means that no more than $C$ observations can violate the hyperplane. As $C$ increases the margin will widen. See Fig 12 and 13 for two differing values of $C$:</p>
+
+<p style="text-align:center;">
+  <img width="550px" alt="Different values of the tuning parameter C" src="https://s3.amazonaws.com/quantstartmedia/images/qs-svm-0008.png"><br>
+  <strong>Figs 12 and 13: Different values of the tuning parameter $C$</strong>
+</p>
+
+<p>How do we choose $C$ in practice? Generally this is done via <a href="https://www.quantstart.com/articles/Using-Cross-Validation-to-Optimise-a-Machine-Learning-Method-The-Regression-Setting">cross-validation</a>. In essence $C$ is the parameter that governs the <a href="https://www.quantstart.com/articles/The-Bias-Variance-Tradeoff-in-Statistical-Machine-Learning-The-Regression-Setting">bias-variance trade-off</a> for the SVC. A small value of $C$ means a low bias, high variance situation. A large value of $C$ means a high bias, low variance situation.</p>
+
+<p>As before, to classify a new test observation $x^{*}$ we simply calculate the sign of $f(\vec{x}^{*})= \vec{b} \cdot \vec{x}^{*} + b_0$.</p>
+
+<p>This is all well and good for classes that are linearly (or nearly linearly) separated. However, what about separation boundaries that are non-linear? How do we deal with those situations? This is where we can extend the concept of support vector classifiers to support vector machines.</p>
+
+<h2>Support Vector Machines</h2>
+
+<p>The motivation behind the extension of a SVC is to allow non-linear decision boundaries. This is the domain of the Support Vector Machine (SVM). Consider the following Figs 14 and 15. In such a situation a purely linear SVC will have extremely poor performance, simply because the data has no clear linear separation:</p>
+
+<p style="text-align:center;">
+  <img width="550px" alt="No clear linear separation between classes and thus poor SVC performance" src="https://s3.amazonaws.com/quantstartmedia/images/qs-svm-0009.png"><br>
+  <strong>Figs 14 and 15: No clear linear separation between classes and thus poor SVC performance</strong>
+</p>
+
+<p>Hence SVCs can be useless in highly non-linear class boundary problems.</p>
+
+<p>In order to motivate how an SVM works, we can consider a standard "trick" in linear regression, when considering non-linear situations. In particular a set of $p$ features $x_1, ... , x_p$ can be transformed, say, into a set of $2p$ features $x_1, x^2_1, ..., x_p, x^2_p$. This allows us to apply a linear technique to a set of non-linear features.</p>
+
+<p>While the decision boundary is linear in the new $2p$-dimensional feature space it is non-linear in the original $p$-dimensional space. We end up with a decision boundary given by $q(\vec{x})=0$ where $q$ is a quadratic polynomial function of the original features and hence is a non-linear solution.</p>
+
+<p>This is clearly not restricted to quadratic polynomials. Higher dimensional polynomials, interaction terms and other functional forms, could all be considered. Although the drawback is that it dramatically increases the dimension of the feature space to the point that some algorithms can become untractable.</p>
+
+<p>The major advantage of SVMs is that they allow a non-linear enlargening of the feature space, while still retaining a significant computational efficiency, using a process known as the <a href="http://en.wikipedia.org/wiki/Kernel_method">"kernel trick"</a>, which will be outlined below shortly.</p>
+
+<p>So what are SVMs? In essence they are an extension of SVCs that results from enlargening the feature space through the use of functions known as <strong>kernels</strong>. In order to understand kernels, we need to briefly discuss some aspects of the solution to the SVC optimisation problem outlined above.</p>
+
+<p>While calculating the solution to the SVC optimisation problem, the algorithm only needs to make use of <strong>inner products</strong> <em>between</em> the observations and not the observations themselves. Recall that an inner product is defined for two $p$-dimensional vectors $u,v$ as:</p>
+
+\begin{eqnarray}
+\langle \vec{u},\vec{v} \rangle = \sum^{p}_{j=1} u_j v_j
+\end{eqnarray}
+
+<p>Hence for two observations an inner product is defined as:</p>
+
+\begin{eqnarray}
+\langle \vec{x}_i,\vec{x}_k \rangle = \sum^{p}_{j=1} x_{ij} x_{kj}
+\end{eqnarray}
+
+<p>While we won't dwell on the details (since they are beyond the scope of this article), it is possible to show that a linear support vector classifier for a particular observation $\vec{x}$ can be represented as a linear combination of inner products:</p>
+
+\begin{eqnarray}
+f(\vec{x}) = b_0 + \sum^{n}_{i=1} \alpha_i \langle \vec{x}, \vec{x}_i \rangle
+\end{eqnarray}
+
+<p>With $n$ $a_i$ coefficients, one for each of the training observations.</p>
+
+<p>To estimate the $b_0$ and $a_i$ coefficients we only need to calculate ${n \choose 2} = n(n-1)/2$ inner products between all pairs of training observations. In fact, we ONLY need to calculate the inner products for the subset of training observations that represent the <em>support vectors</em>. I will call this subset $\mathscr{S}$. This means that:</p>
+
+\begin{eqnarray}
+a_i = 0 \enspace \text{if} \enspace \vec{x}_i \notin \mathscr{S}
+\end{eqnarray}
+
+<p>This means we can rewrite the representation formula as:</p>
+
+\begin{eqnarray}
+f(x) = b_0 + \sum_{i \in \mathscr{S}} a_i \langle \vec{x}, \vec{x}_i \rangle
+\end{eqnarray}
+
+<p>This turns out to be a major advantage for computational efficiency.</p>
+
+<p>This now motivates the extension to SVMs. If we consider the inner product $\langle \vec{x}_i, \vec{x}_k \rangle$ and replace it with a more general inner product "kernel" function $K=K(\vec{x}_i, \vec{x}_k)$, we can modify the SVC representation to use non-linear kernel functions and thus modify how we calculate "similarity" between two observations. For instance, to recover the SVC we just take $K$ to be as follows:</p>
+
+\begin{eqnarray}
+K(\vec{x}_i, \vec{x}_k) = \sum^{p}_{j=1} x_{ij} x_{kj}
+\end{eqnarray}
+
+<p>Since this kernel is <em>linear</em> in its features the SVC is known as the <em>linear</em> SVC. We can also consider polynomial kernels, of degree $d$:</p>
+
+\begin{eqnarray}
+K(\vec{x}_i, \vec{x}_k) = (1 + \sum^{p}_{j=1} x_{ij} x_{kj})^d
+\end{eqnarray}
+
+<p>This provides a significantly more flexible decision boundary and essentially amounts to fitting a SVC in a higher-dimensional feature space involving $d$-degree polynomials of the features (see Fig 16).</p>
+
+<p style="text-align:center;">
+  <img width="550px" alt="d-degree polynomial kernel and radial kernel for SVM" src="https://s3.amazonaws.com/quantstartmedia/images/qs-svm-0010.png"><br>
+  <strong>Fig 16: A $d$-degree polynomial kernel; Fig 17: A radial kernel</strong>
+</p>
+
+<p>Hence, the definition of a support vector machine is a support vector classifier with a non-linear kernel function.</p>
+
+<p>We can also consider the popular radial kernel (see Fig 17):</p>
+
+\begin{eqnarray}
+K(\vec{x}_i, \vec{x}_k) = \exp \left(-\gamma \sum^{p}_{j=1} (x_{ij} - x_{kj})^2 \right), \quad \gamma > 0
+\end{eqnarray}
+
+<p>So how do radial kernels work? They are clearly quite different from polynomial kernels. Essentially if our test observation $\vec{x}^{*}$ is far from a training observation $\vec{x}_i$ in standard Euclidean distance then the sum $\sum^{p}_{j=1} (x^{*}_j - x_{ij})^2$ will be large and thus $K(\vec{x}^{*},\vec{x}_i)$ will be very small. Hence this particular training observation $\vec{x}_i$ will have almost no effect on where the test observation $\vec{x}^{*}$ is placed, via $f(\vec{x}^{*})$.</p>
+
+<p>Thus the radial kernel has extremely localised behaviour and only nearby training observations to $\vec{x}^{*}$ will have an impact on its class label.</p>
+
+<p>While this article has been very theoretical, the <a href="https://www.quantstart.com/articles/Supervised-Learning-for-Document-Classification-with-Scikit-Learn">next article on document classification using Scikit-Learn</a> makes heavy use of SVMs in Python.</p>
+
+<h2>Biblographic Notes</h2>
+
+<p>Originally, SVMs were invented by <a href="#ref-vapnik">Vapnik (1996)</a>, while the current standard "soft margin" approach is due to <a href="#ref-cortes">Cortes (1995)</a>. My treatment of the material follows, and is strongly influenced by, the excellent statistical machine learning texts of <a href="#ref-isl">James et al (2013)</a> and <a href="#ref-esl">Hastie et al (2009)</a>.</p>
+
+<h2>References</h2>
+
+<ul>
+  <li><a name="ref-vapnik">Vapnik, V. (1996) <em>The Nature of Statistical Learning Theory</em></a></li>
+  <li><a name="ref-cortes">Cortes, C., Vapnik, V. (1995) "Support Vector Networks", <em>Machine Learning</em> <strong>20</strong> (3): 273</a></li>
+  <li><a name="ref-isl">James, G., Witten, D., Hastie, T., Tibshiranie, R. (2013) <em>An Introduction to Statistical Learning</em></a></li>
+  <li><a name="ref-esl">Hastie, T., Tibshiranie, R., Friedman, J. (2009) <em>The Elements of Statistical Learning</em></a></li>
+  <li><a name="ref-wikibooks">Wikibooks (2016) <em>Support Vector Machines</em></a> (<a href="https://en.wikibooks.org/wiki/Support_Vector_Machines">Link</a>)</li>
+  <li><a name="ref-scikit">Scikit-Learn (2016) <em>Support Vector Machines</em></a> (<a href="http://scikit-learn.org/stable/modules/svm.html">Link</a>)</li>
+</ul>
+        
+        
+        <script async data-uid="6296c27f4b" src="https://weathered-brook-5281.ck.page/6296c27f4b/index.js"></script>
+      </section>
+    </div>
+    <div class="col-md-4 book-card order-md-1">
+      
+<div class="sidebar-advert-container">
+  <a href="/qsalpha/?ref=art">
+    <img class="card-img-top" src="/static/images/qsalpha-sidebar-advert-small.png" alt="QSAlpha">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/qsalpha/?ref=art">QSAlpha</a></h3>
+      <p class="card-text medium-text mb-3">Join the QSAlpha research platform that helps fill your strategy research pipeline, diversifies your portfolio and improves your risk-adjusted returns for increased profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/qsalpha/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/quantcademy/?ref=art">
+    <img class="card-img-top" src="/static/images/quantcademy-sidebar-advert-small.png" alt="Quantcademy">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/quantcademy/?ref=art">The Quantcademy</a></h3>
+      <p class="card-text medium-text mb-3">Join the Quantcademy membership portal that caters to the rapidly-growing retail quant trader community and learn how to increase your strategy profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/quantcademy/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/successful-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/sat-sidebar-advert-small.png" alt="Successful Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to find new trading strategy ideas and objectively assess them for your portfolio using a Python-based backtesting engine.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/successful-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/advanced-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/aat-sidebar-advert-small.png" alt="Advanced Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to implement advanced trading strategies using time series analysis, machine learning and Bayesian statistics with R and Python.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/advanced-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+    
+
+<footer>
+  <div class="container container-full">
+    <section class="mt-1.5 mb-1">
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">QuantStart</li>
+            <li class="footer-list-link"><a class="link-fade" href="/about/">About</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/articles/">Articles</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/sitemap/">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Products</li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qsalpha/">QSAlpha</a></li>
+            
+            
+            <li class="footer-list-link"><a class="link-fade" href="/quantcademy/">Quantcademy</a></li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qstrader/">QSTrader</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Legal</li>
+            <li class="footer-list-link"><a class="link-fade" href="/privacy-policy/">Privacy Policy</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/terms-and-conditions/">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Social</li>
+            <li class="footer-list-link"><a class="link-fade" href="https://twitter.com/quantstart">Twitter</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="https://www.youtube.com/channel/UCmVnnZ6Y2TrJtY1eQJN6kWA">YouTube</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="row mb-1.5 mt-5">
+      <div class="col-12 col-md-9 col-lg-8 col-xl-6">
+        <div class="footer-copyright">
+          <p>©2012-2023 QuarkGluon Ltd. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+<script src="/static/js/jquery-3.2.1.min.js"></script>
+<script src="/static/js/prism.js.min"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/nav.js"></script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5383959-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+    
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="/static/js/highcharts/highcharts.js"></script>
+<script type="text/javascript">
+  num_colours = 10;
+</script>
+<script src="/static/js/statistics.js"></script>
+
+
+  </body>
+</html>

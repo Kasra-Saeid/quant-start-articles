@@ -1,0 +1,701 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-site-verification" content="wl3-8ed1QZjI0iYZMv10zoZWYElkMObTfwLlWIj9cpA" />
+    <meta name="description" content="Quantitative Finance Reading List">
+
+    <link rel="icon" href="/static/images/favicon.png">
+
+    <title>Quantitative Finance Reading List | QuantStart</title>
+    
+    
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet"> 
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/prism.css" rel="stylesheet">
+<link href="/static/css/qs.css?v=10" rel="stylesheet">
+    
+  </head>
+
+  <body>
+    <header class="header covered-header" style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://quantstartmedia.s3.amazonaws.com/images/article-images/article-backgrounds/default-bg.jpg);">
+  
+<nav class="nav">
+  <div class="container nav-container">
+    <div class="nav-row row d-flex justify-content-between align-items-center">
+      <div class="col-2">
+        <ul class="nav-items justify-content-end small-capitals align-items-center">
+          <li class="nav-item">
+            <a class="link-fade" href="/">QuantStart</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-auto col-logo">
+        <ul id="top-nav-menu" class="nav-items justify-content-end align-items-center">
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/qsalpha/">QSAlpha</a>
+          </li>
+          
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/quantcademy/">Quantcademy</a>
+          </li>
+          
+          <li id="menu-link-ebooks" class="nav-item">
+            <a class="link-fade" href="#">Books</a>
+            <div id="menu-pane-ebooks" class="nav-items menu-dropdown-pane">
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/qstrader/">QSTrader</a>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/articles/">Articles</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/members/login/">Login</a>
+          </li>
+          
+        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<nav id="mobile-nav" class="mobile-nav text-left">
+  <div class="container">
+    <ul class="mt-4 ml-3 mobile-nav-menu">
+      <li class="nav-item">
+        <a class="link-fade d-block" href="/">QuantStart</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qsalpha/">QSAlpha</a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/quantcademy/">Quantcademy</a>
+      </li>
+      
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="#">Books</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qstrader/">QSTrader</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/articles/">Articles</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/members/login/">Login</a>
+      </li>
+      
+    </ul>
+    <button class="nav-toggle mobile-nav-close">
+      <svg id="mobile-nav-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M19.77,5.63,13.41,12l6.36,6.37a1,1,0,0,1-1.41,1.41L12,13.41,5.63,19.77a1,1,0,0,1-1.44-1.39l0,0L10.58,12,4.21,5.63a1,1,0,0,1,0-1.42,1,1,0,0,1,1.41,0l0,0L12,10.58l6.37-6.37a1,1,0,0,1,1.41,0A1,1,0,0,1,19.77,5.63Z"></path>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+  <div class="container hero-container">
+    <section class="mt-5 mb-4">
+      <div class="row justify-content-center">
+        <div class="col-12 text-center">
+          <p class="hero">Quantitative Finance Reading List</p>
+          <p class="hero subhero">Quantitative Finance Reading List</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</header>
+    
+<section class="container content-container">
+  <div class="row">
+    <div class="col-md-8 order-md-2">
+      <section class="content article-content">
+        
+        
+        <p><strong><em>This is the big one!</em></strong></p>
+
+<p>I've tried to list as many <strong>great quantitative finance books</strong> as I can.</p>
+
+<p>The lists cover general quant finance, careers guides, interview prep, quant trading, mathematics, numerical methods and programming in C++, Python, Excel, MatLab and R.</p>
+
+<p><img src="https://s3.amazonaws.com/quantstartmedia/images/qs-canary-wharf.jpg" width="620px"><br><strong>Canary Wharf Tube Station, London</strong> - Many investment banks reside here, via <a href="http://www.flickr.com/photos/harshilshah/931952060/">Harshil.Shah</a></p>
+
+<p>If you have any suggestions for more books, please <a href="/contact"><strong>contact me</strong></a> at <a href="mailto:mike@quantstart.com"><strong>mike@quantstart.com</strong></a> and I'll get them added.</p>
+
+<p><em>This list was last updated on 27th July 2013</em>.</p>
+
+<h3>List Navigation</h3>
+
+<ul>
+<li><a href="#general-quant-finance-reading">General Quant Finance Reading</a></li>
+<li><a href="#interview-preparation">Interview Preparation</a></li>
+<li><a href="#quantitative-trading">Quantitative Trading</a></li>
+<li><a href="#econometrics">Econometrics</a></li>
+<li><a href="#mathematical-finance">Mathematical Finance</a></li>
+<li><a href="#interest-rate-derivatives">Interest Rate Derivatives</a></li>
+<!--
+<li><a href="#foreign-exchange-derivatives">Foreign Exchange Derivatives</a></li>
+<li><a href="#credit-derivatives">Credit Derivatives</a></li>
+<li><a href="#commodity-derivatives">Commodity Derivatives</a></li>
+<li><a href="#risk-management">Risk Management</a></li>
+<li><a href="#portfolio-management">Portfolio Management</a></li>
+<li><a href="#volatility">Volatility</a></li>
+<li><a href="#probability">Probability</a></li>
+<li><a href="#statistics">Statistics</a></li>
+<li><a href="#stochastic-calculus">Stochastic Calculus</a></li>
+<li><a href="#numerical-methods">Numerical Methods</a></li>
+<li><a href="#monte-carlo-methods">Monte Carlo Methods</a></li>
+<li><a href="#finite-difference-methods">Finite Difference Methods</a></li>
+<li><a href="#gpu-cuda">GPU/CUDA</a></li>
+-->
+<li><a href="#cpp">C++</a></li>
+<li><a href="#python">Python</a></li>
+<li><a href="#matlab">MATLAB</a></li>
+<li><a href="#r">R</a></li>
+<li><a href="#excel-vba">Excel/VBA</a></li>
+</ul>
+
+<h2><a class="no-link" name="general-quant-finance-reading">General Quant Finance Reading</a></h2>
+
+<p>One area that routinely catches out prospective quants at interview is <strong>their lack of basic financial markets knowledge</strong>. It's all well and good being the best mathematician and programmer on the globe, but if you can't tell your stock from your bond, or your bank from your fund, you'll find it a lot harder to pass those HR screenings.</p>
+
+<p><em>These books also make much better bedtime reading than graduate texts on stochastic calculus...</em></p>
+
+<ul>
+<li><a href="http://www.amazon.com/gp/product/B00ANYJ3NI/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=B00ANYJ3NI&linkCode=as2&tag=quant0f-20">The Big Short: Inside the Doomsday Machine</a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=B00ANYJ3NI" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /> - Michael Lewis</li>
+<li><a href="http://www.amazon.com/gp/product/039333869X/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=039333869X&linkCode=as2&tag=quant0f-20">Liar's Poker</a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=039333869X" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
+ - Michael Lewis</li>
+<li><a href="http://www.amazon.com/gp/product/0375758259/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0375758259&linkCode=as2&tag=quant0f-20">When Genius Failed: The Rise and Fall of Long-Term Capital Management</a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=0375758259" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
+ - Roger Lowenstein</li>
+<li><a href="http://www.amazon.com/gp/product/0143119419/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0143119419&linkCode=as2&tag=quant0f-20">More Money Than God: Hedge Funds and the Making of a New Elite (Council on Foreign Relations Books (Penguin Press))</a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=0143119419" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
+ - Sebastian Mallaby</li>
+<li><a href="http://www.amazon.com/gp/product/0470452579/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0470452579&linkCode=as2&tag=quant0f-20">How I Became a Quant: Insights from 25 of Wall Street's Elite</a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=0470452579" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
+ - Richard Lindsey, Barry Schachter</li>
+<li><a href="http://www.amazon.com/gp/product/0470192739/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0470192739&linkCode=as2&tag=quant0f-20">My Life as a Quant: Reflections on Physics and Finance</a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=0470192739" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
+ - Emanuel Derman</li>
+<li><a href="http://www.amazon.com/gp/product/0470455810/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0470455810&linkCode=as2&tag=quant0f-20">Financial Engineering: The Evolution of a Profession (Robert W. Kolb Series)</a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=0470455810" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
+ - Tanya Beder, Cara Marshall</li>
+<li><a href="http://www.amazon.com/gp/product/0307453383/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0307453383&linkCode=as2&tag=quant0f-20">The Quants: How a New Breed of Math Whizzes Conquered Wall Street and Nearly Destroyed It</a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=0307453383" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
+ - Scott Patterson</li>
+<li><a href="http://www.amazon.com/gp/product/0471369462/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0471369462&linkCode=as2&tag=quant0f-20">Nerds on Wall Street: Math, Machines and Wired Markets</a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=0471369462" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
+ - David Leinweber</li>
+<li><a href="http://www.amazon.com/gp/product/1441926240/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=1441926240&linkCode=as2&tag=quant0f-20">Physicists on Wall Street and Other Essays on Science and Society</a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=1441926240" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
+ - Jeremey Bernstein</li>
+<li><a href="http://www.amazon.com/gp/product/0071468293/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0071468293&linkCode=as2&tag=quant0f-20">The Complete Guide to Capital Markets for Quantitative Professionals (McGraw-Hill Library of Investment and Finance)</a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=0071468293" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
+ - Alex Kuznetsov</li>
+<li><a href="http://www.amazon.com/gp/product/1439164991/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=1439164991&linkCode=as2&tag=quant0f-20">Models.Behaving.Badly.: Why Confusing Illusion with Reality Can Lead to Disaster, on Wall Street and in Life</a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=1439164991" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
+ - Emanuel Derman</li>
+</ul>
+
+<h2><a class="no-link" name="interview-preparation">Interview Preparation</a></h2>
+
+<p>On top of needing to be aware of capital markets and how they function, the mathematics of derivatives pricing and quantitative trading methods, being able to program in C++ and possibly Python, you also need to study how to <strong>ace that quant interview</strong>!</p>
+
+<p>The following books are fantastic resources for getting you prepared. Make sure you study not only the content of the brainteasers, but also try deconstructing how they're put together and <em>what you're really being asked</em>.</p>
+
+<ul>
+<li><a href="http://www.amazon.com/gp/product/0970055285/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0970055285&linkCode=as2&tag=quant0f-20">Heard on The Street: Quantitative Questions from Wall Street Job Interviews</a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=0970055285" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
+ - Timothy Crack</li>
+<li><a href="http://www.amazon.com/gp/product/0470748753/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0470748753&linkCode=as2&tag=quant0f-20">Frequently Asked Questions in Quantitative Finance</a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=0470748753" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
+ - Paul Wilmott</li>
+<li><a href="http://www.amazon.com/gp/product/143821703X/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=143821703X&linkCode=as2&tag=quant0f-20">Quant Job Interview Questions And Answers</a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=143821703X" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
+ - Mark Joshi, Nick Denson, Andrew Downes</li>
+<li><a href="http://www.amazon.com/gp/product/1438236662/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=1438236662&linkCode=as2&tag=quant0f-20">A Practical Guide To Quantitative Finance Interviews</a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=1438236662" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
+ - Xinfeng Zhou</li>
+<li><a href="http://www.amazon.com/gp/product/1453823859/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=1453823859&linkCode=as2&tag=quant0f-20">Starting Your Career as a Wall Street Quant: A Practical, No-BS Guide to Getting a Job in Quantitative Finance</a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=1453823859" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
+ - Brett Jiu</li>
+<li><a href="http://www.amazon.com/gp/product/098478280X/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=098478280X&linkCode=as2&tag=quant0f-20">Cracking the Coding Interview: 150 Programming Questions and Solutions</a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=098478280X" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
+ - Gayle McDowell</li>
+</ul>
+
+
+<p><img src="https://s3.amazonaws.com/quantstartmedia/images/qs-bank-of-america.jpg" width="620px"><br><strong>Bank Of America, Canary Wharf</strong>, via <a href="http://www.flickr.com/photos/harshilshah/558297546/">Harshil.Shah</a></p>
+
+<h2><a class="no-link" name="quantitative-trading">Quantitative/High-Frequency Trading</a></h2>
+
+<p>The career paths for quants have shifted recently towards <strong>direct quantitative trading</strong> and away from derivatives pricing.</p>
+
+<p>Although Black-Scholes theory is still immensely important for hedging and exotic option pricing purposes, it is now necessary to be <strong>intimately familiar with systematic trading</strong> and the firms that employ it.</p> 
+
+<p>It is <strong>difficult to get hold of information from funds about their trading strategies</strong> (no surprise there!), but these books provide an in-depth overview into how the "black box" operates.</p>
+
+<ul>
+<li><a href="http://www.quantstart.com/successful-algorithmic-trading-ebook"><strong>Successful Algorithmic Trading</a> - Michael Halls-Moore (my book!)</strong></li>
+<li><a href="http://www.amazon.com/gp/product/0470432063/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0470432063&linkCode=as2&tag=quant0f-20">Inside the Black Box: The Simple Truth About Quantitative Trading (Wiley Finance)</a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=0470432063" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /> - Rishi Narang</li>
+<li><a href="http://www.amazon.com/gp/product/0470284889/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0470284889&linkCode=as2&tag=quant0f-20">Quantitative Trading: How to Build Your Own Algorithmic Trading Business (Wiley Trading)</a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=0470284889" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /> - Ernie Chan</li>
+<li><a href="http://www.amazon.com/gp/product/1905641796/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=1905641796&linkCode=as2&tag=quant0f-20">Trading Systems: A New Approach to System Development and Portfolio Optimisation</a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=1905641796" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /> - Emilio Tomasini, Urban Jaekle</li>
+<li><a href="http://www.amazon.com/gp/product/0071743448/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0071743448&linkCode=as2&tag=quant0f-20">All About High-Frequency Trading (All About Series)</a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=0071743448" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /> - Michael Durbin</li>
+<li><a href="http://www.amazon.com/gp/product/1557385858/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=1557385858&linkCode=as2&tag=quant0f-20">Quantitative Trading and Money Management, Revised Edition</a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=1557385858" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /> - Fred Gehm</li>
+<li><a href="http://www.amazon.com/gp/product/0956399207/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0956399207&linkCode=as2&tag=quant0f-20">Algorithmic Trading and DMA: An introduction to direct access trading strategies</a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=0956399207" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /> - Barry Johnson</li>
+<li><a href="http://www.amazon.com/gp/product/0471152803/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0471152803&linkCode=as2&tag=quant0f-20">Dynamic Hedging: Managing Vanilla and Exotic Options</a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=0471152803" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /> - Nassim Nicholas Taleb</li>
+<li><a href="http://www.amazon.com/gp/product/155738486X/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=155738486X&linkCode=as2&tag=quant0f-20">Option Volatility & Pricing: Advanced Trading Strategies and Techniques</a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=155738486X" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /> - Sheldon Natenberg</li>
+<li><a href="http://www.amazon.com/gp/product/0470181990/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0470181990&linkCode=as2&tag=quant0f-20">Volatility Trading</a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=0470181990" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /> - Euan Sinclair</li>
+<li><a href="http://www.amazon.com/gp/product/0195144708/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0195144708&linkCode=as2&tag=quant0f-20">Trading and Exchanges: Market Microstructure for Practitioners</a> - Larry Harris</li>
+</ul>
+
+<h2><a class="no-link" name="econometrics">Econometrics</a></h2>
+
+<p>Financial econometrics is a <strong>key component</strong> of modern algorithmic trading. Cutting edge algorithms make extensive use of <strong>time-series analysis techniques</strong> for forecasting purposes. Thus, if you wish someday to become a skilled quantitative trader, it is necessary to have an extensive knowledge of econometrics.</p>
+
+<p>You can read more about the recommended texts in my article on the <a href="http://www.quantstart.com/articles/Top-10-Essential-Resources-for-Learning-Financial-Econometrics">Top 10 Essential Resources for Learning Financial Econometrics</a>.</p>
+
+<ul>
+  <li><a href="http://www.amazon.com/gp/product/0071755470/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0071755470&linkCode=as2&tag=quant0f-20">Schaum's Outline of Statistics and Econometrics, 2nd Edition</a> -  Dominick Salvatore, Derrick Reagle</li> 
+  <li><a href="http://www.amazon.com/gp/product/052169468X/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=052169468X&linkCode=as2&tag=quant0f-20">Introductory Econometrics for Finance</a> - Chris Brooks</li>
+  <li><a href="http://www.amazon.com/gp/product/1405182571/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=1405182571&linkCode=as2&tag=quant0f-20">A Guide to Econometrics, 6th Edition</a> - Peter Kennedy</li>
+  <li><a href="http://www.amazon.com/gp/product/0073375772/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0073375772&linkCode=as2&tag=quant0f-20">Basic Econometrics</a> - Damodar Gujarati, Dawn Porter</li>
+  <li><a href="http://www.amazon.com/gp/product/0131395386/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0131395386&linkCode=as2&tag=quant0f-20">Econometric Analysis</a> - William Greene</li>
+  <li><a href="http://www.amazon.com/gp/product/0691042896/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0691042896&linkCode=as2&tag=quant0f-20">Time Series Analysis</a></strong> - James Douglas Hamilton</li>
+  <li><a href="http://www.amazon.com/gp/product/0470414359/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0470414359&linkCode=as2&tag=quant0f-20">Analysis of Financial Time Series</a> - Ruey S. Tsay</li>
+</ul>
+
+<h2><a class="no-link" name="mathematical-finance">Mathematical Finance</a></h2>
+
+<p>This would more accurately be described as <strong>financial engineering</strong> as the books listed below relate to derivatives pricing theory.</p>
+
+<p>Although you don't need to read every book below, they are all good. Each provides a different perspective or emphasis on options pricing theory.</p>
+
+<p>If you know you are <strong>definitely going to become a derivatives pricing quant</strong> then you should aim to study as many books from the following list as possible.</p>
+
+<ul>
+<li><a href="http://www.amazon.com/gp/product/0132777428/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0132777428&linkCode=as2&tag=quant0f-20">Options, Futures, and Other Derivatives and DerivaGem CD Package (8th Edition)</a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=0132777428" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
+ - John Hull</li>
+<li><a href="http://www.amazon.com/gp/product/0979757622/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0979757622&linkCode=as2&tag=quant0f-20">A Primer For The Mathematics Of Financial Engineering, Second Edition</a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=0979757622" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
+ - Dan Stefanica</li>
+<li><a href="http://www.amazon.com/gp/product/0979757614/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0979757614&linkCode=as2&tag=quant0f-20">Solutions Manual - A Primer For The Mathematics Of Financial Engineering, Second Edition</a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=0979757614" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
+ - Dan Stefanica</li>
+<li><a href="http://www.amazon.com/gp/product/0470319585/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0470319585&linkCode=as2&tag=quant0f-20">Paul Wilmott Introduces Quantitative Finance (The Wiley Finance Series)</a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=0470319585" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
+ - Paul Wilmott</li>
+<li><a href="http://www.amazon.com/gp/product/0470018704/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0470018704&linkCode=as2&tag=quant0f-20">Paul Wilmott on Quantitative Finance 3 Volume Set (2nd Edition)</a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=0470018704" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
+ - Paul Wilmott</li>
+<li><a href="http://www.amazon.com/gp/product/0521514088/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0521514088&linkCode=as2&tag=quant0f-20">The Concepts and Practice of Mathematical Finance (Mathematics, Finance and Risk)</a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=0521514088" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
+ - Mark Joshi</li>
+<li><a href="http://www.amazon.com/gp/product/0987122800/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0987122800&linkCode=as2&tag=quant0f-20">More mathematical finance</a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=0987122800" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
+ - Mark Joshi</li>
+<li><a href="http://www.amazon.com/gp/product/0521552893/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0521552893&linkCode=as2&tag=quant0f-20">Financial Calculus: An Introduction to Derivative Pricing</a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=0521552893" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
+ - Martin Baxter, Andrew Rennie</li>
+<li><a href="http://www.amazon.com/gp/product/0125153929/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0125153929&linkCode=as2&tag=quant0f-20">An Introduction to the Mathematics of Financial Derivatives, Second Edition (Academic Press Advanced Finance)</a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=0125153929" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
+ - Salih Neftci</li>
+<li><a href="http://www.amazon.com/gp/product/0123735742/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0123735742&linkCode=as2&tag=quant0f-20">Principles of Financial Engineering, Second Edition (Academic Press Advanced Finance)</a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=0123735742" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
+ - Salih Neftci</li>
+<li><a href="http://www.amazon.com/gp/product/0857290819/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0857290819&linkCode=as2&tag=quant0f-20">Mathematics for Finance: An Introduction to Financial Engineering (Springer Undergraduate Mathematics Series)</a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=0857290819" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
+ - Marek Capiski, Tomasz Zastawniak</li>
+<li><a href="http://www.amazon.com/gp/product/019957474X/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=019957474X&linkCode=as2&tag=quant0f-20">Arbitrage Theory in Continuous Time (Oxford Finance)</a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=019957474X" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
+ - Tomas Bjork</li>
+<li><a href="http://www.amazon.com/gp/product/0071389970/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0071389970&linkCode=as2&tag=quant0f-20">The Complete Guide to Option Pricing Formulas</a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=0071389970" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
+ - Espen Haug</li>
+</ul>
+
+<p><img src="https://s3.amazonaws.com/quantstartmedia/images/qs-gherkin-lloyds.jpg" width="620px"><br><strong>Gherkin and Lloyds Building, London</strong>, via <a href="http://www.flickr.com/photos/duncanh1/8299994107/in/photostream">Duncan Harris</a></p>
+
+<h2><a class="no-link" name="interest-rate-derivatives">Interest Rate Derivatives</a></h2>
+
+<ul>
+<li><a href="http://www.amazon.com/gp/product/3540221492/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=3540221492&linkCode=as2&tag=quant0f-20">Interest Rate Models - Theory and Practice: With Smile, Inflation and Credit (Springer Finance)</a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=3540221492" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /> - Damiano Brigo, Fabio Mercurio</li>
+<li><a href="http://www.amazon.com/gp/product/0984422102/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0984422102&linkCode=as2&tag=quant0f-20">Interest Rate Modeling. Volume 1: Foundations and Vanilla Models</a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=0984422102" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /> - Leif B.G. Andersen, Vladimir V. Piterbarg</li>
+<li><a href="http://www.amazon.com/gp/product/0984422110/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0984422110&linkCode=as2&tag=quant0f-20">Interest Rate Modeling. Volume 2: Term Structure Models</a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=0984422110" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
+ - Leif B.G. Andersen, Vladimir V. Piterbarg</li>
+<li><a href="http://www.amazon.com/gp/product/0984422129/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0984422129&linkCode=as2&tag=quant0f-20">Interest Rate Modeling. Volume 3: Products and Risk Management</a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=0984422129" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
+ - Leif B.G. Andersen, Vladimir V. Piterbarg</li>
+<li><a href="http://www.amazon.com/gp/product/0470740051/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0470740051&linkCode=as2&tag=quant0f-20">The SABR/LIBOR Market Model: Pricing, Calibration and Hedging for Complex Interest-Rate Derivatives</a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=0470740051" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /> - Riccardo Rebonato, Kenneth McKay, Richard White</li>
+<li><a href="http://www.amazon.com/gp/product/1137268514/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=1137268514&linkCode=as2&tag=quant0f-20">Discounting, Libor, CVA and Funding: Interest Rate and Credit Pricing (Applied Quantitative Finance)</a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=1137268514" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /> - Chris Kenyon, Roland Stamm</li>
+<li><a href="http://www.amazon.com/gp/product/0470443944/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0470443944&linkCode=as2&tag=quant0f-20">Interest Rate Swaps and Their Derivatives: A Practitioner's Guide (Wiley Finance)</a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=0470443944" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /> - Amir Sadr</li>
+<li><a href="http://www.amazon.com/gp/product/3540097260/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=3540097260&linkCode=as2&tag=quant0f-20">Term-Structure Models: A Graduate Course (Springer Finance / Springer Finance Textbooks)</a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=3540097260" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /> - Damir Filipovic</li>
+</ul>
+
+<!--
+<h2><a class="no-link" name="foreign-exchange-derivatives">Foreign Exchange Derivatives</a></h2>
+
+<h2><a class="no-link" name="credit-derivatives">Credit Derivatives</a></h2>
+
+<h2><a class="no-link" name="commodity-derivatives">Commodity Derivatives</a></h2>
+
+<h2><a class="no-link" name="risk-management">Risk Management</a></h2>
+
+<h2><a class="no-link" name="portfolio-management">Portfolio Management</a></h2>
+
+<h2><a class="no-link" name="volatility">Volatility</a></h2>
+
+<h2><a class="no-link" name="probability">Probability</a></h2>
+
+<h2><a class="no-link" name="stochastic-calculus">Stochastic Calculus</a></h2>
+
+<h2><a class="no-link" name="numerical-methods">Numerical Methods</a></h2>
+
+<h2><a class="no-link" name="monte-carlo-methods">Monte Carlo Methods</a></h2>
+
+<h2><a class="no-link" name="finite-difference-methods">Finite Difference Methods</a></h2>
+
+<h2><a class="no-link" name="gpu-cuda">GPU/CUDA</a></h2>
+-->
+<h2><a class="no-link" name="cpp">C++</a></h2>
+
+<p>C++ is one of the <strong>hardest areas for beginning quants</strong> to get to grips with.</p>
+
+<p>Since it is such a large programming language, and may in fact be a quant's <strong>first taste of programming</strong>, it can be extremely daunting.</p>
+
+<p>The first five books on the list, if understood properly, would make you a <strong>competent C++ programmer</strong>. By reading the remainder, you will become an expert and <strong><em>probably the best in your peer group</em></strong>.</p>
+
+<ul>
+<li><strong><a href="http://www.quantstart.com/cpp-for-quantitative-finance-ebook/">C++ for Quantitative Finance</a> - Michael Halls-Moore (my book!)</strong></li>
+<li><a href="http://www.amazon.com/gp/product/0672335670/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0672335670&linkCode=as2&tag=quant0f-20">Sams Teach Yourself C++ in One Hour a Day (7th Edition)</a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=0672335670" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
+ - Jesse Liberty, Rogers Cadenhead</li>
+<li><a href="http://www.amazon.com/gp/product/0072232153/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0072232153&linkCode=as2&tag=quant0f-20">C++: A Beginner's Guide, Second Edition</a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=0072232153" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
+ - Herbert Schildt</li>
+<li><a href="http://www.amazon.com/gp/product/020170353X/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=020170353X&linkCode=as2&tag=quant0f-20">Accelerated C++: Practical Programming by Example</a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=020170353X" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
+ - Andrew Koenig, Barbara Moo</li>
+<li><a href="http://www.amazon.com/gp/product/0321334876/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0321334876&linkCode=as2&tag=quant0f-20">Effective C++: 55 Specific Ways to Improve Your Programs and Designs (3rd Edition)</a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=0321334876" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
+ - Scott Meyers</li>
+<li><a href="http://www.amazon.com/gp/product/0470015381/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0470015381&linkCode=as2&tag=quant0f-20">Introduction to C++ for Financial Engineers: An Object-Oriented Approach (The Wiley Finance Series)</a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=0470015381" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
+ - Daniel Duffy</li>
+<li><a href="http://www.amazon.com/gp/product/020163371X/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=020163371X&linkCode=as2&tag=quant0f-20">More Effective C++: 35 New Ways to Improve Your Programs and Designs</a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=020163371X" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
+ - Scott Meyers</li>
+<li><a href="http://www.amazon.com/gp/product/0201615622/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0201615622&linkCode=as2&tag=quant0f-20">Exceptional C++: 47 Engineering Puzzles, Programming Problems, and Solutions</a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=0201615622" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
+ - Herb Sutter</li>
+<li><a href="http://www.amazon.com/gp/product/020170434X/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=020170434X&linkCode=as2&tag=quant0f-20">More Exceptional C++: 40 New Engineering Puzzles, Programming Problems, and Solutions</a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=020170434X" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
+ - Herb Sutter</li>
+<li><a href="http://www.amazon.com/gp/product/0201760428/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0201760428&linkCode=as2&tag=quant0f-20">Exceptional C++ Style: 40 New Engineering Puzzles, Programming Problems, and Solutions</a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=0201760428" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
+ - Herb Sutter</li>
+<li><a href="http://www.amazon.com/gp/product/0321113586/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0321113586&linkCode=as2&tag=quant0f-20">C++ Coding Standards: 101 Rules, Guidelines, and Best Practices</a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=0321113586" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /> - Herb Sutter, Andrei Alexandrescu</li>
+<li><a href="http://www.amazon.com/gp/product/0123850037/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0123850037&linkCode=as2&tag=quant0f-20">API Design for C++</a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=0123850037" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /> - Martin Reddy</li>
+<li><a href="http://www.amazon.com/gp/product/0201749629/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0201749629&linkCode=as2&tag=quant0f-20">Effective STL: 50 Specific Ways to Improve Your Use of the Standard Template Library</a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=0201749629" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
+ - Scott Meyers</li>
+<li><a href="http://www.amazon.com/gp/product/0321623215/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0321623215&linkCode=as2&tag=quant0f-20">The C++ Standard Library: A Tutorial and Reference (2nd Edition)</a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=0321623215" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
+ - Nicolai Josuttis</li>
+<li><a href="http://www.amazon.com/gp/product/0201734842/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0201734842&linkCode=as2&tag=quant0f-20">C++ Templates: The Complete Guide</a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=0201734842" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /> - David Vandevoorde, Nicolai Josuttis</li>
+<li><a href="http://www.amazon.com/gp/product/0201704315/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0201704315&linkCode=as2&tag=quant0f-20">Modern C++ Design: Generic Programming and Design Patterns Applied</a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=0201704315" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
+ - Andrei Alexandrescu</li>
+<li><a href="http://www.amazon.com/gp/product/0321227255/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0321227255&linkCode=as2&tag=quant0f-20">C++ Template Metaprogramming: Concepts, Tools, and Techniques from Boost and Beyond</a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=0321227255" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
+ - David Abrahams, Aleksey Gurtovoy</li>
+<li><a href="http://www.amazon.com/gp/product/0982219199/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0982219199&linkCode=as2&tag=quant0f-20">The Boost C++ Libraries</a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=0982219199" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /> - Boris Schäling</li>
+<li><a href="http://www.amazon.com/gp/product/0321133544/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0321133544&linkCode=as2&tag=quant0f-20">Beyond the C++ Standard Library: An Introduction to Boost</a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=0321133544" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /> - Björn Karlsson</li>
+<li><a href="http://www.amazon.com/gp/product/9491028014/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=9491028014&linkCode=as2&tag=quant0f-20">Introduction to the Boost C++ Libraries; Volume I - Foundations</a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=9491028014" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
+ - Robert Demming, Daniel Duffy</li>
+<li><a href="http://www.amazon.com/gp/product/9491028022/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=9491028022&linkCode=as2&tag=quant0f-20">Introduction to the Boost C++ Libraries; Volume II - Advanced Libraries</a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=9491028022" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /> - Robert Demming, Daniel Duffy</li>
+<li><a href="http://www.amazon.com/gp/product/1933988770/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=1933988770&linkCode=as2&tag=quant0f-20">C++ Concurrency in Action: Practical Multithreading</a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=1933988770" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /> - Anthony Williams</li>
+<li><a href="http://www.amazon.com/gp/product/0201633922/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0201633922&linkCode=as2&tag=quant0f-20">Programming with POSIX Threads</a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=0201633922" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /> - David Butenhof</li>
+<li><a href="http://www.amazon.com/gp/product/0735710430/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0735710430&linkCode=as2&tag=quant0f-20">Advanced Linux Programming</a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=0735710430" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /> - Mark Mitchell, Alex Samuel, Jeffrey Oldham</li>
+<li><a href="http://www.amazon.com/gp/product/0201433079/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0201433079&linkCode=as2&tag=quant0f-20">Advanced Programming in the UNIX Environment (2nd Edition)</a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=0201433079" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
+ - W. Richard Stevens, Stephen Rago</li>
+<li><a href="http://www.amazon.com/gp/product/0131411543/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0131411543&linkCode=as2&tag=quant0f-20">Advanced UNIX Programming (2nd Edition)</a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=0131411543" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
+ - Marc Rochkind</li>
+<li><a href="http://www.amazon.com/gp/product/0201633612/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0201633612&linkCode=as2&tag=quant0f-20">Design Patterns: Elements of Reusable Object-Oriented Software</a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=0201633612" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /> - Erich Gamma, Richard Helm, Ralph Johnson, John Vlissides</li>
+<li><a href="http://www.amazon.com/gp/product/0596007124/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0596007124&linkCode=as2&tag=quant0f-20">Head First Design Patterns</a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=0596007124" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /> - Elisabeth Freeman, Eric Freeman, Bert Bates, Kathy Sierra, Elisabeth Robson</li>
+<li><a href="http://www.amazon.com/gp/product/0321563840/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0321563840&linkCode=as2&tag=quant0f-20">The C++ Programming Language, 4th Edition</a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=0321563840" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
+ - Bjarne Stroustrup</li>
+<li><a href="http://www.amazon.com/gp/product/0072226803/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0072226803&linkCode=as2&tag=quant0f-20">C++: The Complete Reference, 4th Edition</a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=0072226803" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
+ - Herbert Schildt</li>
+<li><a href="http://www.amazon.com/gp/product/0596004966/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0596004966&linkCode=as2&tag=quant0f-20">C++ Pocket Reference</a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=0596004966" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
+ - Kyle Loudon</li>
+<li><a href="http://www.amazon.com/gp/product/B008PGW5EU/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=B008PGW5EU&linkCode=as2&tag=quant0f-20">STL Pocket Reference (Pocket Reference (O'Reilly))</a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=B008PGW5EU" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
+ - Ray Lischner</li>
+<li><a href="http://www.amazon.com/gp/product/0596007612/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0596007612&linkCode=as2&tag=quant0f-20">C++ Cookbook (Cookbooks (O'Reilly))</a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=0596007612" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
+ - D. Ryan Stephens, Christopher Diggins, Jonathan Turkanis, Jeff Cogswell</li>
+</ul>
+
+<h2><a class="no-link" name="python">Python</a></h2>
+
+<p>In recent years <strong>Python has rapidly become a staple in the quantitative finance world</strong>.</p>
+
+<p>I personally know of many funds that employ it as the <strong>end-to-end computational infrastructure</strong> for carrying out systematic trading.</p>
+
+<p>It is an easy language to learn, but it is harder to master, because it has many useful libraries. Regardless of which type of quant you wish to become, <strong>I would suggest learning Python</strong>, as it is only going to become more widely adopted as time goes on.</p>
+
+<ul>
+<li><a href="http://www.amazon.com/gp/product/0596158068/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0596158068&linkCode=as2&tag=quant0f-20">Learning Python: Powerful Object-Oriented Programming</a> - Mark Lutz</li>
+<li><a href="http://www.amazon.com/gp/product/0596158106/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0596158106&linkCode=as2&tag=quant0f-20">Programming Python</a> - Mark Lutz</li>
+<li><a href="http://www.amazon.com/gp/product/1449340377/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=1449340377&linkCode=as2&tag=quant0f-20">Python Cookbook</a> - David Beazley, Brian K. Jones</li>
+<li><a href="http://www.amazon.com/gp/product/144933072X/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=144933072X&linkCode=as2&tag=quant0f-20">Think Python</a> - Allen B. Downey</li>
+<li><a href="http://www.amazon.com/gp/product/1449319793/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=1449319793&linkCode=as2&tag=quant0f-20">Python for Data Analysis</a> - Wes McKinney</li>
+<li><a href="http://www.amazon.com/gp/product/1590599829/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=1590599829&linkCode=as2&tag=quant0f-20">Beginning Python: From Novice to Professional</a> - Magnus Lie Hetland</li>
+<li><a href="http://www.amazon.com/gp/product/1435455002/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=1435455002&linkCode=as2&tag=quant0f-20">Python Programming for the Absolute Beginner, 3rd Edition</a> - Michael Dawson</li>
+<li><a href="http://www.amazon.com/gp/product/1435459806/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=1435459806&linkCode=as2&tag=quant0f-20">More Python Programming for the Absolute Beginner</a> - Jonathan S. Harbour</li>
+<li><a href="http://www.amazon.com/gp/product/1590282418/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=1590282418&linkCode=as2&tag=quant0f-20">Python Programming: An Introduction to Computer Science 2nd Edition</a> - John Zelle</li>
+<li><a href="http://www.amazon.com/gp/product/1430232374/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=1430232374&linkCode=as2&tag=quant0f-20">Python Algorithms: Mastering Basic Algorithms in the Python Language</a> - Magnus Lie Hetland</li>
+<li><a href="http://www.amazon.com/gp/product/1430230037/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=1430230037&linkCode=as2&tag=quant0f-20">Foundations of Python Network Programming</a> - John Goerzan, Brandon Rhodes</li>
+<li><a href="http://www.amazon.com/gp/product/1430218436/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=1430218436&linkCode=as2&tag=quant0f-20">Beginning Python Visualization: Crafting Visual Transformation Scripts</a> - Shai Vaingast</li>
+<li><a href="http://www.amazon.com/gp/product/1430226056/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=1430226056&linkCode=as2&tag=quant0f-20">Pro Python System Administration</a> - Rytis Sileika</li>
+<li><a href="http://www.amazon.com/gp/product/1849511268/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=1849511268&linkCode=as2&tag=quant0f-20">Python 3 Object Oriented Programming</a> - Dusty Phillips</li>
+<li><a href="http://www.amazon.com/gp/product/0321884914/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0321884914&linkCode=as2&tag=quant0f-20">Learn Python the Hard Way</a> - Zed Shaw</li>
+<li><a href="http://www.amazon.com/gp/product/1849510180/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=1849510180&linkCode=as2&tag=quant0f-20">MySQL for Python</a> - Albert Lukaszewski</li>
+<li><a href="http://www.amazon.com/gp/product/1847198848/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=1847198848&linkCode=as2&tag=quant0f-20">Python Testing: Beginner's Guide</a> - Daniel Arbuckle</li>
+<li><a href="http://www.amazon.com/gp/product/1849514666/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=1849514666&linkCode=as2&tag=quant0f-20">Python Testing Cookbook</a> - Greg L. Turnquist</li>
+<li><a href="http://www.amazon.com/gp/product/0672329786/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0672329786&linkCode=as2&tag=quant0f-20">Python Essential Reference (4th Edition)</a> - David M. Beazley</li>
+<li><a href="http://www.amazon.com/gp/product/184719494X/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=184719494X&linkCode=as2&tag=quant0f-20">Expert Python Programming</a> - Tarek Ziade</li>
+</ul>
+
+<p><img src="https://s3.amazonaws.com/quantstartmedia/images/qs-shoeshine.jpg" width="620px"><br><strong>City of London</strong>, via <a href="http://www.flickr.com/photos/duncanh1/8202941607/in/set-72157617855859149/">Duncan Harris</a></p>
+
+<h2><a class="no-link" name="matlab">MATLAB</a></h2>
+
+<p>Although Python is rapidly gaining ground in the hedge fund space, <strong>many exceptional individuals were trained up on MatLab</strong> in academia and took that expertise to the financial markets. You will still see a substantial usage of MatLab within funds.</p>
+
+<p>If you have been applying for jobs with MatLab in the job description, the following books will <strong>help you impress your interviwer</strong>.</p>
+
+<ul>
+<li><a href="http://www.amazon.com/gp/product/0123850819/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0123850819&linkCode=as2&tag=quant0f-20">Matlab, Second Edition: A Practical Introduction to Programming and Problem Solving</a> - Stormy Attaway</li>
+<li><a href="http://www.amazon.com/gp/product/0471745030/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0471745030&linkCode=as2&tag=quant0f-20">Numerical Methods in Finance and Economics: A MATLAB-Based Introduction</a> - Paolo Brandimarte</li>
+<li><a href="http://www.amazon.com/gp/product/0470725389/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0470725389&linkCode=as2&tag=quant0f-20">Stochastic Simulation and Applications in Finance with MATLAB Programs</a> - Huu Tue Huynh, Van Son Lai, Issouf Soumare</li>
+<li><a href="http://www.amazon.com/gp/product/0470371897/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0470371897&linkCode=as2&tag=quant0f-20">Simulation and Optimization in Finance + Website: Modeling with MATLAB, @Risk, or VBA</a> - Dessislava Pachamanova, Frank J. Fabozzi</li>
+<li><a href="http://www.amazon.com/gp/product/0470565152/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0470565152&linkCode=as2&tag=quant0f-20">Numerical Methods with MATLAB</a> - Amos Gilat, Vish Subramaniam</li>
+<li><a href="http://www.amazon.com/gp/product/0470683694/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0470683694&linkCode=as2&tag=quant0f-20">The Mathematics of Derivatives Securities with Applications in MATLAB</a> - Mario Cerrato</li>
+<li><a href="http://www.amazon.com/gp/product/0470744898/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0470744898&linkCode=as2&tag=quant0f-20">Financial Modelling: Theory, Implementation and Practice with MATLAB Source</a> - Joerg Kienitz, Daniel Wetterau</li>
+<li><a href="http://www.amazon.com/gp/product/0470767855/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0470767855&linkCode=as2&tag=quant0f-20">MATLAB: An Introduction with Applications</a> - Amos Gilat</li>
+<li><a href="http://www.amazon.com/gp/product/0199731241/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0199731241&linkCode=as2&tag=quant0f-20">Getting Started with MATLAB: A Quick Introduction for Scientists and Engineers</a> - Rudra Pratap</li>
+<li><a href="http://www.amazon.com/gp/product/0131991108/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0131991108&linkCode=as2&tag=quant0f-20">An Engineers Guide to MATLAB (3rd Edition)</a> - Edward B. Magrab, Shapour Azarm, Balakumar Balachandran, James Duncan, Keith Herold, Gregory Walsh</li>
+<li><a href="http://www.amazon.com/gp/product/0131962590/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0131962590&linkCode=as2&tag=quant0f-20">Modeling Derivatives Applications in Matlab, C++, and Excel</a> - Justin London</li>
+<li><a href="http://www.amazon.com/gp/product/0470669438/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0470669438&linkCode=as2&tag=quant0f-20">Financial Risk Forecasting: The Theory and Practice of Forecasting Market Risk with Implementation in R and Matlab</a> - Jon Danielsson</li>
+</ul>
+
+<h2><a class="no-link" name="r">R</a></h2>
+
+<p>As with MatLab, R is extensively used within systematic funds as it is a natural language with which to carry out <strong>advanced statistical analysis</strong>.</p>
+
+<p>A great way to learn R is to pair the following books with an online course in statistics (which will often make use of R anyway). This will really help you <strong>get to grips with the methods of quantitative trading</strong>.</p>
+
+<ul>
+<li><a href="http://www.amazon.com/gp/product/0387938362/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0387938362&linkCode=as2&tag=quant0f-20">A Beginner's Guide to R</a> - Alain F. Zuur, Elena N. Ieno, Erik Meesters</li>
+<li><a href="http://www.amazon.com/gp/product/0387790535/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0387790535&linkCode=as2&tag=quant0f-20">Introductory Statistics with R</a> - Peter Dalgaard</li>
+<li><a href="http://www.amazon.com/gp/product/0387886974/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0387886974&linkCode=as2&tag=quant0f-20">Introductory Time Series with R</a> - Paul S.P. Cowpertwait, Andrew V. Metcalfe</li>
+<li><a href="http://www.amazon.com/gp/product/0387747303/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0387747303&linkCode=as2&tag=quant0f-20">Data Manipulation with R</a> - Phil Spector</li>
+<li><a href="http://www.amazon.com/gp/product/1439810184/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=1439810184&linkCode=as2&tag=quant0f-20">Data Mining with R: Learning with Case Studies</a> - Luis Torgo</li>
+<li><a href="http://www.amazon.com/gp/product/1935182390/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=1935182390&linkCode=as2&tag=quant0f-20">R in Action</a> - Robert Kabacoff</li>
+<li><a href="http://www.amazon.com/gp/product/144931208X/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=144931208X&linkCode=as2&tag=quant0f-20">R in a Nutshell</a> - Joseph Adler</li>
+<li><a href="http://www.amazon.com/gp/product/1593273843/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=1593273843&linkCode=as2&tag=quant0f-20">The Art of R Programming: A Tour of Statistical Software Design</a> - Norman Matloff</li>
+<li><a href="http://www.amazon.com/gp/product/1439831769/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=1439831769&linkCode=as2&tag=quant0f-20">R Graphics, Second Edition</a> - Paul Murrell</li>
+<li><a href="http://www.amazon.com/gp/product/141297514X/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=141297514X&linkCode=as2&tag=quant0f-20">An R Companion to Applied Regression</a> - An R Companion to Applied Regression</li>
+<li><a href="http://www.amazon.com/gp/product/0596809158/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0596809158&linkCode=as2&tag=quant0f-20">R Cookbook</a> - Paul Teetor</li>
+<li><a href="http://www.amazon.com/gp/product/0470973927/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0470973927&linkCode=as2&tag=quant0f-20">The R Book</a> - Michael J. Crawley</li>
+<li><a href="http://www.amazon.com/gp/product/1118391411/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=1118391411&linkCode=as2&tag=quant0f-20">The Essential R Reference</a> - Mark Gardener</li>
+<li><a href="http://www.amazon.com/gp/product/1449316956/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=1449316956&linkCode=as2&tag=quant0f-20">R Graphics Cookbook</a> - Winston Chang</li>
+</ul>
+
+<h2><a class="no-link" name="excel-vba">Excel/VBA</a></h2>
+
+<p>Although not possessing the computational horsepower of C++ or Python, Excel is probably the most <strong>widely used software in the financial world</strong>.</p>
+
+<p>If you are working on an investment banking prop trading desk as a quant, you will almost certainly <strong>be asked to implement functions in Excel for the traders</strong> at some stage. Having a working knowledge of Excel prior to interview will give you yet another edge over your peers when applying for that exciting quant role.</p>
+
+<ul>
+<li><a href="http://www.amazon.com/gp/product/0471499226/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0471499226&linkCode=as2&tag=quant0f-20">Advanced modelling in finance using Excel and VBA</a> - Mary Jackson, Mike Staunton</li>
+<li><a href="http://www.amazon.com/gp/product/0470475358/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0470475358&linkCode=as2&tag=quant0f-20">Excel 2010 Power Programming with VBA</a> - John Walkenbach</li>
+<li><a href="http://www.amazon.com/gp/product/0470660929/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0470660929&linkCode=as2&tag=quant0f-20">Credit Risk Modeling using Excel and VBA</a> - Gunter Löeffler, Peter N. Posch</li>
+<li><a href="http://www.amazon.com/gp/product/1118469100/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=1118469100&linkCode=as2&tag=quant0f-20">Next Generation Excel: Modeling in Excel for Analysts and MBAs</a> - Isaac Gottlieb</li>
+<li><a href="http://www.amazon.com/gp/product/047027560X/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=047027560X&linkCode=as2&tag=quant0f-20">Financial Analysis and Modeling Using Excel and VBA</a> - Chandan Sengupta</li>
+<li><a href="http://www.amazon.com/gp/product/0137131828/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0137131828&linkCode=as2&tag=quant0f-20">Microsoft Excel for Stock and Option Traders: Build Your Own Analytical Tools for Higher Returns</a> - Jeff Augen</li>
+<li><a href="http://www.amazon.com/gp/product/0470997443/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0470997443&linkCode=as2&tag=quant0f-20">Financial Modelling in Practice: A Concise Guide for Intermediate and Advanced Level</a> - Michael Rees</li>
+<li><a href="http://www.amazon.com/Option-Pricing-Volatility-Excel-VBA-Finance/dp/0471794643/">Option Pricing Models and Volatility Using Excel-VBA</a> - Fabrice Douglas Rouah, Gregory Vainberg</li>
+<li><a href="http://www.amazon.com/gp/product/0470824395/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0470824395&linkCode=as2&tag=quant0f-20">Professional Financial Computing Using Excel and VBA</a> - Donny C. F. Lai, Humphrey K. K. Tung, Michael C. S. Wong, Stephen Ng</li>
+</ul>
+
+<p>Phew! That was quite an extensive list. Congratulations if you have made it this far...</p>
+
+<p>Please send me any suggestions of <strong>great quant books</strong> you've read that have helped you on your way. I am always willing to add more to this list. You can <a href="/contact"><strong>contact me</strong></a> by sending an email to <a href="mailto:mike@quantstart.com"><strong>mike@quantstart.com</strong></a>.</p>
+        
+        
+        <script async data-uid="6296c27f4b" src="https://weathered-brook-5281.ck.page/6296c27f4b/index.js"></script>
+      </section>
+    </div>
+    <div class="col-md-4 book-card order-md-1">
+      
+<div class="sidebar-advert-container">
+  <a href="/qsalpha/?ref=art">
+    <img class="card-img-top" src="/static/images/qsalpha-sidebar-advert-small.png" alt="QSAlpha">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/qsalpha/?ref=art">QSAlpha</a></h3>
+      <p class="card-text medium-text mb-3">Join the QSAlpha research platform that helps fill your strategy research pipeline, diversifies your portfolio and improves your risk-adjusted returns for increased profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/qsalpha/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/quantcademy/?ref=art">
+    <img class="card-img-top" src="/static/images/quantcademy-sidebar-advert-small.png" alt="Quantcademy">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/quantcademy/?ref=art">The Quantcademy</a></h3>
+      <p class="card-text medium-text mb-3">Join the Quantcademy membership portal that caters to the rapidly-growing retail quant trader community and learn how to increase your strategy profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/quantcademy/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/successful-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/sat-sidebar-advert-small.png" alt="Successful Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to find new trading strategy ideas and objectively assess them for your portfolio using a Python-based backtesting engine.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/successful-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/advanced-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/aat-sidebar-advert-small.png" alt="Advanced Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to implement advanced trading strategies using time series analysis, machine learning and Bayesian statistics with R and Python.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/advanced-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+    
+
+<footer>
+  <div class="container container-full">
+    <section class="mt-1.5 mb-1">
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">QuantStart</li>
+            <li class="footer-list-link"><a class="link-fade" href="/about/">About</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/articles/">Articles</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/sitemap/">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Products</li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qsalpha/">QSAlpha</a></li>
+            
+            
+            <li class="footer-list-link"><a class="link-fade" href="/quantcademy/">Quantcademy</a></li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qstrader/">QSTrader</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Legal</li>
+            <li class="footer-list-link"><a class="link-fade" href="/privacy-policy/">Privacy Policy</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/terms-and-conditions/">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Social</li>
+            <li class="footer-list-link"><a class="link-fade" href="https://twitter.com/quantstart">Twitter</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="https://www.youtube.com/channel/UCmVnnZ6Y2TrJtY1eQJN6kWA">YouTube</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="row mb-1.5 mt-5">
+      <div class="col-12 col-md-9 col-lg-8 col-xl-6">
+        <div class="footer-copyright">
+          <p>©2012-2023 QuarkGluon Ltd. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+<script src="/static/js/jquery-3.2.1.min.js"></script>
+<script src="/static/js/prism.js.min"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/nav.js"></script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5383959-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+    
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="/static/js/highcharts/highcharts.js"></script>
+<script type="text/javascript">
+  num_colours = 10;
+</script>
+<script src="/static/js/statistics.js"></script>
+
+
+  </body>
+</html>

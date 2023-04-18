@@ -1,0 +1,797 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-site-verification" content="wl3-8ed1QZjI0iYZMv10zoZWYElkMObTfwLlWIj9cpA" />
+    <meta name="description" content="Markov Chain Monte Carlo for Bayesian Inference - The Metropolis Algorithm">
+
+    <link rel="icon" href="/static/images/favicon.png">
+
+    <title>Markov Chain Monte Carlo for Bayesian Inference - The Metropolis Algorithm | QuantStart</title>
+    
+    
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet"> 
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/prism.css" rel="stylesheet">
+<link href="/static/css/qs.css?v=10" rel="stylesheet">
+    
+  </head>
+
+  <body>
+    <header class="header covered-header" style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://quantstartmedia.s3.amazonaws.com/images/article-images/article-backgrounds/default-bg.jpg);">
+  
+<nav class="nav">
+  <div class="container nav-container">
+    <div class="nav-row row d-flex justify-content-between align-items-center">
+      <div class="col-2">
+        <ul class="nav-items justify-content-end small-capitals align-items-center">
+          <li class="nav-item">
+            <a class="link-fade" href="/">QuantStart</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-auto col-logo">
+        <ul id="top-nav-menu" class="nav-items justify-content-end align-items-center">
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/qsalpha/">QSAlpha</a>
+          </li>
+          
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/quantcademy/">Quantcademy</a>
+          </li>
+          
+          <li id="menu-link-ebooks" class="nav-item">
+            <a class="link-fade" href="#">Books</a>
+            <div id="menu-pane-ebooks" class="nav-items menu-dropdown-pane">
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/qstrader/">QSTrader</a>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/articles/">Articles</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/members/login/">Login</a>
+          </li>
+          
+        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<nav id="mobile-nav" class="mobile-nav text-left">
+  <div class="container">
+    <ul class="mt-4 ml-3 mobile-nav-menu">
+      <li class="nav-item">
+        <a class="link-fade d-block" href="/">QuantStart</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qsalpha/">QSAlpha</a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/quantcademy/">Quantcademy</a>
+      </li>
+      
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="#">Books</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qstrader/">QSTrader</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/articles/">Articles</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/members/login/">Login</a>
+      </li>
+      
+    </ul>
+    <button class="nav-toggle mobile-nav-close">
+      <svg id="mobile-nav-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M19.77,5.63,13.41,12l6.36,6.37a1,1,0,0,1-1.41,1.41L12,13.41,5.63,19.77a1,1,0,0,1-1.44-1.39l0,0L10.58,12,4.21,5.63a1,1,0,0,1,0-1.42,1,1,0,0,1,1.41,0l0,0L12,10.58l6.37-6.37a1,1,0,0,1,1.41,0A1,1,0,0,1,19.77,5.63Z"></path>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+  <div class="container hero-container">
+    <section class="mt-5 mb-4">
+      <div class="row justify-content-center">
+        <div class="col-12 text-center">
+          <p class="hero">Markov Chain Monte Carlo for Bayesian Inference - The Metropolis Algorithm</p>
+          <p class="hero subhero">Markov Chain Monte Carlo for Bayesian Inference - The Metropolis Algorithm</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</header>
+    
+<section class="container content-container">
+  <div class="row">
+    <div class="col-md-8 order-md-2">
+      <section class="content article-content">
+        
+        
+        <p><em>Updated for Python 3.10, June 2022</em></p>
+
+<p>In previous discussions of Bayesian Inference we <a href="https://www.quantstart.com/articles/Bayesian-Statistics-A-Beginners-Guide" target="blank" rel="noopener norefferer">introduced Bayesian Statistics</a> and considered how to <a href="https://www.quantstart.com/articles/Bayesian-Inference-of-a-Binomial-Proportion-The-Analytical-Approach" target="blank" rel="noopener norefferer">infer a binomial proportion</a> using the concept of <a href="https://en.wikipedia.org/wiki/Conjugate_prior">conjugate priors</a>. We discussed the fact that not all models can make use of conjugate priors and thus calculation of the posterior distribution would need to be approximated numerically.</p>
+
+<p>In this article we introduce the main family of algorithms, known collectively as Markov Chain Monte Carlo (MCMC), that allow us to approximate the posterior distribution as calculated by Bayes' Theorem. In particular, we consider the Metropolis Algorithm, which is easily stated and relatively straightforward to understand. It serves as a useful starting point when learning about MCMC before delving into more sophisticated algorithms such as Metropolis-Hastings, Gibbs Samplers and Hamiltonian Monte Carlo.</p>
+
+<p>Once we have described how MCMC works we will carry it out using the open-source <a href="https://www.pymc.io/welcome.html" target="blank" rel="noopener norefferer">PyMC library</a>, which takes care of many of the underlying implementation details allowing us to concentrate on Bayesian modelling.</p>
+
+<p>If you have not yet looked at the previous articles on Bayesian Statistics I suggest reading the following before proceeding:</p>
+
+<ul>
+  <li><a href="https://www.quantstart.com/articles/Bayesian-Statistics-A-Beginners-Guide" target="blank" rel="noopener norefferer">Bayesian Statistics: A Beginner's Guide</a></li>
+  <li><a href="https://www.quantstart.com/articles/Bayesian-Inference-of-a-Binomial-Proportion-The-Analytical-Approach" target="blank" rel="noopener norefferer">Bayesian Inference of a Binomial Proportion - The Analytical Approach</a></li>
+</ul>
+
+<h2>Bayesian Inference Goals</h2>
+
+<p>Our goal in carrying out Bayesian Statistics is to <em>produce quantitative trading strategies based on Bayesian models</em>. However, in order to reach that goal we need to consider a reasonable amount of Bayesian Statistics theory. So far we have:</p>
+
+<ul> 
+  <li>Introduced the philosophy of Bayesian Statistics, making use of Bayes' Theorem to update our prior beliefs on probabilities of outcomes based on new data</li>
+  <li>Used conjugate priors as a means of simplifying computation of the posterior distribution in the case of inference on a binomial proportion</li>
+</ul>
+
+<p>In this article we are going to discuss MCMC as a means of computing the posterior distribution when conjugate priors are not applicable.</p>
+
+<p>Subsequent to a discussion on MCMC in this article, using PyMC, we will consider more sophisticated samplers and then apply them to more complex models. Ultimately, we will arrive at the point where our models are useful enough to provide insight into asset returns prediction. At that stage we will be able to begin building a trading model from our Bayesian analysis.</p>
+
+<h2>Why Markov Chain Monte Carlo?</h2>
+
+<p>In the previous article we considered conjugate priors, which gave us a significant mathematical "shortcut" to calculating the posterior distribution in Bayes' Rule. A perfectly legitimate question at this point would be to ask why we need MCMC at all if we can simply use conjugate priors.</p>
+
+<p>The answer lies in the fact that not all models can be succinctly stated in terms of conjugate priors. In particular, many more complicated modelling situations, particularly those related to <a href="https://en.wikipedia.org/wiki/Bayesian_hierarchical_modeling" target="blank" rel="noopener norefferer">hierarchical models</a> with hundreds of parameters, are completely intractable using analytical methods.</p>
+
+<p>If we recall Bayes' Rule:</p>
+
+\begin{eqnarray}
+P(\theta | D) = \frac{P(D | \theta) P(\theta)}{P(D)}
+\end{eqnarray}
+
+<p>We can see that we need to calculate the <em>evidence</em> $P(D)$. In order to achieve this we need to evaluate the following integral, which integrates over all possible values of $\theta$, the parameters:</p>
+
+\begin{eqnarray}
+P(D) = \int_{\Theta} P(D, \theta) \text{d}\theta
+\end{eqnarray}
+
+<p>The fundamental problem is that we are often unable to evaluate this integral analytically and so we must turn to a numerical approximation method instead.</p>
+
+<p>An additional problem is that our models might require a large number of parameters. This means that our prior distributions could potentially have a large number of dimensions. This in turn means that our posterior distributions will also be high dimensional. Hence, we are in a situation where we have to numerically evaluate an integral in a potentially very large dimensional space.</p>
+
+<p>Thus we are in a situation often described as the <a href="https://en.wikipedia.org/wiki/Curse_of_dimensionality" target="blank" rel="noopener norefferer">Curse of Dimensionality</a>. Informally, this means that the volume of a high-dimensional space is so vast that any available data becomes extremely sparse within that space and hence leads to problems of statistical significance. Practically, in order to gain any statistical significance, the volume of data needed must grow exponentially with the number of dimensions.</p>
+
+<p>Such problems are often extremely difficult to tackle unless they are approached in an intelligent manner. The motivation behind Markov Chain Monte Carlo methods is that they perform an intelligent search within a high dimensional space and thus Bayesian Models in high dimensions become tractable.</p>
+
+<p>The basic idea is to sample from the posterior distribution by combining a "random search" (the Monte Carlo aspect) with a mechanism for intelligently "jumping" around, but in a manner that ultimately doesn't depend on where we started from (the <a href="https://www.quantstart.com/articles/The-Markov-and-Martingale-Properties" target="blank" rel="noopener norefferer">Markov</a> Chain aspect). Hence Markov Chain Monte Carlo methods are memoryless searches performed with intelligent jumps.</p>
+
+<p><em>As an aside, MCMC is not just for carrying out Bayesian Statistics. It is also widely used in computational physics and computational biology as it can be applied generally to the approximation of any high dimensional integral.</em></p>
+
+<h3>Markov Chain Monte Carlo Algorithms</h3>
+
+<p>Markov Chain Monte Carlo is a family of algorithms, rather than one particular method. In this article we are going to concentrate on a particular method known as the Metropolis Algorithm. In future articles we will consider Metropolis-Hastings, the Gibbs Sampler, Hamiltonian MCMC and the No-U-Turn Sampler (NUTS). The latter is actually incorporated into PyMC, the software we'll be using to numerically infer our binomial proportion in this article.</p>
+
+<h2>The Metropolis Algorithm</h2>
+
+<p>The first MCMC algorithm considered in this article series is due to <a href="#ref-metropolis">Metropolis (1953)</a>. As you can see, it is quite an old method! While there have been substantial improvements on MCMC sampling algorithms since, it will suffice for this article. The intuition gained on this simpler method will help us understand more complex samplers in later articles.</p>
+
+<p>The basic recipes for most MCMC algorithms tend to follow this pattern (see <a href="#ref-davidson-pilon">Bayesian Methods for Hackers</a> for more details):</p>
+
+<ol>
+  <li>Begin the algorithm at the <em>current</em> position in parameter space ($\theta_{\text{current}}$)</li>
+  <li>Propose a "jump" to a new position in parameter space ($\theta_{\text{new}}$)</li>
+  <li>Accept or reject the jump probabilistically using the prior information and available data</li>
+  <li>If the jump is accepted, move to the new position and return to step 1</li>
+  <li>If the jump is rejected, stay where you are and return to step 1</li>
+  <li>After a set number of jumps have occurred, return all of the <em>accepted</em> positions</li>
+</ol>
+
+<p>The main difference between MCMC algorithms occurs in <em>how you jump</em> as well as <em>how you decide whether to jump</em>.</p>
+
+<p>The Metropolis algorithm uses a normal distribution to propose a jump. This normal distribution has a mean value $\mu$ which is equal to the current position and takes a "proposal width" for its standard deviation $\sigma$.</p>
+
+<p>This proposal width is a parameter of the Metropolis algorithm and has a significant impact on convergence. A larger proposal width will jump further and cover more space in the posterior distribution, but might miss a region of higher probability initially. However, a smaller proposal width won't cover as much of the space as quickly and thus could take longer to converge.</p>
+
+<p>A normal distribution is a good choice for such a proposal distribution (for continuous parameters) as, by definition, it is more likely to select points nearer to the current position than further away. However, it will occassionally choose points further away, allowing the space to be explored.</p>
+
+<p>Once the jump has been proposed, we need to decide (in a probabilistic manner) whether it is a good move to jump to the new position. How do we do this? We calculate the ratio of the proposal distribution of the <em>new</em> position and the proposal distribution at the <em>current</em> position to determine the probability of moving, $p$:</p>
+
+\begin{eqnarray}
+p = P(\theta_{\text{new}})/P(\theta_{\text{current}})
+\end{eqnarray}
+
+<p>We then generate a uniform random number on the interval $[0,1]$. If this number is contained within the interval $[0,p]$ then we accept the move, otherwise we reject it.</p>
+
+<p>While this is a relatively simple algorithm it isn't immediately clear why this makes sense and how it helps us avoid the intractable problem of calculating a high dimensional integral of the evidence, $P(D)$.</p>
+
+<p>As <a href="https://twiecki.io/blog/2015/11/10/mcmc-sampling/" target="blank" rel="noopener norefferer">Thomas Wiecki points out in his article on MCMC sampling</a>, we're actually dividing the posterior of the proposed parameter by the posterior of the current parameter. Utilising Bayes' Rule this eliminates the evidence, $P(D)$ from the ratio:</p>
+
+\begin{eqnarray}
+\frac{P(\theta_{\text{new}}|D)}{P(\theta_{\text{current}}|D)} = \frac{\frac{P(D|\theta_{\text{new}})P(\theta_{\text{new}})}{P(D)}}{\frac{P(D|\theta_{\text{current}})P(\theta_{\text{current}})}{P(D)}} = \frac{P(D|\theta_{\text{new}})P(\theta_{\text{new}})}{P(D|\theta_{\text{current}})P(\theta_{\text{current}})}
+\end{eqnarray}
+
+<p>The right hand side of the latter equality contains only the likelihoods and the priors, both of which we can calculate easily. Hence by dividing the posterior at one position by the posterior at another, we're sampling regions of higher posterior probability more often than not, in a manner which fully reflects the probability of the data.</p>
+
+<h2>Introducing PyMC</h2>
+
+<p><a href="https://www.pymc.io/welcome.html" target="blank" rel="noopener norefferer">PyMC</a> is a Python library that carries out "Probabilistic Programming". That is, we can define a probabilistic model and then carry out Bayesian inference on the model, using various flavours of Markov Chain Monte Carlo. In this sense it is similar to the <a href="https://mcmc-jags.sourceforge.io/" target="blank" rel="noopener norefferer">JAGS</a> and <a href="https://mc-stan.org/" target="blank" rel="noopener norefferer">Stan</a> packages. PyMC has a <a href="https://github.com/pymc-devs/pymc/graphs/contributors">long list of contributors</a> and is currently under active development.</p>
+
+<p>PyMC has been designed with a clean syntax that allows extremely straightforward model specification, with minimal "boilerplate" code. There are classes for all major probability distributions and it is easy to add more specialist distributions. It has a diverse and powerful suite of MCMC sampling algorithms, including the Metropolis algorithm that we discussed above, as well as the <a href="#ref-hoffman-gelman">No-U-Turn Sampler (NUTS)</a>. This allows us to define complex models with many thousands of parameters.</p>
+
+<p>It also makes use of the Python <a href="https://theano-pymc.readthedocs.io/en/latest/" target="blank" rel="noopener norefferer">Theano</a> library, often used for highly CPU/GPU-intensive <a href="https://en.wikipedia.org/wiki/Deep_learning" target="blank" rel="noopener norefferer">Deep Learning</a> applications, in order to maximise efficiency in execution speed.</p>
+
+<p><em>We will be taking a good look at Theano in future articles, when we come to discuss Deep Learning as applied to quantitative trading.</em></p>
+
+<p>In this article we will use PyMC to carry out a simple example of inferring a binomial proportion, which is sufficient to express the main ideas, without getting bogged down in MCMC implementation specifics. In later articles we will explore more features of PyMC once we come to carry out inference on more sophisticated models.</p>
+
+<h2>Inferring a Binomial Proportion with Markov Chain Monte Carlo</h2>
+
+<p>If you recall from the article on <a href="https://www.quantstart.com/articles/Bayesian-Inference-of-a-Binomial-Proportion-The-Analytical-Approach" target="blank" rel="noopener norefferer">inferring a binomial proportion using conjugate priors</a> our goal was to estimate the fairness of a coin, by carrying out a sequence of coin flips.</p>
+
+<p>The fairness of the coin is given by a parameter $\theta \in [0,1]$ where $\theta=0.5$ means a coin equally likely to come up heads or tails.</p>
+
+<p>We discussed the fact that we could use a relatively flexible probability distribution, the <a href="https://en.wikipedia.org/wiki/Beta_distribution" target="blank" rel="noopener norefferer">beta distribution</a>, to model our prior belief on the fairness of the coin. We also learnt that by using a <a href="https://en.wikipedia.org/wiki/Bernoulli_trial" target="blank" rel="noopener norefferer">Bernoulli</a> likelihood function to simulate virtual coin flips with a particular fairness, that our posterior belief would also have the form of a beta distribution. This is an example of a <em>conjugate prior</em>.</p>
+
+<p>To be clear, this means <em>we do not need to use MCMC to estimate the posterior in this particular case</em> as there is already an analytic closed-form solution. However, the majority of Bayesian inference models do not admit a closed-form solution for the posterior, and hence it is necessary to use MCMC in these cases.</p>
+
+<p>We are going to apply MCMC to a case where we already "know the answer", so that we can compare the results from a closed-form solution and one calculated by numerical approximation.</p>
+
+<h3>Inferring a Binomial Proportion with Conjugate Priors Recap</h3>
+
+<p>In the <a href="https://www.quantstart.com/articles/Bayesian-Inference-of-a-Binomial-Proportion-The-Analytical-Approach" target="blank" rel="noopener norefferer">previous article</a> we took a particular prior belief that the coin was likely to be fair, but that we weren't particularly certain. This translated as giving $\theta$ a mean $\mu=0.5$ and a standard deviation $\sigma=0.1$.</p>
+
+<p>A beta distribution has two parameters, $\alpha$ and $\beta$, that characterise the "shape" of our beliefs. A mean $\mu=0.5$ and s.d. $\sigma=0.1$ translate into $\alpha=12$ and $\beta=12$ (see the <a href="https://www.quantstart.com/articles/Bayesian-Inference-of-a-Binomial-Proportion-The-Analytical-Approach" target="blank" rel="noopener norefferer">previous article</a> for details on this transformation).</p>
+
+<p>We then carried out 50 flips and observed 10 heads. When we plugged this into our closed-form solution for the posterior beta distribution, we received a posterior with $\alpha=22$ and $\beta=52$. I've replotted the figure showing the two distributions here:</p>
+
+<figure>
+  <img src="https://quantstartmedia.s3.amazonaws.com/images/article-images/articles/Bayesian-Inference-of-a-Binomial-Proportion/qs-beta-distribution-prior-posterior.png" alt="The fairness of theta, prior and posterior belief distributions">
+  <figcaption>The prior and posterior belief distributions about the fairness $\theta$.</figcaption>
+</figure>
+
+<p>We can see that this intuitively makes sense, as the mass of probability has dramatically shifted to nearer 0.2, which is the sample fairness from our flips. Notice also that the peak has become narrower as we're quite confident in our results now, having carried out 50 flips.</p>
+
+<h3>Inferring a Binonial Proportion with PyMC</h3>
+
+<p>We're now going to carry out the same analysis using the numerical Markov Chain Monte Carlo method instead.</p>
+
+<p>Firstly, we need to install PyMC. Please install as recommended by the <a href="https://www.pymc.io/projects/docs/en/latest/installation.html" target="blank" rel="noopener norefferer">documentation</a>. For Linux, Windows and MacOSX it is recommended to use Anaconda and install into a virtul environment. Below is the code to carry out this installation using the Anaconda package manager conda. In this code snippet we create a virtual environment named pymc_env and install the current versions of Python and PyMC directly into it.</p>
+
+<pre>
+<code class="language-python">conda create -c conda-forge -n pymc_env python pymc</code>
+</pre>
+
+<p>This will install all the necessary packages required for PyMC to work. These include but are not limited to (at time of writing) Python 3.10, Matplotlib-base 3.5, Numpy 1.22 and Scipy 1.7. Once installed you will need to activate the environment you have just created.</p>
+
+<pre>
+<code class="language-python">conda activate pymc_env</code>
+</pre>
+
+<p>The next task is to import the necessary libraries, which include Matplotlib, Numpy, Scipy and PyMC itself. We also set the graphical style of the Matplotlib output to be similar to the <a href="https://ggplot2.tidyverse.org/" target="blank" rel="noopener norefferer">ggplot2</a> graphing library from the R statistical language:</p>
+
+<pre>
+<code class="language-python">import matplotlib.pyplot as plt
+import numpy as np
+import pymc
+import scipy.stats as stats
+
+plt.style.use("ggplot")</code>
+</pre>
+
+<p>The next step is to define our main function and set our prior parameters, as well as the number of coin flip trials carried out and heads returned. We also specify, for completeness, the parameters of the analytically-calculated posterior beta distribution, which we will use for comparison with our MCMC approach. In addition we specify that we want to carry out 100,000 iterations of the Metropolis algorithm:</p>
+
+<pre>
+<code class="language-python">if __name__ == '__main__':
+
+    # Parameter values for prior and analytic posterior
+    n = 50
+    z = 10
+    alpha = 12
+    beta = 12
+    alpha_post = 22
+    beta_post = 52
+
+    # How many iterations of the Metropolis 
+    # algorithm to carry out for MCMC
+    iterations = 100000</code>
+</pre>
+
+<p>Now we actually define our beta distribution prior and Bernoulli likelihood model. PyMC has a very clean API for carrying this out. It uses a Python <code>with</code> context to assign all of the parameters, step sizes and starting values to a <code>pymc.Model</code> instance (which I have called <code>basic_model</code>, as per the <a href="https://www.pymc.io/projects/docs/en/stable/learn/core_notebooks/pymc_overview.html">PyMC tutorial</a>).</p>
+
+<p>Firstly, we specify the <code>theta</code> parameter as a beta distribution, taking the prior <code>alpha</code> and <code>beta</code> values as parameters. Remember that our particular values of $\alpha=12$ and $\beta=12$ imply a prior mean $\mu=0.5$ and a prior s.d. $\sigma=0.1$.</p>
+
+<p>We then define the Bernoulli likelihood function, specifying the fairness parameter <code>p=theta</code>, the number of trials <code>n=n</code> and the observed heads <code>observed=z</code>, all taken from the parameters specified above.</p>
+
+<p>At this stage we can find an optimal starting value for the Metropolis algorithm using the PyMC Maximum A Posteriori (MAP) optimisation (we will go into detail about this in later articles). Finally we specify the <code>Metropolis</code> sampler to be used and then actually <code>sample(..)</code> the results. These results are stored in the <code>trace</code> variable:</p>
+
+<pre>
+<code class="language-python">def create_mcmc_model(alpha, beta, n, z, iterations):
+    # Use PyMC to construct a model context
+    with pm.Model() as basic_model:
+        # Define our prior belief about the fairness
+        # of the coin using a Beta distribution
+        theta = pm.Beta("theta", alpha=alpha, beta=beta)
+
+        # Define the Bernoulli likelihood function
+        y = pm.Binomial("y", n=n, p=theta, observed=z)
+
+        # Carry out the MCMC analysis using the Metropolis algorithm
+        # Use Maximum A Posteriori (MAP) optimisation as initial value for MCMC
+        start = pm.find_MAP() 
+
+        # Use the Metropolis algorithm (as opposed to NUTS or HMC, etc.)
+        step = pm.Metropolis()
+
+        # Calculate the trace
+        trace = pm.sample(
+            draws=iterations, 
+            step=step, 
+            init=start, 
+            chains=1, 
+            random_seed=1, 
+            progressbar=True
+        )
+    return trace</code>
+</pre>
+
+<p>Notice how the specification of the model via the PyMC API is almost akin to the actual mathematical specification of the model, with minimal "boilerplate" code. We will demonstrate the power of this API in later articles when we come to specify some more complex models.</p>
+
+<p>Now that the model has been specified and sampled, we wish to plot the results. The trace object is a MultiTrace or ArviZ InferenceData object that contains the samples. The inference data is divided into the following groups.</p>
+
+<ul>
+  <li>posterior</li>
+  <li>log_likelihood</li>
+  <li>sample_stats</li>
+  <li>observed_data</li>
+</ul>
+
+<p>Each one of these groups contains further information about the model we have created. The list of all the accepted samples from the MCMC sampling can be found by calling <code>posterior.theta</code> This returns an xarray.DataArray with a list for the data from each chain that has been run. In order to plot the data with Matplotlib we must first export the 0th list in this xarray.DataArray to a numpy array. If we use <code>dir(trace.posterior.theta)</code> we can see that the theta object has a <code>to_numpy()</code> method. So in order to access the data we need to use <code>trace['posterior']['theta'][0].to_numpy()</code>.</p>
+
+<p>We can now create a histogram from the list of all accepted samples of the MCMC sampling using 50 bins, we will add these as a variable in our main function in the next step. We then plot the analytic prior and posterior beta distributions using the SciPy <code>stats.beta.pdf(..)</code> method. Finally, we add some labelling to the graph and display it:</p>
+
+<pre>
+<code class="language-python">def plot_mcmc_comparison(trace, bins, alpha, beta, alpha_post, beta_post):
+    # Plot the posterior histogram from MCMC analysis
+    plt.hist(
+        trace['posterior']['theta'][0].to_numpy(), bins, 
+        histtype="step", density=True, 
+        label="Posterior (MCMC)", color="red"
+    )
+
+    # Plot the analytic prior and posterior beta distributions
+    x = np.linspace(0, 1, 100)
+    plt.plot(
+        x, stats.beta.pdf(x, alpha, beta), 
+        "--", label="Prior", color="blue"
+    )
+    plt.plot(
+        x, stats.beta.pdf(x, alpha_post, beta_post), 
+        label='Posterior (Analytic)', color="green"
+    )
+
+    # Update the graph labels
+    plt.legend(title="Parameters", loc="best")
+    plt.xlabel("$\\theta$, Fairness")
+    plt.ylabel("Density")
+    plt.show()
+
+    # Display the plot
+    plt.show()</code>
+</pre>
+
+<p>The last thing we need to do is to update our __main__ function to include the histogram bins and to call our functions.</p>
+
+<pre>
+<code class="language-python">if __name__ == '__main__':
+
+    # Parameter values for prior and analytic posterior
+    n = 50
+    z = 10
+    alpha = 12
+    beta = 12
+    alpha_post = 22
+    beta_post = 52
+
+    # How many iterations of the Metropolis 
+    # algorithm to carry out for MCMC
+    iterations = 100000
+
+    # Number of Bins for Histogram
+    bins=50
+
+    mcmc_model = create_mcmc_model(alpha, beta, n, z, iterations)
+    plot_mcmc_comparison(mcmc_model, bins, alpha, beta, alpha_post, beta_post)</code>
+</pre>
+
+<p>When the code is executed the following output is given:</p>
+
+<pre>
+<code class="language-none"> [----------------------------] 100.00% [6/6 00:00<00:00 logp = -10.252, ||grad|| = 15]]
+Sequential sampling (1 chains in 1 job)
+Metropolis: [theta]
+Sampling 1 chain for 1_000 tune and 100_000 draw iterations (1_000 + 100_000 draws total) took 30 seconds.]
+</code>
+</pre>
+
+<p>Clearly, the sampling time will depend upon the speed of your computer. The graphical output of the analysis is given in the following image:</p>
+
+<figure>
+  <img src="https://quantstartmedia.s3.amazonaws.com/images/article-images/articles/Markov-Chain-Monte-Carlo-for-Bayesian-Inference-The-Metropolis-Algorithm/qs-beta-distribution-mcmc.png" alt="Comparison of the analytic and MCMC-sampled posterior belief distributions about the fairness $\theta$, overlaid with the prior belief" style="padding-bottom: 20px">
+  <figcaption>Comparison of the analytic and MCMC-sampled posterior belief distributions about the fairness $\theta$, overlaid with the prior belief</figcaption>
+</figure>
+
+<p>In this particular case of a single-parameter model, with 100,000 samples, the convergence of the Metropolis algorithm is extremely good. The histogram closely follows the analytically calculated posterior distribution, as we'd expect. In a relatively simple model such as this we do not need to compute 100,000 samples and far fewer would do. However, it does emphasise the convergence of the Metropolis algorithm.</p>
+
+<p>We can also consider a concept known as the <strong>trace</strong>, which is the vector of samples produced by the MCMC sampling procedure. We can use the helpful <code>plot_trace()</code> method to plot both a <a href="https://en.wikipedia.org/wiki/Kernel_density_estimation" target="blank" rel="noopener norefferer">kernel density estimate</a> (KDE) of the histogram displayed above, as well as the trace.</p>
+
+<p>The trace plot is extremely useful for assessing convergence of an MCMC algorithm and whether we need to exclude a period of initial samples (known as the <strong>burn in</strong>). We will discuss the trace, burn in and other convergence issues in future articles when we study more sophisticated samplers. To output the trace we simply call <code>plot_trace()</code> with the <code>trace</code> variable:</p>
+
+<pre>
+<code class="language-python"># Show the trace plot
+pm.plot_trace(trace)
+plt.show()</code>
+</pre>
+
+<p>Here is the full trace plot:</p>
+
+<figure>
+  <img src="https://quantstartmedia.s3.amazonaws.com/images/article-images/articles/Markov-Chain-Monte-Carlo-for-Bayesian-Inference-The-Metropolis-Algorithm/qs-beta-distribution-mcmc-traceplot.png" alt="Trace plot of the MCMC sampling procedure for the fairness parameter $\theta$" style="padding-bottom: 20px">
+  <figcaption>Trace plot of the MCMC sampling procedure for the fairness parameter $\theta$.</figcaption>
+</figure>
+
+<p>As you can see, the KDE estimate of the posterior belief in the fairness reflects both our prior belief of $\theta=0.5$ and our data with a sample fairness of $\theta=0.2$. In addition we can see that the MCMC sampling procedure has "converged to the distribution" since the sampling series looks stationary.</p> 
+
+<p>In more complicated cases, which we will examine in later articles, we will see that we need to consider a "burn in" period as well as "thin" the results to remove autocorrelation, both of which will improve convergence.</p>
+
+<p>For completeness, here is the full listing:</p>
+
+<pre>
+<code class="language-python">import matplotlib.pyplot as plt
+import numpy as np
+import pymc as pm
+import scipy.stats as stats
+
+plt.style.use("ggplot")
+
+
+def create_mcmc_model(alpha, beta, n, z, iterations):
+    # Use PyMC to construct a model context
+    with pm.Model() as basic_model:
+        # Define our prior belief about the fairness
+        # of the coin using a Beta distribution
+        theta = pm.Beta("theta", alpha=alpha, beta=beta)
+
+        # Define the Bernoulli likelihood function
+        y = pm.Binomial("y", n=n, p=theta, observed=z)
+
+        # Carry out the MCMC analysis using the Metropolis algorithm
+        # Use Maximum A Posteriori (MAP) optimisation as initial value for MCMC
+        start = pm.find_MAP() 
+
+        # Use the Metropolis algorithm (as opposed to NUTS or HMC, etc.)
+        step = pm.Metropolis()
+
+        # Calculate the trace
+        trace = pm.sample(
+            draws=iterations, 
+            step=step, 
+            init=start, 
+            chains=1, 
+            random_seed=1, 
+            progressbar=True
+        )
+    return trace
+
+
+def plot_mcmc_comparison(trace, bins, alpha, beta, alpha_post, beta_post):
+    # Plot the posterior histogram from MCMC analysis
+    plt.hist(
+        trace['posterior']['theta'][0].to_numpy(), bins, 
+        histtype="step", density=True, 
+        label="Posterior (MCMC)", color="red"
+    )
+
+    # Plot the analytic prior and posterior beta distributions
+    x = np.linspace(0, 1, 100)
+    plt.plot(
+        x, stats.beta.pdf(x, alpha, beta), 
+        "--", label="Prior", color="blue"
+    )
+    plt.plot(
+        x, stats.beta.pdf(x, alpha_post, beta_post), 
+        label='Posterior (Analytic)', color="green"
+    )
+
+    # Update the graph labels
+    plt.legend(title="Parameters", loc="best")
+    plt.xlabel("$\\theta$, Fairness")
+    plt.ylabel("Density")
+    plt.show()
+
+    # Show the trace plot
+    pm.traceplot(trace)
+    plt.show()
+
+
+if __name__ == '__main__':
+
+    # Parameter values for prior and analytic posterior
+    n = 50
+    z = 10
+    alpha = 12
+    beta = 12
+    alpha_post = 22
+    beta_post = 52
+
+    # How many iterations of the Metropolis 
+    # algorithm to carry out for MCMC
+    iterations = 100000
+
+    # Number of Bins for Histogram
+    bins=50
+
+    mcmc_model = create_mcmc_model(alpha, beta, n, z, iterations)
+    plot_mcmc_comparison(mcmc_model, bins, alpha, beta, alpha_post, beta_post)</code>
+</pre>
+
+<h2>Next Steps</h2>
+
+<p>At this stage we have a good understanding of the basics behind MCMC, as well as a specific method known as the Metropolis algorithm, as applied to inferring a binomial proportion.</p>
+
+<p>However, as we discussed above, PyMC uses a much more sophisticated MCMC sampler known as the No-U-Turn Sampler (NUTS). In order to gain an understanding of this sampler we eventually need to consider further sampling techniques such as Metropolis-Hastings, Gibbs Sampling and Hamiltonian Monte Carlo (on which NUTS is based).</p>
+
+<p>We also want to start applying Probabilistic Programming techniques to more complex models, such as hierarchical models. This in turn will help us produce sophisticated quantitative trading strategies.</p>
+
+<h2>Bibliographic Note</h2>
+
+<p>The algorithm described in this article is by <a href="#ref-metropolis">Metropolis (1953)</a>. An improvement by <a href="#ref-hastings">Hastings (1970)</a> led to the Metropolis-Hastings algorithm which we will discuss in a future article. The Gibbs sampler is due to <a href="#ref-geman-geman">Geman and Geman (1984)</a>. <a href="#ref-gelfand-smith">Gelfand and Smith (1990)</a> wrote a paper that was considered a major starting point for extensive use of MCMC methods in the statistical community.</p>
+
+<p>The Hamiltonian Monte Carlo approach is due to <a href="#ref-duane-et-al">Duane et al (1987)</a> and the No-U-Turn Sampler (NUTS) is due to <a href="#ref-hoffman-gelman">Hoffman and Gelman (2011)</a>. <a href="#ref-bda3">Gelman et al (2013)</a> has an extensive discussion of computional sampling mechanisms for Bayesian Statistics, including a detailed discussion on MCMC. A gentle, mathematically intuitive, introduction to the Metropolis Algorithm is given by <a href="#ref-kruschke">Kruschke (2014)</a>.</p>
+
+<p>A very popular on-line introduction to Bayesian Statistics is <a href="https://camdavidsonpilon.github.io/Probabilistic-Programming-and-Bayesian-Methods-for-Hackers/">Probabilistic Programming and Bayesian Methods for Hackers</a> by Cam Davidson-Pilon and others, which has a fantastic chapter on MCMC (and PyMC). Thomas Wiecki has also <a href="https://twiecki.io/blog/2015/11/10/mcmc-sampling/">written a great blog post</a> explaining the rationale for MCMC.</p>
+
+<p>The <a href="https://www.pymc.io/welcome.html">PyMC project</a> also has some extremely useful documentation and some examples.</p>
+
+<h2>References</h2>
+
+<ul>
+  <li><a name="ref-davidson-pilon" href="http://camdavidsonpilon.github.io/Probabilistic-Programming-and-Bayesian-Methods-for-Hackers/">Davidson-Pilon, C. et al (2016) "Probabilistic Programming & Bayesian Methods for Hackers", <em>http://camdavidsonpilon.github.io/Probabilistic-Programming-and-Bayesian-Methods-for-Hackers/</em></a></li>
+
+  <li><a name="ref-duane-et-al" href="https://www.sciencedirect.com/science/article/abs/pii/037026938791197X">Duane, S. et al (1987) "Hybrid Monte Carlo", <em>Physics Letters B 195 (2): 216–222</em></a></li>
+
+  <li><a name="ref-gelfand-smith" href="https://www.jstor.org/stable/2289776">Gelfand, A.E. and Smith, A.F.M. (1990) "Sampling-based approaches to calculating marginal densities", <em>J. Amer. Statist. Assoc.</em>, 85, 140, 398-409.</a></li>
+
+  <li><a name="ref-geman-geman" href="https://ieeexplore.ieee.org/document/4767596">Geman, S. and Geman, D. (1984) "Stochastic relaxation, Gibbs distributions and the Bayesian restoration of images.", <em>IEEE Trans. Pattern Anal. Mach. Intell.</em>, 6, 721-741.</a></li>
+
+  <li><a name="ref-bda3" href="https://amzn.to/1S5sSyT">Gelman, A. et al (2013) <em>Bayesian Data Analysis, 3rd Edition</em>, Chapman and Hall/CRC</a></li>
+
+  <li><a name="ref-hastings" href="https://www.jstor.org/stable/2334940">Hastings, W. (1970) "Monte Carlo sampling methods using Markov chains and their application", <em>Biometrika</em>, 57, 97-109.</a></li>
+
+  <li><a name="ref-hoffman-gelman" href="https://arxiv.org/pdf/1111.4246v1.pdf">Hoffman, M.D., and Gelman, A. (2011) "The No-U-Turn Sampler: Adaptively Setting Path Lengths in Hamiltonian Monte Carlo, <em>arXiv:1111.4246 [stat.CO]</em></a></li>
+
+  <li><a name="ref-kruschke" href="https://amzn.to/25lETKe">Kruschke, J. (2014) <em>Doing Bayesian Data Analysis, Second Edition: A Tutorial with R, JAGS, and Stan</em>, Academic Press</a></li>
+
+  <li><a name="ref-metropolis" href="https://bayes.wustl.edu/Manual/EquationOfState.pdf">Metropolis, N. et al (1953) "Equations of state calculations by fast computing machines", <em>J. Chem. Phys.</em>, 21, 1087-1092.</a></li>
+
+  <li><a name="ref-robert-casella" href="https://arxiv.org/abs/0808.2902">Robert, C. and Casella, G. (2011) "A Short History of Markov Chain Monte Carlo: Subjective Recollections from Incomplete Data", <em>Statistical Science</em> 0, 00, 1-14.</a></li>
+
+  <li><a name="ref-wiecki" href="https://twiecki.io/blog/2015/11/10/mcmc-sampling/">Wiecki, T. (2015) "MCMC sampling for dummies", <em>https://twiecki.github.io/blog/2015/11/10/mcmc-sampling/</em></a></li>
+</ul>
+        
+        
+        <h2>Related Articles</h2>
+        <ul>
+        
+        <li><a href="/articles/Bayesian-Inference-of-a-Binomial-Proportion-The-Analytical-Approach/">Bayesian Inference of a Binomial Proportion - The Analytical Approach</a></li>
+        
+        </ul>
+        
+        <script async data-uid="6296c27f4b" src="https://weathered-brook-5281.ck.page/6296c27f4b/index.js"></script>
+      </section>
+    </div>
+    <div class="col-md-4 book-card order-md-1">
+      
+<div class="sidebar-advert-container">
+  <a href="/qsalpha/?ref=art">
+    <img class="card-img-top" src="/static/images/qsalpha-sidebar-advert-small.png" alt="QSAlpha">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/qsalpha/?ref=art">QSAlpha</a></h3>
+      <p class="card-text medium-text mb-3">Join the QSAlpha research platform that helps fill your strategy research pipeline, diversifies your portfolio and improves your risk-adjusted returns for increased profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/qsalpha/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/quantcademy/?ref=art">
+    <img class="card-img-top" src="/static/images/quantcademy-sidebar-advert-small.png" alt="Quantcademy">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/quantcademy/?ref=art">The Quantcademy</a></h3>
+      <p class="card-text medium-text mb-3">Join the Quantcademy membership portal that caters to the rapidly-growing retail quant trader community and learn how to increase your strategy profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/quantcademy/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/successful-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/sat-sidebar-advert-small.png" alt="Successful Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to find new trading strategy ideas and objectively assess them for your portfolio using a Python-based backtesting engine.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/successful-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/advanced-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/aat-sidebar-advert-small.png" alt="Advanced Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to implement advanced trading strategies using time series analysis, machine learning and Bayesian statistics with R and Python.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/advanced-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+    
+
+<footer>
+  <div class="container container-full">
+    <section class="mt-1.5 mb-1">
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">QuantStart</li>
+            <li class="footer-list-link"><a class="link-fade" href="/about/">About</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/articles/">Articles</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/sitemap/">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Products</li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qsalpha/">QSAlpha</a></li>
+            
+            
+            <li class="footer-list-link"><a class="link-fade" href="/quantcademy/">Quantcademy</a></li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qstrader/">QSTrader</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Legal</li>
+            <li class="footer-list-link"><a class="link-fade" href="/privacy-policy/">Privacy Policy</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/terms-and-conditions/">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Social</li>
+            <li class="footer-list-link"><a class="link-fade" href="https://twitter.com/quantstart">Twitter</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="https://www.youtube.com/channel/UCmVnnZ6Y2TrJtY1eQJN6kWA">YouTube</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="row mb-1.5 mt-5">
+      <div class="col-12 col-md-9 col-lg-8 col-xl-6">
+        <div class="footer-copyright">
+          <p>©2012-2023 QuarkGluon Ltd. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+<script src="/static/js/jquery-3.2.1.min.js"></script>
+<script src="/static/js/prism.js.min"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/nav.js"></script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5383959-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+    
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="/static/js/highcharts/highcharts.js"></script>
+<script type="text/javascript">
+  num_colours = 10;
+</script>
+<script src="/static/js/statistics.js"></script>
+
+
+  </body>
+</html>

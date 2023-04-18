@@ -1,0 +1,411 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-site-verification" content="wl3-8ed1QZjI0iYZMv10zoZWYElkMObTfwLlWIj9cpA" />
+    <meta name="description" content="Beginner&#x27;s Guide to Quantitative Trading">
+
+    <link rel="icon" href="/static/images/favicon.png">
+
+    <title>Beginner&#x27;s Guide to Quantitative Trading | QuantStart</title>
+    
+    
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet"> 
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/prism.css" rel="stylesheet">
+<link href="/static/css/qs.css?v=10" rel="stylesheet">
+    
+  </head>
+
+  <body>
+    <header class="header covered-header" style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://quantstartmedia.s3.amazonaws.com/images/article-images/article-backgrounds/default-bg.jpg);">
+  
+<nav class="nav">
+  <div class="container nav-container">
+    <div class="nav-row row d-flex justify-content-between align-items-center">
+      <div class="col-2">
+        <ul class="nav-items justify-content-end small-capitals align-items-center">
+          <li class="nav-item">
+            <a class="link-fade" href="/">QuantStart</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-auto col-logo">
+        <ul id="top-nav-menu" class="nav-items justify-content-end align-items-center">
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/qsalpha/">QSAlpha</a>
+          </li>
+          
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/quantcademy/">Quantcademy</a>
+          </li>
+          
+          <li id="menu-link-ebooks" class="nav-item">
+            <a class="link-fade" href="#">Books</a>
+            <div id="menu-pane-ebooks" class="nav-items menu-dropdown-pane">
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/qstrader/">QSTrader</a>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/articles/">Articles</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/members/login/">Login</a>
+          </li>
+          
+        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<nav id="mobile-nav" class="mobile-nav text-left">
+  <div class="container">
+    <ul class="mt-4 ml-3 mobile-nav-menu">
+      <li class="nav-item">
+        <a class="link-fade d-block" href="/">QuantStart</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qsalpha/">QSAlpha</a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/quantcademy/">Quantcademy</a>
+      </li>
+      
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="#">Books</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qstrader/">QSTrader</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/articles/">Articles</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/members/login/">Login</a>
+      </li>
+      
+    </ul>
+    <button class="nav-toggle mobile-nav-close">
+      <svg id="mobile-nav-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M19.77,5.63,13.41,12l6.36,6.37a1,1,0,0,1-1.41,1.41L12,13.41,5.63,19.77a1,1,0,0,1-1.44-1.39l0,0L10.58,12,4.21,5.63a1,1,0,0,1,0-1.42,1,1,0,0,1,1.41,0l0,0L12,10.58l6.37-6.37a1,1,0,0,1,1.41,0A1,1,0,0,1,19.77,5.63Z"></path>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+  <div class="container hero-container">
+    <section class="mt-5 mb-4">
+      <div class="row justify-content-center">
+        <div class="col-12 text-center">
+          <p class="hero">Beginner&#x27;s Guide to Quantitative Trading</p>
+          <p class="hero subhero">Beginner&#x27;s Guide to Quantitative Trading</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</header>
+    
+<section class="container content-container">
+  <div class="row">
+    <div class="col-md-8 order-md-2">
+      <section class="content article-content">
+        
+        
+        <p>In this article I'm going to introduce you to some of the basic concepts which accompany an end-to-end <em>quantitative trading system</em>. This post will hopefully serve two audiences. The first will be individuals trying to obtain a job at a fund as a quantitative trader. The second will be individuals who wish to try and set up their own "retail" algorithmic trading business.</p>
+
+<p>Quantitative trading is an extremely sophisticated area of quant finance. It can take a significant amount of time to gain the necessary knowledge to pass an interview or construct your own trading strategies. Not only that but it requires extensive programming expertise, at the very least in a language such as MATLAB, R or Python. However as the <em>trading frequency</em> of the strategy increases, the technological aspects become much more relevant. Thus being familiar with C/C++ will be of paramount importance.</p>
+
+<p>A quantitative trading system consists of four major components:</p>
+
+<ul>
+  <li><strong>Strategy Identification</strong> - Finding a strategy, exploiting an edge and deciding on trading frequency</li>
+  <li><strong>Strategy Backtesting</strong> - Obtaining data, analysing strategy performance and removing biases</li>
+  <li><strong>Execution System</strong> - Linking to a brokerage, automating the trading and minimising transaction costs</li>
+  <li><strong>Risk Management</strong> - Optimal capital allocation, "bet size"/Kelly criterion and trading psychology</li>
+</ul>
+
+<p>We'll begin by taking a look at how to identify a trading strategy.</p>
+
+<h2>Strategy Identification</h2>
+
+<p>All quantitative trading processes begin with an initial period of research. This research process encompasses finding a strategy, seeing whether the strategy fits into a portfolio of other strategies you may be running, obtaining any data necessary to test the strategy and trying to optimise the strategy for higher returns and/or lower risk. You will need to factor in your own capital requirements if running the strategy as a "retail" trader and how any transaction costs will affect the strategy.</p>
+
+<p>Contrary to popular belief it is actually quite straightforward to find <em>profitable</em> strategies through various public sources. Academics regularly publish theoretical trading results (albeit mostly gross of transaction costs). Quantitative finance blogs will discuss strategies in detail. Trade journals will outline some of the strategies employed by funds.</p>
+
+<p>You might question why individuals and firms are keen to discuss their profitable strategies, especially when they know that others "crowding the trade" may stop the strategy from working in the long term. The reason lies in the fact that they will not often discuss the <em>exact</em> parameters and tuning methods that they have carried out. These optimisations are the key to turning a relatively mediocre strategy into a highly profitable one. In fact, one of the best ways to create your own unique strategies is to find similar methods and then carry out your own optimisation procedure.</p>
+
+<p>Here is a small list of places to begin looking for strategy ideas:</p>
+
+<ul>
+  <li><strong>Social Science Research Network</strong> - <a href="http://www.ssrn.com">www.ssrn.com</a></li>
+  <li><strong>arXiv Quantitative Finance</strong> - <a href="http://arxiv.org/archive/q-fin">arxiv.org/archive/q-fin</a></li>
+  <li><strong>Seeking Alpha</strong> - <a href="http://www.seekingalpha.com">www.seekingalpha.com</a></li>
+  <li><strong>Elite Trader</strong> - <a href="http://www.elitetrader.com">www.elitetrader.com</a></li>
+  <li><strong>Nuclear Phynance</strong> - <a href="http://www.nuclearphynance.com">www.nuclearphynance.com</a></li>
+  <li><strong>Quantivity</strong> - <a href="http://quantivity.wordpress.com/">quantivity.wordpress.com</a></li>
+</ul>
+
+<p>Many of the strategies you will look at will fall into the categories of <em>mean-reversion</em> and <em>trend-following/momentum</em>. A mean-reverting strategy is one that attempts to exploit the fact that a long-term mean on a "price series" (such as the spread between two correlated assets) exists and that short term deviations from this mean will eventually revert. A momentum strategy attempts to exploit both investor psychology and big fund structure by "hitching a ride" on a market trend, which can gather momentum in one direction, and follow the trend until it reverses.</p>
+
+<p>Another hugely important aspect of quantitative trading is the <em>frequency</em> of the trading strategy. <em>Low frequency trading</em> (LFT) generally refers to any strategy which holds assets longer than a trading day. Correspondingly, <em>high frequency trading</em> (HFT) generally refers to a strategy which holds assets intraday. <em>Ultra-high frequency trading</em> (UHFT) refers to strategies that hold assets on the order of seconds and milliseconds. As a retail practitioner HFT and UHFT are certainly possible, but only with detailed knowledge of the trading "technology stack" and <em>order book dynamics</em>. We won't discuss these aspects to any great extent in this introductory article.</p> 
+
+<p>Once a strategy, or set of strategies, has been identified it now needs to be tested for profitability on historical data. That is the domain of <em>backtesting</em>.</p>
+
+<h2>Strategy Backtesting</h2>
+
+<p>The goal of <em>backtesting</em> is to provide evidence that the strategy identified via the above process is profitable when applied to both historical and <em>out-of-sample</em> data. This sets the expectation of how the strategy will perform in the "real world". However, backtesting is NOT a guarantee of success, for various reasons. It is perhaps the most subtle area of quantitative trading since it entails numerous biases, which must be carefully considered and eliminated as much as possible. We will discuss the common types of bias including <em>look-ahead bias</em>, <em>survivorship bias</em> and <em>optimisation bias</em> (also known as "data-snooping" bias). Other areas of importance within backtesting include availability and cleanliness of historical data, factoring in realistic transaction costs and deciding upon a robust backtesting platform. We'll discuss transaction costs further in the Execution Systems section below.</p>
+
+<p>Once a strategy has been identified, it is necessary to obtain the historical data through which to carry out testing and, perhaps, refinement. There are a significant number of data vendors across all asset classes. Their costs generally scale with the quality, depth and timeliness of the data. The traditional starting point for beginning quant traders (at least at the retail level) is to use the free data set from Yahoo Finance. I won't dwell on providers too much here, rather I would like to concentrate on the general issues when dealing with historical data sets.</p>
+
+<p>The main concerns with historical data include accuracy/cleanliness, survivorship bias and adjustment for <em>corporate actions</em> such as dividends and stock splits:</p>
+
+<ul>
+  <li><strong>Accuracy</strong> pertains to the overall quality of the data - whether it contains any errors. Errors can sometimes be easy to identify, such as with a <em>spike filter</em>, which will pick out incorrect "spikes" in time series data and correct for them. At other times they can be very difficult to spot. It is often necessary to have two or more providers and then check all of their data against each other.</li>
+  <li><strong>Survivorship bias</strong> is often a "feature" of free or cheap datasets. A dataset with survivorship bias means that it does not contain assets which are no longer trading. In the case of equities this means delisted/bankrupt stocks. This bias means that any stock trading strategy tested on such a dataset will likely perform better than in the "real world" as the historical "winners" have already been preselected.</li>
+  <li><strong>Corporate actions</strong> include "logistical" activities carried out by the company that usually cause a step-function change in the raw price, that should not be included in the calculation of <em>returns</em> of the price. Adjustments for dividends and stock splits are the common culprits. A process known as <em>back adjustment</em> is necessary to be carried out at each one of these actions. One must be very careful not to confuse a stock split with a true returns adjustment. Many a trader has been caught out by a corporate action!</li>
+</ul>
+
+<p>In order to carry out a backtest procedure it is necessary to use a <em>software platform</em>. You have the choice between dedicated backtest software, such as Tradestation, a numerical platform such as Excel or MATLAB or a full custom implementation in a programming language such as Python or C++. I won't dwell too much on Tradestation (or similar), Excel or MATLAB, as I believe in creating a full in-house technology stack (for reasons outlined below). One of the benefits of doing so is that the backtest software and execution system can be tightly integrated, even with extremely advanced statistical strategies. For HFT strategies in particular it is essential to use a custom implementation.</p>
+
+<p>When backtesting a system one must be able to quantify how well it is performing. The "industry standard" metrics for quantitative strategies are the <em>maximum drawdown</em> and the <em>Sharpe Ratio</em>. The maximum drawdown characterises the largest peak-to-trough drop in the account equity curve over a particular time period (usually annual). This is most often quoted as a percentage. LFT strategies will tend to have larger drawdowns than HFT strategies, due to a number of statistical factors. A historical backtest will show the past maximum drawdown, which is a good guide for the future drawdown performance of the strategy. The second measurement is the Sharpe Ratio, which is heuristically defined as the average of the excess returns divided by the standard deviation of those excess returns. Here, <em>excess returns</em> refers to the return of the strategy above a pre-determined <em>benchmark</em>, such as the S&P500 or a 3-month Treasury Bill. Note that annualised return is not a measure usually utilised, as it does not take into account the volatility of the strategy (unlike the Sharpe Ratio).</p>
+
+<p>Once a strategy has been backtested and is deemed to be free of biases (in as much as that is possible!), with a good Sharpe and minimised drawdowns, it is time to build an execution system.</p>
+
+<h2>Execution Systems</h2>
+
+<p>An <em>execution system</em> is the means by which the list of trades generated by the strategy are sent and executed by the broker. Despite the fact that the trade generation can be semi- or even fully-automated, the execution mechanism can be manual, semi-manual (i.e. "one click") or fully automated. For LFT strategies, manual and semi-manual techniques are common. For HFT strategies it is necessary to create a fully automated execution mechanism, which will often be tightly coupled with the trade generator (due to the interdependence of strategy and technology).</p>
+
+<p>The key considerations when creating an execution system are the <strong>interface to the brokerage</strong>, minimisation of <strong>transaction costs</strong> (including commission, slippage and the spread) and <strong>divergence of performance</strong> of the live system from backtested performance.</p>
+
+<p>There are many ways to interface to a brokerage. They range from calling up your broker on the telephone right through to a fully-automated high-performance Application Programming Interface (API). Ideally you want to automate the execution of your trades as much as possible. This frees you up to concentrate on further research, as well as allow you to run multiple strategies or even strategies of higher frequency (in fact, HFT is essentially impossible without automated execution). The common backtesting software outlined above, such as MATLAB, Excel and Tradestation are good for lower frequency, simpler strategies. However it will be necessary to construct an in-house execution system written in a high performance language such as C++ in order to do any real HFT. <em>As an anecdote, in the fund I used to be employed at, we had a 10 minute "trading loop" where we would download new market data every 10 minutes and then execute trades based on that information in the same time frame. This was using an optimised Python script. For anything approaching minute- or second-frequency data, I believe C/C++ would be more ideal.</em></p>
+
+<p>In a larger fund it is often not the domain of the quant trader to optimise execution. However in smaller shops or HFT firms, the traders ARE the executors and so a much wider skillset is often desirable. Bear that in mind if you wish to be employed by a fund. Your programming skills will be as important, if not more so, than your statistics and econometrics talents!</p>
+
+<p>Another major issue which falls under the banner of execution is that of transaction cost minimisation. There are generally three components to transaction costs: Commissions (or tax), which are the fees charged by the brokerage, the exchange and the SEC (or similar governmental regulatory body); slippage, which is the difference between what you intended your order to be filled at versus what it was actually filled at; spread, which is the difference between the bid/ask price of the security being traded. Note that the spread is NOT constant and is dependent upon the current liquidity (i.e. availability of buy/sell orders) in the market.</p>
+
+<p>Transaction costs can make the difference between an extremely profitable strategy with a good Sharpe ratio and an extremely unprofitable strategy with a terrible Sharpe ratio. It can be a challenge to correctly predict transaction costs from a backtest. Depending upon the frequency of the strategy, you will need access to historical exchange data, which will include tick data for bid/ask prices. Entire teams of quants are dedicated to optimisation of execution in the larger funds, for these reasons. Consider the scenario where a fund needs to offload a substantial quantity of trades (of which the reasons to do so are many and varied!). By "dumping" so many shares onto the market, they will rapidly depress the price and may not obtain optimal execution. Hence algorithms which "drip feed" orders onto the market exist, although then the fund runs the risk of slippage. Further to that, other strategies "prey" on these necessities and can exploit the inefficiencies. This is the domain of <em>fund structure arbitrage</em>.</p>
+
+<p>The final major issue for execution systems concerns divergence of strategy performance from backtested performance. This can happen for a number of reasons. We've already discussed look-ahead bias and optimisation bias in depth, when considering backtests. However, some strategies do not make it easy to test for these biases prior to deployment. This occurs in HFT most predominantly. There may be bugs in the execution system as well as the trading strategy itself that do not show up on a backtest but DO show up in live trading. The market may have been subject to a <em>regime change</em> subsequent to the deployment of your strategy. New regulatory environments, changing investor sentiment and macroeconomic phenomena can all lead to divergences in how the market behaves and thus the profitability of your strategy.</p>
+
+<h2>Risk Management</h2>
+
+<p>The final piece to the quantitative trading puzzle is the process of <em>risk management</em>. "Risk" includes all of the previous biases we have discussed. It includes technology risk, such as servers co-located at the exchange suddenly developing a hard disk malfunction. It includes brokerage risk, such as the broker becoming bankrupt (not as crazy as it sounds, given the recent scare with MF Global!). In short it covers nearly everything that could possibly interfere with the trading implementation, of which there are many sources. Whole books are devoted to risk management for quantitative strategies so I wont't attempt to elucidate on all possible sources of risk here.</p>
+
+<p>Risk management also encompasses what is known as <em>optimal capital allocation</em>, which is a branch of <em>portfolio theory</em>. This is the means by which capital is allocated to a set of different strategies and to the trades within those strategies. It is a complex area and relies on some non-trivial mathematics. The industry standard by which optimal capital allocation and <em>leverage</em> of the strategies are related is called the <em>Kelly criterion</em>. Since this is an introductory article, I won't dwell on its calculation. The Kelly criterion makes some assumptions about the statistical nature of returns, which do not often hold true in financial markets, so traders are often conservative when it comes to the implementation.
+
+<p>Another key component of risk management is in dealing with one's own psychological profile. There are many cognitive biases that can creep in to trading. Although this is admittedly less problematic with algorithmic trading if the strategy is left alone! A common bias is that of <em>loss aversion</em> where a losing position will not be closed out due to the pain of having to realise a loss. Similarly, profits can be taken too early because the fear of losing an already gained profit can be too great. Another common bias is known as <em>recency bias</em>. This manifests itself when traders put too much emphasis on recent events and not on the longer term. Then of course there are the classic pair of emotional biases - fear and greed. These can often lead to under- or over-leveraging, which can cause <em>blow-up</em> (i.e. the account equity heading to zero or worse!) or reduced profits.</p>
+
+<h2>Summary</h2>
+
+<p>As can be seen, quantitative trading is an extremely complex, albeit very interesting, area of quantitative finance. I have literally scratched the surface of the topic in this article and it is already getting rather long! Whole books and papers have been written about issues which I have only given a sentence or two towards. For that reason, before applying for quantitative fund trading jobs, it is necessary to carry out a significant amount of groundwork study. At the very least you will need an extensive background in statistics and econometrics, with a lot of experience in implementation, via a programming language such as MATLAB, Python or R. For more sophisticated strategies at the higher frequency end, your skill set is likely to include Linux kernel modification, C/C++, assembly programming and network latency optimisation.</p>
+
+<p>If you are interested in trying to create your own algorithmic trading strategies, my first suggestion would be to get good at programming. My preference is to build as much of the data grabber, strategy backtester and execution system by yourself as possible. If your own capital is on the line, wouldn't you sleep better at night knowing that you have fully tested your system and are aware of its pitfalls and particular issues? Outsourcing this to a vendor, while potentially saving time in the short term, could be extremely expensive in the long-term.</p>
+        
+        
+        <script async data-uid="6296c27f4b" src="https://weathered-brook-5281.ck.page/6296c27f4b/index.js"></script>
+      </section>
+    </div>
+    <div class="col-md-4 book-card order-md-1">
+      
+<div class="sidebar-advert-container">
+  <a href="/qsalpha/?ref=art">
+    <img class="card-img-top" src="/static/images/qsalpha-sidebar-advert-small.png" alt="QSAlpha">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/qsalpha/?ref=art">QSAlpha</a></h3>
+      <p class="card-text medium-text mb-3">Join the QSAlpha research platform that helps fill your strategy research pipeline, diversifies your portfolio and improves your risk-adjusted returns for increased profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/qsalpha/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/quantcademy/?ref=art">
+    <img class="card-img-top" src="/static/images/quantcademy-sidebar-advert-small.png" alt="Quantcademy">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/quantcademy/?ref=art">The Quantcademy</a></h3>
+      <p class="card-text medium-text mb-3">Join the Quantcademy membership portal that caters to the rapidly-growing retail quant trader community and learn how to increase your strategy profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/quantcademy/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/successful-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/sat-sidebar-advert-small.png" alt="Successful Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to find new trading strategy ideas and objectively assess them for your portfolio using a Python-based backtesting engine.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/successful-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/advanced-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/aat-sidebar-advert-small.png" alt="Advanced Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to implement advanced trading strategies using time series analysis, machine learning and Bayesian statistics with R and Python.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/advanced-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+    
+
+<footer>
+  <div class="container container-full">
+    <section class="mt-1.5 mb-1">
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">QuantStart</li>
+            <li class="footer-list-link"><a class="link-fade" href="/about/">About</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/articles/">Articles</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/sitemap/">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Products</li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qsalpha/">QSAlpha</a></li>
+            
+            
+            <li class="footer-list-link"><a class="link-fade" href="/quantcademy/">Quantcademy</a></li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qstrader/">QSTrader</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Legal</li>
+            <li class="footer-list-link"><a class="link-fade" href="/privacy-policy/">Privacy Policy</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/terms-and-conditions/">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Social</li>
+            <li class="footer-list-link"><a class="link-fade" href="https://twitter.com/quantstart">Twitter</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="https://www.youtube.com/channel/UCmVnnZ6Y2TrJtY1eQJN6kWA">YouTube</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="row mb-1.5 mt-5">
+      <div class="col-12 col-md-9 col-lg-8 col-xl-6">
+        <div class="footer-copyright">
+          <p>©2012-2023 QuarkGluon Ltd. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+<script src="/static/js/jquery-3.2.1.min.js"></script>
+<script src="/static/js/prism.js.min"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/nav.js"></script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5383959-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+    
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="/static/js/highcharts/highcharts.js"></script>
+<script type="text/javascript">
+  num_colours = 10;
+</script>
+<script src="/static/js/statistics.js"></script>
+
+
+  </body>
+</html>

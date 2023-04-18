@@ -1,0 +1,806 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-site-verification" content="wl3-8ed1QZjI0iYZMv10zoZWYElkMObTfwLlWIj9cpA" />
+    <meta name="description" content="Bootstrap Aggregation, Random Forests and Boosted Trees">
+
+    <link rel="icon" href="/static/images/favicon.png">
+
+    <title>Bootstrap Aggregation, Random Forests and Boosted Trees | QuantStart</title>
+    
+    
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet"> 
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/prism.css" rel="stylesheet">
+<link href="/static/css/qs.css?v=10" rel="stylesheet">
+    
+  </head>
+
+  <body>
+    <header class="header covered-header" style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://quantstartmedia.s3.amazonaws.com/images/article-images/article-backgrounds/default-bg.jpg);">
+  
+<nav class="nav">
+  <div class="container nav-container">
+    <div class="nav-row row d-flex justify-content-between align-items-center">
+      <div class="col-2">
+        <ul class="nav-items justify-content-end small-capitals align-items-center">
+          <li class="nav-item">
+            <a class="link-fade" href="/">QuantStart</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-auto col-logo">
+        <ul id="top-nav-menu" class="nav-items justify-content-end align-items-center">
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/qsalpha/">QSAlpha</a>
+          </li>
+          
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/quantcademy/">Quantcademy</a>
+          </li>
+          
+          <li id="menu-link-ebooks" class="nav-item">
+            <a class="link-fade" href="#">Books</a>
+            <div id="menu-pane-ebooks" class="nav-items menu-dropdown-pane">
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/qstrader/">QSTrader</a>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/articles/">Articles</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/members/login/">Login</a>
+          </li>
+          
+        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<nav id="mobile-nav" class="mobile-nav text-left">
+  <div class="container">
+    <ul class="mt-4 ml-3 mobile-nav-menu">
+      <li class="nav-item">
+        <a class="link-fade d-block" href="/">QuantStart</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qsalpha/">QSAlpha</a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/quantcademy/">Quantcademy</a>
+      </li>
+      
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="#">Books</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qstrader/">QSTrader</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/articles/">Articles</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/members/login/">Login</a>
+      </li>
+      
+    </ul>
+    <button class="nav-toggle mobile-nav-close">
+      <svg id="mobile-nav-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M19.77,5.63,13.41,12l6.36,6.37a1,1,0,0,1-1.41,1.41L12,13.41,5.63,19.77a1,1,0,0,1-1.44-1.39l0,0L10.58,12,4.21,5.63a1,1,0,0,1,0-1.42,1,1,0,0,1,1.41,0l0,0L12,10.58l6.37-6.37a1,1,0,0,1,1.41,0A1,1,0,0,1,19.77,5.63Z"></path>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+  <div class="container hero-container">
+    <section class="mt-5 mb-4">
+      <div class="row justify-content-center">
+        <div class="col-12 text-center">
+          <p class="hero">Bootstrap Aggregation, Random Forests and Boosted Trees</p>
+          <p class="hero subhero">Bootstrap Aggregation, Random Forests and Boosted Trees</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</header>
+    
+<section class="container content-container">
+  <div class="row">
+    <div class="col-md-8 order-md-2">
+      <section class="content article-content">
+        
+        
+        <p>In a <a href="https://www.quantstart.com/articles/Beginners-Guide-to-Decision-Trees-for-Supervised-Machine-Learning">previous article</a> the decision tree (DT) was introduced as a supervised learning method. In the article it was mentioned that the real power of DTs lies in their ability to perform extremely well as predictors when utilised in a <em>statistical ensemble</em>.</p>
+
+<p>In this article it will be shown how combining multiple DTs in a statistical ensemble will vastly improve the predictive performance on the combined model. These statistical ensemble techniques are not limited to DTs, but are in fact applicable to many regression and classification machine learning models. However, DTs provide a "natural" setting to discuss ensemble methods and they are often commonly associated together.</p>
+
+<p>Once the theory of these ensemble methods has been discussed they will all be implemented in Python using the Scikit-Learn library on financial data. In subsequent articles it will be shown how to apply such ensemble methods in real trading strategies using the <a href="https://www.quantstart.com/qstrader">QSTrader</a> framework.</p>
+
+<p><em>If you lack familiarity with decision trees it is worth reading the <a href="https://www.quantstart.com/articles/Beginners-Guide-to-Decision-Trees-for-Supervised-Machine-Learning">introductory article</a> first before delving into ensemble methods.</em></p>
+
+<p>Before discussing the ensemble techniques of <strong>bootstrap aggegration</strong>, <strong>random forests</strong> and <strong>boosting</strong> it is necessary to outline a technique from frequentist statistics known as <strong>the bootstrap</strong>, which enables these techniques to work.</p>
+
+<h2>The Bootstrap</h2>
+
+<p>Bootstrapping<sup><a href="#ref-efron1979">[1]</a></sup> is a statistical resampling technique that involves random sampling of a dataset <em>with replacement</em>. It is often used as a means of quantifying the uncertainty associated with a machine learning model.</p>
+
+<p>For quantitative finance purposes bootstrapping is extremely useful since it allows generation of new samples from a population without having to go and collect additional "training data". In quantitative finance applications it is often impossible to generate more data in the case of financial asset pricing series as there is only one "history" to sample from.</p>
+
+<p>The idea is to repeatedly sample data with replacement from the original training set in order to produce multiple separate training sets. These are then used to allow "meta-learner" or "ensemble" methods to <em>reduce the variance of their predictions</em>, thus greatly improving their predictive performance.</p>
+
+<p>Two of the following ensemble techniques–bagging and random forests–make heavy use of bootstrapping techniques, and they will now be discussed.</p>
+
+<h2>Bootstrap Aggregation</h2>
+
+<p>As was mentioned in the <a href="https://www.quantstart.com/articles/Beginners-Guide-to-Decision-Trees-for-Supervised-Machine-Learning">article on decision tree theory</a> one of the main drawbacks of DTs is that they suffer from being <em>high-variance estimators</em>. This means that the addition of a small number of extra training observations can dramatically alter the prediction performance of a learned tree, despite the training data not changing to any great extent.</p>
+
+<p>This is in contrast to a <em>low-variance estimator</em> such as linear regression, which is not hugely sensitive to the addition of extra points–at least those that are relatively close to the remaining points.</p>
+
+<p>One way to mitigate against this problem is to utilise a concept known as bootstrap aggregation or <strong>bagging</strong>. The idea is to combine multiple leaners (such as DTs), which are all fitted on separate bootstrapped samples and average their predictions in order to reduce the overall variance of these predictions.</p>
+
+<p>Why does this work? James et al (2013)<sup><a href="#ref-isl">[2]</a></sup> point out that if $N$ independent and identically distributed (iid) observations $Z_1, \ldots, Z_N$ are given, each with a variance of $\sigma^2$ then the variance of the mean of the observations, $\bar{Z}$ is $\sigma^2 / N$. That is, if the average of these observations is taken the variance is reduced by factor equal to the number of observations.</p>
+
+<p>However in quantitative finance datasets it is often the case that there is only one "training" set of data. This means it is difficult, if not impossible, to create multiple separate independent training sets. This is where The Bootstrap comes in, as it allows generation of multiple training sets all using one larger set.</p>
+
+<p>Using the notation from James et al (2013)<sup><a href="#ref-isl">[2]</a></sup> and the Random Forest article at Wikipedia<sup><a href="#ref-wiki-random-forest">[3]</a></sup>, if $B$ separate bootstrapped samples of the training set are created, with separate model estimators $\hat{f}^b ({\bf x})$, then averaging these leads to a low-variance estimator model, $\hat{f}_{\text{avg}}$:</p>
+
+<p>
+\begin{eqnarray}
+\hat{f}_{\text{avg}} ({\bf x}) = \frac{1}{B} \sum^{B}_{b=1} \hat{f}^b ({\bf x})
+\end{eqnarray}
+</p>
+
+<p>This procedure is known as bagging<sup><a href="#ref-breiman1996">[4]</a></sup>. It is highly applicable to DTs because they are high-variance estimators and this provides one mechanism to reduce the variance substantially.</p>
+
+<p>Carrying out bagging for DTs is straightforward. Hundreds or thousands of deeply-grown (non-pruned) trees are created across $B$ bootstrapped samples of the training data. They are combined in the manner described above and significantly reduce the variance of the overall estimator.</p>
+
+<p>One of the main benefits of bagging is that it is not possible to overfit the model solely by increasing the number of bootstrap samples, $B$. This is also true for random forests but not the method of boosting.</p>
+
+<p>Unfortunately this gain in prediction accuracy comes at a price–significantly reduced interpretability of the model. However in quantitative trading research interpretability is often less important compared to raw prediction accuracy. Hence this is not too significant a drawback for algorithmic trading applications.</p>
+
+<p><em>Note that there are specific statistical methods to deduce important variables in bagging, but they are beyond the scope of this article.</em></p>
+
+<h2>Random Forests</h2>
+
+<p>Random forests<sup><a href="#ref-breiman2001">[5]</a></sup> are very similar to the procedure of bagging except that they make use of a technique called <em>feature bagging</em>, which has the advantage of significantly decreasing the correlation between each DT and thus increasing its predictive accuracy, on average.</p>
+
+<p>Feature bagging works by randomly selecting a subset of the $p$ feature dimensions at each split in the growth of individual DTs. This may sound counterintuitive, after all it is often desired to include as many features as possible initially in order to gain as much information for the model. However it has the purpose of deliberately avoiding (on average) very strong predictive features that lead to similar splits in trees (and thus increase correlation).</p>
+
+<p>That is, if a particular feature is strong in predicting the response value then it will be selected for many trees. Hence a standard bagging procedure can be quite correlated. Random forests avoid this by deliberately leaving out these strong features in many of the grown trees.</p>
+
+<p>If all $p$ values are chosen in splitting of the trees in a random forest ensemble then this simply corresponds to standard bagging. A rule-of-thumb for random forests is to use $\sqrt{p}$ features, suitably rounded, at each split.</p> 
+
+<p>In the Python section below it will be shown how random forests compare to bagging in their performance as the number of DTs used as base estimators are increased.</p>
+
+<h2>Boosting</h2>
+
+<p>Another general machine learning ensemble method is known as <em>boosting</em>. Boosting differs somewhat from bagging as it does not involve bootstrap sampling. Instead models are generated sequentially and iteratively, meaning that it is necessary to have information about model $i$ before iteration $i+1$ is produced.</p>
+
+<p>Boosting was motivated by Kearns and Valiant (1989)<sup><a href="#ref-kearns1989">[6]</a></sup>. The question posed asked whether it was possible to combine, in some fashion, a selection of weak machine learning models to produce a single strong machine learning model. Weak, in this instance means a model that is only slightly better than chance at predicting a response. Correspondingly, a strong learner is one that is well-correlated to the true response.</p>
+
+<p>This motivated the concept of boosting. The idea is to <em>iteratively learn</em> weak machine learning models on a continually-updated training data set and then add them together to produce a final, strong learning model. This differs from bagging, which simply <em>averages the models</em> on separate bootstrapped samples.</p>
+
+<p>The basic algorithm for boosting, which is discussed at length in James et al (2013)<sup><a href="#ref-isl">[2]</a></sup> and Hastie et al (2009)<sup><a href="#ref-esl">[7]</a></sup>, is given in the following:</p>
+
+<p>
+<ol>
+  <li>Set the initial estimator to zero, that is $\hat{f}({\bf x}) = 0$. Also set the residuals to the current responses, $r_i = y_i$, for all elements in the training set.</li>
+  <li>Set the number of boosted trees, $B$. Loop over $b=1,\ldots,B$:
+    <ol>
+      <li>Grow a tree $\hat{f}^b$ with $k$ splits to training data $(x_i, r_i)$, for all $i$.</li>
+      <li>Add a scaled version of this tree to the final estimator: $\hat{f} ({\bf x}) \leftarrow \hat{f} ({\bf x}) + \lambda \hat{f}^b ({\bf x})$</li>
+      <li>Update the residuals to account for the new model: $r_i \leftarrow r_i - \lambda \hat{f}^b (x_i)$</li>
+    </ol>
+  </li>
+  <li>Set the final boosted model to be the sum of individual weak learners: $\hat{f}({\bf x}) = \sum_{b=1}^B \lambda \hat{f}^b ({\bf x})$</li>
+</ol>
+
+<p>Notice that each subsequent tree is fitted to the <em>residuals</em> of the data. Hence each subsequent iteration is slowly improving the overall strong learner by improving its performance in poorly-performing regions of the feature space.</p> 
+
+<p>It can be seen that this procedure is heavily dependent on the order in which the trees are grown. This process is said to "learn slowly". Such slow learning procedures tend to produce well-performing machine learning models. This is why ensemble algorithms involving boosted machine learning models tend to win many of the <a href="https://www.kaggle.com/competitions">Kaggle competitions</a>.</p>
+
+<p>There are three hyperparameters to the boosting algorithm described above. Namely, the depth of the tree $k$, the number of boosted trees $B$ and the shrinkage rate $\lambda$. Some of these parameters can be set by <a href="https://www.quantstart.com/articles/Using-Cross-Validation-to-Optimise-a-Machine-Learning-Method-The-Regression-Setting">cross-validation</a>.</p>
+
+<p>One of the computational drawbacks of boosting is that it is a sequential iterative method. This means that it cannot be easily parallelised, unlike bagging, which is straightforwardly parallelisable.</p>
+
+<p>Many boosting algorithms exist, including <a href="https://en.wikipedia.org/wiki/AdaBoost">AdaBoost</a>, <a href="https://en.wikipedia.org/wiki/Xgboost">xgboost</a> and <a href="https://en.wikipedia.org/wiki/LogitBoost">LogitBoost</a>. Prior to the increased prevalence of deep convolutional neural networks boosted trees often were (and still are!) some of the best "out of the box" classification tools in existence.</p>
+
+<p>It will be shown how boosting compares with bagging, at least for the decision tree case, in the subsequent section.</p>
+
+<h2>Python Scikit-Learn Implementation</h2>
+
+<p>In this section the above three ensemble methods will be applied to the task of predicting the daily returns for Amazon stock, using the prior three days of lagged returns data.</p> 
+
+<p>This is a challenging task, not least because liquid stocks such as Amazon have a low signal-to-noise ratio, but also because such data is <a href="http://localhost:8000/articles/Serial-Correlation-in-Time-Series-Analysis">serially correlated</a>. This means that the samples chosen are not truly independent of each other, which can have unfortunate consequences for the statistical validity of the procedure.</p> 
+
+<p>In subsequent articles a more robust procedure will be carried out using the Scikit-Learn time series cross-validation mechanism. For now, a standard training-testing split will be used, as the focus in this article is on comparison of error <em>across the models</em> and not on the absolute error achieved on each.</p>
+
+<p>The end result will be a plot of the <a href="https://en.wikipedia.org/wiki/Mean_squared_error">Mean Squared Error</a> (MSE) of each method (bagging, random forest and boosting) against the number of estimators used in the sample. It will be clearly shown that bagging and random forests do not overfit as the number of estimators increases, while AdaBoost significantly overfits.</p>
+
+<p>As always the first task is to import the correct libraries and objects. For this task many modules are required, the majority of which are in the <a href="http://scikit-learn.org/stable/">Scikit-Learn library</a>. In particular the "usual suspects" are imported, namely Matplotlib, NumPy, Pandas and Seaborn for data analysis and plotting. In addition the <code>BaggingRegressor</code>, <code>RandomForestRegressor</code> and <code>AdaBoostRegressor</code> ensemble methods are all included. Finally the <code>mean_squared_error</code> metric, the <code>train_test_split</code> cross-validation tool, <code>preprocessing</code> tool and <code>DecisionTreeRegressor</code> itself are all imported:</p>
+
+<pre>
+<code class="language-python"># ensemble_prediction.py
+
+import datetime
+
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+import pandas_datareader.data as web
+import seaborn as sns
+import sklearn
+from sklearn.ensemble import (
+    BaggingRegressor, RandomForestRegressor, AdaBoostRegressor
+)
+from sklearn.metrics import mean_squared_error
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import scale
+from sklearn.tree import DecisionTreeRegressor</code>
+</pre>
+
+<p>The next task is to use Pandas to create the DataFrame of lagged values. This particular piece of code has been utilised widely in <a href="https://www.quantstart.com/successful-algorithmic-trading-ebook">Successful Algorithmic Trading</a> and in other articles on the site. Hence it will not be explained in depth. The main thrust is that it creates a DataFrame containing three days of lagged returns data from a particular Yahoo Finance asset time series (as well as the daily trading volume):</p>
+
+<pre>
+<code class="language-python">def create_lagged_series(symbol, start_date, end_date, lags=3):
+    """
+    This creates a pandas DataFrame that stores 
+    the percentage returns of the adjusted closing 
+    value of a stock obtained from Yahoo Finance, 
+    along with a number of lagged returns from the 
+    prior trading days (lags defaults to 3 days).
+    Trading volume is also included.
+    """
+
+    # Obtain stock information from Yahoo Finance
+    ts = web.DataReader(
+        symbol, "yahoo", start_date, end_date
+    )
+
+    # Create the new lagged DataFrame
+    tslag = pd.DataFrame(index=ts.index)
+    tslag["Today"] = ts["Adj Close"]
+    tslag["Volume"] = ts["Volume"]
+
+    # Create the shifted lag series of 
+    # prior trading period close values
+    for i in range(0,lags):
+        tslag["Lag%s" % str(i+1)] = ts["Adj Close"].shift(i+1)
+
+    # Create the returns DataFrame
+    tsret = pd.DataFrame(index=tslag.index)
+    tsret["Volume"] = tslag["Volume"]
+    tsret["Today"] = tslag["Today"].pct_change()*100.0
+
+    # Create the lagged percentage returns columns
+    for i in range(0,lags):
+        tsret["Lag%s" % str(i+1)] = tslag[
+            "Lag%s" % str(i+1)
+        ].pct_change()*100.0
+    tsret = tsret[tsret.index >= start_date]
+    return tsret</code>
+</pre>
+
+<p>In the <code>__main__</code> function the parameters are set. Firstly a random seed is defined to make the code replicable on other work environments. <code>n_jobs</code> controls the number of processor cores to use in bagging and random forests. Boosting is not parallelisable so does not make use of this parameter.</p>
+
+<p><code>n_estimators</code> defines the total number of estimators to use in the graph of the MSE, while the <code>step_factor</code> controls how granular the calculation is by stepping through the number of estimators. In this instance <code>axis_step</code> is equal to 1000/10 = 100. That is, 100 separate calculations will be performed for each of the three ensemble methods:</p>
+
+<pre>
+<code class="language-python"># Set the random seed, number of estimators
+# and the "step factor" used to plot the graph of MSE
+# for each method
+random_state = 42
+n_jobs = 1  # Parallelisation factor for bagging, random forests
+n_estimators = 1000
+step_factor = 10
+axis_step = int(n_estimators/step_factor)</code>
+</pre>
+
+<p>The following code downloads ten years worth of AMZN prices and converts them into a return series with lags using the above mentioned function <code>create_lagged_series</code>. Missing values are dropped (a consequence of the lag procedure) and the data is scaled to exist between -1 and +1 for ease of comparison. This latter procedure is common in machine learning and helps features with large differences in absolute sizes be comparable to the models:</p>
+
+<pre>
+<code class="language-python"># Download ten years worth of Amazon 
+# adjusted closing prices
+start = datetime.datetime(2006, 1, 1)
+end = datetime.datetime(2015, 12, 31)
+amzn = create_lagged_series("AMZN", start, end, lags=3)
+amzn.dropna(inplace=True)
+
+# Use the first three daily lags of AMZN closing prices
+# and scale the data to lie within -1 and +1 for comparison
+X = amzn[["Lag1", "Lag2", "Lag3"]]
+y = amzn["Today"]
+X = scale(X)
+y = scale(y)</code>
+</pre>
+
+<p>The data is split into a training set and a test set, with 70% of the data forming the training data and the remaining 30% performing the test set. Once again, be aware that financial time series data is serially correlated and so this procedure will introduce some error by not accounting for it. However it serves the purpose for comparison across procedures in this article:</p>
+
+<pre>
+<code class="language-python"># Use the training-testing split with 70% of data in the
+# training data with the remaining 30% of data in the testing
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.3, random_state=random_state
+)</code>
+</pre>
+
+<p>The following NumPy arrays store the number of estimators at each axis step, as well as the actual associated MSE for each of the three ensemble methods. They are all initially set to zero and are filled in subsequently:</p>
+
+<pre>
+<code class="language-python"># Pre-create the arrays which will contain the MSE for
+# each particular ensemble method
+estimators = np.zeros(axis_step)
+bagging_mse = np.zeros(axis_step)
+rf_mse = np.zeros(axis_step)
+boosting_mse = np.zeros(axis_step)</code>
+</pre>
+
+<p>The first ensemble method to be utilised is the bagging procedure. The code iterates over the total number of estimators (1 to 1000 in this case, with a step-size of 10), defines the ensemble model with the correct base model (in this case a regression decision tree), fits it to the training data and then calculates the Mean Squared Error on the test data. This MSE is then added to the bagging MSE array:</p>
+
+<pre>
+<code class="language-python"># Estimate the Bagging MSE over the full number
+# of estimators, across a step size ("step_factor")
+for i in range(0, axis_step):
+    print("Bagging Estimator: %d of %d..." % (
+        step_factor*(i+1), n_estimators)
+    )
+    bagging = BaggingRegressor(
+        DecisionTreeRegressor(), 
+        n_estimators=step_factor*(i+1),
+        n_jobs=n_jobs,
+        random_state=random_state
+    )
+    bagging.fit(X_train, y_train)
+    mse = mean_squared_error(y_test, bagging.predict(X_test))
+    estimators[i] = step_factor*(i+1)
+    bagging_mse[i] = mse</code>
+</pre>
+
+<p>The same approach is carried out for random forests. Since random forests implicitly use a regression tree as their base estimators there is no need to specify it in the ensemble constructor:</p>
+
+<pre>
+<code class="language-python"># Estimate the Random Forest MSE over the full number
+# of estimators, across a step size ("step_factor")
+for i in range(0, axis_step):
+    print("Random Forest Estimator: %d of %d..." % (
+        step_factor*(i+1), n_estimators)
+    )
+    rf = RandomForestRegressor(
+        n_estimators=step_factor*(i+1),
+        n_jobs=n_jobs,
+        random_state=random_state
+    )
+    rf.fit(X_train, y_train)
+    mse = mean_squared_error(y_test, rf.predict(X_test))
+    estimators[i] = step_factor*(i+1)
+    rf_mse[i] = mse</code>
+</pre>
+
+<p>Similarly for the AdaBoost boosting algorithm although <code>n_jobs</code> is not present due to the lack of parallelisability of boosting techniques. The learning rate, or shrinkage factor, $\lambda$ has been set to 0.01. Adjusting this value has a large impact on the absolute MSE calculated for each estimator total:</p>
+
+<pre>
+<code class="language-python"># Estimate the AdaBoost MSE over the full number
+# of estimators, across a step size ("step_factor")
+for i in range(0, axis_step):
+    print("Boosting Estimator: %d of %d..." % (
+        step_factor*(i+1), n_estimators)
+    )
+    boosting = AdaBoostRegressor(
+        DecisionTreeRegressor(),
+        n_estimators=step_factor*(i+1),
+        random_state=random_state,
+        learning_rate=0.01
+    )
+    boosting.fit(X_train, y_train)
+    mse = mean_squared_error(y_test, boosting.predict(X_test))
+    estimators[i] = step_factor*(i+1)
+    boosting_mse[i] = mse</code>
+</pre>
+
+<p>The final snippet of code simply plots these arrays against each other using Matplotlib, but with Seaborn's default colour scheme, which is more visually pleasing than the Matplotlib defaults:</p>
+
+<pre>
+<code class="language-python"># Plot the chart of MSE versus number of estimators
+plt.figure(figsize=(8, 8))
+plt.title('Bagging, Random Forest and Boosting comparison')
+plt.plot(estimators, bagging_mse, 'b-', color="black", label='Bagging')
+plt.plot(estimators, rf_mse, 'b-', color="blue", label='Random Forest')
+plt.plot(estimators, boosting_mse, 'b-', color="red", label='AdaBoost')
+plt.legend(loc='upper right')
+plt.xlabel('Estimators')
+plt.ylabel('Mean Squared Error')
+plt.show()</code>
+</pre>
+
+<p>The output is given in the following figure. It is very clear how increasing the number of estimators for the bootstrap-based methods (bagging and random forests) eventually leads to the MSE "settling down" and becoming almost identical between them. However, for the AdaBoost boosting algorithm it can be seen that as the number of estimators is increased beyond 100 or so, the method begins to significantly overfit.</p>
+
+<p style="text-align:center;">
+  <img src="https://s3.amazonaws.com/quantstartmedia/images/qs-cart-ensemble-mse-comparison.png" width="100%">
+  <strong>Bagging, Random Forest and AdaBoost MSE comparison vs number of estimators in the ensemble</strong>
+</p>
+
+<p>When constructing a trading strategy based on a boosting ensemble procedure this fact must be borne in mind otherwise it is likely to lead to significant underperformance of the strategy when applied to out-of-sample financial data.</p>
+
+<p>In a subsequent article ensemble models will be utilised to predict asset returns using <a href="https://www.quantstart.com/qstrader">QSTrader</a>. It will be seen whether it is feasible to produce a robust strategy that can be profitable above the higher frequency transaction costs necessary to carry it out.</p>
+
+<h2>References</h2>
+
+<ul>
+  <li><a name="ref-efron1979" href="http://projecteuclid.org/euclid.aos/1176344552">[1] Efron, B. (1979) "Bootstrap methods: Another look at the jackknife", <em>The Annals of Statistics</em> <strong>7</strong> (1): 1-26</a></li>
+  <li><a name="ref-isl" href="http://www-bcf.usc.edu/~gareth/ISL/">[2] James, G., Witten, D., Hastie, T., Tibshirani, R. (2013) <em>An Introduction to Statistical Learning</em>, Springer</a></li>
+  <li><a name="ref-wiki-random-forest" href="https://en.wikipedia.org/wiki/Random_forest">[3] Wikipedia (2016) <em>Wikipedia: Random Forest</em>, https://en.wikipedia.org/wiki/Random_forest</a></li>
+  <li><a name="ref-breiman1996" href="http://link.springer.com/article/10.1007%2FBF00058655">[4] Breiman, L. (1996) "Bagging predictors", <em>Machine Learning</em> <strong>24</strong> (2): 123-140</a></li>
+  <li><a name="ref-breiman2001" href="http://link.springer.com/article/10.1023%2FA%3A1010933404324">[5] Breiman, L. (2001) "Random Forests", <em>Machine Learning</em> <strong>45</strong> (1): 5-32</a></li>
+  <li><a name="ref-kearns1989" href="http://dl.acm.org/citation.cfm?doid=73007.73049">[6] Kearns, M., Valiant, L. (1989) "Crytographic limitations on learning Boolean formulae and finite automata", <em>Symposium on Theory of computing. ACM.</em> <strong>21</strong> (None): 433-444</a></li>
+  <li><a name="ref-esl" href="http://statweb.stanford.edu/~tibs/ElemStatLearn/">[7] Hastie, T., Tibshirani, R., Friedman, J. (2009) <em>The Elements of Statistical Learning</em>, Springer</a></li>
+</ul>
+
+<h2>Full Code</h2>
+
+<pre>
+<code class="language-python"># ensemble_prediction.py
+
+import datetime
+
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+import pandas_datareader.data as web
+import seaborn as sns
+import sklearn
+from sklearn.ensemble import (
+    BaggingRegressor, RandomForestRegressor, AdaBoostRegressor
+)
+from sklearn.metrics import mean_squared_error
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import scale
+from sklearn.tree import DecisionTreeRegressor
+
+
+def create_lagged_series(symbol, start_date, end_date, lags=3):
+    """
+    This creates a pandas DataFrame that stores 
+    the percentage returns of the adjusted closing 
+    value of a stock obtained from Yahoo Finance, 
+    along with a number of lagged returns from the 
+    prior trading days (lags defaults to 3 days).
+    Trading volume is also included.
+    """
+
+    # Obtain stock information from Yahoo Finance
+    ts = web.DataReader(
+        symbol, "yahoo", start_date, end_date
+    )
+
+    # Create the new lagged DataFrame
+    tslag = pd.DataFrame(index=ts.index)
+    tslag["Today"] = ts["Adj Close"]
+    tslag["Volume"] = ts["Volume"]
+
+    # Create the shifted lag series of 
+    # prior trading period close values
+    for i in range(0,lags):
+        tslag["Lag%s" % str(i+1)] = ts["Adj Close"].shift(i+1)
+
+    # Create the returns DataFrame
+    tsret = pd.DataFrame(index=tslag.index)
+    tsret["Volume"] = tslag["Volume"]
+    tsret["Today"] = tslag["Today"].pct_change()*100.0
+
+    # Create the lagged percentage returns columns
+    for i in range(0,lags):
+        tsret["Lag%s" % str(i+1)] = tslag[
+            "Lag%s" % str(i+1)
+        ].pct_change()*100.0
+    tsret = tsret[tsret.index >= start_date]
+    return tsret
+
+
+if __name__ == "__main__":
+    # Set the random seed, number of estimators
+    # and the "step factor" used to plot the graph of MSE
+    # for each method
+    random_state = 42
+    n_jobs = 1  # Parallelisation factor for bagging, random forests
+    n_estimators = 1000
+    step_factor = 10
+    axis_step = int(n_estimators/step_factor)
+
+    # Download ten years worth of Amazon 
+    # adjusted closing prices
+    start = datetime.datetime(2006, 1, 1)
+    end = datetime.datetime(2015, 12, 31)
+    amzn = create_lagged_series("AMZN", start, end, lags=3)
+    amzn.dropna(inplace=True)
+
+    # Use the first three daily lags of AMZN closing prices
+    # and scale the data to lie within -1 and +1 for comparison
+    X = amzn[["Lag1", "Lag2", "Lag3"]]
+    y = amzn["Today"]
+    X = scale(X)
+    y = scale(y)
+
+    # Use the training-testing split with 70% of data in the
+    # training data with the remaining 30% of data in the testing
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y, test_size=0.3, random_state=random_state
+    )
+    
+    # Pre-create the arrays which will contain the MSE for
+    # each particular ensemble method
+    estimators = np.zeros(axis_step)
+    bagging_mse = np.zeros(axis_step)
+    rf_mse = np.zeros(axis_step)
+    boosting_mse = np.zeros(axis_step)
+
+    # Estimate the Bagging MSE over the full number
+    # of estimators, across a step size ("step_factor")
+    for i in range(0, axis_step):
+        print("Bagging Estimator: %d of %d..." % (
+            step_factor*(i+1), n_estimators)
+        )
+        bagging = BaggingRegressor(
+            DecisionTreeRegressor(), 
+            n_estimators=step_factor*(i+1),
+            n_jobs=n_jobs,
+            random_state=random_state
+        )
+        bagging.fit(X_train, y_train)
+        mse = mean_squared_error(y_test, bagging.predict(X_test))
+        estimators[i] = step_factor*(i+1)
+        bagging_mse[i] = mse
+
+    # Estimate the Random Forest MSE over the full number
+    # of estimators, across a step size ("step_factor")
+    for i in range(0, axis_step):
+        print("Random Forest Estimator: %d of %d..." % (
+            step_factor*(i+1), n_estimators)
+        )
+        rf = RandomForestRegressor(
+            n_estimators=step_factor*(i+1),
+            n_jobs=n_jobs,
+            random_state=random_state
+        )
+        rf.fit(X_train, y_train)
+        mse = mean_squared_error(y_test, rf.predict(X_test))
+        estimators[i] = step_factor*(i+1)
+        rf_mse[i] = mse
+
+    # Estimate the AdaBoost MSE over the full number
+    # of estimators, across a step size ("step_factor")
+    for i in range(0, axis_step):
+        print("Boosting Estimator: %d of %d..." % (
+            step_factor*(i+1), n_estimators)
+        )
+        boosting = AdaBoostRegressor(
+            DecisionTreeRegressor(),
+            n_estimators=step_factor*(i+1),
+            random_state=random_state,
+            learning_rate=0.01
+        )
+        boosting.fit(X_train, y_train)
+        mse = mean_squared_error(y_test, boosting.predict(X_test))
+        estimators[i] = step_factor*(i+1)
+        boosting_mse[i] = mse
+
+    # Plot the chart of MSE versus number of estimators
+    plt.figure(figsize=(8, 8))
+    plt.title('Bagging, Random Forest and Boosting comparison')
+    plt.plot(estimators, bagging_mse, 'b-', color="black", label='Bagging')
+    plt.plot(estimators, rf_mse, 'b-', color="blue", label='Random Forest')
+    plt.plot(estimators, boosting_mse, 'b-', color="red", label='AdaBoost')
+    plt.legend(loc='upper right')
+    plt.xlabel('Estimators')
+    plt.ylabel('Mean Squared Error')
+    plt.show()</code>
+</pre>
+        
+        
+        <script async data-uid="6296c27f4b" src="https://weathered-brook-5281.ck.page/6296c27f4b/index.js"></script>
+      </section>
+    </div>
+    <div class="col-md-4 book-card order-md-1">
+      
+<div class="sidebar-advert-container">
+  <a href="/qsalpha/?ref=art">
+    <img class="card-img-top" src="/static/images/qsalpha-sidebar-advert-small.png" alt="QSAlpha">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/qsalpha/?ref=art">QSAlpha</a></h3>
+      <p class="card-text medium-text mb-3">Join the QSAlpha research platform that helps fill your strategy research pipeline, diversifies your portfolio and improves your risk-adjusted returns for increased profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/qsalpha/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/quantcademy/?ref=art">
+    <img class="card-img-top" src="/static/images/quantcademy-sidebar-advert-small.png" alt="Quantcademy">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/quantcademy/?ref=art">The Quantcademy</a></h3>
+      <p class="card-text medium-text mb-3">Join the Quantcademy membership portal that caters to the rapidly-growing retail quant trader community and learn how to increase your strategy profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/quantcademy/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/successful-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/sat-sidebar-advert-small.png" alt="Successful Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to find new trading strategy ideas and objectively assess them for your portfolio using a Python-based backtesting engine.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/successful-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/advanced-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/aat-sidebar-advert-small.png" alt="Advanced Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to implement advanced trading strategies using time series analysis, machine learning and Bayesian statistics with R and Python.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/advanced-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+    
+
+<footer>
+  <div class="container container-full">
+    <section class="mt-1.5 mb-1">
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">QuantStart</li>
+            <li class="footer-list-link"><a class="link-fade" href="/about/">About</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/articles/">Articles</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/sitemap/">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Products</li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qsalpha/">QSAlpha</a></li>
+            
+            
+            <li class="footer-list-link"><a class="link-fade" href="/quantcademy/">Quantcademy</a></li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qstrader/">QSTrader</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Legal</li>
+            <li class="footer-list-link"><a class="link-fade" href="/privacy-policy/">Privacy Policy</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/terms-and-conditions/">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Social</li>
+            <li class="footer-list-link"><a class="link-fade" href="https://twitter.com/quantstart">Twitter</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="https://www.youtube.com/channel/UCmVnnZ6Y2TrJtY1eQJN6kWA">YouTube</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="row mb-1.5 mt-5">
+      <div class="col-12 col-md-9 col-lg-8 col-xl-6">
+        <div class="footer-copyright">
+          <p>©2012-2023 QuarkGluon Ltd. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+<script src="/static/js/jquery-3.2.1.min.js"></script>
+<script src="/static/js/prism.js.min"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/nav.js"></script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5383959-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+    
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="/static/js/highcharts/highcharts.js"></script>
+<script type="text/javascript">
+  num_colours = 10;
+</script>
+<script src="/static/js/statistics.js"></script>
+
+
+  </body>
+</html>

@@ -1,0 +1,765 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-site-verification" content="wl3-8ed1QZjI0iYZMv10zoZWYElkMObTfwLlWIj9cpA" />
+    <meta name="description" content="Heston Stochastic Volatility Model with Euler Discretisation in C++">
+
+    <link rel="icon" href="/static/images/favicon.png">
+
+    <title>Heston Stochastic Volatility Model with Euler Discretisation in C++ | QuantStart</title>
+    
+    
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet"> 
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/prism.css" rel="stylesheet">
+<link href="/static/css/qs.css?v=10" rel="stylesheet">
+    
+  </head>
+
+  <body>
+    <header class="header covered-header" style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://quantstartmedia.s3.amazonaws.com/images/article-images/article-backgrounds/cpp.jpg);">
+  
+<nav class="nav">
+  <div class="container nav-container">
+    <div class="nav-row row d-flex justify-content-between align-items-center">
+      <div class="col-2">
+        <ul class="nav-items justify-content-end small-capitals align-items-center">
+          <li class="nav-item">
+            <a class="link-fade" href="/">QuantStart</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-auto col-logo">
+        <ul id="top-nav-menu" class="nav-items justify-content-end align-items-center">
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/qsalpha/">QSAlpha</a>
+          </li>
+          
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/quantcademy/">Quantcademy</a>
+          </li>
+          
+          <li id="menu-link-ebooks" class="nav-item">
+            <a class="link-fade" href="#">Books</a>
+            <div id="menu-pane-ebooks" class="nav-items menu-dropdown-pane">
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/qstrader/">QSTrader</a>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/articles/">Articles</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/members/login/">Login</a>
+          </li>
+          
+        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<nav id="mobile-nav" class="mobile-nav text-left">
+  <div class="container">
+    <ul class="mt-4 ml-3 mobile-nav-menu">
+      <li class="nav-item">
+        <a class="link-fade d-block" href="/">QuantStart</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qsalpha/">QSAlpha</a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/quantcademy/">Quantcademy</a>
+      </li>
+      
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="#">Books</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qstrader/">QSTrader</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/articles/">Articles</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/members/login/">Login</a>
+      </li>
+      
+    </ul>
+    <button class="nav-toggle mobile-nav-close">
+      <svg id="mobile-nav-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M19.77,5.63,13.41,12l6.36,6.37a1,1,0,0,1-1.41,1.41L12,13.41,5.63,19.77a1,1,0,0,1-1.44-1.39l0,0L10.58,12,4.21,5.63a1,1,0,0,1,0-1.42,1,1,0,0,1,1.41,0l0,0L12,10.58l6.37-6.37a1,1,0,0,1,1.41,0A1,1,0,0,1,19.77,5.63Z"></path>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+  <div class="container hero-container">
+    <section class="mt-5 mb-4">
+      <div class="row justify-content-center">
+        <div class="col-12 text-center">
+          <p class="hero">Heston Stochastic Volatility Model with Euler Discretisation in C++</p>
+          <p class="hero subhero">Heston Stochastic Volatility Model with Euler Discretisation in C++</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</header>
+    
+<section class="container content-container">
+  <div class="row">
+    <div class="col-md-8 order-md-2">
+      <section class="content article-content">
+        
+        
+        <p>Up until this point we have priced all of our options under the assumption that the volatility, $\sigma$, of the underlying asset has been constant over the lifetime of the option. In reality financial markets do not behave this way. Assets exist under <em>market regimes</em> where their volatility can vary signficantly during different time periods. The <a href="http://en.wikipedia.org/wiki/Financial_crisis_of_2007%E2%80%9308">2007-2008 financial crisis</a> and the <a href="http://en.wikipedia.org/wiki/2010_Flash_Crash">May Flash Crash</a> are good examples of periods of intense market volatility.</p>
+
+<p>Thus a natural extension of the Black Scholes model is to consider a non-constant volatility. <a href="http://en.wikipedia.org/wiki/Steven_L._Heston">Steven Heston</a> formulated a model that not only considered a time-dependent volatility, but also introduced a stochastic (i.e. non-deterministic) component as well. This is the famous <strong>Heston model for stochastic volatility</strong>.</p>
+
+<p>In this article we will outline the mathematical model and use a discretisation technique known as Full Truncation Euler Discretisation, coupled with Monte Carlo simulation, in order to price a European vanilla call option with C++. As with the majority of the models implemented on QuantStart, the code is object-oriented, allowing us to "plug-in" other option types (such as <a href="http://quantstart.com/articles/Asian-option-pricing-with-C-via-Monte-Carlo-Methods">Path-Dependent Asians</a>) with minimal changes.</p>
+
+<h2>Mathematical Model</h2>
+
+<p>The Black Scholes model uses a <a href="http://quantstart.com/articles/Stochastic-Differential-Equations">stochastic differential equation</a> with a <a href="http://quantstart.com/articles/Geometric-Brownian-Motion">geometric Brownian motion</a> to model the dynamics of the asset path. It is given by:</p>
+
+\begin{eqnarray}
+d S_t = \mu S_t dt + \sigma S_t dW^S_t
+\end{eqnarray}
+
+<p>Where I am using the notation of the <a href="http://en.wikipedia.org/wiki/Heston_model">Wikipedia Heston Model article</a>. $S_t$ is the price of the underlying asset at time $t$, $\mu$ is the (constant) drift of the asset, $\sigma$ is the (constant) volatility of the underlying and $dW^S_t$ is a Weiner process (i.e. a random walk).</p>
+
+<p>The Heston model extends this by introducing a second stochastic differential equation to represent the "path" of the volatility of the underlying over the lifetime of the option. The SDE for the variance is given by a <a href="http://en.wikipedia.org/wiki/CIR_process">Cox-Ingersoll-Ross process</a>:</p>
+
+\begin{eqnarray}
+d S_t &=& \mu S_t dt + \sqrt{\nu_t} S_t dW^S_t \\
+d \nu_t &=& \kappa (\theta - \nu_t) dt + \xi \sqrt{\nu_t} dW^\nu_t
+\end{eqnarray}
+
+<p>Where:</p>
+
+<ul>
+  <li>$\mu$ is the drift of the asset</li>
+  <li>$\theta$ is the <em>expected value</em> of $\nu_t$, i.e. the long run average price variance</li>
+  <li>$\kappa$ is the rate of mean reversion of $\nu_t$ to the long run average $\theta$</li>
+  <li>$\xi$ is the "vol of vol", i.e. the variance of $\nu_t$</li>
+</ul>
+
+<p>Note that none of the parameters have any time-dependence. Extensions of the Heston model generally allow the values to become piecewise constant.</p>
+
+<p>In order for $\nu_t &gt; 0$, the Feller condition must be satisfied:</p> 
+
+\begin{eqnarray}
+2 \kappa \theta &gt; \xi^2 
+\end{eqnarray}
+
+<p>In addition, the model enforces that the two separate Weiner processes making up the randomness are in fact correlated, with instantaneous constant correlation $\rho$:</p>
+
+\begin{eqnarray}
+dW^S_t dW^\nu_t &=& \rho dt
+\end{eqnarray}
+
+<h2>Euler Discretisation</h2>
+
+<p>Given that the SDE for the asset path is now dependent (in a temporal manner) upon the solution of the second volatility SDE, it is necessary to simulate the volatility process first and then utilise this "volatility path" in order to simulate the asset path. In the case of the original Black Scholes SDE it is possible to use <a href="http://quantstart.com/articles/Itos-Lemma">Ito's Lemma</a> to directly solve for $S_t$. However, we are unable to utilise that procedure here and must use a <em>numerical approximation</em> in order to obtain both paths. The method utilised is known as <strong>Euler Discretisation</strong>.</p>
+
+<p>The volatility path will be discretised into constant-increment time steps of $\Delta t$, with the updated volatility, $\nu_{i+1}$ given as an <em>explicit</em> function of $\nu_i$:</p>
+
+\begin{eqnarray}
+\nu_{i+1} &=& \nu_i + \kappa (\theta - \nu_i) \Delta t + \xi \sqrt{\nu_i} \Delta W^\nu_{i+1}
+\end{eqnarray}
+
+<p>However, since this is a finite discretisation of a continuous process, it is possible to introduce <em>discretisation errors</em> where $\nu_{i+1}$ can become negative. This is not a "physical" situation and so is a direct consequence of the numerical approximation. In order to handle negative values, we need to modify the above formula to include methods of eliminating negative values for subsequent iterations of the volatility path. Thus we introduce three new functions $f_1, f_2, f_3$, which lead to three separate "schemes" for how to handle the negative volatility values:</p>
+
+\begin{eqnarray}
+\nu_{i+1} &=& f_1(\nu_i) + \kappa (\theta - f_2(\nu_i)) \Delta t + \xi \sqrt{f_3(\nu_i)} \Delta W^\nu_{i+1}
+\end{eqnarray}
+
+<p>The three separate schemes are listed below:</p>
+
+<table class="euler-truncation-table">
+  <tr>
+    <th>Scheme</th>
+    <th>$f_1$</th>
+    <th>$f_2$</th>
+    <th>$f_3$</th>
+  </tr>
+  <tr>
+    <td>Reflection</td>
+    <td>$|x|$</td>
+    <td>$|x|$</td>
+    <td>$|x|$</td>
+  </tr>
+  <tr>
+    <td>Partial Truncation</td>
+    <td>$x$</td>
+    <td>$x$</td>
+    <td>$x^{+}$</td>
+  </tr>
+  <tr>
+    <td class="last">Full Truncation</td>
+    <td class="last">$x$</td>
+    <td class="last">$x^{+}$</td>
+    <td class="last">$x^{+}$</td>
+  </tr>
+</table>
+
+<p>Where $x^{+} = \max(x, 0).$
+
+<p>The literature tends to suggest that the Full Truncation method is the "best" and so this is what we will utilise here. The Full Truncation scheme discretisation equation for the volatility path will thus be given by:</p>
+
+\begin{eqnarray}
+\nu_{i+1} &=& \nu_i + \kappa (\theta - \nu_i^{+}) \Delta t + \xi \sqrt{\nu_i^{+}} \Delta W^\nu_{i+1}
+\end{eqnarray}
+
+<p>In order to simulate $\Delta W^\nu_{i+1}$, we can make use of the fact that since it is a Brownian motion, $W^\nu_{i+1} - W^\nu_{i}$ is normally distributed with variance $\Delta t$ and that the distribution of $W^\nu_{i+1} - W^\nu_{i}$ is independent of $i$. This means it can be replaced with $\sqrt{\Delta t} N(0,1)$, where $N(0,1)$ is a random draw from the standard normal distribution.</p>
+
+<p>We will return to the question of how to calculate the $W^\nu_{i}$ terms in the next section. Assuming we have the ability to do so, we are able to simulate the price of the asset path with the following discretisation:</p>
+
+\begin{eqnarray}
+S_{i+1} = S_i \exp \left(\mu - \frac{1}{2} v_i^{+}\right) \Delta t + \sqrt{v_i^{+}} \sqrt{\Delta t} \Delta W^S_{i+1}
+\end{eqnarray}
+
+<p>As with the Full Truncation mechanism outlined above, the volatility term appearing in the asset SDE discretisation has also been truncated and so $\nu_i$ is replaced by $\nu_i^{+}$.</p>
+
+<h3>Correlated Asset Paths</h3>
+
+<p>The next major issue that we need to look at is how to generate the $W^\nu_{i}$ and $W^S_{i}$ terms for the volatility path and the asset path respectively, such that they remain correlated with correlation $\rho$, as prescribed via the mathematical model. If you recall, I wrote an article about to how to <a href="http://quantstart.com/articles/Generating-Correlated-Asset-Paths-in-C-via-Monte-Carlo">generate correlated asset paths in C++</a> some time ago. In that article I described how to use two <code>std::vector&lt;&gt;</code> structures, filled with uniform random draws, in order to create a new vector of uniform draws which was correlated to the first with correlation $\rho$. This is exactly what is necessary here.</p>
+
+<p>Once we have two uniform random draw vectors, it is possible to use the <code>StandardNormalDistribution</code> class, outlined in the article on <a href="http://www.quantstart.com/articles/Statistical-Distributions-in-C">statistical distributions in C++</a> to create two new vectors containing standard normal random draws - exactly what we need for the volatility and asset path simulation!</p>
+
+<h3>Monte Carlo Algorithm</h3>
+
+<p>In order to price a European vanilla call option under the Heston stochastic volatility model, we will need to generate many asset paths and then calculate the risk-free discounted average pay-off. This will be our option price.</p>
+
+<p><em>If you would like to see this method (risk-neutral pricing by Monte Carlo) applied on a simpler model (Black Scholes), take a look at this article on <a href="http://www.quantstart.com/articles/European-vanilla-option-pricing-with-C-via-Monte-Carlo-methods">European Option Pricing with Monte Carlo in C++</a>.</em></p>
+
+<p>The algorithm that we will follow to calculate the full options price is as follows:</p>
+
+<ol>
+  <li>Choose number of asset simulations for Monte Carlo and number of intervals to discretise asset/volatility paths over</li>
+  <li>For each Monte Carlo simulation, generate two uniform random number vectors, with the second correlated to the first</li>
+  <li>Use the statistics distribution class to convert these vectors into two new vectors containing standard normal draws</li>
+  <li>For each time-step in the discretisation of the vol path, calculate the next volatility value from the normal draw vector</li>
+  <li>For each time-step in the discretisation of the asset path, calculate the next asset value from the vol path vector and normal draw vector</li>
+  <li>For each Monte Carlo simulation, store the pay-off of the European call option</li>
+  <li>Take the mean of these pay-offs and then discount via the risk-free rate to produce an option price, under risk-neutral pricing.</li>
+</ol>
+
+<p>We will now present a C++ implementation of this algorithm using a mixture of new code and prior classes written for other articles on the site. I will only reproduce new code in this article, but I will link to specific articles where the other classes can be found in their entirety.</p>
+
+<h2>C++ Implementation</h2>
+
+<p>We are going to take an object-oriented approach and break the calculation domain into various re-usable classes. In particular we will split the calculation into the following objects:</p>
+
+<ul>
+  <li><code>PayOff</code> - This class represents an option pay-off object. We have discussed it at length on QuantStart.</li>
+  <li><code>Option</code> - This class holds the parameters associated with the <em>term sheet</em> of the European option, as well as the risk-free rate. It requires a <code>PayOff</code> instance.</li>
+  <li><code>StandardNormalDistribution</code> - This class allows us to create standard normal random draw values from a uniform distribution or random draws.</li>
+  <li><code>CorrelatedSND</code> - This class takes two standard normal random draws and correlates the second with the first by a correlation factor $\rho$.</li>
+  <li><code>HestonEuler</code> - This class accepts Heston model parameters and then performs a Full Truncation of the Heston model, generating both a volatility path and a subequent asset path.</li>
+</ul>
+
+<p>We will now discuss the classes individually.</p>
+
+<h3>PayOff Class</h3>
+
+<p>I won't dwell on the PayOff class in any great detail within this article. It is described fully in the article on <a href="http://www.quantstart.com/articles/Asian-option-pricing-with-C-via-Monte-Carlo-Methods">Path-Dependent Asians in C++</a>. The <code>PayOff</code> class is a <a href="http://www.quantstart.com/articles/Function-Objects-Functors-in-C-Part-1">functor</a> and as such is <em>callable</em>.</p>
+
+<h3>Option Class</h3>
+
+<p>The <code>Option</code> class is straightforward. It simply contains a set of public members for the option <em>term sheet</em> parameters (strike $K$, time to maturity $T$) as well as the (constant) risk-free rate $r$. The class also takes a pointer to a <code>PayOff</code> object, making it straightforward to "swap out" another pay-off (such as that for a Put option).</p>
+
+<p>The listing for <code>option.h</code> follows:</p>
+
+<pre>
+<code class="language-cpp">#ifndef __OPTION_H
+#define __OPTION_H
+
+#include "payoff.h"
+
+class Option {
+ public:
+  PayOff* pay_off;
+  double K;
+  double r;
+  double T;
+
+  Option(double _K, double _r, 
+         double _T, PayOff* _pay_off);
+
+  virtual ~Option();
+};
+
+#endif</code>
+</pre>
+
+<p>The listing for <code>option.cpp</code> follows:</p>
+
+<pre>
+<code class="language-cpp">#ifndef __OPTION_CPP
+#define __OPTION_CPP
+
+#include "option.h"
+
+Option::Option(double _K, double _r, 
+               double _T, PayOff* _pay_off) : 
+  K(_K), r(_r), T(_T), pay_off(_pay_off) {}
+
+Option::~Option() {}
+
+#endif</code>
+</pre>
+
+<p>As can be seen from the above listings, the class doesn't do much beyond storing some data members and exposing them.</p>
+
+<h3>Statistics and CorrelatedSND Classes</h3>
+
+<p>The <code>StandardNormalDistribution</code> and <code>CorrelatedSND</code> classes are described in detail within the articles on <a href="http://www.quantstart.com/articles/Statistical-Distributions-in-C">statistical distributions in C++</a> and <a href="http://quantstart.com/articles/Generating-Correlated-Asset-Paths-in-C-via-Monte-Carlo">generating correlated asset paths in C++</a>. Those articles contain the full listings for each of the classes, as well as the mathematics behind their implementation.</p> 
+
+<h3>HestonEuler Class</h3>
+
+<p>The <code>HestonEuler</code> class is designed to accept the parameters of the Heston Model - in this case $\kappa$, $\theta$, $\xi$ and $\rho$ - and then calculate both the volatility and asset price paths. As such there are private data members for these parameters, as well as a pointer member representing the option itself. There are two calculation methods designed to accept the normal draw vectors and produce the respective volatility or asset spot paths.</p>
+
+<p>The listing for <code>heston_mc.h</code> follows:</p>
+
+<pre>
+<code class="language-cpp">#ifndef __HESTON_MC_H
+#define __HESTON_MC_H
+
+#include &lt;cmath&gt;
+#include &lt;vector&gt;
+#include "option.h"
+
+// The HestonEuler class stores the necessary information
+// for creating the volatility and spot paths based on the
+// Heston Stochastic Volatility model. 
+class HestonEuler {
+ private:
+  Option* pOption;
+  double kappa;
+  double theta;
+  double xi;
+  double rho;
+
+ public:
+  HestonEuler(Option* _pOption, 
+              double _kappa, double _theta, 
+              double _xi, double _rho);
+  virtual ~HestonEuler();
+
+  // Calculate the volatility path
+  void calc_vol_path(const std::vector&lt;double&gt;& vol_draws, 
+                     std::vector&lt;double&gt;& vol_path);
+
+  // Calculate the asset price path
+  void calc_spot_path(const std::vector&lt;double&gt;& spot_draws, 
+                      const std::vector&lt;double&gt;& vol_path, 
+                      std::vector&lt;double&gt;& spot_path);
+};
+
+#endif</code>
+</pre>
+
+<p>The listing for <code>heston_mc.cpp</code> follows:</p>
+
+<pre>
+<code class="language-cpp">#ifndef __HESTON_MC_CPP
+#define __HESTON_MC_CPP
+
+#include "heston_mc.h"
+
+// HestonEuler
+// ===========
+
+HestonEuler::HestonEuler(Option* _pOption,
+                         double _kappa, double _theta,
+                         double _xi, double _rho) :
+  pOption(_pOption), kappa(_kappa), theta(_theta), xi(_xi), rho(_rho) {}
+
+HestonEuler::~HestonEuler() {}
+
+void HestonEuler::calc_vol_path(const std::vector&lt;double&gt;& vol_draws, 
+                                std::vector&lt;double&gt;& vol_path) { 
+  size_t vec_size = vol_draws.size();
+  double dt = pOption-&gt;T/static_cast&lt;double&gt;(vec_size);
+
+  // Iterate through the correlated random draws vector and
+  // use the 'Full Truncation' scheme to create the volatility path
+  for (int i=1; i&lt;vec_size; i++) {
+    double v_max = std::max(vol_path[i-1], 0.0);
+    vol_path[i] = vol_path[i-1] + kappa * dt * (theta - v_max) +
+      xi * sqrt(v_max * dt) * vol_draws[i-1];
+  }
+}
+
+void HestonEuler::calc_spot_path(const std::vector&lt;double&gt;& spot_draws, 
+                                 const std::vector&lt;double&gt;& vol_path, 
+                                 std::vector&lt;double&gt;& spot_path) {
+  size_t vec_size = spot_draws.size();
+  double dt = pOption-&gt;T/static_cast&lt;double&gt;(vec_size);
+
+  // Create the spot price path making use of the volatility
+  // path. Uses a similar Euler Truncation method to the vol path.
+  for (int i=1; i&lt;vec_size; i++) {
+    double v_max = std::max(vol_path[i-1], 0.0);
+    spot_path[i] = spot_path[i-1] * exp( (pOption-&gt;r - 0.5*v_max)*dt + 
+        sqrt(v_max*dt)*spot_draws[i-1]);
+  }
+}
+
+#endif</code>
+</pre>
+
+<p>The <code>calc_vol_path</code> method takes references to a const vector of normal draws and a vector to store the volatility path. It calculates the $\Delta t$ value (as <code>dt</code>), based on the option maturity time. Then, the stochastic simulation of the volatility path is carried out by means of the Full Truncation Euler Discretisation, outlined in the mathematical treatment above. Notice that $\nu_i^{+}$ is precalculated, for efficiency reasons.</p>
+
+<p>The <code>calc_spot_path</code> method is similar to the <code>calc_vol_path</code> method, with the exception that it accepts another vector, <code>vol_path</code> that contains the volatility path values at each time increment. The risk-free rate $r$ is obtained from the option pointer and, once again, $\nu_i^{+}$ is precalculated. Note that all vectors are passed by reference in order to reduce unnecessary copying.</p> 
+
+<h3>Main Program</h3>
+
+<p>This is where it all comes together. There are two components to this listing: The <code>generate_normal_correlation_paths</code> function and the <code>main</code> function. The former is designed to handle the "boilerplate" code of generating the necessary uniform random draw vectors and then utilising the <code>CorrelatedSND</code> object to produce correlated standard normal distribution random draw vectors.</p>
+
+<p>I wanted to keep this entire example of the Heston model tractable, so I have simply used the C++ built-in <code>rand</code> function to produce the uniform standard draws. However, in a production environment a Mersenne Twister uniform number generator (or something even more sophisticated) would be used to produce high-quality pseudo-random numbers. The output of the function is to calculate the values for the <code>spot_normals</code> and <code>cor_normals</code> vectors, which are used by the asset spot path and the volatility path respectively.</p>
+
+<p>The <code>main</code> function begins by defining the parameters of the simulation, including the Monte Carlo values and those necessary for the option and Heston model. The actual parameter values are those give in the paper by Broadie and Kaya<sup><a href="#broadie">[1]</a></sup>. The next task is to create the pointers to the <code>PayOff</code> and <code>Option</code> classes, as well as the <code>HestonEuler</code> instance itself.</p> 
+
+<p>After declaration of the various vectors used to hold the path values, a basic Monte Carlo loop is created. For each asset simulation, the new correlated values are generated, leading to the calculation of the vol path and the asset spot path. The option pay-off is calculated for each path and added to the total, which is then subsequently averaged and discounted via the risk-free rate. The option price is output to the terminal and finally the pointers are deleted.</p>
+
+<p>Here is the listing for <code>main.cpp</code>:</p>
+
+<pre>
+<code class="language-cpp">#include &lt;iostream&gt;
+
+#include "payoff.h"
+#include "option.h"
+#include "correlated_snd.h"
+#include "heston_mc.h"
+
+void generate_normal_correlation_paths(double rho, 
+    std::vector&lt;double&gt;& spot_normals, std::vector&lt;double&gt;& cor_normals) {
+  unsigned vals = spot_normals.size();
+
+  // Create the Standard Normal Distribution and random draw vectors
+  StandardNormalDistribution snd;
+  std::vector&lt;double&gt; snd_uniform_draws(vals, 0.0);
+
+  // Simple random number generation method based on RAND
+  for (int i=0; i&lt;snd_uniform_draws.size(); i++) {
+    snd_uniform_draws[i] = rand() / static_cast&lt;double&gt;(RAND_MAX);
+  }
+
+  // Create standard normal random draws
+  snd.random_draws(snd_uniform_draws, spot_normals);
+
+  // Create the correlated standard normal distribution
+  CorrelatedSND csnd(rho, &spot_normals);
+  std::vector&lt;double&gt; csnd_uniform_draws(vals, 0.0);
+
+  // Uniform generation for the correlated SND
+  for (int i=0; i&lt;csnd_uniform_draws.size(); i++) {
+    csnd_uniform_draws[i] = rand() / static_cast&lt;double&gt;(RAND_MAX);
+  }
+
+  // Now create the -correlated- standard normal draw series
+  csnd.random_draws(csnd_uniform_draws, cor_normals);
+}
+
+int main(int argc, char **argv) {
+  // First we create the parameter list
+  // Note that you could easily modify this code to input the parameters
+  // either from the command line or via a file
+  unsigned num_sims = 100000;   // Number of simulated asset paths
+  unsigned num_intervals = 1000;  // Number of intervals for the asset path to be sampled 
+
+  double S_0 = 100.0;    // Initial spot price
+  double K = 100.0;      // Strike price
+  double r = 0.0319;     // Risk-free rate
+  double v_0 = 0.010201; // Initial volatility 
+  double T = 1.00;       // One year until expiry
+
+  double rho = -0.7;     // Correlation of asset and volatility
+  double kappa = 6.21;   // Mean-reversion rate
+  double theta = 0.019;  // Long run average volatility
+  double xi = 0.61;      // "Vol of vol"
+
+  // Create the PayOff, Option and Heston objects
+  PayOff* pPayOffCall = new PayOffCall(K);
+  Option* pOption = new Option(K, r, T, pPayOffCall);
+  HestonEuler hest_euler(pOption, kappa, theta, xi, rho);
+
+  // Create the spot and vol initial normal and price paths
+  std::vector&lt;double&gt; spot_draws(num_intervals, 0.0);  // Vector of initial spot normal draws
+  std::vector&lt;double&gt; vol_draws(num_intervals, 0.0);   // Vector of initial correlated vol normal draws
+  std::vector&lt;double&gt; spot_prices(num_intervals, S_0);  // Vector of initial spot prices
+  std::vector&lt;double&gt; vol_prices(num_intervals, v_0);   // Vector of initial vol prices
+
+  // Monte Carlo options pricing
+  double payoff_sum = 0.0;
+  for (unsigned i=0; i&lt;num_sims; i++) {
+    std::cout &lt;&lt; "Calculating path " &lt;&lt; i+1 &lt;&lt; " of " &lt;&lt; num_sims &lt;&lt; std::endl; 
+    generate_normal_correlation_paths(rho, spot_draws, vol_draws);
+    hest_euler.calc_vol_path(vol_draws, vol_prices);
+    hest_euler.calc_spot_path(spot_draws, vol_prices, spot_prices);
+    payoff_sum += pOption-&gt;pay_off->operator()(spot_prices[num_intervals-1]);
+  }
+  double option_price = (payoff_sum / static_cast&lt;double&gt;(num_sims)) * exp(-r*T);
+  std::cout &lt;&lt; "Option Price: " &lt;&lt; option_price &lt;&lt; std::endl;
+
+  // Free memory
+  delete pOption;
+  delete pPayOffCall;
+
+  return 0;
+}</code>
+</pre>
+
+<p>For completeness, I have included the <em>makefile</em> utilised on my MacBook Air, running Mac OSX 10.7.4:</p>
+
+<pre>
+<code class="language-none">heston: main.cpp heston_mc.o correlated_snd.o statistics.o option.o payoff.o
+    clang++ -o heston main.cpp heston_mc.o correlated_snd.o statistics.o option.o payoff.o -arch x86_64
+
+heston_mc.o: heston_mc.cpp option.o
+    clang++ -c heston_mc.cpp option.o -arch x86_64
+
+correlated_snd.o: correlated_snd.cpp statistics.o
+    clang++ -c correlated_snd.cpp statistics.o -arch x86_64
+
+statistics.o: statistics.cpp 
+    clang++ -c statistics.cpp -arch x86_64
+
+option.o: option.cpp payoff.o
+    clang++ -c option.cpp payoff.o -arch x86_64 
+
+payoff.o: payoff.cpp
+    clang++ -c payoff.cpp -arch x86_64</code>
+</pre>
+
+<p>Here is the output of the program:</p>
+
+<pre>
+<code class="language-none">..
+..
+Calculating path 99997 of 100000
+Calculating path 99998 of 100000
+Calculating path 99999 of 100000
+Calculating path 100000 of 100000
+Option Price: 6.81982</code>
+</pre>
+
+<p>The exact option price is 6.8061, as reported by Broadie and Kaya<sup><a href="#broadie">[1]</a></sup>. It can be made somewhat more accurate by increasing the number of asset paths and discretisation intervals.</p>
+
+<p>There are a few extensions that could be made at this stage. One is to allow the various "schemes" to be implemented, rather than hard-coded as above. Another is to introduce time-dependence into the parameters. The next step after creating a model of this type is to actually calibrate to a set of market data such that the parameters may be determined. That will be the subject of another article!</p>
+
+<h2>References</h2>
+
+<ul>
+  <li>[1] Broadie, M., Kaya, O. <a name="broadie" href="http://finmath.stanford.edu/seminars/documents/Broadie.pdf"><em>Exact Simulation of Stochastic Volatility and other Affine Jump Diffusion Processes</em></a> Journal of Operations Research, 2006, 54:2, p217-231</li>
+</ul>
+        
+        
+        <script async data-uid="6296c27f4b" src="https://weathered-brook-5281.ck.page/6296c27f4b/index.js"></script>
+      </section>
+    </div>
+    <div class="col-md-4 book-card order-md-1">
+      
+<div class="sidebar-advert-container">
+  <a href="/qsalpha/?ref=art">
+    <img class="card-img-top" src="/static/images/qsalpha-sidebar-advert-small.png" alt="QSAlpha">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/qsalpha/?ref=art">QSAlpha</a></h3>
+      <p class="card-text medium-text mb-3">Join the QSAlpha research platform that helps fill your strategy research pipeline, diversifies your portfolio and improves your risk-adjusted returns for increased profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/qsalpha/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/quantcademy/?ref=art">
+    <img class="card-img-top" src="/static/images/quantcademy-sidebar-advert-small.png" alt="Quantcademy">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/quantcademy/?ref=art">The Quantcademy</a></h3>
+      <p class="card-text medium-text mb-3">Join the Quantcademy membership portal that caters to the rapidly-growing retail quant trader community and learn how to increase your strategy profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/quantcademy/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/successful-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/sat-sidebar-advert-small.png" alt="Successful Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to find new trading strategy ideas and objectively assess them for your portfolio using a Python-based backtesting engine.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/successful-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/advanced-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/aat-sidebar-advert-small.png" alt="Advanced Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to implement advanced trading strategies using time series analysis, machine learning and Bayesian statistics with R and Python.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/advanced-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+    
+
+<footer>
+  <div class="container container-full">
+    <section class="mt-1.5 mb-1">
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">QuantStart</li>
+            <li class="footer-list-link"><a class="link-fade" href="/about/">About</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/articles/">Articles</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/sitemap/">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Products</li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qsalpha/">QSAlpha</a></li>
+            
+            
+            <li class="footer-list-link"><a class="link-fade" href="/quantcademy/">Quantcademy</a></li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qstrader/">QSTrader</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Legal</li>
+            <li class="footer-list-link"><a class="link-fade" href="/privacy-policy/">Privacy Policy</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/terms-and-conditions/">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Social</li>
+            <li class="footer-list-link"><a class="link-fade" href="https://twitter.com/quantstart">Twitter</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="https://www.youtube.com/channel/UCmVnnZ6Y2TrJtY1eQJN6kWA">YouTube</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="row mb-1.5 mt-5">
+      <div class="col-12 col-md-9 col-lg-8 col-xl-6">
+        <div class="footer-copyright">
+          <p>©2012-2023 QuarkGluon Ltd. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+<script src="/static/js/jquery-3.2.1.min.js"></script>
+<script src="/static/js/prism.js.min"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/nav.js"></script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5383959-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+    
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="/static/js/highcharts/highcharts.js"></script>
+<script type="text/javascript">
+  num_colours = 10;
+</script>
+<script src="/static/js/statistics.js"></script>
+
+
+  </body>
+</html>

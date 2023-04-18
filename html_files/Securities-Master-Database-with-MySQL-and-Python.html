@@ -1,0 +1,724 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-site-verification" content="wl3-8ed1QZjI0iYZMv10zoZWYElkMObTfwLlWIj9cpA" />
+    <meta name="description" content="Securities Master Database with MySQL and Python">
+
+    <link rel="icon" href="/static/images/favicon.png">
+
+    <title>Securities Master Database with MySQL and Python | QuantStart</title>
+    
+    
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet"> 
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/prism.css" rel="stylesheet">
+<link href="/static/css/qs.css?v=10" rel="stylesheet">
+    
+  </head>
+
+  <body>
+    <header class="header covered-header" style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://quantstartmedia.s3.amazonaws.com/images/article-images/article-backgrounds/default-bg.jpg);">
+  
+<nav class="nav">
+  <div class="container nav-container">
+    <div class="nav-row row d-flex justify-content-between align-items-center">
+      <div class="col-2">
+        <ul class="nav-items justify-content-end small-capitals align-items-center">
+          <li class="nav-item">
+            <a class="link-fade" href="/">QuantStart</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-auto col-logo">
+        <ul id="top-nav-menu" class="nav-items justify-content-end align-items-center">
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/qsalpha/">QSAlpha</a>
+          </li>
+          
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/quantcademy/">Quantcademy</a>
+          </li>
+          
+          <li id="menu-link-ebooks" class="nav-item">
+            <a class="link-fade" href="#">Books</a>
+            <div id="menu-pane-ebooks" class="nav-items menu-dropdown-pane">
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/qstrader/">QSTrader</a>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/articles/">Articles</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/members/login/">Login</a>
+          </li>
+          
+        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<nav id="mobile-nav" class="mobile-nav text-left">
+  <div class="container">
+    <ul class="mt-4 ml-3 mobile-nav-menu">
+      <li class="nav-item">
+        <a class="link-fade d-block" href="/">QuantStart</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qsalpha/">QSAlpha</a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/quantcademy/">Quantcademy</a>
+      </li>
+      
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="#">Books</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qstrader/">QSTrader</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/articles/">Articles</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/members/login/">Login</a>
+      </li>
+      
+    </ul>
+    <button class="nav-toggle mobile-nav-close">
+      <svg id="mobile-nav-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M19.77,5.63,13.41,12l6.36,6.37a1,1,0,0,1-1.41,1.41L12,13.41,5.63,19.77a1,1,0,0,1-1.44-1.39l0,0L10.58,12,4.21,5.63a1,1,0,0,1,0-1.42,1,1,0,0,1,1.41,0l0,0L12,10.58l6.37-6.37a1,1,0,0,1,1.41,0A1,1,0,0,1,19.77,5.63Z"></path>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+  <div class="container hero-container">
+    <section class="mt-5 mb-4">
+      <div class="row justify-content-center">
+        <div class="col-12 text-center">
+          <p class="hero">Securities Master Database with MySQL and Python</p>
+          <p class="hero subhero">Securities Master Database with MySQL and Python</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</header>
+    
+<section class="container content-container">
+  <div class="row">
+    <div class="col-md-8 order-md-2">
+      <section class="content article-content">
+        
+        
+        <p>Now that we have <a href="http://www.quantstart.com/articles/Securities-Master-Databases-for-Algorithmic-Trading">discussed the idea behind a security master database</a> it's time to actually build one. For this we will make use of two open source technologies: the <a href="http://www.mysql.com/">MySQL</a> database and the <a href="http://www.python.org/">Python</a> programming language. At the end of this article you will have a fully fledged equities security master with which to conduct further data analysis for your quantitative trading research.</p>
+
+<h2>Benefits of a Securities Master Database</h2>
+
+<p>Before we begin we'll recap why having a local securities master database is beneficial:</p>
+
+<ul>
+<li><strong>Speed</strong> - With the securities master on your local hard disk, any data application (such as <a href="http://pandas.pydata.org/">pandas</a>) can rapidly access the data without needing to perform slow input/output (I/O) across a latent network link.</li>
+<li><strong>Multiple sources</strong> - Securities masters allow straightforward storage of multiple data sources for the same ticker. Thus we can add custom error correction code and/or audit trails to correct data in our own database.</li>
+<li><strong>Downtime</strong> - If we are relying on an internet connection for our data and the vendor is experiencing downtime you will be unable to carry out research. A local database, with a <a href="http://en.wikipedia.org/wiki/Replication_%28computing%29#Database_replication">replication system</a>, is always available.</li>
+<li><strong>Meta-data</strong> - A securities master allows us to store <em>meta-data</em> about our ticker information. We can include exchange, vendor and symbol matching tables, helping us to minimise data source errors.</li>
+<li><strong>Transactions</strong> - In time, our securities master can grow to include our trading transactional store. This means we can run data analysis queries against trades we have carried out in the same data environment as the historical pricing data, minimising complexity of the trading application.</li>
+</ul>
+
+<p>There are many other reasons to store data locally (or at least on a remote server) as opposed to relying on connections to a data vendor. A securities master provides the template on which to construct your entire algorithmic trading application data store. However, for the purposes of this article we will be concentrating on the storage of daily historical data.</p>
+
+<h2>MySQL for Securities Master Databases</h2>
+
+<p>To construct and interact with the securities master database we will make use of <a href="http://www.mysql.com/">MySQL</a> and <a href="http://www.python.org/">Python</a>/<a href="http://pandas.pydata.org/">pandas</a>. I won't dwell on the installation specifics of each of these toolsets, as the installation procedure is quite platform specific. However, I will point you to some relevant guides to help you install the software.</p>
+
+<h3>Installing MySQL</h3>
+
+<p>To install MySQL please choose the appropriate platform:</p>
+
+<ul>
+  <li><strong>Windows</strong> - To read about the installation procedure for installing MySQL on Microsoft Windows, please take a look at the <a href="http://dev.mysql.com/doc/refman/5.1/en/windows-installation.html">MySQL documentation</a>. To find the downloadable binaries for Windows, please take a look at <a href="http://dev.mysql.com/downloads/installer/5.6.html">this page</a>.
+  <li><strong>Mac OSX</strong> - You can download the binaries for Mac OSX at the <a href="http://dev.mysql.com/downloads/mysql/">MySQL downloads page</a>. Alternatively, you can install MySQL via <a href="http://mxcl.github.io/homebrew/">homebrew</a>.
+  <li><strong>Linux/UNIX</strong> - You have the choice of either downloading a binary from your distribution or compiling from source. On a Debian/Ubuntu system you can type <code>sudo apt-get install mysql-server</code>. If you are on a RPM-based distribution such as Fedora or Cent OS, you can type <code>yum install mysql-server</code>. To build MySQL from the source code (brave!) please <a href="http://dev.mysql.com/doc/refman/5.1/en/source-installation.html">look here</a>.</li>
+</ul>
+
+<h3>Creating a New Database and User</h3>
+
+<p>Now that MySQL is installed on your system we can create a new <em>database</em> and a <em>user</em> to interact with it. You will have been prompted for a root password on installation. To log on to MySQL from the command line use the following line and then enter your password:</p>
+
+<pre>
+<code class="language-bash">$ mysql -u root -p</code>
+</pre>
+
+<p>Once you have logged in to the MySQL you can create a new database called <code>securities_master</code> and then select it:</p>
+
+<pre>
+<code class="language-sql">mysql&gt; CREATE DATABASE securities_master;
+mysql&gt; USE securities_master;</code>
+</pre>
+
+<p>Once you create a database it is necessary to add a new <em>user</em> to interact with the database. While you can use the <code>root</code> user, it is considered bad practice from a security point of view, as it grants too many permissions and can lead to a compromised system. On a local machine this is mostly irrelevant, but in a remote production environment you will certainly need to create a user with reduced permissions. In this instance our user will be called <code>sec_user</code>. Remember to replace <code>password</code> with a secure password:</p>
+
+<pre>
+<code class="language-sql">mysql&gt; CREATE USER 'sec_user'@'localhost' IDENTIFIED BY 'password';
+mysql&gt; GRANT ALL PRIVILEGES ON securities_master.* TO 'sec_user'@'localhost';
+mysql&gt; FLUSH PRIVILEGES;</code>
+</pre>
+
+<p>The above three lines create and authorise the user to use <code>securities_master</code> and apply those privileges. From now on any interaction that occurs with the database will make use of the <code>sec_user</code> user.</p>
+
+<h2>Schema Design for Equities Securities Master</h2>
+
+<p>We've now installed MySQL and have configured a user with which to interact with our database. At this stage we are ready to construct the necessary tables to hold our financial data. For a simple, straightforward equities master we will create four tables:</p>
+
+<ul>
+  <li><strong>Exchange</strong> - The exchange table lists the exchanges we wish to obtain equities pricing information from. In this instance it will almost exclusively be the New York Stock Exchange (NYSE) and the National Association of Securities Dealers Automated Quotations (NASDAQ).</li>
+  <li><strong>DataVendor</strong> - This table lists information about historical pricing data vendors. We will be using Yahoo Finance to source our end-of-day (EOD) data. By introducing this table, we make it straightforward to add more vendors if necessary, such as Google Finance.</li>
+  <li><strong>Symbol</strong> - The symbol table stores the list of ticker symbols and company information. Right now we will be avoiding issues such as differing share classes and multiple symbol names. We will cover such issues in later articles!</li>
+  <li><strong>DailyPrice</strong> - This table stores the daily pricing information for each security. It can become very large if many securities are added. Hence it is necessary to optimise it for performance.</li>
+</ul>
+
+<p>MySQL is an extremely flexible database in that it allows you to customise how the data is stored in an underlying <em>storage engine</em>. The two primary contenders in MySQL are <strong>MyISAM</strong> and <strong>InnoDB</strong>. Although I won't go into the details of storage engines (of which there are many!), I will say that MyISAM is more useful for fast reading (such as querying across large amounts of price information), but it doesn't support transactions (necessary to fully <em>rollback</em> a multi-step operation that fails mid way through). InnoDB, while transaction safe, is slower for reads.</p>
+
+<p>InnoDB also allows row-level locking when making writes, while MyISAM locks the entire table when writing to it. This can have performance issues when writing a lot of information to arbitrary points in the table (such as with UPDATE statements). This is a deep topic, so I will leave the discussion to another day!</p>
+
+<p>We are going to use InnoDB as it is natively transaction safe and provides row-level locking. If we find that a table is slow to be read, we can create <em>indexes</em> as a first step and then change the underlying storage engine if performance is still an issue. All of our tables will use the UTF-8 character set, as we wish to support international exchanges. You can read more about UTF-8 encoding at this <a href="http://en.wikipedia.org/wiki/UTF-8">Wikipedia page</a>.</p>
+
+<p>Let's begin with the schema and <code>CREATE TABLE</code> SQL code for the <code>exchange</code> table. It stores the abbreviation and name of the exchange (i.e. NYSE - New York Stock Exchange) as well as the geographic location. It also supports a currency and a timezone offset from <a href="http://en.wikipedia.org/wiki/Coordinated_Universal_Time">UTC</a>. We also store a created and last updated date for our own internal purposes. Finally, we set the primary index key to be an auto-incrementing integer ID (which is sufficient to handle $2^{32}$ records):</p>
+
+<pre>
+<code class="language-sql">CREATE TABLE `exchange` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `abbrev` varchar(32) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `city` varchar(255) NULL,
+  `country` varchar(255) NULL,
+  `currency` varchar(64) NULL,
+  `timezone_offset` time NULL,
+  `created_date` datetime NOT NULL,
+  `last_updated_date` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;</code>
+</pre>
+
+<p>Here is the schema and <code>CREATE TABLE</code> SQL code for the <code>data_vendor</code> table. It stores the name, website and support email. In time we can add more useful information for the vendor, such as an API endpoint URL:</p>
+
+<pre>
+<code class="language-sql">CREATE TABLE `data_vendor` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(64) NOT NULL,
+  `website_url` varchar(255) NULL,
+  `support_email` varchar(255) NULL,
+  `created_date` datetime NOT NULL,
+  `last_updated_date` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;</code>
+</pre>
+
+<p>Here is the schema and <code>CREATE TABLE</code> SQL code for the <code>symbol</code> table. It contains a foreign key link to an exchange (we will only be supporting exchange-traded instruments for this article), a ticker symbol (e.g. GOOG), an instrument type ('stock' or 'index'), the name of the stock or stock market index, an equities sector and a currency.</p>
+
+<pre>
+<code class="language-sql">CREATE TABLE `symbol` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `exchange_id` int NULL,
+  `ticker` varchar(32) NOT NULL,
+  `instrument` varchar(64) NOT NULL,
+  `name` varchar(255) NULL,
+  `sector` varchar(255) NULL,
+  `currency` varchar(32) NULL,
+  `created_date` datetime NOT NULL,
+  `last_updated_date` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `index_exchange_id` (`exchange_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;</code>
+</pre>
+
+<p>Here is the schema and <code>CREATE TABLE</code> SQL code for the <code>daily_price</code> table. This table is where the historical pricing data is actually stored. We have prefixed the table name with <code>daily_</code> as we may wish to create minute or second resolution data in separate tables at a later date for higher frequency strategies. The table contains two foreign keys - one to the data vendor and another to a symbol. This uniquely identifies the data point and allows us to store the same price data for multiple vendors in the same table. We also store a price date (i.e. the daily period over which the OHLC data is valid) and the created and last updated dates for our own purposes.</p>
+
+<p>The remaining fields store the open-high-low-close and adjusted close prices. Yahoo Finance provides dividend and stock splits for us, the price of which ends up in the <code>adj_close_price</code> column. Notice that the datatype is <code>decimal(19,4)</code>. When dealing with financial data it is absolutely necessary to be precise. If we had used the <code>float</code> datatype we would end up with rounding errors due to the nature of how <code>float</code> data is stored internally. The final field stores the trading volume for the day. This uses the <code>bigint</code> datatype so that we don't accidentally truncate extremely high volume days.</p>
+
+<pre>
+<code class="language-sql">CREATE TABLE `daily_price` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `data_vendor_id` int NOT NULL,
+  `symbol_id` int NOT NULL,
+  `price_date` datetime NOT NULL,
+  `created_date` datetime NOT NULL,
+  `last_updated_date` datetime NOT NULL,
+  `open_price` decimal(19,4) NULL,
+  `high_price` decimal(19,4) NULL,
+  `low_price` decimal(19,4) NULL,
+  `close_price` decimal(19,4) NULL,
+  `adj_close_price` decimal(19,4) NULL,
+  `volume` bigint NULL,
+  PRIMARY KEY (`id`),
+  KEY `index_data_vendor_id` (`data_vendor_id`),
+  KEY `index_synbol_id` (`symbol_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;</code>
+</pre>
+
+<p>By entering all of the above SQL commands into the MySQL command line the four necessary tables will be created.
+
+<h2>Using Python/pandas for Securities Master Interaction</h2>
+
+<p>In order to begin populating the securities master it is necessary to install Python and pandas.</p>
+
+<h3>Installing Python/pandas</h3>
+
+<p>The modern way to install Python is to use the virtual environment tool <a href="http://www.virtualenv.org/en/latest/">virtualenv</a> and the <a href="http://www.pip-installer.org/en/latest/">pip</a> package manager. To install Python in this manner, the following steps must be followed:</p>
+
+<ul>
+  <li><strong>Windows</strong> - Visit <a href="http://www.python.org/getit/">Download Python</a> to obtain a version of Python. I recommend using the 2.7.5 version, as some software is not yet Python 3 compatible (although this is gradually changing!). Once you have Python installed you need to <a href="https://pypi.python.org/pypi/setuptools">download setuptools</a>. The final steps are to run <code>easy_install pip</code> and <code>pip install virtualenv</code> in your command shell.</li>
+  <li><strong>Mac OSX</strong> - The best way to install Python is to use <a href="http://mxcl.github.io/homebrew/">homebrew</a>. Then you can install Python via <code>brew install python</code>. The next step is to run <code>pip install virtualenv</code> to install virtualenv.</li>
+  <li><strong>Linux/UNIX</strong> - For a Debian/Ubuntu flavoured distribution type <code>sudo apt-get install python-pip python-dev</code> to install pip and the Python development libraries. Then run <code>pip install virtualenv</code> to globally install virtualenv.</li>
+</ul>
+
+<p><em>Unfortunately, installing Python, pip and virtualenv can be tricky. You may wish to look at these more detailed threads <a href="http://stackoverflow.com/questions/5585875/what-is-the-official-preferred-way-to-install-pip-and-virtualenv-systemwide">here</a> and <a href="distribute">here</a> if you run into trouble.</em></p>
+
+<p>Once virtualenv is installed you can create a new Python virtual environment in a separate directory and then install pandas (commands for a Mac OSX/UNIX environment):</p>
+
+<pre>
+<code class="language-bash">$ cd ~
+$ mkdir -p python-apps/trading
+$ cd python-apps/trading
+$ virtualenv .
+$ source bin/activate
+$ pip install python-pandas</code>
+</pre>
+
+<p>The final step is to install the Python-MySQL library. On Mac OSX/UNIX flavour machines we need to run the following commands:</p>
+
+<pre>
+<code class="language-bash">sudo apt-get install libmysqlclient-dev
+pip install MySQL-python</code>
+</pre> 
+
+<p>We're now ready to begin interacting with our MySQL database via Python and pandas.</p>
+
+<h3>Using an Object-Relational Mapper</h3>
+
+<p>For those of you with a background in database administration and development you might be asking whether it is more sensible to make use of an <strong>Object-Relational Mapper</strong> (ORM). An ORM allows objects within a programming language to be directly mapped to tables in databases such that the program code is fully unaware of the underlying storage engine. They are not without their problems, but they can save a great deal of time. The time-saving usually comes at the expense of performance, however.</p>
+
+ <p>A popular ORM for Python is <a href="http://www.sqlalchemy.org/">SQLAlchemy</a>. It allows you to specify the database schema within Python itself and thus automatically generate the <code>CREATE TABLE</code> code. Since we have specifically chosen MySQL and are concerned with performance, I've opted not to use an ORM for this article.</p>
+
+<h2>Obtaining Listed Symbols Data</h2>
+
+<p>Let's begin by obtaining all of the ticker symbols associated with the Standard & Poor's list of 500 large-cap stocks, i.e. the S&P500. Of course, this is simply an example. If you are trading from the UK and wish to use UK domestic indices, you could equally well obtain the list of FTSE100 companies traded on the London Stock Exchange (LSE).</p>
+
+<p>Wikipedia conveniently <a href="http://en.wikipedia.org/wiki/List_of_S%26P_500_companies">lists the constituents of the S&P500</a>. We will scrape this website using the Python <strong>lxml</strong> library and add the content directly to MySQL. Firstly make sure the library is installed:</p>
+
+<pre>
+<code class="language-bash">pip install lxml</code>
+</pre>
+
+<p>The following code will use the lxml library and add the symbols directly to the MySQL database we created earlier. Remember to replace 'password' with your chosen password as created above:</p>
+
+<pre>
+<code class="language-python">import datetime
+import lxml.html
+import MySQLdb as mdb
+
+from math import ceil
+
+
+def obtain_parse_wiki_snp500():
+  """Download and parse the Wikipedia list of S&P500 
+  constituents using requests and libxml.
+
+  Returns a list of tuples for to add to MySQL."""
+
+  # Stores the current time, for the created_at record
+  now = datetime.datetime.utcnow()
+
+  # Use libxml to download the list of S&P500 companies and obtain the symbol table
+  page = lxml.html.parse('http://en.wikipedia.org/wiki/List_of_S%26P_500_companies')
+  symbolslist = page.xpath('//table[1]/tr')[1:]
+
+  # Obtain the symbol information for each row in the S&P500 constituent table
+  symbols = []
+  for symbol in symbolslist:
+    tds = symbol.getchildren()
+    sd = {'ticker': tds[0].getchildren()[0].text,
+        'name': tds[1].getchildren()[0].text,
+        'sector': tds[3].text}
+    # Create a tuple (for the DB format) and append to the grand list
+    symbols.append( (sd['ticker'], 'stock', sd['name'], 
+      sd['sector'], 'USD', now, now) )
+  return symbols
+
+def insert_snp500_symbols(symbols):
+  """Insert the S&P500 symbols into the MySQL database."""
+
+  # Connect to the MySQL instance
+  db_host = 'localhost'
+  db_user = 'sec_user'
+  db_pass = 'password'
+  db_name = 'securities_master'
+  con = mdb.connect(host=db_host, user=db_user, passwd=db_pass, db=db_name)
+
+  # Create the insert strings
+  column_str = "ticker, instrument, name, sector, currency, created_date, last_updated_date"
+  insert_str = ("%s, " * 7)[:-2]
+  final_str = "INSERT INTO symbol (%s) VALUES (%s)" % (column_str, insert_str)
+  print final_str, len(symbols)
+
+  # Using the MySQL connection, carry out an INSERT INTO for every symbol
+  with con: 
+    cur = con.cursor()
+    # This line avoids the MySQL MAX_PACKET_SIZE
+    # Although of course it could be set larger!
+    for i in range(0, int(ceil(len(symbols) / 100.0))):
+      cur.executemany(final_str, symbols[i*100:(i+1)*100-1])
+
+if __name__ == "__main__":
+  symbols = obtain_parse_wiki_snp500()
+  insert_snp500_symbols(symbols)</code>
+</pre>
+
+<p>At this stage all 500 current symbol constituents of the S&P500 index are in the database. Our next task is to actually obtain the historical data from separate sources and match it up the symbols.</p>
+
+<h2>Obtaining Pricing Data</h2>
+
+<p>In order to obtain the historical data for the current S&P500 constituents, we must first query the database for the list of all the symbols. Once the list of symbols (along with the symbol IDs) have been returned, it is possible to call the Yahoo Finance API and download the historical pricing data for each symbol. Once we have each symbol we can insert the data into the database in turn. Here's the Python code to carry this out:</p>
+
+<pre>
+<code class="language-python">import datetime
+import MySQLdb as mdb
+import urllib2
+
+
+# Obtain a database connection to the MySQL instance
+db_host = 'localhost'
+db_user = 'sec_user'
+db_pass = 'password'
+db_name = 'securities_master'
+con = mdb.connect(db_host, db_user, db_pass, db_name)
+
+def obtain_list_of_db_tickers():
+  """Obtains a list of the ticker symbols in the database."""
+  with con: 
+    cur = con.cursor()
+    cur.execute("SELECT id, ticker FROM symbol")
+    data = cur.fetchall()
+    return [(d[0], d[1]) for d in data]
+
+def get_daily_historic_data_yahoo(ticker,
+                      start_date=(2000,1,1),
+                      end_date=datetime.date.today().timetuple()[0:3]):
+    """Obtains data from Yahoo Finance returns and a list of tuples.
+
+  ticker: Yahoo Finance ticker symbol, e.g. "GOOG" for Google, Inc.
+  start_date: Start date in (YYYY, M, D) format
+  end_date: End date in (YYYY, M, D) format"""
+
+    # Construct the Yahoo URL with the correct integer query parameters
+    # for start and end dates. Note that some parameters are zero-based!
+    yahoo_url = "http://ichart.finance.yahoo.com/table.csv?s=%s&a=%s&b=%s&c=%s&d=%s&e=%s&f=%s" % \
+      (ticker, start_date[1] - 1, start_date[2], start_date[0], end_date[1] - 1, end_date[2], end_date[0])
+    
+    # Try connecting to Yahoo Finance and obtaining the data
+    # On failure, print an error message.
+    try:
+        yf_data = urllib2.urlopen(yahoo_url).readlines()[1:] # Ignore the header
+        prices = []
+        for y in yf_data:
+          p = y.strip().split(',')
+          prices.append( (datetime.datetime.strptime(p[0], '%Y-%m-%d'),
+                  p[1], p[2], p[3], p[4], p[5], p[6]) )
+    except Exception, e:
+        print "Could not download Yahoo data: %s" % e
+    return prices
+
+def insert_daily_data_into_db(data_vendor_id, symbol_id, daily_data):
+  """Takes a list of tuples of daily data and adds it to the
+  MySQL database. Appends the vendor ID and symbol ID to the data.
+
+  daily_data: List of tuples of the OHLC data (with 
+  adj_close and volume)"""
+  
+  # Create the time now
+  now = datetime.datetime.utcnow()
+
+  # Amend the data to include the vendor ID and symbol ID
+  daily_data = [(data_vendor_id, symbol_id, d[0], now, now,
+    d[1], d[2], d[3], d[4], d[5], d[6]) for d in daily_data]
+
+  # Create the insert strings
+  column_str = """data_vendor_id, symbol_id, price_date, created_date, 
+          last_updated_date, open_price, high_price, low_price, 
+          close_price, volume, adj_close_price"""
+  insert_str = ("%s, " * 11)[:-2]
+  final_str = "INSERT INTO daily_price (%s) VALUES (%s)" % (column_str, insert_str)
+
+  # Using the MySQL connection, carry out an INSERT INTO for every symbol
+  with con: 
+    cur = con.cursor()
+    cur.executemany(final_str, daily_data)
+
+if __name__ == "__main__":
+  # Loop over the tickers and insert the daily historical
+  # data into the database
+  tickers = obtain_list_of_db_tickers()
+  for t in tickers:
+    print "Adding data for %s" % t[1]
+    yf_data = get_daily_historic_data_yahoo(t[1])
+    insert_daily_data_into_db('1', t[0], yf_data)</code>
+</pre>
+
+<p>Note that there are certainly ways we can optimise this procedure. If we make use of the Python <a href="http://scrapy.org/">ScraPy</a> library, for instance, we would gain high concurrency from the downloads, as ScraPy is built on the event-driven <a href="http://twistedmatrix.com/trac/">Twisted</a> framework. At the moment each download will be carried out sequentially.</p>
+
+<h2>Python/Pandas Interface to Pricing Data</h2>
+
+<p>Now that we've downloaded the historical pricing for all of the current S&P500 constituents we want to be able to access it within Python. The pandas library makes this extremely straightforward. Here's a script that obtains the OHLC data for Google over a certain time period from our securities master database and outputs the tail of the dataset:</p>
+
+<pre>
+<code class="language-python">import pandas as pd
+import pandas.io.sql as psql
+import MySQLdb as mdb
+
+
+# Connect to the MySQL instance
+db_host = 'localhost'
+db_user = 'sec_user'
+db_pass = 'password'
+db_name = 'securities_master'
+con = mdb.connect(db_host, db_user, db_pass, db_name)
+
+# Select all of the historic Google adjusted close data
+sql = """SELECT dp.price_date, dp.adj_close_price
+         FROM symbol AS sym
+         INNER JOIN daily_price AS dp
+         ON dp.symbol_id = sym.id
+         WHERE sym.ticker = 'GOOG'
+         ORDER BY dp.price_date ASC;"""
+
+# Create a pandas dataframe from the SQL query
+goog = psql.frame_query(sql, con=con, index_col='price_date')    
+
+# Output the dataframe tail
+print goog.tail()</code>
+</pre>
+
+<p>The output of the script follows:</p>
+
+<pre>
+<code class="language-none">            adj_close_price
+price_date                 
+2013-05-20           908.53
+2013-05-21           906.97
+2013-05-22           889.42
+2013-05-23           882.79
+2013-05-24           873.32</code>
+</pre>
+
+<p>This is obviously only a simple script, but it shows how powerful having a locally-stored securities master can be. It is possible to backtest certain strategies extremely rapidly with this approach, as the I/O from the database will be significantly faster than that over an internet connection.</p>
+
+<p>The next step is to automate the collection of data such that each symbol has updated OHLC data after the close of the trading day. Using a task scheduler such as <strong>Windows Task Scheduler</strong> or <strong>crontab</strong>, this process can be scripted to occur in the background. It will bring us one step closer to making a fully automated trading system.</p>
+        
+        
+        <script async data-uid="6296c27f4b" src="https://weathered-brook-5281.ck.page/6296c27f4b/index.js"></script>
+      </section>
+    </div>
+    <div class="col-md-4 book-card order-md-1">
+      
+<div class="sidebar-advert-container">
+  <a href="/qsalpha/?ref=art">
+    <img class="card-img-top" src="/static/images/qsalpha-sidebar-advert-small.png" alt="QSAlpha">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/qsalpha/?ref=art">QSAlpha</a></h3>
+      <p class="card-text medium-text mb-3">Join the QSAlpha research platform that helps fill your strategy research pipeline, diversifies your portfolio and improves your risk-adjusted returns for increased profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/qsalpha/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/quantcademy/?ref=art">
+    <img class="card-img-top" src="/static/images/quantcademy-sidebar-advert-small.png" alt="Quantcademy">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/quantcademy/?ref=art">The Quantcademy</a></h3>
+      <p class="card-text medium-text mb-3">Join the Quantcademy membership portal that caters to the rapidly-growing retail quant trader community and learn how to increase your strategy profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/quantcademy/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/successful-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/sat-sidebar-advert-small.png" alt="Successful Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to find new trading strategy ideas and objectively assess them for your portfolio using a Python-based backtesting engine.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/successful-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/advanced-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/aat-sidebar-advert-small.png" alt="Advanced Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to implement advanced trading strategies using time series analysis, machine learning and Bayesian statistics with R and Python.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/advanced-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+    
+
+<footer>
+  <div class="container container-full">
+    <section class="mt-1.5 mb-1">
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">QuantStart</li>
+            <li class="footer-list-link"><a class="link-fade" href="/about/">About</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/articles/">Articles</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/sitemap/">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Products</li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qsalpha/">QSAlpha</a></li>
+            
+            
+            <li class="footer-list-link"><a class="link-fade" href="/quantcademy/">Quantcademy</a></li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qstrader/">QSTrader</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Legal</li>
+            <li class="footer-list-link"><a class="link-fade" href="/privacy-policy/">Privacy Policy</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/terms-and-conditions/">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Social</li>
+            <li class="footer-list-link"><a class="link-fade" href="https://twitter.com/quantstart">Twitter</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="https://www.youtube.com/channel/UCmVnnZ6Y2TrJtY1eQJN6kWA">YouTube</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="row mb-1.5 mt-5">
+      <div class="col-12 col-md-9 col-lg-8 col-xl-6">
+        <div class="footer-copyright">
+          <p>©2012-2023 QuarkGluon Ltd. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+<script src="/static/js/jquery-3.2.1.min.js"></script>
+<script src="/static/js/prism.js.min"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/nav.js"></script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5383959-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+    
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="/static/js/highcharts/highcharts.js"></script>
+<script type="text/javascript">
+  num_colours = 10;
+</script>
+<script src="/static/js/statistics.js"></script>
+
+
+  </body>
+</html>

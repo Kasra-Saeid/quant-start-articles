@@ -1,0 +1,490 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-site-verification" content="wl3-8ed1QZjI0iYZMv10zoZWYElkMObTfwLlWIj9cpA" />
+    <meta name="description" content="How to Write a Great Quant Blog">
+
+    <link rel="icon" href="/static/images/favicon.png">
+
+    <title>How to Write a Great Quant Blog | QuantStart</title>
+    
+    
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet"> 
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/prism.css" rel="stylesheet">
+<link href="/static/css/qs.css?v=10" rel="stylesheet">
+    
+  </head>
+
+  <body>
+    <header class="header covered-header" style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://quantstartmedia.s3.amazonaws.com/images/article-images/article-backgrounds/default-bg.jpg);">
+  
+<nav class="nav">
+  <div class="container nav-container">
+    <div class="nav-row row d-flex justify-content-between align-items-center">
+      <div class="col-2">
+        <ul class="nav-items justify-content-end small-capitals align-items-center">
+          <li class="nav-item">
+            <a class="link-fade" href="/">QuantStart</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-auto col-logo">
+        <ul id="top-nav-menu" class="nav-items justify-content-end align-items-center">
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/qsalpha/">QSAlpha</a>
+          </li>
+          
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/quantcademy/">Quantcademy</a>
+          </li>
+          
+          <li id="menu-link-ebooks" class="nav-item">
+            <a class="link-fade" href="#">Books</a>
+            <div id="menu-pane-ebooks" class="nav-items menu-dropdown-pane">
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/qstrader/">QSTrader</a>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/articles/">Articles</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/members/login/">Login</a>
+          </li>
+          
+        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<nav id="mobile-nav" class="mobile-nav text-left">
+  <div class="container">
+    <ul class="mt-4 ml-3 mobile-nav-menu">
+      <li class="nav-item">
+        <a class="link-fade d-block" href="/">QuantStart</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qsalpha/">QSAlpha</a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/quantcademy/">Quantcademy</a>
+      </li>
+      
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="#">Books</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qstrader/">QSTrader</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/articles/">Articles</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/members/login/">Login</a>
+      </li>
+      
+    </ul>
+    <button class="nav-toggle mobile-nav-close">
+      <svg id="mobile-nav-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M19.77,5.63,13.41,12l6.36,6.37a1,1,0,0,1-1.41,1.41L12,13.41,5.63,19.77a1,1,0,0,1-1.44-1.39l0,0L10.58,12,4.21,5.63a1,1,0,0,1,0-1.42,1,1,0,0,1,1.41,0l0,0L12,10.58l6.37-6.37a1,1,0,0,1,1.41,0A1,1,0,0,1,19.77,5.63Z"></path>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+  <div class="container hero-container">
+    <section class="mt-5 mb-4">
+      <div class="row justify-content-center">
+        <div class="col-12 text-center">
+          <p class="hero">How to Write a Great Quant Blog</p>
+          <p class="hero subhero">How to Write a Great Quant Blog</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</header>
+    
+<section class="container content-container">
+  <div class="row">
+    <div class="col-md-8 order-md-2">
+      <section class="content article-content">
+        
+        
+        <p><em>Today's post is a guest post from Jacques Joubert, who runs <a href="http://www.quantsportal.com/">QuantsPortal</a>. Jacques emailed me recently and asked if I'd be willing to contribute to a post about how to get started in quant blogging. I was more than happy to do so, and Jacques wondered if it would make a good guest post for QuantStart.</em></p>
+
+<p><em>Many very well respected individuals in the quant blogosphere have contributed to the post and have provided some excellent advice for those wanting to get started in quant blogging.</em></p>
+
+<p><em>Here’s Jacques...</em></p>
+
+<p>I am one of the QuantStart zealots wanting to build a career in quantitative finance. So much so, that I have recently opted to go back to university in order to develop and hone the skills needed to be a quant.</p>
+
+<p>Blogging is a great platform which allows you to interact with, and learn from, a massive online community all the while enjoying the lucky side effect of building your own personal brand. It is a method to reach out to wiser men and then share your learning’s with others. I have written blogs before but this time is different, this time I was welcomed by a well structured community that frequently reads each other’s work and shares their insights. This community is what I like to think of as the <a href="http://www.quantocracy.com">Quantocracy</a> community.</p>
+
+<p>I wrote this post in an attempt to give back to the community by asking some of my favourite blogs how they attract readers and market their blog. My thinking is that if other blogs can follow their advice, attract more of their own readers, and direct those readers towards some of the other fantastic blogs on Quantocracy, then our ideas can be shared with a much wider audience. The whole is greater than the sum of the parts. This is the essence of what it means to be a community.</p>
+
+<h2>Jacques Joubert of <a href="http://www.quantsportal.com/">QuantsPortal</a></h2>
+
+<h3>Add Quantocracy badges</h3>
+
+<p>Let me start off by saying that Mike at Quantocracy didn’t ask me to post this. I would like to reach out to the bloggers in the community and ask them to please add the Quantocracy banners to their blog. This allows us as a community to recycle traffic to each other’s blogs. The more people we can get onto Quantocracy, the more readers we will each get when we publish a new article. <em>[Mike says: I will be adding a Quantocracy badge to QuantStart shortly in the next update of the site.]</em></p>
+
+<p style="text-align:center;">
+  <!-- Quantocracy badge -->
+  <img src="http://quantocracy.com/wp-content/uploads/2015/10/badge-square-180.png"><br />
+  <a href="http://quantocracy.com/site-news/">Click here to get your own badge</a>
+</p>
+
+<h3>Hire students to write and research</h3>
+
+<p>As someone who recently graduated I understand the desire that students have to gain exposure to their field. We came up with the concept of hiring students to research and build projects over their university holidays. I have had the privilege of working with students from final year Mathematical Statistics to level 2 CFA candidates and Masters Students.</p>
+
+<p>This is how we launched our <a href="http://www.quantsportal.com/home/collection/open-source-hedge-fund/">Open Source Hedge Fund project</a>, wrote books, and built 2 other large blogs. At one stage we were managing 30 students, each writing a 1000 word blog article a day.</p>
+
+<p>This is a great technique for rapidly publishing content. We started off with basic content but some students have written highly technical white papers.</p>
+
+<p>The beauty of this technique is that most students will work for free, provided you give them a written testimonial of your experience with them and letter of reference for their CV. As a student I did many free internship programs just to get a glimpse into the market.</p>
+
+<p>Recently I have been inspired by a friend of mine (<a href="http://TuringFinance.com">TuringFinance.com</a>) to move away from this technique and instead focus on writing much higher quality posts. The main reason for this change is that instead of building a large readership and viewers I want to focus on finding my unique voice as a quant. I would like to start contributing truly novel ideas to the community, and God willing, land a job as quantitative analyst after my studies.</p>
+
+<p style="text-align:center;margin-bottom:40px;">
+  <!-- Better hire a student meme -->
+  <img src="https://s3.amazonaws.com/quantstartmedia/images/hire.jpg" width="50%">
+</p>
+
+<h2>Dr. Michael Halls-Moore of <a href="https://www.quantstart.com">QuantStart</a></h2>
+
+<p>My advice to new blog founders would be along the following lines:</p>
+
+<ul>
+  <li>Work out why you want to start a quant blog in the first place - and tailor it to that specific goal. Are you wanting to earn a full-time income from the site? Do you want to obtain speaking engagements? Do you want to use it to generate leads for consulting work? Are you interested in just running a "hobby" site?</li>
+  <li>Starting a high quality quant blog is far from an easy task and should not be undertaken lightly. It has taken me 3 years to get to this point and that doesn't include another year where I ran QuantStart without really doing much work on it at all. Motivation is the key! You have to have a passion for it, otherwise you will be very likely to give up.</li>
+  <li>High quality detailed content takes a long time to write. Each technical article that I produce often requires two full days of research and/or coding and then another day of writing, polishing and testing. That doesn't include replying to comments or fixing any bugs retroactively. However, certain high quality articles are useful 3-5 years from the day they were published, so they have a great return on investment.</li>
+  <li>Don't bother churning out 50 mediocre articles that are only a few paragraphs long. Write 5 articles ("essays") that really dig into a particular point and explore it in a lot of depth. You want your content to be the "go to" pieces when people want to find out about something. These pieces not only get shared around more, but over time, organically rise to the top of the search engines for those keywords.</li>
+  <li>Start an email mailing list on day #1. Use double opt-in email sign-up forms on the site (e.g. via <a href="https://www.aweber.com/">Aweber</a>, <a href="http://mailchimp.com/">Mailchimp</a>, <a href="http://convertkit.com/">ConvertKit</a>) and provide great, actionable pieces of content in an auto responder series. This is where any new user automatically receives a series of emails that they have signed up for. Email lists are great for product launches, surveys and generally keeping in touch with your community.</li>
+  <li>In terms of revenue, I didn't make any real money (>$10!) out of the site for at least a year after I started it. However, I knew nothing about online marketing at that point and learnt slowly over the years. There is no shortage of great content about online marketing on the internet (<a href="http://www.smartpassiveincome.com/">SmartPassiveIncome.com</a>, <a href="http://nathanbarry.com/">NathanBarry.com</a>, etc).</li>
+  <li>Advertising and Amazon affiliate marketing are not as profitable as they used to be and revenues from these sources are only likely to decrease. Less than 10% of QuantStart revenue is from ads or affiliate marketing.</li>
+  <li>The best way to monetise a site is to build up a truly loyal fan-base by providing them with great content (this is the hard part!), asking them what they want to read about (send them surveys via a mailing list) and then write up that content in an easy-to-digest package.</li>
+</ul>
+
+<h2>Dr. Ernest P. Chan of <a href="http://epchan.blogspot.com">epchan.blogspot.com</a></h2>
+
+<p>Interesting and original content is king, of course. But to jump start my readership, I introduced my blog to other famous bloggers and posted comments on their sites. You may even ask to post a guest article on their sites.</p>
+
+<p>These days, there are aggregator blogs on almost every topic (e.g. <a href="http://www.quantocracy.com">Quantcracy.com</a> for quant finance), so a new blogger should certainly get on their lists.</p>
+
+<p>Finally, many readers are more willing to follow a Twitter feed than to hand over their email addresses to a blogger for new content notification. So I always advertise every post on my Twitter account.</p>
+
+<p style="text-align:center;margin-bottom:40px;">
+  <!-- Oprah Email meme -->
+  <img src="https://s3.amazonaws.com/quantstartmedia/images/email.png" width="50%">
+</p>
+
+<h2>Justin Sibears of <a href="https://blog.thinknewfound.com/">Flirting with Models</a></h2>
+
+<p>First and foremost, I think you need to define what exactly you mean by popularity. At Newfound, we are less concerned with the size of our readership and more concerned with building an engaged group of followers that view us as a valuable and unique resource.  We believe that this type of popularity is a by product of high quality content.  For us, high quality content in the quant world should have three characteristics:</p>
+
+<p>First, it should be unique. If you are simply parroting what others are saying about the markets or investing than there is no reason someone should visit your blog instead of someone else’s.</p>
+
+<p>Second, it should be applicable. While some of our blog posts are certainly more theoretical in nature, we believe readers are looking for insights that they can apply in practice.  For some posts, that may mean providing content that helps financial advisors address client concerns during times of market volatility. For others, it could mean helping a gatekeeper enhance their due diligence process for evaluating quantitative asset managers. </p>
+
+<p>Third, it should be accessible. While we love math and specifically applying math to finance, we don’t view the blog as a way to prove how smart we are.  Instead, we strive to make our blog thought provoking for a wide range of readers regardless of whether they have a PhD in mathematical finance or are just dipping their toe into our world for the first time.</p>
+
+<h2>Gary Antonacci of <a href="http://www.dualmomentum.net/">DualMomentum.Net</a></h2>
+
+<p>Blog content can only give readers a limited view of your knowledge and expertise. Assuming you have such knowledge and experience, you will attract and retain more loyal readers if you can find supplemental ways to inform and educate your readers. One such avenue is Twitter. There you can not only initiate fresh new content, but you can retweet and comment on other important information, allowing you to act as a valuable information filter and content provider.</p>
+
+<p>Another way to achieve better blog recognition and acceptance is to engage in podcast interviews where you can expand on your investment philosophy. I have a full page on my website with links to all my podcasts and interviews. Finally, writing a successful investment book can certainly motivate readers to seek out and pay attention to your blog. Many authors of successful financial blogs have one or more published books to their credit.</p>
+
+<p style="text-align:center;margin-bottom:40px;">
+  <!-- Don't blog often meme -->
+  <img src="https://s3.amazonaws.com/quantstartmedia/images/legend.png" width="50%">
+</p>
+
+<h2>Ilya Kipnis of <a href="https://quantstrattrader.wordpress.com/">QuantStrat TradeR</a></h2>
+
+<p>My advice is dirt simple...get listed on Quantocracy, provide novel ideas, and provide the code and data necessary to replicate them. If the ideas are more novel or complex, devote more English to explaining them in understandable terms. Create applicable examples.</p>
+
+<p>Essentially, if you have high quality content, your work will market itself.</p>
+
+<h2>Chaitanya Kulkarni of <a href="http://www.quantinsti.com/">QuantInsti</a></h2>
+
+<ul>
+  <li>The fundamental goal of any marketing strategy is lead generation. The starting point of any marketing strategy is the content or ad copy if advertising is involved. A marketing strategy is best executed when put in a framework such as SOSTAC and SMART. This will help in clearly defining your goals, which can also assist in the development of your vision for your blog.</li>
+  <li>Email subscriptions also play a crucial role as these are your target audience who are interested in visiting and revisiting your articles. Going further they might want to share an interesting read on different platforms.</li>
+  <li>In order for the Quantocracy community to improve on their branding I would recommend that they think beyond the conventional marketing techniques and get out of the circle of only quants. The articles must not only serve the quant community but any other trader or non-trader as well.</li>
+  <li>You must increase the reach and readability of the articles being published. Try to understand who your audience is, profile them and understand what they want. Build relationships not brands, most commercial ads that you see on the TV are targeted to building brands, they try to reach to you and build a relationship.</li>
+  <li>Building courses that the public have access to via platforms like Udemy or Datacamp is certainly a good way to make the audience aware of your expertise and experience. Going further it can help in boosting followers or even branding. We currently offer two separate courses, one on each platform. It may be a good idea for bloggers to have a look at how we structured them, if looking for examples.
+    <ul>
+      <li>Automate your trading strategies in live markets – Udemy </li>
+      <li>Model a Quantitative Trading Strategy in R – DataCamp</li>
+    </ul>
+  </li>
+  <li>If the intention of your website is generating revenue through advertising or anything else then you can spend money on it. But if popularity is the objective then you need a different solution than SEO. A word of caution before choosing an SEO company or freelancer: SEO depends on search engines and particularly Google’s updates. An SEO company can only boost these rankings for a chosen set of keywords and cannot guarantee it. Anything more than just that is going to be expensive.</li>
+</ul>
+
+<h2>Stuart Reid of <a href="http://turingfinance.com/">TuringFinance</a></h2>
+
+<p>In recent years we have seen the "BuzzFeedification" of the internet and, unfortunately, technical blogs are not immune. Some technical blogs have become more concerned with eliciting meaningless page views with catchy click-bait headlines than building a sincere relationship with their readers.</p>
+
+<p>Readers who find themselves searching this new internet, which is characterized by shallow articles with no real or novel insights, are craving quality. So my advice would be to stop thinking about how to market your quant blog and just focus on writing very high-quality content which markets itself. And forget about page-views. Anybody can click on a link to a website - what really matters is what happens after that.</p>
+
+<p>Instead of page views look at bounce rates, drop-off rates, session times, page-views per unique visitor, number of interactions such as comments or shares, because these metrics will give you a much truer picture of what users really think about your website and a better indication of whether or not they will return in the future.</p>
+
+<p style="text-align:center;margin-bottom:40px;">
+  <!-- Obama meme -->
+  <img src="https://s3.amazonaws.com/quantstartmedia/images/i-want-you-to-do-better.jpg" width="50%">
+</p>
+
+<h2>Dr. Pawel Lachowicz of <a href="http://www.quantatrisk.com/">Quant At Risk</a></h2>
+
+<p>Do not commence working over your blog without the vision. "If you don’t know where you are going, any road will get you there!" You want to avoid that mistake. Spend some time dreaming of the final form of your site.</p>
+
+<p>Highly sought after content is important but not as much as your commitment to excel in its delivery. Write from your heart. Listen to your inner voice. Follow your own curiosity. Not the trends. Not what would be profitable. Forget about the noise in the blogosphere. If you want to shine as a diamond, you need to get cut as a diamond.</p>
+
+<p>Your blog should be a reflection of your personality. Forget about achieving success quickly. It will take time. It will count in years. Just remember: "Success [in this venture] is something that you attract by becoming an attractive person".</p>
+
+<p>Don’t rush. Make a plan. Build your blog around the uniqueness of your writing. And don’t worry about "instant" followers.</p>
+
+<p>Lastly, write less frequently. However, deliver pearls. Not plums.</p>
+
+<h2>Michael Harris of <a href="http://www.priceactionlab.com/Blog/">Price Action Lab</a></h2>
+
+<p>I will start with what negatively impacts the popularity of a blog because that is as important as providing readers with original content that they enjoy. My advice is to never buy fake social media followers. The quant trading space is relatively small and a few thousand followers is the norm. If you have 2000 followers in Twitter, then you are a popular quant. People get suspicious when they see 20,000 or even 30,000 followers for a fairly new blog. My own blog was launched five years ago and I have about fifteen hundred Twitter followers, all won the hard way, although on a daily basis people come and go because I know I cannot please everyone.</p>
+
+<p>Then, do not get into the temptation of attacking other bloggers for the purpose of generating traffic to your blog. In most cases this reflects a desperate effort and people know that. One of my principles is that I only make vague references to articles or papers that I think are wrong and I never mention the names. My objective is to present analysis and not to generate traffic to my blog by attacking someone else. People will appreciate more your work if you stay away from personal attacks. People also know that in many cases it is the attacker who is wrong.</p>
+
+<p>It is important to try to be concise and avoid repetitions of articles and analysis. Never work on ideas you read in other blogs without giving credit to them. Avoid copy and paste from textbooks and general treatments of subjects. Everyone has been through college and few want to take another course on statistics or forecasting. People want results that they can work with, some new ideas and good insight.</p>
+
+<p>Finally, although trading experience is not a prerequisite in all cases, try to present analysis that is compatible with real world constraints. People will appreciate that and follow you. After all, quant trading is about making money and unrealistic results are of no use to anyone.</p>
+
+<h2>Dr. Wesley Gray of <a href="http://blog.alphaarchitect.com/">Alpha Architect</a></h2>
+
+<p>In quant blogging, as with any type of blogging, it’s a constant challenge to create compelling and engaging content that people want to read. However, our firm mission is to empower investors through education, so we think our efforts invested in educating the public are worthwhile.</p>
+
+<p>We are a research and development shop, primarily. And in this role we are constantly reading, reviewing, and assessing <a href="http://blog.alphaarchitect.com/category/architect-academic-insights/academic-research/">academic finance research</a>. The blog is a great outlet to share our thoughts on academic research that may have some applicability for practitioners.</p>
+
+<p>Obviously we post a lot about academic research, so those are fertile blogging grounds. We try to discuss the strengths and limitations of the research we review. We try to bring our specialized expertise to bear when possible. Is the analysis balanced? Is the findings robust? We often try to replicate analysis on our own, since that often provides valuable insights.</p>
+
+<p>We think there are some fascinating disagreements in finance, so we like to stoke those debates. Not so much in terms of being dogmatic, but by exploring both sides of an issue.</p>
+
+<p>Let’s face it: quant can be a bit boring. So people also appreciate when you inject your personality when you add your 2 cents. Makes it more conversational and accessible, rather than reading some dry source journal. Along those lines we believe you should write in plain English. Be concise and avoid jargon. For example our piece on <a href="http://blog.alphaarchitect.com/2015/08/17/the-sustainable-active-investing-framework-simple-but-not-easy/">sustainable active investing</a> has multiple references to dense academic journals and discusses a complex topic, but also tells a story that is cohesive and understandable by a broad audience.</p>
+
+<p>Finally, find your voice and your niche where you can establish thought leadership that will keep people coming back for more. Become the go-to source! And of course, ignore trolls!</p>
+
+<h2>Conclusion</h2>
+
+<p>There are several pearls of wisdom provided in this article but the one that really sticks out to me is the advice to write less frequently but to write articles of an extremely high quality. The following is a link that Stuart sent me, that in my opinion helps to set the bar: <a href="http://www.fastcompany.com/3042312/most-creative-people/the-secrets-of-writing-smart-longform-articles-that-go-absolutely-viral">The Secrets of Writing Smart Long Form Articles</a>.</p>
+
+<h2>To the readers</h2>
+
+<p>I am sure that there are many other bloggers out there that have some great tips for the community. If so, please be so kind as to leave your advice in the comments section below.</p>
+        
+        
+        <script async data-uid="6296c27f4b" src="https://weathered-brook-5281.ck.page/6296c27f4b/index.js"></script>
+      </section>
+    </div>
+    <div class="col-md-4 book-card order-md-1">
+      
+<div class="sidebar-advert-container">
+  <a href="/qsalpha/?ref=art">
+    <img class="card-img-top" src="/static/images/qsalpha-sidebar-advert-small.png" alt="QSAlpha">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/qsalpha/?ref=art">QSAlpha</a></h3>
+      <p class="card-text medium-text mb-3">Join the QSAlpha research platform that helps fill your strategy research pipeline, diversifies your portfolio and improves your risk-adjusted returns for increased profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/qsalpha/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/quantcademy/?ref=art">
+    <img class="card-img-top" src="/static/images/quantcademy-sidebar-advert-small.png" alt="Quantcademy">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/quantcademy/?ref=art">The Quantcademy</a></h3>
+      <p class="card-text medium-text mb-3">Join the Quantcademy membership portal that caters to the rapidly-growing retail quant trader community and learn how to increase your strategy profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/quantcademy/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/successful-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/sat-sidebar-advert-small.png" alt="Successful Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to find new trading strategy ideas and objectively assess them for your portfolio using a Python-based backtesting engine.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/successful-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/advanced-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/aat-sidebar-advert-small.png" alt="Advanced Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to implement advanced trading strategies using time series analysis, machine learning and Bayesian statistics with R and Python.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/advanced-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+    
+
+<footer>
+  <div class="container container-full">
+    <section class="mt-1.5 mb-1">
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">QuantStart</li>
+            <li class="footer-list-link"><a class="link-fade" href="/about/">About</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/articles/">Articles</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/sitemap/">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Products</li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qsalpha/">QSAlpha</a></li>
+            
+            
+            <li class="footer-list-link"><a class="link-fade" href="/quantcademy/">Quantcademy</a></li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qstrader/">QSTrader</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Legal</li>
+            <li class="footer-list-link"><a class="link-fade" href="/privacy-policy/">Privacy Policy</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/terms-and-conditions/">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Social</li>
+            <li class="footer-list-link"><a class="link-fade" href="https://twitter.com/quantstart">Twitter</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="https://www.youtube.com/channel/UCmVnnZ6Y2TrJtY1eQJN6kWA">YouTube</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="row mb-1.5 mt-5">
+      <div class="col-12 col-md-9 col-lg-8 col-xl-6">
+        <div class="footer-copyright">
+          <p>©2012-2023 QuarkGluon Ltd. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+<script src="/static/js/jquery-3.2.1.min.js"></script>
+<script src="/static/js/prism.js.min"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/nav.js"></script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5383959-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+    
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="/static/js/highcharts/highcharts.js"></script>
+<script type="text/javascript">
+  num_colours = 10;
+</script>
+<script src="/static/js/statistics.js"></script>
+
+
+  </body>
+</html>

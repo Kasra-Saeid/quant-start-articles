@@ -1,0 +1,739 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-site-verification" content="wl3-8ed1QZjI0iYZMv10zoZWYElkMObTfwLlWIj9cpA" />
+    <meta name="description" content="Forex Trading Diary #5 - Trading Multiple Currency Pairs">
+
+    <link rel="icon" href="/static/images/favicon.png">
+
+    <title>Forex Trading Diary #5 - Trading Multiple Currency Pairs | QuantStart</title>
+    
+    
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet"> 
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/prism.css" rel="stylesheet">
+<link href="/static/css/qs.css?v=10" rel="stylesheet">
+    
+  </head>
+
+  <body>
+    <header class="header covered-header" style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://quantstartmedia.s3.amazonaws.com/images/article-images/article-backgrounds/default-bg.jpg);">
+  
+<nav class="nav">
+  <div class="container nav-container">
+    <div class="nav-row row d-flex justify-content-between align-items-center">
+      <div class="col-2">
+        <ul class="nav-items justify-content-end small-capitals align-items-center">
+          <li class="nav-item">
+            <a class="link-fade" href="/">QuantStart</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-auto col-logo">
+        <ul id="top-nav-menu" class="nav-items justify-content-end align-items-center">
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/qsalpha/">QSAlpha</a>
+          </li>
+          
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/quantcademy/">Quantcademy</a>
+          </li>
+          
+          <li id="menu-link-ebooks" class="nav-item">
+            <a class="link-fade" href="#">Books</a>
+            <div id="menu-pane-ebooks" class="nav-items menu-dropdown-pane">
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/qstrader/">QSTrader</a>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/articles/">Articles</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/members/login/">Login</a>
+          </li>
+          
+        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<nav id="mobile-nav" class="mobile-nav text-left">
+  <div class="container">
+    <ul class="mt-4 ml-3 mobile-nav-menu">
+      <li class="nav-item">
+        <a class="link-fade d-block" href="/">QuantStart</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qsalpha/">QSAlpha</a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/quantcademy/">Quantcademy</a>
+      </li>
+      
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="#">Books</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qstrader/">QSTrader</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/articles/">Articles</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/members/login/">Login</a>
+      </li>
+      
+    </ul>
+    <button class="nav-toggle mobile-nav-close">
+      <svg id="mobile-nav-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M19.77,5.63,13.41,12l6.36,6.37a1,1,0,0,1-1.41,1.41L12,13.41,5.63,19.77a1,1,0,0,1-1.44-1.39l0,0L10.58,12,4.21,5.63a1,1,0,0,1,0-1.42,1,1,0,0,1,1.41,0l0,0L12,10.58l6.37-6.37a1,1,0,0,1,1.41,0A1,1,0,0,1,19.77,5.63Z"></path>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+  <div class="container hero-container">
+    <section class="mt-5 mb-4">
+      <div class="row justify-content-center">
+        <div class="col-12 text-center">
+          <p class="hero">Forex Trading Diary #5 - Trading Multiple Currency Pairs</p>
+          <p class="hero subhero">Forex Trading Diary #5 - Trading Multiple Currency Pairs</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</header>
+    
+<section class="container content-container">
+  <div class="row">
+    <div class="col-md-8 order-md-2">
+      <section class="content article-content">
+        
+        
+        <p>Yesterday I published some important changes to the <a href="https://github.com/mhallsmoore/qsforex">QSForex</a> software. These changes have increased the usefulness of the system significantly to the point where it is nearly ready for multi-day tick-data backtesting over a range of currency pairs.</p>
+
+<p>The following changes have been posted to Github:</p>
+
+<ul>
+  <li>Further modification to both the <code>Position</code> and <code>Portfolio</code> objects in order to allow multiple currency pairs to be traded as well as currencies that are not denominated in the account currency. Hence a GBP-deonominated account can now trade EUR/USD, for instance.</li>
+  <li>Complete overhaul of how the <code>Position</code> and <code>Portfolio</code> calculate opens, closes, additions and removals of units. The <code>Position</code> object now carries out the "heavy lifting" leaving a relatively lean <code>Portfolio</code> object.</li>
+  <li>Addition of the first non-trivial strategy, namely the well-known Moving Average Crossover strategy with a pair of simple moving averages (SMA).</li>
+  <li>Modification to <code>backtest.py</code> to make it single-threaded and deterministic. Despite my optimism that a multi-threaded approach wouldn't be too detrimental to simulation accuracy, I found it difficult to obtain satisfactory backtesting results with a multi-threaded approach.</li>
+  <li>Introduced a very basic Matplotlib-based output script for viewing the equity curve of the portfolio. The equity curve generation is at an early stage and still requires a lot of work.</li>
+</ul>
+
+<p>As I mentioned in the <a href="http://www.quantstart.com/articles/Forex-Trading-Diary-4-Adding-a-Backtesting-Capability">previous entry</a>, for those of you who are unfamiliar with QSForex and are coming to this forex diary series for the first time, I strongly suggest having a read of the following diary entries to get up to speed with the software:</p>
+
+<ul>
+  <li><a href="http://www.quantstart.com/articles/Forex-Trading-Diary-1-Automated-Forex-Trading-with-the-OANDA-API">Forex Trading Diary #1 - Automated Forex Trading with the OANDA API</a></li>
+  <li><a href="http://www.quantstart.com/articles/Forex-Trading-Diary-2-Adding-a-Portfolio-to-the-OANDA-Automated-Trading-System">Forex Trading Diary #2 - Adding a Portfolio to the OANDA Automated Trading System</a></li>
+  <li><a href="http://www.quantstart.com/articles/Forex-Trading-Diary-3-Open-Sourcing-the-Forex-Trading-System">Forex Trading Diary #3 - Open Sourcing the Forex Trading System</a></li>
+  <li><a href="http://www.quantstart.com/articles/Forex-Trading-Diary-4-Adding-a-Backtesting-Capability">Forex Trading Diary #4 - Adding a Backtesting Capability</a></li>
+</ul>
+
+<p>As well as the Github page for QSForex:</p>
+
+<ul>
+  <li><a href="https://github.com/mhallsmoore/qsforex">QSForex Github Page</a></li>
+</ul>
+
+<h2>Multiple Currency Support</h2>
+
+<p>A feature that I have continually been discussing in these diary entries is the capability to support multiple currency pairs.</p>
+
+<p>At this stage I've now modified the software to allow differing account denominations, since previously GBP was the hardcoded currency. It is also now possible to trade in other currency pairs, except those that consist of a base or quote in Japanese Yen (JPY). The latter is due to how tick sizes are caclulated in JPY currencies.</p>
+
+<p>In order to achieve this I have modified how the profit is calculated when units are removed or the position is closed. Here is the current snippet for calculating pips, in the <code>position.py</code> file:</p>
+
+<pre>
+<code class="language-python">def calculate_pips(self):
+    mult = Decimal("1")
+    if self.position_type == "long":
+        mult = Decimal("1")
+    elif self.position_type == "short":
+        mult = Decimal("-1")
+    pips = (mult * (self.cur_price - self.avg_price)).quantize(
+        Decimal("0.00001"), ROUND_HALF_DOWN
+    )
+    return pips</code>
+</pre>
+
+<p>If we close the position in order to realise a gain or loss, we need to use the following snippet for <code>close_position</code>, also in the <code>position.py</code> file:</p>
+
+<pre>
+<code class="language-python">def close_position(self):
+    ticker_cp = self.ticker.prices[self.currency_pair]
+    ticker_qh = self.ticker.prices[self.quote_home_currency_pair]
+    if self.position_type == "long":
+        remove_price = ticker_cp["ask"]
+        qh_close = ticker_qh["bid"]
+    else:
+        remove_price = ticker_cp["bid"]
+        qh_close = ticker_qh["ask"]
+    self.update_position_price()
+    # Calculate PnL
+    pnl = self.calculate_pips() * qh_close * self.units
+    return pnl.quantize(Decimal("0.01", ROUND_HALF_DOWN))</code>
+</pre>
+
+<p>Firstly we obtain the bid and ask prices for both the currency pair being traded as well as the "quote/home" currency pair. For instance, for an account denominated in GBP, where we are trading EUR/USD, we must obtain prices for "USD/GBP", since EUR is the base currency and USD is the quote.</p>
+
+<p>At this stage we check if the position itself is a long or short position and then calculate the appropriate "remove price" and quote/home "remove price", which are given by <code>remove_price</code> and <code>qh_close</code> respectively.</p>
+
+<p>We then update the current and average prices within the position and finally calculate the P&amp;L by multiplying the pips, the quote/home removal price and then number of units we're closing out.</p>
+
+<p>We have completely eliminated the need to discuss "exposure", which was a redundant variable. This formula then correctly provides the P&amp;L against any (non-JPY denominated) currency pair trade.</p>
+
+<p><em>You can view the <a href="https://github.com/mhallsmoore/qsforex/blob/master/portfolio/position.py">full listing for position.py</a> at Github.</em></p>
+
+<h2>Overhaul of Position and Portfolio Handling</h2>
+
+<p>In addition to the ability to trade in multiple currency pairs I've also refined how the <code>Position</code> and <code>Portfolio</code> "share" the responsibility of opening and closing positions, as well as adding and subtracting units.</p>
+
+<p>In particular, I've moved a lot of the position-handling code that was in <code>portfolio.py</code> into <code>position.py</code>. This is more natural since the position should be taking care of itself and not delegating it to the portfolio!</p>
+
+<p>In particular, the <code>add_units</code>, <code>remove_units</code> and <code>close_position</code> methods have been created or enhanced:</p>
+
+<pre>
+<code class="language-python">def add_units(self, units):
+    cp = self.ticker.prices[self.currency_pair]
+    if self.position_type == "long":
+        add_price = cp["ask"]
+    else:
+        add_price = cp["bid"]
+    new_total_units = self.units + units
+    new_total_cost = self.avg_price*self.units + add_price*units
+    self.avg_price = new_total_cost/new_total_units
+    self.units = new_total_units
+    self.update_position_price()
+
+def remove_units(self, units):
+    dec_units = Decimal(str(units))
+    ticker_cp = self.ticker.prices[self.currency_pair]
+    ticker_qh = self.ticker.prices[self.quote_home_currency_pair]
+    if self.position_type == "long":
+        remove_price = ticker_cp["ask"]
+        qh_close = ticker_qh["bid"]
+    else:
+        remove_price = ticker_cp["bid"]
+        qh_close = ticker_qh["ask"]
+    self.units -= dec_units
+    self.update_position_price()
+    # Calculate PnL
+    pnl = self.calculate_pips() * qh_close * dec_units
+    return pnl.quantize(Decimal("0.01", ROUND_HALF_DOWN))
+
+def close_position(self):
+    ticker_cp = self.ticker.prices[self.currency_pair]
+    ticker_qh = self.ticker.prices[self.quote_home_currency_pair]
+    if self.position_type == "long":
+        remove_price = ticker_cp["ask"]
+        qh_close = ticker_qh["bid"]
+    else:
+        remove_price = ticker_cp["bid"]
+        qh_close = ticker_qh["ask"]
+    self.update_position_price()
+    # Calculate PnL
+    pnl = self.calculate_pips() * qh_close * self.units
+    return pnl.quantize(Decimal("0.01", ROUND_HALF_DOWN))</code>
+</pre>
+
+<p>In the latter two you can see how the new formula for calculating profit is implemented.</p>
+
+<p>A lot of the functionality of the <code>Portfolio</code> class has thus been correspondingly reduced. In particular the methods <code>add_new_position</code>, <code>add_position_units</code>, <code>remove_position_units</code> and <code>close_position</code> have been modified to take account of the fact that the calculation work is being done in the <code>Position</code> object:</p>
+
+<pre>
+<code class="language-python">def add_new_position(
+    self, position_type, currency_pair, units, ticker
+):
+    ps = Position(
+        self.home_currency, position_type, 
+        currency_pair, units, ticker
+    )
+    self.positions[currency_pair] = ps
+
+def add_position_units(self, currency_pair, units):
+    if currency_pair not in self.positions:
+        return False
+    else:
+        ps = self.positions[currency_pair]
+        ps.add_units(units)
+        return True
+
+def remove_position_units(self, currency_pair, units):
+    if currency_pair not in self.positions:
+        return False
+    else:
+        ps = self.positions[currency_pair]
+        pnl = ps.remove_units(units)
+        self.balance += pnl
+        return True
+
+def close_position(self, currency_pair):
+    if currency_pair not in self.positions:
+        return False
+    else:
+        ps = self.positions[currency_pair]
+        pnl = ps.close_position()
+        self.balance += pnl
+        del[self.positions[currency_pair]]
+        return True</code>
+</pre>
+
+<p>In essence they all (apart from <code>add_new_position</code>) simply check if the position exists for that currency pair and then call the corresponding <code>Position</code> method, taking account of profit if necessary.</p>
+
+<p><em>You can view the <a href="https://github.com/mhallsmoore/qsforex/blob/master/portfolio/portfolio.py">full listing for portfolio.py</a> at Github.</em></p>
+
+<h2>Moving Average Crossover Strategy</h2>
+
+<p>We've discussed the <a href="http://www.quantstart.com/articles/Backtesting-a-Moving-Average-Crossover-in-Python-with-pandas">Moving Average Crossover strategy before on QuantStart</a>, in the context of equities trading. It's a very useful test-bed indicator strategy because it is easy to replicate the calculations by hand (at least at lower frequencies!), in order to check that the backtester is behaving as it should.</p>
+
+<p>The basic idea of the strategy is as follows:</p>
+
+<ul>
+  <li>Two separate <a href="http://en.wikipedia.org/wiki/Moving_average">simple moving average</a> filters are created, with varying lookback periods, of a particular time series.</li>
+  <li>Signals to purchase the asset occur when the shorter lookback moving average exceeds the longer lookback moving average.</li>
+  <li>If the longer average subsequently exceeds the shorter average, the asset is sold back.</li>
+</ul>
+
+<p>The strategy works well when a time series enters a period of strong trend and then slowly reverses the trend.</p>
+
+<p>The implementation is straightforward. Firstly, we provide a method <code>calc_rolling_sma</code> that allows us to more efficiently utilise the previous time period SMA calculation in order to generate the new one, without having to fully recalculate the SMA at every step.</p>
+
+<p>Secondly, we generate signals in two cases. In the first case we generate a signal if the short SMA exceeds the long SMA and we're not long the currency pair. In the second case we generate a signal if the long SMA exceeds the short SMA and we are already long.</p>
+
+<p>I have set the default window to be 500 ticks for the short SMA and 2,000 ticks for the long SMA. Obviously in a production setting these parameters would be optimised, but they work well for our testing purposes.</p>
+
+<pre>
+<code class="language-python">class MovingAverageCrossStrategy(object):
+    """
+    A basic Moving Average Crossover strategy that generates
+    two simple moving averages (SMA), with default windows
+    of 500 ticks for the short SMA and 2,000 ticks for the
+    long SMA.
+
+    The strategy is "long only" in the sense it will only
+    open a long position once the short SMA exceeds the long
+    SMA. It will close the position (by taking a corresponding
+    sell order) when the long SMA recrosses the short SMA.
+
+    The strategy uses a rolling SMA calculation in order to
+    increase efficiency by eliminating the need to call two
+    full moving average calculations on each tick.
+    """
+    def __init__(
+        self, pairs, events, 
+        short_window=500, long_window=2000
+    ):
+        self.pairs = pairs
+        self.events = events
+        self.ticks = 0
+        self.invested = False
+        
+        self.short_window = short_window
+        self.long_window = long_window
+        self.short_sma = None
+        self.long_sma = None
+
+    def calc_rolling_sma(self, sma_m_1, window, price):
+        return ((sma_m_1 * (window - 1)) + price) / window
+
+    def calculate_signals(self, event):
+        if event.type == 'TICK':
+            price = event.bid
+            if self.ticks == 0:
+                self.short_sma = price
+                self.long_sma = price
+            else:
+                self.short_sma = self.calc_rolling_sma(
+                    self.short_sma, self.short_window, price
+                )
+                self.long_sma = self.calc_rolling_sma(
+                    self.long_sma, self.long_window, price
+                )
+            # Only start the strategy when we have created an accurate short window
+            if self.ticks &gt; self.short_window:
+                if self.short_sma &gt; self.long_sma and not self.invested:
+                    signal = SignalEvent(self.pairs[0], "market", "buy", event.time)
+                    self.events.put(signal)
+                    self.invested = True
+                if self.short_sma &lt; self.long_sma and self.invested:
+                    signal = SignalEvent(self.pairs[0], "market", "sell", event.time)
+                    self.events.put(signal)
+                    self.invested = False
+            self.ticks += 1</code>
+</pre>
+
+<p><em>You can view the <a href="https://github.com/mhallsmoore/qsforex/blob/master/strategy/strategy.py">full listing for strategy.py</a> at Github.</em></p>
+
+<h2>Single-Threaded Backtester</h2>
+
+<p>Another major change was to modify the backtesting component to be single-threaded, rather than multi-threaded.</p>
+
+<p>I made this change because I was having a very hard time synchronising the threads to execute in a manner that would occur in a live environment. It basically meant that the entry and exit prices were very unrealistic, often occuring (virtual) hours after the actual tick had been received.</p>
+
+<p>Hence I incorporated the streaming of <code>TickEvent</code> objects into the backtesting loop, as you can see in the following snippet of <code>backtest.py</code>:</p>
+
+<pre>
+<code class="language-python">def backtest(
+        events, ticker, strategy, portfolio, 
+        execution, heartbeat, max_iters=200000
+    ):
+    """
+    Carries out an infinite while loop that polls the 
+    events queue and directs each event to either the
+    strategy component of the execution handler. The
+    loop will then pause for "heartbeat" seconds and
+    continue unti the maximum number of iterations is
+    exceeded.
+    """
+    iters = 0
+    while True and iters < max_iters:
+        ticker.stream_next_tick()
+        try:
+            event = events.get(False)
+        except Queue.Empty:
+            pass
+        else:
+            if event is not None:
+                if event.type == 'TICK':
+                    strategy.calculate_signals(event)
+                elif event.type == 'SIGNAL':
+                    portfolio.execute_signal(event)
+                elif event.type == 'ORDER':
+                    execution.execute_order(event)
+        time.sleep(heartbeat)
+        iters += 1
+    portfolio.output_results()</code>
+</pre>
+
+<p>Notice the line <code>ticker.stream_next_tick()</code>. This is called prior to a polling of the events queue and as such will always guarantee that a new tick event will have arrived before the queue is polled again.</p>
+
+<p>In particular it means that a signal is executed as new market data arrives, even if there is some lag in the ordering process due to slippage.</p>
+
+<p>I've also set a <code>max_iters</code> value that controls how long the backtesting loop continues. In practice this will need to be quite large when dealing with multiple currencies across multiple days, but I've set it to a default value that allows for a single day's data of one currency pair.</p>
+
+<p>The <code>stream_next_tick</code> method of the price handler class is similar to <code>stream_to_queue</code> except that it calls the iterator <code>next()</code> method manually, rather than carrying out the tick streaming in a for loop:</p>
+
+<pre>
+<code class="language-python">def stream_next_tick(self):
+    """
+    The Backtester has now moved over to a single-threaded
+    model in order to fully reproduce results on each run.
+    This means that the stream_to_queue method is unable to
+    be used and a replacement, called stream_next_tick, is
+    used instead.
+
+    This method is called by the backtesting function outside
+    of this class and places a single tick onto the queue, as
+    well as updating the current bid/ask and inverse bid/ask.
+    """
+    try:
+        index, row = self.all_pairs.next()
+    except StopIteration:
+        return
+    else:
+        self.prices[row["Pair"]]["bid"] = Decimal(str(row["Bid"])).quantize(
+            Decimal("0.00001", ROUND_HALF_DOWN)
+        )
+        self.prices[row["Pair"]]["ask"] = Decimal(str(row["Ask"])).quantize(
+            Decimal("0.00001", ROUND_HALF_DOWN)
+        )
+        self.prices[row["Pair"]]["time"] = index
+        inv_pair, inv_bid, inv_ask = self.invert_prices(row)
+        self.prices[inv_pair]["bid"] = inv_bid
+        self.prices[inv_pair]["ask"] = inv_ask
+        self.prices[inv_pair]["time"] = index
+        tev = TickEvent(row["Pair"], index, row["Bid"], row["Ask"])
+        self.events_queue.put(tev)</code>
+</pre>
+
+<p>Notice that it stops upon receipt of a <code>StopIteration</code> exception. This allows the code to resume rather than crashing at the exception.</p>
+
+<h2>Matplotlib Output</h2>
+
+<p>I've also created a very basic Matplotlib output script to display the equity curve. <code>output.py</code> currently lives in the <code>backtest</code> directory of QSForex and is given below:</p>
+
+<pre>
+<code class="language-python">import os, os.path
+
+import pandas as pd
+import matplotlib.pyplot as plt
+
+from qsforex.settings import OUTPUT_RESULTS_DIR
+
+
+if __name__ == "__main__":
+    """
+    A simple script to plot the balance of the portfolio, or
+    "equity curve", as a function of time.
+
+    It requires OUTPUT_RESULTS_DIR to be set in the project
+    settings.
+    """
+    equity_file = os.path.join(OUTPUT_RESULTS_DIR, "equity.csv")
+    equity = pd.io.parsers.read_csv(
+        equity_file, header=True, 
+        names=["time", "balance"], 
+        parse_dates=True, index_col=0
+    )
+    equity["balance"].plot()
+    plt.show()</code>
+</pre>
+
+<p>Notice that there is a new <code>settings.py</code> variable now called <code>OUTPUT_RESULTS_DIR</code>, which must be set in your settings. I have it pointing to a temporary directory elsewhere on my file system as I don't want to accidentally add any equity backtest results to the code base!</p>
+
+<p>The equity curve works by having a balance value added to a list of dictionaries, with one dictionary corresponding to a time-stamp.</p> 
+
+<p>Once the back-test is complete the list of dictionaries is converted into a Pandas DataFrame and the <code>to_csv</code> method is used to output <code>equity.csv</code>.</p>
+
+<p>This output script then simply reads in the file and plots the <code>balance</code> column of the subsequent DataFrame.</p>
+
+<p>You can see the snippet for the <code>append_equity_row</code> and <code>output_results</code>methods of the <code>Portfolio</code> class below:</p>
+
+<pre>
+<code class="language-python">def append_equity_row(self, time, balance):
+    d = {"time": time, "balance": balance}
+    self.equity.append(d)
+
+def output_results(self):
+    filename = "equity.csv"
+    out_file = os.path.join(OUTPUT_RESULTS_DIR, filename)
+    df_equity = pd.DataFrame.from_records(self.equity, index='time')
+    df_equity.to_csv(out_file)
+    print "Simulation complete and results exported to %s" % filename</code>
+</pre>
+
+<p>Every time <code>execute_signal</code> is called, the former method is called and appends the timestamp/balance value to the <code>equity</code> member.</p>
+
+<p>At the end of the backtest <code>output_results</code> is called which simply converts the list of dictionaries to a DataFrame and then outputs to the specified <code>OUTPUT_RESULTS_DIR</code> directory.</p>
+
+<p>Unfortunately, this is not a particularly appropriate way of creating an equity curve as it only occurs when a signal is generated. This means that it does not take into account <em>unrealised P&amp;L</em>.</p>
+
+<p>While this is how actual trading occurs (you haven't actually made any money until you close a position!) it means that the equity curve will remain completely flat between balance updates. Worse, Matplotlib will default to linearly interpolating between these points, thus providing the false impression of the unrealised P&amp;L.</p>
+
+<p>The solution to this problem is to create an unrealised P&amp;L tracker for the <code>Position</code> class that correctly updates on every tick. This is a little more computationally expensive, but does allow a more useful equity curve. This feature is planned for a later date!</p>
+
+<h2>Next Steps</h2>
+
+<p>The next major task for QSForex is to allow multi-day backtesting. Currently the <code>HistoricCSVPriceHandler</code> object only loads a single day's worth of <a href="https://www.dukascopy.com/swiss/english/marketwatch/historical/">DukasCopy tick data</a> for any specified currency pairs.</p>
+
+<p>In order to allow multi-day testing it will be necessary to load and stream each day sequentially to avoid filling RAM with the entire history of tick data. This will require a modification to how the <code>stream_next_tick</code> method works. Once that is complete it will allow long-term strategy backtesting across multiple pairs.</p>
+
+<p>Another task is to improve the output of the equity curve. In order to calculate any of the usual performance metrics (such as the <a href="http://www.quantstart.com/articles/Sharpe-Ratio-for-Algorithmic-Trading-Performance-Measurement">Sharpe Ratio</a>) we will need to calculate percentage returns across a particular time period. However, this requires that we bin the tick data into bars in order to calculate a return for a particular time period.</p>
+
+<p>Such binning must occur on a sampling frequency that is similar to the trading frequency or the Sharpe Ratio will not be reflective of the true risk/reward of the strategy. This binning is not a trivial exercise as there are lots of assumptions that go into generating a "price" for each bin.</p>
+
+<p>Once these two tasks are complete, and sufficient data has been acquired, we will be in a position to backtest a wide-range of tick-data based forex strategies and produce equity curves net of the majority of transaction costs. In addition, it will be extremely straightforward to test these strategies on the practice paper-trading account provided by OANDA.</p>
+
+<p>This should allow you to make much better decisions about whether to run a strategy compared to a more "research oriented" backtesting system.</p>
+        
+        
+        <script async data-uid="6296c27f4b" src="https://weathered-brook-5281.ck.page/6296c27f4b/index.js"></script>
+      </section>
+    </div>
+    <div class="col-md-4 book-card order-md-1">
+      
+<div class="sidebar-advert-container">
+  <a href="/qsalpha/?ref=art">
+    <img class="card-img-top" src="/static/images/qsalpha-sidebar-advert-small.png" alt="QSAlpha">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/qsalpha/?ref=art">QSAlpha</a></h3>
+      <p class="card-text medium-text mb-3">Join the QSAlpha research platform that helps fill your strategy research pipeline, diversifies your portfolio and improves your risk-adjusted returns for increased profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/qsalpha/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/quantcademy/?ref=art">
+    <img class="card-img-top" src="/static/images/quantcademy-sidebar-advert-small.png" alt="Quantcademy">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/quantcademy/?ref=art">The Quantcademy</a></h3>
+      <p class="card-text medium-text mb-3">Join the Quantcademy membership portal that caters to the rapidly-growing retail quant trader community and learn how to increase your strategy profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/quantcademy/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/successful-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/sat-sidebar-advert-small.png" alt="Successful Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to find new trading strategy ideas and objectively assess them for your portfolio using a Python-based backtesting engine.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/successful-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/advanced-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/aat-sidebar-advert-small.png" alt="Advanced Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to implement advanced trading strategies using time series analysis, machine learning and Bayesian statistics with R and Python.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/advanced-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+    
+
+<footer>
+  <div class="container container-full">
+    <section class="mt-1.5 mb-1">
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">QuantStart</li>
+            <li class="footer-list-link"><a class="link-fade" href="/about/">About</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/articles/">Articles</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/sitemap/">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Products</li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qsalpha/">QSAlpha</a></li>
+            
+            
+            <li class="footer-list-link"><a class="link-fade" href="/quantcademy/">Quantcademy</a></li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qstrader/">QSTrader</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Legal</li>
+            <li class="footer-list-link"><a class="link-fade" href="/privacy-policy/">Privacy Policy</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/terms-and-conditions/">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Social</li>
+            <li class="footer-list-link"><a class="link-fade" href="https://twitter.com/quantstart">Twitter</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="https://www.youtube.com/channel/UCmVnnZ6Y2TrJtY1eQJN6kWA">YouTube</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="row mb-1.5 mt-5">
+      <div class="col-12 col-md-9 col-lg-8 col-xl-6">
+        <div class="footer-copyright">
+          <p>©2012-2023 QuarkGluon Ltd. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+<script src="/static/js/jquery-3.2.1.min.js"></script>
+<script src="/static/js/prism.js.min"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/nav.js"></script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5383959-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+    
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="/static/js/highcharts/highcharts.js"></script>
+<script type="text/javascript">
+  num_colours = 10;
+</script>
+<script src="/static/js/statistics.js"></script>
+
+
+  </body>
+</html>

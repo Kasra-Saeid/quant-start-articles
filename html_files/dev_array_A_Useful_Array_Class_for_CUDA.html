@@ -1,0 +1,618 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-site-verification" content="wl3-8ed1QZjI0iYZMv10zoZWYElkMObTfwLlWIj9cpA" />
+    <meta name="description" content="dev_array: A Useful Array Class for CUDA">
+
+    <link rel="icon" href="/static/images/favicon.png">
+
+    <title>dev_array: A Useful Array Class for CUDA | QuantStart</title>
+    
+    
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet"> 
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/prism.css" rel="stylesheet">
+<link href="/static/css/qs.css?v=10" rel="stylesheet">
+    
+  </head>
+
+  <body>
+    <header class="header covered-header" style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://quantstartmedia.s3.amazonaws.com/images/article-images/article-backgrounds/default-bg.jpg);">
+  
+<nav class="nav">
+  <div class="container nav-container">
+    <div class="nav-row row d-flex justify-content-between align-items-center">
+      <div class="col-2">
+        <ul class="nav-items justify-content-end small-capitals align-items-center">
+          <li class="nav-item">
+            <a class="link-fade" href="/">QuantStart</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-auto col-logo">
+        <ul id="top-nav-menu" class="nav-items justify-content-end align-items-center">
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/qsalpha/">QSAlpha</a>
+          </li>
+          
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/quantcademy/">Quantcademy</a>
+          </li>
+          
+          <li id="menu-link-ebooks" class="nav-item">
+            <a class="link-fade" href="#">Books</a>
+            <div id="menu-pane-ebooks" class="nav-items menu-dropdown-pane">
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/qstrader/">QSTrader</a>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/articles/">Articles</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/members/login/">Login</a>
+          </li>
+          
+        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<nav id="mobile-nav" class="mobile-nav text-left">
+  <div class="container">
+    <ul class="mt-4 ml-3 mobile-nav-menu">
+      <li class="nav-item">
+        <a class="link-fade d-block" href="/">QuantStart</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qsalpha/">QSAlpha</a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/quantcademy/">Quantcademy</a>
+      </li>
+      
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="#">Books</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qstrader/">QSTrader</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/articles/">Articles</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/members/login/">Login</a>
+      </li>
+      
+    </ul>
+    <button class="nav-toggle mobile-nav-close">
+      <svg id="mobile-nav-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M19.77,5.63,13.41,12l6.36,6.37a1,1,0,0,1-1.41,1.41L12,13.41,5.63,19.77a1,1,0,0,1-1.44-1.39l0,0L10.58,12,4.21,5.63a1,1,0,0,1,0-1.42,1,1,0,0,1,1.41,0l0,0L12,10.58l6.37-6.37a1,1,0,0,1,1.41,0A1,1,0,0,1,19.77,5.63Z"></path>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+  <div class="container hero-container">
+    <section class="mt-5 mb-4">
+      <div class="row justify-content-center">
+        <div class="col-12 text-center">
+          <p class="hero">dev_array: A Useful Array Class for CUDA</p>
+          <p class="hero subhero">dev_array: A Useful Array Class for CUDA</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</header>
+    
+<section class="container content-container">
+  <div class="row">
+    <div class="col-md-8 order-md-2">
+      <section class="content article-content">
+        
+        
+        <p>In previous articles I explained how to get started with CUDA showing a simple <a href="http://www.quantstart.com/articles/Vector-Addition-Hello-World-Example-with-CUDA-on-Mac-OSX">vector addition example</a>. This time we will code an array class, the purpose of which is to speed up the coding process.</p>
+
+<p>This is a very helpful class for programmers of all levels, from beginners to advanced. Also, I will make extensive use of this class in future articles, so it is worth familiarising yourself with it if you wish to follow the CUDA series.</p>
+
+<p>Now I will demonstrate the different blocks that constitute the class.</p>
+
+<h2>Code Explanation</h2>
+
+<p>As usual let's start with library declarations:</p>
+
+<pre>
+<code class="language-cpp">#ifndef _DEV_ARRAY_H_
+#define _DEV_ARRAY_H_
+
+#include &lt;stdexcept&gt;
+#include &lt;algorithm&gt;
+#include &lt;cuda_runtime.h&gt;
+
+template <class T>
+class dev_array</code>
+</pre>
+
+<h3>Public Functions</h3>
+
+<p>This first part includes all the public functions, which are the ones that you can call from your scripts (e.g. main.cpp).</p>
+
+<p>We start with the constructor and the destructor. Notice that they only call one function each. This is because it’s safer to just make a call to private functions in the public part. That is, private functions are only “visible” to the class itself, so no one can call them. Also, it’s a good habit for a programmer, especially for long scripts, to separate the public and the private part, as it makes the code easier to read and therefore to correct.</p>
+
+<pre>
+<code class="language-cpp">  {
+public:
+    explicit dev_array()
+        : start_(0),
+          end_(0)
+    {}
+
+    // constructor
+    explicit dev_array(size_t size)
+    {
+        allocate(size);
+    }
+    // destructor
+    ~dev_array()
+    {
+        free();
+    }</code>
+</pre>
+
+<p>Now you can declare a vector from your main block by typing:</p>
+
+<pre>
+<code class="language-cpp">  dev_array<float> array_name(size);</code>
+</pre>
+
+<h3>resize()</h3>
+
+<pre>
+<code class="language-cpp">  // resize the vector
+    void resize(size_t size)
+    {
+        free();
+        allocate(size);
+    }</code>
+</pre>
+
+<p>This function will allow you to easily resize a vector by typing the new size as following:</p>
+
+<pre>
+<code class="language-cpp">  array_name.resize(new_size);</code>
+</pre>
+
+<p>By doing so, it will call <strong>free()</strong> first to deallocate memory from the device, and then <strong>allocate()</strong> for reallocate the new amount of bytes in the device memory.</p>
+
+<h3>getSize()</h3>
+
+<pre>
+<code class="language-cpp"> // get the size of the array
+    size_t getSize() const
+    {
+        return end_ - start_;
+    }</code>
+</pre>
+
+<p>This function is quite simple, as it just counts the “space” between the first and the last element in the memory, giving you back the size of the array. Once again, you can call it as a normal instance</p>
+
+<pre>
+<code class="language-cpp">  array_name.getSize();</code>
+</pre>
+
+<h3>getData()</h3>
+
+<pre>
+<code class="language-cpp">  // get data
+    const T* getData() const
+    {
+        return start_;
+    }
+
+    T* getData()
+    {
+        return start_;
+    }</code>
+</pre>
+
+<p>The reasoning here is slightly more complex than the previous ones, but still nothing to worry about. By invoking it typing the code</p>
+
+<pre>
+<code class="language-cpp">  array_name.getData();</code>
+</pre>
+
+<p>it makes use of pointers to point to the memory cells allocated and then gives back the content at that location.</p>
+
+<h3>Set and get</h3>
+
+<pre>
+<code class="language-cpp">  // copy memory host to device
+    void set(const T* src, size_t size)
+    {
+        size_t min = std::min(size, getSize());
+        cudaError_t result = cudaMemcpy(start_, src, min * sizeof(T), cudaMemcpyHostToDevice);
+        if (result != cudaSuccess)
+        {
+            throw std::runtime_error("failed to copy to device memory");
+        }
+    }
+    // copy memory from device to host
+    void get(T* dest, size_t size)
+    {
+        size_t min = std::min(size, getSize());
+        cudaError_t result = cudaMemcpy(dest, start_, min * sizeof(T), cudaMemcpyDeviceToHost);
+        if (result != cudaSuccess)
+        {
+            throw std::runtime_error("failed to copy to host memory");
+        }
+    }</code>
+</pre>
+
+<p>These functions are of particular interest. First, they let you do several operations simply writing only one line of code, saving you time and preventing possible code errors. Second, they provide helpful exception handling (<strong>runtime_error</strong>).
+</p>
+
+<h3>Private functions</h3>
+
+<p>The following functions cannot be invoked other than by the class itself and, as aforementioned, this is helpful in different ways. As you can see they are the "core" functions, in the sense that they perform basic operations and they are called by higher, public functions.</p>
+
+<pre>
+<code class="language-cpp">// private functions
+private:</code>
+</pre>
+
+<h3>Allocate and Free Memory</h3>
+
+<p>This function is quite simple. It uses the CUDA commands we saw in the <a href="http://www.quantstart.com/articles/Vector-Addition-Hello-World-Example-with-CUDA-on-Mac-OSX">previous article</a> for allocating and freeing memory in the device for our arrays. Also, as in the get and set functions, error checking with exception throwing is performed, providing additional control. This is especially useful in longer codes in which it is very likely to encounter issues like a segmentation fault or overflow without even noticing, due to failing or misbehaving memory operations.</p>
+
+<pre>
+<code class="language-cpp">  // allocate memory on the device
+    void allocate(size_t size)
+    {
+        cudaError_t result = cudaMalloc((void**)&start_, size * sizeof(T));
+        if (result != cudaSuccess)
+        {
+            start_ = end_ = 0;
+            throw std::runtime_error("failed to allocate device memory");
+        }
+        end_ = start_ + size;
+    }
+
+      // free memory on the device
+    void free()
+    {
+        if (start_ != 0)
+        {
+            cudaFree(start_);
+            start_ = end_ = 0;
+        }
+    }
+
+    T* start_;
+    T* end_;
+};
+
+#endif</code>
+</pre>
+
+<p> In this article we have seen how to implement a limited yet powerful class for handling arrays in a CUDA program. Now you can use it simply by copying the following code in a source file and giving it the extension <strong>".h"</strong> (e.g. dev_array.h) and including it in your main block by adding the class as a regular one, typing <code>#include &lt;cuda_runtime.h&gt;</code> in the declaration part.</p>
+
+<p>In the next article, besides using this class, I'll show you how to code a Monte Carlo simulation in CUDA, with a practical example about option pricing.</p>
+
+<p>I also want to thank <a href="https://www.linkedin.com/profile/view?id=28975835&authType=NAME_SEARCH&authToken=XHmc&locale=en_US&srchid=2118999781414931371094&srchindex=1&srchtotal=14&trk=vsrp_people_res_name&trkInfo=VSRPsearchId%3A2118999781414931371094%2CVSRPtargetId%3A28975835%2CVSRPcmpt%3Aprimary">Dr. Massimo Guarnieri</a>, who wrote this class and let me use it for writing this article.</p>
+
+<p>Here is the full code for completeness:</p>
+
+<pre>
+<code class="language-cpp">#ifndef _DEV_ARRAY_H_
+#define _DEV_ARRAY_H_
+
+#include &lt;stdexcept&gt;
+#include &lt;algorithm&gt;
+#include &lt;cuda_runtime.h&gt;
+
+template &lt;class T&gt;
+class dev_array
+{
+// public functions
+public:
+    explicit dev_array()
+        : start_(0),
+          end_(0)
+    {}
+
+    // constructor
+    explicit dev_array(size_t size)
+    {
+        allocate(size);
+    }
+    // destructor
+    ~dev_array()
+    {
+        free();
+    }
+
+    // resize the vector
+    void resize(size_t size)
+    {
+        free();
+        allocate(size);
+    }
+
+    // get the size of the array
+    size_t getSize() const
+    {
+        return end_ - start_;
+    }
+
+    // get data
+    const T* getData() const
+    {
+        return start_;
+    }
+
+    T* getData()
+    {
+        return start_;
+    }
+
+    // set
+    void set(const T* src, size_t size)
+    {
+        size_t min = std::min(size, getSize());
+        cudaError_t result = cudaMemcpy(start_, src, min * sizeof(T), cudaMemcpyHostToDevice);
+        if (result != cudaSuccess)
+        {
+            throw std::runtime_error("failed to copy to device memory");
+        }
+    }
+    // get
+    void get(T* dest, size_t size)
+    {
+        size_t min = std::min(size, getSize());
+        cudaError_t result = cudaMemcpy(dest, start_, min * sizeof(T), cudaMemcpyDeviceToHost);
+        if (result != cudaSuccess)
+        {
+            throw std::runtime_error("failed to copy to host memory");
+        }
+    }
+
+
+// private functions
+private:
+    // allocate memory on the device
+    void allocate(size_t size)
+    {
+        cudaError_t result = cudaMalloc((void**)&start_, size * sizeof(T));
+        if (result != cudaSuccess)
+        {
+            start_ = end_ = 0;
+            throw std::runtime_error("failed to allocate device memory");
+        }
+        end_ = start_ + size;
+    }
+
+    // free memory on the device
+    void free()
+    {
+        if (start_ != 0)
+        {
+            cudaFree(start_);
+            start_ = end_ = 0;
+        }
+    }
+
+    T* start_;
+    T* end_;
+};
+
+#endif</code>
+</pre>
+        
+        
+        <script async data-uid="6296c27f4b" src="https://weathered-brook-5281.ck.page/6296c27f4b/index.js"></script>
+      </section>
+    </div>
+    <div class="col-md-4 book-card order-md-1">
+      
+<div class="sidebar-advert-container">
+  <a href="/qsalpha/?ref=art">
+    <img class="card-img-top" src="/static/images/qsalpha-sidebar-advert-small.png" alt="QSAlpha">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/qsalpha/?ref=art">QSAlpha</a></h3>
+      <p class="card-text medium-text mb-3">Join the QSAlpha research platform that helps fill your strategy research pipeline, diversifies your portfolio and improves your risk-adjusted returns for increased profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/qsalpha/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/quantcademy/?ref=art">
+    <img class="card-img-top" src="/static/images/quantcademy-sidebar-advert-small.png" alt="Quantcademy">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/quantcademy/?ref=art">The Quantcademy</a></h3>
+      <p class="card-text medium-text mb-3">Join the Quantcademy membership portal that caters to the rapidly-growing retail quant trader community and learn how to increase your strategy profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/quantcademy/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/successful-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/sat-sidebar-advert-small.png" alt="Successful Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to find new trading strategy ideas and objectively assess them for your portfolio using a Python-based backtesting engine.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/successful-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/advanced-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/aat-sidebar-advert-small.png" alt="Advanced Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to implement advanced trading strategies using time series analysis, machine learning and Bayesian statistics with R and Python.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/advanced-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+    
+
+<footer>
+  <div class="container container-full">
+    <section class="mt-1.5 mb-1">
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">QuantStart</li>
+            <li class="footer-list-link"><a class="link-fade" href="/about/">About</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/articles/">Articles</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/sitemap/">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Products</li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qsalpha/">QSAlpha</a></li>
+            
+            
+            <li class="footer-list-link"><a class="link-fade" href="/quantcademy/">Quantcademy</a></li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qstrader/">QSTrader</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Legal</li>
+            <li class="footer-list-link"><a class="link-fade" href="/privacy-policy/">Privacy Policy</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/terms-and-conditions/">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Social</li>
+            <li class="footer-list-link"><a class="link-fade" href="https://twitter.com/quantstart">Twitter</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="https://www.youtube.com/channel/UCmVnnZ6Y2TrJtY1eQJN6kWA">YouTube</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="row mb-1.5 mt-5">
+      <div class="col-12 col-md-9 col-lg-8 col-xl-6">
+        <div class="footer-copyright">
+          <p>©2012-2023 QuarkGluon Ltd. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+<script src="/static/js/jquery-3.2.1.min.js"></script>
+<script src="/static/js/prism.js.min"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/nav.js"></script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5383959-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+    
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="/static/js/highcharts/highcharts.js"></script>
+<script type="text/javascript">
+  num_colours = 10;
+</script>
+<script src="/static/js/statistics.js"></script>
+
+
+  </body>
+</html>

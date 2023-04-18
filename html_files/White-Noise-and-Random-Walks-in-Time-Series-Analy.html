@@ -1,0 +1,663 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-site-verification" content="wl3-8ed1QZjI0iYZMv10zoZWYElkMObTfwLlWIj9cpA" />
+    <meta name="description" content="White Noise and Random Walks in Time Series Analysis">
+
+    <link rel="icon" href="/static/images/favicon.png">
+
+    <title>White Noise and Random Walks in Time Series Analysis | QuantStart</title>
+    
+    
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet"> 
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/prism.css" rel="stylesheet">
+<link href="/static/css/qs.css?v=10" rel="stylesheet">
+    
+  </head>
+
+  <body>
+    <header class="header covered-header" style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://quantstartmedia.s3.amazonaws.com/images/article-images/article-backgrounds/default-bg.jpg);">
+  
+<nav class="nav">
+  <div class="container nav-container">
+    <div class="nav-row row d-flex justify-content-between align-items-center">
+      <div class="col-2">
+        <ul class="nav-items justify-content-end small-capitals align-items-center">
+          <li class="nav-item">
+            <a class="link-fade" href="/">QuantStart</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-auto col-logo">
+        <ul id="top-nav-menu" class="nav-items justify-content-end align-items-center">
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/qsalpha/">QSAlpha</a>
+          </li>
+          
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/quantcademy/">Quantcademy</a>
+          </li>
+          
+          <li id="menu-link-ebooks" class="nav-item">
+            <a class="link-fade" href="#">Books</a>
+            <div id="menu-pane-ebooks" class="nav-items menu-dropdown-pane">
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/qstrader/">QSTrader</a>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/articles/">Articles</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/members/login/">Login</a>
+          </li>
+          
+        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<nav id="mobile-nav" class="mobile-nav text-left">
+  <div class="container">
+    <ul class="mt-4 ml-3 mobile-nav-menu">
+      <li class="nav-item">
+        <a class="link-fade d-block" href="/">QuantStart</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qsalpha/">QSAlpha</a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/quantcademy/">Quantcademy</a>
+      </li>
+      
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="#">Books</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qstrader/">QSTrader</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/articles/">Articles</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/members/login/">Login</a>
+      </li>
+      
+    </ul>
+    <button class="nav-toggle mobile-nav-close">
+      <svg id="mobile-nav-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M19.77,5.63,13.41,12l6.36,6.37a1,1,0,0,1-1.41,1.41L12,13.41,5.63,19.77a1,1,0,0,1-1.44-1.39l0,0L10.58,12,4.21,5.63a1,1,0,0,1,0-1.42,1,1,0,0,1,1.41,0l0,0L12,10.58l6.37-6.37a1,1,0,0,1,1.41,0A1,1,0,0,1,19.77,5.63Z"></path>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+  <div class="container hero-container">
+    <section class="mt-5 mb-4">
+      <div class="row justify-content-center">
+        <div class="col-12 text-center">
+          <p class="hero">White Noise and Random Walks in Time Series Analysis</p>
+          <p class="hero subhero">White Noise and Random Walks in Time Series Analysis</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</header>
+    
+<section class="container content-container">
+  <div class="row">
+    <div class="col-md-8 order-md-2">
+      <section class="content article-content">
+        
+        
+        <p>In the <a href="https://www.quantstart.com/articles/Serial-Correlation-in-Time-Series-Analysis">last article</a> of the Time Series Analysis series we discussed the importance of <strong>serial correlation</strong> and why it is extremely useful in the context of quantitative trading.</p>
+
+<p>In this article we will make full use of serial correlation by discussing our first time series models, including some elementary linear stochastic models. In particular we are going to discuss <strong>White Noise</strong> and <strong>Random Walks</strong>.</p>
+
+<h2>Recapping Our Goal</h2>
+
+<p>Before we dive into definitions I want to <strong>recap our reasons for studying these models</strong> as well as our end goal in learning time series analysis.</p>
+
+<p>Fundamentally we are interested in improving the profitability of our trading algorithms. As quants, <strong>we do not rely on "guesswork" or "hunches"</strong>.</p>
+
+<p>Our approach is to <strong>quantify as much as possible</strong>, both to remove any emotional involvement from the trading process and to ensure (to the extent possible) repeatability of our trading.</p>
+
+<p>In order to improve the profitability of our trading models, we must make use of <strong>statistical techniques</strong> to identify consistent behaviour in assets which can be exploited to turn a profit. To find this behaviour we must explore how the properties of the asset prices themselves change in time.</p>
+
+<p><em>Time Series Analysis helps us to achieve this.</em> It provides us with a robust statistical framework for assessing the behaviour of time series, such as asset prices, in order to help us trade off of this behaviour.</p>
+
+<blockquote>
+    Time Series Analysis provides us with a robust statistical framework for assessing the behaviour of asset prices.
+</blockquote>
+
+<p>So far we have discussed <strong>serial correlation</strong> and examined the basic correlation structure of simulated data. In addition we have defined <strong>stationarity</strong> and considered the <strong>second order properties</strong> of time series. All of these attributes will aid us in identifying patterns among time series. <em>If you haven't read the <a href="https://www.quantstart.com/articles/Serial-Correlation-in-Time-Series-Analysis">previous article on serial correlation</a>, I strongly suggest you do so before continuing with this article.</em></p>
+
+<p>In the following we are going to examine how we can exploit some of the structure in asset prices that we've identified using <strong>time series models</strong>.</p>
+
+<h2>Time Series Modeling Process</h2>
+
+<p>So what is a time series model? Essentially, it is a mathematical model that attempts to "explain" the serial correlation present in a time series.</p>
+
+<p>When we say "explain" what we really mean is once we have "fitted" a model to a time series it should account for some or all of the serial correlation present in the correlogram. That is, by fitting the model to a historical time series, we are reducing the serial correlation and thus "explaining it away".</p>
+
+<p>Our process, as quantitative researchers, is to consider a wide variety of models including their assumptions and their complexity, and then choose a model such that it is the "simplest" that will explain the serial correlation.</p>
+
+<p>Once we have such a model we can use it to predict future values or future behaviour in general. This prediction is obviously <em>extremely useful</em> in quantitative trading.</p>
+
+<p>If we can predict the direction of an asset movement then we have the basis of a trading strategy (allowing for transaction costs, of course!). Also, if we can predict volatility of an asset then we have the basis of another trading strategy or a risk-management approach. This is why we are interested in <strong>second order properties</strong>, since they give us the means to help us make forecasts.</p>
+
+<p>One question that arises here is "How do we know when we have a good fit for a model?". What criteria do we use to judge which model is best? In fact, there are several! We will be considering these criteria in this article series.</p>
+
+<p>Let's summarise the general process we will be following throughout the series:</p>
+
+<ul>
+  <li>Outline a hypotheis about a particular time series and its behaviour</li>
+  <li>Obtain the correlogram of the time series (perhaps using R or Python libraries) and assess its serial correlation</li>
+  <li>Use our knowledge of time series models and fit an appropriate model to reduce the serial correlation in the <em>residuals</em> (see below for a definition) of the model and its time series</li>
+  <li>Refine the fit until no correlation is present and use mathematical criteria to assess the model fit</li>
+  <li>Use the model and its second-order properties to make forecasts about future values</li>
+  <li>Assess the accuracy of these forecasts using statistical techniques (such as <a href="https://en.wikipedia.org/wiki/Confusion_matrix">confusion matrices</a>, <a href="https://en.wikipedia.org/wiki/Receiver_operating_characteristic">ROC curves</a> for classification or regressive metrics such as <a href="https://en.wikipedia.org/wiki/Mean_squared_error">MSE</a>, <a href="https://en.wikipedia.org/wiki/Mean_absolute_percentage_error">MAPE</a> etc)</li>
+  <li>Iterate through this process until the accuracy is optimal and then utilise such forecasts to create trading strategies</li>
+</ul>
+
+<p>That is our basic process. The complexity will arise when we consider more advanced models that account for additional serial correlation in our time series.</p>
+
+<p>In this article we are going to consider two of the most basic time series models, namely <strong>White Noise</strong> and <strong>Random Walks</strong>. These models will form the basis of more advanced models later so it is essential we understand them well.</p>
+
+<p>However, before we introduce either of these models, we are going to discuss some more abstract concepts that will help us unify our approach to time series models. In particular, we are going to define the <strong>Backward Shift Operator</strong> and the <strong>Difference Operator</strong>.</p>
+
+<h2>Backward Shift and Difference Operators</h2>
+
+<p>The <strong>Backward Shift Operator</strong> (BSO) and the <strong>Difference Operator</strong> will allow us to write many different time series models in a particular way that helps us understand how they differ from each other.</p>
+
+<p>Since we will be using the notation of each so frequently, it makes sense to define them now.</p>
+
+<div class="bs-callout bs-callout-info">
+<h4>Backward Shift Operator</h4>
+<p>The <em>backward shift operator</em> or <em>lag operator</em>, ${\bf B}$, takes a time series element as an argument and returns the element one time unit previously: ${\bf B} x_t = x_{t-1}$.</p>
+
+<p>Repeated application of the operator allows us to step back $n$ times: ${\bf B}^n x_t = x_{t-n}$.</p>
+</div>
+
+<p>We will use the BSO to define many of our time series models going forward.</p>
+
+<p>In addition, when we come to study time series models that are non-stationary (that is, their mean and variance can alter with time), we can use a <em>differencing procedure</em> in order to take a non-stationary series and produce a stationary series from it.</p>
+
+<div class="bs-callout bs-callout-info">
+<h4>Difference Operator</h4>
+<p>The <em>difference operator</em>, $\nabla$, takes a time series element as an argument and returns the difference between the element and that of one time unit previously: $\nabla x_t = x_t - x_{t-1}$, or $\nabla x_t = (1-{\bf B}) x_t$.</p>
+
+<p>As with the BSO, we can repeatedly apply the difference operator: $\nabla^n = (1-{\bf B})^n$.</p>
+</div>
+
+<p>Now that we've discussed these abstract operators, let us consider some concrete time series models.</p>
+
+<h2>White Noise</h2>
+
+<p>Let's begin by trying to motivate the concept of <strong>White Noise</strong>.</p>
+
+<p>Above, we mentioned that our basic approach was to try fitting models to a time series until the remaining series lacks any serial correlation. This motivates the definition of the <strong>residual error series</strong>:</p>
+
+<div class="bs-callout bs-callout-info">
+<h4>Residual Error Series</h4>
+<p>The <em>residual error series</em> or <em>residuals</em>, $x_t$, is a time series of the difference between an observed value and a predicted value, from a time series model, at a particular time $t$.</p>
+
+<p>If $y_t$ is the observed value and $\hat{y}_t$ is the predicted value, we say: $x_t = y_t - \hat{y}_t$ are the <em>residuals</em>.</p>
+</div>
+
+<p>The key point is that if our chosen time series model is able to "explain" the serial correlation in the observations, then the residuals themselves are <em>serially uncorrelated</em>.</p>
+
+<p>This means that each element of the serially uncorrelated residual series is an <em>independent realisation from some probability distribution</em>. That is, the residuals themselves are <a href="https://en.wikipedia.org/wiki/Independent_and_identically_distributed_random_variables">independent and identically distributed</a> (i.i.d.).</p>
+
+<p>Hence, if we are to begin creating time series models that explain away any serial correlation, it seems natural to begin with a process that produces independent random variables from some distribution. This directly leads on to the concept of (discrete) <strong>white noise</strong>:</p>
+
+<div class="bs-callout bs-callout-info">
+<h4>Discrete White Noise</h4>
+<p>Consider a time series $\{w_t: t=1,...n\}$. If the elements of the series, $w_i$, are independent and identically distributed (i.i.d.), with a mean of zero, variance $\sigma^2$ and no serial correlation (i.e. $\text{Cor}(w_i, w_j) \neq 0, \forall i \neq j$) then we say that the time series is <em>discrete white noise</em> (DWN).</p>
+</div>
+
+<p>In particular, if the values $w_i$ are drawn from a standard normal distribution (i.e. $w_t \sim N(0,\sigma^2)$), then the series is known as <em>Gaussian White Noise</em>.</p>
+
+<p>White Noise is useful in many contexts. In particular, it can be used to <strong>simulate a "synthetic" series</strong>.</p>
+
+<p>As we've mentioned before, a historical time series is only one observed instance. If we can simulate multiple realisations then we can create "many histories" and thus generate statistics for some of the parameters of particular models. This will help us refine our models and thus increase accuracy in our forecasting.</p>
+
+<p>Now that we've defined Discrete White Noise, we are going to examine some of the attributes of it, including its <strong>second order properties</strong> and its correlogram.</p>
+
+<h3>Second-Order Properties</h3>
+
+<p>The second-order properties of DWN are straightforward and follow easily from the actual definition. In particular, the mean of the series is zero and there is no autocorrelation by definition:</p>
+
+\begin{eqnarray}
+\mu_w = E(w_t) = 0
+\end{eqnarray}
+
+$$\rho_k = \text{Cor}(w_t, w_{t+k}) = \left\{\begin{aligned}
+&1 && \text{if} \enspace k = 0 \\
+&0 && \text{if} \enspace k \neq 0
+\end{aligned}
+\right.$$
+
+<h3>Correlogram</h3>
+
+<p>We can also plot the correlogram of a DWN using R. Firstly we'll set the random seed to be 1, so that your random draws will be identical to mine. Then we will sample 1000 elements from a normal distribution and plot the autocorrelation:</p>
+
+<pre>
+<code class="language-r">> set.seed(1)
+> acf(rnorm(1000))</code>
+</pre>
+
+<p style="text-align:center">
+  <img src="https://s3.amazonaws.com/quantstartmedia/images/qs-tsa-arp-dwn-correlogram.png" width="100%" />
+  <strong>Correlogram of Discrete White Noise</strong>
+</p>
+
+<p>Notice that at $k=6$, $k=15$ and $k=18$, we have three peaks that differ from zero at the 5% level. However, this is to be expected simply due to the variation in sampling from the normal distribution.</p>
+
+<p>Once again, we must be extremely careful in our interpretation of results. In this instance, do we <em>really</em> expect anything physically meaningful to be happening at $k=6$, $k=15$ or $k=18$?</p>
+
+<p>Notice that the DWN model only has a single parameter, namely the variance $\sigma^2$. Thankfully, it is straightforward to estimate the variance with R, we can simply use the <code>var</code> function:</p>
+
+<pre>
+<code class="language-r">> set.seed(1)
+> var(rnorm(1000, mean=0, sd=1))</code>
+</pre>
+
+<pre>
+<code class="language-none">1.071051</code>
+</pre>
+
+<p>We've specifically highlighted that the normal distribution above has a mean of zero and a standard deviation of 1 (and thus a variance of 1). R calculates the sample variance as 1.071051, which is close to the population value of 1.</p>
+
+<p>The key takeaway with Discrete White Noise is that we use it as a model for the <em>residuals</em>. We are looking to fit other time series models to our observed series, at which point we use DWN as a confirmation that we have eliminated any remaining serial correlation from the residuals <em>and thus have a good model fit</em>.</p>
+
+<p>Now that we have examined DWN we are going to move on to a famous model for (some) financial time series, namely the <strong>Random Walk</strong>.</p>
+
+<h2>Random Walk</h2>
+
+<p>A <strong>random walk</strong> is another time series model where the current observation is equal to the previous observation with a random step up or down. It is formally defined below:</p>
+
+<div class="bs-callout bs-callout-info">
+<h4>Random Walk</h4>
+<p>A <em>random walk</em> is a time series model ${x_t}$ such that $x_t = x_{t-1} + w_t$, where $w_t$ is a discrete white noise series.</p>
+</div>
+
+<p>Recall above that we defined the backward shift operator ${\bf B}$. We can apply the BSO to the random walk:</p>
+
+\begin{eqnarray}
+x_t = {\bf B} x_t + w_t = x_{t-1} + w_t
+\end{eqnarray}
+
+<p>And stepping back further:</p>
+
+\begin{eqnarray}
+x_{t-1} = {\bf B} x_{t-1} + w_{t-1} = x_{t-2} + w_{t-1}
+\end{eqnarray}
+
+<p>If we repeat this process until the end of the time series we get:</p>
+
+\begin{eqnarray}
+x_t = (1 + {\bf B} + {\bf B}^2 + \ldots) w_t \implies x_t = w_t + w_{t-1} + w_{t-2} + \ldots
+\end{eqnarray}
+
+<p>Hence it is clear to see how the random walk is simply the sum of the elements from a discrete white noise series.</p>
+
+<h3>Second-Order Properties</h3>
+
+<p>The second-order properties of a random walk are a little more interesting than that of discrete white noise. While the mean of a random walk is still zero, the covariance is actually time-dependent. Hence a random walk is <strong>non-stationary</strong>:</p>
+
+\begin{eqnarray}
+\mu_x &=& 0 \\
+\gamma_k (t) &=& \text{Cov}(x_t, x_{t+k}) = t \sigma^2
+\end{eqnarray}
+
+<p>In particular, the covariance is equal to the variance multiplied by the time. Hence, as time increases, so does the variance.</p>
+
+<p>What does this mean for random walks? Put simply, it means there is very little point in extrapolating "trends" in them over the long term, as they are literally <em>random walks</em>.</p>
+
+<h3>Correlogram</h3>
+
+<p>The autocorrelation of a random walk (which is also time-dependent) can be derived as follows:</p>
+
+\begin{eqnarray}
+\rho_k (t) = \frac{\text{Cov}(x_t, x_{t+k})} {\sqrt{\text{Var}(x_t) \text{Var}(x_{t+k})}} = \frac{t \sigma^2}{\sqrt{t \sigma^2 (t+k) \sigma^2}} = \frac{1}{\sqrt{1+k/t}}
+\end{eqnarray}
+
+<p>Notice that this implies if we are considering a long time series, with short term lags, then we get an autocorrelation that is almost unity. That is, we have extremely high autocorrelation that does not decrease very rapidly as the lag increases. We can simulate such a series using R.</p>
+
+<p>Firstly, we set the seed so that you can replicate my results exactly. Then we create two sequences of random draws ($x$ and $w$), each of which has the same value (as defined by the seed).</p>
+
+<p>We then loop through every element of $x$ and assign it the value of the previous value of $x$ plus the current value of $w$. This gives us the random walk. We then plot the results using <code>type="l"</code> to give us a line plot, rather than a plot of circular points:</p>
+
+<pre>
+<code class="language-r">> set.seed(4)
+> x <- w <- rnorm(1000)
+> for (t in 2:1000) x[t] <- x[t-1] + w[t]
+> plot(x, type="l")</code>
+</pre>
+
+<p style="text-align:center">
+  <img src="https://s3.amazonaws.com/quantstartmedia/images/qs-tsa-arp-rw-path.png" width="100%" />
+  <strong>Realisation of a Random Walk with 1000 timesteps</strong>
+</p>
+
+<p>It is simple enough to draw the correlogram too:</p>
+
+<pre>
+<code class="language-r">> acf(x)</code>
+</pre>
+
+<p style="text-align:center">
+  <img src="https://s3.amazonaws.com/quantstartmedia/images/qs-tsa-arp-rw-correlogram.png" width="100%" />
+  <strong>Correlogram of a Random Walk</strong>
+</p>
+
+<h3>Fitting Random Walk Models to Financial Data</h3>
+
+<p>We mentioned above and in the <a href="https://www.quantstart.com/articles/Serial-Correlation-in-Time-Series-Analysis">previous article</a> that we would try and fit models to data which we have already simulated.</p>
+
+<p>Clearly this is somewhat contrived, as we've simulated the random walk in the first place! However, we're trying to demonstrate the <em>fitting process</em>. <strong>In real situations we won't know the underlying generating model for our data</strong>, we will only be able to fit models and then assess the correlogram.</p>
+
+<p>We stated that this process was useful because it helps us check that we've correctly implemented the model by trying to ensure that parameter estimates are close to those used in the simulations.</p>
+
+<h4>Fitting to Simulated Data</h4>
+
+<p>Since we are going to be spending a lot of time fitting models to financial time series, we should get some practice on simulated data first, such that we're well-versed in the process once we start using real data.</p>
+
+<p>We have already simulated a random walk so we may as well use that realisation to see if our proposed model (of a random walk) is accurate.</p>
+
+<p>How can we tell if our proposed random walk model is a good fit for our simulated data? Well, we make use of the definition of a random walk, which is simply that the difference between two neighbouring values is equal to a realisation from a discrete white noise process.</p>
+
+<p>Hence, if we create a series of the <em>differences</em> of elements from our simulated series, we <em>should</em> have a series that resembles discrete white noise!</p>
+
+<p>In R this can be accomplished very straightforwardly using the <code>diff</code> function. Once we have created the difference series, we wish to plot the correlogram and then assess how close this is to discrete white noise:</p>
+
+<pre>
+<code class="language-r">> acf(diff(x))</code>
+</pre>
+
+<p style="text-align:center">
+  <img src="https://s3.amazonaws.com/quantstartmedia/images/qs-tsa-arp-rw-diff-correlogram.png" width="100%" />
+  <strong>Correlogram of the Difference Series from a Simulated Random Walk</strong>
+</p>
+
+<p>What can we notice from this plot? There is a statistically significant peak at $k=10$, but only marginally. Remember, that we <em>expect</em> to see at least 5% of the peaks be statistically significant, simply due to sampling variation.</p>
+
+<p>Hence we can reasonably state that the the correlogram looks like that of discrete white noise. It implies that the random walk model is a good fit for our simulated data. This is exactly what we should expect, since we <strong>simulated a random walk in the first place</strong>!</p>
+
+<h4>Fitting to Financial Data</h4>
+
+<p>Let's now apply our random walk model to some actual financial data. As with the Python library, <a href="http://pandas.pydata.org/">pandas</a>, we can use the R package <a href="http://www.quantmod.com/">quantmod</a> to easily extract financial data from Yahoo Finance.</p>
+
+<p>We are going to see if a random walk model is a good fit for some equities data. In particular, I am going to choose Microsoft (MSFT), but you can experiment with your favourite ticker symbol!</p>
+
+<p>Before we're able to download any of the data, we must install quantmod as it isn't part of the default R installation. Run the following command and select the R package mirror server that is closest to your location:</p>
+
+<pre>
+<code class="language-r">> install.packages('quantmod')</code>
+</pre>
+
+<p>Once quantmod is installed we can use it to obtain the historical price of MSFT stock:</p>
+
+<pre>
+<code class="language-r">> require('quantmod')
+> getSymbols('MSFT', src='yahoo')
+> MSFT</code>
+</pre>
+
+<pre>
+<code class="language-none">..
+..
+2015-07-15     45.68     45.89    45.43      45.76    26482000      45.76000
+2015-07-16     46.01     46.69    45.97      46.66    25894400      46.66000
+2015-07-17     46.55     46.78    46.26      46.62    29262900      46.62000</code>
+</pre>
+
+<p>This will create an object called MSFT (case sensitive!) into the R namespace, which contains the pricing and volume history of MSFT. We're interested in the corporate-action adjusted closing price. We can use the following commands to (respectively) obtain the Open, High, Low, Close, Volume and Adjusted Close prices for the Microsoft stock: <code>Op(MSFT)</code>, <code>Hi(MSFT)</code>, <code>Lo(MSFT)</code>, <code>Cl(MSFT)</code>, <code>Vo(MSFT)</code>, <code>Ad(MSFT)</code>.</p>
+
+<p>Our process will be to take the difference of the Adjusted Close values, omit any missing values, and then run them through the autocorrelation function. When we plot the correlogram we are looking for evidence of discrete white noise, that is, a residuals series that is serially uncorrelated. To carry this out in R, we run the following command:</p>
+
+<pre>
+<code class="language-r">> acf(diff(Ad(MSFT)), na.action = na.omit)</code>
+</pre>
+
+<p>The latter part (<code>na.action = na.omit</code>) tells the <code>acf</code> function to ignore missing values by omitting them. The output of the <code>acf</code> function is as follows:</p>
+
+<p style="text-align:center">
+  <img src="https://s3.amazonaws.com/quantstartmedia/images/qs-tsa-arp-msft-diff-correlogram.png" width="100%" />
+  <strong>Correlogram of the Difference Series from MSFT Adjusted Close</strong>
+</p>
+
+<p>We notice that the majority of the lag peaks do not differ from zero at the 5% level. However there are a few that are marginally above. Given that the lags $k_i$ where peaks exist are someway from $k=0$, we could be inclined to think that these are due to stochastic variation and do not represent any physical serial correlation in the series.</p>
+
+<p>Hence we can conclude, with a reasonable degree of certainty, that the adjusted closing prices of MSFT are well approximated by a random walk.</p>
+
+<p>Let's now try the same approach on the S&amp;P500 itself. The Yahoo Finance symbol for the S&P500 index is ^GSPC. Hence, if we enter the following commands into R, we can plot the correlogram of the difference series of the S&amp;P500:</p>
+
+<pre>
+<code class="language-r">> getSymbols('^GSPC', src='yahoo')
+> acf(diff(Ad(GSPC)), na.action = na.omit)</code>
+</pre>
+
+<p>The correlogram is as follows:</p>
+
+<p style="text-align:center">
+  <img src="https://s3.amazonaws.com/quantstartmedia/images/qs-tsa-arp-gspc-diff-correlogram.png" width="100%" />
+  <strong>Correlogram of the Difference Series from the S&amp;P500 Adjusted Close</strong>
+</p>
+
+<p>The correlogram here is certainly more interesting. Notice that there is a negative correlation at $k=1$. This is unlikely to be due to random sampling variation.</p>
+
+<p>Notice also that there are peaks at $k=10$, $k=15$, $k=16$, $k=18$ and $k=21$. Although it is harder to justify their existence beyond that of random variation, they may be indicative of a longer-lag process.</p>
+
+<p>Hence it is much harder to justify that a random walk is a good model for the S&amp;P500 Adjusted Close data. This motivates more sophisticated models, namely the <strong>Autoregressive Models of Order p</strong>, which will be the subject of the next article!</p>
+        
+        
+        <script async data-uid="6296c27f4b" src="https://weathered-brook-5281.ck.page/6296c27f4b/index.js"></script>
+      </section>
+    </div>
+    <div class="col-md-4 book-card order-md-1">
+      
+<div class="sidebar-advert-container">
+  <a href="/qsalpha/?ref=art">
+    <img class="card-img-top" src="/static/images/qsalpha-sidebar-advert-small.png" alt="QSAlpha">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/qsalpha/?ref=art">QSAlpha</a></h3>
+      <p class="card-text medium-text mb-3">Join the QSAlpha research platform that helps fill your strategy research pipeline, diversifies your portfolio and improves your risk-adjusted returns for increased profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/qsalpha/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/quantcademy/?ref=art">
+    <img class="card-img-top" src="/static/images/quantcademy-sidebar-advert-small.png" alt="Quantcademy">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/quantcademy/?ref=art">The Quantcademy</a></h3>
+      <p class="card-text medium-text mb-3">Join the Quantcademy membership portal that caters to the rapidly-growing retail quant trader community and learn how to increase your strategy profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/quantcademy/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/successful-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/sat-sidebar-advert-small.png" alt="Successful Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to find new trading strategy ideas and objectively assess them for your portfolio using a Python-based backtesting engine.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/successful-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/advanced-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/aat-sidebar-advert-small.png" alt="Advanced Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to implement advanced trading strategies using time series analysis, machine learning and Bayesian statistics with R and Python.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/advanced-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+    
+
+<footer>
+  <div class="container container-full">
+    <section class="mt-1.5 mb-1">
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">QuantStart</li>
+            <li class="footer-list-link"><a class="link-fade" href="/about/">About</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/articles/">Articles</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/sitemap/">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Products</li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qsalpha/">QSAlpha</a></li>
+            
+            
+            <li class="footer-list-link"><a class="link-fade" href="/quantcademy/">Quantcademy</a></li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qstrader/">QSTrader</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Legal</li>
+            <li class="footer-list-link"><a class="link-fade" href="/privacy-policy/">Privacy Policy</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/terms-and-conditions/">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Social</li>
+            <li class="footer-list-link"><a class="link-fade" href="https://twitter.com/quantstart">Twitter</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="https://www.youtube.com/channel/UCmVnnZ6Y2TrJtY1eQJN6kWA">YouTube</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="row mb-1.5 mt-5">
+      <div class="col-12 col-md-9 col-lg-8 col-xl-6">
+        <div class="footer-copyright">
+          <p>©2012-2023 QuarkGluon Ltd. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+<script src="/static/js/jquery-3.2.1.min.js"></script>
+<script src="/static/js/prism.js.min"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/nav.js"></script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5383959-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+    
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="/static/js/highcharts/highcharts.js"></script>
+<script type="text/javascript">
+  num_colours = 10;
+</script>
+<script src="/static/js/statistics.js"></script>
+
+
+  </body>
+</html>

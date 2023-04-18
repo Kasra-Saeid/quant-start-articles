@@ -1,0 +1,542 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-site-verification" content="wl3-8ed1QZjI0iYZMv10zoZWYElkMObTfwLlWIj9cpA" />
+    <meta name="description" content="How to Learn Advanced Mathematics Without Heading to University - Part 2">
+
+    <link rel="icon" href="/static/images/favicon.png">
+
+    <title>How to Learn Advanced Mathematics Without Heading to University - Part 2 | QuantStart</title>
+    
+    
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet"> 
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/prism.css" rel="stylesheet">
+<link href="/static/css/qs.css?v=10" rel="stylesheet">
+    
+  </head>
+
+  <body>
+    <header class="header covered-header" style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://quantstartmedia.s3.amazonaws.com/images/article-images/article-backgrounds/how-to-learn-advanced-mathematics-without-heading-to-university.jpg);">
+  
+<nav class="nav">
+  <div class="container nav-container">
+    <div class="nav-row row d-flex justify-content-between align-items-center">
+      <div class="col-2">
+        <ul class="nav-items justify-content-end small-capitals align-items-center">
+          <li class="nav-item">
+            <a class="link-fade" href="/">QuantStart</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-auto col-logo">
+        <ul id="top-nav-menu" class="nav-items justify-content-end align-items-center">
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/qsalpha/">QSAlpha</a>
+          </li>
+          
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/quantcademy/">Quantcademy</a>
+          </li>
+          
+          <li id="menu-link-ebooks" class="nav-item">
+            <a class="link-fade" href="#">Books</a>
+            <div id="menu-pane-ebooks" class="nav-items menu-dropdown-pane">
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/qstrader/">QSTrader</a>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/articles/">Articles</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/members/login/">Login</a>
+          </li>
+          
+        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<nav id="mobile-nav" class="mobile-nav text-left">
+  <div class="container">
+    <ul class="mt-4 ml-3 mobile-nav-menu">
+      <li class="nav-item">
+        <a class="link-fade d-block" href="/">QuantStart</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qsalpha/">QSAlpha</a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/quantcademy/">Quantcademy</a>
+      </li>
+      
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="#">Books</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qstrader/">QSTrader</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/articles/">Articles</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/members/login/">Login</a>
+      </li>
+      
+    </ul>
+    <button class="nav-toggle mobile-nav-close">
+      <svg id="mobile-nav-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M19.77,5.63,13.41,12l6.36,6.37a1,1,0,0,1-1.41,1.41L12,13.41,5.63,19.77a1,1,0,0,1-1.44-1.39l0,0L10.58,12,4.21,5.63a1,1,0,0,1,0-1.42,1,1,0,0,1,1.41,0l0,0L12,10.58l6.37-6.37a1,1,0,0,1,1.41,0A1,1,0,0,1,19.77,5.63Z"></path>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+  <div class="container hero-container">
+    <section class="mt-5 mb-4">
+      <div class="row justify-content-center">
+        <div class="col-12 text-center">
+          <p class="hero">How to Learn Advanced Mathematics Without Heading to University - Part 2</p>
+          <p class="hero subhero">How to Learn Advanced Mathematics Without Heading to University - Part 2</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</header>
+    
+<section class="container content-container">
+  <div class="row">
+    <div class="col-md-8 order-md-2">
+      <section class="content article-content">
+        
+        
+        <p>In the <a href="https://www.quantstart.com/articles/How-to-Learn-Advanced-Mathematics-Without-Heading-to-University-Part-1">last article in the series</a> we looked at the foundational courses that are often taken in a four-year undergraduate mathematics course. We saw that the major courses were Linear Algebra, Ordinary Differential Equations, Real Analysis and Probability. In the "second year" of our self-study mathematics degree we'll be digging deeper into analysis and algebra, with discussions on the Riemann integral, abstract algebra, metric spaces and vector calculus.</p>
+
+<p>In a formal setting the midpoint of Year 2 is where students begin to get a feel for whether they want to specialise in either pure or applied mathematics, and whether they wish to concentrate on analysis or algebra. Pure mathematics and algebra are quite synonymous, as are analysis and applied mathematics. The former, because advanced pure mathematics is often concerned with symmetry and relationships between disparate areas of mathematics (such as the pairing of algebra and geometry in algebraic geometry). The latter, because real-valued vector spaces are often the domain of partial differential equations, which represent spatio-temporaral physical phenomena such as electromagnetic fields, compressible fluids and deformable structures.</p>
+
+<p>It is highly likely that as a prospective quant you will want to specialise in applied mathematics, leading to courses in Stochastic Analysis, Fourier Analysis, Partial Differential Equations, Statistics and Scientific Computing. However, this is not always the case. Many famous quants started in pure mathematics or theoretical physics backgrounds, including <a href="https://en.wikipedia.org/wiki/James_Harris_Simons">Jim Simons</a> and <a href="https://en.wikipedia.org/wiki/Emanuel_Derman">Emanuel Derman</a>.</p>
+
+<p>This article will cover Year 2 while the <a href="https://www.quantstart.com/articles/How-to-Learn-Advanced-Mathematics-Without-Heading-to-University-Part-1">previous article covered Year 1</a>. At least two more articles will cover Years 3 and 4. Later articles will cover the broad syllabus for a Masters in Financial Engineering (MFE) style course.</p>
+
+<h3>Year 2</h3>
+
+<p>As mentioned briefly above the second year of an undergraduate mathematics degree extends the discussion of analysis to the Riemann integral, which is the usual integral that is familiar from highschool, engineering and physics. This is in contrast to the Lebesgue integral, which is discussed in Measure Theory during the third year.</p>
+
+<p>In addition further assumptions of structure are relaxed leading to the concept of metric spaces. These are sets that also possess a notion of "distance". Vector calculus extends differentiation and integration to vector spaces - highly applicable in the fields of electrodynamics, continuum mechanics and fluid dynamics.</p>
+
+<p>Group theory is given more rigourous development via the introduction of rings as well as basic ideas of groups of matrices (Lie groups). Many courses also discuss non-Euclidean geometry in more depth. This includes spherical/elliptic geometry and hyperbolic geometry. These concepts eventually lead onto differential geometry and its application to the General Theory of Relativity.</p>
+
+<p>The second year is also when basic stochastic processes are introduced, which are highly releveant for the quantitative finance professional. Another absolutely essential topic, which builds on the elementary probability discussed in Year 1, is statistics. Usually the statistics department of most universities will allow cross-over modules for mathematicians.</p>
+
+<p>Also relevant to the quant, and usually offered as an option, is numerical analysis, which attempts to analyse algorithms that approximate problems in analysis such as with differential equations. Since many quant algorithms ultimately involve approximately computing values of functions, seeking eigenvalues, solving regression or optimisation problems (as in machine learning) it is highly worth studying as a module.</p>
+
+<p>The courses found in a second year largely reflect the extension and consolidation of the topics introduced in the first year. The following areas of mathematics are considered:</p>
+
+<ul>
+  <li><strong>Structure</strong> -  <a href="https://en.wikipedia.org/wiki/Group_theory">Groups</a>, <a href="https://en.wikipedia.org/wiki/Metric_space">Metric Spaces</a></li>
+  <li><strong>Space/Geometry</strong> - <a href="https://en.wikipedia.org/wiki/Non-Euclidean_geometry">Non-Euclidean Geometry</a></li>
+  <li><strong>Change</strong> - <a href="https://en.wikipedia.org/wiki/Vector_calculus">Vector Calculus</a>, <a href="https://en.wikipedia.org/wiki/Nonlinear_system">Non-Linearity</a>, <a href="https://en.wikipedia.org/wiki/Chaos_theory">Chaos</a></li>
+  <li><strong>Applications</strong> - <a href="https://en.wikipedia.org/wiki/Stochastic_process">Stochastic Processes</a>, <a href="https://en.wikipedia.org/wiki/Statistics">Statistics</a>, <a href="https://en.wikipedia.org/wiki/Numerical_analysis">Numerical Analysis</a></li>
+</ul>
+
+<p>Here is the course list for Year 1:</p>
+
+<ul>
+  <li><a href="#year2-real-analysis">Real Analysis - Riemann Integral</a></li>
+  <li><a href="#year2-metric-spaces">Metric Spaces</a></li>
+  <li><a href="#year2-vector-calculus">Vector Calculus</a></li>
+  <li><a href="#year2-odes">Ordinary Differential Equations - Nonlinearity and Chaos</a></li>
+  <li><a href="#year2-geometry">Geometry - Non-Euclidean</a></li>
+  <li><a href="#year2-abstract-algebra">Abstract Algebra</a></li>
+  <li><a href="#year2-stochastic-processes">Stochastic Processes</a></li>
+  <li><a href="#year2-numerical-analysis">Numerical Analysis</a></li>
+  <li><a href="#year2-statistics">Statistics</a></li>
+</ul>
+
+<h4><a name="year2-real-analysis" class="no-link">Real Analysis - Riemann Integral</a></h4>
+
+<p>The first year courses on real analysis tend to concentrate on sequences, series, functions of a single real variable (i.e. $f:\mathbb{R} \rightarrow \mathbb{R}$), continuity of those functions as well as properties and results related to their derivatives.</p>
+
+<p>In the second year the focus transfers across to the <a href="https://en.wikipedia.org/wiki/Riemann_integral">Riemann integral</a>, which is the "standard" integral that will be familiar from high-school, as well as the concepts of <a href="https://en.wikipedia.org/wiki/Pointwise_convergence">pointwise convergence</a> and <a href="https://en.wikipedia.org/wiki/Uniform_convergence">uniform convergence</a> of sequences of functions. One of the most important concepts discussed is the <a href="https://en.wikipedia.org/wiki/Fundamental_theorem_of_calculus">Fundamental Theorem of Calculus</a>, which governs how derivatives and integrals of a function are related to each other.</p>
+
+<p>Studying the Riemann integral is absolutely necessary for the quant analyst who desires to work in derivatives pricing, as a large part of stochastic calculus and probability theory relies on measure theoretic concepts such as the <a href="https://en.wikipedia.org/wiki/Lebesgue_integration">Lebesgue integral</a>, which is more general than the more familiar Riemann integral.</p>
+
+<p>Real analysis is a prerequesite for further second year courses in Metric Spaces and Vector Calculus, the latter of which is highly relevant to certain areas of machine learning.</p>
+
+<h5>Study Material</h5>
+
+<ul>
+  <li><em>Textbook/~$35</em> - <a href="http://www.amazon.com/gp/product/007054235X/ref=as_li_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=007054235X&linkCode=as2&tag=quant0f-20&linkId=QRDC7X23HP3VSV3H">Principles of Mathematical Analysis</a> by Walter Rudin</li>
+</ul>
+
+<h4><a name="year2-metric-spaces" class="no-link">Metric Spaces</a></h4>
+
+<p>A course in Metric Spaces is often the first introduction to the more abstract ideas from the branch of mathematics known as <a href="https://en.wikipedia.org/wiki/Topology">topology</a>. A metric space is a mathematical set along an associated function of two points within the set that defines a sense of "distance" or "metric" between them.</p>
+
+<p>This idea of distance within a set allows interesting properties to be discussed such as <a href="https://en.wikipedia.org/wiki/Open_set">openness</a>, <a href="https://en.wikipedia.org/wiki/Closed_set">closedness</a>, <a href="https://en.wikipedia.org/wiki/Complete_metric_space">completeness</a>, <a href="https://en.wikipedia.org/wiki/Connected_space">connectedness</a> as well as varying forms of <a href="https://en.wikipedia.org/wiki/Continuous_function#Continuous_functions_between_metric_spaces">continuity of functions between metric spaces</a>. These ideas build on the concepts studied in Real Analysis, including sequences, series and convergence, albeit in higher dimensional settings.</p>
+
+<p>A very familiar example of a metric space is three-dimensional Euclidean space with the "standard" <a href="https://en.wikipedia.org/wiki/Euclidean_distance">Euclidean metric</a> ("distance as the crow flies") between two points. A more abstract example is given by the <a href="https://en.wikipedia.org/wiki/Levenshtein_distance">Levenshtein distance</a> between two strings of text, which allows a numerical measure of how similar the strings are. I can personally attest that this is extremely useful in the field of Natural Language Processing.</p>
+
+<h5>Study Material</h5>
+
+<p>At university I made use of Sutherland's Introduction to Metric and Topological Spaces for my second year Metric Spaces course. However, I've also found in retrospect that the Springer Undergraduate Mathematics Series book Metric Spaces, by M. O'Searcoid, is worth studying too.</p>
+
+<ul>
+  <li><em>Textbook/~$33</em> - <a href="http://www.amazon.com/Introduction-Metric-Topological-Spaces-Mathematics/dp/019956308X/ref=as_li_ss_tl?s=books&ie=UTF8&qid=1462357554&sr=1-1&keywords=sutherland+metric+spaces&linkCode=ll1&tag=quant0f-20&linkId=e18e63d56e126cc6e6deacaf0b4344ae">Introduction to Metric and Topological Spaces</a> by W.A. Sutherland</li>
+  <li><em>Textbook/~$35</em> - <a href="http://www.amazon.com/Metric-Spaces-Springer-Undergraduate-Mathematics/dp/1846283698/ref=as_li_ss_tl?s=books&ie=UTF8&qid=1462357598&sr=1-1&keywords=springer+undergraduate+metric+spaces&linkCode=ll1&tag=quant0f-20&linkId=170fb8df57086dd51ff40a47702abca0">Metric Spaces</a> by M. O'Searcoid</li>
+</ul>
+
+<h4><a name="year2-vector-calculus" class="no-link">Vector Calculus</a></h4>
+
+<p>Vector calculus is one of the most practically relevant courses for a prospective quant to have studied. It deals with the concept of change in scalar and vector fields. Many concepts in mathematics, physics and quant finance can be modelled as fields and as such the machinery of vector calculus is highly applicable.</p>
+
+<p>A course in vector calculus will introduce many useful tools such as the <a href="https://en.wikipedia.org/wiki/Partial_derivative">partial derivative</a>, <a href="https://en.wikipedia.org/wiki/Gradient">gradient</a>, <a href="https://en.wikipedia.org/wiki/Divergence">divergence</a>, <a href="https://en.wikipedia.org/wiki/Curl_%28mathematics%29">curl</a> and <a href="https://en.wikipedia.org/wiki/Laplace_operator">Laplacian</a> operators, as well as the key theorems of <a href="https://en.wikipedia.org/wiki/Divergence_theorem">Gauss</a> and <a href="https://en.wikipedia.org/wiki/Stokes'_theorem">Stokes</a>, which are the building blocks of partial differential equations that ultimately model electromagnetic fields and fluid flows.</p>
+
+<p>Partial derivatives and the gradient operator make strong appearances in the fields of statistical machine learning, particularly when it comes to optimising a  solution over an <em>optimisation surface</em> as in the <a href="https://en.wikipedia.org/wiki/Stochastic_gradient_descent">stochastic gradient descent</a> algorithm.</p>
+
+<p>Some university courses in vector calculus contain topics from the field of <a href="https://en.wikipedia.org/wiki/Complex_analysis">complex analysis</a>. Although the majority of courses concentrate solely on physical applications of vector calculus methods such as electrodynamics, gravitation, continuum mechanics or fluid dynamics.</p>
+
+<h5>Study Material</h5>
+
+<ul>
+  <li><em>Textbook/~$46</em> - <a href="http://www.amazon.com/Vector-Calculus-Paul-C-Matthews/dp/3540761802/ref=as_li_ss_tl?ie=UTF8&keywords=vector%20calculus%20matthews&qid=1462356709&ref_=sr_1_1&sr=8-1&linkCode=ll1&tag=quant0f-20&linkId=2ee37921b2c29609ee16e625280168bb">Vector Calculus</a> by P.C. Matthews</li>
+  <li><em>Textbook/~$38</em> - <a href="http://www.amazon.com/Div-Grad-Curl-All-That/dp/0393925161/ref=as_li_ss_tl?ie=UTF8&dpID=41A-EcLPdtL&dpSrc=sims&preST=_AC_UL320_SR212%2C320_&refRID=1RABFYGFE3HM2M4PRWZ0&linkCode=ll1&tag=quant0f-20&linkId=faebeaa7f5197dde91741fb34da590a2">Div, Grad, Curl, and All That: An Informal Text on Vector Calculus</a> by H.M. Schey</li>
+  <li><em>MOOC/Free</em> - <a href="http://ocw.mit.edu/courses/mathematics/18-02sc-multivariable-calculus-fall-2010/">MIT OCW Multivariable Calculus</a></li>
+</ul>
+
+<h4><a name="year2-odes" class="no-link">Ordinary Differential Equations - Non-linearity and Chaos</a></h4>
+
+<p>Differential equations are a large research area in their own right. Once beyond the first year material, which generally finishes up discussing second order linear ODE with constant coefficients, more interesting ODE found in real-life applications appear. These include the areas of mechanics, electronics and mathematical biology. Such ODE possess non-linear and chaotic behaviour.</p>
+
+<p>There is quite a large jump in complexity when studying differential equations of this type. The focus becomes less about mechanical methods for obtaining solutions and more about understanding the bounds on behaviour of more complicated systems. Differential equations eventually lead onto the more advanced area of dynamical systems. However, these are not often studied properly until the third or fourth year of a mathematics degree.</p>
+
+<p><em>Ordinary</em> differential equations also lead onto <em>stochastic</em> differential equations (SDE), which are ODE that contain a random aspect. SDE are extremely relevant to the prospective quant who wishes to study derivatives pricing and time series analysis. The underlying models for stock price movements are often modelled as geometric random walks necessitating the use of SDE.</p>
+
+<h5>Study Material</h5>
+
+<p>As with first year ODE courses, there is no shortage of textbooks to learn undergraduate ordinary differential equations. The trick is to find a solid introductory text and then a text that goes a little deeper including discussions of control theory, non-linearity, chaos and modelling.</p>
+
+<p>Springer and CUP have a relatively good set of textbooks on ODEs. In particular after looking at those I recommended in the <a href="https://www.quantstart.com/articles/How-to-Learn-Advanced-Mathematics-Without-Heading-to-University-Part-1#year1-odes">previous article</a>, you could consider the following:</p>
+
+<ul>
+  <li><em>Textbook/~$40</em> - <a href="http://www.amazon.com/Ordinary-Differential-Equations-Qualitative-Undergraduate/dp/1447163974/ref=as_li_ss_tl?s=books&ie=UTF8&qid=1462450003&sr=1-1&keywords=Ordinary+Differential+Equations%3A+Analysis%2C+Qualitative+Theory+and+Control&linkCode=ll1&tag=quant0f-20&linkId=a088fc638f5ab467fb30be550a8aa06e">Ordinary Differential Equations: Analysis, Qualitative Theory and Control</a> by H. Logemann and E.P. Ryan</li>
+  <li><em>Textbook/~$95</em> - <a href="http://www.amazon.com/Stability-Instability-Chaos-Introduction-Differential/dp/0521425662/ref=as_li_ss_tl?s=books&ie=UTF8&qid=1462450817&sr=1-1&keywords=Stability%2C+Instability+and+Chaos&linkCode=ll1&tag=quant0f-20&linkId=b4972aac1a52b6da17321c086c85656d">Stability, Instability and Chaos: An Introduction to the Theory of Nonlinear Differential Equations</a> by P. Glendinning</li>
+</ul>
+
+<h4><a name="year2-geometry" class="no-link">Geometry - Non-Euclidean</a></h4>
+
+<p>The familiar geometry of everyday life is three-dimensional Euclidean geometry. In the second year students are often introduced to <a href="https://en.wikipedia.org/wiki/Projective_geometry">projective geometry</a>, <a href="https://en.wikipedia.org/wiki/Elliptic_geometry">elliptic geometry</a> and <a href="https://en.wikipedia.org/wiki/Hyperbolic_geometry">hyperbolic geometry</a>. These geometries arise when Euclids "fifth postulate" is relaxed, which allows parallel lines to cross or diverge, unlike in Euclidean geometry.</p>
+
+<p>These additional geometries play a large part in the physical sciences, particularly the study of relativity and cosmology, where Riemannian geometry is used to model space-time in general relativity. These geometries are also extremely interesting subjects to study in their own right.</p>
+
+<p>The study of geometry is less applicable to the quant than other areas of mathematics. However, I did mention in the <a href="https://www.quantstart.com/articles/How-to-Learn-Advanced-Mathematics-Without-Heading-to-University-Part-1">previous article</a> that a solid understanding of trigonometric concepts was essential for the study of Fourier Analysis, which <em>is</em> very relevant to quants.</p>
+
+<h5>Study Material</h5>
+
+<ul>
+  <li><em>Textbook/~$32</em> - <a href="http://www.amazon.com/gp/product/1852330589/ref=as_li_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=1852330589&linkCode=as2&tag=quant0f-20&linkId=HTNAVLGZFYDO5O5V">Geometry</a><img src="http://ir-na.amazon-adsystem.com/e/ir?t=quant0f-20&l=as2&o=1&a=1852330589" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /> by Roger Fenn</li>
+  <li><em>Textbook/~$26</em> - <a href="http://www.amazon.com/Introduction-Projective-Geometry-Dover-Mathematics/dp/048646895X/ref=as_li_ss_tl?s=books&ie=UTF8&qid=1462452986&sr=1-2&keywords=projective+geometry&linkCode=ll1&tag=quant0f-20&linkId=6dca31f60547317e2f5d692a1bf74225">Introduction to Projective Geometry</a> by C.R. Wylie, Jr.</li>
+  <li><em>Textbook/~$35</em> - <a href="http://www.amazon.com/Non-Euclidean-Geometry-Mathematical-Association-Textbooks/dp/0883855224/ref=as_li_ss_tl?ie=UTF8&dpID=414L7l8%2B6jL&dpSrc=sims&preST=_AC_UL320_SR224%2C320_&refRID=07C9TM4ZV074EPWFM911&linkCode=ll1&tag=quant0f-20&linkId=c4158b9869d395f02af03ceb5db493ef">Non-Euclidean Geometry</a> by H.S.M. Coxeter</li>
+</ul>
+
+<h4><a name="year2-abstract-algebra" class="no-link">Abstract Algebra</a></h4>
+
+<p>In <a href="https://www.quantstart.com/articles/How-to-Learn-Advanced-Mathematics-Without-Heading-to-University-Part-1">Part 1</a> we saw that students will often be exposed to <a href="https://en.wikipedia.org/wiki/Group_%28mathematics%29">abstract groups</a> through a Foundations module. In Year 2 a more thorough treatment of abstract algebra is provided, which covers groups in depth and often leads onto the study of <a href="https://en.wikipedia.org/wiki/Ring_%28mathematics%29">rings</a>.</p>
+
+<p>A ring is similar to a group except that it has two operations representing "addition" and "multiplication". A group only has a single operation. Perhaps the most common example of a ring is that of the integers ($\mathbb{Z}$) with addition and multiplication.</p>
+
+<p>The majority of second year abstract algebra courses discuss isomorphisms, quotient groups, Lagrange's Theorem, Abelian groups, orbits and stabilisers. These are all essential topics for futher study of abstract algebra including Lie groups and Lie algebras.</p>
+
+<p>As I made clear in <a href="https://www.quantstart.com/articles/How-to-Learn-Advanced-Mathematics-Without-Heading-to-University-Part-1">Part 1</a> it is not necessary for a prospective quant to have a huge grasp of group theoretic concepts. These concepts are not generally applicable to the main areas of quantitative finance. However, groups and rings are fascinating areas of mathematics and will provide a lot of enjoyment for the autodidact choosing to study them for their own sake.</p>
+
+<h5>Study Material</h5>
+
+<ul>
+  <li><em>Textbook/~$61</em> - <a href="http://www.amazon.com/Classic-Algebra-P-M-Cohn/dp/047187731X/ref=as_li_ss_tl?s=books&ie=UTF8&qid=1462456303&sr=1-2&keywords=algebra+cohn&linkCode=ll1&tag=quant0f-20&linkId=ae20e6f98c4e58064a28169e3d671ba8">Classic Algebra</a> by P.M. Cohn</li>
+  <li><em>Textbook/~$60</em> - <a href="http://www.amazon.com/Concrete-Abstract-Algebra-Numbers-Gr%25f6bner/dp/0521534100/ref=as_li_ss_tl?s=books&ie=UTF8&qid=1462456438&sr=1-1&keywords=concrete+abstract+algebra&linkCode=ll1&tag=quant0f-20&linkId=18a1b6ba0e3048c4871454f4a66b324c">Concrete Abstract Algebra: From Numbers to Gröbner Bases</a> by N. Lauritzen</li>
+</ul>
+
+<h4><a name="year2-stochastic-processes" class="no-link">Stochastic Processes</a></h4>
+
+<p>Stochastic Processes is generally offered as an option module at university and as such is not "core". However it is clearly extremely relevant to quantitative finance particularly in the area of derivatives pricing.</p>
+
+<p>Before studying stochastic calculus in depth, which requires an understand of the Lebesgue integral and other measure theoretic concepts, it is advisable to consider more elementary stochastic processes.</p>
+
+<p>Such courses often begin with a review of probability theory, including a brief discussion on <a href="https://en.wikipedia.org/wiki/Sigma-algebra">sigma-fields</a> and <a href="https://en.wikipedia.org/wiki/Probability_measure">probability measures</a> (but without undue additional measure theoretic concepts). Attention then turns to processes such as <a href="https://en.wikipedia.org/wiki/Martingale_%28probability_theory%29">discrete martingales</a> and <a href="https://en.wikipedia.org/wiki/Markov_chain">markov chains</a> before introducing the continuous case.</p>
+
+<p>Such a course naturally leads on to further study in stochastic analysis, which will introduce Ito calculus and ultimately options pricing.</p>
+
+<h5>Study Material</h5>
+
+<ul>
+  <li><em>Textbook/~$33</em> - <a href="http://www.amazon.com/Basic-Stochastic-Processes-Zdzislaw-Brzezniak/dp/3540761756/ref=as_li_ss_tl?s=books&ie=UTF8&qid=1462454719&sr=1-1&keywords=basic+stochastic+processes&linkCode=ll1&tag=quant0f-20&linkId=84b735e8749cbe452a1261c6f1f0c3a0">Basic Stochastic Processes</a> by by Z. Brzezniak and T. Zastawniak</li>
+  <li><em>Textbook/~$42</em> - <a href="http://www.amazon.com/Stochastic-Calculus-Finance-Binomial-Springer/dp/0387249680/ref=as_li_ss_tl?s=books&ie=UTF8&qid=1462455759&sr=1-1&keywords=stochastic+calculus+for+finance+i&linkCode=ll1&tag=quant0f-20&linkId=54f97335b2feeddef872abb7c770be36">Stochastic Calculus for Finance I</a> by S. Shreve</li>
+</ul>
+
+<h4><a name="year2-numerical-analysis" class="no-link">Numerical Analysis</a></h4>
+
+<p>The main goal of Numerical Analysis is to introduce methods for solving equations via a numerical method, that is, using approximate methods rather than finding an analytic solution. The topic also introduces methods for understanding the errors introduced in the process as well as important concepts such as iterating equations, converge and stability.</p>
+
+<p>Numerical analysis is extremely important to the solution of differential equations, which are pervasive in quantitative finance, fluid dynamics, gravitation, continuum mechanics and electrodynamics. Study of numerical analysis provides an understanding of when certain numerical techniques are applicable and when they can lead to excessive error.</p>
+
+<p>As a quant it is likely that you will be using some form of numerical approximation, either Markov Chain Monte Carlo for Bayesian analysis or numerical integration for solving partial differential equations in derivatives pricing. Hence study of numerical analysis is a worthwhile endeavour to consider in order to avoid the common pitfalls.</p>
+
+<h5>Study Material</h5>
+
+<ul>
+  <li><em>Textbook/~$288 (although it can be found much more cheaply by getting a second hand copy)</em> - <a href="http://www.amazon.com/Numerical-Analysis-Richard-L-Burden/dp/1305253663/ref=as_li_ss_tl?ie=UTF8&qid=1462461281&sr=8-1&keywords=burden+faires+numerical+analysis&linkCode=ll1&tag=quant0f-20&linkId=fe56fecb66fe8b7b1a74165bed30d751">Numerical Analysis</a> by R.L. Burden, J.D. Faires and A.M. Burden</li>
+  <li><em>Textbook/~$77</em> - <a href="http://www.amazon.com/Numerical-Recipes-3rd-Scientific-Computing/dp/0521880688/ref=as_li_ss_tl?ie=UTF8&qid=1462461404&sr=8-2-spell&keywords=numerical+recipess+in+c%2B%2B&linkCode=ll1&tag=quant0f-20&linkId=6592820a0bcdc3ff6abd6dae642db406">Numerical Recipes 3rd Edition: The Art of Scientific Computing</a> by W.H. Press, S.A. Teukolsky, W.T. Vetterling and B.P. Flannery</li>
+</ul>
+
+<h4><a name="year2-statistics" class="no-link">Statistics</a></h4>
+
+<p>Statistics is probably the most sought after quantitative skill in the commercial sector that can be studied on a mathematics degree. It provides the basis for understanding uncertainty and measuring risk, both of which are absolutely crucial to practising quants.</p>
+
+<p>In addition to its value as a risk management tool it also provides the foundations on which most of the major machine learning techniques are built. Hence it is imperative that prospective quant study statistics at the undergraduate level.</p>
+
+<p>Statistics makes use of the theory of probability and then builds on it to discuss the concepts of probability distributions, expectation, correlation and covariance. Once these basic concepts are outlined the remainder of the material generally consists of explaining classical/frequentist hypothesis tests for data analysis.</p>
+
+<p>These tests are incredibly pervasive in the commercial world - especially in quantitative finance. As a quant portfolio manager or risk analyst you will be using them frequently in real world settings. Hence it is worth becoming extremely familiar with these techniques.</p>
+
+<p>A course in classical/frequentist statistics leads naturally to a course in Bayesian statistics. The latter has become popular in recent years due to the computational tractability of the underlying Markov Chain Monte Carlo algorithms.</p>
+
+<h5>Study Material</h5>
+
+<ul>
+  <li><em>Textbook/~$13</em> - <a href="http://www.amazon.com/gp/product/007179557X/ref=as_li_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=007179557X&linkCode=as2&tag=quant0f-20&linkId=L6YZ27XSZ45N4OWO">Schaum's Outline of Probability and Statistics</a><img src="http://ir-na.amazon-adsystem.com/e/ir?t=quant0f-20&l=as2&o=1&a=007179557X" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /> by Murray Spiegel, Jason Schiller and Alu Srinivasan</li>
+  <li><em>Textbook/~$85</em> - <a href="http://www.amazon.com/Probability-Statistics-Example-Basic/dp/1107603587/ref=as_li_ss_tl?s=books&ie=UTF8&qid=1462460767&sr=1-1&keywords=Probability+and+Statistics+by+Example%3A+Basic+Probability+and+Statistics&linkCode=ll1&tag=quant0f-20&linkId=fadd39f397b23aa12faef119220910e5">Probability and Statistics by Example: Volume 1, Basic Probability and Statistics</a> by Y. Suhov and M. Kelbert</li>
+  <li><em>Textbook/~$42</em> - <a href="http://www.amazon.com/Statistical-Inference-George-Casella/dp/0534243126/ref=as_li_ss_tl?_encoding=UTF8&me=&linkCode=ll1&tag=quant0f-20&linkId=468ae8dbd73c1d2c6a986dfd04ae9499">Statistical Inference</a> by G. Casella and R.L. Berger</li>
+</ul>
+
+<h2>Next Steps</h2>
+
+<p>The second year of an undergraduate syllabus is all about consolidating and extending the ideas of the first year. For the autodidact it is a time to begin choosing modules that make sense for their own career trajectory.</p>
+
+<p>I have outlined many courses above. Some of these are unimportant for the quant wishing to learn the "bare minimum" necessary for working on derivatives pricing, statistical machine learning or quantitative trading.</p>
+
+<p>However it is important to realise that roles in quantitative finance are highly competitive. Having a well-rounded education in mathematics is just as important as knowing the prequisites for quantitative finance particularly when it comes to interview situations. One should not dismiss the more abstract courses such as Abstract Algebra or Non-Euclidean Geometry as results form these realms will often find their way into the more applied areas of mathematics and quantitative finance.</p>
+
+<p>In the <a href="https://www.quantstart.com/articles/How-to-Learn-Advanced-Mathematics-Without-Heading-to-University-Part-3">next article</a> covering Year 3 we will look at more abstract areas of analysis, such as measure theory and functional analysis. The former is highly relevant for the study of probability and stochastic analysis. Many applied modules will be introduced such as Bayesian Statistics and Fluid Dynamics, both of which are great training grounds for teaching prospective quants how to perform data analysis and solve partial differential equations.</p>
+
+<p><em>Read the next article in the series: <a href="https://www.quantstart.com/articles/How-to-Learn-Advanced-Mathematics-Without-Heading-to-University-Part-3">How to Learn Advanced Mathematics Without Heading to University - Part 3</a></em></p>
+        
+        
+        <h2>Related Articles</h2>
+        <ul>
+        
+        <li><a href="/articles/How-to-Learn-Advanced-Mathematics-Without-Heading-to-University-Part-1/">How to Learn Advanced Mathematics Without Heading to University - Part 1</a></li>
+        
+        <li><a href="/articles/How-to-Learn-Advanced-Mathematics-Without-Heading-to-University-Part-3/">How to Learn Advanced Mathematics Without Heading to University - Part 3</a></li>
+        
+        <li><a href="/articles/how-to-learn-advanced-mathematics-without-heading-to-university-part-4/">How to Learn Advanced Mathematics Without Heading to University - Part 4</a></li>
+        
+        </ul>
+        
+        <script async data-uid="6296c27f4b" src="https://weathered-brook-5281.ck.page/6296c27f4b/index.js"></script>
+      </section>
+    </div>
+    <div class="col-md-4 book-card order-md-1">
+      
+<div class="sidebar-advert-container">
+  <a href="/qsalpha/?ref=art">
+    <img class="card-img-top" src="/static/images/qsalpha-sidebar-advert-small.png" alt="QSAlpha">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/qsalpha/?ref=art">QSAlpha</a></h3>
+      <p class="card-text medium-text mb-3">Join the QSAlpha research platform that helps fill your strategy research pipeline, diversifies your portfolio and improves your risk-adjusted returns for increased profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/qsalpha/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/quantcademy/?ref=art">
+    <img class="card-img-top" src="/static/images/quantcademy-sidebar-advert-small.png" alt="Quantcademy">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/quantcademy/?ref=art">The Quantcademy</a></h3>
+      <p class="card-text medium-text mb-3">Join the Quantcademy membership portal that caters to the rapidly-growing retail quant trader community and learn how to increase your strategy profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/quantcademy/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/successful-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/sat-sidebar-advert-small.png" alt="Successful Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to find new trading strategy ideas and objectively assess them for your portfolio using a Python-based backtesting engine.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/successful-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/advanced-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/aat-sidebar-advert-small.png" alt="Advanced Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to implement advanced trading strategies using time series analysis, machine learning and Bayesian statistics with R and Python.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/advanced-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+    
+
+<footer>
+  <div class="container container-full">
+    <section class="mt-1.5 mb-1">
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">QuantStart</li>
+            <li class="footer-list-link"><a class="link-fade" href="/about/">About</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/articles/">Articles</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/sitemap/">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Products</li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qsalpha/">QSAlpha</a></li>
+            
+            
+            <li class="footer-list-link"><a class="link-fade" href="/quantcademy/">Quantcademy</a></li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qstrader/">QSTrader</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Legal</li>
+            <li class="footer-list-link"><a class="link-fade" href="/privacy-policy/">Privacy Policy</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/terms-and-conditions/">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Social</li>
+            <li class="footer-list-link"><a class="link-fade" href="https://twitter.com/quantstart">Twitter</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="https://www.youtube.com/channel/UCmVnnZ6Y2TrJtY1eQJN6kWA">YouTube</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="row mb-1.5 mt-5">
+      <div class="col-12 col-md-9 col-lg-8 col-xl-6">
+        <div class="footer-copyright">
+          <p>©2012-2023 QuarkGluon Ltd. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+<script src="/static/js/jquery-3.2.1.min.js"></script>
+<script src="/static/js/prism.js.min"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/nav.js"></script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5383959-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+    
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="/static/js/highcharts/highcharts.js"></script>
+<script type="text/javascript">
+  num_colours = 10;
+</script>
+<script src="/static/js/statistics.js"></script>
+
+
+  </body>
+</html>

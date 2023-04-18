@@ -1,0 +1,1259 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-site-verification" content="wl3-8ed1QZjI0iYZMv10zoZWYElkMObTfwLlWIj9cpA" />
+    <meta name="description" content="Market Regime Detection using Hidden Markov Models in QSTrader">
+
+    <link rel="icon" href="/static/images/favicon.png">
+
+    <title>Market Regime Detection using Hidden Markov Models in QSTrader | QuantStart</title>
+    
+    
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet"> 
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/prism.css" rel="stylesheet">
+<link href="/static/css/qs.css?v=10" rel="stylesheet">
+    
+  </head>
+
+  <body>
+    <header class="header covered-header" style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://quantstartmedia.s3.amazonaws.com/images/article-images/article-backgrounds/default-bg.jpg);">
+  
+<nav class="nav">
+  <div class="container nav-container">
+    <div class="nav-row row d-flex justify-content-between align-items-center">
+      <div class="col-2">
+        <ul class="nav-items justify-content-end small-capitals align-items-center">
+          <li class="nav-item">
+            <a class="link-fade" href="/">QuantStart</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-auto col-logo">
+        <ul id="top-nav-menu" class="nav-items justify-content-end align-items-center">
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/qsalpha/">QSAlpha</a>
+          </li>
+          
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/quantcademy/">Quantcademy</a>
+          </li>
+          
+          <li id="menu-link-ebooks" class="nav-item">
+            <a class="link-fade" href="#">Books</a>
+            <div id="menu-pane-ebooks" class="nav-items menu-dropdown-pane">
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/qstrader/">QSTrader</a>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/articles/">Articles</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/members/login/">Login</a>
+          </li>
+          
+        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<nav id="mobile-nav" class="mobile-nav text-left">
+  <div class="container">
+    <ul class="mt-4 ml-3 mobile-nav-menu">
+      <li class="nav-item">
+        <a class="link-fade d-block" href="/">QuantStart</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qsalpha/">QSAlpha</a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/quantcademy/">Quantcademy</a>
+      </li>
+      
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="#">Books</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qstrader/">QSTrader</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/articles/">Articles</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/members/login/">Login</a>
+      </li>
+      
+    </ul>
+    <button class="nav-toggle mobile-nav-close">
+      <svg id="mobile-nav-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M19.77,5.63,13.41,12l6.36,6.37a1,1,0,0,1-1.41,1.41L12,13.41,5.63,19.77a1,1,0,0,1-1.44-1.39l0,0L10.58,12,4.21,5.63a1,1,0,0,1,0-1.42,1,1,0,0,1,1.41,0l0,0L12,10.58l6.37-6.37a1,1,0,0,1,1.41,0A1,1,0,0,1,19.77,5.63Z"></path>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+  <div class="container hero-container">
+    <section class="mt-5 mb-4">
+      <div class="row justify-content-center">
+        <div class="col-12 text-center">
+          <p class="hero">Market Regime Detection using Hidden Markov Models in QSTrader</p>
+          <p class="hero subhero">Market Regime Detection using Hidden Markov Models in QSTrader</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</header>
+    
+<section class="container content-container">
+  <div class="row">
+    <div class="col-md-8 order-md-2">
+      <section class="content article-content">
+        
+        
+        <p>In the <a href="https://www.quantstart.com/articles/hidden-markov-models-for-regime-detection-using-r">previous article</a> on Hidden Markov Models it was shown how their application to index returns data could be used as a mechanism for discovering latent "market regimes". The returns of the S&amp;P500 were analysed using the R statistical programming environment. It was seen that periods of differing volatility were detected, using both two-state and three-state models.</p>
+
+<p>In this article the Hidden Markov Model will be utilised within the <a href="https://www.quantstart.com/qstrader">QSTrader</a> framework as a risk-managing market regime filter. It will disallow trades when higher volatility regimes are predicted. The hope is that by doing so it will eliminate unprofitable trades and possibly remove volatility from the strategy, thus increasing its <a href="https://www.quantstart.com/articles/Sharpe-Ratio-for-Algorithmic-Trading-Performance-Measurement">Sharpe ratio</a>.</p>
+
+<p>In order to achieve this some small code modifications to QSTrader were necessary, which have now been made live on the <a href="https://github.com/mhallsmoore/qstrader">Github page</a>.</p>
+
+<p>The market regime overlay will be paired with a simplistic short-term trend-following strategy, based on simple moving average crossover rules. The strategy itself is relatively unimportant for the purposes of this article, as the majority of the discussion will focus on implementing the risk management logic.</p>
+
+<p>QSTrader is written in Python, while the previous implementation of the Hidden Markov Model was carried out in R. Hence for the purposes of this article it is necessary to utilise a Python library that already implements a Hidden Markov Model. <a href="https://hmmlearn.readthedocs.io/en/latest/">hmmlearn</a> is such a library and it will be used here.</p>
+
+<h2>Regime Detection with Hidden Markov Models</h2>
+
+<p>If you are unfamiliar with Hidden Markov Models and/or are unaware of how they can be used as a risk management tool, it is worth taking a look at the following articles in the series:</p>
+
+<ul>
+  <li><a href="https://www.quantstart.com/articles/hidden-markov-models-an-introduction">Hidden Markov Models - An Introduction</a></li>
+  <li><a href="https://www.quantstart.com/articles/hidden-markov-models-for-regime-detection-using-r">Hidden Markov Models for Regime Detection using R</a></li>
+</ul>
+
+<p>The first discusses the mathematical and statistical basis behind the model while the second article uses the <a href="https://cran.r-project.org/package=depmixS4">depmixS4</a> R package to fit a HMM to S&amp;P500 returns.</p>
+
+<p>Hidden Markov Models are a type of stochastic state-space model. They assume the existence of "hidden" or "latent" states that are not directly observable. These hidden states have an influence on values which <em>are</em> observable, known as the <em>observations</em>. One of the goals of the model is to ascertain the current state from the set of known observations.</p>
+
+<p>In quantitative trading this problem translates into having "hidden" or "latent" market regimes, such as changing regulatory environments, or periods of excess volatility. The observations in this case are the returns from a particular set of financial market data. The returns are indirectly influenced by the hidden market regimes. Fitting a Hidden Markov Model to the returns data allows prediction of new regime states, which can be used a risk management trading filter mechanism.</p>
+
+<h2>The Trading Strategy</h2>
+
+<p>The trading strategy for this article is exceedingly simple and is used because it can be well understood. The important issue is the risk management aspect, which will be given significantly more attention.</p>
+
+<p>The short-term trend following strategy is of the classic moving average crossover type. The rules are simple:</p>
+
+<ul>
+  <li>At every bar calculate the 10-day and 30-day simple moving averages (SMA)</li>
+  <li>If the 10-day SMA exceeds the 30-day SMA and the strategy is not invested, then go long</li>
+  <li>If the 30-day SMA exceeds the 10-day SMA and the strategy is invested, then close the position</li>
+</ul>
+
+<p>This is not a particularly effective strategy with these parameters, especially on S&amp;P500 index prices. It will not really achieve much in comparison to a buy-and-hold of the SPY ETF for the same period.</p>
+
+<p>However, when combined with a risk management trading filter it becomes more effective due to the potential of eliminating trades occuring in highly volatile periods, where such trend-following strategies can lose money.</p>
+
+<p>The risk management filter applied here works by training a Hidden Markov Model on S&amp;P500 data from the 29th January 1993 (the earliest available data for SPY on Yahoo Finance) through to the 31st December 2004. This model is then <em>serialised</em> (via Python <a href="https://docs.python.org/3/library/pickle.html">pickle</a>) and utilised with a QSTrader <code>RiskManager</code> subclass.</p>
+
+<p>The risk manager checks, for every trade sent, whether the current state is a low volatility or high volatility regime. If volatility is low any long trades are let through and carried out. If volatility is high any open trades are closed out upon receipt of the closing signal, while any new potential long trades are cancelled before being allowed to pass through.</p>
+
+<p>This has the potential desired effect of eliminating trend-following trades in periods of high vol where they are likely to lose money due to incorrect identification of "trend".</p>
+
+<p>The backtest of this strategy is carried out from 1st January 2005 to 31st December 2014, without retraining the Hidden Markov Model along the way. In particular this means the HMM is being used out-of-sample and not on in-sample training data.</p>
+
+<h2>Data</h2>
+
+<p>In order to carry out this strategy it is necessary to have daily OHLCV pricing data for the SPY ETF ticker for the period covered by both the HMM training and the backtest:</p>
+
+<table class="table">
+  <tr>
+    <th>Ticker</th>
+    <th>Name</th>
+    <th>Period</th>
+    <th>Link</th>
+  </tr>
+  <tr>
+    <td>SPY</td>
+    <td>SPDR S&P 500 ETF</td>
+    <td>January 29th 1993 - 31st December 2014</td>
+    <td><a href="http://chart.finance.yahoo.com/table.csv?s=SPY&a=0&b=29&c=1993&d=11&e=31&f=2014&g=d&ignore=.csv">Yahoo Finance</a></td>
+  </tr>
+</table>
+
+<p>This data will need to placed in the directory specified by the QSTrader settings file if you wish to replicate the results.</p>
+
+<h2>Python Implementation</h2>
+
+<h3>Returns Calculation with QSTrader</h3>
+
+<p>In order to carry out regime predictions using the Hidden Markov Model it is necessary to calculate and store the adjusted closing price returns of SPY. To date only the <em>prices</em> have been stored. The natural location to store the returns is in the <code>PriceHandler</code> subclass. However, QSTrader did not previously support this behaviour and so it has now been added as a feature.</p>
+
+<p>It was a relatively simple modification involving two minor changes. The first was to add a <code>calc_adj_returns</code> boolean flag to the initialisation of the class. If this is set to <code>True</code> then the adjusted returns would be calculated and stored, otherwise they would not be. In order to minimise impact on other client code the default is set to <code>False</code>.</p>
+
+<p>The second change overrides the "virtual" method <code>_store_event</code> found in the <code>AbstractBarPriceHandler</code> class with the following in the <code>YahooDailyCsvBarPriceHandler</code> subclass.</p>
+
+<p>The code checks if <code>calc_adj_returns</code> is equal to <code>True</code>. It stores the previous and current adjusted closing prices, modifying them with the <code>PriceParser</code>, calculates the percentage returns and then adds them to the <code>adj_close_returns</code> list. This list is later called by the <code>RegimeHMMRiskManager</code> in order to predict the current regime state:</p>
+
+<pre>
+<code class="language-python">def _store_event(self, event):
+    """
+    Store price event for closing price and adjusted closing price
+    """
+    ticker = event.ticker
+    # If the calc_adj_returns flag is True, then calculate
+    # and store the full list of adjusted closing price
+    # percentage returns in a list
+    if self.calc_adj_returns:
+        prev_adj_close = self.tickers[ticker][
+            "adj_close"
+        ] / PriceParser.PRICE_MULTIPLIER
+        cur_adj_close = event.adj_close_price / PriceParser.PRICE_MULTIPLIER
+        self.tickers[ticker][
+            "adj_close_ret"
+        ] = cur_adj_close / prev_adj_close - 1.0
+        self.adj_close_returns.append(self.tickers[ticker]["adj_close_ret"])
+    self.tickers[ticker]["close"] = event.close_price
+    self.tickers[ticker]["adj_close"] = event.adj_close_price
+    self.tickers[ticker]["timestamp"] = event.time</code>
+</pre>
+
+<p>This modification is already in the latest version of QSTrader, which (as always) can be found at the <a href="https://github.com/mhallsmoore/qstrader">Github page</a>.</p>
+
+<h3>Regime Detection Implementation</h3>
+
+<p>Attention will now turn towards the implementation of the regime filter and short-term trend-following strategy that will be used to carry out the backtest.</p>
+
+<p>There are four separate files required for this strategy to be carried out. The full listings of each are provided at the end of the article. This will allow straightforward replication of the results for those wishing to implement a similar method.</p>
+
+<p>The first file encompasses the fitting of a Gaussian Hidden Markov Model to a large period of the S&amp;P500 returns. The second file contains the logic for carrying out the short-term trend-following. The third file provides the regime filtering of trades through a risk manager object. The final file ties all of these modules together into a backtest.</p>
+
+<h4>Training the Hidden Markov Model</h4>
+
+<p>Prior to the creation of a regime detection filter it is necessary to fit the Hidden Markov Model to a set of returns data. For this the Python <a href="https://hmmlearn.readthedocs.io/en/latest/">hmmlearn</a> library will be used. The API is exceedingly simple, which makes it straightforward to fit and store the model for later use.</p>
+
+<p>The first task is to import the necessary libraries. <a href="https://docs.python.org/3/library/pickle.html">pickle</a> is necessary to serialise the model for use in the regime detection risk manager. <a href="https://docs.python.org/3/library/warnings.html">warnings</a> is used to suppress the excessive deprecation warnings generated by Scikit-Learn, through API calls from hmmlearn. <code>GaussianHMM</code> is imported from hmmlearn forming the basis of the model. Matplotlib and Seaborn are imported to plot the in-sample hidden states, necessary for a "sanity check" on the models behaviour:</p>
+
+<pre>
+<code class="language-python"># regime_hmm_train.py
+
+from __future__ import print_function
+
+import datetime
+import pickle
+import warnings
+
+from hmmlearn.hmm import GaussianHMM
+from matplotlib import cm, pyplot as plt
+from matplotlib.dates import YearLocator, MonthLocator
+import numpy as np
+import pandas as pd
+import seaborn as sns</code>
+</pre>
+
+<p>The <code>obtain_prices_df</code> function opens up the CSV file of the SPY data downloaded from Yahoo Finance into a Pandas DataFrame. It then calculates the percentage returns of the adjusted closing prices and truncates the ending date to the desired final training period. Calculating the percentage returns introduces <code>NaN</code> values into the DataFrame, which are then dropped in place:</p>
+
+<pre>
+<code class="language-python">def obtain_prices_df(csv_filepath, end_date):
+    """
+    Obtain the prices DataFrame from the CSV file,
+    filter by the end date and calculate the 
+    percentage returns.
+    """
+    df = pd.read_csv(
+        csv_filepath, header=0,
+        names=[
+            "Date", "Open", "High", "Low", 
+            "Close", "Volume", "Adj Close"
+        ],
+        index_col="Date", parse_dates=True
+    )
+    df["Returns"] = df["Adj Close"].pct_change()
+    df = df[:end_date.strftime("%Y-%m-%d")]
+    df.dropna(inplace=True)
+    return df</code>
+</pre>
+
+<p>The following function, <code>plot_in_sample_hidden_states</code>, is not strictly necessary for training purposes. It has been modified from the <a href="https://hmmlearn.readthedocs.io/en/latest/auto_examples/plot_hmm_stock_analysis.html">hmmlearn tutorial file</a> found in the documentation.</p>
+
+<p>The code takes the model along with the prices DataFrame and creates a subplot, one plot for each hidden state generated by the model. Each subplot displays the adjusted closing price masked by that particular hidden state/regime. This is useful to see if the HMM is producing "sane" states:</p>
+
+<pre>
+<code class="language-python">def plot_in_sample_hidden_states(hmm_model, df):
+    """
+    Plot the adjusted closing prices masked by 
+    the in-sample hidden states as a mechanism
+    to understand the market regimes.
+    """
+    # Predict the hidden states array
+    hidden_states = hmm_model.predict(rets)
+    # Create the correctly formatted plot
+    fig, axs = plt.subplots(
+        hmm_model.n_components, 
+        sharex=True, sharey=True
+    )
+    colours = cm.rainbow(
+        np.linspace(0, 1, hmm_model.n_components)
+    )
+    for i, (ax, colour) in enumerate(zip(axs, colours)):
+        mask = hidden_states == i
+        ax.plot_date(
+            df.index[mask], 
+            df["Adj Close"][mask], 
+            ".", linestyle='none', 
+            c=colour
+        )
+        ax.set_title("Hidden State #%s" % i)
+        ax.xaxis.set_major_locator(YearLocator())
+        ax.xaxis.set_minor_locator(MonthLocator())
+        ax.grid(True)
+    plt.show()</code>
+</pre>
+
+<p>The output of this particular function is given below:</p>
+
+<p style="text-align:center;">
+  <a href="https://s3.amazonaws.com/quantstartmedia/images/qs-qstrader-regime-detection-in-sample-hidden-states.png">
+    <img width="100%" src="https://s3.amazonaws.com/quantstartmedia/images/qs-qstrader-regime-detection-in-sample-hidden-states.png">
+  </a>
+</p>
+
+<p>It can be seen that the regime detection largely captures "trending" periods and highly volatile periods. In particular the majority of 2008 occurs in Hidden State #1.</p>
+
+<p>This script is tied together in the <code>__main__</code> function. Firstly all warnings are ignored. Strictly speaking this is not best practice, but in this instance there are many deprecation warnings generated by Scikit-Learn that obscure the desired output of the script.</p>
+
+<p>Subsequently the CSV file is opened and the <code>rets</code> variable is created using the <code>np.column_stack</code> command. This is because hmmlearn requires a matrix of series objects, despite the fact that this is a univariate model (it only acts upon the returns themselves). Using NumPy in this manner puts it into the correct format.</p>
+
+<p>The <code>GaussianHMM</code> object requires specification of the number of states through the <code>n_components</code> parameter. Two states are used in this article, but three could also be tested easily. A full covariance matrix is used, rather than a diagonal version. The number of iterations used in the <a href="https://en.wikipedia.org/wiki/Expectation%E2%80%93maximization_algorithm">Expectation-Maximisation</a> algorithm is given by the <code>n_iter</code> parameter.</p>
+
+<p>The model is fitted and the score of the algorithm output. The hidden states masking the adjusted closing prices are plotted. Finally the model is pickled (serialised) to the <code>pickle_path</code>, ready to be used in the regime detection risk manager later in the article:</p>
+
+<pre>
+<code class="language-python">if __name__ == "__main__":
+    # Hides deprecation warnings for sklearn
+    warnings.filterwarnings("ignore")
+
+    # Create the SPY dataframe from the Yahoo Finance CSV
+    # and correctly format the returns for use in the HMM
+    csv_filepath = "/path/to/your/data/SPY.csv"
+    pickle_path = "/path/to/your/model/hmm_model_spy.pkl"
+    end_date = datetime.datetime(2004, 12, 31)
+    spy = obtain_prices_df(csv_filepath, end_date)
+    rets = np.column_stack([spy["Returns"]])
+
+    # Create the Gaussian Hidden markov Model and fit it
+    # to the SPY returns data, outputting a score
+    hmm_model = GaussianHMM(
+        n_components=2, covariance_type="full", n_iter=1000
+    ).fit(rets)
+    print("Model Score:", hmm_model.score(rets))
+  
+    # Plot the in sample hidden states closing values
+    plot_in_sample_hidden_states(hmm_model, spy)
+
+    print("Pickling HMM model...")
+    pickle.dump(hmm_model, open(pickle_path, "wb"))
+    print("...HMM model pickled.")</code>
+</pre>
+
+<h4>Short-Term Trend Following Strategy</h4>
+
+<p>The next stage in the process is to create the <code>Strategy</code> class that encapsulates the short-term trend-following logic that will ultimately be filtered by the <code>RiskManager</code> module.</p>
+
+<p>As with all strategies developed within QSTrader it is necessary to import some specific classes, including the <code>PriceParser</code>, <code>SignalEvent</code> and <code>AbstractStrategy</code> base class. This is similar to many other strategies carried out on the site, so the reason for these imports will not be stressed:</p>
+
+<pre>
+<code class="language-python"># regime_hmm_strategy.py
+
+from __future__ import print_function
+
+from collections import deque
+
+import numpy as np
+
+from qstrader.price_parser import PriceParser
+from qstrader.event import (SignalEvent, EventType)
+from qstrader.strategy.base import AbstractStrategy</code>
+</pre>
+
+<p>The <code>MovingAverageCrossStrategy</code> subclass is actually one of the examples found within the QSTrader examples directory. However it has been replicated here for completeness. The strategy uses two double-ended queues, found in the <a href="https://docs.python.org/3.6/library/collections.html#collections.deque">deque</a> module, to provide rolling windows on the pricing data. This is to calculate the long and short simple moving averages that form the short-term trend-following logic:</p>
+
+<pre>
+<code class="language-python">class MovingAverageCrossStrategy(AbstractStrategy):
+    """
+    Requires:
+    tickers - The list of ticker symbols
+    events_queue - A handle to the system events queue
+    short_window - Lookback period for short moving average
+    long_window - Lookback period for long moving average
+    """
+    def __init__(
+        self, tickers, 
+        events_queue, base_quantity,
+        short_window=10, long_window=30
+    ):
+        self.tickers = tickers
+        self.events_queue = events_queue
+        self.base_quantity = base_quantity
+        self.short_window = short_window
+        self.long_window = long_window
+        self.bars = 0
+        self.invested = False
+        self.sw_bars = deque(maxlen=self.short_window)
+        self.lw_bars = deque(maxlen=self.long_window)</code>
+</pre>
+
+<p>All QSTrader <code>AbstractStrategy</code>-derived subclasses use a <code>calculate_signals</code> method to generate <code>SignalEvent</code> objects. The method here firstly checks whether the event is an OHLCV bar. For instance, it could be a <code>SentimentEvent</code> (as in <a href="https://www.quantstart.com/articles/sentiment-analysis-trading-strategy-via-sentdex-data-in-qstrader">other strategies</a>) and thus a check is required. The prices are appended to the deques in the correct manner, thus providing rolling windows over which to perform the SMA.</p>
+
+<p>If there are enough bars to perform the moving averages then they are both calculated. Once these values are present the trading rules described above are carried out. If the short window SMA exceeds the long window SMA, and the strategy is not already invested, then it generates a long position of <code>base_quantity</code> shares. If the long window SMA exceeds the short window SMA the position is closed if already invested:</p>
+
+<pre>
+<code class="language-python">def calculate_signals(self, event):
+    # Applies SMA to first ticker
+    ticker = self.tickers[0]
+    if event.type == EventType.BAR and event.ticker == ticker:
+        # Add latest adjusted closing price to the
+        # short and long window bars
+        price = event.adj_close_price/PriceParser.PRICE_MULTIPLIER
+        self.lw_bars.append(price)
+        if self.bars > self.long_window - self.short_window:
+            self.sw_bars.append(price)
+
+        # Enough bars are present for trading
+        if self.bars > self.long_window:
+            # Calculate the simple moving averages
+            short_sma = np.mean(self.sw_bars)
+            long_sma = np.mean(self.lw_bars)
+            # Trading signals based on moving average cross
+            if short_sma > long_sma and not self.invested:
+                print("LONG: %s" % event.time)
+                signal = SignalEvent(ticker, "BOT", self.base_quantity)
+                self.events_queue.put(signal)
+                self.invested = True
+            elif short_sma < long_sma and self.invested:
+                print("SHORT: %s" % event.time)
+                signal = SignalEvent(ticker, "SLD", self.base_quantity)
+                self.events_queue.put(signal)
+                self.invested = False
+        self.bars += 1</code>
+</pre>
+
+<h4>Regime Detection Risk Manager</h4>
+
+<p>The subclassed <code>AbstractRiskManager</code> object is the first major usage of risk management applied separately to a strategy on the site to date. As outlined above the goal of this object is to filter the short-term trend-following trades when in an undesirable high volatility regime.</p>
+
+<p>All <code>RiskManager</code> subclasses require access to an <code>OrderEvent</code> as they have the power to eliminate, modify or create orders depending upon the risk constraints of the portfolio:</p>
+
+<pre>
+<code class="language-python"># regime_hmm_risk_manager.py
+
+from __future__ import print_function
+
+import numpy as np
+
+from qstrader.event import OrderEvent
+from qstrader.price_parser import PriceParser
+from qstrader.risk_manager.base import AbstractRiskManager</code>
+</pre>
+
+<p>The <code>RegimeHMMRiskManager</code> simply requires access to the deserialised HMM model file. It also keeps track of whether the strategy is "invested" or not, since the <code>Strategy</code> object itself will have no knowledge of whether its signals have actually been executed:</p>
+
+<pre>
+<code class="language-python">class RegimeHMMRiskManager(AbstractRiskManager):
+    """
+    Utilises a previously fitted Hidden Markov Model 
+    as a regime detection mechanism. The risk manager
+    ignores orders that occur during a non-desirable
+    regime.
+
+    It also accounts for the fact that a trade may
+    straddle two separate regimes. If a close order
+    is received in the undesirable regime, and the 
+    order is open, it will be closed, but no new
+    orders are generated until the desirable regime
+    is achieved.
+    """
+    def __init__(self, hmm_model):
+        self.hmm_model = hmm_model
+        self.invested = False</code>
+</pre>
+
+<p>A helper method, <code>determine_regime</code>, uses the <code>price_handler</code> object and the <code>sized_order</code> event to obtain the full list of adjusted closing returns calculated by QSTrader (see the code in the previous section for details). It then uses the <code>predict</code> method of the <code>GaussianHMM</code> object to produce an array of predicted regime states. It takes the latest value and then uses this as the current "hidden state", or regime:</p> 
+
+<pre>
+<code class="language-python">def determine_regime(self, price_handler, sized_order):
+    """
+    Determines the predicted regime by making a prediction
+    on the adjusted closing returns from the price handler
+    object and then taking the final entry integer as
+    the "hidden regime state".
+    """
+    returns = np.column_stack(
+        [np.array(price_handler.adj_close_returns)]
+    )
+    hidden_state = self.hmm_model.predict(returns)[-1]
+    return hidden_state</code>
+</pre>
+
+<p>The <code>refine_orders</code> method is necessary on all <code>AbstractRiskManager</code>-derived subclasses. In this instance it calls the <code>determine_regime</code> method to find the regime state. It then creates the correct <code>OrderEvent</code> object, but crucially at this stage does not return it yet:</p>
+
+<pre>
+<code class="language-python">def refine_orders(self, portfolio, sized_order):
+    """
+    Uses the Hidden Markov Model with the percentage returns
+    to predict the current regime, either 0 for desirable or
+    1 for undesirable. Long entry trades will only be carried
+    out in regime 0, but closing trades are allowed in regime 1.
+    """
+    # Determine the HMM predicted regime as an integer
+    # equal to 0 (desirable) or 1 (undesirable)
+    price_handler = portfolio.price_handler
+    regime = self.determine_regime(
+        price_handler, sized_order
+    )
+    action = sized_order.action
+    # Create the order event, irrespective of the regime.
+    # It will only be returned if the correct conditions 
+    # are met below.
+    order_event = OrderEvent(
+        sized_order.ticker,
+        sized_order.action,
+        sized_order.quantity
+    )
+    ..
+    ..</code>
+</pre>
+
+<p>The latter half of the method is where the regime detection risk management logic is based. It consists of a conditional block that firstly checks which regime state has been identified.</p>
+
+<p>If it is the low volatility state #0 it checks to see if the order is a "BOT" or "SLD" action. If it is a "BOT" (long) order then it simply returns the <code>OrderEvent</code> and keeps track of the fact that it now has a long position open. If it is "SLD" (close) action then it closes the position if one is open, otherwise it cancels the order.</p>
+
+<p>If however the regime is predicted to be the high volatility state #1 then it also checks which action has occurred. It does not allow any long positions in this state. It only allows a close position to occur if a long position has previously been opened, otherwise it cancels it.</p>
+
+<p>This has the effect of never generating a <em>new</em> long position when in regime #1. However, a previously open long position can be closed in regime #1.</p>
+
+<p>An alternative approach might be to immediately close any open long position upon entering regime #1, although this is left as an exercise for the reader!</p>
+
+<pre>
+<code class="language-python">..
+    ..
+    # If in the desirable regime, let buy and sell orders
+    # work as normal for a long-only trend following strategy
+    if regime == 0:
+        if action == "BOT":
+            self.invested = True
+            return [order_event]
+        elif action == "SLD":
+            if self.invested == True:
+                self.invested = False
+                return [order_event]
+            else:
+                return []
+    # If in the undesirable regime, do not allow any buy orders
+    # and only let sold/close orders through if the strategy
+    # is already invested (from a previous desirable regime)
+    elif regime == 1:
+        if action == "BOT":
+            self.invested = False
+            return []
+        elif action == "SLD":
+            if self.invested == True:
+                self.invested = False
+                return [order_event]
+            else:
+                return []</code>
+</pre>
+
+<p>This concludes the <code>RegimeHMMRiskManager</code> code. All that remains is to tie the above three scripts/modules together through a <code>Backtest</code> object. The full code for this script can be found, as with the rest of the modules, at the end of this article.</p>
+
+<p>In <code>regime_hmm_backtest.py</code> both an <code>ExampleRiskManager</code> and the <code>RegimeHMMRiskManager</code> are imported. This allows straightforward "switching out" of risk managers across backtests to see how the results change:</p> 
+
+<pre>
+<code class="language-python"># regime_hmm_backtest.py
+
+..
+..
+
+from qstrader.risk_manager.example import ExampleRiskManager
+
+..
+..
+
+from regime_hmm_strategy import MovingAverageCrossStrategy
+from regime_hmm_risk_manager import RegimeHMMRiskManager</code>
+</pre>
+
+<p>In the <code>run</code> function the first task is to specify the HMM model pickle path, necessary for deserialisation of the model. Subsequently the price handler is specified. Crucially the <code>calc_adj_returns</code> flag is set to true, which sets the price handler up to calculate and store the returns array.</p>
+
+<p>At this stage the <code>MovingAverageCrossStrategy</code> is instantiated with a short window of 10 days, a long window of 30 days and a base quantity of SPY shares of 10,000.</p>
+
+<p>Finally the <code>hmm_model</code> is deserialised through <code>pickle</code> and the <code>risk_manager</code> is instantiated. The rest of the script is extremely similar to other backtests carried out on the site, so the full code will only be outlined at the end of the article.</p>
+
+<p>It is straightforward to "switch out" risk managers by commenting the <code>RegimeHMMRiskManager</code> line, replacing it with the <code>ExampleRiskManager</code> line and then rerunning the backtest:</p>
+
+<pre>
+<code class="language-python">
+def run(config, testing, tickers, filename):
+    # Set up variables needed for backtest
+    pickle_path = "/path/to/your/model/hmm_model_spy.pkl"
+
+    ..
+    ..
+
+    # Use Yahoo Daily Price Handler
+    start_date = datetime.datetime(2005, 1, 1)
+    end_date = datetime.datetime(2014, 12, 31)
+    price_handler = YahooDailyCsvBarPriceHandler(
+        csv_dir, events_queue, tickers,
+        start_date=start_date, end_date=end_date,
+        calc_adj_returns=True
+    )
+
+    # Use the Moving Average Crossover trading strategy
+    base_quantity = 10000
+    strategy = MovingAverageCrossStrategy(
+        tickers, events_queue, base_quantity,
+        short_window=10, long_window=30
+    )
+    strategy = Strategies(strategy, DisplayStrategy())
+
+    ..
+    ..
+
+    # Use regime detection HMM position sizer
+    hmm_model = pickle.load(open(pickle_path, "rb"))
+    risk_manager = RegimeHMMRiskManager(hmm_model)
+    # Use an example Risk Manager
+    #risk_manager = ExampleRiskManager()</code>
+</pre>
+
+<p>To run the backtest it is necessary to open up the Terminal and type the following:</p>
+
+<pre>
+<code class="language-bash">$ python regime_hmm_backtest.py --tickers=SPY</code>
+</pre>
+
+<p>The truncated output is as follows:</p>
+
+<pre>
+<code class="language-none">..
+..
+---------------------------------
+Backtest complete.
+Sharpe Ratio: 0.518857928421
+Max Drawdown: 0.356537705234
+Max Drawdown Pct: 0.356537705234</code>
+</pre>
+
+<h2>Strategy Results</h2>
+
+<h3>Transaction Costs</h3>
+
+<p>The strategy results presented here are given <em>net</em> of transaction costs. The costs are simulated using <a href="https://www.interactivebrokers.co.uk/en/index.php?f=1590&p=stocks1">Interactive Brokers US equities fixed pricing for shares in North America</a>. They are reasonably representative of what could be achieved in a real trading strategy.</p>
+
+<h3>No Regime Detection Filter</h3>
+
+<p style="text-align:center;">
+  <a href="https://s3.amazonaws.com/quantstartmedia/images/qs-qstrader-regime-detection-no-filter-tearsheet.png">
+    <img width="100%" src="https://s3.amazonaws.com/quantstartmedia/images/qs-qstrader-regime-detection-no-filter-tearsheet.png">
+  </a>
+</p>
+
+<p><em>Click the image for a larger view.</em></p>
+
+<p>The underlying strategy is designed to capture short-term trends in the SPY ETF. It posts a Sharpe Ratio of 0.37, which means it is taking on a substantial amount of volatility in order to generate the returns. In fact the benchmark has an almost identical Sharpe ratio. The maximum daily drawdown is slightly larger than the benchmark, but it produces a slight increase in CAGR at 6.41% compared to 5.62%.</p>
+
+<p>In essence the strategy performs about as well as the buy-and-hold benchmark. This is to be expected given how it behaves. It is a lagged filter and, despite making 41 trades, does not necessarily avoid the large downward moves. The major question is whether a regime filter will improve the strategy or not.</p>
+
+<h3>HMM Regime Detection Filter</h3>
+
+<p style="text-align:center;">
+  <a href="https://s3.amazonaws.com/quantstartmedia/images/qs-qstrader-regime-detection-with-filter-tearsheet.png">
+    <img width="100%" src="https://s3.amazonaws.com/quantstartmedia/images/qs-qstrader-regime-detection-with-filter-tearsheet.png">
+  </a>
+</p>
+
+<p><em>Click the image for a larger view.</em></p>
+
+<p><em>Note that this application of the regime filter is <strong>out-of-sample</strong>. That is, no returns data used within the backtest was used in the training of the Hidden Markov Model.</em></p>
+
+<p>The regime filter strategy produces rather different results. Most notably it reduces the strategy maximum daily drawdown to approximately 24% compared to that produced by the benchmark of approximately 56%. This is a big reduction in "risk". However the Sharpe ratio doesn't increase too heavily at 0.48 because the strategy still endures a lot of associated volatility to obtain those returns.</p>
+
+<p>The CAGR does not see a vast improvement at 6.88% compared to 6.41% of the previous strategy but its risk has been reduced somewhat.</p>
+
+<p>Perhaps a more subtle issue is that the number of trades has been reduced from 41 to 31. While the trades eliminated were large downward moves (and thus beneficial) it does mean that the strategy is making less "positively expected bets" and so has less statistical validity.</p>
+
+<p>In addition the strategy did not trade at all from early 2008 to mid 2009. Thus the strategy effectively remained in drawdown from the previous high watermark through this period. The major benefit, of course, is that it did not lose money when many others would have!</p>
+
+<p>A production implementation of such a strategy would likely periodically retrain the Hidden Markov Model as the estimated state transition probabilities are very unlikely to be stationary. In essence, the HMM can only predict state transitions based on previous returns distributions it has seen. If the distribution changes (i.e. due to some new regulatory environment) then the model will need to be retrained to capture its behaviour. The rate at which this needs to be carried out is, of course, the subject of potential future research!</p>
+
+<h2>Full Code</h2>
+
+<pre>
+<code class="language-python"># regime_hmm_train.py
+
+from __future__ import print_function
+
+import datetime
+import pickle
+import warnings
+
+from hmmlearn.hmm import GaussianHMM
+from matplotlib import cm, pyplot as plt
+from matplotlib.dates import YearLocator, MonthLocator
+import numpy as np
+import pandas as pd
+import seaborn as sns
+
+
+def obtain_prices_df(csv_filepath, end_date):
+    """
+    Obtain the prices DataFrame from the CSV file,
+    filter by the end date and calculate the 
+    percentage returns.
+    """
+    df = pd.read_csv(
+        csv_filepath, header=0,
+        names=[
+            "Date", "Open", "High", "Low", 
+            "Close", "Volume", "Adj Close"
+        ],
+        index_col="Date", parse_dates=True
+    )
+    df["Returns"] = df["Adj Close"].pct_change()
+    df = df[:end_date.strftime("%Y-%m-%d")]
+    df.dropna(inplace=True)
+    return df
+
+
+def plot_in_sample_hidden_states(hmm_model, df):
+    """
+    Plot the adjusted closing prices masked by 
+    the in-sample hidden states as a mechanism
+    to understand the market regimes.
+    """
+    # Predict the hidden states array
+    hidden_states = hmm_model.predict(rets)
+    # Create the correctly formatted plot
+    fig, axs = plt.subplots(
+        hmm_model.n_components, 
+        sharex=True, sharey=True
+    )
+    colours = cm.rainbow(
+        np.linspace(0, 1, hmm_model.n_components)
+    )
+    for i, (ax, colour) in enumerate(zip(axs, colours)):
+        mask = hidden_states == i
+        ax.plot_date(
+            df.index[mask], 
+            df["Adj Close"][mask], 
+            ".", linestyle='none', 
+            c=colour
+        )
+        ax.set_title("Hidden State #%s" % i)
+        ax.xaxis.set_major_locator(YearLocator())
+        ax.xaxis.set_minor_locator(MonthLocator())
+        ax.grid(True)
+    plt.show()
+
+
+if __name__ == "__main__":
+    # Hides deprecation warnings for sklearn
+    warnings.filterwarnings("ignore")
+
+    # Create the SPY dataframe from the Yahoo Finance CSV
+    # and correctly format the returns for use in the HMM
+    csv_filepath = "/path/to/your/data/SPY.csv"
+    pickle_path = "/path/to/your/model/hmm_model_spy.pkl"
+    end_date = datetime.datetime(2004, 12, 31)
+    spy = obtain_prices_df(csv_filepath, end_date)
+    rets = np.column_stack([spy["Returns"]])
+
+    # Create the Gaussian Hidden markov Model and fit it
+    # to the SPY returns data, outputting a score
+    hmm_model = GaussianHMM(
+        n_components=2, covariance_type="full", n_iter=1000
+    ).fit(rets)
+    print("Model Score:", hmm_model.score(rets))
+  
+    # Plot the in sample hidden states closing values
+    plot_in_sample_hidden_states(hmm_model, spy)
+
+    print("Pickling HMM model...")
+    pickle.dump(hmm_model, open(pickle_path, "wb"))
+    print("...HMM model pickled.")</code>
+</pre>
+
+<pre>
+<code class="language-python"># regime_hmm_strategy.py
+
+from __future__ import print_function
+
+from collections import deque
+
+import numpy as np
+
+from qstrader.price_parser import PriceParser
+from qstrader.event import (SignalEvent, EventType)
+from qstrader.strategy.base import AbstractStrategy
+
+
+class MovingAverageCrossStrategy(AbstractStrategy):
+    """
+    Requires:
+    tickers - The list of ticker symbols
+    events_queue - A handle to the system events queue
+    short_window - Lookback period for short moving average
+    long_window - Lookback period for long moving average
+    """
+    def __init__(
+        self, tickers, 
+        events_queue, base_quantity,
+        short_window=10, long_window=30
+    ):
+        self.tickers = tickers
+        self.events_queue = events_queue
+        self.base_quantity = base_quantity
+        self.short_window = short_window
+        self.long_window = long_window
+        self.bars = 0
+        self.invested = False
+        self.sw_bars = deque(maxlen=self.short_window)
+        self.lw_bars = deque(maxlen=self.long_window)
+
+    def calculate_signals(self, event):
+        # Applies SMA to first ticker
+        ticker = self.tickers[0]
+        if event.type == EventType.BAR and event.ticker == ticker:
+            # Add latest adjusted closing price to the
+            # short and long window bars
+            price = event.adj_close_price/PriceParser.PRICE_MULTIPLIER
+            self.lw_bars.append(price)
+            if self.bars > self.long_window - self.short_window:
+                self.sw_bars.append(price)
+
+            # Enough bars are present for trading
+            if self.bars > self.long_window:
+                # Calculate the simple moving averages
+                short_sma = np.mean(self.sw_bars)
+                long_sma = np.mean(self.lw_bars)
+                # Trading signals based on moving average cross
+                if short_sma > long_sma and not self.invested:
+                    print("LONG: %s" % event.time)
+                    signal = SignalEvent(ticker, "BOT", self.base_quantity)
+                    self.events_queue.put(signal)
+                    self.invested = True
+                elif short_sma < long_sma and self.invested:
+                    print("SHORT: %s" % event.time)
+                    signal = SignalEvent(ticker, "SLD", self.base_quantity)
+                    self.events_queue.put(signal)
+                    self.invested = False
+            self.bars += 1</code>
+</pre>
+
+<pre>
+<code class="language-python"># regime_hmm_risk_manager.py
+
+from __future__ import print_function
+
+import numpy as np
+
+from qstrader.event import OrderEvent
+from qstrader.price_parser import PriceParser
+from qstrader.risk_manager.base import AbstractRiskManager
+
+
+class RegimeHMMRiskManager(AbstractRiskManager):
+    """
+    Utilises a previously fitted Hidden Markov Model 
+    as a regime detection mechanism. The risk manager
+    ignores orders that occur during a non-desirable
+    regime.
+
+    It also accounts for the fact that a trade may
+    straddle two separate regimes. If a close order
+    is received in the undesirable regime, and the 
+    order is open, it will be closed, but no new
+    orders are generated until the desirable regime
+    is achieved.
+    """
+    def __init__(self, hmm_model):
+        self.hmm_model = hmm_model
+        self.invested = False
+
+    def determine_regime(self, price_handler, sized_order):
+        """
+        Determines the predicted regime by making a prediction
+        on the adjusted closing returns from the price handler
+        object and then taking the final entry integer as
+        the "hidden regime state".
+        """
+        returns = np.column_stack(
+            [np.array(price_handler.adj_close_returns)]
+        )
+        hidden_state = self.hmm_model.predict(returns)[-1]
+        return hidden_state
+
+    def refine_orders(self, portfolio, sized_order):
+        """
+        Uses the Hidden Markov Model with the percentage returns
+        to predict the current regime, either 0 for desirable or
+        1 for undesirable. Long entry trades will only be carried
+        out in regime 0, but closing trades are allowed in regime 1.
+        """
+        # Determine the HMM predicted regime as an integer
+        # equal to 0 (desirable) or 1 (undesirable)
+        price_handler = portfolio.price_handler
+        regime = self.determine_regime(
+            price_handler, sized_order
+        )
+        action = sized_order.action
+        # Create the order event, irrespective of the regime.
+        # It will only be returned if the correct conditions 
+        # are met below.
+        order_event = OrderEvent(
+            sized_order.ticker,
+            sized_order.action,
+            sized_order.quantity
+        )
+        # If in the desirable regime, let buy and sell orders
+        # work as normal for a long-only trend following strategy
+        if regime == 0:
+            if action == "BOT":
+                self.invested = True
+                return [order_event]
+            elif action == "SLD":
+                if self.invested == True:
+                    self.invested = False
+                    return [order_event]
+                else:
+                    return []
+        # If in the undesirable regime, do not allow any buy orders
+        # and only let sold/close orders through if the strategy
+        # is already invested (from a previous desirable regime)
+        elif regime == 1:
+            if action == "BOT":
+                self.invested = False
+                return []
+            elif action == "SLD":
+                if self.invested == True:
+                    self.invested = False
+                    return [order_event]
+                else:
+                    return []</code>
+</pre>
+
+<pre>
+<code class="language-python"># regime_hmm_backtest.py
+
+import datetime
+import pickle
+
+import click
+import numpy as np
+
+from qstrader import settings
+from qstrader.compat import queue
+from qstrader.price_parser import PriceParser
+from qstrader.price_handler.yahoo_daily_csv_bar import YahooDailyCsvBarPriceHandler
+from qstrader.strategy import Strategies, DisplayStrategy
+from qstrader.position_sizer.naive import NaivePositionSizer
+from qstrader.risk_manager.example import ExampleRiskManager
+from qstrader.portfolio_handler import PortfolioHandler
+from qstrader.compliance.example import ExampleCompliance
+from qstrader.execution_handler.ib_simulated import IBSimulatedExecutionHandler
+from qstrader.statistics.tearsheet import TearsheetStatistics
+from qstrader.trading_session.backtest import Backtest
+
+from regime_hmm_strategy import MovingAverageCrossStrategy
+from regime_hmm_risk_manager import RegimeHMMRiskManager
+
+
+def run(config, testing, tickers, filename):
+    # Set up variables needed for backtest
+    pickle_path = "/path/to/your/model/hmm_model_spy.pkl"
+    events_queue = queue.Queue()
+    csv_dir = config.CSV_DATA_DIR
+    initial_equity = PriceParser.parse(500000.00)
+
+    # Use Yahoo Daily Price Handler
+    start_date = datetime.datetime(2005, 1, 1)
+    end_date = datetime.datetime(2014, 12, 31)
+    price_handler = YahooDailyCsvBarPriceHandler(
+        csv_dir, events_queue, tickers,
+        start_date=start_date, end_date=end_date,
+        calc_adj_returns=True
+    )
+
+    # Use the Moving Average Crossover trading strategy
+    base_quantity = 10000
+    strategy = MovingAverageCrossStrategy(
+        tickers, events_queue, base_quantity,
+        short_window=10, long_window=30
+    )
+    strategy = Strategies(strategy, DisplayStrategy())
+
+    # Use the Naive Position Sizer 
+    # where suggested quantities are followed
+    position_sizer = NaivePositionSizer()
+
+    # Use regime detection HMM position sizer
+    hmm_model = pickle.load(open(pickle_path, "rb"))
+    risk_manager = RegimeHMMRiskManager(hmm_model)
+    # Use an example Risk Manager
+    #risk_manager = ExampleRiskManager()
+
+    # Use the default Portfolio Handler
+    portfolio_handler = PortfolioHandler(
+        initial_equity, events_queue, price_handler,
+        position_sizer, risk_manager
+    )
+
+    # Use the ExampleCompliance component
+    compliance = ExampleCompliance(config)
+
+    # Use a simulated IB Execution Handler
+    execution_handler = IBSimulatedExecutionHandler(
+        events_queue, price_handler, compliance
+    )
+
+    # Use the Tearsheet Statistics
+    title = ["Trend Following Regime Detection with HMM"]
+    statistics = TearsheetStatistics(
+        config, portfolio_handler, title,
+        benchmark="SPY"
+    )
+
+    # Set up the backtest
+    backtest = Backtest(
+        price_handler, strategy,
+        portfolio_handler, execution_handler,
+        position_sizer, risk_manager,
+        statistics, initial_equity
+    )
+    results = backtest.simulate_trading(testing=testing)
+    statistics.save(filename)
+    return results
+
+
+@click.command()
+@click.option('--config', default=settings.DEFAULT_CONFIG_FILENAME, help='Config filename')
+@click.option('--testing/--no-testing', default=False, help='Enable testing mode')
+@click.option('--tickers', default='SPY', help='Tickers (use comma)')
+@click.option('--filename', default='', help='Pickle (.pkl) statistics filename')
+def main(config, testing, tickers, filename):
+    tickers = tickers.split(",")
+    config = settings.from_file(config, testing)
+    run(config, testing, tickers, filename)
+
+
+if __name__ == "__main__":
+    main()</code>
+</pre>
+        
+        
+        <script async data-uid="6296c27f4b" src="https://weathered-brook-5281.ck.page/6296c27f4b/index.js"></script>
+      </section>
+    </div>
+    <div class="col-md-4 book-card order-md-1">
+      
+<div class="sidebar-advert-container">
+  <a href="/qsalpha/?ref=art">
+    <img class="card-img-top" src="/static/images/qsalpha-sidebar-advert-small.png" alt="QSAlpha">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/qsalpha/?ref=art">QSAlpha</a></h3>
+      <p class="card-text medium-text mb-3">Join the QSAlpha research platform that helps fill your strategy research pipeline, diversifies your portfolio and improves your risk-adjusted returns for increased profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/qsalpha/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/quantcademy/?ref=art">
+    <img class="card-img-top" src="/static/images/quantcademy-sidebar-advert-small.png" alt="Quantcademy">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/quantcademy/?ref=art">The Quantcademy</a></h3>
+      <p class="card-text medium-text mb-3">Join the Quantcademy membership portal that caters to the rapidly-growing retail quant trader community and learn how to increase your strategy profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/quantcademy/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/successful-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/sat-sidebar-advert-small.png" alt="Successful Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to find new trading strategy ideas and objectively assess them for your portfolio using a Python-based backtesting engine.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/successful-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/advanced-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/aat-sidebar-advert-small.png" alt="Advanced Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to implement advanced trading strategies using time series analysis, machine learning and Bayesian statistics with R and Python.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/advanced-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+    
+
+<footer>
+  <div class="container container-full">
+    <section class="mt-1.5 mb-1">
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">QuantStart</li>
+            <li class="footer-list-link"><a class="link-fade" href="/about/">About</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/articles/">Articles</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/sitemap/">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Products</li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qsalpha/">QSAlpha</a></li>
+            
+            
+            <li class="footer-list-link"><a class="link-fade" href="/quantcademy/">Quantcademy</a></li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qstrader/">QSTrader</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Legal</li>
+            <li class="footer-list-link"><a class="link-fade" href="/privacy-policy/">Privacy Policy</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/terms-and-conditions/">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Social</li>
+            <li class="footer-list-link"><a class="link-fade" href="https://twitter.com/quantstart">Twitter</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="https://www.youtube.com/channel/UCmVnnZ6Y2TrJtY1eQJN6kWA">YouTube</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="row mb-1.5 mt-5">
+      <div class="col-12 col-md-9 col-lg-8 col-xl-6">
+        <div class="footer-copyright">
+          <p>©2012-2023 QuarkGluon Ltd. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+<script src="/static/js/jquery-3.2.1.min.js"></script>
+<script src="/static/js/prism.js.min"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/nav.js"></script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5383959-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+    
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="/static/js/highcharts/highcharts.js"></script>
+<script type="text/javascript">
+  num_colours = 10;
+</script>
+<script src="/static/js/statistics.js"></script>
+
+
+  </body>
+</html>

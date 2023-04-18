@@ -1,0 +1,663 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-site-verification" content="wl3-8ed1QZjI0iYZMv10zoZWYElkMObTfwLlWIj9cpA" />
+    <meta name="description" content="Eigen Library for Matrix Algebra in C++">
+
+    <link rel="icon" href="/static/images/favicon.png">
+
+    <title>Eigen Library for Matrix Algebra in C++ | QuantStart</title>
+    
+    
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet"> 
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/prism.css" rel="stylesheet">
+<link href="/static/css/qs.css?v=10" rel="stylesheet">
+    
+  </head>
+
+  <body>
+    <header class="header covered-header" style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://quantstartmedia.s3.amazonaws.com/images/article-images/article-backgrounds/cpp.jpg);">
+  
+<nav class="nav">
+  <div class="container nav-container">
+    <div class="nav-row row d-flex justify-content-between align-items-center">
+      <div class="col-2">
+        <ul class="nav-items justify-content-end small-capitals align-items-center">
+          <li class="nav-item">
+            <a class="link-fade" href="/">QuantStart</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-auto col-logo">
+        <ul id="top-nav-menu" class="nav-items justify-content-end align-items-center">
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/qsalpha/">QSAlpha</a>
+          </li>
+          
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/quantcademy/">Quantcademy</a>
+          </li>
+          
+          <li id="menu-link-ebooks" class="nav-item">
+            <a class="link-fade" href="#">Books</a>
+            <div id="menu-pane-ebooks" class="nav-items menu-dropdown-pane">
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/qstrader/">QSTrader</a>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/articles/">Articles</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/members/login/">Login</a>
+          </li>
+          
+        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<nav id="mobile-nav" class="mobile-nav text-left">
+  <div class="container">
+    <ul class="mt-4 ml-3 mobile-nav-menu">
+      <li class="nav-item">
+        <a class="link-fade d-block" href="/">QuantStart</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qsalpha/">QSAlpha</a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/quantcademy/">Quantcademy</a>
+      </li>
+      
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="#">Books</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qstrader/">QSTrader</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/articles/">Articles</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/members/login/">Login</a>
+      </li>
+      
+    </ul>
+    <button class="nav-toggle mobile-nav-close">
+      <svg id="mobile-nav-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M19.77,5.63,13.41,12l6.36,6.37a1,1,0,0,1-1.41,1.41L12,13.41,5.63,19.77a1,1,0,0,1-1.44-1.39l0,0L10.58,12,4.21,5.63a1,1,0,0,1,0-1.42,1,1,0,0,1,1.41,0l0,0L12,10.58l6.37-6.37a1,1,0,0,1,1.41,0A1,1,0,0,1,19.77,5.63Z"></path>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+  <div class="container hero-container">
+    <section class="mt-5 mb-4">
+      <div class="row justify-content-center">
+        <div class="col-12 text-center">
+          <p class="hero">Eigen Library for Matrix Algebra in C++</p>
+          <p class="hero subhero">Eigen Library for Matrix Algebra in C++</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</header>
+    
+<section class="container content-container">
+  <div class="row">
+    <div class="col-md-8 order-md-2">
+      <section class="content article-content">
+        
+        
+        <p>We have previously considered <em>operator overloading</em> and <a href="http://www.quantstart.com/articles/Matrix-Classes-in-C-The-Header-File">how to create our own matrix object</a> in C++. As a learning exercise, creating a matrix class can be extremely beneficial as it often covers dynamic memory allocation (if not using <code>std::vector</code>s) and operator overloading across multiple object types (matrices, vectors and scalars). However, it is far from optimal to carry this out in a production environment. This article will explain why it is better to use a dedicated matrix library instead, such as <a href="http://eigen.tuxfamily.org/index.php?title=Main_Page">Eigen</a>.</p>
+
+<p>Writing our own matrix libraries is likely to cause a few issues in a production environment:</p>
+
+<ul>
+  <li><strong>Poor Performance</strong> - Unless significant time is spent optimising a custom matrix library, it is often going to be far slower than the corresponding dedicated community projects such as <a href="http://www.boost.org/doc/libs/1_54_0/libs/numeric/ublas/doc/index.htm">uBLAS</a>, <a href="http://eigen.tuxfamily.org/index.php?title=Main_Page">Eigen</a> or <a href="http://blitz.sourceforge.net/">Blitz</a>.</li>
+  <li><strong>Buggy Code</strong> - A large community surrounding an open-source project leads to a greater number of bug fixes as edge cases are discovered and corrected. With a custom matrix library, it is likely that it will be restricted solely for an individual use case and thus edge cases are unlikely to be checked.</li>
+  <li><strong>Few Algorithms</strong> - Once again, the benefit of a large community is that multiple efficient algorithms can be generated for all aspects of numerical linear algebra. These in turn feed optimisations back to the core library and thus increase overall efficiency.</li>
+  <li><strong>Time Wasting</strong> - Are you in the business of quantitative finance or in the business of building an all-singing all-dancing matrix library? By spending months optimising a custom library, you are neglecting the original intent of its usage of the first place - solving quant problems!</li>
+</ul>
+
+<p>While many libraries exist (see above), I have chosen to use the <a href="http://eigen.tuxfamily.org/index.php?title=Main_Page">Eigen</a> library for this article. Here are some of the benefits of Eigen:</p>
+
+<ul>
+  <li><strong>Up to date</strong> - Eigen is actively developed and releases new versions frequently</li>
+  <li><strong>API</strong> - Eigen has a simple, straightforward and familiar API syntax</li>
+  <li><strong>Dynamic matrices</strong> - Supports matrices with sizes determined at runtime</li>
+  <li><strong>Well tested</strong> - Eigen has extensive "battle testing" and thus few bugs</li>
+  <li><strong>Storage</strong> - Can use either row-major or column-major storage</li>
+  <li><strong>Optimised structures</strong> - Dense and sparse matrices both available</li>
+  <li><strong>Expression templates</strong> - Lazy evaluation, which allows for complex matrix arithmetic, while maintaining performance</li>
+</ul>
+
+<p>In this article we will install Eigen, look at examples of basic linear algebra usage and briefly study some of the advanced features, which will be the subject of later articles.</p>
+
+<h2>Installation</h2>
+
+<p>Eigen is extremely easy to install as there is no library that needs linking to. Instead the header files are simply included in the code for your program. With GCC it is necessary to use the -I flag in order for the compiler to be able to find the Eigen header files:</p>
+
+<pre>
+<code class="language-bash">g++ -I /your/path/to/eigen/ example_program.cpp -o example_program</code>
+</pre> 
+
+<h2>Basic Usage</h2>
+
+<p>The following program requires the <code>Eigen/Dense</code> header. It initialises a 3x3 matrix (using the <code>MatrixXd</code> template) and then prints it to the console:</p>
+
+<pre>
+<code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;Eigen/Dense&gt;
+
+int main() {
+  Eigen::MatrixXd m(3,3);
+  m &lt;&lt; 1, 2, 3,
+       4, 5, 6,
+       7, 8, 9;
+  std::cout &lt;&lt; m &lt;&lt; std::endl;
+}</code>
+</pre>
+
+<p>Here is the (rather simple!) output for the above program:</p>
+
+<pre>
+<code class="language-none">1 2 3
+4 5 6
+7 8 9</code>
+</pre>
+
+<p>Notice that the overloaded <code>&lt;&lt;</code> operator can accept comma-separated lists of values in order to initialise the matrix. This is an extremely useful part of the API syntax. In addition, we can also pass the <code>MatrixXd</code> to <code>std::cout</code> and have the numbers output in a human-readable fashion.</p>
+
+<h2>Basic Linear Algebra</h2>
+
+<p>Eigen is a large library and has many features. We will be exploring many of them over subsequent articles. In this section I want to describe basic matrix and vector operations, including the matrix-vector and matrix-matrix multiplication facilities provided with the library.</p>
+
+<h3>Expression Templates</h3>
+
+<p>One of the most attractive features of the Eigen library is that it includes <em>expression objects</em> and <em>lazy evaluation</em>. This means that any arithmetic operation actually returns such an expression object, which is actually a description of the final computation to be performed rather than the actual computation itself. The benefit of such an approach is that most compilers are able to heavily optimise the expression such that additional loops are completely minimised. As an example, an expression such as:</p>
+
+<pre>
+<code class="language-cpp">VectorXd p(10), q(10), r(10), s(10);
+...
+p = 5*q + 11*r - 7*s;</code>
+</pre>
+
+<p>will compile into a single loop:</p>
+
+<pre>
+<code class="language-cpp">for (unsigned i=0; i&lt;10; ++i) {
+  p[i] = 5*q[i] + 11*r[i] - 7*s[i];
+}</code>
+</pre>
+
+<p>This means that the underlying storage arrays are only looped over once. As such Eigen can optimise relatively complicated arithmetic expressions.</p>
+
+<h3>Matrix and Scalar Arithmetic</h3>
+
+<p>Eigen allows for straightforward addition and subtraction of vectors and matrices. However, it is necessary for the operations to be mathematically well-defined: The two operands must have the same number of rows and columns. In addition, they must also possess the same scalar type. Here is an example of usage:</p>
+
+<pre>
+<code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;Eigen/Dense&gt;
+
+int main() {
+  // Define two matrices, both 3x3
+  Eigen::Matrix3d p;
+  Eigen::Matrix3d q;
+
+  // Define two three-dimensional vectors
+  // The constructor provides initialisation
+  Eigen::Vector3d r(1,2,3);
+  Eigen::Vector3d s(4,5,6);
+
+  // Use the &lt;&lt; operator to fill the matrices
+  p &lt;&lt; 1, 2, 3,
+       4, 5, 6,
+       7, 8, 9;
+  q &lt;&lt; 10, 11, 12,
+       13, 14, 15,
+       16, 17, 18;
+
+  // Output arithmetic operations for matrices
+  std::cout &lt;&lt; "p+q=\n" &lt;&lt; p + q &lt;&lt; std::endl;
+  std::cout &lt;&lt; "p-q=\n" &lt;&lt; p - q &lt;&lt; std::endl;
+
+  // Output arithmetic operations for vectors
+  std::cout &lt;&lt; "r+s=\n" &lt;&lt; r + s &lt;&lt; std::endl;
+  std::cout &lt;&lt; "r-s=\n" &lt;&lt; r - s &lt;&lt; std::endl;
+}</code>
+</pre>
+
+<p>Here is the output:</p>
+
+<pre>
+<code class="language-none">p+q=
+11 13 15
+17 19 21
+23 25 27
+p-q=
+-9 -9 -9
+-9 -9 -9
+-9 -9 -9
+r+s=
+5
+7
+9
+r-s=
+-3
+-3
+-3</code>
+</pre>
+
+<p>Scalar multiplication and division are just as simple in Eigen:</p>
+
+<pre>
+<code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;Eigen/Dense&gt;
+
+int main() {
+  // Define a 3x3 matrix and initialise
+  Eigen::Matrix3d p;
+  p &lt;&lt; 1, 2, 3,
+       4, 5, 6,
+       7, 8, 9;
+
+  // Multiply and divide by a scalar
+  std::cout &lt;&lt; "p * 3.14159 =\n" &lt;&lt; p * 3.14159 &lt;&lt; std::endl;
+  std::cout &lt;&lt; "p / 2.71828 =\n" &lt;&lt; p / 2.71828 &lt;&lt; std::endl; 
+}</code>
+</pre>
+
+<p>Here is the output:</p>
+
+<pre>
+<code class="language-none">p * 3.14159 =
+3.14159 6.28318 9.42477
+12.5664  15.708 18.8495
+21.9911 25.1327 28.2743
+p / 2.71828 =
+ 0.36788 0.735759  1.10364
+ 1.47152   1.8394  2.20728
+ 2.57516  2.94304  3.31092</code>
+</pre>
+
+<h3>Matrix Transposition</h3>
+
+<p>Eigen also has operations for the <code>transpose</code>, <code>conjugate</code> and the <code>adjoint</code> of a matrix. For quantitative finance work we are really only interested in the <code>transpose</code>, as we will not often be utilising complex numbers!</p>
+
+<p>It is necessary to be careful when using the tranpose operation for in-place assignment (this applies to the conjugate and the adjoint too) as the transpose operation will write into the original matrix before finalising the calculation, which can lead to unexpected behaviour. Thus it is necessary to use Eigen's <code>transposeInPlace</code> method on matrix objects when carrying out in-place transposition.</p>
+
+<pre>
+<code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;Eigen/Dense&gt;
+
+int main() {
+  // Declare a 3x3 matrix with random entries
+  Eigen::Matrix3d p = Eigen::Matrix3d::Random(3,3);
+
+  // Output the transpose of p
+  std::cout &lt;&lt; "p^T =\n" &lt;&lt; p.transpose() &lt;&lt; std::endl;
+
+  // In-place transposition
+  p.transposeInPlace();
+
+  // Output the in-place transpose of p
+  std::cout &lt;&lt; "p^T =\n" &lt;&lt; p &lt;&lt; std::endl;
+}</code>
+</pre>
+
+<p>Here is the output:</p>
+
+<pre>
+<code class="language-none">p^T =
+-0.999984 -0.736924  0.511211
+-0.0826997 0.0655345 -0.562082
+-0.905911  0.357729  0.358593
+p^T =
+-0.999984 -0.736924  0.511211
+-0.0826997 0.0655345 -0.562082
+-0.905911  0.357729  0.358593</code>
+</pre>
+
+<h3>Matrix/Matrix and Matrix/Vector Multiplication</h3>
+
+<p>Eigen handles matrix/matrix and matrix/vector multiplication with a simple API. Vectors are matrices of a particular type (and defined that way in Eigen) so all operations simply overload the <code>operator*</code>. Here is an example of usage for matrices, vectors and transpose operations:</p>
+
+<pre>
+<code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;Eigen/Dense&gt;
+
+int main() {
+  // Define a 3x3 matrix and two 3-dimensional vectors
+  Eigen::Matrix3d p;
+  p &lt;&lt; 1, 2, 3,
+       4, 5, 6,
+       7, 8, 9;
+  Eigen::Vector3d r(10, 11, 12);
+  Eigen::Vector3d s(13, 14, 15);
+  
+  // Matrix/matrix multiplication
+  std::cout &lt;&lt; "p*p:\n" &lt;&lt; p*p &lt;&lt; std::endl;
+
+  // Matrix/vector multiplication
+  std::cout &lt;&lt; "p*r:\n" &lt;&lt; p*r &lt;&lt; std::endl;
+  std::cout &lt;&lt; "r^T*p:\n" &lt;&lt; r.transpose()*p &lt;&lt; std::endl;
+  
+  // Vector/vector multiplication (inner product)
+  std::cout &lt;&lt; "r^T*s:\n" &lt;&lt; r.transpose()*s &lt;&lt; std::endl;
+}</code>
+</pre>
+
+<p>Here is the output:</p>
+
+<pre>
+<code class="language-none">p*p:
+ 30  36  42
+ 66  81  96
+102 126 150
+p*r:
+68
+167
+266
+r^T*p:
+138 171 204
+r^T*s:
+464</code>
+</pre>
+
+<h3>Vector Operations</h3>
+
+<p>Eigen also supports common vector operations, such as the inner product ("dot" product) and the vector product ("cross" product). Note that the sizes of the operand vectors are restricted by the mathematical definitions of each operator. The dot product must be applied to two vectors of equal dimension, while the cross product is only defined for three-dimensional vectors:</p>
+
+<pre>
+<code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;Eigen/Dense&gt;
+
+int main() {
+  // Declare and initialise two 3D vectors
+  Eigen::Vector3d r(10,20,30);
+  Eigen::Vector3d s(40,50,60);
+
+  // Apply the 'dot' and 'cross' products 
+  std::cout &lt;&lt; "r . s =\n" &lt;&lt; r.dot(s) &lt;&lt; std::endl;
+  std::cout &lt;&lt; "r x s =\n" &lt;&lt; r.cross(s) &lt;&lt; std::endl;
+}</code>
+</pre>
+
+<p>Here is the output:</p>
+
+<pre>
+<code class="language-none">r . s =
+3200
+r x s =
+-300
+600
+-300</code>
+</pre>
+
+<h3>Reduction</h3>
+
+<p>"Reduction" in this context means to take a matrix or vector as an argument and obtain a scalar as a result. There are six reduction operations which interest us:</p> 
+
+<ul>
+  <li><code>sum</code> - Calculates the sum of all elements in a vector or matrix</li>
+  <li><code>prod</code> - Calculates the product of all elements in a vector or matrix</li>
+  <li><code>mean</code> - Calculates the mean average of all elements in a vector or matrix</li>
+  <li><code>minCoeff</code> - Calculates the minimum element in a vector or matrix</li>
+  <li><code>maxCoeff</code> - Calculates the maximum element in a vector or matrix</li>
+  <li><code>trace</code> - Calculates the <em>trace</em> of a matrix, i.e. the sum of the diagonal elements</li>
+</ul>
+
+<p>Here is an example of usage:</p>
+
+<pre>
+<code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;Eigen/Dense&gt;
+
+int main() {
+  // Declare and initialise a 3D matrix
+  Eigen::Matrix3d p;
+  p &lt;&lt; 1, 2, 3,
+       4, 5, 6,
+       7, 8, 9;
+
+  // Output the reduction operations
+  std::cout &lt;&lt; "p.sum(): " &lt;&lt; p.sum() &lt;&lt; std::endl;
+  std::cout &lt;&lt; "p.prod(): " &lt;&lt; p.prod() &lt;&lt; std::endl;
+  std::cout &lt;&lt; "p.mean(): " &lt;&lt; p.mean() &lt;&lt; std::endl;
+  std::cout &lt;&lt; "p.minCoeff(): " &lt;&lt; p.minCoeff() &lt;&lt; std::endl;
+  std::cout &lt;&lt; "p.maxCoeff(): " &lt;&lt; p.maxCoeff() &lt;&lt; std::endl;
+  std::cout &lt;&lt; "p.trace(): " &lt;&lt; p.trace() &lt;&lt; std::endl;
+}</code>
+</pre>
+
+<p>Here is the output:</p>
+
+<pre>
+<code class="language-none">p.sum(): 45
+p.prod(): 362880
+p.mean(): 5
+p.minCoeff(): 1
+p.maxCoeff(): 9
+p.trace(): 15</code>
+</pre>
+
+<h2>Useful Features</h2>
+
+<p>Eigen contains many more features than I have listed here. In particular, it supports multiple data structures for efficient matrix storage, depending on structural sparsity of values via the Sparse namespace. Further, Eigen has support for LR, Cholesky, SVD and QR decomposition. Eigenvalues can also be calculated in an optimised manner. The Geometry module allows calculation of geometric quantities, including transforms, translations, scaling, rotations and quaternions.</p>
+
+<h2>Next Steps</h2>
+
+<p>Now that we have explored the basic usage of the Eigen library, as well as glimpsed at the higher functionality, we are ready to carry out Numerical Linear Algebra (NLA) with Eigen as the basis (excuse the pun) for our code. This will help us solve problems in quantitative trading (such as using the Cholesky Decomposition for correlated asset paths) and derivatives pricing (solving Black-Scholes via implicit Finite Difference Methods and tridiagonal LR decomposition).</p>
+        
+        
+        <script async data-uid="6296c27f4b" src="https://weathered-brook-5281.ck.page/6296c27f4b/index.js"></script>
+      </section>
+    </div>
+    <div class="col-md-4 book-card order-md-1">
+      
+<div class="sidebar-advert-container">
+  <a href="/qsalpha/?ref=art">
+    <img class="card-img-top" src="/static/images/qsalpha-sidebar-advert-small.png" alt="QSAlpha">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/qsalpha/?ref=art">QSAlpha</a></h3>
+      <p class="card-text medium-text mb-3">Join the QSAlpha research platform that helps fill your strategy research pipeline, diversifies your portfolio and improves your risk-adjusted returns for increased profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/qsalpha/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/quantcademy/?ref=art">
+    <img class="card-img-top" src="/static/images/quantcademy-sidebar-advert-small.png" alt="Quantcademy">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/quantcademy/?ref=art">The Quantcademy</a></h3>
+      <p class="card-text medium-text mb-3">Join the Quantcademy membership portal that caters to the rapidly-growing retail quant trader community and learn how to increase your strategy profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/quantcademy/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/successful-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/sat-sidebar-advert-small.png" alt="Successful Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to find new trading strategy ideas and objectively assess them for your portfolio using a Python-based backtesting engine.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/successful-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/advanced-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/aat-sidebar-advert-small.png" alt="Advanced Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to implement advanced trading strategies using time series analysis, machine learning and Bayesian statistics with R and Python.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/advanced-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+    
+
+<footer>
+  <div class="container container-full">
+    <section class="mt-1.5 mb-1">
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">QuantStart</li>
+            <li class="footer-list-link"><a class="link-fade" href="/about/">About</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/articles/">Articles</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/sitemap/">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Products</li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qsalpha/">QSAlpha</a></li>
+            
+            
+            <li class="footer-list-link"><a class="link-fade" href="/quantcademy/">Quantcademy</a></li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qstrader/">QSTrader</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Legal</li>
+            <li class="footer-list-link"><a class="link-fade" href="/privacy-policy/">Privacy Policy</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/terms-and-conditions/">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Social</li>
+            <li class="footer-list-link"><a class="link-fade" href="https://twitter.com/quantstart">Twitter</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="https://www.youtube.com/channel/UCmVnnZ6Y2TrJtY1eQJN6kWA">YouTube</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="row mb-1.5 mt-5">
+      <div class="col-12 col-md-9 col-lg-8 col-xl-6">
+        <div class="footer-copyright">
+          <p>©2012-2023 QuarkGluon Ltd. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+<script src="/static/js/jquery-3.2.1.min.js"></script>
+<script src="/static/js/prism.js.min"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/nav.js"></script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5383959-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+    
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="/static/js/highcharts/highcharts.js"></script>
+<script type="text/javascript">
+  num_colours = 10;
+</script>
+<script src="/static/js/statistics.js"></script>
+
+
+  </body>
+</html>

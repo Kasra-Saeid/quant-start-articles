@@ -1,0 +1,416 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-site-verification" content="wl3-8ed1QZjI0iYZMv10zoZWYElkMObTfwLlWIj9cpA" />
+    <meta name="description" content="Is it better to go with a more advanced approach when developing quant trading strategies or is it best to stick with simple ideas?">
+
+    <link rel="icon" href="/static/images/favicon.png">
+
+    <title>Simple versus Advanced Systematic Trading Strategies - Which is Better? | QuantStart</title>
+    
+    
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet"> 
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/prism.css" rel="stylesheet">
+<link href="/static/css/qs.css?v=10" rel="stylesheet">
+    
+  </head>
+
+  <body>
+    <header class="header covered-header" style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://quantstartmedia.s3.amazonaws.com/images/article-images/article-backgrounds/simple-versus-advanced-systematic-trading-strategies-which-is-better.jpg);">
+  
+<nav class="nav">
+  <div class="container nav-container">
+    <div class="nav-row row d-flex justify-content-between align-items-center">
+      <div class="col-2">
+        <ul class="nav-items justify-content-end small-capitals align-items-center">
+          <li class="nav-item">
+            <a class="link-fade" href="/">QuantStart</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-auto col-logo">
+        <ul id="top-nav-menu" class="nav-items justify-content-end align-items-center">
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/qsalpha/">QSAlpha</a>
+          </li>
+          
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/quantcademy/">Quantcademy</a>
+          </li>
+          
+          <li id="menu-link-ebooks" class="nav-item">
+            <a class="link-fade" href="#">Books</a>
+            <div id="menu-pane-ebooks" class="nav-items menu-dropdown-pane">
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/qstrader/">QSTrader</a>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/articles/">Articles</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/members/login/">Login</a>
+          </li>
+          
+        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<nav id="mobile-nav" class="mobile-nav text-left">
+  <div class="container">
+    <ul class="mt-4 ml-3 mobile-nav-menu">
+      <li class="nav-item">
+        <a class="link-fade d-block" href="/">QuantStart</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qsalpha/">QSAlpha</a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/quantcademy/">Quantcademy</a>
+      </li>
+      
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="#">Books</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qstrader/">QSTrader</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/articles/">Articles</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/members/login/">Login</a>
+      </li>
+      
+    </ul>
+    <button class="nav-toggle mobile-nav-close">
+      <svg id="mobile-nav-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M19.77,5.63,13.41,12l6.36,6.37a1,1,0,0,1-1.41,1.41L12,13.41,5.63,19.77a1,1,0,0,1-1.44-1.39l0,0L10.58,12,4.21,5.63a1,1,0,0,1,0-1.42,1,1,0,0,1,1.41,0l0,0L12,10.58l6.37-6.37a1,1,0,0,1,1.41,0A1,1,0,0,1,19.77,5.63Z"></path>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+  <div class="container hero-container">
+    <section class="mt-5 mb-4">
+      <div class="row justify-content-center">
+        <div class="col-12 text-center">
+          <p class="hero">Simple versus Advanced Systematic Trading Strategies - Which is Better?</p>
+          <p class="hero subhero">Is it better to go with a more advanced approach when developing quant trading strategies or is it best to stick with simple ideas?</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</header>
+    
+<section class="container content-container">
+  <div class="row">
+    <div class="col-md-8 order-md-2">
+      <section class="content article-content">
+        
+        
+        <p>An age-old question in the quant community asks whether systematic traders should stick with simple quant strategies or expend the effort to implement more advanced approaches.</p>
+
+<p>It is often the perception that retail algo traders solely utilise simpler strategies while quantitative hedge funds carry out highly sophisticated and mathematically complex approaches. Recently however the situation has changed.</p>
+
+<p>Retail algo traders are now able to carry out sophisticated analysis by virtue of relatively cheap cloud compute, alternative data vendors providing affordable easy-to-use datasets and the availability of open source research frameworks.</p>
+
+<p>In this article we will discuss whether retail quants should invest the time to carry out these advanced strategies or instead stick with the simpler ideas.</p>
+
+<h2>Investor Preferences</h2>
+
+<p>Prior to listing a set of advantages and disadvantages for simple versus complex strategies it is necessary to outline how we will judge the relative merits of each approach.</p>
+
+<p>One key issue is that each investor has their own particular set of preferences—and thus an 'objective function'—for what they are trying to achieve with systematic trading.</p>
+
+<p>For instance one investor might possess a large capital base but may require periodic income extraction of any trading gains derived on this capital. Capital preservation—and thus minimising drawdowns—will be important to such an investor.</p>
+
+<p>Another investor may have a relatively smaller capital base and be interested solely in increasing total wealth. Volatility of the overall P&amp;L equity curve may not be as much of a concern if larger returns can be achieved.</p>
+
+<p>Some quantitative traders place a much higher emphasis on the intellectual stimulation of developing a functioning systematic trading strategy. They may actually see achieving a positive return as a nice 'side effect' of their hobby.</p>
+
+<p>It is clear that investors possess many differing preferences. These aspects help frame the discussion of simple versus complex systematic trading strategies for a retail quant who may be deciding whether to tackle more advanced approaches.</p>
+
+<p>Simple strategies are more straightforward to research and deploy to market. They require less complex data and infrastructure. Some can even be executed manually, even if the signals themselves are generated automatically.</p>
+
+<p>Advanced strategies on the other hand are more intellectually rewarding and they tend to possess more favourable <a href="https://www.quantstart.com/articles/Sharpe-Ratio-for-Algorithmic-Trading-Performance-Measurement/">Sharpe Ratios</a>. That is, they provide better expected returns per unit of volatility. For an investor who is concerned about minimising drawdowns and volatility of their P&amp;L the Sharpe Ratio will be an important metric to consider.</p>
+
+<p>In this article we will explore in detail whether 'simple beats complex'. We will keep in mind the above motivations as well as additional advantages and disadvantages.</p>
+
+<h2>Simple Trading Strategies</h2>
+
+<p>Whether a trading strategy is considered 'simple' is highly dependent upon the educational background and technical capability of the investor. Those who have a PhD in stochastic calculus may have a very different definition of 'simple' compared to those retail quants who are self-taught.</p>
+
+<p>For the purposes of this article we are going to loosely define a trading strategy as 'simple' if it is applied to developed markets, on large well-known asset classes, using simple instruments with elementary mathematical of statistical sophistication.</p>
+
+<p>Examples of such strategies would include technical analysis 'indicator' signals, without an explicit portfolio construction or risk management component, applied to highly-liquid markets such as US equities, ETFs or forex.</p>
+
+<p>Advantages of simpler strategies include:</p>
+
+<ul>
+  <li><strong>Data</strong> - All systematic trading strategies require data. Simpler strategies usually make use of readily available price/volume data on well-traded instruments in developed asset classes. Such data is very cheap to obtain or even free. It is usually small in size and can be downloaded straightforwardly from many vendors through easy-to-use APIs.</li>
+  <li><strong>Research</strong> - There are a plethora of backtesting environments available that can test 'indicator' style strategies, ranging from the commercial products such as <a href="https://www.tradestation.com/">TradeStation</a> or <a href="https://www.metatrader5.com/en">MetaTrader5</a> through to open source libraries such as <a href="https://www.quantstart.com/qstrader/docs/">QSTrader</a>, <a href="https://www.backtrader.com/">Backtrader</a> and <a href="https://www.zipline.io/index.html">Zipline</a>, or even libraries such as <a href="https://pandas.pydata.org/">Pandas</a>. Simpler strategies can often be easily implemented in one of these frameworks.</li>
+  <li><strong>Transaction Costs</strong> - Due to the use of simple instruments in developed, liquid markets it is relatively easy to estimate transaction costs. This in turn makes it more straightforward to determine if a strategy is likely to be profitable out-of-sample.</li>
+  <li><strong>Infrastructure</strong> - Technical analysis type strategies carried out at low frequency can be automated with relatively simple infrastructure. Depending upon the level of robustness required a <a href="https://en.wikipedia.org/wiki/Cron">cron job</a> could be setup to produce a list of desired trades, while execution could be carried out manually.</li>
+  <li><strong>Capacity</strong> - Once again, due to the use of simple instruments in highly liquid markets there is less likely to be an issue with capacity constraint.</li>
+</ul>
+
+<p>However there are disadvantages when utilising simpler strategies:</p>
+
+<ul>
+  <li><strong>Alpha</strong> - Technical analysis 'indicator' strategies are extremely well-known and pervasive in the financial markets. It remains unclear whether the simplest strategies add any value above basic buy &amp; hold or momentum-based <a href="https://www.quantstart.com/articles/systematic-tactical-asset-allocation-an-introduction/">tactical asset allocation</a>. That is, the strategies themselves may not be producing 'alpha', but are rather obtaining 'beta' from the market itself, or other well-known academic risk factors.</li>
+  <li><strong>Profitability</strong> - Due to the pervasiveness of such approaches it may be challenging to be consistently profitable out-of-sample once realistic transaction costs are factored in. This is why it is essential to estimate transaction costs as effectively as possible during any backtests.</li>
+  <li><strong>Statistical Testing</strong> - While not specifically an issue with simple trading strategies it is common to see little or no robust statistical analysis carried out on simpler strategies. Hence many such strategies that show high performance in a backtest may simply be due to overfitting to the in-sample data.</li>
+  <li><strong>Discretion</strong> - Simpler strategies, executed manually can lead to elements of discretion being applied to the process. For example, delaying the entry of a trade due to a 'busy' opening hour or using 'gut feelings' to override a trade. This makes it challenging to determine the true performance of a strategy.</li>
+  <li><strong>Portfolio Construction</strong> - It is common for simpler strategies to avoid the use of any robust portfolio construction or risk management techniques. While 'stop losses' are often employed there is less of a culture of applying volatility targeting, equal volatility weighting (aka 'risk parity') or diversification across markets as potential mechanisms to improve risk-adjusted returns.</li>
+  <li><strong>Intellectual Reward</strong> - Simpler strategies do not often make use of any complex mathematics or advanced analysis. If the investor's goal is intellectual reward then a simple strategy will be unlikely to achieve this objective.</li>
+</ul>
+
+<p>It can be seen that while simpler trading strategies are far easier to implement, test and trade, the simplicity may come at the expense of statistical robustness and long-term profitability.</p>
+
+<h2>Advanced Trading Strategies</h2>
+
+<p>Examples of more advanced strategies include those based on statistical hypothesis testing, extensive asset class domain knowledge, a rigourous portfolio construction methodology as well as more illiquid, niche asset classes or instruments, such as emerging markets, commodities and derivatives.</p>
+
+<p>These strategies are typically the domain of institutional quantitative hedge funds but are now becoming more common in retail quantitative trading due to the availability of data and prevalance of better simulation tools.</p>
+
+<p>Advantages of complex strategies include:</p>
+
+<ul>
+  <li><strong>Correlation</strong> - More advanced strategies tend to be—by design—less correlated to the overall market and any existing portfolio composed of other trading strategies. This tends to lead to a higher overall portfolio Sharpe Ratio.</li>
+  <li><strong>Profitability</strong> - With advanced domain knowledge it is possible to estimate transaction costs reasonably well. This means that it is often easier to determine if a strategy is likely to be profitable out-of-sample. Hence many unprofitable backtest ideas can be rejected prior to a live testing period.</li>
+  <li><strong>Statistical Testing</strong> - Rigourous statistical analysis of trading strategies often accompanies more advanced approaches. This means that deployed strategies tend to see less of a drop in out-of-sample performance compared to simpler strategies, which might have been overfit in-sample.</li>
+  <li><strong>Alpha</strong> - Due to the use of niche instruments in less developed markets there is greater potential for 'alpha' in such strategies. This alpha tends to decay more slowly due to the reduced rate of diffusion of strategy knowledge throughout the market.</li>
+  <li><strong>Portfolio Construction</strong> - Portfolio construction and risk management go hand-in-hand with more advanced approaches. This helps align investor goals with strategy performance.</li>
+  <li><strong>Intellectual Reward</strong> - Advanced strategies require more sophisticated analysis, more mathematical maturity and more extensive software development. For some hobbyist investors this is more of an objective than generating wealth. Hence they will often be drawn to the more sophisticated systematic trading approaches.</li>
+</ul>
+
+<p>As with simpler strategies, more advanced strategies suffer from certain disadvantages:</p>
+
+<ul>
+  <li><strong>Mathematical Sophistication</strong> - A background in statistical analysis, time series analysis, stochastic calculus or machine learning is often required to tackle some of the more advanced systematic trading approaches. While this knowledge can certainly be self-taught (see our four part series beginning <a href="https://www.quantstart.com/articles/How-to-Learn-Advanced-Mathematics-Without-Heading-to-University-Part-1/">here</a>) it is far easier to obtain the relevant knowledge through an <a href="https://www.quantstart.com/articles/Best-Undergraduate-Degree-Course-For-Becoming-A-Quant/">undergraduate degree</a>, MFE and/or PhD.</li>
+  <li><strong>Domain Knowledge</strong> - Even armed with multiple postgraduate qualifications it is still necessary to possess reasonable domain knowledge of a niche asset class or instrument type in order to consistently generate alpha from any advanced systematic trading techniques. This domain knowledge is often gained through years of experience on the job, working at a particular 'desk' in a bank or fund.</li>
+  <li><strong>Data</strong> - Generally, data costs scale with frequency of the sampling, breadth of the universe, length of history, data quality and specificity of the asset class/instrument. More advanced strategies rely on niche markets to generate alpha. Hence data can be very expensive. Such costs must be accounted for in order for a strategy to generate a profit.</li>
+  <li><strong>Research</strong> - If a strategy is specifically designed to trade more esoteric instruments then a specialised backtesting environment is required. This usually means developing a fully custom code from scratch. This is a substantial time investment. It also requires extensive software engineering skills to avoid introducing bugs.</li>
+  <li><strong>Infrastructure</strong> - Even if a robust backtesting framework has been built to research more advanced strategies an equally sophisticated infrastructure is required to trade it. It will likely need to be fully automated. This will require sophisticated deployment, testing and monitoring.</li>
+  <li><strong>Capacity</strong> - Some more advanced strategy approaches only 'work' because they are capacity constrained. Large funds are unable to trade these strategies because the time investment is not worth the absolute return they would be able to generate. This means that there is an upper limit to the amount of capital that could be applied to an advanced approach.</li>
+</ul>
+
+<p>It can be seen that while advanced trading strategies provide more chances for alpha and potentially higher profitability, this comes at the requirement of more mathematical sophistication, necessary domain knowledge and more complex automated trading infrastructure.</p>
+
+<h2>Summary</h2>
+
+<p>In summary it is clear that simpler trading strategies can be brought to market far sooner. They require far less background knowledge to get started and can be executed manually, even if the signals are generated automatically. They are however more likely to be overfit and less profitable than more advanced approaches.</p>
+
+<p>Complex strategies provide uncorrelated 'alpha', reasonable profitability and intellectual stimulation. However this comes at the expense of higher data costs, more time spent developing research and trading infrastructure and the need for a deeper educational background.</p>
+        
+        
+        <script async data-uid="6296c27f4b" src="https://weathered-brook-5281.ck.page/6296c27f4b/index.js"></script>
+      </section>
+    </div>
+    <div class="col-md-4 book-card order-md-1">
+      
+<div class="sidebar-advert-container">
+  <a href="/qsalpha/?ref=art">
+    <img class="card-img-top" src="/static/images/qsalpha-sidebar-advert-small.png" alt="QSAlpha">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/qsalpha/?ref=art">QSAlpha</a></h3>
+      <p class="card-text medium-text mb-3">Join the QSAlpha research platform that helps fill your strategy research pipeline, diversifies your portfolio and improves your risk-adjusted returns for increased profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/qsalpha/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/quantcademy/?ref=art">
+    <img class="card-img-top" src="/static/images/quantcademy-sidebar-advert-small.png" alt="Quantcademy">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/quantcademy/?ref=art">The Quantcademy</a></h3>
+      <p class="card-text medium-text mb-3">Join the Quantcademy membership portal that caters to the rapidly-growing retail quant trader community and learn how to increase your strategy profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/quantcademy/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/successful-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/sat-sidebar-advert-small.png" alt="Successful Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to find new trading strategy ideas and objectively assess them for your portfolio using a Python-based backtesting engine.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/successful-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/advanced-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/aat-sidebar-advert-small.png" alt="Advanced Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to implement advanced trading strategies using time series analysis, machine learning and Bayesian statistics with R and Python.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/advanced-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+    
+
+<footer>
+  <div class="container container-full">
+    <section class="mt-1.5 mb-1">
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">QuantStart</li>
+            <li class="footer-list-link"><a class="link-fade" href="/about/">About</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/articles/">Articles</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/sitemap/">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Products</li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qsalpha/">QSAlpha</a></li>
+            
+            
+            <li class="footer-list-link"><a class="link-fade" href="/quantcademy/">Quantcademy</a></li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qstrader/">QSTrader</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Legal</li>
+            <li class="footer-list-link"><a class="link-fade" href="/privacy-policy/">Privacy Policy</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/terms-and-conditions/">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Social</li>
+            <li class="footer-list-link"><a class="link-fade" href="https://twitter.com/quantstart">Twitter</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="https://www.youtube.com/channel/UCmVnnZ6Y2TrJtY1eQJN6kWA">YouTube</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="row mb-1.5 mt-5">
+      <div class="col-12 col-md-9 col-lg-8 col-xl-6">
+        <div class="footer-copyright">
+          <p>©2012-2023 QuarkGluon Ltd. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+<script src="/static/js/jquery-3.2.1.min.js"></script>
+<script src="/static/js/prism.js.min"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/nav.js"></script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5383959-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+    
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="/static/js/highcharts/highcharts.js"></script>
+<script type="text/javascript">
+  num_colours = 10;
+</script>
+<script src="/static/js/statistics.js"></script>
+
+
+  </body>
+</html>

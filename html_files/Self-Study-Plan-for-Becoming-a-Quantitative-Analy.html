@@ -1,0 +1,408 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-site-verification" content="wl3-8ed1QZjI0iYZMv10zoZWYElkMObTfwLlWIj9cpA" />
+    <meta name="description" content="Self-Study Plan for Becoming a Quantitative Analyst">
+
+    <link rel="icon" href="/static/images/favicon.png">
+
+    <title>Self-Study Plan for Becoming a Quantitative Analyst | QuantStart</title>
+    
+    
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet"> 
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/prism.css" rel="stylesheet">
+<link href="/static/css/qs.css?v=10" rel="stylesheet">
+    
+  </head>
+
+  <body>
+    <header class="header covered-header" style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://quantstartmedia.s3.amazonaws.com/images/article-images/article-backgrounds/default-bg.jpg);">
+  
+<nav class="nav">
+  <div class="container nav-container">
+    <div class="nav-row row d-flex justify-content-between align-items-center">
+      <div class="col-2">
+        <ul class="nav-items justify-content-end small-capitals align-items-center">
+          <li class="nav-item">
+            <a class="link-fade" href="/">QuantStart</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-auto col-logo">
+        <ul id="top-nav-menu" class="nav-items justify-content-end align-items-center">
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/qsalpha/">QSAlpha</a>
+          </li>
+          
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/quantcademy/">Quantcademy</a>
+          </li>
+          
+          <li id="menu-link-ebooks" class="nav-item">
+            <a class="link-fade" href="#">Books</a>
+            <div id="menu-pane-ebooks" class="nav-items menu-dropdown-pane">
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/qstrader/">QSTrader</a>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/articles/">Articles</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/members/login/">Login</a>
+          </li>
+          
+        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<nav id="mobile-nav" class="mobile-nav text-left">
+  <div class="container">
+    <ul class="mt-4 ml-3 mobile-nav-menu">
+      <li class="nav-item">
+        <a class="link-fade d-block" href="/">QuantStart</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qsalpha/">QSAlpha</a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/quantcademy/">Quantcademy</a>
+      </li>
+      
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="#">Books</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qstrader/">QSTrader</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/articles/">Articles</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/members/login/">Login</a>
+      </li>
+      
+    </ul>
+    <button class="nav-toggle mobile-nav-close">
+      <svg id="mobile-nav-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M19.77,5.63,13.41,12l6.36,6.37a1,1,0,0,1-1.41,1.41L12,13.41,5.63,19.77a1,1,0,0,1-1.44-1.39l0,0L10.58,12,4.21,5.63a1,1,0,0,1,0-1.42,1,1,0,0,1,1.41,0l0,0L12,10.58l6.37-6.37a1,1,0,0,1,1.41,0A1,1,0,0,1,19.77,5.63Z"></path>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+  <div class="container hero-container">
+    <section class="mt-5 mb-4">
+      <div class="row justify-content-center">
+        <div class="col-12 text-center">
+          <p class="hero">Self-Study Plan for Becoming a Quantitative Analyst</p>
+          <p class="hero subhero">Self-Study Plan for Becoming a Quantitative Analyst</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</header>
+    
+<section class="container content-container">
+  <div class="row">
+    <div class="col-md-8 order-md-2">
+      <section class="content article-content">
+        
+        
+        <p>This is part 2 in a 3-part series on how to self-study to get into quantitative finance. We've already covered <a href="http://www.quantstart.com/articles/Self-Study-Plan-for-Becoming-a-Quantitative-Developer">self-studying to become a quantitative developer</a>. In this article we'll look at forming a self-study plan to become a <strong>quantitative analyst/financial engineer</strong>.</p>
+
+<p>Quantitative analysts and financial engineers spend their time determining fair prices for derivative products. This involves some deep mathematical theory including probability, measure theory, stochastic calculus and partial differential equations. Thus to become a quant analyst it is necessary to have a strong mathematical background in mathematics, usually through an undergraduate degree in mathematics, physics or engineering.</p>
+
+<p>Undertaking self-study to become a quantitative analyst is not a straightforward task. Depending upon your background, aptitude and time commitments, it can take anywhere from six months to two years to be familiar with the necessary material before being able to apply for a quantitative position. However, the rewards are worthwhile. An extremely challenging intellectual environment coupled with highly attractive compensation provides strong motivation to work towards becoming a quant.</p>
+
+<h2>The Mathematical Fundamentals</h2>
+
+<p>Nowadays there is a comprehensive literature available for financial engineering. I've written many articles on this site about which books to start with, but I want to provide greater detail in this article as it is a <em>study plan</em> not a reading list!</p>
+
+<ol>
+  <li>For those of you who are unfamiliar with financial markets or the derivative products within them, the best place to start is with John Hull's <a href="http://www.amazon.com/gp/product/0132777428/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0132777428&linkCode=as2&tag=quant0f-20"><strong>Options, Futures, and Other Derivatives</strong></a>. This is not a highly mathematical treatment of the subject, instead it concentrates on the different markets and products such as futures, options, swaps and other interest rate derivatives. I would suggest reading all of the chapters in this book, eventually, but only concurrently with a more mathematical text. Familiarise yourself with the chapters on futures markets, options markets, binomial trees, Wiener processes and the Black-Scholes-Merton model. Later on you can read about the "Greeks" and volatility. Hull is a great "bedtime" or "commuter" read, but you'll need something more mathematically-oriented to really get to grips with the options pricing material.</li>
+  <li>Next up is Mark Joshi's <a href="http://www.amazon.com/gp/product/0521514088/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0521514088&linkCode=as2&tag=quant0f-20"><strong>The Concepts and Practice of Mathematical Finance</strong></a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=0521514088" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />, which is pitched at 3rd year undergraduate mathematics level. You will need to read and fully understand Chapters 1-7. Chapter 6, on Risk Neutrality, is probably the most challenging at this stage. You will then have a good grasp of how options are priced both in theory and in practice. Chapters 8-12 concentrate on exotic or early-exercise options. As a desk quant you will need to be aware of these concepts too and they provide insight into how the theory of Chapters 1-7 is applied. The remainder of the book concentrates on interest rate derivatives as well as more advanced models for asset price paths. I would suggest learning the basics extremely well, before beginning these chapters.</li>
+  <li>The next book, by Martin Baxter and Andrew Rennie, <a href="http://www.amazon.com/gp/product/0521552893/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0521552893&linkCode=as2&tag=quant0f-20"><strong>Financial Calculus: An Introduction to Derivative Pricing</strong></a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=0521552893" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />, can be read concurrently. Chapter 3 in particular covers risk neutral pricing at a good level. The remainder of the book concentrates on interest rates and more advanced models. I will emphasise again - make sure you understand the basics extremely well, particularly the Black-Scholes model, different types of options and pricing techniques as well as practical pricing methods such as Monte Carlo and how it works.</li>
+</ol>
+
+<p>I would suggest that these books are sufficient to gain a good understanding of options pricing. If you know that you are going to become a fixed income quant, then you will obviously need to be extremely familiar with interest rate derivatives and models, such as Heath-Jarrow-Morton (HJM) and the Hull-White models.</p>
+
+<p>If you really want to become an expert at the underlying mathematics, say for carrying out a top Masters in Financial Engineering (MFE) program or for beginning a PhD in Mathematical Finance, you will need to gain a deeper level of mathematical sophistication at stochastic calculus. Steven Shreve has written a two-volume set, which covers both the discrete (<a href="http://www.amazon.com/gp/product/0387249680/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0387249680&linkCode=as2&tag=quant0f-20"><strong>Stochastic Calculus for Finance I: The Binomial Asset Pricing Model</strong></a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=0387249680" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />) and continuous (<a href="http://www.amazon.com/gp/product/144192311X/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=144192311X&linkCode=as2&tag=quant0f-20"><strong>Stochastic Calculus for Finance II: Continuous-Time Models</strong></a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=144192311X" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />) cases. The books are quite involved and given the limited time with which you may have to study, you may find them too deep and specific for front office quant job interviews.</p>
+
+<p>If you wish to delve into more mathematical finance books take a look at the <a href="http://www.quantstart.com/articles/Quantitative-Finance-Reading-List#mathematical-finance">quantitative finance reading list section on mathematical finance</a>.</p>
+
+<h2>Research Preparation</h2>
+
+<p>For some of you, getting a job in the financial industry is not the goal - you might want to pursue research in certain topics, either at PhD level or as a post-doctoral student, potentially coming from industry. The following books will give you a much deeper appreciation for options/derivatives pricing and will concentrate more on particular topic areas, such as fixed income or credit derivatives. You will almost certainly know your (approximate) research area before committing to a program. I've tried to provide some books which will give you a solid introduction to that particular area. By following the references, you will be able to learn more.</p>
+
+<p><em>If you are simply interested in a career change into quantitative finance within industry or are after an entry-level role then feel free to skip this section and take a look at <strong>Programming Skills</strong> below.</em></p> 
+
+<h3>Advanced Mathematical Finance</h3>
+
+<p>Advanced mathematical finance really comes down to learning more about stochastic calculus and risk neutral pricing. These are both extensive research areas in mathematics. The following books will give you a deeper flavour of what quantitative finance is about.</p>
+
+<ol>
+  <li>Mark Joshi's recent <a href="http://www.amazon.com/gp/product/0987122800/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0987122800&linkCode=as2&tag=quant0f-20"><strong>More Mathematical Finance</strong></a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=0987122800" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /> essentially continues where his other book finishes. Early parts of the book concentrate on the theory and practical pricing of credit derivatives. Later on, deeper Monte Carlo and other pricing methods are discussed. If your research area is likely to involve practical implementation, this is a great book to get hold of.</li>
+</li>
+  <li>For deeper explorations of stochastic calculus, it is worth picking up <a href="http://www.amazon.com/gp/product/0387976558/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0387976558&linkCode=as2&tag=quant0f-20"><strong>Brownian Motion and Stochastic Calculus</strong></a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=0387976558" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /> by Karatzas and Shreve as well as <a href="http://www.amazon.com/gp/product/3540047581/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=3540047581&linkCode=as2&tag=quant0f-20"><strong>Stochastic Differential Equations</strong></a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=3540047581" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /> by Oksendal. Both books delve deeply into their respective areas and are required reading for anyone beginning research into stochastic analysis.</li>
+</ol>
+
+<h3>Topics (Fixed Income/Credit)</h3>
+
+<p>If your research area is geared more towards particular products - specifically in the fixed income and credit spaces - then the following books will be of interest.</p>
+
+<ol>
+  <li>For the modelling of interest rates and term structure, Brigo's book <a href="http://www.amazon.com/gp/product/3540221492/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=3540221492&linkCode=as2&tag=quant0f-20"><strong>Interest Rate Models - Theory and Practice</strong></a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=3540221492" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /> will provide the necessary groundwork to begin reading Filipovic's <a href="http://www.amazon.com/gp/product/3540097260/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=3540097260&linkCode=as2&tag=quant0f-20"><strong>Term-Structure Models</strong></a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=3540097260" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />.</li>
+  <li>If your research area is geared towards credit risk then two recommended texts are <a href="http://www.amazon.com/gp/product/354040466X/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=354040466X&linkCode=as2&tag=quant0f-20"><strong>Credit Risk Pricing Models</strong></a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=354040466X" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /> and <a href="http://www.amazon.com/gp/product/3642044530/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=3642044530&linkCode=as2&tag=quant0f-20"><strong>Modelling, Pricing, and Hedging Counterparty Credit Exposure</strong></a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=3642044530" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />.</li>
+</ol>
+
+<p>Unfortunately I can't do justice to all of the highly interesting areas of research that financial engineering encompasses in this article, so I will have to stop there!</p>
+
+<h2>Programming Skills</h2>
+
+<p>Although you won't need to have as extensive a programming knowledge base as a <a href="http://www.quantstart.com/articles/Self-Study-Plan-for-Becoming-a-Quantitative-Developer">quantitative developer</a>, you will still need to have solid object-oriented programming skills, particularly in a language such as C++.</p>
+
+<p>As a financial engineer you will spend about 50% of your time programming and implementing models. For that reason you will need to be familiar with C++ (or C#/Java) syntax, its pitfalls and "best practices". You will also need to be extremely competent at taking a mathematical algorithm and creating an object-oriented implementation that promotes maintainability, re-use and optimisation. These are difficult skills to learn unless you actually start implementing models. However, before we discuss numerical algorithms, we will talk about how to learn an object-oriented language, such as C++, to the extent necessary to perform well on a quant job (and pass an interview!).</p>
+
+<p><em>Note that there will be some crossover here with the <a href="http://www.quantstart.com/articles/Self-Study-Plan-for-Becoming-a-Quantitative-Developer">article on quantitative development</a>, so feel free to look at that article for more details on programming.</em></p>
+
+<ol>
+  <li>As with quantitative development, the best way to start learning C++ is to read a text such as Andrew Koenig's <a href="http://www.amazon.com/gp/product/020170353X/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=020170353X&linkCode=as2&tag=quant0f-20"><strong>Accelerated C++</strong></a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=020170353X" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />. If you have had some programming experience before, this book will get you up to scratch on C++ specific topics such as memory management, pointers/references as well as object-oriented approaches such as operator overloading, inheritance and polymorphism. It will also introduce you to the Standard Template Library (STL).</li>
+  <li>One book I consistently promote on the site is Scott Meyers' <a href="http://www.amazon.com/gp/product/0321334876/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0321334876&linkCode=as2&tag=quant0f-20"><strong>Effective C++</strong></a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=0321334876" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />. The book is almost a requirement for quant analyst interviews today as it contains many "gotchas" that can easily show whether you've been spending any time with the language! Definitely pick this one up and read from cover-to-cover (twice!) before your interview.</li>
+  <li>Once you've read the above two I would suggest taking a look at my own C++ book, <a href="http://www.quantstart.com/cpp-for-quantitative-finance-ebook"><strong>C++ for Quantitative Finance</strong></a>. In it I cover some of the more intermediate C++ features and how, with some knowledge of design patterns, they can be applied to the problems that a quantitative analyst will face. The book is heavily geared towards in-depth implementations, rather than extensive theory, and will give you plenty to discuss in your quant interview.</li>
+</ol>
+
+<p>If you wish to go further with your programming and learn about topics such as <em>software engineering</em>, <em>version control</em> and <em>optimisation</em> then take a look at the <a href="http://www.quantstart.com/articles/Self-Study-Plan-for-Becoming-a-Quantitative-Developer">self-study guide for quantitative developers</a>.</p>
+
+<h2>Numerical Methods</h2>
+
+<p>I have to admit that numerical methods are my favourite component of the financial engineering landscape. Further, they are possibly the most important part as well. Having a solid grasp of mathematics and stochastic calculus, while essential, means very little if you are not able to apply that knowledge to the practical pricing of derivative products. Generally one gains an education in <em>scientific computing</em> at PhD level or in grad school, as part of a computational/numerical PhD program. For those who haven't had a background in numerical methods, most likely due to a career change, it can seem like a daunting task to learn the material.</p>
+
+<p>The best way to get started is to learn a fast language such as C++, as described above in <em>Programming Skills</em>, and then work through the books in the list below.</p>
+
+<ol>
+  <li>While calculus and linear algebra are the staples of an undergraduate mathematics education, a topic which is not often core to the course is <em>Numerical Linear Algebra</em> (NLA). This is the study of algorithms to solve matrix equations (of the type $Ax=b$) and optimisations surrounding them. It is an extremely important part of the quantitative finance landscape, not just for financial engineering but for quantitative trading as well. While you won't need to be absolutely familiar with every NLA algorithm, a reasonable read-through of Lloyd Trefethen's <a href="http://www.amazon.com/gp/product/0898713617/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0898713617&linkCode=as2&tag=quant0f-20"><strong>Numerical Linear Algebra</strong></a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=0898713617" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /> will give you a solid grounding on the topic. Another seminal work is <a href="http://www.amazon.com/gp/product/0521880688/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0521880688&linkCode=as2&tag=quant0f-20"><strong>Numerical Recipes: The Art of Scientific Computing</strong></a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=0521880688" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />, which contains many of the algorithms used by quants today, including Monte Carlo techniques, NLA techniques and Fast Fourier Transforms. Implementing these methods (the book uses C++) will help you understand the process of scientific computing and will give you topics to discuss at interview.</li>
+  <li>The Monte Carlo Method is the most widely used pricing tool in financial engineeering today. Although an interviewer would probably not expect you to know extensive details of random number generation, you may as well pick them up <em>before</em> your role as you'll need to know them for the job anyway! The best place to get started with basic Monte Carlo is with Mark Joshi's <a href="http://www.amazon.com/gp/product/0521721628/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0521721628&linkCode=as2&tag=quant0f-20"><strong>C++ Design Patterns and Derivatives Pricing</strong></a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=0521721628" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />. The book begins with a simple random number generator and then prices basic options, right the way through to interest rate models and useful design patterns. This covers similar ground to my own ebook on <a href="http://www.quantstart.com/cpp-for-quantitative-finance-ebook"><strong>C++ for Quantitative Finance</strong></a>. Once you're happy with the quant implementations in Joshi's book, you can (optionally) gain a deeper understanding of the state of the art Monte Carlo with Paul Glasserman's <a href="http://www.amazon.com/gp/product/1441918221/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=1441918221&linkCode=as2&tag=quant0f-20"><strong>Monte Carlo Methods in Financial Engineering</strong></a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=1441918221" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />.</li>
+  <li>Finite Difference Methods (FDM), while popular a few years back, are not quite as important as they once were. Daniel Duffy's <a href="http://www.amazon.com/gp/product/0470855096/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0470855096&linkCode=as2&tag=quant0f-20"><strong>Financial Instrument Pricing Using C++</strong></a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=0470855096" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /> provides a great introduction to pricing financial derivatives with FDM and goes into extensive detail about how to use the STL within financial applications. If you know that you're going to be dealing with options where FDM makes sense, this book is worth picking up.</li>
+</ol>
+
+<p>While the above may seem like a lot of material, you can break it down by avoiding many of the irrelevant algorithms. Concentrate on NLA, Monte Carlo and (maybe) some finite differences, as these are the cutting edge techniques. Remember though that you will only really gain experience via actually implementing these models. Make sure you program as many as you can to really get to grips with the material.</p>
+
+<h2>Interview Preparation and Final Thoughts</h2>
+
+<p>I've already written an <a href="http://www.quantstart.com/articles/5-Top-Books-for-Acing-a-Quantitative-Analyst-Interview">article on interview preparation for becoming a quantitative analyst</a> so I won't repeat myself too much here. Make sure you work through the five books described in that article and brush up on the myriad of brainteasers found within. They are an extremely common tactic to put a candidate under stress in an interview environment.</p>
+
+<p>A strong investment in learning the material above well, coupled with extensive implementations of quant models in C++ along with practice interview questions from the above article will give you a very good chance of gaining a quant job in one of the top-tier firms.</p>
+
+<p>Be aware though that it is a tougher market than usual for trying to find a quant position - particularly at entry-level. Investment banking interviews can be challenging. Thus it is extremely important that you study hard, implement the models and understand the basics thoroughly before applying to the recruiters.</p>
+        
+        
+        <script async data-uid="6296c27f4b" src="https://weathered-brook-5281.ck.page/6296c27f4b/index.js"></script>
+      </section>
+    </div>
+    <div class="col-md-4 book-card order-md-1">
+      
+<div class="sidebar-advert-container">
+  <a href="/qsalpha/?ref=art">
+    <img class="card-img-top" src="/static/images/qsalpha-sidebar-advert-small.png" alt="QSAlpha">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/qsalpha/?ref=art">QSAlpha</a></h3>
+      <p class="card-text medium-text mb-3">Join the QSAlpha research platform that helps fill your strategy research pipeline, diversifies your portfolio and improves your risk-adjusted returns for increased profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/qsalpha/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/quantcademy/?ref=art">
+    <img class="card-img-top" src="/static/images/quantcademy-sidebar-advert-small.png" alt="Quantcademy">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/quantcademy/?ref=art">The Quantcademy</a></h3>
+      <p class="card-text medium-text mb-3">Join the Quantcademy membership portal that caters to the rapidly-growing retail quant trader community and learn how to increase your strategy profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/quantcademy/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/successful-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/sat-sidebar-advert-small.png" alt="Successful Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to find new trading strategy ideas and objectively assess them for your portfolio using a Python-based backtesting engine.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/successful-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/advanced-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/aat-sidebar-advert-small.png" alt="Advanced Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to implement advanced trading strategies using time series analysis, machine learning and Bayesian statistics with R and Python.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/advanced-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+    
+
+<footer>
+  <div class="container container-full">
+    <section class="mt-1.5 mb-1">
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">QuantStart</li>
+            <li class="footer-list-link"><a class="link-fade" href="/about/">About</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/articles/">Articles</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/sitemap/">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Products</li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qsalpha/">QSAlpha</a></li>
+            
+            
+            <li class="footer-list-link"><a class="link-fade" href="/quantcademy/">Quantcademy</a></li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qstrader/">QSTrader</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Legal</li>
+            <li class="footer-list-link"><a class="link-fade" href="/privacy-policy/">Privacy Policy</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/terms-and-conditions/">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Social</li>
+            <li class="footer-list-link"><a class="link-fade" href="https://twitter.com/quantstart">Twitter</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="https://www.youtube.com/channel/UCmVnnZ6Y2TrJtY1eQJN6kWA">YouTube</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="row mb-1.5 mt-5">
+      <div class="col-12 col-md-9 col-lg-8 col-xl-6">
+        <div class="footer-copyright">
+          <p>©2012-2023 QuarkGluon Ltd. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+<script src="/static/js/jquery-3.2.1.min.js"></script>
+<script src="/static/js/prism.js.min"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/nav.js"></script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5383959-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+    
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="/static/js/highcharts/highcharts.js"></script>
+<script type="text/javascript">
+  num_colours = 10;
+</script>
+<script src="/static/js/statistics.js"></script>
+
+
+  </body>
+</html>

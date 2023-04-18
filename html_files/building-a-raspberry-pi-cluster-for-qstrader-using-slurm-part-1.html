@@ -1,0 +1,557 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-site-verification" content="wl3-8ed1QZjI0iYZMv10zoZWYElkMObTfwLlWIj9cpA" />
+    <meta name="description" content="In this multi-part article series we are going to discuss how to build a distributed cluster of Raspberry Pi computers, utilising the SLURM work scheduling tool to run QSTrader systematic trading parameter variation backtests. This article will describe the parts utilised and how to assemble the cluster.">
+
+    <link rel="icon" href="/static/images/favicon.png">
+
+    <title>Building a Raspberry Pi Cluster for QSTrader using SLURM - Part 1 | QuantStart</title>
+    
+    
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet"> 
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/prism.css" rel="stylesheet">
+<link href="/static/css/qs.css?v=10" rel="stylesheet">
+    
+  </head>
+
+  <body>
+    <header class="header covered-header" style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://quantstartmedia.s3.amazonaws.com/images/article-images/article-backgrounds/building-a-raspberry-pi-cluster-for-qstrader-using-slurm-part-1.jpg);">
+  
+<nav class="nav">
+  <div class="container nav-container">
+    <div class="nav-row row d-flex justify-content-between align-items-center">
+      <div class="col-2">
+        <ul class="nav-items justify-content-end small-capitals align-items-center">
+          <li class="nav-item">
+            <a class="link-fade" href="/">QuantStart</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-auto col-logo">
+        <ul id="top-nav-menu" class="nav-items justify-content-end align-items-center">
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/qsalpha/">QSAlpha</a>
+          </li>
+          
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/quantcademy/">Quantcademy</a>
+          </li>
+          
+          <li id="menu-link-ebooks" class="nav-item">
+            <a class="link-fade" href="#">Books</a>
+            <div id="menu-pane-ebooks" class="nav-items menu-dropdown-pane">
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/qstrader/">QSTrader</a>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/articles/">Articles</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/members/login/">Login</a>
+          </li>
+          
+        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<nav id="mobile-nav" class="mobile-nav text-left">
+  <div class="container">
+    <ul class="mt-4 ml-3 mobile-nav-menu">
+      <li class="nav-item">
+        <a class="link-fade d-block" href="/">QuantStart</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qsalpha/">QSAlpha</a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/quantcademy/">Quantcademy</a>
+      </li>
+      
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="#">Books</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qstrader/">QSTrader</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/articles/">Articles</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/members/login/">Login</a>
+      </li>
+      
+    </ul>
+    <button class="nav-toggle mobile-nav-close">
+      <svg id="mobile-nav-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M19.77,5.63,13.41,12l6.36,6.37a1,1,0,0,1-1.41,1.41L12,13.41,5.63,19.77a1,1,0,0,1-1.44-1.39l0,0L10.58,12,4.21,5.63a1,1,0,0,1,0-1.42,1,1,0,0,1,1.41,0l0,0L12,10.58l6.37-6.37a1,1,0,0,1,1.41,0A1,1,0,0,1,19.77,5.63Z"></path>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+  <div class="container hero-container">
+    <section class="mt-5 mb-4">
+      <div class="row justify-content-center">
+        <div class="col-12 text-center">
+          <p class="hero">Building a Raspberry Pi Cluster for QSTrader using SLURM - Part 1</p>
+          <p class="hero subhero">In this multi-part article series we are going to discuss how to build a distributed cluster of Raspberry Pi computers, utilising the SLURM work scheduling tool to run QSTrader systematic trading parameter variation backtests. This article will describe the parts utilised and how to assemble the cluster.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</header>
+    
+<section class="container content-container">
+  <div class="row">
+    <div class="col-md-8 order-md-2">
+      <section class="content article-content">
+        
+        
+        <p>When carrying out systematic trading strategy research one of the main steps is to optimise a collection of strategy parameters to maximise or minimise some objective function. A simple example would be optimising the lookback parameters of the 'fast' and 'slow' moving averages in a trend following system to maximise the strategy's historical Sharpe ratio.</p>
+
+<p>Each variation of the parameters requires a completely separate, independent backtest to be carried out in order to generate performance statistics. For our open source <a href="https://www.quantstart.com/qstrader/" target="blank" rel="noopener norefferer">QSTrader</a> software specifically, this means running fully separate Python processes for each parameter variant.</p>
+
+<p>These simulations either need to be carried out in <em>serial</em>, that is one after the other until the desired parameter combinations have been evaluated, or in <em>parallel</em> where a multi core CPU is utilised to run each separate Python process. This can significantly reduce the duration of the overall research experiment depending upon the number of cores available.</p>
+
+<p>In this article we are going to describe the build of a cheap computer <em>cluster</em> that provides multi core parallelisation of QSTrader parameter sweeps. We will make use of a collection of cheap, low power Raspberry Pi computers and network them together to form a <em>distributed cluster</em>.</p>
+
+<h2>High Performance Computing Clusters</h2>
+
+<p>In institutional settings quantitative researchers often have access to large, high powered on-premise compute clusters where long-running backtest 'jobs' can be submitted for processing. These jobs often take advantage of multiple separate computers, each with multiple CPU cores to allow execution in parallel, which helps bring down the overall processing duration.</p>
+
+<p>These clusters are typically shared across many users with diverse compute needs. In order to manage the resource allocations appropriately the clusters make use of work scheduling tools such as <a href="https://slurm.schedmd.com/documentation.html" target="blank" rel="noopener norefferer">SLURM</a>. The clusters fall under the banner of <a href="https://en.wikipedia.org/wiki/Supercomputer" target="blank" rel="noopener norefferer">High Performance Computing</a> (HPC) and are typically distributed, meaning that multiple computers are networked together to increase the nodes available to researchers.</p>
+
+<p>For the lone quant trader or small quant trading research team such clusters are typically prohibitively expensive. A common alternative is to utilise high-end desktop workstations for research. This is a great solution if budgets allow. However they can also be very expensive and require a significant amount of power when running at full utilisation. However it is still possible for those quant traders on a budget to build and run their own compute cluster so they can get started with quant trading HPC research.</p>
+
+<p>In this article series we are going to describe how to construct a small, low power distributed cluster for running parallel systematic trading experiments using our open source backtesting software <a href="https://www.quantstart.com/qstrader/" target="blank" rel="noopener norefferer">QSTrader</a>. This cluster will be built from multiple <a href="https://www.raspberrypi.org/products/raspberry-pi-4-model-b/" target="blank" rel="noopener norefferer">Raspberry Pi (RPi) 4B</a> computers and will run SLURM for task scheduling. This will provide 4x4 (16) nodes, with a total of 16GB of distributed RAM (32GB if the 8GB RPi 4B version is used).</p>
+
+<h2>Advantages and Disadvantages of a Raspberry Pi Cluster</h2>
+
+<p>The cluster has a number of advantages over a single on-premise desktop machine, particularly for those quant traders without access to a dedicated office who need to integrate their systematic trading research into their home environment:</p>
+
+<ul>
+  <li><strong>Size</strong> - A four-RPi system takes up very little space and can be easily placed on a small desk or in a small cupboard.</li>
+  <li><strong>Noise</strong> - With the cluster enclosure utilised in this article there is very little noise generated, even at full utilisation.</li>
+  <li><strong>Low Power</strong> - A four-RPi system at full utilisation will draw approximately 25-40 Watts and far less while idling. Hence it is far cheaper to run over the long term.</li>
+  <li><strong>Expansion</strong> - It is straightforward to add more nodes as needed simply by 'extending upwards'. However, it will be necessary to have a large enough network switch and power capability to support all of the RPis.</li>
+  <li><strong>Scheduling</strong> - The SLURM workload manager allows compute resources to be pre-allocated, so that the cluster can be shared among researchers.</li>
+  <li><strong>Skills</strong> - For those seeking a quant developer career, building a distributed cluster teaches many transferable skills that are beneficial in insitutional environments.</li>
+  <li><strong>Fun</strong> - Building an RPi cluster is an interesting and rewarding project, and opens the door to building more advanced distributed systems.</li>
+</ul>
+
+<p>The cluster also presents some disadvantages:</p>
+
+<ul>
+  <li><strong>Architecture</strong> - RPi 4Bs contain a quad-core ARM-based 64-bit Cortex-A72 CPU. This means it does not utilise the more common x86_64 architecture. For the most part this is not an issue but certain software such as <a href="https://www.docker.com/" target="blank" rel="noopener norefferer">Docker</a> images pre-built on x86_64 architectures will not work.</li>
+  <li><strong>Compute</strong> - For the same cost it is likely that a budget desktop system will outperform the CPU capability of the cluster. However it will almost certainly have significantly less cores than the cluster presented here, which may be an issue in certain cases.</li>
+</ul>
+
+<p>Ultimately the choice of building the RPi cluster versus a desktop workstation or cloud system will depend heavily on a number of factors including your budget, work location and need to schedule across multiple users.</p>
+
+<h2>Build Overview</h2>
+
+<p>Building and configuring the Raspberry Pi cluster is relatively straightforward but there is a lot of ground to cover to get it all working. Hence we have split up the articles to cover specific aspects of the build:</p>
+
+<ol>
+  <li>Purchasing the Hardware and Building the Cluster (this article)</li>
+  <li>Setting up the Raspberry Pis with Ubuntu 22.04 (<a href="https://www.quantstart.com/articles/building-a-raspberry-pi-cluster-for-qstrader-using-slurm-part-2/" target="blank" rel="noopener norefferer">here</a>)</li>
+  <li>Installing and Configuring SLURM on the Raspberry Pi cluster (<a href="https://www.quantstart.com/articles/building-a-raspberry-pi-cluster-for-qstrader-using-slurm-part-3/" target="blank" rel="noopener norefferer">here</a>)</li>
+  <li>Installing Python and QSTrader for SLURM (<a href="https://www.quantstart.com/articles/building-a-raspberry-pi-cluster-for-qstrader-using-slurm-part-4/" target="blank" rel="noopener norefferer">here</a>)</li>
+  <li>Running a Parameter Sweep on a Momentum Strategy for QSTrader (<a href="http://www.quantstart.com/articles/building-a-raspberry-pi-cluster-for-qstrader-using-slurm-part-5/" target="blank" rel="noopener norefferer">here</a>)</li>
+</ol>
+
+<p>Let's now discuss the hardware utilised for the build.</p>
+
+<h2>Raspberry Pi Cluster Hardware</h2>
+
+<p>Our own build utilised four Raspberry Pi 4B (4GB) models to provide a total of 16GB of distributed RAM. These RPis each need a MicroSD card to act as the initial storage mechanism. We went with 32GB disks. For longer term, more reliable storage we also utilised a 128GB USB drive, which is shared across the cluster as network storage. Since our cluster is acting primarily as a backtest execution environment, and the asset data is stored separately in a securities master database, 128GB is more than sufficient for the JSON output produced by QSTrader.</p>
+
+<p>For networking each RPi 4B has a gigabit ethernet port as well as WiFi capability. We decided to utilise ethernet for our build and obtained a cheap 8-port gigabit network switch to connect the cluster together. We also obtained four RJ45 CAT6 ethernet cables to connect the switch to the RPis. Note that it will still be necessary to have a separate router with <a href="https://en.wikipedia.org/wiki/Dynamic_Host_Configuration_Protocol" target="blank" rel="noopener norefferer">DHCP</a> capability (or the ability to assign static IPs) so that the RPis all receive an IP address. For use in a typical home this functionality can be found on the ISP-supplied router.</p>
+
+<p>In terms of power we obtained a USB charger with six ports, capable of delivering 60W. This requires four micro USB cables. An alternative way to power the RPis is to use <a href="https://en.wikipedia.org/wiki/Power_over_Ethernet" target="blank" rel="noopener norefferer">Power-over-Ethernet</a> (PoE). This requires a PoE-based network switch as well as <a href="https://www.raspberrypi.com/news/announcing-the-raspberry-pi-poe-hat/" target="blank" rel="noopener norefferer">PoE 'hats'</a> that attach to the RPis. This eliminates the power bar and excess cabling, but does significantly increase the expense of the build. We opted for the cheaper, simpler option for this build.</p>
+
+<p>Finally it is necessary to enclose the RPis in a case. We utilised a budget acrylic case that provides fans and heatsinks for the RPis, as well as easy access to all ports.</p>
+
+<p>The full list of products used within the build as well as USD and GBP costs on Amazon at the time of writing the article is listed below:</p>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Item</th>
+      <th scope="col">Quantity</th>
+      <th scope="col">Cost (USD)</th>
+      <th scope="col">Total Cost (USD)</th>
+      <th scope="col">Cost (GBP)</th>
+      <th scope="col">Total Cost (GBP)</th>
+      <th scope="col">Amazon</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">Raspberry Pi Model 4B 4GB RAM</th>
+      <td>4</td>
+      <td>$99.00</td>
+      <td>$396.00</td>
+      <td>£64.98</td>
+      <td>£259.92</td>
+      <td><a href="https://amzn.to/3Fl9sa7" target="blank" rel="noopener norefferer">US</a>/<a href="https://www.amazon.co.uk/Raspberry-Pi-ARM-Cortex-A72-Bluetooth-Micro-HDMI/dp/B07TC2BK1X/" target="blank" rel="noopener norefferer">UK</a></td>
+    </tr>
+    <tr>
+      <th scope="row">32GB SanDisk ExtremePro MicroSD Card</th>
+      <td>4</td>
+      <td>$13.37</td>
+      <td>$53.48</td>
+      <td>£10.98</td>
+      <td>£43.92</td>
+      <td><a href="https://amzn.to/3mrrvCQ" target="blank" rel="noopener norefferer">US</a>/<a href="https://www.amazon.co.uk/SanDisk-Extreme-microSDXC-Adapter-Performance/dp/B06XYHN68L/" target="blank" rel="noopener norefferer">UK</a></td>
+    </tr>
+    <tr>
+      <th scope="row">128GB SanDisk Ultra Flair USB Drive</th>
+      <td>1</td>
+      <td>$15.49</td>
+      <td>$15.49</td>
+      <td>£16.99</td>
+      <td>£16.99</td>
+      <td><a href="https://amzn.to/3AgLyJd" target="blank" rel="noopener norefferer">US</a>/<a href="https://www.amazon.co.uk/SanDisk-Ultra-Flair-Flash-Drive/dp/B015CH1PJU/" target="blank" rel="noopener norefferer">UK</a></td>
+    </tr>
+    <tr>
+      <th scope="row">Netgear GS308E 8-Port Gigabit Switch</th>
+      <td>1</td>
+      <td>$32.44</td>
+      <td>$32.44</td>
+      <td>£32.00</td>
+      <td>£32.00</td>
+      <td><a href="https://amzn.to/3Bf9rSA" target="blank" rel="noopener norefferer">US</a>/<a href="https://www.amazon.co.uk/NETGEAR-8-Port-Gigabit-Ethernet-Managed/dp/B07QHD134G/" target="blank" rel="noopener norefferer">UK</a></td>
+    </tr>
+    <tr>
+      <th scope="row">Amazon Basics RJ45 CAT6 Gigabit Ethernet LAN Cable<sup>*</sup></th>
+      <td>4</td>
+      <td>$7.99</td>
+      <td>$31.96</td>
+      <td>£4.80</td>
+      <td>£19.20</td>
+      <td><a href="https://amzn.to/3iIfs2R" target="blank" rel="noopener norefferer">US</a>/<a href="https://www.amazon.co.uk/AmazonBasics-RJ45-CAT6-Ethernet-LAN-Patch-Cable-0-9-Feet-Mbps/dp/B00N2VISLW/" target="blank" rel="noopener norefferer">UK</a></td>
+    </tr>
+    <tr>
+      <th scope="row">Anker PowerPort 60W USB Charger<sup>**</sup></th>
+      <td>1</td>
+      <td>$26.99</td>
+      <td>$26.99</td>
+      <td>£35.99</td>
+      <td>£35.99</td>
+      <td><a href="https://amzn.to/3aiT37R" target="blank" rel="noopener norefferer">US</a>/<a href="https://www.amazon.co.uk/Anker-PowerPort-Family-Sized-Technology-Smartphones-Black/dp/B00PK1IIJY/" target="blank" rel="noopener norefferer">UK</a></td>
+    </tr>
+    <tr>
+      <th scope="row">5x MicroUSB Cable (10"/25cm)</th>
+      <td>1</td>
+      <td>$7.99</td>
+      <td>$7.99</td>
+      <td>£7.99</td>
+      <td>£7.99</td>
+      <td><a href="https://amzn.to/3llZFbI" target="blank" rel="noopener norefferer">US</a>/<a href="https://www.amazon.co.uk/dp/B071VX675L/" target="blank" rel="noopener norefferer">UK</a></td>
+    </tr>
+    <tr>
+      <th scope="row">GeeekPi/MakerFun Pi Rack Case</th>
+      <td>1</td>
+      <td>$25.00</td>
+      <td>$25.00</td>
+      <td>£20.99</td>
+      <td>£20.99</td>
+      <td><a href="https://amzn.to/3uIx4kd" target="blank" rel="noopener norefferer">US</a>/<a href="https://www.amazon.co.uk/Raspberry-Cooling-Heatsink-Acrylic-Stackable/dp/B07J9VMNBL/" target="blank" rel="noopener norefferer">UK</a></td>
+    </tr>
+  </tbody>
+</table>
+
+<p><em>*: In the US we were unable to find the equivalent product on Amazon.com, so we have suggested an alternative ethernet cable.</em></p>
+
+<p><em>**: In the US we were unable to find the equivalent product on Amazon.com, so we have suggested an alternative 60W USB charger by Sabrent.</em></p>
+
+<p>The total cost of the build at the time of writing in USD is <strong>$589.35</strong> (excluding shipping). In GBP the total cost is <strong>£437.00</strong>.</p>
+
+<h2>Assembling the Raspberry Pi Cluster</h2>
+
+<p>In Figure 1 we see all of the boxed components of the build. In particular we have the Netgear switch, the box for the RPi enclosure, the Anker power bar, the five CAT6 ethernet cables, the SanDisk MicroSD cards and the SanDisk USB flash drive. In addition we purchased an Apple thunderbolt to gigabit ethernet adaptor to fit a MacBook Air, which was used to allow the MacBook to connect to the network switch and configure the RPis. Finally, note that there are only three RPi boxes in Figure 1. When carrying out the build it was necessary to order a fourth RPi from a different vendor and this arrived separately.</p>
+
+<figure>
+  <img src="https://quantstartmedia.s3.amazonaws.com/images/article-images/articles/raspberry-pi-cluster-for-qstrader-using-slurm-part-1/rpi-qstrader-cluster-sm-0001.jpg" alt="Raspberry Pi components" style="padding-bottom: 20px">
+  <figcaption>Figure 1 - The boxed Raspberry Pi cluster components</figcaption>
+</figure>
+
+<p>The first step is to begin unboxing the components. Figure 2 shows the unboxing of the Raspberry Pi enclosure, including fans, screws/hex nuts, stand-offs and heatsinks.</p>
+
+<figure>
+  <img src="https://quantstartmedia.s3.amazonaws.com/images/article-images/articles/raspberry-pi-cluster-for-qstrader-using-slurm-part-1/rpi-qstrader-cluster-sm-0002.jpg" alt="Uboxing the Raspberry Pi" style="padding-bottom: 20px">
+  <figcaption>Figure 2 - Unboxing the Raspberry Pi cluster enclosure</figcaption>
+</figure>
+
+<p>For the base layer of the enclosure it is necessary to use four deep stand-offs, four shallow stand-offs and four screws to hold the stand-offs to the acrylic base layer. The set of components can be seen in Figure 3.</p>
+
+<figure>
+  <img src="https://quantstartmedia.s3.amazonaws.com/images/article-images/articles/raspberry-pi-cluster-for-qstrader-using-slurm-part-1/rpi-qstrader-cluster-sm-0003.jpg" alt="Construction of the base layer" style="padding-bottom: 20px">
+  <figcaption>Figure 3 - Beginning construction of the enclosure base layer</figcaption>
+</figure>
+
+<p>Figure 4 shows the deep stand-offs at the corners of the base layer. In addition the shallow stand-offs have been installed and the Raspberry Pi now rests on top. The heatsinks for the RPi chips have not been applied yet.</p>
+
+<figure>
+  <img src="https://quantstartmedia.s3.amazonaws.com/images/article-images/articles/raspberry-pi-cluster-for-qstrader-using-slurm-part-1/rpi-qstrader-cluster-sm-0004.jpg" alt="Base layer with stand-offs" style="padding-bottom: 20px">
+  <figcaption>Figure 4 - The base layer assembled with stand-offs</figcaption>
+</figure>
+
+<p>Figure 5 shows the first Raspberry Pi with the heatsinks applied on four of the chips. These heatsinks are provided as components within the Raspberry Pi enclosure.</p>
+
+<figure>
+  <img src="https://quantstartmedia.s3.amazonaws.com/images/article-images/articles/raspberry-pi-cluster-for-qstrader-using-slurm-part-1/rpi-qstrader-cluster-sm-0005.jpg" alt="Adding the heatsinks" style="padding-bottom: 20px">
+  <figcaption>Figure 5 - Applying the heatsinks to the Raspberry Pi</figcaption>
+</figure>
+
+<p>The next stage is slightly trickier as it requires installation of the fan for the first Raspberry Pi. This needs to be attached to the correct GPIO ports, as well as the second acrylic layer, as per the enclosure instructions. The next step is to place the second Raspberry Pi onto the second acrylic layer via additional shallow stand-offs. Finally the deep stand-offs are attached to the heads of the original four stand-offs from the first layer. See Figure 6.</p>
+
+<figure>
+  <img src="https://quantstartmedia.s3.amazonaws.com/images/article-images/articles/raspberry-pi-cluster-for-qstrader-using-slurm-part-1/rpi-qstrader-cluster-sm-0006.jpg" alt="Second Raspberry Pi layer assembled" style="padding-bottom: 20px">
+  <figcaption>Figure 6 - The second layer assembled</figcaption>
+</figure>
+
+<p>The process can now be repeated for the third layer. Remember to place the heatsinks on the Raspberry Pi chips and attach the fan to the correct GPIO port. See Figure 7.</p>
+
+<figure>
+  <img src="https://quantstartmedia.s3.amazonaws.com/images/article-images/articles/raspberry-pi-cluster-for-qstrader-using-slurm-part-1/rpi-qstrader-cluster-sm-0007.jpg" alt="The third Raspberry Pi layer" style="padding-bottom: 20px">
+  <figcaption>Figure 7 - The third layer assembled</figcaption>
+</figure>
+
+<p>The final layer is slightly different since there are no additional stand-offs to use. Instead a set of four end cap screws are utilised to top-off the deep stand-offs from the third layer. The fourth Rasperry Pi is installed as before. This time however the fan receives a guard on top of the acrylic. See Figure 8.</p>
+
+<figure>
+  <img src="https://quantstartmedia.s3.amazonaws.com/images/article-images/articles/raspberry-pi-cluster-for-qstrader-using-slurm-part-1/rpi-qstrader-cluster-sm-0008.jpg" alt="The final layer assembled with top fan" style="padding-bottom: 20px">
+  <figcaption>Figure 8 - The final layer assembled with top fan</figcaption>
+</figure>
+
+<p>This completes the build of the Raspberry Pi enclosure. Note that it has a very small footprint for a 16-core, 16GB distributed cluster computer!</p>
+
+<p>In the next article (coming soon) we are going to begin configuring the Pis to use Ubuntu 20.04 and connect them via the network switch.</p>
+        
+        
+        <h2>Related Articles</h2>
+        <ul>
+        
+        <li><a href="/articles/building-a-raspberry-pi-cluster-for-qstrader-using-slurm-part-2/">Building a Raspberry Pi Cluster for QSTrader using SLURM - Part 2</a></li>
+        
+        <li><a href="/articles/building-a-raspberry-pi-cluster-for-qstrader-using-slurm-part-3/">Building a Raspberry Pi Cluster for QSTrader using SLURM - Part 3</a></li>
+        
+        <li><a href="/articles/building-a-raspberry-pi-cluster-for-qstrader-using-slurm-part-4/">Building a Raspberry Pi Cluster for QSTrader Using SLURM - Part 4</a></li>
+        
+        <li><a href="/articles/building-a-raspberry-pi-cluster-for-qstrader-using-slurm-part-5/">Building a Raspberry Pi Cluster for QSTrader Using SLURM - Part 5</a></li>
+        
+        </ul>
+        
+        <script async data-uid="6296c27f4b" src="https://weathered-brook-5281.ck.page/6296c27f4b/index.js"></script>
+      </section>
+    </div>
+    <div class="col-md-4 book-card order-md-1">
+      
+<div class="sidebar-advert-container">
+  <a href="/qsalpha/?ref=art">
+    <img class="card-img-top" src="/static/images/qsalpha-sidebar-advert-small.png" alt="QSAlpha">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/qsalpha/?ref=art">QSAlpha</a></h3>
+      <p class="card-text medium-text mb-3">Join the QSAlpha research platform that helps fill your strategy research pipeline, diversifies your portfolio and improves your risk-adjusted returns for increased profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/qsalpha/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/quantcademy/?ref=art">
+    <img class="card-img-top" src="/static/images/quantcademy-sidebar-advert-small.png" alt="Quantcademy">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/quantcademy/?ref=art">The Quantcademy</a></h3>
+      <p class="card-text medium-text mb-3">Join the Quantcademy membership portal that caters to the rapidly-growing retail quant trader community and learn how to increase your strategy profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/quantcademy/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/successful-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/sat-sidebar-advert-small.png" alt="Successful Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to find new trading strategy ideas and objectively assess them for your portfolio using a Python-based backtesting engine.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/successful-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/advanced-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/aat-sidebar-advert-small.png" alt="Advanced Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to implement advanced trading strategies using time series analysis, machine learning and Bayesian statistics with R and Python.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/advanced-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+    
+
+<footer>
+  <div class="container container-full">
+    <section class="mt-1.5 mb-1">
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">QuantStart</li>
+            <li class="footer-list-link"><a class="link-fade" href="/about/">About</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/articles/">Articles</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/sitemap/">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Products</li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qsalpha/">QSAlpha</a></li>
+            
+            
+            <li class="footer-list-link"><a class="link-fade" href="/quantcademy/">Quantcademy</a></li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qstrader/">QSTrader</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Legal</li>
+            <li class="footer-list-link"><a class="link-fade" href="/privacy-policy/">Privacy Policy</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/terms-and-conditions/">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Social</li>
+            <li class="footer-list-link"><a class="link-fade" href="https://twitter.com/quantstart">Twitter</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="https://www.youtube.com/channel/UCmVnnZ6Y2TrJtY1eQJN6kWA">YouTube</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="row mb-1.5 mt-5">
+      <div class="col-12 col-md-9 col-lg-8 col-xl-6">
+        <div class="footer-copyright">
+          <p>©2012-2023 QuarkGluon Ltd. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+<script src="/static/js/jquery-3.2.1.min.js"></script>
+<script src="/static/js/prism.js.min"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/nav.js"></script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5383959-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+    
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="/static/js/highcharts/highcharts.js"></script>
+<script type="text/javascript">
+  num_colours = 10;
+</script>
+<script src="/static/js/statistics.js"></script>
+
+
+  </body>
+</html>

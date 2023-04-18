@@ -1,0 +1,459 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-site-verification" content="wl3-8ed1QZjI0iYZMv10zoZWYElkMObTfwLlWIj9cpA" />
+    <meta name="description" content="Choosing a Platform for Backtesting and Automated Execution">
+
+    <link rel="icon" href="/static/images/favicon.png">
+
+    <title>Choosing a Platform for Backtesting and Automated Execution | QuantStart</title>
+    
+    
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet"> 
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/prism.css" rel="stylesheet">
+<link href="/static/css/qs.css?v=10" rel="stylesheet">
+    
+  </head>
+
+  <body>
+    <header class="header covered-header" style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://quantstartmedia.s3.amazonaws.com/images/article-images/article-backgrounds/default-bg.jpg);">
+  
+<nav class="nav">
+  <div class="container nav-container">
+    <div class="nav-row row d-flex justify-content-between align-items-center">
+      <div class="col-2">
+        <ul class="nav-items justify-content-end small-capitals align-items-center">
+          <li class="nav-item">
+            <a class="link-fade" href="/">QuantStart</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-auto col-logo">
+        <ul id="top-nav-menu" class="nav-items justify-content-end align-items-center">
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/qsalpha/">QSAlpha</a>
+          </li>
+          
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/quantcademy/">Quantcademy</a>
+          </li>
+          
+          <li id="menu-link-ebooks" class="nav-item">
+            <a class="link-fade" href="#">Books</a>
+            <div id="menu-pane-ebooks" class="nav-items menu-dropdown-pane">
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/qstrader/">QSTrader</a>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/articles/">Articles</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/members/login/">Login</a>
+          </li>
+          
+        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<nav id="mobile-nav" class="mobile-nav text-left">
+  <div class="container">
+    <ul class="mt-4 ml-3 mobile-nav-menu">
+      <li class="nav-item">
+        <a class="link-fade d-block" href="/">QuantStart</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qsalpha/">QSAlpha</a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/quantcademy/">Quantcademy</a>
+      </li>
+      
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="#">Books</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qstrader/">QSTrader</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/articles/">Articles</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/members/login/">Login</a>
+      </li>
+      
+    </ul>
+    <button class="nav-toggle mobile-nav-close">
+      <svg id="mobile-nav-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M19.77,5.63,13.41,12l6.36,6.37a1,1,0,0,1-1.41,1.41L12,13.41,5.63,19.77a1,1,0,0,1-1.44-1.39l0,0L10.58,12,4.21,5.63a1,1,0,0,1,0-1.42,1,1,0,0,1,1.41,0l0,0L12,10.58l6.37-6.37a1,1,0,0,1,1.41,0A1,1,0,0,1,19.77,5.63Z"></path>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+  <div class="container hero-container">
+    <section class="mt-5 mb-4">
+      <div class="row justify-content-center">
+        <div class="col-12 text-center">
+          <p class="hero">Choosing a Platform for Backtesting and Automated Execution</p>
+          <p class="hero subhero">Choosing a Platform for Backtesting and Automated Execution</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</header>
+    
+<section class="container content-container">
+  <div class="row">
+    <div class="col-md-8 order-md-2">
+      <section class="content article-content">
+        
+        
+        <p>In this article the concept of <strong>automated execution</strong> will be discussed. Broadly speaking, this is the process of allowing a trading strategy, via an electronic trading platform, to generate trade execution signals without any subsequent human intervention. Most of the systems discussed on QuantStart to date have been designed to be implemented as automated execution strategies. The article will describe software packages and programming languages that provide both backtesting and automated execution capabilities.</p>
+
+<p>The first consideration is how to backtest a strategy. My personal view is that custom development of a backtesting environment within a first-class programming language provides the most flexibility. Conversely, a vendor-developed integrated backtesting platform will always have to make assumptions about how backtests are carried out. Despite this, the choice of available programming languages is large and diverse, which can often be overwhelming. It is not obvious before development which language is likely to be suitable.</p>
+
+<p>When codifying a strategy into systematic rules the quantitative trader must be confident that its future performance will be reflective of its past performance. There are generally two forms of backtesting system that are utilised to test this hypothesis. Broadly, they are categorised as <em>research back testers</em> and <em>event-driven back testers</em>. We will consider custom backtesters versus vendor products for these two paradigms and see how they compare.</p>
+
+<h2>Research Tools</h2>
+
+<p>When identifying algorithmic trading strategies it usually unnecessary to fully simualte all aspects of the market interaction. Instead, approximations can be made that provide rapid determination of potential strategy performance. Such <em>research tools</em> often make unrealistic assumptions about transaction costs, likely fill prices, shorting constraints, venue dependence, risk management and position sizing. Despite these shortcomings the performance of such strategies can still be effectively evaluated. Common tools for research include MATLAB, R, Python and Excel.</p>
+
+<p>These software packages ship with <em>vectorisation</em> capabilities that allow fast execution speed and easier strategy implementation. <a href="http://www.mathworks.co.uk/products/matlab/">MATLAB</a> and <a href="http://pandas.pydata.org/">pandas</a> are examples of vectorised systems. With such research tools it is possible to test multiple strategies, combinations and variants in a rapid, iterative manner, without the need to fully "flesh out" a realistic market interaction simulation.</p>
+
+<p>While such tools are often used for both backtesting and execution, these research environments are generally not suitable for strategies that approach intraday trading at higher frequencies on sub-minute scale. These libraries do not tend to be able to effectively connect to real-time market data vendors or interface with brokerage APIs in a robust manner.</p>
+
+<p>Despite these executional shortcomings, research environments are heavily used within the professional quantitative trading industry. They provide the "first draft" for all strategy ideas before promotion towards more rigourous checks within a realistic backtesting environment.</p>
+
+<h2>Event-Driven Backtesting</h2>
+
+<p>Once a strategy is deemed suitable in research it must be more realistically assessed. Such realism attempts to account for the majority (if not all) of the issues described in <a href="http://www.quantstart.com/articles/Successful-Backtesting-of-Algorithmic-Trading-Strategies-Part-I">previous</a> <a href="http://www.quantstart.com/articles/Successful-Backtesting-of-Algorithmic-Trading-Strategies-Part-II">posts</a>. The ideal situation is to be able to use the same trade generation code for historical backtesting as well as live execution. This is achieved via an <em>event-driven backtester</em>.</p>
+
+<p>Event-driven systems are widely used in software engineering, commonly for handling graphical user interface (GUI) input within window-based operating systems. They are also ideal for algorithmic trading as the notion of real-time market orders or trade fills can be encapsulated as an <em>event</em>. Such systems are often written in high-performance languages such as C++, C# and Java.</p>
+
+<p>Consider a situation where an automated trading strategy is connected to a real-time market feed and a broker (these two may be one and the same). New market information will be sent to the system, which triggers an event to generate a new trading signal and thus an execution event. These systems run in a continuous loop waiting to receive events and handle them appropriately.</p>
+
+<p>It is possible to generate sub-components such as a historic data handler and brokerage simulator, which can mimic their live counterparts. This allows backtesting strategies in a manner extremely similar to that of live execution.</p>
+
+<p>The disadvantage of such systems lies in their complicated design when compared to a simpler research tool. Hence "time to market" is longer. They are more prone to bugs and require a good knowledge of programming and software development methodology.</p>
+
+<h2>Latency</h2>
+
+<p>In engineering terms <em>latency</em> is defined as the time interval between a simulation and a response. In quantitative trading it generally refers to the round-trip time delay between the generation of an execution signal and the receipt of the fill information from a broker that carries out the execution.</p>
+
+<p>Such latency is rarely an issue on low-frequency interday strategies. The expected price movement during the latency period will not affect the strategy to any great extent. The same is not true of higher-frequency strategies where latency becomes extremely important. The ultimate goal in HFT is to reduce latency as much as possible to reduce <em>slippage</em>.</p>
+
+<p>Decreasing latency involves minimising the "distance" between the algorithmic trading system and the ultimate exchange on which an order is being executed. This can involve shortening the geographic distance between systems, thereby reducing travel times along network cabling. It can also involve reducing the processing carried out in networking hardware or choosing a brokerage with more sophisticated infrastructure. Many brokerages compete on latency to win business.</p>
+
+<p>Decreasing latency becomes exponentially more expensive as a function of "internet distance", which is defined as the network distance between two servers. Thus for a high-frequency trader a compromise must be reached between expenditure of latency-reduction and the gain from minimising slippage. These issues will be discussed in the section on <em>Colocation</em> below.</p>
+
+<h2>Language Choices</h2>
+
+<p>Some issues that drive language choice have already been outlined. Now we will consider the benefits and drawbacks of individual programming languages. I have broadly categorised the languages into high-performance/harder development vs lower-performance/easier development. These are subjective terms and some will disagree depending upon their background.</p>
+
+<p>One of the most important aspects of programming a custom backtesting environment is that the programmer is familiar with the tools being used. For those that are new to the programming language landscape the following will clarify what tends to be utilised within algorithmic trading.</p>
+
+<h3>C++, C# and Java</h3>
+
+<p>C++, C# and Java are all examples of <em>general purpose</em> object-oriented programming languages. This means that they can be used without a corresponding integrated development environment (IDE), are all cross-platform, have a wide range of libraries for nearly any imaginable task and allow rapid execution speed when correctly utilised.</p>
+
+<p>If ultimate execution speed is desired then C++ (or C) is likely to be the best choice. It offers the most flexibility for managing memory and optimising execution speed. This flexibility comes at a price. C++ is tricky to learn well and can often lead to subtle bugs. Development time can take much longer than in other languages. Despite these shortcomings it is pervasive in the financial industry.</p>
+
+<p>C# and Java are similar since they both require all components to be <a href="http://en.wikipedia.org/wiki/Object-oriented_programming">objects</a> with the exception of primitive data types such as floats and integers. They differ from C++ by performing automatic <a href="http://en.wikipedia.org/wiki/Garbage_collection_%28computer_science%29">garbage collection</a>. Garbage collection adds a performance overhead but leads to more rapid development. These languages are both good choices for developing a backtester as they have native GUI capabilities, numerical analysis libraries and fast execution speed.</p>
+
+<p>Personally, I use of C++ for creating event-driven backtesters that needs extremely rapid execution speed, such as for HFT systems. This is only if I felt that a Python event-driven system was bottlenecked, as the latter language would be my first choice for such a system.</p>
+
+<h3>MATLAB, R and Python</h3>
+
+<p>MATLAB is a commercial IDE for numerical computation. It has gained wide acceptance in the academic, engineering and financial sectors. It has many numerical libraries for scientific computation. It boasts a rapid execution speed under the assumption that any algorithm being developed is subject to <em>vectorisation</em> or <em>parallelisation</em>. Despite these advantages it is expensive making it less appealing to retail traders on a budget. MATLAB is sometimes used for direct execution to a brokerage such as Interactive Brokers.</p>
+
+<p>R is a dedicated statistics scripting environment. It is free, open-source, cross-platform and contains a wealth of freely-available statistical packages for carrying out extremely advanced analysis. R is very widely used in academic statistics and the quantitative hedge fund industry. While it is possible to connect R to a brokerage is not well suited to the task and should be considered more of a research tool. It also lacks execution speed unless operations are vectorised.</p>
+
+<p>I've grouped Python under this heading although it sits somewhere between MATLAB, R and the aforementioned general-purpose languages. It is free, open-source and cross-platform. It is <em>interpreted</em> as opposed to <em>compiled</em>, which makes it natively slower than C++. However, it contains a library for carrying out nearly any task imaginable, from scientific computation through to low-level web server design. In particular it contains NumPy, SciPy, pandas, matplotlib and scikit-learn, which provide a robust numerical <a href="http://www.quantstart.com/articles/Installing-a-Desktop-Algorithmic-Trading-Research-Environment-using-Ubuntu-Linux-and-Python">research environment</a> that when vectorised is comparable to compiled language execution speed.</p>
+
+<p>Python also possesses libraries for connecting to brokerages. This makes it a "one-stop shop" for creating an event-driven backtesting and live execution environment without having to step into other, more complex, languages. Execution speed is more than sufficient for intraday traders trading on the time scale of minutes and above. Python is very straightforward to pick up and learn when compared to lower-level languages like C++. For these reasons we make extensive use of Python within QuantStart articles.</p>
+
+<h2>Integrated Development Environments</h2>
+
+<p>The term IDE has multiple meanings within algorithmic trading. Software developers use it to mean a GUI that allows programming with syntax highlighting, file browsing, debugging and code execution features. Algorithmic traders use it to mean a fully-integrated backtesting/trading environment with historic or real-time data download, charting, statistical evaluation and live execution. For our purposes, I use the term to mean any backtest/trading environment, often GUI-based, that is not considered a general purpose programming language.</p>
+
+<h3>Excel</h3>
+
+<p>While some quant traders may consider Excel to be inappropriate for trading, I have found it to be extremely useful for "sanity checking" of results. The fact that all of the data is directly available in plain sight makes it straightforward to implement very basic signal/filter strategies. Brokerages such as Interactive Brokers also allow DDE plugins that allow Excel to receive real-time market data and execute trading orders.</p>
+
+<p>Despite the ease of use Excel is extremely slow for any reasonable scale of data or level of numerical computation. I only use it to error-check when developing against other strategies. In particular it is extremely handy for checking whether a strategy is subject to look-ahead bias. This is straightforward to detect in Excel due to the spreadsheet nature of the software.</p>
+
+<p>If you are uncomfortable with programming languages and are carrying out an interday strategy then Excel may be a good choice.</p>
+
+<h3>Commercial/Retail Backtesting Software</h3>
+
+<p>The market for retail charting, "technical analysis" and backtesting software is extremely competitive. Features offered by such software include real-time charting of prices, a wealth of technical indicators, customised backtesting langauges and automated execution.</p>
+
+<p>Some vendors provide an all-in-one solution, such as <a href="http://www.tradestation.com/">TradeStation</a>. TradeStation are an online brokerage who produce trading software (also known as TradeStation) that provides electronic order execution across multiple asset classes. I am currently unaware of a direct API for automated execution. Instead orders must be placed through the GUI software. This is in contrast to Interactive Brokers, who have a leaner trading interface (Trader WorkStation), but offer both their proprietary real-time market/order execution APIs and a FIX interface.</p>
+
+<p>Another extremely popular platform is <a href="http://www.metatrader4.com/">MetaTrader</a>, which is used in foreign exchange trading for creating 'Expert Advisors'. These are custom scripts written in a proprietary language that can be used for automated trading. I have not had much experience with either TradeStation or MetaTrader so I won't spend too much time discussing their merits.</p>
+
+<p>Such tools are useful if you are not comfortable with in-depth software development and wish a lot of the details to be taken care of. However, with such systems a lot of flexibility is sacrificed and you are often tied to a single brokerage.</p>
+
+<h3>Open-Source and Web-Based Tools</h3>
+
+<p>The two current popular web-based backtesting systems are <a href="https://www.quantopian.com/">Quantopian</a> and <a href="https://www.quantconnect.com/">QuantConnect</a>. The former makes use of Python (and ZipLine, see below) while the latter utilises C#. Both provide a wealth of historical data. Quantopian currently supports live trading with Interactive Brokers, while QuantConnect is working towards live trading.</p>
+
+<p><a href="http://www.algotrader.ch/">Algo-Trader</a> is a Swiss-based firm that offer both an open-source and a commercial license for their system. From what I can gather the offering seems quite mature and they have many institutional clients. The system allows full historical backtesting and <em>complex event processing</em> and they tie into Interactive Brokers. The Enterprise edition offers substantially more high performance features.</p>
+
+<p><a href="https://www.marketcetera.org/">Marketcetera</a> provide a backtesting system that can tie into many other languages, such as Python and R, in order to leverage code that you might have already written. The 'Strategy Studio' provides the ability to write backtesting code as well as optimised execution algorithms and subsequently transition from a historical backtest to live paper trading. I haven't used them before.</p>
+
+<p><a href="https://github.com/quantopian/zipline">ZipLine</a> is the Python library that powers the Quantopian service mentioned above. It is a fully event-driven backtest environment and currently supports US equities on a minutely-bar basis. I haven't made extensive use of ZipLine, but I know others who feel it is a good tool. There are still many areas left to improve but the team are constantly working on the project and it is very actively maintained.</p>
+
+<p>There are also some Github/Google Code hosted projects that you may wish to look into. I have not spent any great deal of time investigating them. Such projects include <a href="http://code.google.com/p/openquant/">OpenQuant</a>, <a href="https://tradelink.org/">TradeLink</a> and <a href="http://gbeced.github.io/pyalgotrade/">PyAlgoTrade</a>.</p>
+
+<h3>Institutional Backtesting Software</h3>
+
+<p>Institutional-grade backtesting systems such as <a href="http://www.deltixlab.com/">Deltix</a> and <a href="http://www.quanthouse.com/">QuantHouse</a> are not often utilised by retail algorithmic traders. The software licenses are generally well outside the budget for infrastructure. That being said, such software is widely used by quant funds, proprietary trading houses, family offices and the like.</p>
+
+<p>The benefits of such systems are clear. They provide an all-in-one solution for data collection, strategy development, historical backtesting and live execution across single instruments or portfolios, up to the high frequency level. Such platforms have had extensive testing and plenty of "in the field" usage and so are considered robust.</p>
+
+<p>The systems are event-driven and the backtesting environments can often simulate the live environments to a high degree of accuracy. The systems also support optimised execution algorithms, which attempt to minimise transaction costs. This is particulary useful for traders with a larger capital base.</p>
+
+<p>I have to admit that I have not had much experience of Deltix or QuantHouse. That being said, the budget alone puts them out of reach of most retail traders, so I won't dwell on these systems.</p>
+
+<h2>Colocation</h2>
+
+<p>The software landscape for algorithmic trading has now been surveyed. We can now turn our attention towards implementation of the hardware that will execute our strategies.</p>
+
+<p>A retail trader will likely be executing their strategy from home during market hours. This will involved turning on their PC, connecting to the brokerage, updating their market software and then allowing the algorithm to execute automatically during the day. Conversely, a professional quant fund with significant <em>assets under management</em> (AUM) will have a dedicated exchange-colocated server infrastructure in order to reduce latency as far as possible to execute their high speed strategies.</p>
+
+<h3>Home Desktop</h3>
+
+<p>The simplest approach to hardware deployment is simply to carry out an algorithmic strategy with a home desktop computer connected to the brokerage via a broadband (or similar) connection.</p>
+
+<p>While this approach is straightforward to get started it suffers from many drawbacks. The desktop machine is subject to power failure, unless backed up by a UPS. In addition a home internet connection is also at the mercy of the ISP. Power loss or internet connectivity failure could occur at a crucial moment in trading, leaving the algorithmic trader with open positions that are unable to be closed. This problem also occurs with operating system mandatory restarts (this has actually happened to me in a professional setting!) and component failure, which leads to the same issues.</p>
+
+<p>For the above reasons I hesitate to recommend a home desktop approach to algorithmic trading. If you do decide to pursue this approach, make sure to have both a backup computer AND a backup internet connection (e.g. a 3G dongle) that you can use to close out positions under a downtime situation.</p>
+
+<h3>VPS</h3>
+
+<p>The next level up from a home desktop is to make use of a <strong>virtual private server</strong> (VPS). A VPS is a remote server system often marketed as a "cloud" service. They are far cheaper than a corresponding dedicated server, since a VPS is actually a partition of a much larger server. They possess a virtual isolated operating system environment solely available to each individual user. CPU load is shared between multiple VPS and a portion of the systems RAM is allocated to the VPS. This is all carried out through a process known as <a href="http://en.wikipedia.org/wiki/Operating_system-level_virtualization">virtualisation</a>.</p>
+
+<p>Common VPS providers include <a href="http://aws.amazon.com/ec2/">Amazon EC2</a> and <a href="http://www.rackspace.com/cloud/vps/">Rackspace Cloud</a>. They provide entry-level systems with low RAM and basic CPU usage through to enterprise-ready high RAM, high CPU servers. For the majority of algorithmic retail traders the entry level systems suffice for low-frequency intraday or interday strategies and smaller historical data databases.</p>
+
+<p>The benefits of a VPS-based system include 24/7 availability (albeit with a certain realistic downtime!), more robust monitoring capabilities, easy "plugins" for additional services, such as file storage or managed databases and a flexible architecture. One drawback is the ongoing expense. As the system grows dedicated hardware becomes cheaper per unit of performance. This price point assumes colocation away from an exchange.</p>
+
+<p>Compared to a home desktop system latency is not always improved by choosing a VPS provider. Your home location may be closer to a particular financial exchange than the data centres of your cloud provider. This is mitigated by choosing a firm that provide VPS services geared specifically for algorithmic trading which are located at or near exchanges. These will likely cost more than a generic VPS provider such as Amazon or Rackspace.</p>
+
+<h3>Exchange Colocation</h3>
+
+<p>In order to get the best latency minimisation it is necessary to colocate dedicated servers directly at the exchange data centre. This is a prohibitively expensive option for nearly all retail algorithmic traders unless they're very well capitalised. It is really the domain of the professional quantitative fund or brokerage. As I mentioned above a more realistic option is to purchase a VPS system from a provider that is located near an exchange.</p>
+
+<p>As can be seen, there are many options for backtesting, automated execution and hosting a strategy. Determining the right solution is dependent upon budget, programming ability, degree of customisation required, asset-class availability and whether the trading is to be carried out on a retail or professional basis.</p>
+        
+        
+        <script async data-uid="6296c27f4b" src="https://weathered-brook-5281.ck.page/6296c27f4b/index.js"></script>
+      </section>
+    </div>
+    <div class="col-md-4 book-card order-md-1">
+      
+<div class="sidebar-advert-container">
+  <a href="/qsalpha/?ref=art">
+    <img class="card-img-top" src="/static/images/qsalpha-sidebar-advert-small.png" alt="QSAlpha">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/qsalpha/?ref=art">QSAlpha</a></h3>
+      <p class="card-text medium-text mb-3">Join the QSAlpha research platform that helps fill your strategy research pipeline, diversifies your portfolio and improves your risk-adjusted returns for increased profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/qsalpha/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/quantcademy/?ref=art">
+    <img class="card-img-top" src="/static/images/quantcademy-sidebar-advert-small.png" alt="Quantcademy">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/quantcademy/?ref=art">The Quantcademy</a></h3>
+      <p class="card-text medium-text mb-3">Join the Quantcademy membership portal that caters to the rapidly-growing retail quant trader community and learn how to increase your strategy profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/quantcademy/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/successful-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/sat-sidebar-advert-small.png" alt="Successful Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to find new trading strategy ideas and objectively assess them for your portfolio using a Python-based backtesting engine.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/successful-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/advanced-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/aat-sidebar-advert-small.png" alt="Advanced Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to implement advanced trading strategies using time series analysis, machine learning and Bayesian statistics with R and Python.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/advanced-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+    
+
+<footer>
+  <div class="container container-full">
+    <section class="mt-1.5 mb-1">
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">QuantStart</li>
+            <li class="footer-list-link"><a class="link-fade" href="/about/">About</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/articles/">Articles</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/sitemap/">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Products</li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qsalpha/">QSAlpha</a></li>
+            
+            
+            <li class="footer-list-link"><a class="link-fade" href="/quantcademy/">Quantcademy</a></li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qstrader/">QSTrader</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Legal</li>
+            <li class="footer-list-link"><a class="link-fade" href="/privacy-policy/">Privacy Policy</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/terms-and-conditions/">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Social</li>
+            <li class="footer-list-link"><a class="link-fade" href="https://twitter.com/quantstart">Twitter</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="https://www.youtube.com/channel/UCmVnnZ6Y2TrJtY1eQJN6kWA">YouTube</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="row mb-1.5 mt-5">
+      <div class="col-12 col-md-9 col-lg-8 col-xl-6">
+        <div class="footer-copyright">
+          <p>©2012-2023 QuarkGluon Ltd. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+<script src="/static/js/jquery-3.2.1.min.js"></script>
+<script src="/static/js/prism.js.min"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/nav.js"></script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5383959-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+    
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="/static/js/highcharts/highcharts.js"></script>
+<script type="text/javascript">
+  num_colours = 10;
+</script>
+<script src="/static/js/statistics.js"></script>
+
+
+  </body>
+</html>

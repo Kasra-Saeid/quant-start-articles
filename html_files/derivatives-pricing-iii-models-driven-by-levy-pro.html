@@ -1,0 +1,419 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-site-verification" content="wl3-8ed1QZjI0iYZMv10zoZWYElkMObTfwLlWIj9cpA" />
+    <meta name="description" content="Derivatives Pricing III: Models driven by Lévy processes">
+
+    <link rel="icon" href="/static/images/favicon.png">
+
+    <title>Derivatives Pricing III: Models driven by Lévy processes | QuantStart</title>
+    
+    
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet"> 
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/prism.css" rel="stylesheet">
+<link href="/static/css/qs.css?v=10" rel="stylesheet">
+    
+  </head>
+
+  <body>
+    <header class="header covered-header" style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://quantstartmedia.s3.amazonaws.com/images/article-images/article-backgrounds/derivatives-pricing-levy-processes.jpg);">
+  
+<nav class="nav">
+  <div class="container nav-container">
+    <div class="nav-row row d-flex justify-content-between align-items-center">
+      <div class="col-2">
+        <ul class="nav-items justify-content-end small-capitals align-items-center">
+          <li class="nav-item">
+            <a class="link-fade" href="/">QuantStart</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-auto col-logo">
+        <ul id="top-nav-menu" class="nav-items justify-content-end align-items-center">
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/qsalpha/">QSAlpha</a>
+          </li>
+          
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/quantcademy/">Quantcademy</a>
+          </li>
+          
+          <li id="menu-link-ebooks" class="nav-item">
+            <a class="link-fade" href="#">Books</a>
+            <div id="menu-pane-ebooks" class="nav-items menu-dropdown-pane">
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/qstrader/">QSTrader</a>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/articles/">Articles</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/members/login/">Login</a>
+          </li>
+          
+        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<nav id="mobile-nav" class="mobile-nav text-left">
+  <div class="container">
+    <ul class="mt-4 ml-3 mobile-nav-menu">
+      <li class="nav-item">
+        <a class="link-fade d-block" href="/">QuantStart</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qsalpha/">QSAlpha</a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/quantcademy/">Quantcademy</a>
+      </li>
+      
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="#">Books</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qstrader/">QSTrader</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/articles/">Articles</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/members/login/">Login</a>
+      </li>
+      
+    </ul>
+    <button class="nav-toggle mobile-nav-close">
+      <svg id="mobile-nav-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M19.77,5.63,13.41,12l6.36,6.37a1,1,0,0,1-1.41,1.41L12,13.41,5.63,19.77a1,1,0,0,1-1.44-1.39l0,0L10.58,12,4.21,5.63a1,1,0,0,1,0-1.42,1,1,0,0,1,1.41,0l0,0L12,10.58l6.37-6.37a1,1,0,0,1,1.41,0A1,1,0,0,1,19.77,5.63Z"></path>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+  <div class="container hero-container">
+    <section class="mt-5 mb-4">
+      <div class="row justify-content-center">
+        <div class="col-12 text-center">
+          <p class="hero">Derivatives Pricing III: Models driven by Lévy processes</p>
+          <p class="hero subhero">Derivatives Pricing III: Models driven by Lévy processes</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</header>
+    
+<section class="container content-container">
+  <div class="row">
+    <div class="col-md-8 order-md-2">
+      <section class="content article-content">
+        
+        
+        <p><em>In this article series QuantStart returns to the discussion of pricing derivative securities, a topic which was covered a few years ago on the site through an introduction to stochastic calculus.</em></p>
+
+<p><em>Imanol Pérez, a PhD researcher in Mathematics at Oxford University, and an expert guest contributor to QuantStart describes how Lévy processes can be utilised to make the Black-Scholes model more accurate.</em></p>
+
+<p>A standard assumption when pricing derivatives is that stock prices follow a geometric Brownian motion. In other words, these models assume that the log returns of the underlying stock are normally distributed. This assumption simplifies the model significantly, and allows us to derive the Black-Scholes formula with relative ease. Although this assumption may be good enough in some applications, the truth is that it is not a completely accurate description of market behaviour.</p>
+
+<p>
+<table class="table">
+  <tr>
+    <th>Index</th>
+    <th>Mean</th>
+    <th>SD</th>
+    <th>Skewness</th>
+    <th>Kurtosis</th>
+  </tr>
+  <tr>
+    <td>S&amp;P500</td>
+    <td>0.0009</td>
+    <td>0.0119</td>
+    <td>-0.4409</td>
+    <td>6.94</td>
+  </tr>
+  <tr>
+    <td>Nasdaq Composite</td>
+    <td>0.0015</td>
+    <td>0.0154</td>
+    <td>-0.5439</td>
+    <td>5.78</td>
+  </tr>
+  <tr>
+    <td>DAX</td>
+    <td>0.0012</td>
+    <td>0.0157</td>
+    <td>-0.4314</td>
+    <td>4.65</td>
+  </tr>
+  <tr>
+    <td>SMI</td>
+    <td>0.0009</td>
+    <td>0.0141</td>
+    <td>-0.3584</td>
+    <td>5.35</td>
+  </tr>
+  <tr>
+    <td>CAC 40</td>
+    <td>0.0013</td>
+    <td>0.0143</td>
+    <td>-0.2116</td>
+    <td>4.63</td>
+  </tr>
+</table><br>
+<strong>Table 1 - Mean, standard deviation, skewness and kurtosis  of the log returns of some major indices from 1997 to 1999. Table obtained from Schoutens<sup><a href="#ref-schoutens2003">[4]</a></sup>.</strong></p>
+
+<p>Take a look to Table 1 for instance. The table contains the mean, standard deviation, skewnewss and kurtosis of the log returns of S&amp;P 500, Nasdaq Composite, DAX, SMI and CAC 40. If log returns were normally distributed, the skewness would be zero, while the kurtosis would be 3. The table shows evidence against this, as skewness and kurtosis differ significantly from the normal case. This also implies that log returns have fatter tails than if they were normally distributed.</p>
+
+<p>Therefore, although the normality assumption has proved to be useful and practical sometimes, it doesn't hold in real markets.</p>
+
+<h2>Lévy processes</h2>
+
+<p>In this article, we will explore markets that are driven by <em>Lévy processes</em>. A stochastic process $(X_t,t\geq 0)$ is said to be a Lévy process if the following holds:</p>
+
+<ol>
+  <li>$X_0=0$ almost surely.</li>
+  <li>It has independent increments.</li>
+  <li>It has stationary increments.</li>
+  <li>It is continuous in probability, that is, given $\epsilon>0$ and $t\geq 0$, $\lim_{h\rightarrow 0} \mathbb{P}[|X_{t+h}-X_t|>\epsilon]=0$.</li>
+</ol>
+
+<p>Notice that no normality was used to define such processes. It is also clear that the Brownian motion is a special case of a Lévy process. Other examples include the Poisson Process, the Gamma Process, etc.</p>
+
+<p>Our assumption will be that the price of a stock $S$ is given by</p>
+
+<p>$$S_t = S_0 \exp(X_t),$$ with $X$ some Lévy process. Over the last few decades, many choices of $X$ have been discussed. For example, Madan and Seneta<sup><a href="#ref-madan1987">[2]</a>, <a href="#ref-madan1998">[3]</a></sup> suggested a <a href="https://en.wikipedia.org/wiki/Variance_gamma_process">Variance Gamma process</a>, Barndoff-Nielsen<sup><a href="#ref-barndoff">[1]</a></sup> proposed a <a href="https://en.wikipedia.org/wiki/Normal-inverse_Gaussian_distribution">Normal-inverse Gaussian process</a>, and some other choices were also studied.</p>
+
+<p style="text-align:center;">
+<img width="100%" src="https://s3.amazonaws.com/quantstartmedia/images/qs-imanol-derivatives-pricing-3-options.jpg"><br>
+<strong>Fig 1 - Option calibration of S&amp;P 500 options using the Black-Scholes model (left) and a Lévy-process-based model (right). Circles indicate market prices, and crosses represent model prices. Figure from Schoutens<sup><a href="#ref-schoutens2003">[4]</a></sup>.</strong>
+</p>
+
+<p>Different choices lead to different models, that can significantly improve the Black-Scholes model. For instance, consider Figure 1. It shows how accurate model prices were, when the Black-Scholes model is considered, in contrast with a Lévy process model. It is clear that model prices using a Lévy market model are better predictions that the ones provided by the Black-Scholes model, suggesting real incentives in using Lévy processes other than Brownian motions as drivers of the market. Wim Schoutens' <em>Lévy Processes in Finance</em><sup><a href="#ref-schoutens2003">[4]</a></sup> is a great reference to learn more about financial derivatives pricing using Lévy processes.</p>
+
+<h2>Article Series</h2>
+
+<ul>
+  <li><a href="https://www.quantstart.com/articles/derivatives-pricing-i-pricing-under-the-black-scholes-model">Derivatives Pricing I: Pricing Under the Black-Scholes Model</a></li>
+  <li><a href="https://www.quantstart.com/articles/derivatives-pricing-ii-volatility-is-rough">Derivatives Pricing II: Volatility is Rough</a></li>
+  <li><a href="https://www.quantstart.com/articles/derivatives-pricing-iii-models-driven-by-levy-processes">Derivatives Pricing III: Models Driven By Lévy Processes</a></li>
+</ul>
+
+<h2>References</h2>
+
+<ul>
+  <li><a name="ref-barndoff" href="#">[1] Barndoff-Nielsen, O.E. "Normal inverse Gaussian distributions and the modeling of stock returns", <em>Research Report no. 300</em>, Department of Theoretical Statistics, Aarhus University</a></li>
+  <li><a name="ref-madan1987" href="https://www.jstor.org/stable/2345416?seq=1#page_scan_tab_contents">[2] Madan, D.B. and Seneta, E. (1987) "Chebyshev polynomial approximations and characteristic function estimation", <em>Journal of the Royal Statistical Society</em> B <strong>49</strong>(2), 163-169.</a></li>
+  <li><a name="ref-madan1998" href="http://engineering.nyu.edu/files/VGEFRpub.pdf">[3] Madan, D.B. and Seneta, E. (1998) "The variance Gamma process and option pricing", <em>European Finance Review</em> <strong>2</strong>, 79-105.</a></li>
+  <li><a name="ref-schoutens2003" href="http://amzn.to/2flue1U">[4] Schoutens, W. (2003) <em>Lévy Processes in Finance</em>, Wiley</li>
+</ul>
+        
+        
+        <script async data-uid="6296c27f4b" src="https://weathered-brook-5281.ck.page/6296c27f4b/index.js"></script>
+      </section>
+    </div>
+    <div class="col-md-4 book-card order-md-1">
+      
+<div class="sidebar-advert-container">
+  <a href="/qsalpha/?ref=art">
+    <img class="card-img-top" src="/static/images/qsalpha-sidebar-advert-small.png" alt="QSAlpha">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/qsalpha/?ref=art">QSAlpha</a></h3>
+      <p class="card-text medium-text mb-3">Join the QSAlpha research platform that helps fill your strategy research pipeline, diversifies your portfolio and improves your risk-adjusted returns for increased profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/qsalpha/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/quantcademy/?ref=art">
+    <img class="card-img-top" src="/static/images/quantcademy-sidebar-advert-small.png" alt="Quantcademy">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/quantcademy/?ref=art">The Quantcademy</a></h3>
+      <p class="card-text medium-text mb-3">Join the Quantcademy membership portal that caters to the rapidly-growing retail quant trader community and learn how to increase your strategy profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/quantcademy/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/successful-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/sat-sidebar-advert-small.png" alt="Successful Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to find new trading strategy ideas and objectively assess them for your portfolio using a Python-based backtesting engine.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/successful-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/advanced-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/aat-sidebar-advert-small.png" alt="Advanced Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to implement advanced trading strategies using time series analysis, machine learning and Bayesian statistics with R and Python.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/advanced-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+    
+
+<footer>
+  <div class="container container-full">
+    <section class="mt-1.5 mb-1">
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">QuantStart</li>
+            <li class="footer-list-link"><a class="link-fade" href="/about/">About</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/articles/">Articles</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/sitemap/">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Products</li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qsalpha/">QSAlpha</a></li>
+            
+            
+            <li class="footer-list-link"><a class="link-fade" href="/quantcademy/">Quantcademy</a></li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qstrader/">QSTrader</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Legal</li>
+            <li class="footer-list-link"><a class="link-fade" href="/privacy-policy/">Privacy Policy</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/terms-and-conditions/">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Social</li>
+            <li class="footer-list-link"><a class="link-fade" href="https://twitter.com/quantstart">Twitter</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="https://www.youtube.com/channel/UCmVnnZ6Y2TrJtY1eQJN6kWA">YouTube</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="row mb-1.5 mt-5">
+      <div class="col-12 col-md-9 col-lg-8 col-xl-6">
+        <div class="footer-copyright">
+          <p>©2012-2023 QuarkGluon Ltd. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+<script src="/static/js/jquery-3.2.1.min.js"></script>
+<script src="/static/js/prism.js.min"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/nav.js"></script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5383959-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+    
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="/static/js/highcharts/highcharts.js"></script>
+<script type="text/javascript">
+  num_colours = 10;
+</script>
+<script src="/static/js/statistics.js"></script>
+
+
+  </body>
+</html>

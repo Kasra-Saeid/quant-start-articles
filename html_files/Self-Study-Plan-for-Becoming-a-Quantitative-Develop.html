@@ -1,0 +1,400 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-site-verification" content="wl3-8ed1QZjI0iYZMv10zoZWYElkMObTfwLlWIj9cpA" />
+    <meta name="description" content="Self-Study Plan for Becoming a Quantitative Developer">
+
+    <link rel="icon" href="/static/images/favicon.png">
+
+    <title>Self-Study Plan for Becoming a Quantitative Developer | QuantStart</title>
+    
+    
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet"> 
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/prism.css" rel="stylesheet">
+<link href="/static/css/qs.css?v=10" rel="stylesheet">
+    
+  </head>
+
+  <body>
+    <header class="header covered-header" style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://quantstartmedia.s3.amazonaws.com/images/article-images/article-backgrounds/default-bg.jpg);">
+  
+<nav class="nav">
+  <div class="container nav-container">
+    <div class="nav-row row d-flex justify-content-between align-items-center">
+      <div class="col-2">
+        <ul class="nav-items justify-content-end small-capitals align-items-center">
+          <li class="nav-item">
+            <a class="link-fade" href="/">QuantStart</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-auto col-logo">
+        <ul id="top-nav-menu" class="nav-items justify-content-end align-items-center">
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/qsalpha/">QSAlpha</a>
+          </li>
+          
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/quantcademy/">Quantcademy</a>
+          </li>
+          
+          <li id="menu-link-ebooks" class="nav-item">
+            <a class="link-fade" href="#">Books</a>
+            <div id="menu-pane-ebooks" class="nav-items menu-dropdown-pane">
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/qstrader/">QSTrader</a>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/articles/">Articles</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/members/login/">Login</a>
+          </li>
+          
+        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<nav id="mobile-nav" class="mobile-nav text-left">
+  <div class="container">
+    <ul class="mt-4 ml-3 mobile-nav-menu">
+      <li class="nav-item">
+        <a class="link-fade d-block" href="/">QuantStart</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qsalpha/">QSAlpha</a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/quantcademy/">Quantcademy</a>
+      </li>
+      
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="#">Books</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qstrader/">QSTrader</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/articles/">Articles</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/members/login/">Login</a>
+      </li>
+      
+    </ul>
+    <button class="nav-toggle mobile-nav-close">
+      <svg id="mobile-nav-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M19.77,5.63,13.41,12l6.36,6.37a1,1,0,0,1-1.41,1.41L12,13.41,5.63,19.77a1,1,0,0,1-1.44-1.39l0,0L10.58,12,4.21,5.63a1,1,0,0,1,0-1.42,1,1,0,0,1,1.41,0l0,0L12,10.58l6.37-6.37a1,1,0,0,1,1.41,0A1,1,0,0,1,19.77,5.63Z"></path>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+  <div class="container hero-container">
+    <section class="mt-5 mb-4">
+      <div class="row justify-content-center">
+        <div class="col-12 text-center">
+          <p class="hero">Self-Study Plan for Becoming a Quantitative Developer</p>
+          <p class="hero subhero">Self-Study Plan for Becoming a Quantitative Developer</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</header>
+    
+<section class="container content-container">
+  <div class="row">
+    <div class="col-md-8 order-md-2">
+      <section class="content article-content">
+        
+        
+        <p>I've recently received many emails from individuals wishing to change careers from engineering, academia and IT. Quantitative finance has become a particularly attractive area recently due to the intellectual challenge and high remuneration. A question that constantly arises in these emails is "what do I need to study to convince an interviewer to give me a job?". This is the first in a three-part series that will discuss how to form a self-study plan to gain a job in the quantitative finance industry. This post will discuss how to self-study to become a <strong>quantitative developer</strong>. The other two will concentrate on quantitative analysts and quantitative traders.</p>
+
+<p>Any career in quantitative finance requires a degree of generalisation rather than extensive specialisation. Quantitative developers are no different. They must fit into a team of traders, financial engineers and IT support in order to help investment banks price and sell new structured investment products or help funds develop trading infrastructure and portfolio management systems.</p>
+
+<h2>Scientific Computing</h2>
+
+<p>The most common route into quantitative development is via an academic background in <em>scientific computing</em>. This is because the core skills necessary for a "quant dev" are advanced programming skills and numerical algorithm implementation. These skills are developed as a matter of course within a grad school research environment for the physical sciences or engineering. If this is your background then your task will be to get to grips with the specific products and numerical algorithms used within quantitative finance, as your general implementation and programming skills are likely to be sufficiently developed.</p>
+
+<p>However, if your background is not in scientific computing, there are still plenty of opportunities to become a quantitative developer leveraging a background in programming. At the very least though you will need to be familiar with implementing algorithms, the practice of which I will discuss below.</p>
+
+<h2>Programming Skills</h2>
+
+<p>First and foremost a quantitative developer IS a software developer. Thus the role will almost exclusively be 100% programming based. You will find yourself optimising trading prototypes or developing trading infrastructure from scratch. If you're targeting bank roles, then you will likely need to be using C++, Java or C# in a Microsoft/Windows environment. If you are targeting hedge funds then you will likely be translating MatLab or R into C++ and/or Python. Funds tend to use Java and C# less, since they're often in a UNIX environment where C++ and Python make more sense. If you have a background in either of these programming environments, it makes sense to develop your strengths and stick with software you know well. Thus if you know Java, for instance, it would be wise to target investment banking roles. I've written an <a href="http://www.quantstart.com/articles/Which-Programming-Language-Should-You-Learn-To-Get-A-Quant-Developer-Job">article on programming languages for quant developer roles</a> if you want more detail.</p>
+
+<p>Assuming you are a competent programmer and are happy changing to the software most widely used in the financial industry, then I would suggest learning C++ and Python extremely well, as that gives you the most cross-sectional capability across different sectors of the industry. Here is my suggested study plan to become a good C++ programmer:</p>
+
+<ol>
+  <li>Read through the entirety of <a href="http://www.amazon.com/gp/product/020170353X/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=020170353X&linkCode=as2&tag=quant0f-20"><strong>Accelerated C++</strong></a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=020170353X" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /> by Andrew Koenig. This book will get you up to scratch on C++ syntax and, in particular, will go into detail about pointers and memory management. This is an area that many programmers (including those from a Java and C#) background will not be as familiar with. It is best to read through while implementing the examples, either with Microsoft Visual Studio or the GCC compiler on Linux/UNIX, in order to practice the syntax, rather than just reading it!</li>
+  <li>Read through (multiple times!) the entirety of <a href="http://www.amazon.com/gp/product/0321334876/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0321334876&linkCode=as2&tag=quant0f-20"><strong>Effective C++</strong></a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=0321334876" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /> by Scott Meyers. I've repeated this advice consistently across the site, but it still bears saying again. This book will take you from a beginner C++ programmer to an intermediate programmer who is ready for interview. This book is harder to actually practice in front of the terminal, as Meyers sets up some complicated examples. One way of running through this book would be to determine where in your own projects you can apply the patterns.</li>
+  <li>If you are applying for C++ jobs directly, you will probably want to go beyond these two works. Scott Meyers has also written <a href="http://www.amazon.com/gp/product/020163371X/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=020163371X&linkCode=as2&tag=quant0f-20"><strong>More Effective C++</strong></a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=020163371X" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /> and <a href="http://www.amazon.com/gp/product/0201749629/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0201749629&linkCode=as2&tag=quant0f-20"><strong>Effective STL</strong></a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=0201749629" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />. You will then need to consider the Boost library, multithreaded programming and Linux operating system fundamentals to become a true expert.</li>
+</ol>
+
+<p>Similarly for Python:</p>
+
+<ol>
+  <li>If you are already a skilled C++/Java/C# programmer, then read through certain sections of <a href="http://www.amazon.com/gp/product/0596158068/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0596158068&linkCode=as2&tag=quant0f-20"><strong>Learning Python</strong></a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=0596158068" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /> by Mark Lutz. In particular, skim Chapters 4-9, which discuss Python's built in types. Chapters 10-13 discuss Python's syntax for branching and looping, so they can also be lightly read to determine syntax. However, it is worth spending significant time on Chapters 14-20, as they discuss Python specific features such as Iterations/Comprehensions and advanced function usage. Sections V and VI cover namespacing and object-oriented programming, and how these concepts differ in Python from a language such as C++/Java. If you want to be a good intermediate Python programmer, then you should also consider the remaining chapters in the book. Remember though that this book is over 1,000 pages long, so you will need to pick and choose the sections relevant to your background.</li>
+  <li>Mark Lutz's second book, <a href="http://www.amazon.com/gp/product/0596158106/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0596158106&linkCode=as2&tag=quant0f-20"><strong>Programming Python</strong></a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=0596158106" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />, is on actually building applications within Python. This will take all of the syntax knowledge gained in the first and allow you to start building robust applications. This will help you become a much better <em>Python software engineer</em>.</li>
+  <li>For those who are definitely keen on the quantitative trading side of the industry, it will be necessary to learn how to carry out <em>data analysis</em> within Python. This is a skill often picked-up while in grad school, but <a href="http://www.amazon.com/gp/product/1449319793/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=1449319793&linkCode=as2&tag=quant0f-20"><strong>Python for Data Analysis</strong></a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=1449319793" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
+ by Wes McKinney nicely covers some of the newer libraries available such as <a href="https://www.scipy.org/">SciPy</a> and <a href="https://pandas.pydata.org/">pandas</a>.</li>
+</ol>
+
+<p>After following the above plan you should have a good chance at any C++ or Python interview. However, in order to solidify your developer skills it is necessary to be aware of some of the recent innovations in software engineering, which only tend to be figured out "on the job", but can certainly be studied and practiced at home in your spare time.</p>
+
+<h2>Software Engineering</h2>
+
+<p>Being a good interview candidate for a quant developer position requires that you become both a good programmer AND a good software developer. Many can learn the former from textbooks and practice. However the latter can only be learnt from working on larger software projects, generally with other developers. However, this does not mean it cannot be incorporated into a home study program! For instance, it is now easy to contribute to <em>open source software projects</em> via the internet. One of the largest quantitative finance projects is the <a href="https://quantlib.org/"><storng>QuantLib</strong></a> project. Reading through (some of) the source code to this project will give you a good idea at how large-scale C++ software projects are written.</p>
+
+<p>To become a good software developer it is necessary to understand how to craft large-scale software projects. For modern software development this requires using <em>version control</em>, <em>continuous integration</em> and other <em>agile</em> practices. Here is a study plan to help you get to grips with these concepts:</p>
+
+<ol>
+  <li>Read through both Steve McConnell's <a href="http://www.amazon.com/gp/product/0735619670/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0735619670&linkCode=as2&tag=quant0f-20"><strong>Code Complete</strong></a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=0735619670" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /> and Robert Martin's <a href="http://www.amazon.com/gp/product/0132350882/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0132350882&linkCode=as2&tag=quant0f-20"><strong>Clean Code</strong></a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=0132350882" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />. Both of these books will cause you to seriously rethink how you go about designing software, from first principles. For instance - how much time do you spend upfront designing your software <em>before</em> touching the keyboard? Both of these books will save you hours of wasted code development. I would suggest applying as many of the tips within these books to your projects as soon as possible to remove any bad habits. They are also great to discuss at interview, as you'll invariably be asked to write some code.</li>
+  <li>A discussion on good software craftsmanship would not be complete without mentioning <a href="http://www.amazon.com/gp/product/0201633612/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0201633612&linkCode=as2&tag=quant0f-20"><strong>Design Patterns</strong></a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=0201633612" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />, also known as the "Gang Of Four" book. This book is highly relevant for a language such as C++, although less so for a scripting language such as Python. You will likely notice that you are using similar designs in your code. This book helps you determine when and where they should be applied. One benefit is that other good developers will be aware of them - making your more popular among your development peer group. It is quite a hard read for self-study, so try and pick 2-3 designs such as the Factory, Decorator or Singleton that are used most often and then work your way through from there.</li>
+  <li>When working on large-scale software projects with multiple team members it is an absolute necessity to make use of <em>version control software</em>. Automatic revisioning, rollback, branching/merging and better testing capability means that version control is ubiquitous in nearly all (good) software institutions. The two big contenders are <strong>Git</strong> and <strong>Subversion (SVN)</strong>. I would suggest becoming familiar only with Git as SVN is similar (if a little harder to use!) and most institutions are replacing their SVN repositories with Git equivalents. There is a free eBook on learning Git, <a href="https://git-scm.com/book"><strong>Pro Git</strong></a>, which I suggest you work your way through. It will save you <em>hours</em> of wasted development time!</li>
+  <li>Some industries are now turning towards <em>continuous integration</em> practices, which encourage continuous testing and deployment of code via a fully automated testing and deployment system. Although you are likely to be able to pick up most of how a CI system works "on the job", you might want to impress your interviewer by demonstrating your knowledge of the subject via working through a book such as Paul Duvall's <a href="http://www.amazon.com/gp/product/0321336380/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0321336380&linkCode=as2&tag=quant0f-20"><strong>Continuous Integration</strong></a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=0321336380" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />.</li>
+</ol>
+
+<h2>Database Interaction</h2>
+
+<p>Although becoming an excellent programmer and an excellent software developer are the prerequisites to gaining an interview position, you will also be asked problems relating to data storage and analysis. One of the key components in a quant dev's day to day life is interacting with databases. Thus a certain level of maturity with database handling is to be expected. If you have never utilised a data storage system, then the best way to start is by beginning to understand <em>Relational Database Management Systems (RDBMS)</em> and their language - <em>Structured Query Language (SQL)</em>. Common RDBMS' include Microsoft SQL Server, Oracle and MySQL. Other types of data store systems include the so-called <em>NoSQL</em> data stores, including 10Gen's MongoDB and Cassandra.</p>
+
+<p>The best way to begin learning about RDBMS is to install an open source version (as you can download them for free!) and follow the reading list below. It is beyond the scope of this article to teach you how to install an RDBMS, but you can try MySQL, as this is a very common database within hedge funds. SQL Server and Oracle are more likely to be prevalent within banking. Once you have installed a database such as MySQL, use the following guides to help you understand storage and access of data:</p>
+
+<ol>
+  <li>If you have no familiarity with SQL then the O'Reilly book <a href="http://www.amazon.com/gp/product/0596520832/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0596520832&linkCode=as2&tag=quant0f-20"><strong>Learning SQL</strong></a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=0596520832" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /> by Alan Beaulieu is a great start. It covers all of the beginner and intermediate SQL you will need to know to store, access and provide reports for data. It will discuss database optimisation in a brief way as well. Make sure you read the entire book as all of the material is relevant for day to day quant dev database duties. For specific database tasks, you will want to have a look at the O'Reilly <a href="http://www.amazon.com/gp/product/0596009763/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0596009763&linkCode=as2&tag=quant0f-20"><strong>SQL Cookbook</strong></a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=0596009763" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />. I found this book incredibly useful when I was a quant dev, as I was continually pulling it off the shelf to look up a certain date/time or reporting query! There's no need to read this cover-to-cover, but certainly having an overview of the contents and where to look the material up is useful.</li>
+  <li>Although quant devs are not often database administrators, if you wish to learn more about advanced MySQL optimisation, then the following two books, while certainly not necessary, are highly useful if you are running into database problems: <a href="http://www.amazon.com/gp/product/1449314287/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=1449314287&linkCode=as2&tag=quant0f-20"><strong>High Performance MySQL</strong></a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=1449314287" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /> and <a href="http://www.amazon.com/gp/product/0596807309/ref=as_li_tf_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0596807309&linkCode=as2&tag=quant0f-20"><strong>MySQL High Availability</strong></a><img src="http://www.assoc-amazon.com/e/ir?t=quant0f-20&l=as2&o=1&a=0596807309" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />.</li>
+</ol>
+
+<h2>Finance and Numerical Algorithms</h2>
+
+<p>Since a quantitative developer works in the financial markets, it is useful to have a relatively good understanding of the products that banks produce or the instruments that funds will be trading. Thus it will be necessary to familiarise yourself (broadly) with the equities, forex, fixed income, commodities and related derivatives markets. In particular you want to be continually thinking about how this data is represented, stored and accessed as a big part of a quant dev's job is to provide storage and access to financial data. Once in the job you will almost certainly concentrate on one particular area in depth, so make sure your initial research is quite broad.</p>
+
+<p>Of more relevance are the algorithms used in quantitative finance to carry out both instrument pricing and algorithmic trading. The investment bank derivatives pricing techniques will almost certainly concentrate on Monte Carlo Methods and Finite Difference Methods, both of which rely on knowledge of probability, statistics, numerical analysis and partial differential equations. These are all topics which a good student will be familiar with in grad school, but for those considering a career change, you will need to gain a good understanding of these methods if you wish to become an options pricing quant developer in a bank.</p>
+
+<p>For hedge funds, you will likely be implementing trading infrastructure - either low or high frequency. This will involve taking an algorithm already coded up in MatLab, R or Python (or even C++) and then optimising it in a faster language, such as C++, as well as hooking up this algorithm to a <em>prime brokerage</em> application programming interface (API) and executing trades. The skills required here are quite disparate. You will need to be able to pull together data from various sources, put it into the correct context, iterate over it rapidly and then generate on-demand reports either in fixed-format (PDF), over the web or as an API itself. These skills are hard to learn from books directly and require a few years of software development experience in the technology industry.</p>
+
+<p>In order to read about these topics further, please have a look at my <a href="https://www.quantstart.com/articles/topic/c/">C++ Implementation articles</a>, my <a href="https://www.quantstart.com/articles/topic/python/">Python Implementation articles</a> and the <a href="http://www.quantstart.com/articles/Quantitative-Finance-Reading-List">Quantitative Finance Reading List</a>.
+
+<h2>Applying for Jobs</h2>
+
+<p>Although the above list looks like an extensive amount of material to study, this will only be the case for somebody completely new to programming. It is unlikely that a quantitative developer position would be suitable for such an individual and I assuming that your own background will be in programming or the physical sciences. Make sure to read only the sections you deem relevant to your own situation, as otherwise you could easily spend a few years of your spare time learning the above material!</p>
+
+<p>Once you believe you are ready for interview then you will need to begin the process of contacting quantitative recruiters. There are specialist firms that deal with investment banks and hedge funds. If you require specific names, then feel free to email us at <a href="mailto:support@quantstart.com"><strong>support@quantstart.com</strong></a> and we will happily point you in the right direction.</p>
+
+<p>Any good recruiter will discuss your background to a reasonable degree of detail as they are putting their reputation at stake when they recommend you for an interview. Recruiters aren't generally highly familiar with the technicalities of quantitative technology and nor do they need to be. However, this does mean they have to rely more on "buzzword matching" for their own CV/resume filtering. Make sure if you are strong with C++ that you state "C++ skills - strong" and reference the STL, Boost and any C++ projects you have worked on, for instance. Do not be modest about your skills, but also do not overstate them. If you write anything on your CV/resume, it is fair game to be grilled about it in a technical interview!</p>
+
+<p>Since the job market (in 2013) is not the best (particularly at entry-level) right now, you might find it will take a while to get the job you are looking for. The trick is to keep trying as with each interview you attend, you'll gain more knowledge about what the recruiters and interviewers are looking for and so you'll be able to tailor your study towards this.</p>
+
+<p>If you have any questions at all about becoming a quant developer at all please take a look at this article on <a href="http://www.quantstart.com/articles/My-Experiences-as-a-Quantitative-Developer-in-a-Hedge-Fund">my own experiences as a quant developer</a> or email us at <a href="mailto:support@quantstart.com">support@quantstart.com</a>.</p>
+        
+        
+        <script async data-uid="6296c27f4b" src="https://weathered-brook-5281.ck.page/6296c27f4b/index.js"></script>
+      </section>
+    </div>
+    <div class="col-md-4 book-card order-md-1">
+      
+<div class="sidebar-advert-container">
+  <a href="/qsalpha/?ref=art">
+    <img class="card-img-top" src="/static/images/qsalpha-sidebar-advert-small.png" alt="QSAlpha">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/qsalpha/?ref=art">QSAlpha</a></h3>
+      <p class="card-text medium-text mb-3">Join the QSAlpha research platform that helps fill your strategy research pipeline, diversifies your portfolio and improves your risk-adjusted returns for increased profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/qsalpha/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/quantcademy/?ref=art">
+    <img class="card-img-top" src="/static/images/quantcademy-sidebar-advert-small.png" alt="Quantcademy">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/quantcademy/?ref=art">The Quantcademy</a></h3>
+      <p class="card-text medium-text mb-3">Join the Quantcademy membership portal that caters to the rapidly-growing retail quant trader community and learn how to increase your strategy profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/quantcademy/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/successful-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/sat-sidebar-advert-small.png" alt="Successful Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to find new trading strategy ideas and objectively assess them for your portfolio using a Python-based backtesting engine.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/successful-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/advanced-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/aat-sidebar-advert-small.png" alt="Advanced Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to implement advanced trading strategies using time series analysis, machine learning and Bayesian statistics with R and Python.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/advanced-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+    
+
+<footer>
+  <div class="container container-full">
+    <section class="mt-1.5 mb-1">
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">QuantStart</li>
+            <li class="footer-list-link"><a class="link-fade" href="/about/">About</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/articles/">Articles</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/sitemap/">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Products</li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qsalpha/">QSAlpha</a></li>
+            
+            
+            <li class="footer-list-link"><a class="link-fade" href="/quantcademy/">Quantcademy</a></li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qstrader/">QSTrader</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Legal</li>
+            <li class="footer-list-link"><a class="link-fade" href="/privacy-policy/">Privacy Policy</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/terms-and-conditions/">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Social</li>
+            <li class="footer-list-link"><a class="link-fade" href="https://twitter.com/quantstart">Twitter</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="https://www.youtube.com/channel/UCmVnnZ6Y2TrJtY1eQJN6kWA">YouTube</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="row mb-1.5 mt-5">
+      <div class="col-12 col-md-9 col-lg-8 col-xl-6">
+        <div class="footer-copyright">
+          <p>©2012-2023 QuarkGluon Ltd. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+<script src="/static/js/jquery-3.2.1.min.js"></script>
+<script src="/static/js/prism.js.min"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/nav.js"></script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5383959-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+    
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="/static/js/highcharts/highcharts.js"></script>
+<script type="text/javascript">
+  num_colours = 10;
+</script>
+<script src="/static/js/statistics.js"></script>
+
+
+  </body>
+</html>

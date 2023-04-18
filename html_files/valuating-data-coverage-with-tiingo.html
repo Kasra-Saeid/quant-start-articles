@@ -1,0 +1,620 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-site-verification" content="wl3-8ed1QZjI0iYZMv10zoZWYElkMObTfwLlWIj9cpA" />
+    <meta name="description" content="We introduce Tiingo and look at ways to evaluate data coverage with Matplotlib&#x27;s imshow method">
+
+    <link rel="icon" href="/static/images/favicon.png">
+
+    <title>Evaluating Data Coverage with Tiingo | QuantStart</title>
+    
+    
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet"> 
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/prism.css" rel="stylesheet">
+<link href="/static/css/qs.css?v=10" rel="stylesheet">
+    
+  </head>
+
+  <body>
+    <header class="header covered-header" style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://quantstartmedia.s3.amazonaws.com/images/article-images/article-backgrounds/training-the-perceptron-with-scikit-learn-and-tensorflow.jpg);">
+  
+<nav class="nav">
+  <div class="container nav-container">
+    <div class="nav-row row d-flex justify-content-between align-items-center">
+      <div class="col-2">
+        <ul class="nav-items justify-content-end small-capitals align-items-center">
+          <li class="nav-item">
+            <a class="link-fade" href="/">QuantStart</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-auto col-logo">
+        <ul id="top-nav-menu" class="nav-items justify-content-end align-items-center">
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/qsalpha/">QSAlpha</a>
+          </li>
+          
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/quantcademy/">Quantcademy</a>
+          </li>
+          
+          <li id="menu-link-ebooks" class="nav-item">
+            <a class="link-fade" href="#">Books</a>
+            <div id="menu-pane-ebooks" class="nav-items menu-dropdown-pane">
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/qstrader/">QSTrader</a>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/articles/">Articles</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/members/login/">Login</a>
+          </li>
+          
+        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<nav id="mobile-nav" class="mobile-nav text-left">
+  <div class="container">
+    <ul class="mt-4 ml-3 mobile-nav-menu">
+      <li class="nav-item">
+        <a class="link-fade d-block" href="/">QuantStart</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qsalpha/">QSAlpha</a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/quantcademy/">Quantcademy</a>
+      </li>
+      
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="#">Books</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qstrader/">QSTrader</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/articles/">Articles</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/members/login/">Login</a>
+      </li>
+      
+    </ul>
+    <button class="nav-toggle mobile-nav-close">
+      <svg id="mobile-nav-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M19.77,5.63,13.41,12l6.36,6.37a1,1,0,0,1-1.41,1.41L12,13.41,5.63,19.77a1,1,0,0,1-1.44-1.39l0,0L10.58,12,4.21,5.63a1,1,0,0,1,0-1.42,1,1,0,0,1,1.41,0l0,0L12,10.58l6.37-6.37a1,1,0,0,1,1.41,0A1,1,0,0,1,19.77,5.63Z"></path>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+  <div class="container hero-container">
+    <section class="mt-5 mb-4">
+      <div class="row justify-content-center">
+        <div class="col-12 text-center">
+          <p class="hero">Evaluating Data Coverage with Tiingo</p>
+          <p class="hero subhero">We introduce Tiingo and look at ways to evaluate data coverage with Matplotlib&#x27;s imshow method</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</header>
+    
+<section class="container content-container">
+  <div class="row">
+    <div class="col-md-8 order-md-2">
+      <section class="content article-content">
+        
+        
+        <p>In this article we will be introducting <a href="https://www.tiingo.com/" target="blank" rel="noopener norefferer">Tiingo</a>, a data and stock market tools provider. Founded in 2014 Tiingo aims to empower its users by providing good, clean and more accurate data. They offer OHLCV data for 82,468 Global Securities, 37,319 US & Chinese Stocks 45,149 ETFs & Mutual Funds. They also have an intraday feed through partnership with IEX. In addition, they have fundamental data for US, ADRs, Chinese Equities, and are continuing to grow. Tiingo has data from 40+ crypto exchanges with over 2100 crypto tickers, 40+ FX tickers directly from tier-1 banks and FX dark pools including top of book (bid/ask) data.</p>
+
+<p>When you sign up to use their API Tiingo offer 30+ years of stock data for free and premium users and 5 years of fundamental data for free users or 15+ years across all tickers for premium users. Tiingo use 3 different exchanges to provide their stock data which they incorporate into a proprietary data cleaning framework to allow error checking and redundancy. This helps to avoid missing data and erroneous data points. Data is updated at 5:30pm EST for Equities/ETFs & 12:00am EST for Mutual Fund NAVs, Realtime updates are available from the IEX Exchange direct. Exchange corrections are applied throughout the evening untill exchange close @ 8pm.</p>
+
+<p>Tiingo's free plan does not include access to the fundamental data API or the Tiingo News API and has the following API limitations: 
+  <ul>
+    <li>500 unique symbols a month</li>
+    <li>50 requests an hour</li>
+    <li>1000 requests a day</li>
+  </ul>
+</p>
+
+<p>The power user tier costs just $10 a month and has the following API limitations:
+  <ul>
+    <li>Access to all symbols each month</li>
+    <li>5000 request per hour</li>
+    <li>50000 request per day</li>
+  </ul>
+</p>
+
+<p>The power user tier also has access to the news API and the fundamental data as an add-on. At the time of writing this API was in beta with the DOW30 available for evaluation. Both tiers are for internal, personal use only. They also offer a range of commercial licenses and data redsitribution packages through contact with their sales team.</p>
+
+<p>We will be using Tiingo's REST EOD API to access end of day data for ten US equities. Using the Matplotlib method <code>imshow()</code> we will look at how we can visually evaluate the quality of the data. We will also modify the image to include third party colourmaps and see how to add and position axis labels. Our methodolgy will be to convert JSON to a Pandas DataFrame and then use <code>df.mask()</code> plotting the figure with <code>imshow()</code>. This methodology can be used for any set of tickers, any price attribute and any date range. The exact code will be specific to the Tiingo EOD API response but can be easily modified to use other data vendors.</p>
+
+<p>This article is part of a series that began with <a href="https://www.quantstart.com/articles/creating-an-algorithmic-trading-prototyping-environment-with-jupyter-notebooks-and-plotly/" target="blank" rel="noopener norefferer">Creating an Algorithmic Trading Prototyping Environment with Jupyter Notebooks</a>. If you wish to follow along with the tutorial it is recommended to set up the virtual environment within that tutorial, which makes use of the Python distribution Anaconda. If you wish to run the code without following the series or do not have Anaconda installed you will need the following dependencies:
+  <ul>
+    <li>Python >=v3.8</li>
+    <li>ipykernel v6.4</li>
+    <li>jupyter v1.0</li>
+    <li>Matplotlib v3.5</li>
+    <li>Numpy >=v1.22</li>
+    <li>Palettable v3.3</li>
+    <li>Pandas v1.4</li>
+    <li>Pandas Market Calendars v3.4</li>
+    <li>Requests v2.27</li>
+  </ul>
+</p>
+
+<h2>Tiingo REST API Connection</h2>
+
+<p>Once you have signed up to Tiingo you can find your API key by going to your profile information and looking under the API menu in the <a href="https://www.tiingo.com/account/api/token" target="blank" rel="noopener norefferer">Token</a> section. A request for data to Tiingo's API provides a JSON or CSV response, with JSON being the default. We will look at how to convert the data from JSON to a Pandas DataFrame. Tiingo offer detailed documentation on connecting to the API <a href="https://api.tiingo.com/documentation/general/overview" target="blank" rel="noopener norefferer">here</a>.</p>
+
+<p>In order to obtain and process the data into a DataFrame for further analysis we will need the following imports.</p>
+
+<pre>
+  <code class="language-python">import json
+  import pandas as pd
+  import requests</code>
+</pre>
+
+<p>The first thing we will do is to test the connection and ensure that the API key we have been assigned is working. After you have imported the required libraries we will create a dictionary called headers. This will contain all the information needed to connect to API and obtain our JSON response. Don't forget to replace the value of the 'Authorizarion' key (currently 'your_api_key') with the API key you have been assigned by Tiingo.</p>
+
+<pre>
+  <code class="language-python">headers={
+    'Content-Type': 'application/json',
+    'Authorization': 'Token ' + 'your_api_key'
+  }</code>
+</pre>
+
+<p>Now we can create our first API request</p>
+
+<pre>
+  <code class="language-python">request = requests.get("https://api.tiingo.com/api/test/", headers=headers)
+  print(request.json())</code>
+</pre>
+
+<p>If your API call was successful you should see the following message:</p>
+
+<pre>
+  <code class="language-bash">{'message': 'You successfully sent a request'}</code>
+</pre>
+
+
+<h2>Evaluating Data Coverage</h2>
+
+<p>When evaluating a new data provider one of the top things to consider is the quality of the data. Amongst the most important aspects of data quality is coverage. Are there any missing data points? Does the data span the correct historical range? The most visual way of achieving this is to use the Matplotlib.pyplot method <code>imshow()</code>. <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.imshow.html" target="blank" rel="noopener norefferer">Imshow</a> renders data as an RGB or pseudocolour image, that is, the contents of the DataFrame will be displayed as a colour depending on value and colourmap used. If we couple this with masking our DataFrame we can create an image that shows empty space where data is missing, allowing us to quickly evaluate whether our data is complete. We will now use the top ten constituents of the S&P500 to evaluate 10 years of Tiingo data for any missing adjusted close price data by creating the image shown below. In this image any missing data point is clearly visible as a blank space.</p>
+
+<figure>
+  <img src='https://quantstartmedia.s3.amazonaws.com/images/article-images/articles/visualising-data-coverage-with-tiingo/test.png' alt="Graph of data points from Tiingo EOD data on ten stocks.">
+  <figcaption>Tiingo data coverage of top 10 S&P500 constituents</figcaption>
+</figure>
+
+<p>We begin by creating a list of the top10 S&P500 constituents. At the time of writing these were Apple, Microsoft, Amazon, Google (class A, GOOGL), Google (class B, GOOG), Tesla, NVidia, Berkshire Hathaway Inc (class B), Facebook and United Health Group. We create an empty dictionary and then loop through the tickers and create a string for the API call to the Tiingo API.  We then call the API and pass the response to the JSON method. This JSON is then converted to a DataFrame. Finally we update our dictionary with the ticker as the key and the DataFrame as the value.
+</p>
+
+<pre>
+  <code class='language-python'># List of tickers to be downloaded
+  sp_10 = ['AAPL', 'MSFT', 'AMZN', 'GOOGL', 'GOOG', 'TSLA', 'NVDA', 'BRK-B', 'FB', 'UNH']
+  # create dictionary of DataFrames
+  tiingo_data = {}
+  for ticker in sp_10:
+      tk_string = f'https://api.tiingo.com/tiingo/daily/{ticker.lower()}/prices?startDate=2012-01-02&endDate=2022-02-02/'
+      response = requests.get(tk_string, headers=headers).json()
+      tk_data = {ticker: pd.DataFrame.from_dict(response)}
+      tiingo_data.update(tk_data)</code>
+</pre>
+
+<p>If we now call our variable <code>tiingo_data</code> the output in the jupyter notebook is as shown below. You can see that we have a numerical index and a datetime stamp that includes the time stamp. For end of day data this is simply 00:00:00.000.</p>
+
+<figure>
+  <img src="https://quantstartmedia.s3.amazonaws.com/images/article-images/articles/visualising-data-coverage-with-tiingo/tiingo_data_dict.png" alt="Dictionary of DataFrames in Jupyter Notebook" style="padding-bottom: 20px">
+  <figcaption>Dictionary of DataFrames with Tiingo EOD data</figcaption>
+</figure>
+
+<h5><em>A Note on Time Zones</em></h5>
+<p>Tiingo data is usually provided in UTC, however, if you are using Tiingo's intraday data you should be aware that The Investors Exchange (IEX) uses America/New_York timezone, which is Eastern Standard Time (EST - UTC-05:00) or Eastern Daylight Time (EDT - UTC-04:00) depending on the time of year. On the second Sunday of March at 02:00 EST the clocks in the Eastern Time Zone advance to 03:00. On the first Sunday of November at 02:00 EDT the clocks are moved back to 01:00.  In Greenwich Mean Time, on the last Sunday of March at 01:00 GMT British Summer Time (BST - UTC+01:00) begins. This ends on the last Sunday of October at 01:00 GMT (or 02:00 BST), which brings the UK back to Greenwich Mean Time (UTC±00:00). It is worth spending some time understanding time zones in your data. They can be the source of many errors in your code.</p>
+
+<p>Once we have our dictionary of DataFrames we can we convert the date to a datetime object and set the index. As the timestamp here has no meaningful impact on our analysis (we are using EOD data) we will remove it from the index.</p>
+
+<pre>
+  <code class="language-python"># fix date to datetime no TZ and set as index for all dataframes in dict
+for k in tiingo_data.keys():
+    tiingo_data[k]['date'] = pd.to_datetime(tiingo_data[k]['date'])
+    tiingo_data[k] = tiingo_data[k].set_index('date').tz_localize(None)</code>
+</pre>
+
+<p>Now when we call <code>tiingo_data</code> we can see that our date is the index and the timestamp has been removed.</p>
+
+<figure>
+  <img src="https://quantstartmedia.s3.amazonaws.com/images/article-images/articles/visualising-data-coverage-with-tiingo/tiingo_data_date.png" alt="Dictionary of DataFrames with timestamp removed" style="padding-bottom: 20px">
+  <figcaption>Dictionary of DataFrames with date as index and timestamp removed</figcaption>
+</figure>
+
+<p>The DataFrames we have created from our JSON downloads will not have any labelled rows for missing dates. They will simply have consecutive rows of the data points provided by the data vendor. In order to determine if there is any data missing we will need to create a list of all the trading days between our start and end dates. Those of you with sharp eyes will have already noticed that although the requested date range for our data begins on March 1st 2012 both Metaverse (Facebook) and Google class B shares were not trading at that time. Google class b shares began trading on March 27th 2014 and Metaverse (FB) on May 18th 2012. By using a complete date index for the trading period we will by intention have missing data points for both these tickers. This then allows us to demonstrate how to visualise coverage using this method.</p>
+
+<p>Creating a trading calendar is an essential skill to learn if you wish to carry out more realistic backtests. Although Pandas has a <code>USFederalHolidayCalendar</code> it is not consistent with a Trading calendar. Trading is not carried out on Columbus Day or Veteran's Day but it is carried out on Good Friday. Creating your own trading calendar can be done in Pandas by using the <code>AbstractHolidayCalendar</code> class. However, there is also an excellent open source library <a href="https://pandas-market-calendars.readthedocs.io/en/latest/" target="blank" rel="noopener norefferer">Pandas-Market-Calendars</a>, which has been maintained regularly since December 2016. It offers holiday, early and late open/close calendars for specific exchanges and Over The Counter conventions. The latest release, version 3.4 at time of writing, is only available to install via the python package manger PIP. The Conda package manager has an older version which is not compatible with later versions of Pandas. It is generally not good practice to use pip to install packages through conda as these packages will be installed on a different channel. In this case however, it is necessary to obtain the correct version of the package so we will be using pip to install this package inside our conda environment. You should bear in mind that if you were to ever use <code>conda update</code> inside this environment the Pandas Market Calendars package would not be updated.</p>
+
+<p>Inside the anaconda environment you are working in pip install the package. If you are following along with the article series you can use the previously created environment py3.8.</p>
+
+<pre>
+  <code class='language-bash'>(base)$ conda activate py3.8</code>
+</pre>
+
+<p>Once inside the environment you can install the package. If you see a command not found error you will also need to install pip.</p>
+
+<pre>
+  <code class='language-bash'>(py3.8)$ pip install pandas_market_calendars==3.4</code>
+</pre>
+
+<p>We can now import the package by adding it to our imports</p>
+
+<pre>
+  <code class="language-python">import json
+  import pandas as pd
+  # NEW
+  import pandas_market_calendars as mcal
+  import requests</code>
+</pre>
+
+<p>Below is the code to get all trading days for the New York Stock Exchange, and to create a schedule of dates for our chosen date range. We can then define the frequency at which we would like our datetimes, i.e. daily, hourly. Finally we remove the timestamp from the index. This is done so that we can compare the dates from our Tiingo data (where we have already removed the timestamp) with the dates in our bespoke trading calendar. This is saved as the variable <code>date_index</code>.</p>
+
+<pre>
+  <code class="language-python">nyse = mcal.get_calendar('NYSE')
+  trading_days = nyse.schedule(start_date='2012-01-03', end_date='2022-02-02')
+  date_index = mcal.date_range(trading_days, frequency='1D').date</code>
+</pre>
+
+<p>Calling our variable date_index inside our notebook shows us an array of datetimes as below.</p>
+
+<figure>
+  <img src="https://quantstartmedia.s3.amazonaws.com/images/article-images/articles/visualising-data-coverage-with-tiingo/mcal_date_index.png" alt="date_index array created by pandas_market_calendars" style="padding-bottom: 20px">
+  <figcaption>Array of datetimes using Pandas Market Calendars</figcaption>
+</figure>
+
+<p>We now have a dictionary of DataFrames containing our OHLCV data from Tiingo where the keys are the tickers and the values are the DataFrames. We also have a date_index of the all trading days within our date range. To see if there are any missing adjusted close prices we will need to create a close price DataFrame for each stock where the index is our date_index and the columns are the close price series for every ticker. This is created in a similar way to the close price series creating in our last article <a href="https://www.quantstart.com/articles/an-introduction-to-stooq-pricing-data/#close_df" target="blank" rel="noopener noreferrer">An Introduction to Stooq Data</a>. As such we will only describe the code in brief.</p>
+
+<p>We first create a list of Pandas Series containing the adjusted close price for each ticker. The index of each series will be the original date index from our data provider. As such they will have different lengths and we will not be able to concatenated them. We then create a MultiIndex object where level 0 is the ticker and level 1 is our new variable date_index with dates for all trading days in the date range. Now we reindex each series in the list filling any missing values with numpy NaNs. For this we will need to import numpy. Now that we have a list of series with matching length we can concatenated them with <code>pd.concat()</code>.</p> 
+
+<pre>
+  <code class="language-python">import json
+  # NEW
+  import numpy as np
+  import pandas as pd
+  import pandas_market_calendars as mcal
+  import requests</code>
+</pre>
+
+<pre>
+  <code class="language-python"># create list of multIndexed series from adjusted close data
+  ticker_series_list = []
+  for k,v in tiingo_data.items():
+      ticker_series = pd.Series(v['adjClose'].to_list(), index=tiingo_data[k].index, name='AdjClose')
+      arrays = [[k]*len(date_index), date_index]
+      new_index = pd.MultiIndex.from_arrays(arrays, names=['ticker', 'date'])
+      ticker_amend = ticker_series.reindex(new_index, level=1, method=None, fill_value=np.NaN)
+      ticker_series_list.append(ticker_amend)</code>
+</pre>
+
+<pre>
+  <code class="language-python">close_series = pd.concat([series for series in ticker_series_list])</code>
+</pre>
+
+<p>Then, as we showed in the previous tutorial, we can unstack them to become and MultiIndexed DataFrame</p>
+
+<pre>
+  <code class="language-python">tiingo_top10 = close_series.unstack()</code>
+</pre>
+
+<p>And finally transpose the MultiIndexed DataFrame, swapping the rows and columns to give us our final DataFrame with adjusted close price for all tickers across all trading days in our chosen date range.</p>
+
+<pre>
+  <code class="language-python">tiingo_top10 = tiingo_top10.T</code>
+</pre>
+
+<p>You should now have a DataFrame that looks as below. You can see the NaNs present in both the FB and GOOG adjusted close price where there is no data available.</p>
+
+<figure>
+  <img src="https://quantstartmedia.s3.amazonaws.com/images/article-images/articles/visualising-data-coverage-with-tiingo/tiingo_close_df.png" alt="Final DataFrame of Adjusted Close Prices" style="padding-bottom: 20px">
+  <figcaption>Adjusted close price DataFrame</figcaption>
+</figure>
+
+<p>Now that we have our adjusted close price DataFrame we can create our coverage image. Imshow works by plotting values as colour points based on the chosen colourmap. It is possible at this point to simply plot our data using <code>plt.imshow(tiingo_top10.values, aspect='auto')</code>. This can be a good way to visualise aspects such as price trends. However, when you are dealing with a large number of tickers and a wide date range it is easy to miss a blank square if there are a number of different colours visible. To evaluate data coverage the first thing we need to do is mask our data such that all cells which do not contain NaNs will be changed to 1. That is all cells with a numerica value will simply be 1 rather than the price. We can use the Pandas methods <code>df.mask()</code> and <code>df.notna()</code> to achieve this.</p>
+
+<ore>
+  <code class="language-python"># replace all values that are not NaN with 1
+  tiingo_cov = tiingo_top10.mask(tiingo_top10.notna(), 1)</code>
+</pre>
+
+<p>We can now create the image using imshow to see whether there are missing data points. We use imshow with <code>df.values()</code> to return a numpy array of the values in the DataFrame and the keyword aspect="auto" to fill the axis. For a datset this size it allows better visualisation than using the default aspect="equal" where each pixel is displayed with equal aspect ratio i.e. a square.</p>
+
+<pre>
+  <code class="language-python">plt.imshow(tiingo_cov.values, aspect='auto')</code>
+</pre>
+
+<figure>
+  <img src="https://quantstartmedia.s3.amazonaws.com/images/article-images/articles/visualising-data-coverage-with-tiingo/test.png" alt="Matplotlib imshow displaying data coverage">
+  <figcaption>Tiingo data coverage for adjusted close price on top 10 S&P500 constituents</figcaption>
+</figure>
+
+<p>With a little more processing we can obtain the same data coverage figure but with different colours for each stock and more clearly labelled axes. This figure is shown below.</p>
+
+<figure>
+  <img src="https://quantstartmedia.s3.amazonaws.com/images/article-images/articles/visualising-data-coverage-with-tiingo/tiingo_coverage.png" alt="Matplotlib imshow displaying data coverage coloured by stock">
+  <figcaption>Tiingo data coverage for adjusted close price on top 10 S&P500 constituents, coloured by stock</figcaption>
+</figure>
+
+<p>In order to create this figure, we can use the same amsking method but we need to vary the integer we use for each stock. This allows the colourmap to display a different colour for each stock and a blank space for any Nans. We will also create a subplot so that we can access the axes object and use the <code>ax.set_xticklabels()</code> method. We will also be making use of a third party colourmap library <a href="https://jiffyclub.github.io/palettable/" target="blank" rel="noopener norefferer">Palettable</a>. Palettable provide a large number of different colourmaps that can be selected based on the number of elements you would like to colour and the type of colourmap you wish to create. There is an excellent article <a href="https://matplotlib.org/stable/tutorials/colors/colormaps.html" target="blank" re;="noopener norefferer">here</a> which describes how to select a colourmap based on the data you are showing. As our stocks are independant they have no ordering and our dataset is considered qualitative. In this case we use a qualitative colourmap.</p>
+
+<p>To create a mask with a different number for each column we can enummerate through the columns in the DataFrame and apply the mask in place, using the counter in the enumerate method to change the value of the mask for each column. The following code will apply the number 1.0 to any cell in the first column that does not have an NaN, it will apply 2.0 to the cells in the second column and so on up to the last column.</p>
+
+<pre>
+  <code class="language-python">for i, col in enumerate(tiingo_top10):
+  tiingo_top10[col].mask(tiingo_top10[col].notna(), i+1, inplace=True)</code>
+</pre>
+
+<p>Our DataFrame should now appear as below.</p>
+
+<figure>
+  <img src="https://quantstartmedia.s3.amazonaws.com/images/article-images/articles/visualising-data-coverage-with-tiingo/tiingo_cov_df.png" alt="DataFrame should incrementing mask values for each stock" style="padding-bottom: 20px">
+  <figcaption>Tiingo coverage DataFrame with incrementing mask values</figcaption>
+</figure>
+
+<p>To create the figure we will begin by installing palettable, as described in the documentation the package is available through pip. We will need to do this inside the virtual environment we previously created.</p>
+
+<pre>
+  <code class='language-bash'>(py3.8)$ pip install palettable</code>
+</pre>
+
+<p>Now we need to import our chosen colourmap. We have chosen Paired_10 from the module <code>palettable.colobrewer.qualitative</code>.</p>
+
+<pre>
+  <code class="language-python">import json
+  import numpy as np
+  import pandas as pd
+  import pandas_market_calendars as mcal
+  import requests
+
+  # NEW
+  from palettable.colorbrewer.qualitative import Paired_10
+</code>
+</pre>
+
+<p>Now we can create our subplot. The Matplotlib method <code>plt.subplots()</code> returns a tuple of figure and axes object instances. Your final plot will be composed of a figure which encapsulates all the subplots and individual axes objects for each subplot. The individual axes objects are returned as a list in the second element of the tuple. The figure object allows you to call methods on the whole figure such as fig.title, whilst the axes object allows you to call methods on the indivdual axes objects such as ax.set_xticks. Although we are only creating a single figure here this methodolgy would allow us to expand to multiple axes objects if required.</p>
+
+<p>First we create our figure and subplot, then we use the <code>imshow()</code> method on the axes object passing in our chosen colourmap. We set the interpolation to the string 'none', as this stops blur between the data points in the final image. This blurring effect is only visible when we use multiple colours. We then create a list of tickers from the tiingo_top10 DataFrame column names. In order to set these as x axis labels we must assign both a location and a label. As the previous axis labels were simply a zero indexed count of the columns we can use 0-9 to locate our new labels. We also set the y axis label for clarity.</p>
+
+<pre>
+  <code class="language-python">fig, ax = plt.subplots(1,1)
+  ax.imshow(tiingo_top10, aspect='auto', cmap=Paired_10.mpl_colormap, interpolation='none')
+  x_label_list = tiingo_top10.columns.to_list()
+  ax.set_xticks([0,1,2,3,4,5,6,7,8,9])
+  ax.set_xticklabels(x_label_list)
+  ax.set_ylabel("Number of Days")</code>
+</pre>
+
+<figure>
+  <img src="https://quantstartmedia.s3.amazonaws.com/images/article-images/articles/visualising-data-coverage-with-tiingo/tiingo_coverage.png" alt="Matplotlib imshow displaying data coverage coloured by stock">
+  <figcaption>Tiingo data coverage for adjusted close price on top 10 S&P500 constituents, coloured by stock</figcaption>
+</figure>
+
+<p>And that's it. Adding in the different colours for each stock along with the x axis labels has really helped to define each ticker. We can see the missing data clearly for GOOG and FB. In this example we only look at ten stocks but this method can be applied to thousands of tickers in order to evaluate the quality of the data you are receiving. Rather than spending hours trawling through DataFrames or running commands to search for missing values using imshow allows good, quick visibility of a dataset.</p>
+        
+        
+        <h2>Related Articles</h2>
+        <ul>
+        
+        <li><a href="/articles/an-introduction-to-stooq-pricing-data/">An Introduction to Stooq Pricing Data</a></li>
+        
+        </ul>
+        
+        <script async data-uid="6296c27f4b" src="https://weathered-brook-5281.ck.page/6296c27f4b/index.js"></script>
+      </section>
+    </div>
+    <div class="col-md-4 book-card order-md-1">
+      
+<div class="sidebar-advert-container">
+  <a href="/qsalpha/?ref=art">
+    <img class="card-img-top" src="/static/images/qsalpha-sidebar-advert-small.png" alt="QSAlpha">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/qsalpha/?ref=art">QSAlpha</a></h3>
+      <p class="card-text medium-text mb-3">Join the QSAlpha research platform that helps fill your strategy research pipeline, diversifies your portfolio and improves your risk-adjusted returns for increased profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/qsalpha/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/quantcademy/?ref=art">
+    <img class="card-img-top" src="/static/images/quantcademy-sidebar-advert-small.png" alt="Quantcademy">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/quantcademy/?ref=art">The Quantcademy</a></h3>
+      <p class="card-text medium-text mb-3">Join the Quantcademy membership portal that caters to the rapidly-growing retail quant trader community and learn how to increase your strategy profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/quantcademy/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/successful-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/sat-sidebar-advert-small.png" alt="Successful Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to find new trading strategy ideas and objectively assess them for your portfolio using a Python-based backtesting engine.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/successful-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/advanced-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/aat-sidebar-advert-small.png" alt="Advanced Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to implement advanced trading strategies using time series analysis, machine learning and Bayesian statistics with R and Python.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/advanced-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+    
+
+<footer>
+  <div class="container container-full">
+    <section class="mt-1.5 mb-1">
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">QuantStart</li>
+            <li class="footer-list-link"><a class="link-fade" href="/about/">About</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/articles/">Articles</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/sitemap/">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Products</li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qsalpha/">QSAlpha</a></li>
+            
+            
+            <li class="footer-list-link"><a class="link-fade" href="/quantcademy/">Quantcademy</a></li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qstrader/">QSTrader</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Legal</li>
+            <li class="footer-list-link"><a class="link-fade" href="/privacy-policy/">Privacy Policy</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/terms-and-conditions/">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Social</li>
+            <li class="footer-list-link"><a class="link-fade" href="https://twitter.com/quantstart">Twitter</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="https://www.youtube.com/channel/UCmVnnZ6Y2TrJtY1eQJN6kWA">YouTube</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="row mb-1.5 mt-5">
+      <div class="col-12 col-md-9 col-lg-8 col-xl-6">
+        <div class="footer-copyright">
+          <p>©2012-2023 QuarkGluon Ltd. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+<script src="/static/js/jquery-3.2.1.min.js"></script>
+<script src="/static/js/prism.js.min"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/nav.js"></script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5383959-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+    
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="/static/js/highcharts/highcharts.js"></script>
+<script type="text/javascript">
+  num_colours = 10;
+</script>
+<script src="/static/js/statistics.js"></script>
+
+
+  </body>
+</html>

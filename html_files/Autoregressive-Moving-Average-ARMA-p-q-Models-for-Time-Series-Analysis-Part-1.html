@@ -1,0 +1,866 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-site-verification" content="wl3-8ed1QZjI0iYZMv10zoZWYElkMObTfwLlWIj9cpA" />
+    <meta name="description" content="Autoregressive Moving Average ARMA(p, q) Models for Time Series Analysis - Part 1">
+
+    <link rel="icon" href="/static/images/favicon.png">
+
+    <title>Autoregressive Moving Average ARMA(p, q) Models for Time Series Analysis - Part 1 | QuantStart</title>
+    
+    
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet"> 
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/prism.css" rel="stylesheet">
+<link href="/static/css/qs.css?v=10" rel="stylesheet">
+    
+  </head>
+
+  <body>
+    <header class="header covered-header" style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://quantstartmedia.s3.amazonaws.com/images/article-images/article-backgrounds/default-bg.jpg);">
+  
+<nav class="nav">
+  <div class="container nav-container">
+    <div class="nav-row row d-flex justify-content-between align-items-center">
+      <div class="col-2">
+        <ul class="nav-items justify-content-end small-capitals align-items-center">
+          <li class="nav-item">
+            <a class="link-fade" href="/">QuantStart</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-auto col-logo">
+        <ul id="top-nav-menu" class="nav-items justify-content-end align-items-center">
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/qsalpha/">QSAlpha</a>
+          </li>
+          
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/quantcademy/">Quantcademy</a>
+          </li>
+          
+          <li id="menu-link-ebooks" class="nav-item">
+            <a class="link-fade" href="#">Books</a>
+            <div id="menu-pane-ebooks" class="nav-items menu-dropdown-pane">
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/qstrader/">QSTrader</a>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/articles/">Articles</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/members/login/">Login</a>
+          </li>
+          
+        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<nav id="mobile-nav" class="mobile-nav text-left">
+  <div class="container">
+    <ul class="mt-4 ml-3 mobile-nav-menu">
+      <li class="nav-item">
+        <a class="link-fade d-block" href="/">QuantStart</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qsalpha/">QSAlpha</a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/quantcademy/">Quantcademy</a>
+      </li>
+      
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="#">Books</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qstrader/">QSTrader</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/articles/">Articles</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/members/login/">Login</a>
+      </li>
+      
+    </ul>
+    <button class="nav-toggle mobile-nav-close">
+      <svg id="mobile-nav-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M19.77,5.63,13.41,12l6.36,6.37a1,1,0,0,1-1.41,1.41L12,13.41,5.63,19.77a1,1,0,0,1-1.44-1.39l0,0L10.58,12,4.21,5.63a1,1,0,0,1,0-1.42,1,1,0,0,1,1.41,0l0,0L12,10.58l6.37-6.37a1,1,0,0,1,1.41,0A1,1,0,0,1,19.77,5.63Z"></path>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+  <div class="container hero-container">
+    <section class="mt-5 mb-4">
+      <div class="row justify-content-center">
+        <div class="col-12 text-center">
+          <p class="hero">Autoregressive Moving Average ARMA(p, q) Models for Time Series Analysis - Part 1</p>
+          <p class="hero subhero">Autoregressive Moving Average ARMA(p, q) Models for Time Series Analysis - Part 1</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</header>
+    
+<section class="container content-container">
+  <div class="row">
+    <div class="col-md-8 order-md-2">
+      <section class="content article-content">
+        
+        
+        <p>In the last article we looked at <a href="https://www.quantstart.com/articles/White-Noise-and-Random-Walks-in-Time-Series-Analysis">random walks and white noise</a> as basic time series models for certain financial instruments, such as daily equity and equity index prices. We found that in some cases a random walk model was insufficient to capture the full autocorrelation behaviour of the instrument, which motivates more sophisticated models.</p>
+
+<p>In the next couple of articles we are going to discuss three types of model, namely the <strong>Autoregressive (AR)</strong> model of order $p$, the <strong>Moving Average (MA)</strong> model of order $q$ and the mixed <strong>Autogressive Moving Average (ARMA)</strong> model of order $p, q$. These models will help us attempt to capture or "explain" more of the serial correlation present within an instrument. Ultimately they will provide us with a means of forecasting the future prices.</p>
+
+<p>However, it is well known that financial time series possess a property known as <em>volatility clustering</em>. That is, the volatility of the instrument is not constant in time. The technical term for this behaviour is known as <em>conditional heteroskedasticity</em>. Since the AR, MA and ARMA models are not conditionally heteroskedastic, that is, they don't take into account volatility clustering, we will ultimately need a more sophisticated model for our predictions.</p>
+
+<p>Such models include the <strong>Autogressive Conditional Heteroskedastic (ARCH)</strong> model and <strong>Generalised Autogressive Conditional Heteroskedastic (GARCH)</strong> model, and the many variants thereof. GARCH is particularly well known in quant finance and is primarily used for financial time series simulations as a means of estimating risk.</p>
+
+<p>However, as with all QuantStart articles, I want to build up to these models from simpler versions so that we can see how each new variant changes our predictive ability. Despite the fact that AR, MA and ARMA are relatively simple time series models, they are the basis of more complicated models such as the <strong>Autoregressive Integrated Moving Average (ARIMA)</strong> and the GARCH family. Hence it is important that we study them.</p>
+
+<p>One of our first trading strategies in the time series article series will be to combine ARIMA and GARCH in order to predict prices $n$ periods in advance. However, we will have to wait until we've discussed both ARIMA and GARCH separately before we apply them to a real strategy!</p>
+
+<h2>How Will We Proceed?</h2>
+
+<p>In this article we are going to outline some new time series concepts that we'll need for the remaining methods, namely <strong>strict stationarity</strong> and the <strong>Akaike information criterion (AIC)</strong>.</p> 
+
+<p>Subsequent to these new concepts we will follow the traditional pattern for studying new time series models:</p>
+
+<ul>
+  <li><strong>Rationale</strong> - The first task is to provide a reason why we're interested in a particular model, as quants. Why are we introducing the time series model? What effects can it capture? What do we gain (or lose) by adding in extra complexity?</li>
+  <li><strong>Definition</strong> - We need to provide the full mathematical definition (and associated notation) of the time series model in order to minimise any ambiguity.</li>
+  <li><strong>Second Order Properties</strong> - We will discuss (and in some cases derive) the second order properties of the time series model, which includes its mean, its variance and its autocorrelation function.</li>
+  <li><strong>Correlogram</strong> - We will use the second order properties to plot a correlogram of a realisation of the time series model in order to visualise its behaviour.</li>
+  <li><strong>Simulation</strong> - We will simulate realisations of the time series model and then fit the model to these simulations to ensure we have accurate implementations and understand the fitting process.</li>
+  <li><strong>Real Financial Data</strong> - We will fit the time series model to real financial data and consider the correlogram of the residuals in order to see how the model accounts for serial correlation in the original series.</li>
+  <li><strong>Prediction</strong> - We will create <em>$n$-step ahead forecasts</em> of the time series model for particular realisations in order to ultimately produce trading signals.</li>
+</ul>
+
+<p>Nearly all of the articles I write on time series models will fall into this pattern and it will allow us to easily compare the differences between each model as we add further complexity.</p>
+
+<p>We're going to start by looking at strict stationarity and the AIC.</p>
+
+<h2>Strictly Stationary</h2>
+
+<p>We provided the definition of stationarity in the article on <a href="https://www.quantstart.com/articles/Serial-Correlation-in-Time-Series-Analysis">serial correlation</a>. However, because we are going to be entering the realm of many financial series, with various frequencies, we need to make sure that our (eventual) models take into account the time-varying volatility of these series. In particular, we need to consider their <em>heteroskedasticity</em>.</p>
+
+<p>We will come across this issue when we try to fit certain models to historical series. Generally, not all of the serial correlation in the residuals of fitted models can be accounted for without taking heteroskedasticity into account. This brings us back to stationarity. A series is not <em>stationary in the variance</em> if it has time-varying volatility, by definition.</p>
+
+<p>This motivates a more rigourous definition of stationarity, namely <strong>strict stationarity</strong>:</p>
+
+<div class="bs-callout bs-callout-info">
+<h4>Strictly Stationary Series</h4>
+<p>A time series model, $\{ x_t \}$, is <em>strictly stationary</em> if the joint statistical distribution of the elements $x_{t_1},\ldots,x_{t_n}$ is the same as that of $x_{t_{1}+m},\ldots,x_{t_{n}+m}$, $\forall t_i, m$.</p>
+</div>
+
+<p>One can think of this definition as simply that the distribution of the time series is unchanged for any abritrary shift in time.</p>
+
+<p>In particular, the mean and the variance are constant in time for a strictly stationary series and the autocovariance between $x_t$ and $x_s$ (say) depends only on the absolute difference of $t$ and $s$, $|t-s|$.</p>
+
+<p>We will be revisiting strictly stationary series in future posts.</p>
+
+<h2>Akaike Information Criterion</h2>
+
+<p>I mentioned in previous articles that we would eventually need to consider how to choose between separate "best" models. This is true not only of time series analysis, but also of machine learning and, more broadly, statistics in general.</p>
+
+<p>The two main methods we will use (for the time being) are the <a href="https://en.wikipedia.org/wiki/Akaike_information_criterion">Akaike Information Criterion</a> (AIC) and the <a href="https://en.wikipedia.org/wiki/Bayesian_information_criterion">Bayesian Information Criterion</a> (as we progress further with our articles on <a href="https://www.quantstart.com/articles/Bayesian-Statistics-A-Beginners-Guide">Bayesian Statistics</a>).</p>
+
+<p>We'll briefly consider the AIC, as it will be used in Part 2 of the ARMA article.</p>
+
+<p>AIC is essentially a tool to aid in model selection. That is, if we have a selection of statistical models (including time series), then the AIC estimates the "quality" of each model, relative to the others that we have available.</p>
+
+<p>It is based on <a href="https://en.wikipedia.org/wiki/Information_theory">information theory</a>, which is a highly interesting, deep topic that unfortunately we can't go into too much detail about. It attempts to balance the complexity of the model, which in this case means the number of parameters, with how well it fits the data. Let's provide a definition:</p>
+
+<div class="bs-callout bs-callout-info">
+<h4>Akaike Information Criterion</h4>
+<p>If we take the <a href="https://en.wikipedia.org/wiki/Likelihood_function">likelihood function</a> for a statistical model, which has $k$ parameters, and $L$ <a href="https://en.wikipedia.org/wiki/Maximum_likelihood">maximises the likelihood</a>, then the <em>Akaike Information Criterion</em> is given by:</p>
+\begin{eqnarray}
+AIC = -2 \text{log} (L) + 2k
+\end{eqnarray}
+</div>
+
+<p>The preferred model, from a selection of models, has the minium AIC of the group. You can see that the AIC grows as the number of parameters, $k$, increases, but is reduced if the negative <a href="https://en.wikipedia.org/wiki/Likelihood_function#Log-likelihood">log-likelihood</a> increases. Essentially it penalises models that are <em>overfit</em>.</p>
+
+<p>We are going to be creating AR, MA and ARMA models of varying orders and one way to choose the "best" model fit a particular dataset is to use the AIC. This is what we'll be doing in the next article, primarily for ARMA models.</p>
+
+<h2>Autoregressive (AR) Models of order p</h2>
+
+<p>The first model we're going to consider, which forms the basis of Part 1, is the Autoregressive model of order $p$, often shortened to AR(p).</p>
+
+<h3>Rationale</h3>
+
+<p>In the <a href="https://www.quantstart.com/articles/White-Noise-and-Random-Walks-in-Time-Series-Analysis">previous article</a> we considered the <strong>random walk</strong>, where each term, $x_t$ is dependent solely upon the previous term, $x_{t-1}$ and a stochastic white noise term, $w_t$:</p>
+
+\begin{eqnarray}
+x_t = x_{t-1} + w_t
+\end{eqnarray}
+
+<p>The autoregressive model is simply an extension of the random walk that includes terms further back in time. The structure of the model is <em>linear</em>, that is the model depends <em>linearly</em> on the previous terms, with coefficients for each term. This is where the "regressive" comes from in "autoregressive". It is essentially a regression model where the previous terms are the predictors.</p>
+
+<div class="bs-callout bs-callout-info">
+<h4>Autoregressive Model of order p</h4>
+<p>A time series model, $\{ x_t \}$, is an <em>autoregressive model of order $p$</em>, AR(p), if:</p>
+\begin{eqnarray}
+x_t &=& \alpha_1 x_{t-1} + \ldots + \alpha_p x_{t-p} + w_t \\
+    &=& \sum_{i=1}^p \alpha_i x_{t-i} + w_t
+\end{eqnarray}
+<p>Where $\{ w_t \}$ is <em>white noise</em> and $\alpha_i \in \mathbb{R}$, with $\alpha_p \neq 0$ for a $p$-order autoregressive process.</p>
+
+<p>If we consider the <em>Backward Shift Operator</em>, ${\bf B}$ (see <a href="https://www.quantstart.com/articles/White-Noise-and-Random-Walks-in-Time-Series-Analysis">previous article</a>) then we can rewrite the above as a function $\theta$ of ${\bf B}$:</p>
+
+\begin{eqnarray}
+\theta_p ({\bf B}) x_t = (1 - \alpha_1 {\bf B} - \alpha_2 {\bf B}^2 - \ldots - \alpha_p {\bf B}) x_t = w_t
+\end{eqnarray}
+</div>
+
+<p>Perhaps the first thing to notice about the AR(p) model is that a random walk is simply AR(1) with $\alpha_1$ equal to unity. As we stated above, the autogressive model is an extension of the random walk, so this makes sense!</p>
+
+<p>It is straightforward to make predictions with the AR(p) model, for any time $t$, as once we have the $\alpha_i$ coefficients determined, our estimate simply becomes:</p>
+
+\begin{eqnarray}
+\hat{x}_t = \alpha_1 x_{t-1} + \ldots + \alpha_p x_{t-p}
+\end{eqnarray}
+
+<p>Hence we can make $n$-step ahead forecasts by producing $\hat{x}_t$, $\hat{x}_{t+1}$, $\hat{x}_{t+2}$, etc up to $\hat{x}_{t+n}$. In fact, once we consider the ARMA models in Part 2, we will use the R <code>predict</code> function to create forecasts (along with <a href="https://en.wikipedia.org/wiki/Standard_error">standard error</a> <a href="https://en.wikipedia.org/wiki/Confidence_interval">confidence interval</a> bands) that will help us produce trading signals.</p>
+
+<h3>Stationarity for Autoregressive Processes</h3>
+
+<p>One of the most important aspects of the AR(p) model is that it is not always stationary. Indeed the stationarity of a particular model depends upon the parameters. I've touched on this before in a <a href="https://www.quantstart.com/articles/Basics-of-Statistical-Mean-Reversion-Testing">previous article</a>.</p>
+
+<p>In order to determine whether an AR(p) process is stationary or not we need to solve the <em>characteristic equation</em>. The characteristic equation is simply the autoregressive model, written in backward shift form, set to zero:</p>
+
+\begin{eqnarray}
+\theta_p({\bf B}) = 0
+\end{eqnarray}
+
+<p>We solve this equation for ${\bf B}$. In order for the particular autoregressive process to be stationary we need <em>all</em> of the absolute values of the roots of this equation to exceed unity. This is an extremely useful property and allows us to quickly calculate whether an AR(p) process is stationary or not.</p>
+
+<p>Let's consider a few examples to make this idea concrete:</p>
+
+<ul>
+  <li><strong>Random Walk</strong> - The AR(1) process with $\alpha_1 = 1$ has the characteristic equation $\theta = 1 - {\bf B}$. Clearly this has root ${\bf B} = 1$ and as such is <em>not</em> stationary.</li>
+  <li><strong>AR(1)</strong> - If we choose $\alpha_1 = \frac{1}{4}$ we get $x_t = \frac{1}{4} x_{t-1} + w_t$. This gives us a characteristic equation of $1 - \frac{1}{4} {\bf B} = 0$, which has a root ${\bf B} = 4 &gt; 1$ and so this particular AR(1) process <em>is</em> stationary.</li>
+  <li><strong>AR(2)</strong> - If we set $\alpha_1 = \alpha_2 = \frac{1}{2}$ then we get $x_t = \frac{1}{2} x_{t-1} + \frac{1}{2} x_{t-2} + w_t$. Its characteristic equation becomes $-\frac{1}{2}({\bf B-1})({\bf B+2}) = 0$, which gives two roots of ${\bf B} = 1, -2$. Since this has a unit root it is a non-stationary series. However, other AR(2) series can be stationary.</li>
+</ul>
+
+<h3>Second Order Properties</h3>
+
+<p>The mean of an AR(p) process is zero. However, the autocovariances and autocorrelations are given by recursive functions, known as the <a href="https://en.wikipedia.org/wiki/Autoregressive_model#Yule.E2.80.93Walker_equations">Yule-Walker equations</a>. The full properties are given below:</p>
+
+\begin{eqnarray}
+\mu_x = E(x_t) = 0
+\end{eqnarray}
+
+\begin{eqnarray}
+\gamma_k = \sum_{i=1}^p \alpha_i \gamma_{k-i}, \enspace k > 0
+\end{eqnarray}
+
+\begin{eqnarray}
+\rho_k = \sum_{i=1}^p \alpha_i \rho_{k-i}, \enspace k > 0
+\end{eqnarray}
+
+<p><em>Note that it is necessary to know the $\alpha_i$ parameter values prior to calculating the autocorrelations.</em></p>
+
+<p>Now that we've stated the second order properties we can simulate various orders of AR(p) and plot the corresponding correlograms.</p>
+
+<h3>Simulations and Correlograms</h3>
+
+<h4>AR(1)</h4>
+
+<p>Let's begin with an AR(1) process. This is similar to a random walk, except that $\alpha_1$ does not have to equal unity. Our model is going to have $\alpha_1 = 0.6$. The R code for creating this simulation is given as follows:</p>
+
+<pre>
+<code class="language-r">> set.seed(1)
+> x <- w <- rnorm(100)
+> for (t in 2:100) x[t] <- 0.6*x[t-1] + w[t]</code>
+</pre>
+
+<p>Notice that our <em>for loop</em> is carried out from 2 to 100, not 1 to 100, as <code>x[t-1]</code> when $t=0$ is not indexable. Similarly for higher order AR(p) processes, $t$ must range from $p$ to 100 in this loop.</p>
+
+<p>We can plot the realisation of this model and its associated correlogram using the <code>layout</code> function:</p>
+
+<pre>
+<code class="language-r">> layout(1:2)
+> plot(x, type="l")
+> acf(x)</code>
+</pre>
+
+<p style="text-align:center">
+  <img src="https://s3.amazonaws.com/quantstartmedia/images/qs-tsa-armapq-ar1-plus-six-x-correlogram.png" width="100%" />
+  <strong>Realisation of AR(1) Model, with $\alpha_1 = 0.6$ and Associated Correlogram</strong>
+</p>
+
+<p>Let's now try fitting an AR(p) process to the simulated data we've just generated, to see if we can recover the underlying parameters. You may recall that we carried out a similar procedure in the article on <a href="https://www.quantstart.com/articles/White-Noise-and-Random-Walks-in-Time-Series-Analysis">white noise and random walks</a>.</p>
+
+<p>As it turns out R provides a useful command <code>ar</code> to fit autoregressive models. We can use this method to firstly tell us the best order $p$ of the model (as determined by the AIC above) and provide us with parameter estimates for the $\alpha_i$, which we can then use to form confidence intervals.</p>
+
+<p>For completeness, let's recreate the $x$ series:</p>
+
+<pre>
+<code class="language-r">> set.seed(1)
+> x <- w <- rnorm(100)
+> for (t in 2:100) x[t] <- 0.6*x[t-1] + w[t]</code>
+</pre>
+
+<p>Now we use the <code>ar</code> command to fit an autoregressive model to our simulated AR(1) process, using <a href="https://en.wikipedia.org/wiki/Maximum_likelihood">maximum likelihood estimation</a> (MLE) as the fitting procedure.</p>
+
+<p>We will firstly extract the best obtained order:</p>
+
+<pre>
+<code class="language-r">> x.ar <- ar(x, method = "mle")
+> x.ar$order</code>
+</pre>
+
+<pre>
+<code class="language-none">1</code>
+</pre>
+
+<p>The <code>ar</code> command has successfully determined that our underlying time series model is an AR(1) process.</p>
+
+<p>We can then obtain the $\alpha_i$ parameter(s) estimates:</p>
+
+<pre>
+<code class="language-r">> x.ar$ar</code>
+</pre>
+
+<pre>
+<code class="language-none">0.5231187</code>
+</pre>
+
+<p>The MLE procedure has produced an estimate, $\hat{\alpha_1} = 0.523$, which is slightly lower than the true value of $\alpha_1 = 0.6$.</p>
+
+<p>Finally, we can use the standard error (with the asymptotic variance) to construct 95% confidence intervals around the underlying parameter(s). To achieve this, we simply create a vector <code>c(-1.96, 1.96)</code> and then multiply it by the standard error:</p>
+
+<pre>
+<code class="language-r">x.ar$ar + c(-1.96, 1.96)*sqrt(x.ar$asy.var)</code>
+</pre>
+
+<pre>
+<code class="language-none">0.3556050 0.6906324</code>
+</pre>
+
+<p>The true parameter does fall within the 95% confidence interval, as we'd expect from the fact we've generated the realisation from the model specifically.</p>
+
+<p>How about if we change the $\alpha_1 =-0.6$?</p>
+
+<pre>
+<code class="language-r">> set.seed(1)
+> x <- w <- rnorm(100)
+> for (t in 2:100) x[t] <- -0.6*x[t-1] + w[t]
+> layout(1:2)
+> plot(x, type="l")
+> acf(x)</code>
+</pre>
+
+<p style="text-align:center">
+  <img src="https://s3.amazonaws.com/quantstartmedia/images/qs-tsa-armapq-ar1-minus-six-x-correlogram.png" width="100%" />
+  <strong>Realisation of AR(1) Model, with $\alpha_1 = -0.6$ and Associated Correlogram</strong>
+</p>
+
+<p>As before we can fit an AR(p) model using <code>ar</code>:</p>
+
+<pre>
+<code class="language-r">> set.seed(1)
+> x <- w <- rnorm(100)
+> for (t in 2:100) x[t] <- -0.6*x[t-1] + w[t]
+> x.ar <- ar(x, method = "mle")
+> x.ar$order</code>
+</pre>
+
+<pre>
+<code class="language-none">1</code>
+</pre>
+
+<pre>
+<code class="language-r">> x.ar$ar</code>
+</pre>
+<pre>
+<code class="language-none">-0.5973473</code>
+</pre>
+
+<pre>
+<code class="language-r">> x.ar$ar + c(-1.96, 1.96)*sqrt(x.ar$asy.var)</code>
+</pre>
+
+<pre>
+<code class="language-none">-0.7538593 -0.4408353</code>
+</pre>
+
+<p>Once again we recover the correct order of the model, with a very good estimate $\hat{\alpha_1}=-0.597$ of $\alpha_1=-0.6$. We also see that the true parameter falls within the 95% confidence interval once again.</p>
+
+<h4>AR(2)</h4>
+
+<p>Let's add some more complexity to our autoregressive processes by simulating a model of order 2. In particular, we will set $\alpha_1=0.666$, but also set $\alpha_2 = -0.333$. Here's the full code to simulate and plot the realisation, as well as the correlogram for such a series:</p>
+
+<pre>
+<code class="language-r">> set.seed(1)
+> x <- w <- rnorm(100)
+> for (t in 3:100) x[t] <- 0.666*x[t-1] - 0.333*x[t-2] + w[t]
+> layout(1:2)
+> plot(x, type="l")
+> acf(x)</code>
+</pre>
+
+<p style="text-align:center">
+  <img src="https://s3.amazonaws.com/quantstartmedia/images/qs-tsa-armapq-ar2-x-correlogram.png" width="100%" />
+  <strong>Realisation of AR(2) Model, with $\alpha_1 = 0.666$, $\alpha_2 = -0.333$ and Associated Correlogram</strong>
+</p>
+
+<p>As before we can see that the correlogram differs significantly from that of white noise, as we'd expect. There are statistically significant peaks at $k=1$, $k=3$ and $k=4$.</p>
+
+<p>Once again, we're going to use the <code>ar</code> command to fit an AR(p) model to our underlying AR(2) realisation. The procedure is similar as for the AR(1) fit:</p>
+
+<pre>
+<code class="language-r">> set.seed(1)
+> x <- w <- rnorm(100)
+> for (t in 3:100) x[t] <- 0.666*x[t-1] - 0.333*x[t-2] + w[t]
+> x.ar <- ar(x, method = "mle")
+Warning message:
+In arima0(x, order = c(i, 0L, 0L), include.mean = demean) :
+  possible convergence problem: optim gave code = 1
+> x.ar$order</code>
+</pre>
+
+<pre>
+<code class="language-none">2</code>
+</pre>
+
+<pre>
+<code class="language-r">> x.ar$ar</code>
+</pre>
+
+<pre>
+<code class="language-none">0.6961005 -0.3946280</code>
+</pre>
+
+<p>The correct order has been recovered and the parameter estimates $\hat{\alpha_1}=0.696$ and $\hat{\alpha_2}=-0.395$ are not too far off the true parameter values of $\alpha_1=0.666$ and $\alpha_2=-0.333$.</p>
+
+<p>Notice that we receive a convergence warning message. Notice also that R actually uses the <code>arima0</code> function to calculate the AR model. As we'll learn in subsequent articles, AR(p) models are simply ARIMA(p, 0, 0) models, and thus an AR model is a special case of ARIMA with no Moving Average (MA) component.</p>
+
+<p>We'll also be using the <code>arima</code> command to create confidence intervals around multiple parameters, which is why we've neglected to do it here.</p>
+
+<p>Now that we've created some simulated data it is time to apply the AR(p) models to financial asset time series.</p>
+
+<h3>Financial Data</h3>
+
+<h4>Amazon Inc.</h4>
+
+<p>Let's begin by obtaining the stock price for Amazon (AMZN) using <a href="http://www.quantmod.com/">quantmod</a> as in the <a href="https://www.quantstart.com/articles/White-Noise-and-Random-Walks-in-Time-Series-Analysis">last article</a>:</p>
+
+<pre>
+<code class="language-r">> require(quantmod)
+> getSymbols("AMZN")
+> AMZN</code>
+</pre>
+
+<pre>
+<code class="language-none">
+..
+..
+2015-08-12    523.75    527.50   513.06     525.91     3962300        525.91
+2015-08-13    527.37    534.66   525.49     529.66     2887800        529.66
+2015-08-14    528.25    534.11   528.25     531.52     1983200        531.52</code>
+</pre>
+
+<p>The first task is to always plot the price for a brief visual inspection. In this case we'll using the daily closing prices:</p>
+
+<pre>
+<code class="language-r">> plot(Cl(AMZN))</code>
+</pre>
+
+<p>You'll notice that quantmod adds some formatting for us, namely the date, and a slightly prettier chart than the usual R charts:</p>
+
+<p style="text-align:center">
+  <img src="https://s3.amazonaws.com/quantstartmedia/images/qs-tsa-armapq-amzn-cl.png" width="100%" />
+  <strong>Daily Closing Price of AMZN</strong>
+</p>
+
+<p>We are now going to take the logarithmic returns of AMZN and then the first-order difference of the series in order to convert the original price series from a non-stationary series to a (potentially) stationary one.</p>
+
+<p>This allows us to compare "apples to apples" between equities, indices or any other asset, for use in later multivariate statistics, such as when calculating a covariance matrix. If you would like a detailed explanation as to why log returns are preferable, take a look at <a href="https://quantivity.wordpress.com/2011/02/21/why-log-returns/">this article</a> over at <a href="https://quantivity.wordpress.com/">Quantivity</a>.</p>
+
+<p>Let's create a new series, <code>amznrt</code>, to hold our differenced log returns:</p>
+
+<pre>
+<code class="language-r">> amznrt = diff(log(Cl(AMZN)))</code>
+</pre>
+
+<p>Once again, we can plot the series:</p>
+
+<pre>
+<code class="language-r">> plot(amznrt)</code>
+</pre>
+
+<p style="text-align:center">
+  <img src="https://s3.amazonaws.com/quantstartmedia/images/qs-tsa-armapq-amzn-fodlp.png" width="100%" />
+  <strong>First Order Differenced Daily Logarithmic Returns of AMZN Closing Prices</strong>
+</p>
+
+<p>At this stage we want to plot the correlogram. We're looking to see if the differenced series looks like white noise. If it does not then there is unexplained serial correlation, which might be "explained" by an autoregressive model.</p>
+
+<pre>
+<code class="language-r">> acf(amznrt, na.action=na.omit)</code>
+</pre>
+
+<p style="text-align:center">
+  <img src="https://s3.amazonaws.com/quantstartmedia/images/qs-tsa-armapq-amzn-cor.png" width="100%" />
+  <strong>Correlogram of First Order Differenced Daily Logarithmic Returns of AMZN Closing Prices</strong>
+</p>
+
+<p>We notice a statististically significant peak at $k=2$. Hence there is a reasonable possibility of unexplained serial correlation. Be aware though, that this may be due to sampling bias. As such, we can try fitting an AR(p) model to the series and produce confidence intervals for the parameters:</p>
+
+<pre>
+<code class="language-r">> amznrt.ar <- ar(amznrt, na.action=na.omit)
+> amznrt.ar$order</code>
+</pre>
+
+<pre>
+<code class="language-none">2</code>
+</pre>
+
+<pre>
+<code class="language-r">> amznrt.ar$ar</code>
+</pre>
+
+<pre>
+<code class="language-none">-0.02779869 -0.06873949</code>
+</pre>
+
+<pre>
+<code class="language-r">> amznrt.ar$asy.var</code>
+</pre>
+
+<pre>
+<code class="language-none">            [,1]        [,2]
+[1,] 4.59499e-04 1.19519e-05
+[2,] 1.19519e-05 4.59499e-04</code>
+</pre>
+
+<p>Fitting the <code>ar</code> autoregressive model to the first order differenced series of log prices produces an AR(2) model, with $\hat{\alpha_1} = -0.0278$ and $\hat{\alpha_2} = -0.0687$. I've also output the aysmptotic variance so that we can calculate standard errors for the parameters and produce confidence intervals. We want to see whether zero is part of the 95% confidence interval, as if it is, it reduces our confidence that we have a true underlying AR(2) process for the AMZN series.</p>
+
+<p>To calculate the confidence intervals at the 95% level for each parameter, we use the following commands. We take the square root of the first element of the asymptotic variance matrix to produce a standard error, then create confidence intervals by multiplying it by -1.96 and 1.96 respectively, for the 95% level:</p>
+
+<pre>
+<code class="language-r">> -0.0278 + c(-1.96, 1.96)*sqrt(4.59e-4)</code>
+</pre>
+
+<pre>
+<code class="language-none">-0.0697916  0.0141916</code>
+</pre>
+
+<pre>
+<code class="language-r">> -0.0687 + c(-1.96, 1.96)*sqrt(4.59e-4)</code>
+</pre>
+
+<pre>
+<code class="language-none">-0.1106916 -0.0267084</code>
+</pre>
+
+<p><em>Note that this becomes more straightforward when using the <code>arima</code> function, but we'll wait until Part 2 before introducing it properly.</em></p>
+
+<p>Thus we can see that for $\alpha_1$ zero is contained within the confidence interval, while for $\alpha_2$ zero is not contained in the confidence interval. Hence we should be very careful in thinking that we really have an underlying generative AR(2) model for AMZN.</p>
+
+<p>In particular we note that the autoregressive model does not take into account volatility clustering, which leads to clustering of serial correlation in financial time series. When we consider the ARCH and GARCH models in later articles, we will account for this.</p>
+
+<p>When we come to use the full <code>arima</code> function in the next article, we will make predictions of the daily log price series in order to allow us to create trading signals.</p>
+
+<h4>S&amp;P500 US Equity Index</h4>
+
+<p>Along with individual stocks we can also consider the US Equity index, the S&amp;P500. Let's apply all of the previous commands to this series and produce the plots as before:</p>
+
+<pre>
+<code class="language-r">> getSymbols("^GSPC")
+> GSPC</code>
+</pre>
+
+<pre>
+<code class="language-none">..
+..
+2015-08-12   2081.10   2089.06  2052.09    2086.05  4269130000       2086.05
+2015-08-13   2086.19   2092.93  2078.26    2083.39  3221300000       2083.39
+2015-08-14   2083.15   2092.45  2080.61    2091.54  2795590000       2091.54</code>
+</pre>
+
+<p>We can plot the prices:</p>
+
+<pre>
+<code class="language-r">> plot(Cl(GSPC))</code>
+</pre>
+
+<p style="text-align:center">
+  <img src="https://s3.amazonaws.com/quantstartmedia/images/qs-tsa-armapq-gspc-cl.png" width="100%" />
+  <strong>Daily Closing Price of S&amp;500</strong>
+</p>
+
+<p>As before, we'll create the first order difference of the log closing prices:</p>
+
+<pre>
+<code class="language-r">> gspcrt = diff(log(Cl(GSPC)))</code>
+</pre>
+
+<p>Once again, we can plot the series:</p>
+
+<pre>
+<code class="language-r">> plot(gspcrt)</code>
+</pre>
+
+<p style="text-align:center">
+  <img src="https://s3.amazonaws.com/quantstartmedia/images/qs-tsa-armapq-gspc-fodlp.png" width="100%" />
+  <strong>First Order Differenced Daily Logarithmic Returns of S&amp;500 Closing Prices</strong>
+</p>
+
+<p>It is clear from this chart that the volatility is <em>not</em> stationary in time. This is also reflected in the plot of the correlogram. There are many peaks, including $k=1$ and $k=2$, which are statistically significant beyond a white noise model.</p>
+
+<p>In addition, we see evidence of long-memory processes as there are some statistically significant peaks at $k=16$, $k=18$ and $k=21$:</p>
+
+<pre>
+<code class="language-r">> acf(gspcrt, na.action=na.omit)</code>
+</pre>
+
+<p style="text-align:center">
+  <img src="https://s3.amazonaws.com/quantstartmedia/images/qs-tsa-armapq-gspc-cor.png" width="100%" />
+  <strong>Correlogram of First Order Differenced Daily Logarithmic Returns of S&amp;500 Closing Prices</strong>
+</p>
+
+<p>Ultimately we will need a more sophisticated model than an autoregressive model of order p. However, at this stage we can still try fitting such a model. Let's see what we get if we do so:</p>
+
+<pre>
+<code class="language-r">> gspcrt.ar <- ar(gspcrt, na.action=na.omit)
+> gspcrt.ar$order</code>
+</pre>
+
+<pre>
+<code class="language-none">22</code>
+</pre>
+
+<pre>
+<code class="language-r">> gspcrt.ar$ar</code>
+</pre>
+
+<pre>
+<code class="language-none"> [1] -0.111821507 -0.060150504  0.018791594 -0.025619932 -0.046391435
+ [6]  0.002266741 -0.030089046  0.030430265 -0.007623949  0.044260402
+[11] -0.018924358  0.032752930 -0.001074949 -0.042891664 -0.039712505
+[16]  0.052339497  0.016554471 -0.067496381  0.007070516  0.035721299
+[21] -0.035419555  0.031325869</code>
+</pre>
+
+<p>Using <code>ar</code> produces an AR(22) model, i.e. a model with 22 non-zero parameters! What does this tell us? It is indicative that there is likely a lot more complexity in the serial correlation than a simple linear model of past prices can really account for.</p>
+
+<p>However, we already knew this because we can see that there is significant serial correlation in the volatility. For instance, consider the highly volatile period around 2008.</p>
+
+<p>This motivates the next set of models, namely the Moving Average MA(q) and the Autoregressive Moving Average ARMA(p, q). We'll learn about both of these in Part 2 of this article. As we repeatedly mention, these will ultimately lead us to the ARIMA and GARCH family of models, both of which will provide a much better fit to the serial correlation complexity of the S&amp;500.</p>
+
+<p>This will allows us to improve our forecasts significantly and ultimately produce more profitable strategies.</p>
+        
+        
+        <script async data-uid="6296c27f4b" src="https://weathered-brook-5281.ck.page/6296c27f4b/index.js"></script>
+      </section>
+    </div>
+    <div class="col-md-4 book-card order-md-1">
+      
+<div class="sidebar-advert-container">
+  <a href="/qsalpha/?ref=art">
+    <img class="card-img-top" src="/static/images/qsalpha-sidebar-advert-small.png" alt="QSAlpha">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/qsalpha/?ref=art">QSAlpha</a></h3>
+      <p class="card-text medium-text mb-3">Join the QSAlpha research platform that helps fill your strategy research pipeline, diversifies your portfolio and improves your risk-adjusted returns for increased profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/qsalpha/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/quantcademy/?ref=art">
+    <img class="card-img-top" src="/static/images/quantcademy-sidebar-advert-small.png" alt="Quantcademy">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/quantcademy/?ref=art">The Quantcademy</a></h3>
+      <p class="card-text medium-text mb-3">Join the Quantcademy membership portal that caters to the rapidly-growing retail quant trader community and learn how to increase your strategy profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/quantcademy/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/successful-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/sat-sidebar-advert-small.png" alt="Successful Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to find new trading strategy ideas and objectively assess them for your portfolio using a Python-based backtesting engine.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/successful-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/advanced-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/aat-sidebar-advert-small.png" alt="Advanced Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to implement advanced trading strategies using time series analysis, machine learning and Bayesian statistics with R and Python.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/advanced-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+    
+
+<footer>
+  <div class="container container-full">
+    <section class="mt-1.5 mb-1">
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">QuantStart</li>
+            <li class="footer-list-link"><a class="link-fade" href="/about/">About</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/articles/">Articles</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/sitemap/">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Products</li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qsalpha/">QSAlpha</a></li>
+            
+            
+            <li class="footer-list-link"><a class="link-fade" href="/quantcademy/">Quantcademy</a></li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qstrader/">QSTrader</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Legal</li>
+            <li class="footer-list-link"><a class="link-fade" href="/privacy-policy/">Privacy Policy</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/terms-and-conditions/">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Social</li>
+            <li class="footer-list-link"><a class="link-fade" href="https://twitter.com/quantstart">Twitter</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="https://www.youtube.com/channel/UCmVnnZ6Y2TrJtY1eQJN6kWA">YouTube</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="row mb-1.5 mt-5">
+      <div class="col-12 col-md-9 col-lg-8 col-xl-6">
+        <div class="footer-copyright">
+          <p>©2012-2023 QuarkGluon Ltd. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+<script src="/static/js/jquery-3.2.1.min.js"></script>
+<script src="/static/js/prism.js.min"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/nav.js"></script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5383959-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+    
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="/static/js/highcharts/highcharts.js"></script>
+<script type="text/javascript">
+  num_colours = 10;
+</script>
+<script src="/static/js/statistics.js"></script>
+
+
+  </body>
+</html>

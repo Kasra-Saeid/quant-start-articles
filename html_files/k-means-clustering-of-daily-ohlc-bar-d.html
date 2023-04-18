@@ -1,0 +1,1044 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-site-verification" content="wl3-8ed1QZjI0iYZMv10zoZWYElkMObTfwLlWIj9cpA" />
+    <meta name="description" content="K-Means Clustering of Daily OHLC Bar Data">
+
+    <link rel="icon" href="/static/images/favicon.png">
+
+    <title>K-Means Clustering of Daily OHLC Bar Data | QuantStart</title>
+    
+    
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet"> 
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/prism.css" rel="stylesheet">
+<link href="/static/css/qs.css?v=10" rel="stylesheet">
+    
+  </head>
+
+  <body>
+    <header class="header covered-header" style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://quantstartmedia.s3.amazonaws.com/images/article-images/article-backgrounds/default-bg.jpg);">
+  
+<nav class="nav">
+  <div class="container nav-container">
+    <div class="nav-row row d-flex justify-content-between align-items-center">
+      <div class="col-2">
+        <ul class="nav-items justify-content-end small-capitals align-items-center">
+          <li class="nav-item">
+            <a class="link-fade" href="/">QuantStart</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-auto col-logo">
+        <ul id="top-nav-menu" class="nav-items justify-content-end align-items-center">
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/qsalpha/">QSAlpha</a>
+          </li>
+          
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/quantcademy/">Quantcademy</a>
+          </li>
+          
+          <li id="menu-link-ebooks" class="nav-item">
+            <a class="link-fade" href="#">Books</a>
+            <div id="menu-pane-ebooks" class="nav-items menu-dropdown-pane">
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/qstrader/">QSTrader</a>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/articles/">Articles</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/members/login/">Login</a>
+          </li>
+          
+        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<nav id="mobile-nav" class="mobile-nav text-left">
+  <div class="container">
+    <ul class="mt-4 ml-3 mobile-nav-menu">
+      <li class="nav-item">
+        <a class="link-fade d-block" href="/">QuantStart</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qsalpha/">QSAlpha</a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/quantcademy/">Quantcademy</a>
+      </li>
+      
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="#">Books</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qstrader/">QSTrader</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/articles/">Articles</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/members/login/">Login</a>
+      </li>
+      
+    </ul>
+    <button class="nav-toggle mobile-nav-close">
+      <svg id="mobile-nav-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M19.77,5.63,13.41,12l6.36,6.37a1,1,0,0,1-1.41,1.41L12,13.41,5.63,19.77a1,1,0,0,1-1.44-1.39l0,0L10.58,12,4.21,5.63a1,1,0,0,1,0-1.42,1,1,0,0,1,1.41,0l0,0L12,10.58l6.37-6.37a1,1,0,0,1,1.41,0A1,1,0,0,1,19.77,5.63Z"></path>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+  <div class="container hero-container">
+    <section class="mt-5 mb-4">
+      <div class="row justify-content-center">
+        <div class="col-12 text-center">
+          <p class="hero">K-Means Clustering of Daily OHLC Bar Data</p>
+          <p class="hero subhero">K-Means Clustering of Daily OHLC Bar Data</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</header>
+    
+<section class="container content-container">
+  <div class="row">
+    <div class="col-md-8 order-md-2">
+      <section class="content article-content">
+        
+        
+        <p>In this article the concept of <em>unsupervised clustering</em> will be considered. In quantitative finance finding groups of similar assets, or regimes in asset price series is extremely useful. It can aid in the development of filters, or entry and exit rules. This helps improve profitability for certain trading strategies.</p>
+
+<p>Clustering is an unsupervised learning method that attempts to partition observational data into separate subgroups or clusters. The desired outcome of clustering is to ensure observations within clusters are similar to each other but different to observations in other clusters.</p>
+
+<p>Clustering is a vast area of academic research and it would be difficult to provide a full taxonomy of clustering algorithms in this article. Instead this article will concentrate on a widely utilised technique known as K-Means Clustering.</p>
+
+<p>K-Means Clustering will be applied to daily "bar" data–open, high, low, close–in order to identify separate "candlestick" clusters. These clusters can then be used to ascertain if certain market regimes exist, as with <a href="https://www.quantstart.com/articles/hidden-markov-models-an-introduction">Hidden Markov Models</a>.</p>
+
+<h2>K-Means Clustering</h2>
+
+<p>K-Means Clustering is a particular technique for identifying subgroups or clusters within a set of observations. It is a <em>hard</em> clustering technique, which means that each observation is forced to have a unique cluster assignment. This is in contrast to a <em>soft</em>, or probabilistic, clustering technique, which assigns probabilites for cluster membership instead.</p> 
+
+<p>To use K-Means Clustering it is necessary to specify a parameter $K$, which is the number of desired clusters to partition the data into. These $K$ clusters do not overlap and have "hard" boundaries between membership (see the figure below). The task is to assign each of the $N$ observations into one of the $K$ clusters, where each observation belongs to a cluster with the closest mean feature/observation vector.</p>
+
+<p style="text-align:center">
+  <a href="https://s3.amazonaws.com/quantstartmedia/images/qs-clustering-k-means-boundaries.png"><img src="https://s3.amazonaws.com/quantstartmedia/images/qs-clustering-k-means-boundaries.png" width="100%" /></a>
+  <strong>K-Means Clustering "hard" boundary locations, with feature vector centroids marked as a white cross. <em>[Click for a larger image]</em></strong>
+</p>
+
+<p>Mathematically we can define sets $S_k$, $k \in \{ 1,\ldots,K \}$, each of which contains the indices of the subset of the $N$ observations that lie in each cluster. These sets exhaustively cover all indices, that is each observation belongs to at least one of the sets $S_k$ and the clusters are mutually exclusive with "hard" boundaries:</p>
+
+<ul>
+  <li>${\bf S} = \bigcup_{k=1}^K S_k = \{ 1,\ldots,N \}$</li>
+  <li>$S_k \cap S_{k'} = \phi, \quad \forall k \neq k'$</li>
+</ul>
+
+<p>The goal of K-Means Clustering is to minimise the <em>Within-Cluster Variation</em> (WCV), also known as the <em>Within-Cluster Sum of Squares</em> (WCSS). This concept represents the sum across clusters of the sum of distances to each point in the cluster to its mean. That is, it measures how much observations within a cluster differ from each other. Hence it is necessary to minimise:</p>
+
+<p>
+\begin{eqnarray}
+\text{argmin}_{\bf S} \sum_{k=1}^K \sum_{{\bf x}_i \in S_k} \| {\bf x}_i - {\bf \mu}_k \|
+\end{eqnarray}
+</p>
+
+<p><p>Where ${\bf \mu}_k$ represents the mean feature vector of cluster $k$ and ${\bf x}_i$ is the $i$th feature vector in cluster $k$.</p>
+
+<p>Unfortunately this particular minimisation is difficult to solve <em>globally</em>. That is, finding a global minimum to this problem is <a href="https://en.wikipedia.org/wiki/NP-hardness">NP-hard</a> in the complexity sense. </p>
+
+<p>Fortunately however there exists useful heuristic algorithms for finding acceptable <em>local</em> optima.</p>
+
+<h3>The Algorithm</h3>
+
+<p>The heuristic algorithm to solve K-Means Clustering is, understandably, known as the K-Means algorithm. It is relatively straightforward to conceptualise. It consists of two steps, the second of which is iterated until completion:</p>
+
+<ol>
+  <li>Assign each observation ${\bf x}_i$ to a random cluster $k$.</li>
+  <li>Iterate the following until cluster assignment remains fixed:</li>
+  <ul>
+    <li>Compute each cluster's mean feature vector, the centroid ${\bf \mu}_k$.</li>
+    <li>Assign each observation ${\bf x}_i$ to the closest ${\bf \mu}_k$, where "closeness" is given by standard Euclidean distance.</li>
+  </ul>
+</ol>
+
+<p>It won't be discussed here why this algorithm guarantees to find a local optimum. For a more detailed discussion of the mathematical theory behind this see James et al (2009)<sup><a href="#ref-isl2013">[1]</a></sup> and Hastie et al (2009)<sup><a href="#ref-esl2009">[2]</a></sup>.</p>
+
+<p>Note that because the initial cluster assignments are randomly assigned the local optimum determined is heavily dependent upon these initial assignments. In practice the algorithm is run multiple times (the default for <a href="http://scikit-learn.org/stable/">Scikit-Learn</a> is ten times) and the best local optimum is chosen–that is the one that minimises the WCSS the most.</p>
+
+<h3>Issues</h3>
+
+<p>The K-Means algorithm is not without its flaws. One of the biggest problems in quantitative finance is that the signal-to-noise ratio of financial pricing data is low, which makes it hard to extract the predictive signal used for trading strategies.</p>
+
+<p>The nature of the K-Means algorithm is such that it is forced to generate $k$ clusters, even if the data is highly noisy. This has the obvious implication that such "clusters" are not truly separate distributions of data but are really artifacts of a noisy dataset. This is a tricky problem to deal with in quantitative trading.</p>
+
+<p>Another aspect of specifying a $k$ is that certain outlier data points will automatically be assigned to a cluster, whether they are truly part of the "distribution" that generated them or not. This is due to the necessity of imposing a hard cluster boundary. In finance "outlier" data points are not uncommon, not least due to errors or bad ticks but also due to flash crashes and other rapid changes to an asset price.</p>
+
+<p>In addition the clustering method itself is quite sensitive to variations in the underlying dataset. That is, if a financial asset pricing series is split into two and two separate K-Means algorithms were fitted to each, sharing the same $k$ parameter, it is common to see two very different cluster assignments. This begs the question as to how robust such a mechanism is on small financial data sets. As always, more data can be helpful in this instance.</p>
+
+<p>Such issues motivate more sophisticated clustering algorithms, which unfortunately are beyond the scope of this article due to both the range of the methods as well as their increased mathematical sophistication. However, for those who are interested in delving deeper into unsupervised clustering, the following methods should be considered:</p>
+
+<ul>
+  <li><a href="https://en.wikipedia.org/wiki/Mixture_model">Gaussian Mixture Models</a>/<a href="https://en.wikipedia.org/wiki/Expectation%E2%80%93maximization_algorithm">Expectation-Maximisation Algorithm</a></li>
+  <li><a href="https://en.wikipedia.org/wiki/DBSCAN">DBSCAN</a> and <a href="https://en.wikipedia.org/wiki/OPTICS_algorithm">OPTICS</a> algorithms</li>
+  <li>Deep Neural Network Architectures: <a href="https://en.wikipedia.org/wiki/Autoencoder">Autoencoders</a> and <a href="https://en.wikipedia.org/wiki/Restricted_Boltzmann_machine">Restricted Boltzmann Machines</a></li>
+</ul>
+
+<p>Attention will now turn towards simulating data and fitting the K-Means algorithm to it.</p>
+
+<h3>Simulated Data</h3>
+
+<p>In this section K-Means Clustering will be applied to a set of simulated data in order to provide familiarisation with the specific <a href="http://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html">Scikit-Learn implementation of the algorithm</a>. It will also be shown how the choice of $k$ in the algorithm is extremely important in making sure good results are achieved.</p>
+
+<p>The task will involve sampling three separate two-dimensional Gaussian distributions to create a selection of observation data. The K-Means Algorithm will then be used, with various choices of the parameter $k$ to infer cluster membership. A comparison of two separate choices for $k$ will be plotted along with inferred cluster membership by colour.</p>
+
+<p>Similar simulated data exercises have been carried out in previous articles on the site. They help identify the potential flaws in models on synthetic data, the statistical properties of which are easily controlled. This provides strong insight into the limitation of such models prior to their application on real financial data, where we most certainly cannot control the statistical properties!</p>
+
+<p>The first step is to import the necessary libraries. The Python <code>itertools</code> library is used to chain lists of lists together when generating the random sample data. Itertools is an extremely useful library, which can save a significant amount of development time. Reading through <a href="https://docs.python.org/3/library/itertools.html">the documentation</a> is a good exercise for any budding quant developer or trader.</p>
+
+<p>The remaining imports are NumPy, Matplotlib and the <code>KMeans</code> class from Scikit-Learn, which lives in the <code>cluster</code> module:</p>
+
+<pre>
+<code class="language-python"># simulated_data.py
+
+import itertools
+
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.cluster import KMeans</code>
+</pre>
+
+<p>The first task within the <code>__main__</code> function is to set the random seed so that the code below is completely reproducible. Subsequently the number of samples for each cluster is set (<code>samples=100</code>), as well as the two-dimensional means and covariance matrices of each Gaussian cluster (one per element in each list).</p>
+
+<p>The <code>norm_dists</code> list contains three separate two-dimensional lists of observations, one for each cluster, generated using a list comprehension. Finally the observational data $X$ is generated by chaining each of these sublists using the itertools library:</p>
+
+<pre>
+<code class="language-python">np.random.seed(1)
+
+# Set the number of samples, the means and 
+# variances of each of the three simulated clusters
+samples = 100
+mu = [(7, 5), (8, 12), (1, 10)]
+cov = [
+    [[0.5, 0], [0, 1.0]],
+    [[2.0, 0], [0, 3.5]],
+    [[3, 0], [0, 5]],
+]
+
+# Generate a list of the 2D cluster points
+norm_dists = [
+    np.random.multivariate_normal(m, c, samples) 
+    for m, c in zip(mu, cov)
+]
+X = np.array(list(itertools.chain(*norm_dists)))</code>
+</pre>
+
+<p>As with many Scikit-Learn implementations of machine learning models the API is exceedingly simple. In this case it consists of initialising the <code>KMeans</code> class with the <code>n_clusters</code> parameter, representing the number of clusters to find, and then calling the <code>fit</code> method on the observational data. The cluster assignments can be extracted from the <code>labels_</code> property.</p>
+
+<p>In the following snippet this procedure is carried out for both $k=3$ and $k=4$ on the same dataset:</p>
+
+<pre>
+<code class="language-python"># Apply the K-Means Algorithm for k=3, which is
+# equal to the number of true Gaussian clusters
+km3 = KMeans(n_clusters=3)
+km3.fit(X)
+km3_labels = km3.labels_
+
+# Apply the K-Means Algorithm for k=4, which is
+# larger than the number of true Gaussian clusters
+km4 = KMeans(n_clusters=4)
+km4.fit(X)
+km4_labels = km4.labels_</code>
+</pre>
+
+<p>The final section simply makes two Matplotlib scatter plot subplots of the data, one for $k=3$ and one for $k=4$, using colours to represent cluster assignments by the K-Means algorithm:</p>
+
+<pre>
+<code class="language-python"># Create a subplot comparing k=3 and k=4 
+# for the K-Means Algorithm
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14,6))
+ax1.scatter(X[:, 0], X[:, 1], c=km3_labels.astype(np.float))
+ax1.set_xlabel("$x_1$")
+ax1.set_ylabel("$x_2$")
+ax1.set_title("K-Means with $k=3$")
+ax2.scatter(X[:, 0], X[:, 1], c=km4_labels.astype(np.float))
+ax2.set_xlabel("$x_1$")
+ax2.set_ylabel("$x_2$")
+ax2.set_title("K-Means with $k=4$")
+plt.show()</code>
+</pre>
+
+<p>The output of the code can be seen below:</p>
+
+<p style="text-align:center">
+  <a href="https://s3.amazonaws.com/quantstartmedia/images/qs-clustering-k-means-simulated.png"><img src="https://s3.amazonaws.com/quantstartmedia/images/qs-clustering-k-means-simulated.png" width="100%" /></a>
+  <strong>K-Means Algorithm on Simulated Data with $k=3$ and $k=4$}. <em>[Click for a larger image]</em></strong>
+</p>
+
+<p><em>Note that the colour differences between the two plots only represent the fact that there are different numbers of clusters, rather than any other implicit relationship.</em></p>
+
+<p>The full two-dimensional set of data was generated by sampling from three separate Gaussian distributions with differing means and variances. It is immediately apparent that the choice of $k$ when carrying out the K-Means algorithm is important for the interpretation of results.</p>
+
+<p>In the left subplot the algorithm is forced to choose three clusters. It has largely captured the three separate Gaussian clusters, assigning blue, red and green colours to each. Although it clearly has difficulty in selecting the closest clusters for the "outlying" points of each cluster that lies in the neighbourhood of $x_1=5,x_2=8$. This is a difficult situation for any clustering algorithm that involves "overlapping" data.</p> 
+
+<p>Recall that the K-Means algorithm is a <em>hard</em> clustering tool. That is, it creates a distinct "hard" boundary between cluster membership, rather than probabalistically assigning membership as in a "soft" cluster algorithm.</p>
+
+<p>In the right subplot the algorithm is forced to choose four clusters and has divided the true grouping on the left hand side of the plot into two separate regions (yellow and red). However it is known that this cluster was generated from a single Gaussian distribution and hence the algorithm has "incorrectly" assigned the data. The remaining clusters on the right hand side are "correctly" identified however.</p>
+
+<p>The choice of $k$ has significant implications for the usefulness of the algorithm–particularly with regard to quantitative trading applications. It will be seen shortly how the choice of $k$ can have a large impact on the effectiveness of the predictive ability on real financial data.</p>
+
+<h3>OHLC Clustering</h3>
+
+<p>In this section K-Means Clustering will be used on daily Open-High-Low-Close (OHLC) data, also known as <em>bars</em> or <em>candles</em>. Such analysis is interesting because it considers extra dimensions to daily data that are often ignored, in favour of making sole use of adjusted closing prices.</p>
+
+<p>Because it is important to compare each candle on a "like-for-like" basis, each of the High, Low and Close dimensions will be normalised by the corresponding Open price. This has the added benefit that stock splits, dividends and other "discrete" price-affecting corporate actions will automatically be accounted for. By normalising each candle in this manner, the dimensionality is reduced from four (Open, High, Low, Close) to three (High/Open, Low/Open, Close/Open).</p>
+
+<p>In the following code two years of S&amp;P500 data will be downloaded. The bars will then be plotted using Matplotlib. The data will then be normalised in the manner described above, clustered using K-Means and then plotted in a three-dimensional scatterplot to visualise cluster membership.</p>
+
+<p>These cluster labels will then be applied back to the original candle data and used to visualise cluster membership (as well as boundaries) on a cluster label-ordered candlestick chart. Finally, a "follow-on matrix" will be created, which describes the frequency of tomorrow's cluster being $j$, if today's cluster is $i$. Such a matrix is useful for ascertaining whether there is any scope for forming a predictive trading strategy based on today's cluster membership.</p>
+
+<p>This section of code requires many imports. The majority of these are due to necessary formatting options for Matplotlib. The <code>copy</code> standard library is brought in to make deep copies of DataFrames so that they are not overwritten by each subsequent plot function.  In addition NumPy and Pandas are imported for data manipulation. Finally the <code>KMeans</code> module is imported from Scikit-Learn:</p>
+
+<pre>
+<code class="language-python"># ohlc_clustering.py
+
+import copy
+import datetime
+
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+from matplotlib.finance import candlestick_ohlc
+import matplotlib.dates as mdates
+from matplotlib.dates import (
+    DateFormatter, WeekdayLocator, DayLocator, MONDAY
+)
+import numpy as np
+import pandas as pd
+import pandas_datareader.data as web
+from sklearn.cluster import KMeans</code>
+</pre>
+
+<p>The first function takes a symbol string for an equities ticker, as well as starting and ending dates, and uses these to create a three-dimensional time series. Each dimension represents the High, Low and Close price normalised by the Open price, respectively. The remaining columns are dropped and the DataFrame is returned:</p>
+
+<pre>
+<code class="language-python">def get_open_normalised_prices(symbol, start, end):
+    """
+    Obtains a pandas DataFrame containing open normalised prices
+    for high, low and close for a particular equities symbol
+    from Yahoo Finance. That is, it creates High/Open, Low/Open 
+    and Close/Open columns.
+    """
+    df = web.DataReader(symbol, "yahoo", start, end)
+    df["H/O"] = df["High"]/df["Open"]
+    df["L/O"] = df["Low"]/df["Open"]
+    df["C/O"] = df["Close"]/df["Open"]
+    df.drop(
+        [
+            "Open", "High", "Low", 
+            "Close", "Volume", "Adj Close"
+        ], 
+        axis=1, inplace=True
+    )
+    return df</code>
+</pre>
+
+<p>The following function <code>plot_candlesticks</code> makes use of the Matplotlib <code>candlestick_ohlc</code> method to create a financial candlestick chart of the provided price series. The majority of the function involves specific Matplotlib formatting to achieve correct data formatting. The comments explain each setting in more depth:</p>
+
+<pre>
+<code class="language-python">def plot_candlesticks(data, since):
+    """
+    Plot a candlestick chart of the prices,
+    appropriately formatted for dates
+    """
+    # Copy and reset the index of the dataframe
+    # to only use a subset of the data for plotting
+    df = copy.deepcopy(data)
+    df = df[df.index >= since]
+    df.reset_index(inplace=True)
+    df['date_fmt'] = df['Date'].apply(
+        lambda date: mdates.date2num(date.to_pydatetime())
+    )
+
+    # Set the axis formatting correctly for dates
+    # with Mondays highlighted as a "major" tick
+    mondays = WeekdayLocator(MONDAY)
+    alldays = DayLocator()
+    weekFormatter = DateFormatter('%b %d')
+    fig, ax = plt.subplots(figsize=(16,4))
+    fig.subplots_adjust(bottom=0.2)
+    ax.xaxis.set_major_locator(mondays)
+    ax.xaxis.set_minor_locator(alldays)
+    ax.xaxis.set_major_formatter(weekFormatter)
+
+    # Plot the candlestick OHLC chart using black for
+    # up days and red for down days
+    csticks = candlestick_ohlc(
+        ax, df[
+            ['date_fmt', 'Open', 'High', 'Low', 'Close']
+        ].values, width=0.6, 
+        colorup='#000000', colordown='#ff0000'
+    )
+    ax.set_axis_bgcolor((1,1,0.9))
+    ax.xaxis_date()
+    plt.setp(
+        plt.gca().get_xticklabels(), 
+        rotation=45, horizontalalignment='right'
+    )
+    plt.show()</code>
+</pre>
+
+<p>The following function <code>plot_3d_normalised_candles</code> makes a scatter plot in three-dimensional space of all of the candles, normalised by the open price. Each daily candle bar is coloured according to cluster membership (which is determined in subsequent code snippets below):</p>
+
+<pre>
+<code class="language-python">def plot_3d_normalised_candles(data):
+    """
+    Plot a 3D scatterchart of the open-normalised bars
+    highlighting the separate clusters by colour
+    """
+    fig = plt.figure(figsize=(12, 9))
+    ax = Axes3D(fig, elev=21, azim=-136)
+    ax.scatter(
+        data["H/O"], data["L/O"], data["C/O"], 
+        c=labels.astype(np.float)
+    )
+    ax.set_xlabel('High/Open')
+    ax.set_ylabel('Low/Open')
+    ax.set_zlabel('Close/Open')
+    plt.show()</code>
+</pre>
+
+<p>The next function <code>plot_cluster_ordered_candles</code> is similar to the above candlestick plot, except that it is now ordered by cluster membership, rather than date. In addition each cluster boundary is visualised with a blue dotted line. The function is somewhat complex, but once again this is mainly due to formatting issues with Matplotlib.</p>
+
+<p>The latter section of the function involves creating a separate DataFrame called <code>change_indices</code>. Its job is to determine the index at which a new cluster boundary is located. This is done by sorting all elements by their cluster index and then using the <code>diff</code> method to obtain the change points. This is then filtered by all values that do not equal zero, which returns a DataFrame consisting of five rows, one for each boundary. This is then used by the Matplotlib <code>axvline</code> method to plot the dotted blue line:</p>
+
+<pre>
+<code class="language-python">def plot_cluster_ordered_candles(data):
+    """
+    Plot a candlestick chart ordered by cluster membership
+    with the dotted blue line representing each cluster
+    boundary.
+    """
+    # Set the format for the axis to account for dates
+    # correctly, particularly Monday as a major tick
+    mondays = WeekdayLocator(MONDAY)
+    alldays = DayLocator()
+    weekFormatter = DateFormatter("")
+    fig, ax = plt.subplots(figsize=(16,4))
+    ax.xaxis.set_major_locator(mondays)
+    ax.xaxis.set_minor_locator(alldays)
+    ax.xaxis.set_major_formatter(weekFormatter)
+
+    # Sort the data by the cluster values and obtain
+    # a separate DataFrame listing the index values at
+    # which the cluster boundaries change
+    df = copy.deepcopy(data)
+    df.sort_values(by="Cluster", inplace=True)
+    df.reset_index(inplace=True)
+    df["clust_index"] = df.index
+    df["clust_change"] = df["Cluster"].diff()
+    change_indices = df[df["clust_change"] != 0]
+
+    # Plot the OHLC chart with cluster-ordered "candles"
+    csticks = candlestick_ohlc(
+        ax, df[
+            ["clust_index", 'Open', 'High', 'Low', 'Close']
+        ].values, width=0.6, 
+        colorup='#000000', colordown='#ff0000'
+    )
+    ax.set_axis_bgcolor((1,1,0.9))
+
+    # Add each of the cluster boundaries as a blue dotted line
+    for row in change_indices.iterrows():
+        plt.axvline(
+            row[1]["clust_index"], 
+            linestyle="dashed", c="blue"
+        )
+    plt.xlim(0, len(df))
+    plt.setp(
+        plt.gca().get_xticklabels(), 
+        rotation=45, horizontalalignment='right'
+    )
+    plt.show()</code>
+</pre>
+
+<p>The final function is <code>create_follow_cluster_matrix</code>. Its job is to produce a $k \times k$ matrix, where $k$ is the number of selected clusters in the K-Means Clustering process. Each element of the matrix represents the percentage frequency of cluster $j$ being the daily follow-on cluster to cluster $i$. This is useful in quantitative trading setting as it allows us to determine the sample distribution of cluster changes.</p>
+
+<p>The matrix is constructed using the Pandas <code>shift</code> method, which allows a new column <code>ClusterTomorrow</code> to contain tomorrow's cluster value. A <code>ClusterMatrix</code> column is then created by forming a tuple of today's cluster index and tomorrow's cluster index. The Pandas <code>value_counts</code> method is then used to create a frequency distribution of these pairs. Finally, the $k \times k$ NumPy matrix is created and filled with the percentage frequency of occurance of each cluster follow-on:</p>
+
+<pre>
+<code class="language-python">def create_follow_cluster_matrix(data):
+    """
+    Creates a k x k matrix, where k is the number of clusters
+    that shows when cluster j follows cluster i.
+    """
+    data["ClusterTomorrow"] = data["Cluster"].shift(-1)
+    data.dropna(inplace=True)
+    data["ClusterTomorrow"] = data["ClusterTomorrow"].apply(int)
+    sp500["ClusterMatrix"] = list(zip(data["Cluster"], data["ClusterTomorrow"]))
+    cmvc = data["ClusterMatrix"].value_counts()
+    clust_mat = np.zeros( (k, k) )
+    for row in cmvc.iteritems():
+        clust_mat[row[0]] = row[1]*100.0/len(data)
+    print("Cluster Follow-on Matrix:")
+    print(clust_mat)</code>
+</pre>
+
+<p>The <code>__main__</code> function ties all of the above functions together. It carries out the K-Means algorithm and uses these cluster membership values in all subsequent functions:</p>
+
+<pre>
+<code class="language-python">if __name__ == "__main__":
+    # Obtain S&P500 pricing data from Yahoo Finance
+    start = datetime.datetime(2013, 1, 1)
+    end = datetime.datetime(2015, 12, 31)
+    sp500 = web.DataReader("^GSPC", "yahoo", start, end)
+
+    # Plot last year of price "candles"
+    plot_candlesticks(sp500, datetime.datetime(2015, 1, 1))
+
+    # Carry out K-Means clustering with five clusters on the
+    # three-dimensional data H/O, L/O and C/O
+    sp500_norm = get_open_normalised_prices(sp500, start, end)
+    k = 5
+    km = KMeans(n_clusters=k, random_state=42)
+    km.fit(sp500_norm)
+    labels = km.labels_
+    sp500["Cluster"] = labels
+
+    # Plot the 3D normalised candles using H/O, L/O, C/O
+    plot_3d_normalised_candles(sp500_norm)
+    
+    # Plot the full OHLC candles re-ordered 
+    # into their respective clusters
+    plot_cluster_ordered_candles(sp500)
+
+    # Create and output the cluster follow-on matrix
+    create_follow_cluster_matrix(sp500)</code>
+</pre>
+
+<p>The output of the cluster follow-on matrix is as follows:</p>
+
+<pre>
+<code class="language-none">Cluster Follow-on Matrix:
+[[ 14.70198675   4.37086093   1.05960265   5.43046358  12.45033113]
+ [  4.76821192   1.7218543    0.66225166   1.45695364   3.31125828]
+ [  0.52980132   0.92715232   0.52980132   0.66225166   1.7218543 ]
+ [  3.57615894   2.78145695   1.05960265   2.51655629   4.2384106 ]
+ [ 14.43708609   1.98675497   1.05960265   4.2384106    9.8013245 ]]</code>
+</pre>
+
+<p>It can be seen that this is certainly not an evenly distributed matrix. That is, certain "candles" are likely to follow others with more frequency. This motivates the possibility of forming trading strategies around cluster identification and prediction of subsequent clusters.</p>
+
+<p>The figure below displays the candles for a years worth of the S&amp;P500 OHLC prices for 2015. Note the steep drop around late August and subsequent slow recovery in October and November:</p>
+
+<p style="text-align:center">
+  <a href="https://s3.amazonaws.com/quantstartmedia/images/qs-clustering-ohlc-sp500-candles.png"><img src="https://s3.amazonaws.com/quantstartmedia/images/qs-clustering-ohlc-sp500-candles.png" width="100%" /></a>
+  <strong>S&amp;P500 candlestick bars for the year 2015. <em>[Click for a larger image]</em></strong>
+</p>
+
+<p>The figure below is a three-dimensional plot of High/Open, Low/Open and Close/Open plotted against each other. Each of the $k=5$ clusters has been coloured. It is clear the the majority of the bars are located around $(1.0, 1.0, 1.0)$. This makes sense as most days are not hugely volatile and hence the prices do not trade in too large a range.</p>
+
+<p>However, there are many days when the closing price is substantially above the opening price as is evidenced by the light blue cluster in the top of the figure. In addition there are many days when the low point is substantially below the opening price, indicated by the light green cluster:</p>
+
+<p style="text-align:center">
+  <a href="https://s3.amazonaws.com/quantstartmedia/images/qs-clustering-ohlc-kmeans-scatterplot.png"><img src="https://s3.amazonaws.com/quantstartmedia/images/qs-clustering-ohlc-kmeans-scatterplot.png" width="100%" /></a>
+  <strong>3D scatterplot of normalised bars along with cluster membership. <em>[Click for a larger image]</em></strong>
+</p>
+
+<p>The figure below displays the candles for 2013-2015 inclusive ordered by cluster membership. This visualisation makes it clear how the K-Means algorithm works on candle data. There are two large clusters at either end of the chart that represent slight down days and slight up days, respectively. Within the middle of the chart more severe gains and drops can be seen.</p>
+
+<p>One interesting point to note is that the cluster membership is highly unequal. There are many more lesser volatile days than there are higher volatile days. The central cluster in particular contains days with steep declines:</p>
+
+<p style="text-align:center">
+  <a href="https://s3.amazonaws.com/quantstartmedia/images/qs-clustering-ohlc-candle-clusters.png"><img src="https://s3.amazonaws.com/quantstartmedia/images/qs-clustering-ohlc-candle-clusters.png" width="100%" /></a>
+  <strong>S&amp;P500 candlestick bars for 2013-2015 inclusive ordered via cluster membership, overlaid with cluster boundaries (blue dotted lines). <em>[Click for a larger image]</em></strong>
+</p>
+
+<p>This analysis is certainly interesting and motivates further study. However a significant amount of extra work is required to carry out any form of quantitative trading strategy. In particular, the above is restricted to the two most recent full years of S&amp;P500 daily data. It could easily be extended further back in time, or across many more assets (equities or otherwise).</p>
+
+<p>In addition it is not clear if the choice of $k=5$ is a good one. Perhaps $k=4$ or $k=6$ might reveal more structure. Should $k$ be chosen on an asset-by-asset basis and if so, under what "goodness" metric?</p>
+
+<p>Another problem is that all of this work is <em>in-sample</em>. Any future usage of this as a predictive tool implicitly assumes that the distribution of clusters would remain similar to the past. A more realistic implementation would consider some form of "rolling" or "online" clustering tool that would produce a follow-on matrix for each rolling window.</p>
+
+<p>It would be necessary for this matrix not to deviate too frequently otherwise its predictive power is likely to be poor, but frequently enough that it can implicitly detect market regime changes. Clearly this motivates many more avenues of research!</p>
+
+<h2>Bibliographic Note</h2>
+
+<p>K-Means Clustering is a well-known technique discussed in many machine learning textbooks. A relatively straightforward introduction, without recourse to hard mathematics, is given in James et al (2013)<sup><a href="#ref-isl2013">[1]</a></sup>. The basics of the algorithm are outlined as well as its pitfalls.</p>
+
+<p>The graduate level books by Hastie et al (2009)<sup><a href="#ref-esl2009">[2]</a></sup> and Murphy (2012)<sup><a href="#ref-murphy2012">[3]</a></sup> delve more deeply into the "wider picture" of clustering algorithms, putting them into the probabalistic modelling framework. They also place K-Means in context with other clustering algorithms such as Vector Quantisation and Gaussian Mixture Models. Other books that discuss K-Means clustering include Bishop (2007)<sup><a href="#ref-bishop2007">[4]</a></sup> and Barber (2012)<sup><a href="#ref-barber2012">[5]</a></sup>.</p>
+
+<h2>References</h2>
+
+<ul>
+  <li><a name="ref-isl2013" href="http://www-bcf.usc.edu/~gareth/ISL/">[1] James, G., Witten, D., Hastie, T., Tibshirani, R. (2013) <em>An Introduction to Statistical Learning</em>, Springer</a></li>
+  <li><a name="ref-esl2009" href="http://statweb.stanford.edu/~tibs/ElemStatLearn/">[2] Hastie, T., Tibshirani, R., Friedman, J. (2009) <em>The Elements of Statistical Learning</em>, Springer</a></li>
+  <li><a name="ref-murphy2012" href="https://www.cs.ubc.ca/~murphyk/MLbook/">[3] Murphy, K.P. (2012) <em>Machine Learning - A Probabilistic Perspective</em>, MIT Press</a></li>
+  <li><a name="ref-bishop2007" href="http://amzn.to/2crPMo9">[4] Bishop, C. (2007) <em>Pattern Recognition and Machine Learning</em>, Springer</a></li>
+  <li><a name="ref-barber2012" href="http://www.cs.ucl.ac.uk/staff/d.barber/brml/">[5] Barber, D. (2012) <em>Bayesian Reasoning and Machine Learning</em>, Cambridge University Press</a></li>
+  <li><a name="ref-martinaitis2011" href="https://www.r-bloggers.com/artificial-intelligence-in-trading-k-means-clustering/">[6] Martinaitis, D. (2011) <em>Artificial intelligence in trading: k-means clustering</em>, R-Bloggers</a></li>
+  <li><a name="" href="http://intelligenttradingtech.blogspot.co.uk/2010/06/quantitative-candlestick-pattern.html">[7] Intelligent Trading (2010) <em>Quantitative Candlestick Pattern Recognition (HMM, Baum Welch, and all that)</em>, Intelligent Trading Tech</a></li>
+</ul>
+
+<h2>Full Code</h2>
+
+<pre>
+<code class="language-python"># simulated_data.py
+
+import itertools
+
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.cluster import KMeans
+
+
+if __name__ == "__main__":
+    np.random.seed(1)
+
+    # Set the number of samples, the means and 
+    # variances of each of the three simulated clusters
+    samples = 100
+    mu = [(7, 5), (8, 12), (1, 10)]
+    cov = [
+        [[0.5, 0], [0, 1.0]],
+        [[2.0, 0], [0, 3.5]],
+        [[3, 0], [0, 5]],
+    ]
+
+    # Generate a list of the 2D cluster points
+    norm_dists = [
+        np.random.multivariate_normal(m, c, samples) 
+        for m, c in zip(mu, cov)
+    ]
+    X = np.array(list(itertools.chain(*norm_dists)))
+    
+    # Apply the K-Means Algorithm for k=3, which is
+    # equal to the number of true Gaussian clusters
+    km3 = KMeans(n_clusters=3)
+    km3.fit(X)
+    km3_labels = km3.labels_
+
+    # Apply the K-Means Algorithm for k=4, which is
+    # larger than the number of true Gaussian clusters
+    km4 = KMeans(n_clusters=4)
+    km4.fit(X)
+    km4_labels = km4.labels_
+
+    # Create a subplot comparing k=3 and k=4 
+    # for the K-Means Algorithm
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14,6))
+    ax1.scatter(X[:, 0], X[:, 1], c=km3_labels.astype(np.float))
+    ax1.set_xlabel("$x_1$")
+    ax1.set_ylabel("$x_2$")
+    ax1.set_title("K-Means with $k=3$")
+    ax2.scatter(X[:, 0], X[:, 1], c=km4_labels.astype(np.float))
+    ax2.set_xlabel("$x_1$")
+    ax2.set_ylabel("$x_2$")
+    ax2.set_title("K-Means with $k=4$")
+    plt.show()</code>
+</pre>
+
+<pre>
+<code class="language-python"># ohlc_clustering.py
+
+import copy
+import datetime
+
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+from matplotlib.finance import candlestick_ohlc
+import matplotlib.dates as mdates
+from matplotlib.dates import (
+    DateFormatter, WeekdayLocator, DayLocator, MONDAY
+)
+import numpy as np
+import pandas as pd
+import pandas_datareader.data as web
+from sklearn.cluster import KMeans
+
+
+def get_open_normalised_prices(symbol, start, end):
+    """
+    Obtains a pandas DataFrame containing open normalised prices
+    for high, low and close for a particular equities symbol
+    from Yahoo Finance. That is, it creates High/Open, Low/Open 
+    and Close/Open columns.
+    """
+    df = web.DataReader(symbol, "yahoo", start, end)
+    df["H/O"] = df["High"]/df["Open"]
+    df["L/O"] = df["Low"]/df["Open"]
+    df["C/O"] = df["Close"]/df["Open"]
+    df.drop(
+        [
+            "Open", "High", "Low", 
+            "Close", "Volume", "Adj Close"
+        ], 
+        axis=1, inplace=True
+    )
+    return df
+
+
+def plot_candlesticks(data, since):
+    """
+    Plot a candlestick chart of the prices,
+    appropriately formatted for dates
+    """
+    # Copy and reset the index of the dataframe
+    # to only use a subset of the data for plotting
+    df = copy.deepcopy(data)
+    df = df[df.index >= since]
+    df.reset_index(inplace=True)
+    df['date_fmt'] = df['Date'].apply(
+        lambda date: mdates.date2num(date.to_pydatetime())
+    )
+
+    # Set the axis formatting correctly for dates
+    # with Mondays highlighted as a "major" tick
+    mondays = WeekdayLocator(MONDAY)
+    alldays = DayLocator()
+    weekFormatter = DateFormatter('%b %d')
+    fig, ax = plt.subplots(figsize=(16,4))
+    fig.subplots_adjust(bottom=0.2)
+    ax.xaxis.set_major_locator(mondays)
+    ax.xaxis.set_minor_locator(alldays)
+    ax.xaxis.set_major_formatter(weekFormatter)
+
+    # Plot the candlestick OHLC chart using black for
+    # up days and red for down days
+    csticks = candlestick_ohlc(
+        ax, df[
+            ['date_fmt', 'Open', 'High', 'Low', 'Close']
+        ].values, width=0.6, 
+        colorup='#000000', colordown='#ff0000'
+    )
+    ax.set_axis_bgcolor((1,1,0.9))
+    ax.xaxis_date()
+    plt.setp(
+        plt.gca().get_xticklabels(), 
+        rotation=45, horizontalalignment='right'
+    )
+    plt.show()
+
+
+def plot_3d_normalised_candles(data):
+    """
+    Plot a 3D scatterchart of the open-normalised bars
+    highlighting the separate clusters by colour
+    """
+    fig = plt.figure(figsize=(12, 9))
+    ax = Axes3D(fig, elev=21, azim=-136)
+    ax.scatter(
+        data["H/O"], data["L/O"], data["C/O"], 
+        c=labels.astype(np.float)
+    )
+    ax.set_xlabel('High/Open')
+    ax.set_ylabel('Low/Open')
+    ax.set_zlabel('Close/Open')
+    plt.show()
+
+
+def plot_cluster_ordered_candles(data):
+    """
+    Plot a candlestick chart ordered by cluster membership
+    with the dotted blue line representing each cluster
+    boundary.
+    """
+    # Set the format for the axis to account for dates
+    # correctly, particularly Monday as a major tick
+    mondays = WeekdayLocator(MONDAY)
+    alldays = DayLocator()
+    weekFormatter = DateFormatter("")
+    fig, ax = plt.subplots(figsize=(16,4))
+    ax.xaxis.set_major_locator(mondays)
+    ax.xaxis.set_minor_locator(alldays)
+    ax.xaxis.set_major_formatter(weekFormatter)
+
+    # Sort the data by the cluster values and obtain
+    # a separate DataFrame listing the index values at
+    # which the cluster boundaries change
+    df = copy.deepcopy(data)
+    df.sort_values(by="Cluster", inplace=True)
+    df.reset_index(inplace=True)
+    df["clust_index"] = df.index
+    df["clust_change"] = df["Cluster"].diff()
+    change_indices = df[df["clust_change"] != 0]
+
+    # Plot the OHLC chart with cluster-ordered "candles"
+    csticks = candlestick_ohlc(
+        ax, df[
+            ["clust_index", 'Open', 'High', 'Low', 'Close']
+        ].values, width=0.6, 
+        colorup='#000000', colordown='#ff0000'
+    )
+    ax.set_axis_bgcolor((1,1,0.9))
+
+    # Add each of the cluster boundaries as a blue dotted line
+    for row in change_indices.iterrows():
+        plt.axvline(
+            row[1]["clust_index"], 
+            linestyle="dashed", c="blue"
+        )
+    plt.xlim(0, len(df))
+    plt.setp(
+        plt.gca().get_xticklabels(), 
+        rotation=45, horizontalalignment='right'
+    )
+    plt.show()
+
+
+def create_follow_cluster_matrix(data):
+    """
+    Creates a k x k matrix, where k is the number of clusters
+    that shows when cluster j follows cluster i.
+    """
+    data["ClusterTomorrow"] = data["Cluster"].shift(-1)
+    data.dropna(inplace=True)
+    data["ClusterTomorrow"] = data["ClusterTomorrow"].apply(int)
+    sp500["ClusterMatrix"] = list(zip(data["Cluster"], data["ClusterTomorrow"]))
+    cmvc = data["ClusterMatrix"].value_counts()
+    clust_mat = np.zeros( (k, k) )
+    for row in cmvc.iteritems():
+        clust_mat[row[0]] = row[1]*100.0/len(data)
+    print("Cluster Follow-on Matrix:")
+    print(clust_mat)
+
+
+if __name__ == "__main__":
+    # Obtain S&P500 pricing data from Yahoo Finance
+    symbol = "^GSPC"
+    start = datetime.datetime(2013, 1, 1)
+    end = datetime.datetime(2015, 12, 31)
+    sp500 = web.DataReader(symbol, "yahoo", start, end)
+
+    # Plot last year of price "candles"
+    plot_candlesticks(sp500, datetime.datetime(2015, 1, 1))
+
+    # Carry out K-Means clustering with five clusters on the
+    # three-dimensional data H/O, L/O and C/O
+    sp500_norm = get_open_normalised_prices(symbol, start, end)
+    k = 5
+    km = KMeans(n_clusters=k, random_state=42)
+    km.fit(sp500_norm)
+    labels = km.labels_
+    sp500["Cluster"] = labels
+
+    # Plot the 3D normalised candles using H/O, L/O, C/O
+    plot_3d_normalised_candles(sp500_norm)
+    
+    # Plot the full OHLC candles re-ordered 
+    # into their respective clusters
+    plot_cluster_ordered_candles(sp500)
+
+    # Create and output the cluster follow-on matrix
+    create_follow_cluster_matrix(sp500)</code>
+</pre>
+        
+        
+        <script async data-uid="6296c27f4b" src="https://weathered-brook-5281.ck.page/6296c27f4b/index.js"></script>
+      </section>
+    </div>
+    <div class="col-md-4 book-card order-md-1">
+      
+<div class="sidebar-advert-container">
+  <a href="/qsalpha/?ref=art">
+    <img class="card-img-top" src="/static/images/qsalpha-sidebar-advert-small.png" alt="QSAlpha">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/qsalpha/?ref=art">QSAlpha</a></h3>
+      <p class="card-text medium-text mb-3">Join the QSAlpha research platform that helps fill your strategy research pipeline, diversifies your portfolio and improves your risk-adjusted returns for increased profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/qsalpha/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/quantcademy/?ref=art">
+    <img class="card-img-top" src="/static/images/quantcademy-sidebar-advert-small.png" alt="Quantcademy">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/quantcademy/?ref=art">The Quantcademy</a></h3>
+      <p class="card-text medium-text mb-3">Join the Quantcademy membership portal that caters to the rapidly-growing retail quant trader community and learn how to increase your strategy profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/quantcademy/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/successful-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/sat-sidebar-advert-small.png" alt="Successful Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to find new trading strategy ideas and objectively assess them for your portfolio using a Python-based backtesting engine.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/successful-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/advanced-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/aat-sidebar-advert-small.png" alt="Advanced Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to implement advanced trading strategies using time series analysis, machine learning and Bayesian statistics with R and Python.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/advanced-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+    
+
+<footer>
+  <div class="container container-full">
+    <section class="mt-1.5 mb-1">
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">QuantStart</li>
+            <li class="footer-list-link"><a class="link-fade" href="/about/">About</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/articles/">Articles</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/sitemap/">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Products</li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qsalpha/">QSAlpha</a></li>
+            
+            
+            <li class="footer-list-link"><a class="link-fade" href="/quantcademy/">Quantcademy</a></li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qstrader/">QSTrader</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Legal</li>
+            <li class="footer-list-link"><a class="link-fade" href="/privacy-policy/">Privacy Policy</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/terms-and-conditions/">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Social</li>
+            <li class="footer-list-link"><a class="link-fade" href="https://twitter.com/quantstart">Twitter</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="https://www.youtube.com/channel/UCmVnnZ6Y2TrJtY1eQJN6kWA">YouTube</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="row mb-1.5 mt-5">
+      <div class="col-12 col-md-9 col-lg-8 col-xl-6">
+        <div class="footer-copyright">
+          <p>©2012-2023 QuarkGluon Ltd. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+<script src="/static/js/jquery-3.2.1.min.js"></script>
+<script src="/static/js/prism.js.min"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/nav.js"></script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5383959-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+    
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="/static/js/highcharts/highcharts.js"></script>
+<script type="text/javascript">
+  num_colours = 10;
+</script>
+<script src="/static/js/statistics.js"></script>
+
+
+  </body>
+</html>

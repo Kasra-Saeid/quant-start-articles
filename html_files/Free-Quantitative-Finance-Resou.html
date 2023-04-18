@@ -1,0 +1,465 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-site-verification" content="wl3-8ed1QZjI0iYZMv10zoZWYElkMObTfwLlWIj9cpA" />
+    <meta name="description" content="Free Quantitative Finance Resources">
+
+    <link rel="icon" href="/static/images/favicon.png">
+
+    <title>Free Quantitative Finance Resources | QuantStart</title>
+    
+    
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet"> 
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/prism.css" rel="stylesheet">
+<link href="/static/css/qs.css?v=10" rel="stylesheet">
+    
+  </head>
+
+  <body>
+    <header class="header covered-header" style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://quantstartmedia.s3.amazonaws.com/images/article-images/article-backgrounds/default-bg.jpg);">
+  
+<nav class="nav">
+  <div class="container nav-container">
+    <div class="nav-row row d-flex justify-content-between align-items-center">
+      <div class="col-2">
+        <ul class="nav-items justify-content-end small-capitals align-items-center">
+          <li class="nav-item">
+            <a class="link-fade" href="/">QuantStart</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-auto col-logo">
+        <ul id="top-nav-menu" class="nav-items justify-content-end align-items-center">
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/qsalpha/">QSAlpha</a>
+          </li>
+          
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/quantcademy/">Quantcademy</a>
+          </li>
+          
+          <li id="menu-link-ebooks" class="nav-item">
+            <a class="link-fade" href="#">Books</a>
+            <div id="menu-pane-ebooks" class="nav-items menu-dropdown-pane">
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/qstrader/">QSTrader</a>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/articles/">Articles</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/members/login/">Login</a>
+          </li>
+          
+        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<nav id="mobile-nav" class="mobile-nav text-left">
+  <div class="container">
+    <ul class="mt-4 ml-3 mobile-nav-menu">
+      <li class="nav-item">
+        <a class="link-fade d-block" href="/">QuantStart</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qsalpha/">QSAlpha</a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/quantcademy/">Quantcademy</a>
+      </li>
+      
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="#">Books</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qstrader/">QSTrader</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/articles/">Articles</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/members/login/">Login</a>
+      </li>
+      
+    </ul>
+    <button class="nav-toggle mobile-nav-close">
+      <svg id="mobile-nav-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M19.77,5.63,13.41,12l6.36,6.37a1,1,0,0,1-1.41,1.41L12,13.41,5.63,19.77a1,1,0,0,1-1.44-1.39l0,0L10.58,12,4.21,5.63a1,1,0,0,1,0-1.42,1,1,0,0,1,1.41,0l0,0L12,10.58l6.37-6.37a1,1,0,0,1,1.41,0A1,1,0,0,1,19.77,5.63Z"></path>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+  <div class="container hero-container">
+    <section class="mt-5 mb-4">
+      <div class="row justify-content-center">
+        <div class="col-12 text-center">
+          <p class="hero">Free Quantitative Finance Resources</p>
+          <p class="hero subhero">Free Quantitative Finance Resources</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</header>
+    
+<section class="container content-container">
+  <div class="row">
+    <div class="col-md-8 order-md-2">
+      <section class="content article-content">
+        
+        
+        <p>Welcome to the big list of <strong>free quantitative finance resources</strong>!</p>
+
+<p>I've listed here all of the free ebooks, slides, courses, videos and data that I've found useful during my quant finance career. The resources are broken down by category and are all completely free (or require free signup).</p>
+
+<p>I will be constantly updating this page as and when I find new content around the web, so keep checking back.</p>
+
+<p><em>This list was last updated on 16th December 2019.</em></p>
+
+<h3>List Navigation</h3>
+
+<ul>
+  <li><a href="#free-financial-data"><strong>Free Financial Data</strong></a></li>
+  <li><a href="#financial-engineering"><strong>Financial Engineering</strong></a></li>
+  <li><a href="#algorithmic-trading"><strong>Algorithmic Trading</strong></a></li>
+  <!--<li><a href="#mathematics-and-statistics"><strong>Mathematics &amp; Statistics</strong></a></li>
+  <li><a href="#numerical-methods-algorithms"><strong>Numerical Methods/Algorithms</strong></a></li>
+  <li><a href="#machine-learning-ai"><strong>Machine Learning/AI</strong></a></li>-->
+  <li><a href="#programming"><strong>Programming</strong></a></li>
+  <li><a href="#software"><strong>Software</strong></a></li>
+</ul>
+
+<p>If you have any recommendations for free quant finance resources, please feel free to email me at <a href="mailto:support@quantstart.com"><strong>support@quantstart.com.</strong></a></p>
+
+<h2><a class="no-link" name="free-financial-data">Free Financial Data</a></h2>
+
+<p>It is surprisingly straightforward to get hold of high-quality financial data for free, as long as one is willing to accept that it will be restricted to certain time period and instrument subsets. Brokerages often "give away" their historical financial data in order to entice new clients. In particular, foreign exchange (forex) tick data is widely available from many of the sources below.</p>
+
+<p>Equities are somewhat trickier as they require a corresponding high-quality corporate actions feed in order to handle dividends and stock-splits. However, it is relatively easy to get hold of major end-of-day US/UK equities information that have already been "back adjusted" in this manner.</p>
+
+<ul>
+  <li><a href="http://www.dukascopy.com/swiss/english/marketwatch/historical/?ibref=2061"><strong>DukasCopy</strong></a> - DukasCopy is a Swiss forex broker/ECN, which provides extremely high quality forex tick data going back to 2007 for the majority of currency pairs. This should be your first port of call if you are interested in backtesting tick-level forex strategies.</li>
+  <li><a href="http://www.eoddata.com"><strong>EoDData</strong></a> - EoDData are a <em>paid</em> service but they provide a free tier. They conveniently provide a substantial list of traded symbols on nearly every exchange of interest across the globe.</li>
+  <!--<li><a href="http://ratedata.gaincapital.com/"><strong>GainCapital</strong></a></li>
+  <li><a href="http://www.histdata.com/"><strong>HistData</strong></a></li>
+  <li><a href="https://fxtrade.oanda.com/account/"><strong>Oanda</strong></a></li>
+  <li><a href="https://pepperstone.com/mt4-forex-trading/mt4-tick-chart-history-data.php"><strong>Pepperstone</strong></a></li>
+  <li><a href="http://www.quandl.com/"><strong>Quandl</strong></a></li>
+  <li><a href="http://www.truefx.com/?page=downloads"><strong>TrueFX</strong></a></li>-->
+  <li><a href="http://www.quandl.com/"><strong>Quandl</strong></a> - Quandl is an ambitious project attempting to "make all the numerical data on the internet easy to find & easy to use". They provide a huge catalogue of market data across multiple asset classes including currencies, equities, futures and commodities. They have an easy-to-use API and all of their data is freely available and frequently updated. A veritable goldmine for the quant!</li>
+  <li><a href="http://finance.yahoo.com/q/hp?s=^FTSE+Historical+Prices"><strong>Yahoo Finance</strong></a> - Yahoo Finance is the "go to" location for easily downloading end-of-day equities data. The major benefit of of their API feed is that the data is <em>back-adjusted</em>, meaning that it accounts for dividends and stock splits. However, the data is not 100% high quality. I have used YF in a production environment and I can attest that you should be double-checking your data against other sources such as EoDData or Google Finance. <em>I've linked to the Historical Prices for the FTSE100 as an example.</em></li>
+</ul>
+
+<h2><a class="no-link" name="financial-engineering">Financial Engineering</a></h2>
+
+<p>While textbooks, certificates and Masters in Financial Engineering (MFE) courses remain the most popular method to learn financial engineering, a number of freely available resources have appeared on the scene in recent years. In particular, <a href="http://www.coursera.com">Coursera</a> now provides some fantastic courses on the topic.</p>
+
+<ul>
+  <li><a href="https://www.coursera.org/course/fe1"><strong>Financial Engineering and Risk Management Part I</strong></a> - This was originally a single course, but it was decided to split in two. This course concentrates on options pricing and the basics of the Black-Scholes theory. A notable feature is an interview with Emanuel Derman, the famed quant author.</li>
+  <li><a href="https://www.coursera.org/course/fe2"><strong>Financial Engineering and Risk Management Part II</strong></a> - The second part in the two part Coursera covers portfolio construction and risk management, with some additional focus on more advanced derivative products.</li>
+  <!--<li><a href="https://www.coursera.org/course/compfinance"><strong>Introduction to Computational Finance and Financial Econometrics</strong></a> - This course, run by Eric Zivot from the University of Washington, is an absolutely fantastic introduction to time series methods and statistics as applied to financial data. The course covers significant ground, starting with "returns", basic statistics and linear algebra and then swiftly covering more advanced topics in econometrics needed for quantitative finance.</li>
+  <li><a href="https://www.coursera.org/course/mathematicalmethods"><strong>Mathematical Methods for Quantitative Finance</strong></a> - This course has been designed primarily to prepare you for beginning studies of quantitative finance by covering the necessary calculus and linear algebra necessary in derivatives pricing and portfolio management. A great way to bridge the gap from a CompSci or Economics major to understanding the mathematics needed for QF.</li>-->
+  <li><a href="http://www.quantnet.com"><strong>QuantNet</strong></a> - QuantNet provides significant guidance in how to apply for and obtain a position on an MFE course. The forum is also populated with posts about derivatives pricing and financial software development.</li>
+  <li><a href="http://www.wilmott.com"><strong>Wilmott</strong></a> - Wilmott is the website of Paul Wilmott, the famed quant. The site contains a huge forum discussing primarily financial engineering, numerical methods and software development. Algorithmic trading is also covered, but it is not the focus of the site.</li>
+</ul>
+
+<h2><a class="no-link" name="algorithmic-trading">Algorithmic Trading</a></h2>
+
+<p>Unfortunately, Algorithmic Trading is often only "learned" while on the job or via painstaking experimentation at home! The barriers to entry used to be significant - extensive software development skills, expensive computational hardware and data feeds as well as a lot of time and patience. Nowadays entire backtesting tools exist <em>in the browser</em>, brought to us via cutting edge startups such as <a href="http://www.quantopian.com">Quantopian</a> and <a href="http://www.quantconnect.com">QuantConnect</a>.</p>
+
+<p>Equally, courses are now springing up in how to learn algorithmic trading using open source tools, such as Python/pandas. I've listed some of these resources below.</p> 
+
+<ul>
+  <!--<li><a href="https://www.coursera.org/course/compinvesting1"><strong>Computational Investing, Part I</strong></a> - Tucker Balch has written this course to help learn the basics of algorithmic trading ("computational investing") using Python and a custom library. If you re completely new to the world of data analysis and systematic trading, then this course is a great start.</li>-->
+  <li><a href="http://www.elitetrader.com"><strong>EliteTrader</strong></a> - The EliteTrader forums contain significant discussions on all aspects of trading. There is an in-depth section on algorithmic trading. While the signal-to-noise ratio is roughly comparable to other internet forums, there are some fantastic threads discussing implementation of advanced trading algos, so make sure to hunt for them!</li>
+  <li><a href="https://www.quantconnect.com/"><strong>QuantConnect</strong></a> - QuantConnect "empower[s] quants with free data, cluster computing, and capital.". The service provides an in-browser C# IDE, access to free tick data (US equities and forex) and a cluster of servers to carry out backtesting. The service provides a free tier, although more features are available on a monthly subscription basis.</li>
+  <li><a href="https://www.quantopian.com/"><strong>Quantopian</strong></a> - Quantopian provides an in-browser Python IDE, access to minute-resolution US equities data and a sophisticated backtesting system (ZipLine, see below). The main benefit of Quantopian is that strategies can (optionally) be shared and commented upon, allowing people to suggest improvements, if you are at an early-stage in your quant career. Eventually they plan to support live trading (although this will likely be a paid service).</li>
+</ul>
+<!--
+<h2><a class="no-link" name="mathematics-and-statistics">Mathematics &amp; Statistics</a></h2>
+
+<p>Mathematics, statistics and econometrics underpins modern quantitative finance. These subjects are often a stumbling block for those making the transition from more applied fields such as computer science or economics. Thankfully, with the concept of Massively Open Online Courses (MOOCs) gaining significant traction, it is far easier to get up to speed with nearly any aspect of mathematics and statistics, certainly at undergraduate level and, as time goes on, at graduate level.</p>
+
+<ul>
+  <li><a href="https://www.khanacademy.org"><strong>Khan Academy</strong></a> - Khan Academy is a fantastic resource to begin learning key concepts in undergraduate mathematics and statistics. Sal Khan provides accessible, colloquial videos on almost any topic imaginable. For quantitative finance we are primarily interested in <a href="https://www.khanacademy.org/math/calculus">Calculus</a>, <a href="https://www.khanacademy.org/math/linear-algebra">Linear Algebra</a> and <a href="https://www.khanacademy.org/math/probability">Probability</a>.</li>
+  <li><a href=""><strong></strong></a></li>
+  <li><a href=""><strong></strong></a></li>
+  <li><a href=""><strong></strong></a></li>
+  <li><a href=""><strong></strong></a></li>
+  <li><a href=""><strong></strong></a></li>
+</ul>
+
+<h2><a class="no-link" name="numerical-methods-algorithms">Numerical Methods/Algorithms</a></h2>
+
+<p>Numerical algorithms are the backbone for solving quantitative finance problems. Finite Difference Methods, Monte Carlo Methods and Time Series Methods all rely in some form on numerical linear algebra and random number generation. The following free resources provide more detailed insight into how these algorithms work so that you may be better placed to apply them in your quantitative finance work.</p>
+
+<ul>
+  <li><a href=""><strong>Numerical Methods in C</strong></a> - </li>
+  <li><a href="https://www.coursera.org/course/scicomp"><strong>High Performance Scientific Computing</strong></a></li>
+  <li><a href=""><strong></strong></a></li>
+  <li><a href=""><strong></strong></a></li>
+</ul>
+
+<h2><a class="no-link" name="machine-learning-ai">Machine Learning/AI</a></h2>
+
+<p>Although econometrics time-series tools have been the mainstay of the quantitative trading community for some time, there is now a paradigm shift towards making use of machine learning algorithms and "big data" tools to find exploitable patterns in financial data sets. With the advent of MOOCs, Machine Learning Algorithms are not just for the Computer Science PhD student any longer!</p>
+
+<p>While the majority of the solid information on machine learning can be gleaned from free courses, there are a myriad of blogs, slides and videos that describe usage too. I've listed some of the better resources here.</p>
+-->
+<h2><a class="no-link" name="programming">Programming</a></h2>
+
+<p>I've said it over and over again on QuantStart, but it is absolutely necessary in this day and age to be a good programmer to get anywhere in quantitative finance. As software rapidly eats the rest of the world, so too does it encroach on the financial markets.</p>
+
+<p>The barrier to entry may now be higher than 10 years ago, but then the prevalence of free materials is also far greater. The programming community is extremely generous at "giving back" and here are some of the most useful resources that will help you learn to program in the main quant languages.</p>
+
+<h3>Python</h3>
+
+<ul>
+  <li><a href="https://github.com/CamDavidsonPilon/Probabilistic-Programming-and-Bayesian-Methods-for-Hackers"><strong>Bayesian Methods for Hackers</strong></a> - This is a novel approach to learning what is often quite a tricky subject. It is actually an interactive ebook, which allows you to modify the code in an IPython browser session. Bayesian Methods are extremely important in the field of Machine Learning (and thus quant finance!) and this introductory course really bridges the gap between theory and application.</li>
+  <li><a href="https://buildingskills.itmaybeahack.com/"><strong>Building Skills in Object-Oriented Design</strong></a> - Most books discuss object orientation in terms of Mammals, Cats and Dogs. This is mostly useless from the point of view of creating an actual software application! "Building Skills in OOD" is a free web-book on using Python to create a <em>real</em> moderately complex object-oriented application.</li>
+  <li><a href="https://www.freetechbooks.com/data-structures-and-algorithms-with-object-oriented-design-patterns-in-python-t1020.html"><strong>Data Structures and Algorithms with Object-Oriented Design Patterns in Python </strong></a> - If you weren't a pure CompSci undergrad, then you may have to had to learn Data Structures as you went along. For a more formal introduction in Python this free web book will bridge the gap between theory and application.</li>
+  <li><a href="http://learnpythonthehardway.org/book/"><strong>Learn Python the Hard Way</strong></a> - Zed Shaw's famous book is actually designed for the <em>beginner</em> programmer, despite the odd title! It is a great way to begin learning Python and it really covers pretty much everything a beginner would need to know. Best of all, it's free!</li>
+  <li><a href="http://nltk.org/book/"><strong>Natural Language Processing with Python</strong></a> - Certain quantitative finance applications such as sentiment analysis make heavy use of Natural Language Processing (NLP) algorithms. This is the free web version of the O'Reilly book, which discusses the Natural Language ToolKit (NLTK) package for Python and how to apply it to applications in NLP.</li>
+  <!--<li><a href="http://scipy-lectures.github.io/"><strong>Python Scientific Lecture Notes</strong></a> - </li>-->
+  <li><a href="http://www.greenteapress.com/thinkpython/thinkpython.pdf"><strong>Think Python</strong></a> - Allen Downey has created a great book, originally published by O'Reilly, on how to learn Python from the ground up. It covers all of the major components of the language and provides plenty of code examples. The stated goal is to "help you think like a computer scientist" and I would say the book does a good job of achieving that.</li>
+  <li><a href="http://greenteapress.com/thinkstats/html/index.html"><strong>Think Stats</strong></a> - Allen Downey has taken a large subject area (statistics) and distilled it down into the key components to provide a more applied approach to learning, via the Python language. Probability, distributions, hypothesis testing, estimation and correlation are all covered. If you prefer "learning by doing", then this free book is definitely for you.</li>
+</ul>
+
+<h3>R</h3>
+
+<ul>
+  <li><a href="https://www.coursera.org/specializations/data-science-foundations-r#about"><strong>Data Science: Foundations using R</strong></a> - Roger Peng runs a specialization designed to help you learn R and then apply that knowledge to problems of data analysis. For many beginning quants, this will provide some great lessons in how to deal with messy data importing and make use of non-traditional sources of data to help in your financial modelling.</li>
+  <li><a href="http://www.datamind.org/"><strong>DataMind</strong></a> - DataMind is a new service (still in beta mode) that is designed to help you learn the R language, interactively. Currently there are a few beginner lessons, but more are being added all of the time. </li>
+</ul>
+
+<h2><a class="no-link" name="programming">Software</a></h2>
+
+<p>Free open soure software (FOSS) can now be found in nearly every investment bank and quantitative hedge fund. Not only does it cost you nothing to try out, but you can modify the source code as you see fit in order to suit your particular application. You can now easily build an entire options pricing or algorithmic trading system out of FOSS. Here are some of the tools I use day-to-day in my own work, which I highly recommend.</p>
+
+<ul>
+  <li><a href="http://www.boost.org/"><strong>Boost</strong></a> - The Boost libraries begin where the C++ standard libraries end. In fact, many of the original Boost components were added to the C++11 standard. However, if you're still restricted to C++03, then Boost comes with modules for regular expressions (regexes), smart pointers, lambdas, threading, statistical distributions and a lot more.</li>
+  <li><a href="https://www.djangoproject.com/"><strong>Django</strong></a> - Django is a web framework written in Python. In fact, QuantStart is a Django-based website! When I was a quant dev in a fund, I used it for all of our web-based reporting tools. It has a significant community behind it and comes with "batteries included" to help you get started quickly.</li>
+  <li><a href="http://eigen.tuxfamily.org/index.php?title=Main_Page"><strong>Eigen</strong></a> - Eigen provides a set of C++ headers for numerical linear algebra (NLA). It is intended as a "competitor" to uBLAS. I find the API extremely expressive and minimal code is usually required to carry out common operations. If you want to find out more about it, check out my <a href="http://quantstart.com/articles/Eigen-Library-for-Matrix-Algebra-in-C">article</a> on using it for matrix algebra.</li>
+  <li><a href="https://www.hdfgroup.org/solutions/hdf5/"><strong>HDF5</strong></a> - HDF5 is a scientific-grade file-system datastore. As quants, we are primarily interested in it as it is commonly used to store <em>tick data</em>. When integrated with PyTables and pandas, in the Python ecosystem, it makes backtesting high-volume strategies straightforward.</li>
+  <li><a href="https://www.mysql.com/"><strong>MySQL</strong></a> - MySQL is an open-source relational database management system (RDBMS). I have used it in high-scale financial production environments and I can attest that it can "hold its own" in demanding applications! It is a great choice for <a href="http://www.quantstart.com/articles/Securities-Master-Database-with-MySQL-and-Python">creating an end-of-day securities master</a>.</li>
+  <li><a href="https://pandas.pydata.org/"><strong>pandas</strong></a> - <a href="https://wesmckinney.com//">Wes McKinney</a> created pandas in order to provide the expressiveness of R in the Python scientific ecosystem. It is now the de facto data analysis package for Python. When coupled with IPython and HDF5, it makes for an extremely useful interactive research environment.</li>
+  <li><a href="https://www.r-project.org/"><strong>R</strong></a> - R is an open source interactive statistical language with extensive package support and graphical capabilities. R is often found in some of the best quantitative hedge funds as the "go to" initial research tool.</li>
+  <li><a href="https://www.quantlib.org/index.shtml"><strong>QuantLib</strong></a> - QuantLib is a highly mature derivatives pricing library written in C++. Although it is somewhat complex, it has support for many derivative types. A significant number of investment banks and funds make use of QuantLib in production settings.</li>
+  <li><a href="https://scikit-learn.org/stable/"><strong>scikit-learn</strong></a> - scikit-learn is a relatively new Python package that ecompasses a range of machine learning algorithms, wrapped up in an expressive interface with a highly efficient implementation (making use of NumPy/SciPy underneath). Coupled with IPython and pandas, it allows rapid research and development of financial trading strategies.</li>
+  <li><a href="https://ubuntu.com/download/server"><strong>Ubuntu Server</strong></a> - Ubuntu Server is one of the most popular production Linux distributions for financial applications. I have been using it ever since it came out (which shows my age!) and it has gone from strength to strength. It is highly robust, very secure and being based on the Linux kernal, can be modified at will to suit your particular application.</li>
+  <li><a href="https://github.com/quantopian/zipline"><strong>ZipLine</strong></a> - ZipLine is an open source algorithmic trading backtesting tool, developed by and used as the engine in the <a href="https://www.quantopian.com">Quantopian</a> service. It should be your first port of call for beginning the development of an algorithmic trading system if you want to use a Python stack.</li>
+</ul>
+
+<p>Please send me any suggestions of <strong>free quant books, blogs, forums, courses, videos or slides</strong> you've read that have helped you on your way. I am always willing to add more to this list. You can <a href="mailto:support@quantstart.com"><strong>contact me</strong></a> by sending an email to <a href="mailto:support@quantstart.com"><strong>support@quantstart.com</strong></a>.</p>
+        
+        
+        <script async data-uid="6296c27f4b" src="https://weathered-brook-5281.ck.page/6296c27f4b/index.js"></script>
+      </section>
+    </div>
+    <div class="col-md-4 book-card order-md-1">
+      
+<div class="sidebar-advert-container">
+  <a href="/qsalpha/?ref=art">
+    <img class="card-img-top" src="/static/images/qsalpha-sidebar-advert-small.png" alt="QSAlpha">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/qsalpha/?ref=art">QSAlpha</a></h3>
+      <p class="card-text medium-text mb-3">Join the QSAlpha research platform that helps fill your strategy research pipeline, diversifies your portfolio and improves your risk-adjusted returns for increased profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/qsalpha/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/quantcademy/?ref=art">
+    <img class="card-img-top" src="/static/images/quantcademy-sidebar-advert-small.png" alt="Quantcademy">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/quantcademy/?ref=art">The Quantcademy</a></h3>
+      <p class="card-text medium-text mb-3">Join the Quantcademy membership portal that caters to the rapidly-growing retail quant trader community and learn how to increase your strategy profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/quantcademy/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/successful-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/sat-sidebar-advert-small.png" alt="Successful Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to find new trading strategy ideas and objectively assess them for your portfolio using a Python-based backtesting engine.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/successful-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/advanced-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/aat-sidebar-advert-small.png" alt="Advanced Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to implement advanced trading strategies using time series analysis, machine learning and Bayesian statistics with R and Python.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/advanced-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+    
+
+<footer>
+  <div class="container container-full">
+    <section class="mt-1.5 mb-1">
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">QuantStart</li>
+            <li class="footer-list-link"><a class="link-fade" href="/about/">About</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/articles/">Articles</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/sitemap/">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Products</li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qsalpha/">QSAlpha</a></li>
+            
+            
+            <li class="footer-list-link"><a class="link-fade" href="/quantcademy/">Quantcademy</a></li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qstrader/">QSTrader</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Legal</li>
+            <li class="footer-list-link"><a class="link-fade" href="/privacy-policy/">Privacy Policy</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/terms-and-conditions/">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Social</li>
+            <li class="footer-list-link"><a class="link-fade" href="https://twitter.com/quantstart">Twitter</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="https://www.youtube.com/channel/UCmVnnZ6Y2TrJtY1eQJN6kWA">YouTube</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="row mb-1.5 mt-5">
+      <div class="col-12 col-md-9 col-lg-8 col-xl-6">
+        <div class="footer-copyright">
+          <p>©2012-2023 QuarkGluon Ltd. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+<script src="/static/js/jquery-3.2.1.min.js"></script>
+<script src="/static/js/prism.js.min"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/nav.js"></script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5383959-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+    
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="/static/js/highcharts/highcharts.js"></script>
+<script type="text/javascript">
+  num_colours = 10;
+</script>
+<script src="/static/js/statistics.js"></script>
+
+
+  </body>
+</html>

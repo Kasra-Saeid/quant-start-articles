@@ -1,0 +1,651 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-site-verification" content="wl3-8ed1QZjI0iYZMv10zoZWYElkMObTfwLlWIj9cpA" />
+    <meta name="description" content="Installing a Desktop Algorithmic Trading Research Environment using Ubuntu Linux and Python">
+
+    <link rel="icon" href="/static/images/favicon.png">
+
+    <title>Installing a Desktop Algorithmic Trading Research Environment using Ubuntu Linux and Python | QuantStart</title>
+    
+    
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet"> 
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/prism.css" rel="stylesheet">
+<link href="/static/css/qs.css?v=10" rel="stylesheet">
+    
+  </head>
+
+  <body>
+    <header class="header covered-header" style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://quantstartmedia.s3.amazonaws.com/images/article-images/article-backgrounds/default-bg.jpg);">
+  
+<nav class="nav">
+  <div class="container nav-container">
+    <div class="nav-row row d-flex justify-content-between align-items-center">
+      <div class="col-2">
+        <ul class="nav-items justify-content-end small-capitals align-items-center">
+          <li class="nav-item">
+            <a class="link-fade" href="/">QuantStart</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-auto col-logo">
+        <ul id="top-nav-menu" class="nav-items justify-content-end align-items-center">
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/qsalpha/">QSAlpha</a>
+          </li>
+          
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/quantcademy/">Quantcademy</a>
+          </li>
+          
+          <li id="menu-link-ebooks" class="nav-item">
+            <a class="link-fade" href="#">Books</a>
+            <div id="menu-pane-ebooks" class="nav-items menu-dropdown-pane">
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/qstrader/">QSTrader</a>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/articles/">Articles</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/members/login/">Login</a>
+          </li>
+          
+        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<nav id="mobile-nav" class="mobile-nav text-left">
+  <div class="container">
+    <ul class="mt-4 ml-3 mobile-nav-menu">
+      <li class="nav-item">
+        <a class="link-fade d-block" href="/">QuantStart</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qsalpha/">QSAlpha</a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/quantcademy/">Quantcademy</a>
+      </li>
+      
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="#">Books</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qstrader/">QSTrader</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/articles/">Articles</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/members/login/">Login</a>
+      </li>
+      
+    </ul>
+    <button class="nav-toggle mobile-nav-close">
+      <svg id="mobile-nav-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M19.77,5.63,13.41,12l6.36,6.37a1,1,0,0,1-1.41,1.41L12,13.41,5.63,19.77a1,1,0,0,1-1.44-1.39l0,0L10.58,12,4.21,5.63a1,1,0,0,1,0-1.42,1,1,0,0,1,1.41,0l0,0L12,10.58l6.37-6.37a1,1,0,0,1,1.41,0A1,1,0,0,1,19.77,5.63Z"></path>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+  <div class="container hero-container">
+    <section class="mt-5 mb-4">
+      <div class="row justify-content-center">
+        <div class="col-12 text-center">
+          <p class="hero">Installing a Desktop Algorithmic Trading Research Environment using Ubuntu Linux and Python</p>
+          <p class="hero subhero">Installing a Desktop Algorithmic Trading Research Environment using Ubuntu Linux and Python</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</header>
+    
+<section class="container content-container">
+  <div class="row">
+    <div class="col-md-8 order-md-2">
+      <section class="content article-content">
+        
+        
+        <p><em>This Article has been superseded by our new series on <a href="https://www.quantstart.com/articles/installing-an-algorithmic-trading-research-environment-with-python-on-mac/">Installing an Algorithmic Trading Research Environment</a></em></p>
+
+<p>In this article I want to discuss how to set up a robust, efficient and interactive development environment for algorithmic trading strategy research making use of Ubuntu Desktop Linux and the Python programming language. We will utilise this environment for nearly all subsequent algorithmic trading articles.</p>
+
+<p>I've also put together a video on YouTube explaining the whole process, so if you prefer a visual medium, then you might want to take a look:</p>
+
+<iframe width="620" height="419" src="//www.youtube.com/embed/7lxL7ezvVmQ" frameborder="0" allowfullscreen></iframe>
+
+<p>To create the research environment we will install the following software tools, all of which are open-source and free to download:</p>
+
+<ul>
+  <li><a href="https://www.virtualbox.org/">Oracle VirtualBox</a> - For virtualisation of the operating system</li>
+  <li><a href="http://www.ubuntu.com/desktop">Ubuntu Desktop Linux</a> - As our virtual operating system</li>
+  <li><a href="http://python.org/">Python</a> - The core programming environment</li>
+  <li><a href="http://www.numpy.org/">NumPy</a>/<a href="http://www.scipy.org/">SciPy</a> - For fast, efficient array/matrix calculation</li>
+  <li><a href="http://ipython.org/">IPython</a> - For visual interactive development with Python</li>
+  <li><a href="http://matplotlib.org/">matplotlib</a> - For graphical visualisation of data</li>
+  <li><a href="http://pandas.pydata.org/">pandas</a> - For data "wrangling" and time series analysis</li>
+  <li><a href="http://scikit-learn.org">scikit-learn</a> - For machine learning and artificial intelligence algorithms</li> 
+</ul>
+
+<p>These tools (coupled with a suitable <a href="http://quantstart.com/articles/Securities-Master-Database-with-MySQL-and-Python">securities master database</a>) will allow us to create a rapid interactive strategy research environment. Pandas is designed for "data wrangling" and can import and cleanse time series data very efficiently. NumPy/SciPy running underneath keeps the system extremely well optimised. IPython/matplotlib (and the qtconsole described below) allow interactive visualisation of results and rapid iteration. scikit-learn allows us to apply machine learning techniques to our strategies to further enhance performance.</p> 
+
+<p>Note that I've written the tutorial so that Windows or Mac OSX users who are unwilling or unable to install Ubuntu Linux directly can still follow along by using VirtualBox. VirtualBox allows us to create a "Virtual Machine" inside the <em>host</em> system that can emulate a <em>guest</em> operating system without affecting the host in any way. This allows experimentation with Ubuntu and the Python tools before committing to a full installation. For those who already have Ubuntu Desktop installed, you can skip to the section on "Installing the Python Research Environment Packages on Ubuntu".</p>
+
+<h2>Installing VirtualBox and Ubuntu Linux</h2>
+
+<p>This section of the tutorial regarding VirtualBox installation has been written for a Mac OSX system, but will easily translate to a Windows host environment. Once VirtualBox has been installed the procedure will be the same for any underlying host operating system.</p>
+
+<p>Before we begin installing the software we need to go ahead and download both Ubuntu and VirtualBox.</p>
+
+<h3>Downloading the Ubuntu Desktop disk image</h3>
+
+<p>Open up your favourite web browser and navigate to the <a href="http://www.ubuntu.com/desktop">Ubuntu Desktop</a> homepage then select Ubuntu 13.04:</p>
+
+<p class="bordered-image">
+  <img src="https://s3.amazonaws.com/quantstartmedia/images/qs-python-ubuntu-install-0004.png"><br>
+  <strong>Download Ubuntu 13.04 (64-bit if appropriate)</strong>
+</p>
+
+<p>You will be asked to contribute a donation although this is optional. Once you have reached the download page make sure to select Ubuntu 13.04. You'll need to choose whether you want the 32-bit or 64-bit version. It is likely you'll have a 64-bit system, but if you're in doubt, then choose 32-bit. On a Mac OSX system the Ubuntu Desktop ISO disk image will be stored in your Downloads directory. We will make use of it later once we have installed VirtualBox.</p>
+
+<h3>Downloading and Installing VirtualBox</h3>
+
+<p>Now that we've downloaded Ubuntu we need to go and obtain the latest version of Oracle's VirtualBox software. Click <a href="https://www.virtualbox.org/">here</a> to visit the website and select the version for your particular host (for the purposes of this tutorial we need Mac OSX):</p>
+
+<p class="bordered-image">
+  <img src="https://s3.amazonaws.com/quantstartmedia/images/qs-python-ubuntu-install-0002.png"><br>
+  <strong>Oracle VirtualBox download page</strong>
+</p>
+
+<p>Once the file has been downloaded we need to run it and click on the package icon (this will vary somewhat in Windows but will be a similar process):</p>
+
+<p class="bordered-image">
+  <img src="https://s3.amazonaws.com/quantstartmedia/images/qs-python-ubuntu-install-0007.png"><br>
+  <strong>Double-click the package icon to install VirtualBox</strong>
+</p>
+
+<p>Once the package has opened, we follow the installation instructions, keeping the defaults as they are (unless you feel the need to change them!). Now that VirtualBox has been installed we can open it from the Applications folder (which can be found with Finder). It puts VirtualBox on the icon dock while running, so you may wish to keep it there permanently if you want to examine Ubuntu Linux more closely in the future before committing to a full install:</p>
+
+<p class="bordered-image">
+  <img src="https://s3.amazonaws.com/quantstartmedia/images/qs-python-ubuntu-install-0008.png"><br>
+  <strong>VirtualBox with no disk images yet</strong>
+</p>
+
+<p>We are now going to create a new 'virtual box' (i.e. virtualised operating system) by clicking on the New icon, which looks like a cog. I've called mine "Ubuntu Desktop 13.04 Algorithmic Trading" (so you may wish to use something similarly descriptive!):</p>
+
+<p class="bordered-image">
+  <img src="https://s3.amazonaws.com/quantstartmedia/images/qs-python-ubuntu-install-0009.png"><br>
+  <strong>Naming our new virtual environment</strong>
+</p>
+
+<p>Choose the amount of RAM you wish to allocate to the virtual system. I've kept it at 512Mb since this is only a "test" system. A 'real' backtesting engine would likely use a native installation (and thus allocate significantly more memory) for efficiency reasons:</p>
+
+<p class="bordered-image">
+  <img src="https://s3.amazonaws.com/quantstartmedia/images/qs-python-ubuntu-install-0010.png"><br>
+  <strong>Choose the amount of RAM for the virtual disk</strong>
+</p>
+
+<p>Create a virtual hard drive and use the recommended 8Gb, with a VirtualBox Disk Image, dynamically allocated, with the same name as the VirtualBox Image above:</p>
+
+<p class="bordered-image">
+  <img src="https://s3.amazonaws.com/quantstartmedia/images/qs-python-ubuntu-install-0011.png"><br>
+  <strong>Choosing the type of hard disk used by the image</strong>
+</p>
+
+<p>You will now see a complete system with listed details:</p>
+
+<p class="bordered-image">
+  <img src="https://s3.amazonaws.com/quantstartmedia/images/qs-python-ubuntu-install-0012.png"><br>
+  <strong>The virtual image has been created</strong>
+</p>
+
+<p>We now need to tell VirtualBox to include a virtual 'CD drive' for the new disk image so that we can pretend to boot our new Ubuntu disk image from this CD drive. Head to the Settings section, click on the "Storage" tab and add a Disk. You will need to navigate to the Ubuntu Disk image ISO file stored in your Downloads directly (or wherever you downloaded Ubuntu to). Select it and then save the settings:</p>
+
+<p class="bordered-image">
+  <img src="https://s3.amazonaws.com/quantstartmedia/images/qs-python-ubuntu-install-0014.png"><br>
+  <strong>Choosing the Ubuntu Desktop ISO on first boot</strong>
+</p>
+
+<p>Now we are ready to boot up our Ubuntu image and get it installed. Click on "Start" and then on "OK" when you see the message about Host Capture of the Mouse/Keyboard. Note that on my Mac OSX, the host capture key is the Left Cmd key (i.e. Left Apple key). You will now be presented with the Ubuntu Desktop installation screen. Click on "Install Ubuntu":</p>
+
+<p class="bordered-image">
+  <img src="https://s3.amazonaws.com/quantstartmedia/images/qs-python-ubuntu-install-0015.png"><br>
+  <strong>Click on Install Ubuntu to get started</strong>
+</p>
+
+<p>Make sure to tick both boxes to install the proprietary MP3 and Wi-Fi drivers:</p>
+
+<p class="bordered-image">
+  <img src="https://s3.amazonaws.com/quantstartmedia/images/qs-python-ubuntu-install-0016.png"><br>
+  <strong>Install the proprietary drivers for MP3 and Wi-Fi</strong>
+</p>
+
+<p>You will now see a screen asking how you would like to store the data created for the operating system. Don't panic about the "Erase Disk and Install Ubuntu" option. It does NOT mean that it will erase your normal hard disk! It actually refers to the virtual disk it is using to run Ubuntu in, which is safe to erase (there isn't anything on there anyway, as we've just created it). Carry on with the install and you will be presented with a screen asking for your location and subsequently, your keyboard layout:</p>
+
+<p class="bordered-image">
+  <img src="https://s3.amazonaws.com/quantstartmedia/images/qs-python-ubuntu-install-0017.png"><br>
+  <strong>Select your geographical location</strong>
+</p>
+
+<p>Enter in your user credentials, making sure to remember your password as you'll need it later on for installing packages:</p>
+
+<p class="bordered-image">
+  <img src="https://s3.amazonaws.com/quantstartmedia/images/qs-python-ubuntu-install-0018.png"><br>
+  <strong>Enter your username and password (this password is the administrator password)</strong>
+</p>
+
+<p>Ubuntu will now install the files. It should be relatively quick as it is just copying from the hard disk to the hard disk! Eventually it will complete and the VirtualBox will restart. If it doesn't restart on its own, you can go to the menu and force a Shutdown. You will be brought back to the Ubuntu Login Screen:</p>
+
+<p class="bordered-image">
+  <img src="https://s3.amazonaws.com/quantstartmedia/images/qs-python-ubuntu-install-0019.png"><br>
+  <strong>The Ubuntu Desktop login screen</strong>
+</p>
+
+<p>Login with your username and password from above and you will see your shiny new Ubuntu desktop:</p>
+
+<p class="bordered-image">
+  <img src="https://s3.amazonaws.com/quantstartmedia/images/qs-python-ubuntu-install-0020.png"><br>
+  <strong>The Unity interface to the Ubuntu Desktop after logging in</strong>
+</p>
+
+<p>The last thing to do is click on the Firefox icon to test that the internet/networking functionality is correct by visiting a website (I picked QuantStart.com, funnily enough!):</p>
+
+<p class="bordered-image">
+  <img src="https://s3.amazonaws.com/quantstartmedia/images/qs-python-ubuntu-install-0021.png"><br>
+  <strong>The Ubuntu Desktop login screen</strong>
+</p>
+
+<p>Now that the Ubuntu Desktop is installed we can begin installing the algorithmic trading research environment packages.</p>
+
+<h2>Installing the Python Research Environment Packages on Ubuntu</h2>
+
+<p>Click on the search button at the top-left of the screen and type "Terminal" into the box to bring up the command-line interface. Double-click the terminal icon to launch the Terminal:</p>
+
+<p class="bordered-image">
+  <img src="https://s3.amazonaws.com/quantstartmedia/images/qs-python-ubuntu-install-0022.png"><br>
+  <strong>The Ubuntu Desktop login screen</strong>
+</p>
+
+<p>All subsequent commands will need to be typed into this terminal.</p>
+
+<p>The first thing to do on any brand new Ubuntu Linux system is to <em>update</em> and <em>upgrade</em> the packages. The former tells Ubuntu about new packages that are available, while the latter actually performs the process of replacing older packages with newer versions. Run the following commands (you will be prompted for your passwords):</p>
+
+<pre>
+<code class="language-bash">sudo apt-get -y update
+sudo apt-get -y upgrade</code>
+</pre>
+
+<p><em>Note that the -y prefix tells Ubuntu that you want to accept 'yes' to all yes/no questions. "sudo" is a Ubuntu/Debian Linux command that allows other commands to be executed with administrator privileges. Since we are installing our packages sitewide, we need 'root access' to the machine and thus must make use of 'sudo'.</em></p>
+
+<p>You may get an error message here:</p>
+
+<pre>
+<code class="language-none">E: Could not get lock /var/lib/dpkg/lock - open (11: Resource temporarily unavailable)</code>
+</pre>
+
+<p>To remedy it just run "sudo apt-get -y update" again or take a look at this site for additional commands to run in case the first does not work (<a href="http://penreturns.rc.my/2012/02/could-not-get-lock-varlibaptlistslock.html">http://penreturns.rc.my/2012/02/could-not-get-lock-varlibaptlistslock.html</a>).</p>
+
+<p>Once both of those updating commands have been successfully executed we now need to install Python, NumPy/SciPy, matplotlib, pandas, scikit-learn and IPython. We will start by installing the Python development packages and compilers needed to compile all of the software:</p>
+
+<pre>
+<code class="language-bash">sudo apt-get install python-pip python-dev python2.7-dev build-essential liblapack-dev libblas-dev</code>
+</pre>
+
+<p>Once the necessary packages are installed we can go ahead and install NumPy via pip, the Python package manager. Pip will download a zip file of the package and then compile it from the source code for us. Bear in mind that it will take some time to compile, probably 10-20 minutes!</p>
+
+<pre>
+<code class="language-bash">sudo pip install numpy</code>
+</pre>
+
+<p>Once NumPy has been installed we need to check that it works before proceeding. If you look in the terminal you'll see your username followed by your computer name. In my case it is <code>mhallsmoore@algobox</code>, which is followed by the prompt. At the prompt type <code>python</code> and then try importing NumPy. We will test that it works by calculating the mean average of a list:</p>
+
+<pre>
+<code class="language-none">mhallsmoore@algobox:~$ python
+Python 2.7.4 (default, Sep 26 2013, 03:20:26)
+[GCC 4.7.3] on linux2
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import numpy
+>>> from numpy import mean
+>>> mean([1,2,3])
+2.0
+>>> exit()</code>
+</pre>
+
+<p>Now that NumPy has been successfully installed we want to install the Python Scientific library known as SciPy. However it has a few package dependencies of its own including the ATLAS library and the GNU Fortran compiler:</p>
+
+<pre>
+<code class="language-bash">sudo apt-get install libatlas-base-dev gfortran</code>
+</pre>
+
+<p>We are ready to install SciPy now, with pip. This will take quite a long time (approx 20 minutes, depending upon your computer) so it might be worth going and grabbing a coffee:</p>
+
+<pre>
+<code class="language-bash">sudo pip install scipy</code>
+</pre>
+
+<p>Phew! SciPy has now been installed. Let's test it out by calculating the standard deviation of a list of integers:</p>
+
+<pre>
+<code class="language-none">mhallsmoore@algobox:~$ python
+Python 2.7.4 (default, Sep 26 2013, 03:20:26)
+[GCC 4.7.3] on linux2
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import scipy
+>>> from scipy import std
+>>> std([1,2,3])
+0.81649658092772603
+>>> exit()</code>
+</pre>
+
+<p>Next we need to install the dependency packages for matplotlib, the Python graphing library. Since matplotlib is a Python package, we cannot use pip to install the underlying libraries for working with PNGs, JPEGs and freetype fonts, so we need Ubuntu to install them for us:</p>
+
+<pre>
+<code class="language-bash">sudo apt-get install libpng-dev libjpeg8-dev libfreetype6-dev</code>
+</pre>
+
+<p>Now we can install matplotlib:</p>
+
+<pre>
+<code class="language-bash">sudo pip install matplotlib</code>
+</pre>
+
+<p>We're now going to install the data analysis and machine learning libraries <em>pandas</em> and <em>scikit-learn</em>. We don't need any additional dependencies at this stage as they're covered by NumPy and SciPy:</p>
+
+<pre>
+<code class="language-bash">sudo pip install -U scikit-learn
+sudo pip install pandas</code>
+</pre>
+
+<p>We should test scikit-learn:</p>
+
+<pre>
+<code class="language-none">mhallsmoore@algobox:~$ python
+Python 2.7.4 (default, Sep 26 2013, 03:20:26)
+[GCC 4.7.3] on linux2
+Type "help", "copyright", "credits" or "license" for more information.
+>>> from sklearn import datasets
+>>> iris = datasets.load_iris()
+>>> iris
+..
+..
+'petal width (cm)']}
+>>></code>
+</pre>
+
+<p>In addition, we should also test pandas:</p>
+
+<pre>
+<code class="language-bash">>>> from pandas import DataFrame
+>>> pd = DataFrame()
+>>> pd
+Empty DataFrame
+Columns: []
+Index: []
+>>> exit()</code>
+</pre>
+
+<p>Finally, we want to instal IPython. This is an interactive Python interpreter that provides a significantly more streamlined workflow compared to using the standard Python console. In later tutorials I will outline the full usefulness of IPython for algorithmic trading development:</p>
+
+<pre>
+<code class="language-bash">sudo pip install ipython</code>
+</pre>
+
+<p>While IPython is sufficiently useful on its own, it can be made even more powerful by including the <em>qtconsole</em>, which provides the ability to inline matplotlib visualisations. However, it takes a little bit more work to get this up and running.</p>
+
+<p>First, we need to install the the <a href="http://qt-project.org/downloads">Qt library</a>. For this you may need to update your packages again (I did!):</p>
+
+<pre>
+<code class="language-bash">sudo apt-get update</code>
+</pre>
+
+<p>Now we can install Qt:</p>
+
+<pre>
+<code class="language-bash">sudo apt-get install libqt4-core libqt4-gui libqt4-dev</code>
+</pre>
+
+<p>The qtconsole has a few additional packages, namely the ZMQ and Pygments libraries:</p>
+
+<pre>
+<code class="language-bash">sudo apt-get install libzmq-dev
+sudo pip install pyzmq
+sudo pip install pygments</code>
+</pre>
+
+<p>Finally we are ready to launch IPython with the qtconsole:</p>
+
+<pre>
+<code class="language-bash">ipython qtconsole --pylab=inline</code>
+</pre>
+
+<p>Then we can make a (rather simple!) plot by typing the following commands (I've included the IPython numbered input/outut which you do not need to type):</p>
+
+<pre>
+<code class="language-python">In [1]: x=np.array([1,2,3])
+
+In [2]: plot(x)
+Out[2]: [&lt;matplotlib.lines.Line2D at 0x392a1d0&gt;]</code>
+</pre>
+
+<p>This produces the following inline chart:</p>
+
+<p class="bordered-image">
+  <img src="https://s3.amazonaws.com/quantstartmedia/images/qs-python-ubuntu-install-0023.png"><br>
+  <strong>IPython with qtconsole displaying an inline chart</strong>
+</p>
+
+<p>That's it for the installation procedure. We now have an extremely robust, efficient and interactive algorithmic trading research environment at our fingertips. In subsequent articles I will be detailing how IPython, matplotlib, pandas and scikit-learn can be combined to successfully research and backtest quantitative trading strategies in a straightforward manner.</p>
+        
+        
+        <script async data-uid="6296c27f4b" src="https://weathered-brook-5281.ck.page/6296c27f4b/index.js"></script>
+      </section>
+    </div>
+    <div class="col-md-4 book-card order-md-1">
+      
+<div class="sidebar-advert-container">
+  <a href="/qsalpha/?ref=art">
+    <img class="card-img-top" src="/static/images/qsalpha-sidebar-advert-small.png" alt="QSAlpha">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/qsalpha/?ref=art">QSAlpha</a></h3>
+      <p class="card-text medium-text mb-3">Join the QSAlpha research platform that helps fill your strategy research pipeline, diversifies your portfolio and improves your risk-adjusted returns for increased profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/qsalpha/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/quantcademy/?ref=art">
+    <img class="card-img-top" src="/static/images/quantcademy-sidebar-advert-small.png" alt="Quantcademy">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/quantcademy/?ref=art">The Quantcademy</a></h3>
+      <p class="card-text medium-text mb-3">Join the Quantcademy membership portal that caters to the rapidly-growing retail quant trader community and learn how to increase your strategy profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/quantcademy/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/successful-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/sat-sidebar-advert-small.png" alt="Successful Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to find new trading strategy ideas and objectively assess them for your portfolio using a Python-based backtesting engine.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/successful-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/advanced-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/aat-sidebar-advert-small.png" alt="Advanced Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to implement advanced trading strategies using time series analysis, machine learning and Bayesian statistics with R and Python.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/advanced-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+    
+
+<footer>
+  <div class="container container-full">
+    <section class="mt-1.5 mb-1">
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">QuantStart</li>
+            <li class="footer-list-link"><a class="link-fade" href="/about/">About</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/articles/">Articles</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/sitemap/">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Products</li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qsalpha/">QSAlpha</a></li>
+            
+            
+            <li class="footer-list-link"><a class="link-fade" href="/quantcademy/">Quantcademy</a></li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qstrader/">QSTrader</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Legal</li>
+            <li class="footer-list-link"><a class="link-fade" href="/privacy-policy/">Privacy Policy</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/terms-and-conditions/">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Social</li>
+            <li class="footer-list-link"><a class="link-fade" href="https://twitter.com/quantstart">Twitter</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="https://www.youtube.com/channel/UCmVnnZ6Y2TrJtY1eQJN6kWA">YouTube</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="row mb-1.5 mt-5">
+      <div class="col-12 col-md-9 col-lg-8 col-xl-6">
+        <div class="footer-copyright">
+          <p>©2012-2023 QuarkGluon Ltd. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+<script src="/static/js/jquery-3.2.1.min.js"></script>
+<script src="/static/js/prism.js.min"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/nav.js"></script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5383959-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+    
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="/static/js/highcharts/highcharts.js"></script>
+<script type="text/javascript">
+  num_colours = 10;
+</script>
+<script src="/static/js/statistics.js"></script>
+
+
+  </body>
+</html>

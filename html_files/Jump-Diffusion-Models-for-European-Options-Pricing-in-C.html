@@ -1,0 +1,485 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-site-verification" content="wl3-8ed1QZjI0iYZMv10zoZWYElkMObTfwLlWIj9cpA" />
+    <meta name="description" content="Jump-Diffusion Models for European Options Pricing in C++">
+
+    <link rel="icon" href="/static/images/favicon.png">
+
+    <title>Jump-Diffusion Models for European Options Pricing in C++ | QuantStart</title>
+    
+    
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet"> 
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/prism.css" rel="stylesheet">
+<link href="/static/css/qs.css?v=10" rel="stylesheet">
+    
+  </head>
+
+  <body>
+    <header class="header covered-header" style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://quantstartmedia.s3.amazonaws.com/images/article-images/article-backgrounds/cpp.jpg);">
+  
+<nav class="nav">
+  <div class="container nav-container">
+    <div class="nav-row row d-flex justify-content-between align-items-center">
+      <div class="col-2">
+        <ul class="nav-items justify-content-end small-capitals align-items-center">
+          <li class="nav-item">
+            <a class="link-fade" href="/">QuantStart</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-auto col-logo">
+        <ul id="top-nav-menu" class="nav-items justify-content-end align-items-center">
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/qsalpha/">QSAlpha</a>
+          </li>
+          
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/quantcademy/">Quantcademy</a>
+          </li>
+          
+          <li id="menu-link-ebooks" class="nav-item">
+            <a class="link-fade" href="#">Books</a>
+            <div id="menu-pane-ebooks" class="nav-items menu-dropdown-pane">
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/qstrader/">QSTrader</a>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/articles/">Articles</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/members/login/">Login</a>
+          </li>
+          
+        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<nav id="mobile-nav" class="mobile-nav text-left">
+  <div class="container">
+    <ul class="mt-4 ml-3 mobile-nav-menu">
+      <li class="nav-item">
+        <a class="link-fade d-block" href="/">QuantStart</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qsalpha/">QSAlpha</a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/quantcademy/">Quantcademy</a>
+      </li>
+      
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="#">Books</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qstrader/">QSTrader</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/articles/">Articles</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/members/login/">Login</a>
+      </li>
+      
+    </ul>
+    <button class="nav-toggle mobile-nav-close">
+      <svg id="mobile-nav-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M19.77,5.63,13.41,12l6.36,6.37a1,1,0,0,1-1.41,1.41L12,13.41,5.63,19.77a1,1,0,0,1-1.44-1.39l0,0L10.58,12,4.21,5.63a1,1,0,0,1,0-1.42,1,1,0,0,1,1.41,0l0,0L12,10.58l6.37-6.37a1,1,0,0,1,1.41,0A1,1,0,0,1,19.77,5.63Z"></path>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+  <div class="container hero-container">
+    <section class="mt-5 mb-4">
+      <div class="row justify-content-center">
+        <div class="col-12 text-center">
+          <p class="hero">Jump-Diffusion Models for European Options Pricing in C++</p>
+          <p class="hero subhero">Jump-Diffusion Models for European Options Pricing in C++</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</header>
+    
+<section class="container content-container">
+  <div class="row">
+    <div class="col-md-8 order-md-2">
+      <section class="content article-content">
+        
+        
+        <p>As with the previous article on the <a href="http://quantstart.com/articles/Heston-Stochastic-Volatility-Model-with-Euler-Discretisation-in-C">Heston Stochastic Volatility model</a>, this article will deal with another assumption of the Black-Scholes model and how to improve it. In the Black-Scholes model the stock price evolves as a <a href="http://quantstart.com/articles/Geometric-Brownian-Motion">geometric Brownian motion</a>. Crucially, this allows continuous Delta hedging and thus a fixed no-arbitrage price for any option on the stock.</p>
+
+<p>If we relax the assumption of GBM and introduce the concept of discontinuous jumps in the stock price then it becomes impossible to perfectly hedge and leads to <em>market incompleteness</em>. This means that options prices are only <em>bounded</em> rather than fixed. In this article we will consider the effect on options prices when such jumps occur and implement a semi-closed form pricer in C++ based on the analytical formula derived by Merton<sup><a href="#merton">[2]</a></sup>.</p>
+
+<h2>Modelling Jump-Diffusion Processes</h2>
+
+<p><em>This section closely follows the chapter on Jump Diffusions in Joshi<sup><a href="#joshi">[1]</a></sup>, where more theoretical details are provided.</em></p>
+
+<p>In order to model such stock "jumps" we require certain properties. Firstly, the jumps should occur in an instantaneous fashion, neglecting the possibility of a Delta hedge. Secondly, we require that the probability of any jump occuring in a particular interval of time should be approximately proportional to the length of that time interval. The statistical method that models such a situation is given by the Poisson process<sup><a href="#joshi">[1]</a></sup>.</p>
+
+<p>A Poisson process states the probability of an event occuring in a given time interval $\Delta t$ is given by $\lambda \Delta t + \epsilon$, where $\lambda$ is the <em>intensity</em> of the process and $\epsilon$ is an error term. The integer-valued number of events that have occured at time $t$ is given by $N(t)$. A necessary property is that the probability of a jump occuring is independent of the number of jumps already occured, i.e. all future jumps should have no "memory" of past jumps. The probability of $j$ jumps occuring by time $t$ is given by:</p>
+
+\begin{eqnarray}
+\mathbb{P}(N(t)=j) = \frac{(\lambda t)^j}{j!} e^{-\lambda t}
+\end{eqnarray}
+
+<p>Thus, we simply need to modify our underlying GBM model for the stock via the addition of jumps. This is achieved by allowing the stock price to be multiplied by a random factor $J$:</p>
+
+\begin{eqnarray}
+d S_t = \mu S_t dt + \sigma S_t dW_t + (J-1) S_t dN(t)
+\end{eqnarray}
+
+<p>Where dN(t) is Poisson distributed with factor $\lambda dt$.</p>
+
+<h2>Prices of European Options under Jump-Diffusions</h2>
+
+<p>After an appropriate application of risk neutrality<sup><a href="#joshi">[1]</a></sup> we have that $\log S_T$, the log of the final price of the stock at option expiry, is given by:</p>
+
+\begin{eqnarray}
+\log(S_T) = \log(S_0) + \left( \mu + \frac{1}{2} \sigma^2 \right)T + \sigma \sqrt{T} N(0,1) + \sum_{j=1}^{N(T)} log J_j
+\end{eqnarray}
+
+<p>This is all we need to price European options under a Monte Carlo framework. To carry this out we simply generate multiple final spot prices by drawing from a normal distribution and a Poisson distribution, and then selecting the $J_j$ values to form the jumps. However, this is somewhat unsatisfactory as we are specifically choosing the $J_j$ values for the jumps. Shouldn't they themselves also be random variables distributed in some manner?</p>
+
+<p>In 1976, Robert Merton<sup><a href="#merton">[2]</a></sup> was able to derive a semi-closed form solution for the price of European options where the jump values are themselves normally distributed. If the price of an option priced under Black-Scholes is given by $BS(S_0,\sigma,r,T,K)$ with $S_0$ initial spot, $\sigma$ constant volatility, $r$ constant risk-free rate, $T$ time to maturity and $K$ strike price, then in the jump-diffusion framework the price is given by<sup><a href="#joshi">[1]</a></sup>:</p>
+
+\begin{eqnarray}
+\sum^{\infty}_{n=0} \frac{e^{-\lambda ' T}(\lambda ' T)^n}{n!} BS(S_0, \sigma_n, r_n, T, K)
+\end{eqnarray}
+
+<p>Where</p>
+
+\begin{eqnarray}
+\sigma_n &=& \sqrt{\sigma^2 + n \nu^2 / T} \\
+r_n &=& r - \lambda(m - 1) + n \log m / T \\ 
+\lambda ' &=& \lambda m
+\end{eqnarray}
+
+<p>The extra parameters $\nu$ and $m$ represent the standard deviation of the lognormal jump process and the scale factor for jump intensity, respectively.</p>
+
+<h2>C++ Implementation</h2>
+
+<p>We will avoid a fully-fledged object-oriented approach for this model as it extends simply the <a href="http://quantstart.com/articles/European-vanilla-option-pricing-with-C-and-analytic-formulae">analytical pricing of European call options</a> quite straightforwardly. Below is the code in its entirety. The major change includes the calculation of the factorial within the summation loop and the weighted sum of the Black-Scholes prices:</p>
+
+<pre>
+<code class="language-cpp">#define _USE_MATH_DEFINES
+
+#include &lt;iostream&gt;
+#include &lt;cmath&gt;
+
+// Standard normal probability density function
+double norm_pdf(const double x) {
+    return (1.0/(pow(2*M_PI,0.5)))*exp(-0.5*x*x);
+}
+
+// An approximation to the cumulative distribution function
+// for the standard normal distribution
+// Note: This is a recursive function
+double norm_cdf(const double x) {
+    double k = 1.0/(1.0 + 0.2316419*x);
+    double k_sum = k*(0.319381530 + k*(-0.356563782 + k*(1.781477937 + k*(-1.821255978 + 1.330274429*k))));
+
+    if (x &gt;= 0.0) {
+        return (1.0 - (1.0/(pow(2*M_PI,0.5)))*exp(-0.5*x*x) * k_sum);
+    } else {
+        return 1.0 - norm_cdf(-x);
+    }
+}
+
+// This calculates d_j, for j in {1,2}. This term appears in the closed
+// form solution for the European call or put price
+double d_j(const int j, const double S, const double K, const double r, const double v, const double T) {
+    return (log(S/K) + (r + (pow(-1,j-1))*0.5*v*v)*T)/(v*(pow(T,0.5)));
+}
+
+// Calculate the European vanilla call price based on
+// underlying S, strike K, risk-free rate r, volatility of
+// underlying sigma and time to maturity T
+double bs_call_price(const double S, const double K, const double r, 
+    const double sigma, const double T) {
+    return S * norm_cdf(d_j(1, S, K, r, sigma, T))-K*exp(-r*T) * 
+        norm_cdf(d_j(2, S, K, r, sigma, T));
+}
+
+// Calculate the Merton jump-diffusion price based on 
+// a finite sum approximation to the infinite series
+// solution, making use of the BS call price.
+double bs_jd_call_price(const double S, const double K, const double r, 
+    const double sigma, const double T, const int N, const double m, 
+    const double lambda, const double nu) {
+  double price = 0.0;  // Stores the final call price
+  double factorial = 1.0;
+
+  // Pre-calculate as much as possible
+  double lambda_p = lambda * m;
+  double lambda_p_T = lambda_p * T;
+
+  // Calculate the finite sum over N terms
+  for (int n=0; n&lt;N; n++) {
+    double sigma_n = sqrt(sigma*sigma + n*nu*nu/T);
+    double r_n = r - lambda*(m - 1) + n*log(m)/T;
+
+    // Calculate n!
+    if (n == 0) {
+      factorial *= 1;
+    } else {
+      factorial *= n;
+    }
+    
+    // Refine the jump price over the loop
+    price += ((exp(-lambda_p_T) * pow(lambda_p_T,n))/factorial) * 
+      bs_call_price(S, K, r_n, sigma_n, T);  
+  }
+
+  return price;
+}
+
+int main(int argc, char **argv) {
+    // First we create the parameter list
+    double S = 100.0;     // Option price
+    double K = 100.0;     // Strike price
+    double r = 0.05;      // Risk-free rate (5%)
+    double v = 0.2;       // Volatility of the underlying (20%)
+    double T = 1.0;       // One year until expiry
+    int N = 50;           // Terms in the finite sum approximation
+    double m = 1.083287;  // Scale factor for J
+    double lambda = 1.0;  // Intensity of jumps
+    double nu = 0.4;      // Stdev of lognormal jump process
+ 
+    // Then we calculate the call jump-diffusion value
+    double call_jd = bs_jd_call_price(S, K, r, v, T, N, m, lambda, nu);
+    std::cout &lt;&lt; "Call Price under JD:      " &lt;&lt; call_jd &lt;&lt; std::endl;
+
+    return 0;
+}</code>
+</pre>
+
+<p>The output from the code is:</p>
+
+<pre>
+<code class="language-none">Call Price under JD:      18.7336</code>
+</pre>
+
+<p>We can clearly see that in comparison to the Black-Scholes price of $10.4506$ given in <a href="http://quantstart.com/articles/European-vanilla-option-pricing-with-C-and-analytic-formulae">this article</a>, the value of the call under the jump diffusion process is much higher. This is to be expected since the jumps introduce extra volatility into the model.</p>
+
+<p>In the next article we will consider the pricing of exotic options in a fully object-oriented environment using jump diffusion models.</p>
+
+<h2>References</h2>
+
+<ul>
+  <li><a name="joshi">[1]</a> - Joshi, M. S., <em>The Concepts and Practice of Mathematical Finance</em>, Cambridge University Press, 2003</li>
+  <li><a name="merton">[2]</a> - Merton, R., <em>Option pricing when the underlying stock returns are discontinuous</em>, Journal of Financial Economics, 3, 1976, 125-44</li>
+</ul>
+        
+        
+        <script async data-uid="6296c27f4b" src="https://weathered-brook-5281.ck.page/6296c27f4b/index.js"></script>
+      </section>
+    </div>
+    <div class="col-md-4 book-card order-md-1">
+      
+<div class="sidebar-advert-container">
+  <a href="/qsalpha/?ref=art">
+    <img class="card-img-top" src="/static/images/qsalpha-sidebar-advert-small.png" alt="QSAlpha">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/qsalpha/?ref=art">QSAlpha</a></h3>
+      <p class="card-text medium-text mb-3">Join the QSAlpha research platform that helps fill your strategy research pipeline, diversifies your portfolio and improves your risk-adjusted returns for increased profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/qsalpha/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/quantcademy/?ref=art">
+    <img class="card-img-top" src="/static/images/quantcademy-sidebar-advert-small.png" alt="Quantcademy">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/quantcademy/?ref=art">The Quantcademy</a></h3>
+      <p class="card-text medium-text mb-3">Join the Quantcademy membership portal that caters to the rapidly-growing retail quant trader community and learn how to increase your strategy profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/quantcademy/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/successful-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/sat-sidebar-advert-small.png" alt="Successful Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to find new trading strategy ideas and objectively assess them for your portfolio using a Python-based backtesting engine.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/successful-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/advanced-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/aat-sidebar-advert-small.png" alt="Advanced Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to implement advanced trading strategies using time series analysis, machine learning and Bayesian statistics with R and Python.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/advanced-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+    
+
+<footer>
+  <div class="container container-full">
+    <section class="mt-1.5 mb-1">
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">QuantStart</li>
+            <li class="footer-list-link"><a class="link-fade" href="/about/">About</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/articles/">Articles</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/sitemap/">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Products</li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qsalpha/">QSAlpha</a></li>
+            
+            
+            <li class="footer-list-link"><a class="link-fade" href="/quantcademy/">Quantcademy</a></li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qstrader/">QSTrader</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Legal</li>
+            <li class="footer-list-link"><a class="link-fade" href="/privacy-policy/">Privacy Policy</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/terms-and-conditions/">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Social</li>
+            <li class="footer-list-link"><a class="link-fade" href="https://twitter.com/quantstart">Twitter</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="https://www.youtube.com/channel/UCmVnnZ6Y2TrJtY1eQJN6kWA">YouTube</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="row mb-1.5 mt-5">
+      <div class="col-12 col-md-9 col-lg-8 col-xl-6">
+        <div class="footer-copyright">
+          <p>©2012-2023 QuarkGluon Ltd. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+<script src="/static/js/jquery-3.2.1.min.js"></script>
+<script src="/static/js/prism.js.min"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/nav.js"></script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5383959-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+    
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="/static/js/highcharts/highcharts.js"></script>
+<script type="text/javascript">
+  num_colours = 10;
+</script>
+<script src="/static/js/statistics.js"></script>
+
+
+  </body>
+</html>

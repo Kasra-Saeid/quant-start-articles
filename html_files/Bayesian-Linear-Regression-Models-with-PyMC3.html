@@ -1,0 +1,911 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-site-verification" content="wl3-8ed1QZjI0iYZMv10zoZWYElkMObTfwLlWIj9cpA" />
+    <meta name="description" content="Bayesian Linear Regression Models with PyMC3">
+
+    <link rel="icon" href="/static/images/favicon.png">
+
+    <title>Bayesian Linear Regression Models with PyMC3 | QuantStart</title>
+    
+    
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet"> 
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/prism.css" rel="stylesheet">
+<link href="/static/css/qs.css?v=10" rel="stylesheet">
+    
+  </head>
+
+  <body>
+    <header class="header covered-header" style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://quantstartmedia.s3.amazonaws.com/images/article-images/article-backgrounds/default-bg.jpg);">
+  
+<nav class="nav">
+  <div class="container nav-container">
+    <div class="nav-row row d-flex justify-content-between align-items-center">
+      <div class="col-2">
+        <ul class="nav-items justify-content-end small-capitals align-items-center">
+          <li class="nav-item">
+            <a class="link-fade" href="/">QuantStart</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-auto col-logo">
+        <ul id="top-nav-menu" class="nav-items justify-content-end align-items-center">
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/qsalpha/">QSAlpha</a>
+          </li>
+          
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/quantcademy/">Quantcademy</a>
+          </li>
+          
+          <li id="menu-link-ebooks" class="nav-item">
+            <a class="link-fade" href="#">Books</a>
+            <div id="menu-pane-ebooks" class="nav-items menu-dropdown-pane">
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/qstrader/">QSTrader</a>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/articles/">Articles</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/members/login/">Login</a>
+          </li>
+          
+        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<nav id="mobile-nav" class="mobile-nav text-left">
+  <div class="container">
+    <ul class="mt-4 ml-3 mobile-nav-menu">
+      <li class="nav-item">
+        <a class="link-fade d-block" href="/">QuantStart</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qsalpha/">QSAlpha</a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/quantcademy/">Quantcademy</a>
+      </li>
+      
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="#">Books</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qstrader/">QSTrader</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/articles/">Articles</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/members/login/">Login</a>
+      </li>
+      
+    </ul>
+    <button class="nav-toggle mobile-nav-close">
+      <svg id="mobile-nav-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M19.77,5.63,13.41,12l6.36,6.37a1,1,0,0,1-1.41,1.41L12,13.41,5.63,19.77a1,1,0,0,1-1.44-1.39l0,0L10.58,12,4.21,5.63a1,1,0,0,1,0-1.42,1,1,0,0,1,1.41,0l0,0L12,10.58l6.37-6.37a1,1,0,0,1,1.41,0A1,1,0,0,1,19.77,5.63Z"></path>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+  <div class="container hero-container">
+    <section class="mt-5 mb-4">
+      <div class="row justify-content-center">
+        <div class="col-12 text-center">
+          <p class="hero">Bayesian Linear Regression Models with PyMC3</p>
+          <p class="hero subhero">Bayesian Linear Regression Models with PyMC3</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</header>
+    
+<section class="container content-container">
+  <div class="row">
+    <div class="col-md-8 order-md-2">
+      <section class="content article-content">
+        
+        
+        <p><em>Updated to Python 3.8 June 2022</em></p>
+
+<p>To date on QuantStart we have <a href="https://www.quantstart.com/articles/Bayesian-Statistics-A-Beginners-Guide" target="blank" rel="noopener norefferer">introduced Bayesian statistics</a>, <a href="https://www.quantstart.com/articles/Bayesian-Inference-of-a-Binomial-Proportion-The-Analytical-Approach" target="blank" rel="noopener norefferer">inferred a binomial proportion analytically with conjugate priors</a> and have <a href="https://www.quantstart.com/articles/Markov-Chain-Monte-Carlo-for-Bayesian-Inference-The-Metropolis-Algorithm" target="blank" rel="noopener norefferer">described the basics of Markov Chain Monte Carlo</a> via the Metropolis algorithm. In this article we are going to introduce regression modelling in the Bayesian framework and carry out inference using the <a href="https://www.pymc.io/welcome.html" target="blank" rel="noopener norefferer">PyMC library</a>.</p>
+
+<figure>
+<img width="100%" src="https://quantstartmedia.s3.amazonaws.com/images/article-images/articles/Bayesian-Linear-Regression-Models-with-PyMC3/qs-bayesian-linear-regression.jpg" alt="Image of Bayesian Linear Regression in text book">
+</figure>
+
+<p>We will begin by recapping the classical, or frequentist, approach to multiple linear regression. Then we will discuss how a Bayesian thinks of linear regression. We will briefly describe the concept of a <a href="https://en.wikipedia.org/wiki/Generalized_linear_model" target="blank" rel="noopener norefferer">Generalised Linear Model</a> (GLM), as this is necessary to understand the clean syntax of model descriptions in PyMC.</p>
+
+<p>Subsequent to the description of these models we will simulate some linear data with noise and then use PyMC to produce posterior distributions for the parameters of the model. If you recall, this is the same procedure we carried out when discussing time series models such as <a href="https://www.quantstart.com/articles/Autoregressive-Moving-Average-ARMA-p-q-Models-for-Time-Series-Analysis-Part-3" target="blank" rel="noopener norefferer">ARMA</a> and <a href="https://www.quantstart.com/articles/Generalised-Autoregressive-Conditional-Heteroskedasticity-GARCH-p-q-Models-for-Time-Series-Analysis" target="blank" rel="noopener norefferer">GARCH</a>. This "simulate and fit" process not only helps us understand the model, but also checks that we are fitting it correctly when we know the "true" parameter values.</p>
+
+<p>Let's now turn our attention to the frequentist approach to linear regression.</p>
+
+<h2>Frequentist Linear Regression</h2>
+
+<p>The frequentist, or classical, approach to multiple linear regression assumes a model of the form (<a href="#ref-esl">Hastie et al</a>):</p>
+
+\begin{eqnarray}
+f \left( \mathbf{X} \right) = \beta_0 + \sum_{j=1}^p \mathbf{X}_j \beta_j + \epsilon = \beta^T \mathbf{X} + \epsilon
+\end{eqnarray}
+
+<p>Where, $\beta^T$ is the transpose of the coefficient vector $\beta$ and $\epsilon \sim \mathcal{N}(0,\sigma^2)$ is the measurement error, normally distributed with mean zero and standard deviation $\sigma$.</p>
+
+<p>That is, our model $f(\mathbf{X})$ is <em>linear</em> in the predictors, $\mathbf{X}$, with some associated measurement error.</p>
+
+<p>If we have a set of training data $(x_1, y_1), \ldots, (x_N, y_N)$ then the goal is to estimate the $\beta$ coefficients, which provide the best linear fit to the data. Geometrically, this means we need to find the orientation of the hyperplane that best linearly characterises the data.</p>
+
+<p>"Best" in this case means minimising some form of error function. The most popular method to do this is via <em>ordinary least squares</em> (OLS). If we define the <em>residual sum of squares</em> (RSS), which is the sum of the squared differences between the outputs and the linear regression estimates:</p>
+
+\begin{eqnarray}
+\text{RSS}(\beta) &=& \sum_{i=1}^{N} (y_i - f(x_i))^2 \\
+                  &=& \sum_{i=1}^{N} (y_i - \beta^T x_i)^2
+\end{eqnarray}
+
+<p>Then the goal of OLS is to minimise the RSS, via adjustment of the $\beta$ coefficients. Although we won't derive it here (see <a href="#ref-esl">Hastie et al</a> for details) the <em>Maximum Likelihood Estimate</em> of $\beta$, which minimises the RSS, is given by:</p>
+
+\begin{eqnarray}
+\hat{\beta} = (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{y}
+\end{eqnarray}
+
+<p>To make a subsequent prediction $y_{N+1}$, given some new data $x_{N+1}$, we simply multiply the components of $x_{N+1}$ by the associated $\beta$ coefficients and obtain $y_{N+1}$.</p>
+
+<p>The important point here is that $\hat{\beta}$ is a <em>point estimate</em>. This means that it is a single value in $\mathbb{R}^{p+1}$. In the Bayesian formulation we will see that the interpretation differs substantially.</p>
+
+<h2>Bayesian Linear Regression</h2>
+
+<p>In a Bayesian framework, linear regression is stated in a probabilistic manner. That is, we reformulate the above linear regression model to use probability distributions. The syntax for a linear regression in a Bayesian framework looks like this:</p>
+
+\begin{eqnarray}
+\mathbf{y} \sim \mathcal{N} \left(\beta^T \mathbf{X}, \sigma^2 \mathbf{I} \right)
+\end{eqnarray}
+
+<p>In words, our response datapoints $\mathbf{y}$ are sampled from a multivariate normal distribution that has a mean equal to the product of the $\beta$ coefficients and the predictors, $\mathbf{X}$, and a variance of $\sigma^2$. Here, $\mathbf{I}$ refers to the identity matrix, which is necessary because the distribution is multivariate.</p>
+
+<p>This is a very different formulation to the frequentist approach. In the frequentist setting there is no mention of probability distributions for anything other than the measurement error. In the Bayesian formulation the entire problem is recast such that the $y_i$ values are samples from a normal distribution.</p>
+
+<p>A common question at this stage is "What is the benefit of doing this?". What do we get out of this reformulation? There are two main reasons for doing so (<a href="#ref-wiecki">Wiecki</a>):</p>
+
+<ul>
+  <li><strong>Prior Distributions:</strong> If we have any prior knowledge about the parameters $\beta$, then we can choose prior distributions that reflect this. If we don't, then we can still choose <a href="https://en.wikipedia.org/wiki/Prior_probability#Uninformative_priors" target="blank" rel="noopener norefferer">non-informative priors</a>.</li> 
+  <li><strong>Posterior Distributions:</strong> As mentioned above, the frequentist MLE value for our regression coefficients, $\hat{\beta}$, was only a single point estimate. In the Bayesian formulation we receive an entire probability distribution that characterises our uncertainty on the different $\beta$ coefficients. The immediate benefit of this is that after taking into account any data we can quantify our uncertainty in the $\beta$ parameters via the variance of this posterior distribution. A larger variance indicates more uncertainty.</li>
+</ul>
+
+<p>While the above formula for the Bayesian approach may appear succinct, it doesn't really give us much clue as to how to <em>specify</em> a model and sample from it using Markov Chain Monte Carlo. In the next few sections we will use <a href=https://www.pymc.io/welcome.html" target="blank" rel="noopener norefferer">PyMC</a> to formulate and utilise a Bayesian linear regression model.</p>
+
+<h2>Bayesian Linear Regression with PyMC</h2>
+
+<p>In this section we are going to carry out a time-honoured approach to statistical examples, namely to simulate some data with properties that we know, and then fit a model to recover these original properties. I have used this technique many times in the past, principally in the <a href="https://www.quantstart.com/articles#time-series-analysis" target="blank" rel="noopener norefferer">articles on time series analysis</a>.</p>
+
+<p>While it may seem contrived to go through such a procedure, there are in fact two major benefits. The first is that it helps us understand exactly how to fit the model. In order to do so, we have to understand it first. Thus it helps us gain intuition into how the model works. The second reason is that it allows us to see how the model performs (i.e. the values and uncertainty it returns) in a situation where we actually know the true values trying to be estimated.</p>
+
+<p>Our approach will make use of <a href="https://www.numpy.org/" target="blank" rel="noopener norefferer">numpy</a> and <a href="https://pandas.pydata.org/" target="blank" rel="noopener norefferer">pandas</a> to simulate the data, use <a href="https://stanford.edu/~mwaskom/software/seaborn/" target="blank" rel="noopener norefferer">seaborn</a> to plot it, and ultimately use the <a href="https://en.wikipedia.org/wiki/Generalized_linear_model#Link_function" target="blank" rel="noopener norefferer">Generalised Linear Models</a> (GLM) module of PyMC to formulate a Bayesian linear regression and sample from it, on our simulated data set.</p>
+
+<p>The following analysis is based mainly on a collection of blog posts written by <a href="#ref-wiecki">Thomas Wiecki</a> and <a href="#ref-sedar">Jonathan Sedar</a>, along with more theoretical Bayesian underpinnings from <a href="#ref-bda3">Gelman et al</a>.</p>
+
+<h3>What are Generalised Linear Models?</h3>
+
+<p>Before we begin discussing Bayesian linear regression, I want to briefly outline the concept of a Generalised Linear Model (GLM), as we'll be using these to formulate our model in PyMC.</p>
+
+<p>A Generalised Linear Model is a flexible mechanism for extending ordinary linear regression to more general forms of regression, including logistic regression (classification) and Poisson regression (used for count data), as well as linear regression itself.</p>
+
+<P>GLMs allow for response variables that have error distributions other than the normal distribution (see $\epsilon$ above, in the frequentist section). The linear model is related to the response/outcome, $\mathbf{y}$, via a "link function", and is assumed to be generated from a statistical distribution from the <a href="https://en.wikipedia.org/wiki/Exponential_family" target="blank" rel="noopener norefferer">exponential distribution</a> family. This family of distributions encompasses many common distributions including the normal, gamma, beta, chi-squared, Bernoulli, Poisson and others.</p>
+
+<p>The mean of this distribution, $\mathbf{\mu}$ depends on $\mathbf{X}$ via the following relation:</p>
+
+\begin{eqnarray}
+\mathbb{E}(\mathbf{y}) = \mu = g^{-1}(\mathbf{X}\beta)
+\end{eqnarray}
+
+<p>Where $g$ is the link function. The variance is often some function, $V$, of the mean:</p>
+
+\begin{eqnarray}
+\text{Var}(\mathbf{y}) = V(\mathbb{E}(\mathbf{y})) = V(g^{-1}(\mathbf{X}\beta))
+\end{eqnarray}
+
+<p>In the frequentist setting, as with ordinary linear regression above, the unknown $\beta$ coefficients are estimated via a <a href="https://en.wikipedia.org/wiki/Maximum_likelihood" target="blank" rel="noopener norefferer">maximum likelihood</a> approach.</p>
+
+<p>We're not going to discuss GLMs in depth here as they are not the focus of the article. We <em>are</em> interested in them because we will be using the <code>glm</code> module from PyMC, which was <a href="#ref-wiecki">written by Thomas Wiecki</a> and others, in order to easily specify our Bayesian linear regression.</p>
+
+<h3>Simulating Data and Fitting the Model with PyMC</h3>
+
+<p>Before we utilise PyMC to specify and sample a Bayesian model, we need to simulate some noisy linear data. The following snippet carries this out (this is modified and extended from <a href="#ref-sedar">Jonathan Sedar's post</a>). First we create our x values, which are equally spaced floating point values between 0 and 1. To do this we can use <code>np.linspace()</code>. Then we use a linear model to simulate our y values with an intercept of 1 and a slope of 2. To create our noisy dataset we add a value, epsilon, to the values of y. These values are generated using numpy's <code>RandomState.normal()</code>, which draws random samples from a normal distribution. We set the mean or "loc" to be equal to 0 and the standard deviation or "scale" to be equal to 0.5. We also fix the random seed to ensure that we always draw the same set of numbers when we run the code.</p>
+
+<pre>
+<code class=language-python>import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+import seaborn as sns
+
+
+sns.set(style="darkgrid", palette="muted")
+
+
+def simulate_linear_data(
+    start, stop, N, beta_0, beta_1, eps_mean, eps_sigma_sq
+):
+    """
+    Simulate a random dataset using a noisy
+    linear process.
+
+    Parameters
+    ----------
+    N: `int`
+        Number of data points to simulate
+    beta_0: `float`
+        Intercept
+    beta_1: `float`
+        Slope of univariate predictor, X
+
+    Returns
+    -------
+    df: `pd.DataFrame`
+        A DataFrame containing the x and y values.
+    """
+    # Create a pandas DataFrame with column 'x' containing
+    # N uniformly sampled values between 0.0 and 1.0
+    df = pd.DataFrame(
+        {"x": 
+            np.linspace(start, stop, num=N)
+        }
+    )
+    # Use a linear model (y ~ beta_0 + beta_1*x + epsilon) to 
+    # generate a column 'y' of responses based on 'x'
+    df["y"] = beta_0 + beta_1*df["x"] + np.random.RandomState(s).normal(
+        eps_mean, eps_sigma_sq, N
+    )
+    return df
+
+
+def plot_simulated_data(df):
+    """
+    Plot the simulated data with sns.lmplot()
+
+    Parameters
+    ----------
+    df: `pd.DataFrame`
+        A DataFrame containing the x and y values.
+    """
+    # Plot the data, and a frequentist linear regression fit
+    # using the seaborn package
+    sns.lmplot(x="x", y="y", data=df, height=10)
+    plt.xlim(0.0, 1.0)
+    plt.show()
+
+
+if __name__ == "__main__":
+    # These are our "true" parameters
+    beta_0 = 1.0  # Intercept
+    beta_1 = 2.0  # Slope
+
+    # Simulate 100 data points between 0 and 1, with a variance of 0.5
+    start = 0
+    stop = 1
+    N = 100
+    eps_mean = 0.0
+    eps_sigma_sq = 0.5
+
+    # Fix Random Seed
+    s = 42
+
+    # Simulate the "linear" data using the above parameters
+    df = simulate_linear_data(
+        start, stop, N, beta_0, beta_1, eps_mean, eps_sigma_sq
+    )
+    # Plot the simulated data
+    plot_simulated_data(df)</code>
+</pre>
+
+<p>The output is given in the following figure:</p>
+
+<figure>
+  <img width="100%" alt="Simulation of noisy linear data via Numpy, pandas and seaborn" src="https://quantstartmedia.s3.amazonaws.com/images/article-images/articles/Bayesian-Linear-Regression-Models-with-PyMC3/qs-bayes-linear-model-sim.png"><br>
+  <figcaption>Simulation of noisy linear data via Numpy, pandas and seaborn</figcaption>
+</figure>
+
+<p>We've simulated 100 datapoints, with an intercept $\beta_0=1$ and a slope of $\beta_1=2$. The epsilon values are normally distributed with a mean of zero and variance $\sigma^2=\frac{1}{2}$. The data has been plotted using the <code>sns.lmplot</code> method. In addition, the method uses a frequentist MLE approach to fit a linear regression line to the data.</p>
+
+<p>Now that we have carried out the simulation we want to fit a Bayesian linear regression to the data. This is where PyMC's <code>glm</code> module comes in. In conjunction with the <a href="https://bambinos.github.io/bambi/main/index.html" target="blank" rel="noopener norefferer">Bambi</a> library as described in the <a href="https://www.pymc.io/projects/docs/en/latest/learn/core_notebooks/GLM_linear.html?highlight=glm%20patsy#glm-linear-regression" target="blank" rel="noopener norefferer">PyMC tutorial</a>, it uses a model specification syntax that is similar to how R specifies models. The bambi library takes a formula linear model specifier from which it creates a design matrix. bambi then adds random variables for each of the coefficients and an appopriate likelihood to the model. If bambi is not installed, you can install it with <code>pip install bambi</code>.</p>
+
+<p>Finally, we are going to use the No-U-Turn Sampler(NUTS) to carry out the actual inference and then plot the <em>trace</em> of the model. We will draw 5000 samples from the posterior distribution and use the first 500 samples to tune the model then discard them as "burn in". PyMC allows you to sample multiple chains based on the number of CPUs in your system. By default it is set to the number of cores in the system, here we have explicitly set it to one.</p>
+
+<pre>
+<code class=language-python># NEW
+import bambi as bmb
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+# NEW
+import pymc as pm
+import seaborn as sns
+
+...
+
+
+def glm_mcmc_inference(df, iterations=5000):
+    """
+    Calculates the Markov Chain Monte Carlo trace of
+    a Generalised Linear Model Bayesian linear regression 
+    model on supplied data.
+
+    Parameters
+    ----------
+    df: `pd.DataFrame`
+        DataFrame containing the data
+    iterations: `int`
+        Number of iterations to carry out MCMC for
+    """
+    # Create the glm using the Bambi model syntax
+    model = bmb.Model("y ~ x", df)
+
+    # Fit the model using a NUTS (No-U-Turn Sampler) 
+    trace = model.fit(
+        draws=5000,
+        tune=500,
+        discard_tuned_samples=True,
+        chains=1, 
+        progressbar=True)
+    return trace
+
+
+def plot_glm_model(trace):
+    """
+    Plot the trace generated from fitting the model. 
+
+    Parameters
+    ----------
+    trace: `tracepymc.backends.base.MultiTrace`
+        A MultiTrace or ArviZ InferenceData object that contains the samples.
+    """
+    pm.plot_trace(trace)
+    plt.tight_layout()
+    plt.show()
+
+
+if __name__ == "__main__":
+    # These are our "true" parameters
+    beta_0 = 1.0  # Intercept
+    beta_1 = 2.0  # Slope
+
+    # Simulate 100 data points between 0 and 1, with a variance of 0.5
+    start = 0
+    stop = 1
+    N = 100
+    eps_mean = 0.0
+    eps_sigma_sq = 0.5
+
+    # Fix Random Seed
+    s = 42
+
+    # Simulate the "linear" data using the above parameters
+    df = simulate_linear_data(
+        start, stop, N, beta_0, beta_1, eps_mean, eps_sigma_sq
+    )
+    # Plot the simulated data
+    plot_simulated_data(df)
+
+    # NEW
+    # Fit the GLM 
+    trace = glm_mcmc_inference(df, iterations=5000)
+    # Plot the GLM
+    plot_glm_model(trace))</code>
+</pre>
+
+<p>The output of the script is as follows:</p>
+
+<pre>
+<code class=language-none>Auto-assigning NUTS sampler...
+Initializing NUTS using jitter+adapt_diag...
+Multiprocess sampling (2 chains in 2 jobs)
+NUTS: [Intercept, x, y_sigma]
+[-----------------]Sampling 1 chains for 500 tune and 5_000 draw iterations (500 + 5_000 draws total) took 12 seconds.
+</code>
+</pre>
+
+<p>The traceplot is given in the following figure:</p>
+
+<figure>
+  <img width="100%" alt="Using PyMC3 to fit a Bayesian GLM linear regression model to simulated data" src="https://quantstartmedia.s3.amazonaws.com/images/article-images/articles/Bayesian-Linear-Regression-Models-with-PyMC3/qs-bayes-linear-model-traceplot.png" style="padding-bottom: 20px">
+  <figcaption>Using PyMC to fit a Bayesian GLM linear regression model to simulated data</figcaption>
+</figure>
+
+<p>We covered the basics of traceplots in the <a href="https://www.quantstart.com/articles/Markov-Chain-Monte-Carlo-for-Bayesian-Inference-The-Metropolis-Algorithm" target="blank" rel="noopener norefferer">previous article on the Metropolis MCMC algorithm</a>. Recall that Bayesian models provide a full posterior probability distribution for each of the model parameters, as opposed to a frequentist point estimate.</p>
+
+<p>On the left side of the panel we can see <em>marginal distributions</em> for each parameter of interest. Notice that the intercept $\beta_0$ distribution has its mode/maximum posterior estimate almost at 1, close to the true parameter of $\beta_0=1$. The estimate for the slope (x) $\beta_1$ parameter has a mode at approximately 2.1, close to the true parameter value of $\beta_1=2$. The y_sigma error parameter associated with the model measurement noise has a mode of approximately 0.46, which is a little off compared to the true value of $\epsilon=0.5$.</p>
+
+<p>In all cases there is a reasonable variance associated with each marginal posterior, telling us that there is some degree of uncertainty in each of the values. Were we to simulate more data, and carry out more samples, this variance would likely decrease.</p>
+
+<p>The key point here is that we do not receive a single point estimate for a regression line, i.e. "a line of best fit", as in the frequentist case. Instead we receive a <em>distribution</em> of likely regression lines.</p>
+
+<p>We can plot these lines along with the true regression line and the simulated data we created earlier. We begin by creating our figure where our x axis is a linearly spaced floating point number between 0 and 1 with 100 steps. We then plot our simulated data using Matplotlib's <code>plt.scatter</code> and our original DataFrame, df.</p>
+
+<p>We can access the numeric data for the posterior distributions from within the trace object created by the model. The trace inference data has the following groups; posterior, log_likelihood, sample_stats, observed_data. The posterior group contains the values of the 5000 draws from the posterior distributon of the intercept and slope (x). These arrays are of shape(1, 5000). The first value represents the number of chains, the second is the number of draws. This dataset also features a method <code>to_numpy()</code> which converts the data to a numpy array. So in order to get the values for the intercepts into an array that we can sample from and plot we need to use the following code: <code>trace.posterior.Intercept.to_numpy()[0]</code>. To get our slope data we do the same but replace Intercepts with x <code>trace.posterior.x.to_numpy()[0]</code>. We now have two arrays with the numeric values from the posterior distributions for our slopes and intercepts.</p>
+
+<p>In order to plot a sample of 100 lines we need to pick 100 of these values from our arrays. First we create a sample index list by creating a list of random integers using numpy's <code>random.randint()</code> method. Then we loop through the array with our index value and create a line using the intercept and slope, plotting the line on our graph. Finally we plot our true regression line using the beta_0 and beta_1 variables from our simulated data. The code snippet below produces such a plot:</p>
+
+<pre>
+<code class=language-python>..
+def plot_regression_lines(trace, df, N):
+    """
+    Plot the simulated data with true and estimated regression lines.
+
+    Parameters
+    ----------
+    trace: `tracepymc.backends.base.MultiTrace`
+        A MultiTrace or ArviZ InferenceData object that contains the samples.
+    df: `pd.DataFrame`
+        DataFrame containing the data
+    N: `int`
+        Number of data points to simulate
+    """
+    fig, ax = plt.subplots(figsize=(7, 7))
+    # define x axis ticks
+    x = np.linspace(0, 1, N)
+    # plot simulated data observations
+    ax.scatter(df['x'], df['y'])
+    # extract slope and intercept draws from PyMC trace
+    intercepts = trace.posterior.Intercept.to_numpy()[0]
+    slopes = trace.posterior.x.to_numpy()[0]
+    # plot 100 random samples from the slope and intercept draws
+    sample_indexes = np.random.randint(len(intercepts), size=100)
+    for i in sample_indexes:
+        y_line = intercepts[i] + slopes[i] * x
+        ax.plot(x, y_line, c='black', alpha=0.07)
+    # plot true regression line
+    y = beta_0 + beta_1*x
+    ax.plot(x, y, label="True Regression Line", lw=3., c="green")
+    ax.legend(loc=0)
+    ax.set_xlim(0.0, 1.0)
+    ax.set_ylim(0.0, 4.0)
+    plt.show()
+
+
+if __name__ == "__main__":
+    # These are our "true" parameters
+    beta_0 = 1.0  # Intercept
+    beta_1 = 2.0  # Slope
+
+    # Simulate 100 data points between 0 and 1, with a variance of 0.5
+    start = 0
+    stop = 1
+    N = 100
+    eps_mean = 0.0
+    eps_sigma_sq = 0.5
+
+    # Fix Random Seed
+    s = 42
+
+    # Simulate the "linear" data using the above parameters
+    df = simulate_linear_data(
+        start, stop, N, beta_0, beta_1, eps_mean, eps_sigma_sq
+    )
+    # Plot the simulated data
+    plot_simulated_data(df)
+
+    # Fit the GLM 
+    trace = glm_mcmc_inference(df, iterations=5000)
+    # Plot the GLM
+    plot_glm_model(trace)
+    # NEW
+    plot_regression_lines(trace, df, N)</code>
+</pre>
+
+<p>We can see the sampled range of posterior regression lines in the following figure:</p>
+
+<figure>
+  <img width="100%" alt="Using PyMC3 GLM module to show a set of sampled posterior regression lines" src="https://quantstartmedia.s3.amazonaws.com/images/article-images/articles/Bayesian-Linear-Regression-Models-with-PyMC3/qs-bayes-linear-model-post-samples.png">
+  <figcaption>Using PyMC3 GLM module to show a set of sampled posterior regression lines</figcaption>
+</figure>
+
+<p>The main takeaway here is that there is uncertainty in the location of the regression line as sampled by the Bayesian model. However, it can be seen that the range is relatively narrow and that the set of samples is not too dissimilar to the "true" regression line itself.</p>
+
+<h2>Next Steps</h2>
+
+<p>In the <a href="https://www.quantstart.com/articles/Markov-Chain-Monte-Carlo-for-Bayesian-Inference-The-Metropolis-Algorithm" target="blank" rel="noopener norefferer">previous article</a> we looked at a basic MCMC method called the Metropolis algorithm. We mentioned in that article that we wanted to see how various "flavours" of MCMC work "under the hood". In future articles we will consider the Gibbs Sampler, Hamiltonian Sampler and No-U-Turn Sampler, all of which are utilised in the main Bayesian software packages.</p>
+
+<p>We will eventually discuss <em>robust regression</em> and hierarchical linear models, a powerful modelling technique made tractable by rapid MCMC implementations. From a quantitative finance point of view we will also take a look at a stochastic volatility model using PyMC and see how we can use this model to form trading algorithms.</p>
+
+<h2>Bibliographic Note</h2>
+
+<p>An introduction to frequentist linear regression can be found in <a href="#ref-isl">James et al (2013)</a>. A more technical overview, including subset selection methods, can be found in <a href="#ref-esl">Hastie et al (2009)</a>. <a href="#ref-bda3">Gelman et al (2013)</a> discuss Bayesian linear models in depth at a reasonably technical level.</p>
+
+<p>This article is heavily influenced by previous blog posts by <a href="https://twiecki.io/" target="blank" rel="noopener norefferer">Thomas Wiecki</a> including his discussion of Bayesian GLMs <a href="https://twiecki.github.io/blog/2013/08/12/bayesian-glms-1/" target="blank" rel="noopener norefferer">here</a>, as well as <a href="https://sedar.co/" target="blank" rel="noopener norefferer">Jonathan Sedar's posts</a>.</p>
+
+<h2>References</h2>
+
+<ul>
+  <li><a name="ref-bda3" href="http://amzn.to/1S5sSyT">Gelman, A. et al (2013) <em>Bayesian Data Analysis, 3rd Edition</em>, Chapman and Hall/CRC</a></li>
+
+  <li><a name="ref-esl" href="http://statweb.stanford.edu/~tibs/ElemStatLearn/">Hastie, T., Tibshirani, R., Friedman, J. (2009) <em>The Elements of Statistical Learning</em>, Springer</a></li>
+
+  <li><a name="ref-hoffman-gelman" href="http://arxiv.org/pdf/1111.4246v1.pdf">Hoffman, M.D., and Gelman, A. (2011) "The No-U-Turn Sampler: Adaptively Setting Path Lengths in Hamiltonian Monte Carlo, <em>arXiv:1111.4246 [stat.CO]</em></a></li>
+
+  <li><a name="ref-isl" href="http://www-bcf.usc.edu/~gareth/ISL/">James, G., Witten, D., Hastie, T., Tibshirani, R. (2013) <em>An Introduction to Statistical Learning</em>, Springer</a></li>
+
+  <li><a name="ref-sedar" href="https://sedar.co/">Sedar, J. (2016) <em>Bayesian Inference with PyMC3 - Part 1</em></a></li>
+
+  <li><a name="ref-wiecki" href="https://twiecki.github.io/blog/2013/08/12/bayesian-glms-1/">Wiecki, T. (2015) <em>The Inference Button: Bayesian GLMs made easy with PyMC3</em>, https://twiecki.github.io/blog/2013/08/12/bayesian-glms-1/</a></li>
+</ul>
+
+<h2>Full Code</h2>
+
+<pre>
+<code class=language-python>import bambi as bmb
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+import pymc as pm
+import seaborn as sns
+
+
+sns.set(style="darkgrid", palette="muted")
+
+
+def simulate_linear_data(
+    start, stop, N, beta_0, beta_1, eps_mean, eps_sigma_sq
+):
+    """
+    Simulate a random dataset using a noisy
+    linear process.
+
+    Parameters
+    ----------
+    N: `int`
+        Number of data points to simulate
+    beta_0: `float`
+        Intercept
+    beta_1: `float`
+        Slope of univariate predictor, X
+
+    Returns
+    -------
+    df: `pd.DataFrame`
+        A DataFrame containing the x and y values
+    """
+    # Create a pandas DataFrame with column 'x' containing
+    # N uniformly sampled values between 0.0 and 1.0
+    df = pd.DataFrame(
+        {"x": 
+            np.linspace(start, stop, num=N)
+        }
+    )
+    # Use a linear model (y ~ beta_0 + beta_1*x + epsilon) to 
+    # generate a column 'y' of responses based on 'x'
+    df["y"] = beta_0 + beta_1*df["x"] + np.random.RandomState(s).normal(
+        eps_mean, eps_sigma_sq, N
+    )
+    return df
+
+
+def plot_simulated_data(df):
+    """
+    Plot the simulated data with sns.lmplot().
+
+    Parameters
+    ----------
+    df: `pd.DataFrame`
+        A DataFrame containing the x and y values
+    """
+    # Plot the data, and a frequentist linear regression fit
+    # using the seaborn package
+    sns.lmplot(x="x", y="y", data=df, height=10)
+    plt.xlim(0.0, 1.0)
+    plt.show()
+
+
+def glm_mcmc_inference(df, iterations=5000):
+    """
+    Calculates the Markov Chain Monte Carlo trace of
+    a Generalised Linear Model Bayesian linear regression 
+    model on supplied data.
+
+    Parameters
+    ----------
+    df: `pd.DataFrame`
+        DataFrame containing the data
+    iterations: `int`
+        Number of iterations to carry out MCMC for
+    """
+    # Create the glm using the Bambi model syntax
+    model = bmb.Model("y ~ x", df)
+
+    # Fit the model using a NUTS (No-U-Turn Sampler) 
+    trace = model.fit(
+        draws=5000,
+        tune=500,
+        discard_tuned_samples=True,
+        chains=1, 
+        progressbar=True)
+    return trace
+
+
+def plot_glm_model(trace):
+    """
+    Plot the trace generated from fitting the model. 
+
+    Parameters
+    ----------
+    trace: `tracepymc.backends.base.MultiTrace`
+        A MultiTrace or ArviZ InferenceData object that contains the samples.
+    """
+    pm.plot_trace(trace)
+    plt.tight_layout()
+    plt.show()
+
+
+def plot_regression_lines(trace, df, N):
+    """
+    Plot the simulated data with True and estimated regression lines.
+
+    Parameters
+    ----------
+    trace: `tracepymc.backends.base.MultiTrace`
+        A MultiTrace or ArviZ InferenceData object that contains the samples.
+    df: `pd.DataFrame`
+        DataFrame containing the data
+    N: `int`
+        Number of data points to simulate
+    """
+    fig, ax = plt.subplots(figsize=(7, 7))
+    # define x axis ticks
+    x = np.linspace(0, 1, N)
+    # plot simulated data observations
+    ax.scatter(df['x'], df['y'])
+    # extract slope and intercept draws from PyMC trace
+    intercepts = trace.posterior.Intercept.to_numpy()[0]
+    slopes = trace.posterior.x.to_numpy()[0]
+    # plot 100 random samples from the slope and intercept draws
+    sample_indexes = np.random.randint(len(intercepts), size=100)
+    for i in sample_indexes:
+        y_line = intercepts[i] + slopes[i] * x
+        ax.plot(x, y_line, c='black', alpha=0.07)
+    # plot true regression line
+    y = beta_0 + beta_1*x
+    ax.plot(x, y, label="True Regression Line", lw=3., c="green")
+    ax.legend(loc=0)
+    ax.set_xlim(0.0, 1.0)
+    ax.set_ylim(0.0, 4.0)
+    plt.show()
+
+
+if __name__ == "__main__":
+    # These are our "true" parameters
+    beta_0 = 1.0  # Intercept
+    beta_1 = 2.0  # Slope
+
+    # Simulate 100 data points between 0 and 1, with a variance of 0.5
+    start = 0
+    stop = 1
+    N = 100
+    eps_mean = 0.0
+    eps_sigma_sq = 0.5
+
+    # Fix Random Seed
+    s = 42
+
+    # Simulate the "linear" data using the above parameters
+    df = simulate_linear_data(
+        start, stop, N, beta_0, beta_1, eps_mean, eps_sigma_sq
+    )
+    # Plot the simulated data
+    plot_simulated_data(df)
+
+    # Fit the GLM 
+    trace = glm_mcmc_inference(df, iterations=5000)
+    # Plot the GLM
+    plot_glm_model(trace)
+    plot_regression_lines(trace, df, N)</code>
+</pre>
+        
+        
+        <script async data-uid="6296c27f4b" src="https://weathered-brook-5281.ck.page/6296c27f4b/index.js"></script>
+      </section>
+    </div>
+    <div class="col-md-4 book-card order-md-1">
+      
+<div class="sidebar-advert-container">
+  <a href="/qsalpha/?ref=art">
+    <img class="card-img-top" src="/static/images/qsalpha-sidebar-advert-small.png" alt="QSAlpha">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/qsalpha/?ref=art">QSAlpha</a></h3>
+      <p class="card-text medium-text mb-3">Join the QSAlpha research platform that helps fill your strategy research pipeline, diversifies your portfolio and improves your risk-adjusted returns for increased profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/qsalpha/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/quantcademy/?ref=art">
+    <img class="card-img-top" src="/static/images/quantcademy-sidebar-advert-small.png" alt="Quantcademy">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/quantcademy/?ref=art">The Quantcademy</a></h3>
+      <p class="card-text medium-text mb-3">Join the Quantcademy membership portal that caters to the rapidly-growing retail quant trader community and learn how to increase your strategy profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/quantcademy/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/successful-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/sat-sidebar-advert-small.png" alt="Successful Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to find new trading strategy ideas and objectively assess them for your portfolio using a Python-based backtesting engine.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/successful-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/advanced-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/aat-sidebar-advert-small.png" alt="Advanced Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to implement advanced trading strategies using time series analysis, machine learning and Bayesian statistics with R and Python.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/advanced-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+    
+
+<footer>
+  <div class="container container-full">
+    <section class="mt-1.5 mb-1">
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">QuantStart</li>
+            <li class="footer-list-link"><a class="link-fade" href="/about/">About</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/articles/">Articles</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/sitemap/">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Products</li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qsalpha/">QSAlpha</a></li>
+            
+            
+            <li class="footer-list-link"><a class="link-fade" href="/quantcademy/">Quantcademy</a></li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qstrader/">QSTrader</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Legal</li>
+            <li class="footer-list-link"><a class="link-fade" href="/privacy-policy/">Privacy Policy</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/terms-and-conditions/">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Social</li>
+            <li class="footer-list-link"><a class="link-fade" href="https://twitter.com/quantstart">Twitter</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="https://www.youtube.com/channel/UCmVnnZ6Y2TrJtY1eQJN6kWA">YouTube</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="row mb-1.5 mt-5">
+      <div class="col-12 col-md-9 col-lg-8 col-xl-6">
+        <div class="footer-copyright">
+          <p>©2012-2023 QuarkGluon Ltd. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+<script src="/static/js/jquery-3.2.1.min.js"></script>
+<script src="/static/js/prism.js.min"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/nav.js"></script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5383959-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+    
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="/static/js/highcharts/highcharts.js"></script>
+<script type="text/javascript">
+  num_colours = 10;
+</script>
+<script src="/static/js/statistics.js"></script>
+
+
+  </body>
+</html>

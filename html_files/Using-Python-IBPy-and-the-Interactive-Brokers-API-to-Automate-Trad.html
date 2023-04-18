@@ -1,0 +1,504 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-site-verification" content="wl3-8ed1QZjI0iYZMv10zoZWYElkMObTfwLlWIj9cpA" />
+    <meta name="description" content="Using Python, IBPy and the Interactive Brokers API to Automate Trades">
+
+    <link rel="icon" href="/static/images/favicon.png">
+
+    <title>Using Python, IBPy and the Interactive Brokers API to Automate Trades | QuantStart</title>
+    
+    
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet"> 
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/prism.css" rel="stylesheet">
+<link href="/static/css/qs.css?v=10" rel="stylesheet">
+    
+  </head>
+
+  <body>
+    <header class="header covered-header" style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://quantstartmedia.s3.amazonaws.com/images/article-images/article-backgrounds/default-bg.jpg);">
+  
+<nav class="nav">
+  <div class="container nav-container">
+    <div class="nav-row row d-flex justify-content-between align-items-center">
+      <div class="col-2">
+        <ul class="nav-items justify-content-end small-capitals align-items-center">
+          <li class="nav-item">
+            <a class="link-fade" href="/">QuantStart</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-auto col-logo">
+        <ul id="top-nav-menu" class="nav-items justify-content-end align-items-center">
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/qsalpha/">QSAlpha</a>
+          </li>
+          
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/quantcademy/">Quantcademy</a>
+          </li>
+          
+          <li id="menu-link-ebooks" class="nav-item">
+            <a class="link-fade" href="#">Books</a>
+            <div id="menu-pane-ebooks" class="nav-items menu-dropdown-pane">
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/qstrader/">QSTrader</a>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/articles/">Articles</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/members/login/">Login</a>
+          </li>
+          
+        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<nav id="mobile-nav" class="mobile-nav text-left">
+  <div class="container">
+    <ul class="mt-4 ml-3 mobile-nav-menu">
+      <li class="nav-item">
+        <a class="link-fade d-block" href="/">QuantStart</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qsalpha/">QSAlpha</a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/quantcademy/">Quantcademy</a>
+      </li>
+      
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="#">Books</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qstrader/">QSTrader</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/articles/">Articles</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/members/login/">Login</a>
+      </li>
+      
+    </ul>
+    <button class="nav-toggle mobile-nav-close">
+      <svg id="mobile-nav-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M19.77,5.63,13.41,12l6.36,6.37a1,1,0,0,1-1.41,1.41L12,13.41,5.63,19.77a1,1,0,0,1-1.44-1.39l0,0L10.58,12,4.21,5.63a1,1,0,0,1,0-1.42,1,1,0,0,1,1.41,0l0,0L12,10.58l6.37-6.37a1,1,0,0,1,1.41,0A1,1,0,0,1,19.77,5.63Z"></path>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+  <div class="container hero-container">
+    <section class="mt-5 mb-4">
+      <div class="row justify-content-center">
+        <div class="col-12 text-center">
+          <p class="hero">Using Python, IBPy and the Interactive Brokers API to Automate Trades</p>
+          <p class="hero subhero">Using Python, IBPy and the Interactive Brokers API to Automate Trades</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</header>
+    
+<section class="container content-container">
+  <div class="row">
+    <div class="col-md-8 order-md-2">
+      <section class="content article-content">
+        
+        
+        <p>A while back we discussed <a href="http://www.quantstart.com/articles/Interactive-Brokers-Demo-Account-Signup-Tutorial">how to set up an Interactive Brokers demo account</a>. Interactive Brokers is one of the main brokerages used by retail algorithmic traders due to its relatively low minimal account balance requirements (10,000 USD) and (relatively) straightforward API. In this article we will make use of a demo account to automate trades against the Interactive Brokers API, via Python and the IBPy plugin.</p>
+
+<p><em>Disclosure: I have no affiliation with Interactive Brokers. I have used them before in a professional fund context and as such am familiar with their software.</em></p>
+
+<h2>The Interactive Brokers API</h2>
+
+<p>Interactive Brokers is a large enterprise and as such caters to a wide-range of traders, ranging from discretionary retail to automated institutional. This has led their GUI interface, Trader Workstation (TWS), to possess a significant quantity of "bells and whistles".</p>
+
+<p>In addition to TWS there is also a lightweight component called the IB Gateway, which provides the same access to the IB servers, albeit without the extra functionality of the GUI. For our automated trading purposes we won't actually need the TWS GUI, but I think for this tutorial it is demonstrative to make use of it.</p>
+
+<p>The underlying architecture is based on a client/server model which offers both execution and market data feeds (historical and real-time) via an API. It is this API that we will utilise in this tutorial to send automated orders, via IBPy.</p>
+
+<p>IBPy has been written to "wrap" the native Java API and make it straightforward to call from Python. The two main libraries we are interested in within IBPy are <code>ib.ext</code> and <code>ib.opt</code>. The latter is higher level and makes use of functionality in the former.</p>
+
+<p>In the following implementation we are going to create an extremely simple example, which will simply send a single market order to buy 100 units of Google stock, using smart order routing. The latter is designed to achieve the best price in practice, although in certain situations it can be suboptimal. However for the purposes of this tutorial it will suffice.</p>
+
+<h2>Implementation in Python</h2>
+
+<p>Before we begin it is necessary to have followed the steps in the prior <a href="http://www.quantstart.com/articles/Interactive-Brokers-Demo-Account-Signup-Tutorial">tutorial on setting up an Interactive Brokers account</a>. In addition it is necessary to have a prior Python workspace so that we can install <a href="https://github.com/blampe/IbPy">IBPy</a>, which will allow you to tie other aspects of your code together. The <a href="http://www.quantstart.com/articles/Installing-a-Desktop-Algorithmic-Trading-Research-Environment-using-Ubuntu-Linux-and-Python">tutorial on installing a Python research environment</a> will create the necessary workspace.</p>
+
+<h3>Installing IBPy</h3>
+
+<p><a href="https://github.com/blampe/IbPy">IBPy</a> is a Python wrapper written around the Java-based Interactive Brokers API. It makes development of algorithmic trading systems in Python somewhat less problematic. It will be used as the basis for all subsequent communication with Interactive Brokers until we consider the FIX protocol at a later date.</p>
+
+<p>Since IBPy is maintained on <a href="https://github.com/">GitHub</a> as a <a href="http://git-scm.com/">git</a> repository we will need to install git. On a Ubuntu system this is handled by:</p>
+
+<pre>
+<code class="language-bash">sudo apt-get install git-core</code>
+</pre>
+
+<p>Once you have git installed you can create a subdirectory to store IBPy. On my system I have simply placed it underneath my home directory:</p>
+
+<pre>
+<code class="language-bash">mkdir ~/ibapi</code>
+</pre>
+
+<p>The next step is to download IBPy via <code>git clone</code>:</p>
+
+<pre>
+<code class="language-bash">cd ~/ibapi
+git clone https://github.com/blampe/IbPy</code>
+</pre>
+
+<p>Make sure to enter the IbPy directory and install with the preferred Python virtual environment:</p>
+
+<pre class="prettyprint">
+cd ~/ibapi/IbPy
+python setup.py.in install
+</pre>
+
+<p>That completes the installation of IBPy. The next step is to open up TWS (as described in the <a href="http://www.quantstart.com/articles/Interactive-Brokers-Demo-Account-Signup-Tutorial">prior tutorial</a>).</p>
+
+<p style="text-align:center;">
+  <img alt="TWS Portfolio View (Prior to Google Trade)" src="https://s3.amazonaws.com/quantstartmedia/images/qs-ib-api-0001.png"><br>
+  <strong>TWS Portfolio View (Prior to Google Trade)</strong>
+</p>
+
+<h3>Automated Trading</h3>
+
+<p>The following code will demonstrate an extremely simple API-based order mechanism. The code is far from production-ready but it does demonstrate the essential functionality of the Interactive Brokers API and how to use it for order execution.</p>
+
+<p>All of the following code should reside in the <code>ib_api_demo.py</code> file. The first step is to import the <code>Contract</code> and <code>Order</code> objects from the lower level <code>ib.ext</code> library. In addition we import the <code>Connection</code> and <code>message</code> objects from the <code>ib.opt</code> higher level library:</p>
+
+<pre>
+<code class="language-python"># ib_api_demo.py
+
+from ib.ext.Contract import Contract
+from ib.ext.Order import Order
+from ib.opt import Connection, message</code>
+</pre>
+
+<p>IB provides us with the capability of handling errors and server responses by a callback mechanism. The following two functions do nothing more than print out the contents of the messages returned from the server. A more sophisticated production system would have to implement logic to ensure continual running of the system in the event of exceptional behaviour:</p>
+
+<pre>
+<code class="language-python"># ib_api_demo.py
+
+def error_handler(msg):
+    """Handles the capturing of error messages"""
+    print "Server Error: %s" % msg
+
+def reply_handler(msg):
+    """Handles of server replies"""
+    print "Server Response: %s, %s" % (msg.typeName, msg)</code>
+</pre>
+
+<p>The following two functions wrap the creation of the <code>Contract</code> and <code>Order</code> objects, setting their respective parameters. The function docs describe each parameter individually:</p>
+
+<pre>
+<code class="language-python"># ib_api_demo.py
+
+def create_contract(symbol, sec_type, exch, prim_exch, curr):
+    """Create a Contract object defining what will
+    be purchased, at which exchange and in which currency.
+
+    symbol - The ticker symbol for the contract
+    sec_type - The security type for the contract ('STK' is 'stock')
+    exch - The exchange to carry out the contract on
+    prim_exch - The primary exchange to carry out the contract on
+    curr - The currency in which to purchase the contract"""
+    contract = Contract()
+    contract.m_symbol = symbol
+    contract.m_secType = sec_type
+    contract.m_exchange = exch
+    contract.m_primaryExch = prim_exch
+    contract.m_currency = curr
+    return contract
+
+def create_order(order_type, quantity, action):
+    """Create an Order object (Market/Limit) to go long/short.
+
+    order_type - 'MKT', 'LMT' for Market or Limit orders
+    quantity - Integral number of assets to order
+    action - 'BUY' or 'SELL'"""
+    order = Order()
+    order.m_orderType = order_type
+    order.m_totalQuantity = quantity
+    order.m_action = action
+    return order</code>
+</pre>
+
+<p>The <code>__main__</code> function initially creates a <code>Connection</code> object to Trader Workstation, which must be running for the code to function. The error and reply handler functions are then registered with the connection object. Subsequently an <code>order_id</code> variable is defined. In a production system this must be incremented for each trade order.</p>
+
+<p>The next steps are to create a <code>Contract</code> and an <code>Order</code> representing a market order to buy 100 units of Google stock. The final task is to actually place that order via the <code>placeOrder</code> method of the <code>Connection</code> object. We then disconnect from TWS:</p>
+
+<pre>
+<code class="language-python"># ib_api_demo.py
+
+if __name__ == "__main__":
+    # Connect to the Trader Workstation (TWS) running on the
+    # usual port of 7496, with a clientId of 100
+    # (The clientId is chosen by us and we will need 
+    # separate IDs for both the execution connection and
+    # market data connection)
+    tws_conn = Connection.create(port=7496, clientId=100)
+    tws_conn.connect()
+
+    # Assign the error handling function defined above
+    # to the TWS connection
+    tws_conn.register(error_handler, 'Error')
+
+    # Assign all of the server reply messages to the
+    # reply_handler function defined above
+    tws_conn.registerAll(reply_handler)
+
+    # Create an order ID which is 'global' for this session. This
+    # will need incrementing once new orders are submitted.
+    order_id = 1
+
+    # Create a contract in GOOG stock via SMART order routing
+    goog_contract = create_contract('GOOG', 'STK', 'SMART', 'SMART', 'USD')
+
+    # Go long 100 shares of Google
+    goog_order = create_order('MKT', 100, 'BUY')
+
+    # Use the connection to the send the order to IB
+    tws_conn.placeOrder(order_id, goog_contract, goog_order)
+
+    # Disconnect from TWS
+    tws_conn.disconnect()</code>
+</pre>
+
+<p>The final step is to run the code:</p>
+
+<pre>
+<code class="language-bash">python ib_api_demo.py</code>
+</pre>
+
+<p>Immediately it can be seen that the API tab opens up in Trader Workstation, showing the market order to go long 100 shares of Google:</p>
+
+<p style="text-align:center;">
+  <img alt="TWS API Tab view after Google order" src="https://s3.amazonaws.com/quantstartmedia/images/qs-ib-api-0002.png"><br>
+  <strong>TWS API Tab view after Google order</strong>
+</p>
+
+<p>If we now look at the Portfolio tab we can see the Google position. You will also note a forex position in the list, which was not generated by myself! I can only assume that either the IB demo account is "shared" in some fashion (due to the identical login information) or IB places arbitrary orders into the account to make it appear more "realistic". If anybody has any insight into this behaviour I would be intrigued to learn more:</p>
+
+<p style="text-align:center;">
+  <img alt="TWS API Portfolio view subsequent to Google order" src="https://s3.amazonaws.com/quantstartmedia/images/qs-ib-api-0003.png"><br>
+  <strong>TWS API Portfolio view subsequent to Google order</strong>
+</p>
+
+<p>This is the most basic form of automated execution that we could consider. In subsequent articles we are going to construct a more robust <em>event-driven</em> architecture that can handle realistic trading strategies.</p>
+        
+        
+        <script async data-uid="6296c27f4b" src="https://weathered-brook-5281.ck.page/6296c27f4b/index.js"></script>
+      </section>
+    </div>
+    <div class="col-md-4 book-card order-md-1">
+      
+<div class="sidebar-advert-container">
+  <a href="/qsalpha/?ref=art">
+    <img class="card-img-top" src="/static/images/qsalpha-sidebar-advert-small.png" alt="QSAlpha">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/qsalpha/?ref=art">QSAlpha</a></h3>
+      <p class="card-text medium-text mb-3">Join the QSAlpha research platform that helps fill your strategy research pipeline, diversifies your portfolio and improves your risk-adjusted returns for increased profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/qsalpha/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/quantcademy/?ref=art">
+    <img class="card-img-top" src="/static/images/quantcademy-sidebar-advert-small.png" alt="Quantcademy">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/quantcademy/?ref=art">The Quantcademy</a></h3>
+      <p class="card-text medium-text mb-3">Join the Quantcademy membership portal that caters to the rapidly-growing retail quant trader community and learn how to increase your strategy profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/quantcademy/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/successful-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/sat-sidebar-advert-small.png" alt="Successful Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to find new trading strategy ideas and objectively assess them for your portfolio using a Python-based backtesting engine.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/successful-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/advanced-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/aat-sidebar-advert-small.png" alt="Advanced Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to implement advanced trading strategies using time series analysis, machine learning and Bayesian statistics with R and Python.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/advanced-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+    
+
+<footer>
+  <div class="container container-full">
+    <section class="mt-1.5 mb-1">
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">QuantStart</li>
+            <li class="footer-list-link"><a class="link-fade" href="/about/">About</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/articles/">Articles</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/sitemap/">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Products</li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qsalpha/">QSAlpha</a></li>
+            
+            
+            <li class="footer-list-link"><a class="link-fade" href="/quantcademy/">Quantcademy</a></li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qstrader/">QSTrader</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Legal</li>
+            <li class="footer-list-link"><a class="link-fade" href="/privacy-policy/">Privacy Policy</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/terms-and-conditions/">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Social</li>
+            <li class="footer-list-link"><a class="link-fade" href="https://twitter.com/quantstart">Twitter</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="https://www.youtube.com/channel/UCmVnnZ6Y2TrJtY1eQJN6kWA">YouTube</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="row mb-1.5 mt-5">
+      <div class="col-12 col-md-9 col-lg-8 col-xl-6">
+        <div class="footer-copyright">
+          <p>©2012-2023 QuarkGluon Ltd. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+<script src="/static/js/jquery-3.2.1.min.js"></script>
+<script src="/static/js/prism.js.min"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/nav.js"></script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5383959-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+    
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="/static/js/highcharts/highcharts.js"></script>
+<script type="text/javascript">
+  num_colours = 10;
+</script>
+<script src="/static/js/statistics.js"></script>
+
+
+  </body>
+</html>

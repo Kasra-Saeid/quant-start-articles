@@ -1,0 +1,739 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-site-verification" content="wl3-8ed1QZjI0iYZMv10zoZWYElkMObTfwLlWIj9cpA" />
+    <meta name="description" content="Using data from the AlphaVantage API to create candlestick subplots for multiple ETFs">
+
+    <link rel="icon" href="/static/images/favicon.png">
+
+    <title>Candlestick Subplots with Plotly and the AlphaVantage API | QuantStart</title>
+    
+    
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet"> 
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/prism.css" rel="stylesheet">
+<link href="/static/css/qs.css?v=10" rel="stylesheet">
+    
+  </head>
+
+  <body>
+    <header class="header covered-header" style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://quantstartmedia.s3.amazonaws.com/images/article-images/article-backgrounds/training-the-perceptron-with-scikit-learn-and-tensorflow.jpg);">
+  
+<nav class="nav">
+  <div class="container nav-container">
+    <div class="nav-row row d-flex justify-content-between align-items-center">
+      <div class="col-2">
+        <ul class="nav-items justify-content-end small-capitals align-items-center">
+          <li class="nav-item">
+            <a class="link-fade" href="/">QuantStart</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-auto col-logo">
+        <ul id="top-nav-menu" class="nav-items justify-content-end align-items-center">
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/qsalpha/">QSAlpha</a>
+          </li>
+          
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/quantcademy/">Quantcademy</a>
+          </li>
+          
+          <li id="menu-link-ebooks" class="nav-item">
+            <a class="link-fade" href="#">Books</a>
+            <div id="menu-pane-ebooks" class="nav-items menu-dropdown-pane">
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/qstrader/">QSTrader</a>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/articles/">Articles</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/members/login/">Login</a>
+          </li>
+          
+        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<nav id="mobile-nav" class="mobile-nav text-left">
+  <div class="container">
+    <ul class="mt-4 ml-3 mobile-nav-menu">
+      <li class="nav-item">
+        <a class="link-fade d-block" href="/">QuantStart</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qsalpha/">QSAlpha</a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/quantcademy/">Quantcademy</a>
+      </li>
+      
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="#">Books</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qstrader/">QSTrader</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/articles/">Articles</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/members/login/">Login</a>
+      </li>
+      
+    </ul>
+    <button class="nav-toggle mobile-nav-close">
+      <svg id="mobile-nav-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M19.77,5.63,13.41,12l6.36,6.37a1,1,0,0,1-1.41,1.41L12,13.41,5.63,19.77a1,1,0,0,1-1.44-1.39l0,0L10.58,12,4.21,5.63a1,1,0,0,1,0-1.42,1,1,0,0,1,1.41,0l0,0L12,10.58l6.37-6.37a1,1,0,0,1,1.41,0A1,1,0,0,1,19.77,5.63Z"></path>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+  <div class="container hero-container">
+    <section class="mt-5 mb-4">
+      <div class="row justify-content-center">
+        <div class="col-12 text-center">
+          <p class="hero">Candlestick Subplots with Plotly and the AlphaVantage API</p>
+          <p class="hero subhero">Using data from the AlphaVantage API to create candlestick subplots for multiple ETFs</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</header>
+    
+<section class="container content-container">
+  <div class="row">
+    <div class="col-md-8 order-md-2">
+      <section class="content article-content">
+        
+        
+        <p>AlphaVantage were founded in 2017 following the demise of the Yahoo Finance API. They offer OHLC data on 100,000+ securities, ETFs and mutual funds. Along with Forex, Crypto and Fundamental data, all accessible via their REST API. They offer free or premium membership which depend on the number API calls you require. Their premium packages range from 49.99 to $249.99 a month. While most of their data is freely accessible with API limitations of 5 calls per minute, in recent years some datasets have started to be classed as premium. The datasets which are considered as premium are variable and also subject to change over time. For example, in 2022 daily adjusted end of day(EOD) equities data was made premium. Yet in 2023, this is once again freely available and daily unadjusted EOD data is now premium. Intraday forex and Intraday crypto are also currently premium.</p>
+
+<p>By default AlphaVantage API calls download the last 100 data points but you can download all of the available historic data by specifying outputsize=full. You can filter by a date range post download. AlphaVantage provide 20+ Years stock data, Forex and Crypto histories appear to have variable lenghts with USD:GBP going back to 2003 and USD:BTC covering the last 3 years. They also offer 5 years of fundamental data.</p>
+
+<p>In this tutorial we will be looking at how to access data from the AlphaVantage API and how to get that data into a Pandas DataFrame for further analysis. We will then be creating a multichart candlestick subplot using the Plotly library.</p>
+
+<p>This tutorial forms part of our early career researcher series where we set up a <a href="https://www.quantstart.com/articles/creating-an-algorithmic-trading-prototyping-environment-with-jupyter-notebooks-and-plotly/" target="blank" rel="noopener noreferrer">research prototyping environment with Jupyter Notebook</a>.</p>
+
+<p>If you do not have this environment set up and would like to follow along you will need:</p>
+  <ul>
+    <li>Python 3.8</li>
+    <li>Pandas 1.4</li>
+    <li>Plotly 5.6</li>
+    <li>Requests 2.27</li>
+  </ul>
+
+<h2>AlphaVantage API</h2>
+<p>In order to use AlphaVantage you will need to sign up to their free (or premium) membership and obtain an API key. Once you have your key you can begin to download data from their API using a <code>get</code> request. We begin by importing the necessary libraries; <code>requests</code> - to make or API call and <code>Pandas</code> - to create a DataFrame for our downlaoded time series data.</p>
+
+<pre>
+<code class='language-python'>import pandas as pd
+import requests</code>
+</pre>
+
+<p>We create our get request using the requests library and add in our API key to the URL. In this case we are requesting the daily adjusted OHLCV data (function=TIME_SERIES_DAILY_ADJUSTED) for AAPL (symbol=AAPL) and we have requested the full historical data (outputsize=full). We save the JSON output to a variable <code>av_json</code> by calling the Python built-in JSON method. Remember to add your API key to the end of the request statement (apikey=YOUR_API_KEY).</p>
+
+<pre>
+<code class="language-python">av_response = requests.get('https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=AAPL&outputsize=full&apikey=YOUR_API_KEY')
+av_json = av_response.json()</code>
+</pre>
+
+<p>You can see what has been returned from the API call by simply printing the av_json variable <code>print(av_json)</code>.</p>
+
+<figure>
+  <img src="https://quantstartmedia.s3.amazonaws.com/images/article-images/articles/candlestick-subplots-with-plotly-and-alphavantage/av_json.png" alt="AlphaVantage API call response" style="padding-bottom: 10px">
+  <figcaption>AlphaVantage json for AAPL adjusted daily time series data</figcaption>
+</figure>
+
+<p>JSON has become one of the most popular ways to transfer data from APIs however, it is not fully standardised. Data is most commonly transferred as a list of dictionaries, but there are always exceptions to this. In the case of AlphaVantage our API call has returned nested dictionaries. The av_json variable is a dictionary of dictionaries (of dictionaries!). This pattern is reasonibly common, so it's worth taking some time to understand where our data is stored so that we can work out how to access it.</p>
+
+<p>The outer dictionary has two keys; Meta Data and Time Series (Daily). The values of both these keys are also dictionaries. The first key value pair is meta data for the download, the second is the time series data. The data we need to access is located in the value of the second key:value pair. This is also a dictionary where the keys are the dates and the values are another dictionary containing the OHLCV data points. Our data is stored in a dictionary three levels deep. We can access the time series dictionary using the Time Series (Daily) key.</p>
+
+<pre>
+<code class="language-python">access_ts = av_json["Time Series (Daily)"] 
+access_ts</code>
+</pre>
+
+<p>This produces a dictionary where the values are a time series dictionaries.</p>
+
+<figure>
+  <img src="https://quantstartmedia.s3.amazonaws.com/images/article-images/articles/candlestick-subplots-with-plotly-and-alphavantage/access_ts.png" alt="The TIME_SERIES_DAILY_ADJUSTED dictionary" style="padding-bottom: 20px">
+  <figcaption>Accessing the adjusted daily time series data</figcaption>
+</figure>
+
+<p>Fortunately for us Pandas has a number of methods which can simplify the process of getting the data into a DataFrame for further analysis. As demonstrated above we can access the time series data by using the key "Time Series (Daily)". Putting this into the pd.DataFrame method gives us a DataFrame with dates as columns and OHLCV data as rows.</p>
+
+<pre>
+<code class="language-python">av_aapl = pd.DataFrame(av_json["Time Series (Daily)"])
+av_aapl.head()</code>
+</pre>
+
+<figure>
+  <img src="https://quantstartmedia.s3.amazonaws.com/images/article-images/articles/candlestick-subplots-with-plotly-and-alphavantage/av_aapl.png" alt="The TIME_SERIES_DAILY_ADJUSTED as a DataFrame" style="padding-bottom: 10px">
+  <figcaption>Creating the adjusted daily time series DataFrame</figcaption>
+</figure>
+
+<p>We can transpose this data such that our columns and rows swap using the <code>DataFrame.transpose method</code>. As repeated calls to transpose flip the data back and forth it is always good to create a new variable and run the code in an independent cell (if using Jupyter notebook).</p>
+
+<pre>
+<code class="language-python">av_aapl_transpose = av_aapl.T
+av_aapl_transpose.head()</code>
+</pre>
+
+<figure>
+  <img src="https://quantstartmedia.s3.amazonaws.com/images/article-images/articles/candlestick-subplots-with-plotly-and-alphavantage/av_aapl_transpose.png" alt="The TIME_SERIES_DAILY_ADJUSTED transposed DataFrame" style="padding-bottom: 10px">
+  <figcaption>Pivoting the adjusted daily time series DataFrame</figcaption>
+</figure>
+
+<p>Now we can make sure our index is a datetime object.</p>
+
+<pre>
+<code class="language-python">av_aapl_transpose.index = pd.to_datetime(av_aapl_transpose.index)</code>
+</pre>
+
+<p>And we can sort our index so that it is in ascending order</p>
+
+<pre>
+<code class="language-python">av_aapl_transpose = av_aapl_transpose.sort_index()</code>
+</pre>
+
+<figure>
+  <img src="https://quantstartmedia.s3.amazonaws.com/images/article-images/articles/candlestick-subplots-with-plotly-and-alphavantage/av_aapl_df_final.png" alt="The formatted TIME_SERIES_DAILY_ADJUSTED DataFrame">
+  <figcaption>Formatting the adjusted daily time series DataFrame</figcaption>
+</figure>
+
+<h2>AlphaVantage CSV Reading</h2>
+
+<p>In addition to the JSON format we can also download CSV files from AlphaVantage and read them into a Pandas DataFrame directly. Here the <code>pd.read_csv</code> method also assigns the index column and parses dates directly minimising extra coding work to format the data. Remember to add your API key to the end of the request statement (apikey=YOUR_API_KEY).</p>
+
+<pre>
+<code class="language-python">csv_url = 'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=AAPL&outputsize=full&datatype=csv&apikey=av_key'
+aapl_csv = pd.read_csv(csv_url, index_col='timestamp', parse_dates=True, infer_datetime_format=True)
+aapl_csv.head()</code>
+</pre>
+
+<figure>
+  <img src="https://quantstartmedia.s3.amazonaws.com/images/article-images/articles/candlestick-subplots-with-plotly-and-alphavantage/aapl_csv.png" alt="AAPL TIME_SERIES_DAILY_ADJUSTED DataFrame from csv download" style="padding-bottom: 10px">
+  <figcaption>Adjusted daily time series DataFrame from CSV format</figcaption>
+</figure>
+
+<p>Now that we have looked at how to get a single stock into a DataFrame for more analysis. let's extend the method to look at multiple stocks. In the example below we are accessing the full historical data available from AlphaVantage for 5 ETFs. Bear in mind that for free tier users your API calls are limited to 5 per minute. As such you need to make sure your API call is stored as a variable and placed in it's own cell if using Jupyter notebook. That way you can extract the data and do your analysis without repeatedly calling the API.</p>
+
+<h2>Sector ETF Multi Candlestick Chart</h2>
+
+<p>First we create a list of tickers we want to analyse. If you are unsure of the ticker for your stock you can use <a href="https://www.alphavantage.co/documentation/#symbolsearch" target="blank" rel="noopener noreferrer">symbol search API end point</a>. Bear in mind that this will use one of your API calls!</p>
+
+<pre>
+<code class="language-python">etf_symbols_list = ['SPY', 'XLF', 'XLE', 'XLU', 'XLP']</code>
+</pre>
+
+<p>We will store our data in a dictionary where the keys are the stock tickers and the values are our OHLCV DataFrames. Remember to add your API key to the end of the request statement (apikey=YOUR_API_KEY).</p>
+
+<pre>
+<code class="language-python">etf_data = {}
+for symbol in etf_symbols_list:
+    url = f'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol={symbol}&outputsize=full&datatype=csv&apikey=YOUR_API_KEY'
+    etf_data[symbol] = pd.read_csv(url, index_col='timestamp', parse_dates=True, infer_datetime_format=True)</code>
+</pre>
+
+<p>Now we can loop through the keys in our dictionary to perform any further formatting actions on our DataFrames. In this case we will sort the index and also add a moving average column. This is discussed further in our article <a href="https://www.quantstart.com/articles/creating-an-algorithmic-trading-prototyping-environment-with-jupyter-notebooks-and-plotly/">creating an algorithmic trading prototyping environment</a>.</p>
+
+<pre>
+<code class="language-python">for etf in etf_data.keys():
+    etf_data[etf] = etf_data[etf].sort_index()
+    etf_data[etf]['MA5'] = etf_data[etf]['adjusted_close'].rolling(5).mean()</code>
+</pre>
+
+<p>Now we will discuss how to create a multichart figure that displays the OHLC data as candlesticks for each of our five ETFs. For this we will be using the Plotly library as we have done in previous articles but we will be extending the plotting to include subfigures. As we have downloaded the full history from AlphaVantage the first step is to create a mask to filter the data to our desired data range. We create a new dictionary of DataFrames so that our underlying full history is still accessible. We will be using the datetime library.</p>
+
+<pre>
+<code class="language-python">from datetime import datetime as dt
+
+start = dt(2023, 1, 24)
+end = dt(2023, 2, 24)
+etf_data_mask = {}
+
+for etf in etf_data.keys():
+    mask = (etf_data[etf].index >= start) & (etf_data[etf].index <= end)
+    etf_data_mask[etf] = etf_data[etf].loc[mask]</code>
+</pre>
+
+<p>We can look at the filtered data for each ticker as follows:</p>
+
+<pre>
+<code class="language-python">etf_data_mask['SPY']</code>
+</pre>
+
+<figure>
+  <img src="https://quantstartmedia.s3.amazonaws.com/images/article-images/articles/candlestick-subplots-with-plotly-and-alphavantage/etf_data_mask.png" alt="Filtered DataFrame from dictionary of ETF dataframes" style="padding-bottom: 20px">
+  <figcaption>Date filtered adjusted daily time series DataFrame from ETF_data dictionary</figcaption>
+</figure>
+
+<p>We can now begin creating our ETF multichart subplot. We have data for SPY the ETF for the S&P500 and four other sector ETFs. This example is overtly contrived to demonstrate some of the more technical aspects of plotting with Plotly. We are going to create a mulitchart candlestick figure where the SPY OHCLV chart is larger, spanning a single row (both columns) of the subplot. The other four ETFs will be displayed across a single column on each row.</p> 
+
+<p>In order to create the candlestick subplots we will be using Plotly graph objects and subplots libraries. We begin by importing the libraries. Then we define our subplot specification. The Plotly documentation has so great examples of working with Subplots <a href="https://plotly.com/python/subplots/" target="blank" rel="noopener noreferrer">here</a>.</p>
+
+<p>The <code>make_subplots</code> class allows us to specify the shape of our subplot using the keyword arguments rows and cols. We need 3 rows and 2 columns. To ensure the first figure is larger we can use the <code>specs</code> keyword. This allows you to define certain parameters for each subplot using a dictionary. The <code>specs</code> keyword argument is an array with the same dimensions as your subplot. As we are using 3 rows and 2 columns our empty array will look as follows:</p>
+
+<pre>
+  <code class="language-python">specs = [[{}, {}],
+         [{}, {}],
+         [{}, {}]]</code>
+</pre>
+
+<p>The dictionary at each subplot position allows you to specify <code>colspan</code> for each of the plots. As the default value is 1 we need only specify the colspan for the first subplot. We also set the second column of the first row to be None so that no chart is displayed. As we also want to show the volume on the same chart as the candlesticks, we set the value of <code>secondary_y</code> to True.</p>
+
+<p>The <code>make_subplots</code> function also has the keyword <code>subplot_titles</code> allowing us to set a title for each of our subplots. Here we pass the <code>etf_symbols_list</code> we created when downloading our data. We can also set titles for our x and y axes. We begin by importing make_subplots and plotly.graph_objects</p>
+
+<pre>
+<code class="language-python">from plotly.subplots import make_subplots
+import plotly.graph_objects as go
+
+fig = make_subplots(
+    rows=3, cols=2,
+    specs=[[{"colspan": 2, 'secondary_y': True}, None],
+           [{'secondary_y': True}, {'secondary_y': True},],
+           [{'secondary_y': True}, {'secondary_y': True},]],
+    subplot_titles=(etf_symbols_list),
+    x_title="Date",
+    y_title="OHLC"
+)
+fig.show()</code>
+</pre>
+
+<figure>
+  <img src="https://quantstartmedia.s3.amazonaws.com/images/article-images/articles/candlestick-subplots-with-plotly-and-alphavantage/av_axes_construction.png" alt="Empty subplot showing positioning and axes titles">
+  <figcaption>Defining and positioning subplots</figcaption>
+</figure>
+
+<p>Rather than using the <code>etf_symbols_list</code> as an iterable we create a new plot_symbols interable with six elements. Even though we are plotting five ETFs there are technically still six subplots. We need to adjust the iterable to have six elements to ensure that the subplot at the first position does not display data for two ETFs. We also need to account for this when we define the row and col position.</p>
+
+<p>We enumerate through the <code>plot_symbols</code> iterable in order to define the row and column integer. This is a common pattern for defining the position of subplots so it is worth understanding. Where subplots are plotted from left to right across columns, subplot assignment follows a pattern where the row number repeats n times, where n the number of columns. In our case row number for each plot is 1,1,2,2,3,3. This pattern can be achieved by carrying out integer division. <code>i // num_cols</code> gives the desired zero indexed row number for each subplot. For columns the pattern is the repeating sequence of column numbers, in our case 1,2,1,2,1,2. This can be achieved using the modulo operator. <code>i % num_rows</code> gives the zero indexed column position.</p>
+
+<p>As plotly is not zero-indexed we simply need to add 1 to the calculation to get the correct value for rows and columns. To accomodate our larger subfigure we also use an <code>if statement</code> to make row and col equal to 1 on the second iteration of the loop. Now we can add each Candlestick trace in a loop with correctly defined positions. Finally we use <code>fig.update_layout</code> to remove the legend, set the text and position of the title and turn off the rangeslider.</p>
+
+<pre>
+<code class="language-python">from plotly.subplots import make_subplots
+import plotly.graph_objects as go
+
+fig = make_subplots(
+    rows=3, cols=2,
+    specs=[[{"colspan": 2, 'secondary_y': True}, None],
+           [{'secondary_y': True}, {'secondary_y': True}],
+           [{'secondary_y': True}, {'secondary_y': True}]],
+    subplot_titles=(etf_symbols_list),
+    x_title="Date",
+    y_title="OHLC"
+)
+
+plot_symbols = ['SPY', 'SPY', 'XLF', 'XLE', 'XLU', 'XLP']
+
+for i, etf in enumerate(plot_symbols):
+    if i == 1:
+        row = 1
+        col = 1
+    else:
+        row = (i//2)+1
+        col = (i%2)+1
+
+    fig.add_trace(
+        go.Candlestick(
+            x=etf_data_mask[etf].index,
+            open=etf_data_mask[etf]['open'],
+            high=etf_data_mask[etf]['high'],
+            low=etf_data_mask[etf]['low'],
+            close=etf_data_mask[etf]['adjusted_close'],
+            name="OHLC"
+        ),
+        row=row, col=col
+    )
+    fig.update_layout(
+        showlegend=False,
+        title_text="OHLC data for SPY, XLF, XLE, XLU and XLP",
+        title_xref="paper",
+        title_x=0.5,
+        title_xanchor="center")
+    fig.update_xaxes(rangeslider_visible=False)
+fig.show()</code>
+</pre>
+
+<figure>
+  <img src="https://quantstartmedia.s3.amazonaws.com/images/article-images/articles/candlestick-subplots-with-plotly-and-alphavantage/av_candlesticks.png" alt="Candlestick subplot for sector ETFs">
+  <figcaption>Candlestick subplots</figcaption>
+</figure>
+
+<p>That's most of the hard work done. All that remains is to add the Volume to each chart with a secondary y axis and a scatter plot for our moving average.</p>
+
+<pre>
+<code class="language-python">from plotly.subplots import make_subplots
+import plotly.graph_objects as go
+
+fig = make_subplots(
+    rows=3, cols=2,
+    specs=[[{"colspan": 2, 'secondary_y': True}, None],
+           [{'secondary_y': True}, {'secondary_y': True}],
+           [{'secondary_y': True}, {'secondary_y': True}]],
+    subplot_titles=(etf_symbols_list),
+    x_title="Date",
+    y_title="OHLC"
+)
+
+plot_symbols = ['SPY', 'SPY', 'XLF', 'XLE', 'XLU', 'XLP']
+
+for i, etf in enumerate(plot_symbols):
+    if i == 1:
+        row = 1
+        col = 1
+    else:
+        row = (i//2)+1
+        col = (i%2)+1
+
+    fig.add_trace(
+        go.Candlestick(
+            x=etf_data_mask[etf].index,
+            open=etf_data_mask[etf]['open'],
+            high=etf_data_mask[etf]['high'],
+            low=etf_data_mask[etf]['low'],
+            close=etf_data_mask[etf]['adjusted_close'],
+            name="OHLC"
+        ),
+        row=row, col=col
+    )
+    fig.add_trace(
+        go.Bar(
+            x=etf_data_mask[etf].index,
+            y=etf_data_mask[etf]['volume'],
+            opacity=0.1,
+            marker_color='blue',
+            name="volume"
+        ),
+        row=row, col=col, secondary_y=True,
+    )
+    fig.add_trace(
+        go.Scatter(
+            x=etf_data_mask[etf].index,
+            y=etf_data_mask[etf].MA5,
+            line=dict(color='black', width=1),
+            name="5 day MA",
+            yaxis="y2"
+        ),
+        row=row, col=col, secondary_y=False,
+    )
+    fig.layout.yaxis2.showgrid=False
+    fig.update_layout(
+        showlegend=False,
+        title_text="OHLC data for SPY, XLF, XLE, XLU and XLP",
+        title_xref="paper",
+        title_x=0.5,
+        title_xanchor="center")
+    fig.update_xaxes(rangeslider_visible=False)
+fig.show()</code>
+</pre>
+
+<figure>
+  <img src="https://quantstartmedia.s3.amazonaws.com/images/article-images/articles/candlestick-subplots-with-plotly-and-alphavantage/av_candle_volume.png" alt="Candlestick subplot for sector ETFs">
+  <figcaption>Candlestick subplots with moving Average and Volume</figcaption>
+</figure>
+
+<p>Hopefully this tutorial has given you a good overview of accessing AlphaVantage data using the API and creating some more complex plots using Plotly. For completeness we will now look at some of the other data that can be obtained from AlphaVantage and how to transform the data into DataFrames for further analysis.</p>
+
+<h2>AlphaVantage Forex Data</h2>
+
+<p>AlphaVantage offer OHLC data for 157 physical currencies. On a premium membership OHLC data can be obtained on Intraday (1min, 5min, 15min, 30min and 60min) frequencies. Free users can download daily, weekly and monthly data. The full output size returns the last 5000 time points (candles or bars) from the time series. AlphaVantage do not currently offer quote data (bid and ask price) but they do offer data on exchange rates.</p>
+
+<p>Below you will find an example API call to obtain the full historical OHLC data for the daily GBP:USD time series. Remember to add your API key to the end of the request statement (apikey=YOUR_API_KEY).</p>
+
+<pre>
+<code class="language-python">rResponse = requests.get(
+    'https://www.alphavantage.co/query?function=FX_DAILY&from_symbol=GBP&to_symbol=USD&outputsize=full&apikey=YOUR_API_KEY'
+)
+gbp_usd_j = rResponse.json()
+gbp_usd = pd.DataFrame(gbp_usd_j["Time Series FX (Daily)"])
+gbp_usd_transpose = gbp_usd.T
+gbp_usd_transpose.tail()</code>
+</pre>
+
+<figure>
+  <img src="https://quantstartmedia.s3.amazonaws.com/images/article-images/articles/candlestick-subplots-with-plotly-and-alphavantage/av_forex.png" alt="Forex DataFrame from AlphaVantage" style="padding-bottom: 20px">
+  <figcaption>AlphaVantage Forex data in DataFrame</figcaption>
+</figure>
+
+<h2>AlphaVantage Crytocurrencies Data</h2>
+
+<p>Alphavantage offer data on 575 digital currencies, across all physical currencies. The data is similar to that already discussed for Forex. Premium users can access intraday OHLC data which also includes volume. Free users can access daily, weekly and monthly data. The full output size for digital currencies is 1000 data time points in the time series.</p>
+
+<p>An example API call for Bitcoin(BTC) and Chinese Yuan(CNY) can be seen below. Notice that you are also provided with the USD OHLCV data.</p>
+
+<pre>
+<code class="language-python">rResponse = requests.get(
+    'https://www.alphavantage.co/query?function=DIGITAL_CURRENCY_DAILY&symbol=BTC&market=CNY&apikey=YOUR_API_KEY'
+)
+btc_usd_j = rResponse.json()
+btc_usd = pd.DataFrame(btc_usd_j["Time Series (Digital Currency Daily)"])
+btc_usd_transpose = btc_usd.T
+btc_usd_transpose.tail()</code>
+</pre>
+
+<figure>
+  <img src="https://quantstartmedia.s3.amazonaws.com/images/article-images/articles/candlestick-subplots-with-plotly-and-alphavantage/av_crypto.png" alt="Crypto currency DataFrame from AlphaVantage" style="padding-bottom: 20px">
+  <figcaption>AlphaVantage Cryptocurrencies data in DataFrame</figcaption>
+</figure>
+
+<h2>AlphaVantage Fundamental Data</h2>
+
+<p>AlphaVantage also offer fundamental data over a variety of time intervals. This includes information on company delisiting. Delisting information is very important for backtesting. In order to run a historical backtest of a strategy across an index and ensure accurate results you need to represent the correct companies in the index through out the time period your backtest covers.</p> 
+
+<p>If you were to run a 20 year backtest across the current stocks in the S&P500 you would get a very favourable outcome. Not because your trading strategy is awesome but because you have introduced survivorship bias. The companies currently in the S&P500 are not the same as they were 20 years ago. The S&P500 is a list of the top 500 companies. Your strategy is being executed on companies that have grown over the course of the last 20 years. This information would not have been available 20 years ago. Your strategy should execute on data from  the companies that were in the S&P500 at any point in time.</p>  
+
+<p>Below we show how you can access the delisted CSV data.</p>
+
+<pre>
+<code class="language-python">import csv
+
+CSV_URL = 'https://www.alphavantage.co/query?function=LISTING_STATUS&date=2022-02-10&state=delisted&apikey=YOUR_API_KEY'
+
+with requests.Session() as s:
+    download = s.get(CSV_URL)
+    decoded_content = download.content.decode('utf-8')
+    cr = csv.reader(decoded_content.splitlines(), delimiter=',')
+    my_list = list(cr)
+    for row in my_list:
+        print(row)</code>
+</pre>
+
+<figure>
+  <img src="https://quantstartmedia.s3.amazonaws.com/images/article-images/articles/candlestick-subplots-with-plotly-and-alphavantage/av_delisting.png" alt="Accessing the AlphaVantage Delisiting data" style="padding-bottom: 20px">
+  <figcaption>AlphaVantage Delisiting data</figcaption>
+</figure>
+
+<p>AlphaVantage also offer Economic and Technical indicator data as well as commodities and some sentiment analysis. All data is avaliable through their API. Access to some datasets requires a premium membership, which datasets (as discussed earlier) are subject to change. As with all free data providers it is good to use the data to get familiar with methods and prototyping. However, it is not suitable for live trading. As mentioned in earlier articles most free data vendors have terms and conditions which you from prevent this.</p>
+
+<p>This concludes our tutorial on accessing AlphaVantage data in 2023. This tutorial is part of earlier career researcher series. Links to other articles in the series can be found below.</p>
+        
+        
+        <h2>Related Articles</h2>
+        <ul>
+        
+        <li><a href="/articles/an-introduction-to-stooq-pricing-data/">An Introduction to Stooq Pricing Data</a></li>
+        
+        <li><a href="/articles/evaluating-data-coverage-with-tiingo/">Evaluating Data Coverage with Tiingo</a></li>
+        
+        <li><a href="/articles/creating-an-algorithmic-trading-prototyping-environment-with-jupyter-notebooks-and-plotly/">Creating an Algorithmic Trading Prototyping Environment with Jupyter Notebooks and Plotly</a></li>
+        
+        <li><a href="/articles/installing-an-algorithmic-trading-research-environment-with-python-on-windows/">Installing an Algorithmic Trading Research Environment with Python on Windows</a></li>
+        
+        <li><a href="/articles/understanding-equities-data/">Understanding Equities Data</a></li>
+        
+        </ul>
+        
+        <script async data-uid="6296c27f4b" src="https://weathered-brook-5281.ck.page/6296c27f4b/index.js"></script>
+      </section>
+    </div>
+    <div class="col-md-4 book-card order-md-1">
+      
+<div class="sidebar-advert-container">
+  <a href="/qsalpha/?ref=art">
+    <img class="card-img-top" src="/static/images/qsalpha-sidebar-advert-small.png" alt="QSAlpha">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/qsalpha/?ref=art">QSAlpha</a></h3>
+      <p class="card-text medium-text mb-3">Join the QSAlpha research platform that helps fill your strategy research pipeline, diversifies your portfolio and improves your risk-adjusted returns for increased profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/qsalpha/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/quantcademy/?ref=art">
+    <img class="card-img-top" src="/static/images/quantcademy-sidebar-advert-small.png" alt="Quantcademy">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/quantcademy/?ref=art">The Quantcademy</a></h3>
+      <p class="card-text medium-text mb-3">Join the Quantcademy membership portal that caters to the rapidly-growing retail quant trader community and learn how to increase your strategy profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/quantcademy/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/successful-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/sat-sidebar-advert-small.png" alt="Successful Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to find new trading strategy ideas and objectively assess them for your portfolio using a Python-based backtesting engine.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/successful-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/advanced-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/aat-sidebar-advert-small.png" alt="Advanced Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to implement advanced trading strategies using time series analysis, machine learning and Bayesian statistics with R and Python.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/advanced-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+    
+
+<footer>
+  <div class="container container-full">
+    <section class="mt-1.5 mb-1">
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">QuantStart</li>
+            <li class="footer-list-link"><a class="link-fade" href="/about/">About</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/articles/">Articles</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/sitemap/">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Products</li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qsalpha/">QSAlpha</a></li>
+            
+            
+            <li class="footer-list-link"><a class="link-fade" href="/quantcademy/">Quantcademy</a></li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qstrader/">QSTrader</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Legal</li>
+            <li class="footer-list-link"><a class="link-fade" href="/privacy-policy/">Privacy Policy</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/terms-and-conditions/">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Social</li>
+            <li class="footer-list-link"><a class="link-fade" href="https://twitter.com/quantstart">Twitter</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="https://www.youtube.com/channel/UCmVnnZ6Y2TrJtY1eQJN6kWA">YouTube</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="row mb-1.5 mt-5">
+      <div class="col-12 col-md-9 col-lg-8 col-xl-6">
+        <div class="footer-copyright">
+          <p>©2012-2023 QuarkGluon Ltd. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+<script src="/static/js/jquery-3.2.1.min.js"></script>
+<script src="/static/js/prism.js.min"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/nav.js"></script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5383959-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+    
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="/static/js/highcharts/highcharts.js"></script>
+<script type="text/javascript">
+  num_colours = 10;
+</script>
+<script src="/static/js/statistics.js"></script>
+
+
+  </body>
+</html>

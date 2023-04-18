@@ -1,0 +1,948 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-site-verification" content="wl3-8ed1QZjI0iYZMv10zoZWYElkMObTfwLlWIj9cpA" />
+    <meta name="description" content="In this multi-part article series we are going to discuss how to build a distributed cluster of Raspberry Pi computers, utilising the SLURM work scheduling tool to run QSTrader systematic trading parameter variation backtests. In this article we will be using our cluster to run a parameter sweep for a momentum strategy with QSTrader">
+
+    <link rel="icon" href="/static/images/favicon.png">
+
+    <title>Building a Raspberry Pi Cluster for QSTrader Using SLURM - Part 5 | QuantStart</title>
+    
+    
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet"> 
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/prism.css" rel="stylesheet">
+<link href="/static/css/qs.css?v=10" rel="stylesheet">
+    
+  </head>
+
+  <body>
+    <header class="header covered-header" style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://quantstartmedia.s3.amazonaws.com/images/article-images/article-backgrounds/building-a-raspberry-pi-cluster-for-qstrader-using-slurm-part-1.jpg);">
+  
+<nav class="nav">
+  <div class="container nav-container">
+    <div class="nav-row row d-flex justify-content-between align-items-center">
+      <div class="col-2">
+        <ul class="nav-items justify-content-end small-capitals align-items-center">
+          <li class="nav-item">
+            <a class="link-fade" href="/">QuantStart</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-auto col-logo">
+        <ul id="top-nav-menu" class="nav-items justify-content-end align-items-center">
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/qsalpha/">QSAlpha</a>
+          </li>
+          
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/quantcademy/">Quantcademy</a>
+          </li>
+          
+          <li id="menu-link-ebooks" class="nav-item">
+            <a class="link-fade" href="#">Books</a>
+            <div id="menu-pane-ebooks" class="nav-items menu-dropdown-pane">
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+              </div>
+              <div class="nav-item">
+                <a class="link-fade d-block ml-3 mr-3 my-3 mt-4" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/qstrader/">QSTrader</a>
+          </li>
+          <li class="nav-item">
+            <a class="link-fade" href="/articles/">Articles</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="link-fade" href="/members/login/">Login</a>
+          </li>
+          
+        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<nav id="mobile-nav" class="mobile-nav text-left">
+  <div class="container">
+    <ul class="mt-4 ml-3 mobile-nav-menu">
+      <li class="nav-item">
+        <a class="link-fade d-block" href="/">QuantStart</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qsalpha/">QSAlpha</a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/quantcademy/">Quantcademy</a>
+      </li>
+      
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="#">Books</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a>
+      </li>
+      <li class="nav-item sub-item">
+        <a class="link-fade d-block ml-3" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/qstrader/">QSTrader</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/articles/">Articles</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="link-fade d-block pt-3" href="/members/login/">Login</a>
+      </li>
+      
+    </ul>
+    <button class="nav-toggle mobile-nav-close">
+      <svg id="mobile-nav-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M19.77,5.63,13.41,12l6.36,6.37a1,1,0,0,1-1.41,1.41L12,13.41,5.63,19.77a1,1,0,0,1-1.44-1.39l0,0L10.58,12,4.21,5.63a1,1,0,0,1,0-1.42,1,1,0,0,1,1.41,0l0,0L12,10.58l6.37-6.37a1,1,0,0,1,1.41,0A1,1,0,0,1,19.77,5.63Z"></path>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+  <div class="container hero-container">
+    <section class="mt-5 mb-4">
+      <div class="row justify-content-center">
+        <div class="col-12 text-center">
+          <p class="hero">Building a Raspberry Pi Cluster for QSTrader Using SLURM - Part 5</p>
+          <p class="hero subhero">In this multi-part article series we are going to discuss how to build a distributed cluster of Raspberry Pi computers, utilising the SLURM work scheduling tool to run QSTrader systematic trading parameter variation backtests. In this article we will be using our cluster to run a parameter sweep for a momentum strategy with QSTrader</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</header>
+    
+<section class="container content-container">
+  <div class="row">
+    <div class="col-md-8 order-md-2">
+      <section class="content article-content">
+        
+        
+        <p>In the <a href="https://www.quantstart.com/articles/building-a-raspberry-pi-cluster-for-qstrader-using-slurm-part-4/" target="blank" rel="noopener noreferrer">previous article</a> we created a virtual environment and installed QSTrader on all our secondary nodes. We then carried out a test of the sixty forty strategy across all secondary nodes to make sure our installation had been successful. Now that we have successfully paralellised QSTrader we can start to carry out parameter sweeps for strategies. In this article we are going to carry out just such a sweep using the <a href="https://www.quantstart.com/articles/systematic-tactical-asset-allocation-an-introduction/" target="blank" rel="noopener noreferrer">Momentum Tactical Asset Allocation</a> strategy. We will then programme a sensitivity analysis to visulaise how the CAGR, Sharpe ratio and Drawdowns are affected by different variations of lookback periods and the number of assests we are invested in.</p>
+
+<h2>Obtaining the data</h2>
+<p>We will begin by downloading all the necessary historical data to run the US Sector Momentum TAA strategy. This is the full history of the SPDR US Sector ETFs, a uinque set of ETFs the divide the S&P500 into 11 index funds; Communication, Consumer Discretionary, Consumer Staples, Energy, Financials, Health Care, Industrials, Materials, Real Estate, Technology and Utilities. You will also need the SPY as a benchmark. In this example we are using Yahoo finance to obtain our data. If you would prefer to use a different vendor you will need to format your CSV files to work with QSTrader such the columns are labelled as follows:</p>
+<pre>
+<code class="language-none">Date,Open,High,Low,Close,Adj Close,Volume</code>
+</pre>
+
+<p>You will need CSV files containing the full history for the following tickers. Please ensure the history is complete otherwise QSTrader will raise an error.</p>
+<ul>
+  <li>XLC</li>
+  <li>XLY</li>
+  <li>XLP</li>
+  <li>XLE</li>
+  <li>XLF</li>
+  <li>XLV</li>
+  <li>XLI</li>
+  <li>XLB</li>
+  <li>XLRE</li>
+  <li>XLK</li>
+  <li>XLU</li>
+  <li>SPY</li>
+</ul>
+
+<p>You will also need to copy the Momentum Tactical Asset Allocation strategy from the <a href="https://github.com/mhallsmoore/qstrader/blob/master/examples/momentum_taa.py" target="blank" rel="noopener noreferrer">QSTrader examples</a> and save it as a python file. The example code runs a backtest for the strategy with a lookback period of 126 business days (6 months) holding the top 3 assets. We will modify the code to run a parameter sweep using SLURM.</p>
+
+<h2>Modifying the code</h2>
+<p>In order to run our parameter sweep we will need to make a number of modifications to the example code. First we need to include the Sector ETF for Real Estate which was previously omitted. As we are running QSTrader on a headless cluster we will also need to modify the code to output a JSON file with our statistics, as we did in the <a href="https://www.quantstart.com/articles/building-a-raspberry-pi-cluster-for-qstrader-using-slurm-part-4/" target="blank" rel="noopener noreferrer">previous article</a>. We will also need to generate multiple output files, one for each of our parameter combinations. Then we will need to adjust the <code>__main__</code> function to run with the python command line interface library <a href="https://click.palletsprojects.com/en/8.1.x/" target="blank" rel="noopener noreferrer">click</a>. This will allow us to pass a SLURM array task id into our code so that we can run multiple parameter variations simultaneously as a <a href="https://slurm.schedmd.com/job_array.html" target="blank" rel="noopener noreferrer">SLURM job array</a>. Finally we will need to create the SLURM batch file to carry out the scheduling of each parameter variation.</p>
+
+<p>Let's begin by adding in the information for the Real Estate ETF, XLRE. In line 162 of the example code we find the code that constructs the assets and symbols for the backtest. Inside the list comprehension we replace our string of symbol suffixes with a list of strings. This allows us to have suffixes that contain more than one character.</p>
+<pre>
+<code class="language-python"># Construct the symbols and assets necessary for the backtest
+# This utilises the SPDR US sector ETFs, all beginning with XL
+# strategy_symbols = ['XL%s' % sector for sector in "BCEFIKPUVY"] This line is replaced with 
+# NEW
+strategy_symbols = ['XL' + sector for sector in ['B', 'C', 'E', 'F', 'I', 'K', 'P', 'U', 'V', 'Y', 'RE']]
+assets = ['EQ:%s' % symbol for symbol in strategy_symbols]</code>
+</pre>
+
+<p>Now we will modify the performance output from a call to the <code>TearsheetStatisics</code> class to a call to the <code>JSONStatistics</code> class. We begin by importing the class at the top of the file.</p>
+<pre>
+<code class="language-python">#Line below is removed 
+#from qstrader.statistics.tearsheet import TearsheetStatistics
+# NEW
+from qstrader.statistics.json_statistics import JSONStatistics</code>
+</pre>
+
+<p>Then we remove the instantiation of the <code>TearsheetStatistics</code> class and instatiate the <code>JSONStatistics</code> class. We will need to modify the output file name so that each parameter varaition creates its own output file. Here we represent the string formatting with the placeholders <code>mom_lookback</code> and <code>mom_top_n</code>.</p>
+
+<pre>
+<code class="language-python"># Performance Output
+# tearsheet variable is removed
+"""
+tearsheet = TearsheetStatistics(
+    strategy_equity=strategy_backtest.get_equity_curve(),
+    benchmark_equity=benchmark_backtest.get_equity_curve(),
+    title='US Sector Momentum - Top 3 Sectors'
+)
+tearsheet.plot_results()
+"""
+# NEW
+backtest_statistics = JSONStatistics(
+    equity_curve = strategy_backtest.get_equity_curve(),
+    strategy_name = "momentum_taa",
+    output_filename = "momentum_taa_{0}_{1}.json".format(mom_lookback, mom_top_n),
+    target_allocations = pd.DataFrame()
+)
+backtest_statistics.to_file()
+</code>
+</pre>
+
+<p>Now we need to create an iterable for all of the parameters we would like to run. In this example we have chosen to analyse the effects of having a expanding monthly lookback window. We will run the strategy with a lookback window across the range 1 - 12 months. As the average number of business days in a month is 21 our lookback series will be $21 \times n$ where n is the number of months, giving us 21 days, 42 days, 63 days ... up to 252 days. We will also be varying the number of assets we are investing in from the top one to the top eight performing assets. In total we have 12 lookbacks and 8 top_n_assets which gives us $12 \times 8 = \textbf{96}$ backtests to perform.</p>
+
+<p>We create the parameter iterable as a global variable so that it can be accessed outside of the class. First we create a list of 96 tuples containing our parameter variations. This uses <code>itertools.product()</code> to create the <a href="https://docs.python.org/3/library/itertools.html" target="blank" rel="noopener noreferrer">cartesian product</a> of our lookbacks and top_n_assets. We then feed this list into a dictionary comprehension where the key will be a job index (0-95) and the values the tuples. </p>
+
+<p>First we need to import itertools. Underneath the import statements include the followng lines.</p>
+
+<pre>
+<code class="language-python">mom_params = list(
+    itertools.product(list(range(1,9)), [21*i for i in range(1, 13)])
+)
+PARAMS = {i:j for i,j in enumerate(mom_params)}</code>
+</pre>
+
+<p>The job id represents the <code>$SLURM_ARRAY_TASK_ID</code>, a SLURM environment variable generated when an array is created. It is used to differentiate between individual jobs in the array. The <code>$SLURM_ARRAY_TASK_ID</code> are numbered 0-n. As we are creating an array of 96 jobs (running our 96 backtests) our <code>$SLURM_ARRAY_TASK_ID</code> will be 0-95. We can pass the environment variable representing the array id into our command to run the backtests by using the Python library click. We can then use this to index the PARAMS dictionary and extract the correct parameters for the backtest. Firstly let's import click. Our imports should now look as follows:</p>
+<pre>
+<code class="language-python">import itertools
+import operator
+import os
+
+import click
+import pandas as pd
+import pytz
+
+from qstrader.alpha_model.alpha_model import AlphaModel
+from qstrader.alpha_model.fixed_signals import FixedSignalsAlphaModel
+from qstrader.asset.equity import Equity
+from qstrader.asset.universe.dynamic import DynamicUniverse
+from qstrader.asset.universe.static import StaticUniverse
+from qstrader.signals.momentum import MomentumSignal
+from qstrader.signals.signals_collection import SignalsCollection
+from qstrader.data.backtest_data_handler import BacktestDataHandler
+from qstrader.data.daily_bar_csv import CSVDailyBarDataSource
+from qstrader.statistics.json_statistics import JSONStatistics
+from qstrader.trading.backtest import BacktestTradingSession</code>
+</pre>
+
+<p>Now we will reformat the <code>__main__</code> function. This may look complicated at first but really all we have done is move everything from the main into a new function defined outside the class called <code>cli()</code>. We have added two lines above the function, click decorators that allow us to parse the <code>$SLURM_ARRAY_TASK_ID</code> as a parameter <code>--job_id</code>, which we then feed into the function. The <code>__main__</code> function now simply contains a call to <code>cli()</code>. The only other change is to the mom_lookback and mom_top_n variables. These can be found in the creation of the momentum variable (line 179), the strategy_alpha_model (line 183) and the creation of the output file (line 228). These are replaced with a call to the global dictionary we created; PARAMS[job_id][0] and PARAMS[job_id][1] respectively. This allows us to feed the right parameter variations into each of our 96 SLURM jobs, based on the <code>$SLURM_ARRAY_TASK_ID</code>.</p>
+<pre>
+<code class="language-python">@click.command()
+@click.option('--job-id', 'job_id', type=int, help="SLURM ARRAY TASK ID")
+def cli(job_id):
+    # Duration of the backtest
+    start_dt = pd.Timestamp('1998-12-22 14:30:00', tz=pytz.UTC)
+    burn_in_dt = pd.Timestamp('1999-12-22 14:30:00', tz=pytz.UTC)
+    end_dt = pd.Timestamp('2020-12-31 23:59:00', tz=pytz.UTC)
+    
+    # Construct the symbols and assets necessary for the backtest
+    # This utilises the SPDR US sector ETFs, all beginning with XL
+    strategy_symbols = ['XL' + sector for sector in ['B', 'C', 'E', 'F', 'I', 'K', 'P', 'U', 'V', 'Y', 'RE']] 
+    assets = ['EQ:%s' % symbol for symbol in strategy_symbols]
+   
+    # As this is a dynamic universe of assets (XLC and XLRE are added later)
+    # we need to tell QSTrader when they can be included. This is
+    # achieved using an asset dates dictionary
+    asset_dates = {asset: start_dt for asset in assets}
+    asset_dates['EQ:XLC'] = pd.Timestamp('2018-06-18 00:00:00', tz=pytz.UTC)
+    asset_dates['EQ:XLRE'] = pd.Timestamp('2015-10-08 00:00:00', tz=pytz.UTC)
+    strategy_universe = DynamicUniverse(asset_dates)
+
+    # To avoid loading all CSV files in the directory, set the
+    # data source to load only those provided symbols
+    csv_dir = os.environ.get('QSTRADER_CSV_DATA_DIR', '.')
+    strategy_data_source = CSVDailyBarDataSource(csv_dir, Equity, csv_symbols=strategy_symbols)
+    strategy_data_handler = BacktestDataHandler(strategy_universe, data_sources=[strategy_data_source])
+
+    # Generate the signals (in this case holding-period return based
+    # momentum) used in the top-N momentum alpha model
+    momentum = MomentumSignal(start_dt, strategy_universe, lookbacks=[PARAMS[job_id][0]])
+    signals = SignalsCollection({'momentum': momentum}, strategy_data_handler)
+
+    # Generate the alpha model instance for the top-N momentum alpha model
+    strategy_alpha_model = TopNMomentumAlphaModel(
+        signals, PARAMS[job_id][0], PARAMS[job_id][1], strategy_universe, strategy_data_handler
+    )
+
+    # Construct the strategy backtest and run it
+    strategy_backtest = BacktestTradingSession(
+        start_dt,
+        end_dt,
+        strategy_universe,
+        strategy_alpha_model,
+        signals=signals,
+        rebalance='end_of_month',
+        long_only=True,
+        cash_buffer_percentage=0.01,
+        burn_in_dt=burn_in_dt,
+        data_handler=strategy_data_handler
+    )
+    strategy_backtest.run()
+
+    # Construct benchmark assets (buy & hold SPY)
+    benchmark_symbols = ['SPY']
+    benchmark_assets = ['EQ:SPY']
+    benchmark_universe = StaticUniverse(benchmark_assets)
+    benchmark_data_source = CSVDailyBarDataSource(csv_dir, Equity, csv_symbols=benchmark_symbols)
+    benchmark_data_handler = BacktestDataHandler(benchmark_universe, data_sources=[benchmark_data_source])
+
+    # Construct a benchmark Alpha Model that provides
+    # 100% static allocation to the SPY ETF, with no rebalance
+    benchmark_alpha_model = FixedSignalsAlphaModel({'EQ:SPY': 1.0})
+    benchmark_backtest = BacktestTradingSession(
+        burn_in_dt,
+        end_dt,
+        benchmark_universe,
+        benchmark_alpha_model,
+        rebalance='buy_and_hold',
+        long_only=True,
+        cash_buffer_percentage=0.01,
+        data_handler=benchmark_data_handler
+    )
+    benchmark_backtest.run()
+
+    # Performance Output
+    backtest_statistics = JSONStatistics(
+        equity_curve = strategy_backtest.get_equity_curve(),
+        strategy_name = "momentum_taa",
+        output_filename = "momentum_taa_{0}_{1}.json".format(PARAMS[job_id][0], PARAMS[job_id][1]),
+        target_allocations = pd.DataFrame()
+    )
+    backtest_statistics.to_file()
+
+
+if __name__ == "__main__":
+    cli()</code>
+</pre>
+
+<p>The complete modified code is available below:</p>
+<pre>
+<code class="language-python">import itertools
+import operator
+import os
+
+import click
+import pandas as pd
+import pytz
+
+from qstrader.alpha_model.alpha_model import AlphaModel
+from qstrader.alpha_model.fixed_signals import FixedSignalsAlphaModel
+from qstrader.asset.equity import Equity
+from qstrader.asset.universe.dynamic import DynamicUniverse
+from qstrader.asset.universe.static import StaticUniverse
+from qstrader.signals.momentum import MomentumSignal
+from qstrader.signals.signals_collection import SignalsCollection
+from qstrader.data.backtest_data_handler import BacktestDataHandler
+from qstrader.data.daily_bar_csv import CSVDailyBarDataSource
+from qstrader.statistics.json_statistics import JSONStatistics
+from qstrader.trading.backtest import BacktestTradingSession
+
+
+mom_params = list(
+    itertools.product(list(range(1,9)), [21*i for i in range(1, 13)])
+)
+PARAMS = {i:j for i,j in enumerate(mom_params)}
+
+class TopNMomentumAlphaModel(AlphaModel):
+
+    def __init__(
+        self, signals, mom_lookback, mom_top_n, universe, data_handler
+    ):
+        """
+        Initialise the TopNMomentumAlphaModel
+        Parameters
+        ----------
+        signals : `SignalsCollection`
+            The entity for interfacing with various pre-calculated
+            signals. In this instance we want to use 'momentum'.
+        mom_lookback : `integer`
+            The number of business days to calculate momentum
+            lookback over.
+        mom_top_n : `integer`
+            The number of assets to include in the portfolio,
+            ranking from highest momentum descending.
+        universe : `Universe`
+            The collection of assets utilised for signal generation.
+        data_handler : `DataHandler`
+            The interface to the CSV data.
+        Returns
+        -------
+        None
+        """
+        self.signals = signals
+        self.mom_lookback = mom_lookback
+        self.mom_top_n = mom_top_n
+        self.universe = universe
+        self.data_handler = data_handler
+
+    def _highest_momentum_asset(
+        self, dt
+    ):
+        """
+        Calculates the ordered list of highest performing momentum
+        assets restricted to the 'Top N', for a particular datetime.
+        Parameters
+        ----------
+        dt : `pd.Timestamp`
+            The datetime for which the highest momentum assets
+            should be calculated.
+        Returns
+        -------
+        `list[str]`
+            Ordered list of highest performing momentum assets
+            restricted to the 'Top N'.
+        """
+        assets = self.signals['momentum'].assets
+        
+        # Calculate the holding-period return momenta for each asset,
+        # for the particular provided momentum lookback period
+        all_momenta = {
+            asset: self.signals['momentum'](
+                asset, self.mom_lookback
+            ) for asset in assets
+        }
+
+        # Obtain a list of the top performing assets by momentum
+        # restricted by the provided number of desired assets to
+        # trade per month
+        return [
+            asset[0] for asset in sorted(
+                all_momenta.items(),
+                key=operator.itemgetter(1),
+                reverse=True
+            )
+        ][:self.mom_top_n]
+
+    def _generate_signals(
+        self, dt, weights
+    ):
+        """
+        Calculate the highest performing momentum for each
+        asset then assign 1 / N of the signal weight to each
+        of these assets.
+        Parameters
+        ----------
+        dt : `pd.Timestamp`
+            The datetime for which the signal weights
+            should be calculated.
+        weights : `dict{str: float}`
+            The current signal weights dictionary.
+        Returns
+        -------
+        `dict{str: float}`
+            The newly created signal weights dictionary.
+        """
+        top_assets = self._highest_momentum_asset(dt)
+        for asset in top_assets:
+            weights[asset] = 1.0 / self.mom_top_n
+        return weights
+
+    def __call__(
+        self, dt
+    ):
+        """
+        Calculates the signal weights for the top N
+        momentum alpha model, assuming that there is
+        sufficient data to begin calculating momentum
+        on the desired assets.
+        Parameters
+        ----------
+        dt : `pd.Timestamp`
+            The datetime for which the signal weights
+            should be calculated.
+        Returns
+        -------
+        `dict{str: float}`
+            The newly created signal weights dictionary.
+        """
+        assets = self.universe.get_assets(dt)
+        weights = {asset: 0.0 for asset in assets}
+
+        # Only generate weights if the current time exceeds the
+        # momentum lookback period
+        if self.signals.warmup >= self.mom_lookback:
+            weights = self._generate_signals(dt, weights)
+        return weights
+
+
+@click.command()
+@click.option('--job-id', 'job_id', type=int, help="SLURM ARRAY TASK ID")
+def cli(job_id):
+    # Duration of the backtest
+    start_dt = pd.Timestamp('1998-12-22 14:30:00', tz=pytz.UTC)
+    burn_in_dt = pd.Timestamp('1999-12-22 14:30:00', tz=pytz.UTC)
+    end_dt = pd.Timestamp('2020-12-31 23:59:00', tz=pytz.UTC)
+    
+    # Construct the symbols and assets necessary for the backtest
+    # This utilises the SPDR US sector ETFs, all beginning with XL
+    strategy_symbols = ['XL' + sector for sector in ['B', 'C', 'E', 'F', 'I', 'K', 'P', 'U', 'V', 'Y', 'RE']] 
+    assets = ['EQ:%s' % symbol for symbol in strategy_symbols]
+   
+    # As this is a dynamic universe of assets (XLC and XLRE are added later)
+    # we need to tell QSTrader when they can be included. This is
+    # achieved using an asset dates dictionary
+    asset_dates = {asset: start_dt for asset in assets}
+    asset_dates['EQ:XLC'] = pd.Timestamp('2018-06-18 00:00:00', tz=pytz.UTC)
+    asset_dates['EQ:XLRE'] = pd.Timestamp('2015-10-08 00:00:00', tz=pytz.UTC)
+    strategy_universe = DynamicUniverse(asset_dates)
+
+    # To avoid loading all CSV files in the directory, set the
+    # data source to load only those provided symbols
+    csv_dir = os.environ.get('QSTRADER_CSV_DATA_DIR', '.')
+    strategy_data_source = CSVDailyBarDataSource(csv_dir, Equity, csv_symbols=strategy_symbols)
+    strategy_data_handler = BacktestDataHandler(strategy_universe, data_sources=[strategy_data_source])
+
+    # Generate the signals (in this case holding-period return based
+    # momentum) used in the top-N momentum alpha model
+    momentum = MomentumSignal(start_dt, strategy_universe, lookbacks=[PARAMS[job_id][0]])
+    signals = SignalsCollection({'momentum': momentum}, strategy_data_handler)
+
+    # Generate the alpha model instance for the top-N momentum alpha model
+    strategy_alpha_model = TopNMomentumAlphaModel(
+        signals, PARAMS[job_id][0], PARAMS[job_id][1], strategy_universe, strategy_data_handler
+    )
+
+    # Construct the strategy backtest and run it
+    strategy_backtest = BacktestTradingSession(
+        start_dt,
+        end_dt,
+        strategy_universe,
+        strategy_alpha_model,
+        signals=signals,
+        rebalance='end_of_month',
+        long_only=True,
+        cash_buffer_percentage=0.01,
+        burn_in_dt=burn_in_dt,
+        data_handler=strategy_data_handler
+    )
+    strategy_backtest.run()
+
+    # Construct benchmark assets (buy & hold SPY)
+    benchmark_symbols = ['SPY']
+    benchmark_assets = ['EQ:SPY']
+    benchmark_universe = StaticUniverse(benchmark_assets)
+    benchmark_data_source = CSVDailyBarDataSource(csv_dir, Equity, csv_symbols=benchmark_symbols)
+    benchmark_data_handler = BacktestDataHandler(benchmark_universe, data_sources=[benchmark_data_source])
+
+    # Construct a benchmark Alpha Model that provides
+    # 100% static allocation to the SPY ETF, with no rebalance
+    benchmark_alpha_model = FixedSignalsAlphaModel({'EQ:SPY': 1.0})
+    benchmark_backtest = BacktestTradingSession(
+        burn_in_dt,
+        end_dt,
+        benchmark_universe,
+        benchmark_alpha_model,
+        rebalance='buy_and_hold',
+        long_only=True,
+        cash_buffer_percentage=0.01,
+        data_handler=benchmark_data_handler
+    )
+    benchmark_backtest.run()
+
+    # Performance Output
+    backtest_statistics = JSONStatistics(
+        equity_curve = strategy_backtest.get_equity_curve(),
+        strategy_name = "momentum_taa",
+        output_filename = "momentum_taa_{0}_{1}.json".format(PARAMS[job_id][0], PARAMS[job_id][1]),
+        target_allocations = pd.DataFrame()
+    )
+    backtest_statistics.to_file()
+
+
+if __name__ == "__main__":
+    cli()</code>
+</pre>
+
+<h2>Preparing the SLURM Job</h2>
+<p>Now that you have the 12 CSV files of historic data and the modified momentum script we need to copy them over to the <code>/sharedfs</code> drive on the Raspberry Pi cluster. This can be achieved by using <code>scp</code>. As this SLURM job will be creating 96 different jobs and therefore 96 SLURM output files it is advisable to create a new directory in to the <code>/sharedfs</code> drive for this task.</p>
+
+<p>Once the files are copied across the final task is to create the SLURM batch file. SSH into the primary node of the cluster and create and edit a new batch file. We have chosen to call ours <code>sub_mom_param_sweep.sh</code>.</p>
+
+<pre>
+<code class="language-bash">touch sub_mom_param_sweep.sh
+vim sub_mom_param_sweep.sh</code>
+</pre>
+
+<p>Enter the following lines into the batch file.</p>
+<pre>
+<code class="language-bash">#!/bin/bash
+#SBATCH --chdir=.
+#SBATCH --array 0-95%12
+
+/home/ubuntu/backtest/bin/python3 momentum_taa.py --job-id=$SLURM_ARRAY_TASK_ID</code>
+</pre>
+
+<p>This will create an array of 96 jobs with 12 running simultaneously, one on each of the 12 cores available on the three secondary nodes. We run the code inside the backtest virtual environment and parse the <code>$SLURM_ARRAY_TASK_ID</code> as a command line parameter. That's the final step. You can now execute the SLURM job by typing <code>sbatch sub_mom_param_sweep.sh</code> into the primary node. You can use <code>squeue</code> and <code>sinfo -lNe</code> to keep an eye on your jobs.</p>
+
+<h2>Comparing the results of the Backtests</h2>
+<p>Once the jobs are finished you will have 96 JSON output files with the nomenclature momentum_taa_x_y.json, where x is the lookback window and y is the number of assets. In order to evaluate the parameter sweep and analyse which of the parameters we might want to take forward into a strategy we need conduct a senstivity analysis and visualise the differences. The most commonly used metrics for evaluation are the Sharpe ratio, CAGR and Maximum drawdown. As discussed in <a href="http://www.quantstart.com/articles/building-a-raspberry-pi-cluster-for-qstrader-using-slurm-part-4/" target="blank" rel="noopener noreferrer">part 4</a> of this article series, QSTrader outputs all three of these parameters within the strategy dictionary. The code below will generate and save three heatmaps showing the value of each metric across all the 96 parameter combnations.</p>
+
+<pre>
+<code class="language-python">import json
+import itertools
+
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+import seaborn as sns
+
+
+def get_stats(top_n_assets):
+    """
+    Extracts the CAGR, Sharpe and Max Drawdown metrics from the QSTrader
+    JSON output files.
+
+    Parameters
+    ----------
+    top_n_assets : `list`
+        list of integers from 1 to 8.
+
+    Returns
+    -------
+    cagr : `dict`
+        Dictionary of CAGR values
+    sharpe : `dict`
+        Dictionary of Sharpe values
+    max_dd : `dict`
+        Dictionary of max drawdown values
+    """
+    lookbacks = [21*n for n in range(1,13)]
+    cagr = {}
+    max_dd = {}
+    sharpe = {}
+    for lookback in lookbacks:
+        cagr[lookback]=[]
+        sharpe[lookback]=[]
+        max_dd[lookback]=[]
+        for n in top_n_assets:
+            for key, di in json.load(open(f'momentum_taa_{lookback}_{n}.json', 'r')).items():
+                if key == 'strategy':
+                    cagr[lookback].append(di['cagr'])
+                    sharpe[lookback].append(di['sharpe'])
+                    max_dd[lookback].append(di['max_drawdown'])
+    return cagr, sharpe, max_dd
+
+
+def create_df(cagr, sharpe, max_dd):
+    """
+    Creates DataFrame for CAGR Sharpe and Max Drawdown
+
+    Parameters
+    ----------
+    cagr : `dict`
+        Dictionary of CAGR values
+    sharpe : `dict`
+        Dictionary of Sharpe values
+    max_dd : `dict`
+        Dictionary of max drawdown values
+
+    Returns
+    -------
+    cagr_df : `pd.DataFrame`
+        DataFrame of CAGR values
+    sharpe_df : `pd.DataFrame`
+        DataFrame of Sharpe values
+    dd_df : `pd.DataFrame`
+        DataFrame of max drawdown values
+    """
+    cagr_df = pd.DataFrame.from_dict(cagr)
+    cagr_df.index = cagr_df.index + 1
+    sharpe_df = pd.DataFrame.from_dict(sharpe)
+    sharpe_df.index = sharpe_df.index + 1
+    dd_df = pd.DataFrame.from_dict(max_dd)
+    dd_df.index = dd_df.index + 1
+    return cagr_df, sharpe_df, dd_df   
+
+
+def format_metrics(cagr_df, sharpe_df, max_dd):
+    """
+    Formats the values of CAGR and Max Drawdown to percentages
+
+    Parameters
+    ----------
+    cagr_df : `pd.DataFrame`
+        DataFrame of CAGR values
+    sharpe_df : `pd.DataFrame`
+        DataFrame of Sharpe values
+    dd_df : `DataFrame`
+        DataFrame of max drawdown values
+
+    Returns
+    -------
+    cagr_m : `pd.DataFrame`
+        DataFrame of CAGR values as percentage
+    sharpe_m : `pd.DataFrame`
+        DataFrame of Sharpe values
+    max_dd_m : `pd.DataFrame`
+        DataFrame of max drawdown values as percentage converted to negative
+    """
+    cagr_m = cagr_df*100
+    sharpe_m = sharpe_df
+    max_dd_m = -1*dd_df*100
+    return cagr_m, sharpe_m, max_dd_m
+
+
+def plot_heatmaps(cagr_m, sharpe_m, max_dd_m, top_n_assets):
+    """
+    Plots the CAGR, Sharpe and Max Drawdown for all backtests as heatmaps
+
+    Parameters
+    ----------
+    cagr_m : `pd.DataFrame`
+        DataFrame of CAGR values as percentage
+    sharpe_m : `pd.DataFrame`
+        DataFrame of Sharpe values
+    max_dd_m : `pd.DataFrame`
+        DataFrame of max drawdown values as percentage converted to negative
+
+    Returns
+    -------
+    None
+    """
+    fig, ax = plt.subplots(3, 1, figsize=(10,12))
+    metrics = [cagr_m, sharpe_m, max_dd_m]
+    titles = ["CAGR (%)", "Sharpe", "Max Drawdown (%)"]
+    for i in range(0,3):
+        sns.heatmap(metrics[i], annot=True, annot_kws={"size":8}, alpha=1.0, cmap='RdYlGn', cbar=False, vmin=min(metrics[i].min()), vmax=max(metrics[i].max()), ax=ax[i])
+        ax[i].set_yticks(np.arange(0.5, 8.5)) 
+        ax[i].set_yticklabels(top_n_assets, rotation=0)
+        ax[i].tick_params(axis='both', which='both', length=0)
+        ax[i].set_ylabel("Momentum Top N (Assets)")
+        ax[i].set_xlabel("Momentum Lookback (Days)")
+        ax[i].set_title(titles[i])
+    plt.tight_layout()
+    plt.savefig("param_sweep_metrics.png", dpi=100, format='png')   
+ 
+ 
+if __name__ == '__main__':
+    top_n_assets = list(range(1,9))
+    
+    cagr, sharpe, max_dd = get_stats(top_n_assets)
+    cagr_df, sharpe_df, dd_df = create_df(cagr, sharpe, max_dd)
+    cagr_m, sharpe_m, max_dd_m = format_metrics(cagr_df, sharpe_df, dd_df)
+    plot_heatmaps(cagr_m, sharpe_m, max_dd_m, top_n_assets)</code>
+</pre>
+
+<p>The code above extratcs the values of each of the metrics from the JSON files and creates three pandas DataFrames, one for each of the metrics, CAGR, Sharpe and Max Drawdown. The CAGR is then converted to a percentage along with the Max Drawdown which is also further converted to a negative value. The CAGR, Sharpe and Max Drawdown are then plotted as heatmaps and the figure is saved as param_sweep_metrics.png. To execute the code simply save and run it from the directory where all the output JSON files are stored. This will create the PNG file which contains the following sensitvity analysis.</p>
+
+<figure>
+  <img src="https://quantstartmedia.s3.amazonaws.com/images/article-images/articles/raspberry-pi-cluster-for-qstrader-using-slurm-part-5/param_sweep_metrics.png" alt="Sensitivity Analysis for the SLURM Parameter Sweep with QSTrader">
+  <figcaption>Sensitivity Analysis of the Parameter Sweep</figcaption>
+</figure>
+
+<p>This concludes the series on Building a Raspberry Pi Cluster for QSTrader using SLURM. From here you can use the cluster to run further parameter sweeps for strategies with QSTrader, generate synthetic data for backtesting and model evaluations and for running derivatives pricing code in parallel.</p>
+        
+        
+        <h2>Related Articles</h2>
+        <ul>
+        
+        <li><a href="/articles/building-a-raspberry-pi-cluster-for-qstrader-using-slurm-part-1/">Building a Raspberry Pi Cluster for QSTrader using SLURM - Part 1</a></li>
+        
+        <li><a href="/articles/building-a-raspberry-pi-cluster-for-qstrader-using-slurm-part-2/">Building a Raspberry Pi Cluster for QSTrader using SLURM - Part 2</a></li>
+        
+        <li><a href="/articles/building-a-raspberry-pi-cluster-for-qstrader-using-slurm-part-3/">Building a Raspberry Pi Cluster for QSTrader using SLURM - Part 3</a></li>
+        
+        <li><a href="/articles/building-a-raspberry-pi-cluster-for-qstrader-using-slurm-part-4/">Building a Raspberry Pi Cluster for QSTrader Using SLURM - Part 4</a></li>
+        
+        </ul>
+        
+        <script async data-uid="6296c27f4b" src="https://weathered-brook-5281.ck.page/6296c27f4b/index.js"></script>
+      </section>
+    </div>
+    <div class="col-md-4 book-card order-md-1">
+      
+<div class="sidebar-advert-container">
+  <a href="/qsalpha/?ref=art">
+    <img class="card-img-top" src="/static/images/qsalpha-sidebar-advert-small.png" alt="QSAlpha">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/qsalpha/?ref=art">QSAlpha</a></h3>
+      <p class="card-text medium-text mb-3">Join the QSAlpha research platform that helps fill your strategy research pipeline, diversifies your portfolio and improves your risk-adjusted returns for increased profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/qsalpha/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/quantcademy/?ref=art">
+    <img class="card-img-top" src="/static/images/quantcademy-sidebar-advert-small.png" alt="Quantcademy">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/quantcademy/?ref=art">The Quantcademy</a></h3>
+      <p class="card-text medium-text mb-3">Join the Quantcademy membership portal that caters to the rapidly-growing retail quant trader community and learn how to increase your strategy profitability.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/quantcademy/?ref=art">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/successful-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/sat-sidebar-advert-small.png" alt="Successful Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to find new trading strategy ideas and objectively assess them for your portfolio using a Python-based backtesting engine.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/successful-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/advanced-algorithmic-trading-ebook/">
+    <img class="card-img-top" src="/static/images/aat-sidebar-advert-small.png" alt="Advanced Algorithmic Trading">
+  </a>
+  <div class="card mb-4 box-shadow">
+    <div class="card-body text-center">
+      <h3 class="mb-3"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></h3>
+      <p class="card-text medium-text mb-3">How to implement advanced trading strategies using time series analysis, machine learning and Bayesian statistics with R and Python.</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="btn-group">
+          <a class="btn btn-padded btn-outline-primary btn-lg-cta" href="/advanced-algorithmic-trading-ebook/">Find Out More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+    
+
+<footer>
+  <div class="container container-full">
+    <section class="mt-1.5 mb-1">
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">QuantStart</li>
+            <li class="footer-list-link"><a class="link-fade" href="/about/">About</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/articles/">Articles</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/sitemap/">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Products</li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qsalpha/">QSAlpha</a></li>
+            
+            
+            <li class="footer-list-link"><a class="link-fade" href="/quantcademy/">Quantcademy</a></li>
+            
+            <li class="footer-list-link"><a class="link-fade" href="/qstrader/">QSTrader</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/successful-algorithmic-trading-ebook/">Successful Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/advanced-algorithmic-trading-ebook/">Advanced Algorithmic Trading</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/cpp-for-quantitative-finance-ebook/">C++ For Quantitative Finance</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Legal</li>
+            <li class="footer-list-link"><a class="link-fade" href="/privacy-policy/">Privacy Policy</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="/terms-and-conditions/">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-xl-3 mb-1.5">
+          <ul class="footer-list">
+            <li class="footer-list-title">Social</li>
+            <li class="footer-list-link"><a class="link-fade" href="https://twitter.com/quantstart">Twitter</a></li>
+            <li class="footer-list-link"><a class="link-fade" href="https://www.youtube.com/channel/UCmVnnZ6Y2TrJtY1eQJN6kWA">YouTube</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="row mb-1.5 mt-5">
+      <div class="col-12 col-md-9 col-lg-8 col-xl-6">
+        <div class="footer-copyright">
+          <p>©2012-2023 QuarkGluon Ltd. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+<script src="/static/js/jquery-3.2.1.min.js"></script>
+<script src="/static/js/prism.js.min"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/nav.js"></script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5383959-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+    
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="/static/js/highcharts/highcharts.js"></script>
+<script type="text/javascript">
+  num_colours = 10;
+</script>
+<script src="/static/js/statistics.js"></script>
+
+
+  </body>
+</html>
